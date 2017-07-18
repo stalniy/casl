@@ -41,12 +41,13 @@ describe('Mongoose Plugin', () => {
     expect(schema.query.accessibleBy).to.equal(schema.statics.accessibleBy)
   })
 
-  it('creates query which returns empty array or null for ability which does not have rules for specified action', async () => {
+  it('creates query which returns empty array or null for ability which does not have rules for specified action', () => {
     const query = schema.query.accessibleBy(new Ability())
-    const [items, item] = await Promise.all([query.exec(), query.findOne().exec()])
 
-    expect(items).to.be.an('array').that.is.empty
-    expect(item).not.to.exist
+    return Promise.all([query.exec(), query.findOne().exec()]).then(([items, item]) => {
+      expect(items).to.be.an('array').that.is.empty
+      expect(item).not.to.exist
+    })
   })
 
   describe('`accessibleBy` infterface', () => {
