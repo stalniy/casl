@@ -8,4 +8,4 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* **casl:** implements basic support for ACL checks ([8694688](https://github.com/stalniy/casl/commit/8694688))
+* **casl:** first release ([8694688](https://github.com/stalniy/casl/commit/8694688))
