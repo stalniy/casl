@@ -1,7 +1,7 @@
 # CASL
 
 [![NPM version](https://badge.fury.io/js/casl.svg)](http://badge.fury.io/js/casl)
-[![Dependency Status](https://gemnasium.com/stalniy/casl.svg)](https://gemnasium.com/stalniy/casl)
+[![Build Status](https://travis-ci.org/stalniy/casl.svg?branch=master)](https://travis-ci.org/stalniy/casl)
 
 CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
 
