@@ -1,12 +1,24 @@
 # CASL
 
+[![NPM version](https://badge.fury.io/js/casl.svg)](http://badge.fury.io/js/casl)
+[![Dependency Status](https://gemnasium.com/stalniy/casl.svg)](https://gemnasium.com/stalniy/casl)
+
 CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
+
+Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 ## Installation
 
 ```sh
 npm install casl --save
 ```
+
+## Features
+* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, field dot notation)
+* can construct MongoDB query based on defined abilities
+* supports direct and inverted rules
+* provides [mongoose](https://github.com/Automattic/mongoose) plugin
+* can be easily integrated with any data storage
 
 ## License
 

@@ -1,4 +1,5 @@
 spec/
 src/
 tools/
+doc/
 .*
