@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "import/prefer-default-export": 0,
+    "no-plusplus": 0,
+    "comma-dangle": 0,
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-mixed-operators": 0,
+    "no-prototype-builtins": 0
+  }
+}
