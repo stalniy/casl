@@ -4,3 +4,5 @@ tools/
 doc/
 node_modules/
 .*
+coverage.lcov
+coverage

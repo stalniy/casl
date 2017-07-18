@@ -1,8 +1,13 @@
 language: node_js
 node_js:
-  - "4.2.3"
+  - "6.9.0"
   - "8.1.3"
+
 before_install:
   - if [[ `npm -v` = 2* ]]; then npm i -g npm@latest; fi
+
 before_script:
   - npm run build
+
+after_success:
+  -  npm run coverage.submit

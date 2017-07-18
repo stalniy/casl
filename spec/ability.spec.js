@@ -1,4 +1,4 @@
-const { AbilityBuilder, ForbiddenError, Ability } = require('../dist/umd')
+import { AbilityBuilder, ForbiddenError, Ability } from '../src'
 
 class Post {
   constructor(attrs) {

@@ -1,4 +1,4 @@
-const { AbilityBuilder, Ability, mongoosePlugin, toMongoQuery } = require('../dist/umd')
+import { AbilityBuilder, Ability, mongoosePlugin, toMongoQuery } from '../src'
 
 class PostQuery {
   static get modelName() {

@@ -1,4 +1,4 @@
-const { AbilityBuilder, toMongoQuery } = require('../dist/umd')
+import { AbilityBuilder, toMongoQuery } from '../src'
 
 describe('Ability MongoDB query', () => {
   const builder = new AbilityBuilder()

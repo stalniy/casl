@@ -8,7 +8,11 @@ export default Object.assign({}, config, {
   moduleName: 'casl',
   plugins: config.plugins.concat([
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      presets: [
+        ['es2015', { modules: false }]
+      ],
+      plugins: ['external-helpers']
     }),
     process.env.NODE_ENV === 'production' && uglify()
   ])
