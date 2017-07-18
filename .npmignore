@@ -2,4 +2,5 @@ spec/
 src/
 tools/
 doc/
+node_modules/
 .*
