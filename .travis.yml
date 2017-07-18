@@ -2,5 +2,7 @@ language: node_js
 node_js:
   - "4.2.3"
   - "8.1.3"
+before_install:
+  - [[ `npm -v` = 2* ]] && npm i -g npm@latest
 before_script:
   - npm run build
