@@ -277,5 +277,18 @@ describe('Ability', () => {
       expect(ability).to.allow('update', new Post({ comments: [{ author: 'Ted' }, { author: 'John'}] }))
       expect(ability).not.to.allow('update', new Post({ comments: [{ author: 'John'}] }))
     })
+
+    it('properly compares object-primitives like `ObjectId` that have `toJSON` method', () => {
+      const value = value => ({ value, toJSON: () => value, toString: () => value })
+      ability = AbilityBuilder.define(can => {
+        can('delete', 'Post', { creator: value(321) })
+        can('update', 'Post', { state: { $in: [value('draft'), value('shared')] } })
+      })
+
+      expect(ability).to.allow('delete', new Post({ creator: value(321) }))
+      expect(ability).not.to.allow('delete', new Post({ creator: value(123) }))
+      expect(ability).not.to.allow('update', new Post({ state: value('archived') }))
+      expect(ability).to.allow('update', new Post({ state: value('draft') }))
+    })
   })
 })
