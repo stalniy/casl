@@ -1,3 +1,6 @@
+---
+---
+
 @import "{{ site.theme }}";
 
 header,
@@ -11,14 +14,16 @@ a.button,
   font-family: inherit;
 }
 
-pre code {
-  font-size: 100px;
-}
-
 .highlight {
   background-color: #fff;
 }
 
 h2 code {
   font-size: 20px;
+}
+
+#sidebar {
+  &, a {
+    font-size: 13px;
+  }
 }
