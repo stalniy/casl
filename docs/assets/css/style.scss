@@ -1,0 +1,24 @@
+@import "{{ site.theme }}";
+
+header,
+a.button,
+#main-content h1,
+#main-content h2,
+#main-content h3,
+#main-content h4,
+#main-content h5,
+#main-content h6 {
+  font-family: inherit;
+}
+
+pre code {
+  font-size: 100px;
+}
+
+.highlight {
+  background-color: #fff;
+}
+
+h2 code {
+  font-size: 20px;
+}
