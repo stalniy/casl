@@ -143,10 +143,11 @@ export class Session {
 
 ## Want to help?
 
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing](CONTRIBUTING.md)
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
 
 ## License
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
+[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
