@@ -39,7 +39,7 @@
         <aside id="sidebar">
           <h3>Getting Started</h3>
           <ul>
-            {% for post in site.posts %}
+            {% for post in site.posts reversed %}
               <li>
                 <a href="{{ post.url | relative_url  }}">{{ post.title }}</a>
               </li>

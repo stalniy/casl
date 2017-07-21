@@ -24,6 +24,20 @@ function defineAbilitiesFor(user) {
 
 The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Role Based Authorization][roles-example] for an example.
 
+`AbilityBuilder.define` has a different signature which allows you to pass some ability options like `subjectName`. For example
+
+```js
+function subjectName(subject) {
+  // logic to extract subject name from subject instances
+}
+
+const ability = AbilityBuilder.define({ subjectName }, can => {
+  can('read', 'all')
+})
+```
+
+See [Intance checks][instance-checks] for details.
+
 `Ability` constructor is very handy in case if you store permissions in database or request from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
 
 ```ts
@@ -136,5 +150,16 @@ AbilityBuilder.define((can, cannot) => {
 
 The order of these calls is important! See [Ability Precedence][ability-precedence] for more details.
 
+## Update abilities
+
+It's possible to update abilities of created `Ability` instance. For example, in Single Page Application you need to reset all abilities once user is logged out.
+
+```js
+ability.update([]) // removes all rules
+
+ability.update([{ subject: 'all', actions: 'read' }]) // switches ability in readonly mode
+```
+
 [roles-example]: #
 [ability-precedence]: #
+[instance-checks]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#instance-checks
