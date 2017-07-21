@@ -1,0 +1,9 @@
+engines:
+  eslint:
+    enabled: true
+ratings:
+  paths:
+  - src/**
+exclude_paths:
+- spec/**/*
+- docs/**/*
