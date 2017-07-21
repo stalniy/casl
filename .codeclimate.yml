@@ -1,6 +1,9 @@
 engines:
   eslint:
     enabled: true
+    checks:
+      import/extensions:
+        enabled: false
 ratings:
   paths:
   - src/**
