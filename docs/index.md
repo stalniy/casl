@@ -72,6 +72,8 @@ try {
 }
 ```
 
+See [Check Abilities][check-abilities] for details.
+
 ### 3. MongoDB integration
 
 CASL provides easy integration with MongoDB database.
@@ -151,3 +153,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
+[check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
