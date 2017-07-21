@@ -4,10 +4,11 @@ engines:
     checks:
       import/extensions:
         enabled: false
+      import/no-extraneous-dependencies:
+        enabled: false        
 ratings:
   paths:
   - src/**
 exclude_paths:
 - spec/**/*
 - docs/**/*
-- tools/**/*
