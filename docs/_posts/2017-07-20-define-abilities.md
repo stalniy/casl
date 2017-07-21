@@ -22,7 +22,7 @@ function defineAbilitiesFor(user) {
 }
 ```
 
-The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Authorization and Roles][roles-example] for an example.
+The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Roles and Abilities][roles-example] for an example.
 
 `AbilityBuilder.define` has a different signature which allows you to pass some ability options like `subjectName`. For example
 
