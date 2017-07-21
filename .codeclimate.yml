@@ -10,3 +10,4 @@ ratings:
 exclude_paths:
 - spec/**/*
 - docs/**/*
+- tools/**/*
