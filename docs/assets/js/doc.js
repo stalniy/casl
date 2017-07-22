@@ -1,15 +1,30 @@
 (function() {
   var btnMenu = document.querySelector('.btn-menu');
+  var sidebar = document.getElementById('sidebar');
+
+  sidebar.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
 
   btnMenu.addEventListener('click', function() {
-    var target = document.querySelector(this.getAttribute('data-target'));
+    toggleMenu(this);
+  });
 
-    if (this.classList.contains('active')) {
-      this.classList.remove('active');
+  document.body.addEventListener('click', function() {
+    var buttons = document.querySelectorAll('.btn-menu.active');
+
+    Array.prototype.slice.call(buttons, 0).forEach(toggleMenu);
+  });
+
+  function toggleMenu(btn) {
+    var target = document.querySelector(btn.getAttribute('data-target'));
+
+    if (btn.classList.contains('active')) {
+      btn.classList.remove('active');
       target.classList.remove('active');
     } else {
-      this.classList.add('active');
+      btn.classList.add('active');
       target.classList.add('active');
     }
-  });
+  }
 })();
