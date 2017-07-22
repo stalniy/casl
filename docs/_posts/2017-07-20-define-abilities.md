@@ -132,12 +132,14 @@ As you may know already, it's possible to use few MongoDB query operators to def
 
 ## Combining Abilities
 
-It is possible to define multiple abilities for the same resource. Here the user will be able to `read` posts which are published OR available for preview.
+It is possible to define multiple abilities for the same resource.
 
 ```js
 can('read', 'Post', { published: true })
 can('read', 'Post', { preview: true })
 ```
+
+Adding can rules do not override prior rules, but instead they are logically or'ed. For the above, `ability.can('read', post)` will always return `true` if `published` or `preview` attribute of `post` equals `true`.
 
 The `cannot` DSL function takes the same arguments as `can` and defines which actions the user is unable to perform. This is normally done after a more generic `can` call.
 
@@ -148,7 +150,7 @@ AbilityBuilder.define((can, cannot) => {
 })
 ```
 
-The order of these calls is important! See [Ability Precedence][ability-precedence] for more details.
+It is important that the `cannot delete` line comes after the `can manage` line. If they were reversed, `cannot delete` would be overridden by `can manage`. The rule of thumb is to define general rules first and more specific after general ones.
 
 ## Update abilities
 
@@ -161,5 +163,4 @@ ability.update([{ subject: 'all', actions: 'read' }]) // switches ability in rea
 ```
 
 [roles-example]: https://stalniy.github.io/casl/abilities/roles/2017/07/21/roles.html
-[ability-precedence]: #
 [instance-checks]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#instance-checks
