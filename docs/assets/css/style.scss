@@ -22,8 +22,132 @@ h2 code {
   font-size: 20px;
 }
 
-#sidebar {
-  &, a {
-    font-size: 13px;
+.btn-menu {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  $menu-color: #fff;
+
+  .btn-menu {
+    position: relative;
+    display: block;
+    background: transparent;
+    border: none;
+    float: right;
+    padding: 9px 10px;
+    margin-right: 5px;
+    font-size: 22px;
+    font-weight: bold;
+    color: $menu-color;
+    outline: none;
+  }
+
+  .sandwich {
+    width: 31px;
+    height: 31px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto 74px auto auto;
+    z-index: 300;
+  }
+
+  .sw-topper, .sw-bottom, .sw-footer {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: $menu-color;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .sw-topper {
+    top: 5px;
+    transition: transform 0.5s 0.2s, top 0.2s;
+
+    .btn-menu.active & {
+      top: 12px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  .sw-bottom {
+    top: 10px;
+    transition: transform 0.5s, top 0.2s;
+
+    .btn-menu.active & {
+      top: 8px;
+      transform: rotate(45deg);
+    }
+  }
+
+  .sw-footer {
+    top: 15px;
+    transition: all 0.5s 0.1s;
+
+    .btn-menu.active & {
+      opacity: 0;
+      top: 0;
+      transform: rotate(180deg);
+    }
+  }
+
+  aside#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    padding: 0 10px;
+    background: transparent url(../images/header-bg.jpg);
+  }
+
+  .inner {
+    position: static;
+  }
+
+  header {
+    padding-top: 40px;
+  }
+
+  .menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms;
+
+    &.active {
+      max-height: 500px;
+    }
+
+    &, a {
+      color: #fff;
+    }
+
+    ul {
+      list-style-type: none;
+      text-align: center;
+      margin-left: 0;
+      padding: 0;
+    }
+
+    ul a {
+      $link-color: lighten(#2e7bcf, 10%);
+
+      display: block;
+      font-weight: bold;
+      font-size: 1.2em;
+      padding: 10px 0;
+      border-bottom: 1px solid $link-color;
+
+      &:hover {
+        background: $link-color;
+      }
+    }
+
+    h3 {
+      display: none;
+    }
   }
 }
