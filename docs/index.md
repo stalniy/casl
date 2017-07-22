@@ -79,6 +79,7 @@ See [Check Abilities][check-abilities] for details.
 ### 3. MongoDB integration
 
 CASL provides easy integration with MongoDB database.
+
 ```js
 const { toMongoQuery, AbilityBuilder } = require('casl')
 const { MongoClient } = require('mongodb')
@@ -95,6 +96,7 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
 ```
 
 And if you use [mongoose](https://github.com/Automattic/mongoose), you are lucky because CASL provides mongoose middleware which hides all boilerplate under convenient `accessibleBy` method.
+
 ```js
 const { mongoosePlugin, AbilityBuilder } = require('casl')
 const mongoose = require('mongoose')

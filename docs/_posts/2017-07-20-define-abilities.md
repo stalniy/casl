@@ -120,7 +120,7 @@ An object of conditions can be passed to further restrict which records this per
 can('read', 'Project', { active: true, ownerId: user.id })
 ```
 
-It is important to only use database columns for these conditions so it can be used for Fetching Records.
+It is important to only use database columns for these conditions so it can be used for [Fetching Records][fetching-records].
 
 You can use dot notation to define conditions on nested objects. Here the post can only be deleted if it does not have comments
 
@@ -162,5 +162,6 @@ ability.update([]) // removes all rules
 ability.update([{ subject: 'all', actions: 'read' }]) // switches ability in readonly mode
 ```
 
-[roles-example]: https://stalniy.github.io/casl/abilities/roles/2017/07/21/roles.html
-[instance-checks]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#instance-checks
+[roles-example]: {% post_url 2017-07-21-roles %}
+[instance-checks]: {% post_url 2017-07-21-check-abilities %}#instance-checks
+[fetching-records]: {% post_url 2017-07-22-database-integration %}

@@ -105,4 +105,4 @@ function subjectName(subject) {
 }
 ```
 
-[define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
+[define-abilities]: {% post_url 2017-07-20-define-abilities %}
