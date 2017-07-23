@@ -26,6 +26,29 @@ h2 code {
   display: none;
 }
 
+#sidebar {
+  transition: top 100ms;
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+  }
+}
+
+.menu {
+  ul {
+    list-style-type: decimal;
+    margin-left: 0;
+    padding-left: 10px;
+  }
+
+  a {
+    display: block;
+    padding: 3px 0;
+    font-size: 13px;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   $menu-color: #fff;
 
@@ -126,10 +149,8 @@ h2 code {
     }
 
     ul {
-      list-style-type: none;
       text-align: center;
-      margin-left: 0;
-      padding: 0;
+      list-style-type: none;
     }
 
     ul a {

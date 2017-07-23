@@ -29,4 +29,20 @@
       document.body.style.overflow = 'hidden';
     }
   }
+
+  var sidebarSize = sidebar.getBoundingClientRect();
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var isFixed = sidebar.classList.contains('fixed');
+
+    if (sidebarSize.top <= scrollTop) {
+      if (!isFixed) {
+        sidebar.style.left = sidebar.getBoundingClientRect().left + 'px';
+        sidebar.classList.add('fixed');
+      }
+    } else if (isFixed) {
+      sidebar.classList.remove('fixed');
+      sidebar.style.left = '';
+    }
+  });
 })();
