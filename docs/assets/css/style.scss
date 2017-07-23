@@ -114,11 +114,11 @@ h2 code {
 
   .menu {
     max-height: 0;
-    overflow: hidden;
+    overflow-y: auto;
     transition: max-height 500ms;
 
     &.active {
-      max-height: 500px;
+      max-height: 300px;
     }
 
     &, a {

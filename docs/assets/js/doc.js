@@ -22,9 +22,11 @@
     if (btn.classList.contains('active')) {
       btn.classList.remove('active');
       target.classList.remove('active');
+      document.body.style.overflow = '';
     } else {
       btn.classList.add('active');
       target.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
   }
 })();
