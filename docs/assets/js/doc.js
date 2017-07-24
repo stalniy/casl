@@ -45,4 +45,8 @@
       sidebar.style.left = '';
     }
   });
+
+  window.addEventListener('resize', function() {
+    sidebarSize = sidebar.getBoundingClientRect()
+  });
 })();
