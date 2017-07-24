@@ -19,7 +19,7 @@ npm install casl --save
 ```
 
 ## Features
-* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, field dot notation)
+* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, field dot notation)
 * can construct MongoDB query based on defined abilities
 * supports direct and inverted rules
 * provides [mongoose](https://github.com/Automattic/mongoose) plugin

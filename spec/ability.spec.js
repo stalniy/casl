@@ -290,5 +290,15 @@ describe('Ability', () => {
       expect(ability).not.to.allow('update', new Post({ state: value('archived') }))
       expect(ability).to.allow('update', new Post({ state: value('draft') }))
     })
+
+    it('allows to use mongo like `$regexp` condition', () => {
+      ability = AbilityBuilder.define(can => {
+        can('delete', 'Post', { title: { $regex: '\\[DELETED\\]' } })
+      })
+
+      expect(ability).not.to.allow('delete', new Post({ title: 'public' }))
+      expect(ability).not.to.allow('delete', new Post({ title: '[deleted] title' }))
+      expect(ability).to.allow('delete', new Post({ title: '[DELETED] title' }))
+    })
   })
 })

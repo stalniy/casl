@@ -73,6 +73,6 @@
     "standard-version": "^4.2.0"
   },
   "dependencies": {
-    "sift": "~3.3.12"
+    "sift": "^5.0.0"
   }
 }
