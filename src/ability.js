@@ -7,7 +7,9 @@ function getSubjectName(subject) {
   }
 
   const Type = typeof subject === 'object' ? subject.constructor : subject;
-  return Type.modelName || Type.name;
+  const modelName = Type.model ? Type.model.modelName : ''
+
+  return modelName || Type.modelName || Type.name;
 }
 
 function clone(object) {

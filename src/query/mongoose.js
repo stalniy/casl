@@ -14,7 +14,7 @@ export function toMongoQuery(rules) {
 }
 
 function accessibleBy(ability, action = 'read') {
-  const rules = ability.rulesFor(action, this.model || this);
+  const rules = ability.rulesFor(action, this);
   const query = toMongoQuery(rules);
 
   return Object.keys(query).length > 0 ? this.find(query) : emptyQuery(this.find());
