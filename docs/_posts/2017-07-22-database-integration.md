@@ -74,6 +74,32 @@ Post.accessibleBy(ability, 'delete').findOne({ _id: 'known post id' })
   })
 ```
 
+Now lets consider a case where abilities with and without conditions are mixed:
+
+```js
+const ability = AbilityBuilder.define(can => {
+  can('read', 'all')
+  can('manage', 'Post', { author: 'me' })
+})
+
+Post.accessibleBy(ability)
+```
+
+In this case we have 2 overlapped rules: `read all` and `read Post where author = me` (`manage` is an alias to CRUD actions), thus all posts will be fetched from database.
+
+Another case if when you can regular and inverted abilities for the same action and subject. In such situation `accessibleBy` behaves pesimistically and always returns empty set:
+
+```js
+const ability = AbilityBuilder.define((can, cannot) => {
+  can('read', 'all')
+  cannot('read', 'Post')
+})
+
+// empty set
+Post.accessibleBy(ability)
+```
+
+
 ## Other MongoDB libraries
 
 Don't worry if you don't use mongoose, CASL also provide `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
@@ -98,7 +124,7 @@ CASL provides 2 methods which can be used to add support for other libraries and
 * `rulesFor` method of `Ability` instance which was described above
 * `rulesToQuery` function
 
-`rulesToQuery` accepts two arguments: rules to process and conversion function which accepts rule as the only argument. The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array. Abilities that doesn't have conditions are ignored.
+`rulesToQuery` accepts two arguments: rules to process and conversion function which accepts rule as the only argument. The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
 
 So, the only thing which needs to be written is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
 
@@ -138,5 +164,8 @@ And fetch accessible records from database:
 ```js
 Post.scope({ method: ['accessibleBy', ability] }).findAll()
 ```
+
+**Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. User `ability.rulesFor(action, subject)` to retrieve rules for specific action and subject.
+
 
 [defining-abilities]: {% post_url 2017-07-20-define-abilities %}
