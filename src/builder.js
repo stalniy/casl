@@ -13,6 +13,20 @@ export class AbilityBuilder {
     return new Ability(builder.rules, options);
   }
 
+  static extract() {
+    const builder = new this();
+
+    return {
+      can: builder.can.bind(builder),
+
+      cannot: builder.cannot.bind(builder),
+
+      get rules() {
+        return builder.rules;
+      }
+    };
+  }
+
   constructor() {
     this.rules = [];
   }
