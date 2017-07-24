@@ -9,16 +9,6 @@ function emptyQuery(query) {
   return query;
 }
 
-function isEmpty(object) {
-  for (const prop in object) {
-    if (object.hasOwnProperty(prop)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 export function toMongoQuery(rules) {
   return rulesToQuery(rules, ruleToMongoQuery);
 }
@@ -27,7 +17,7 @@ function accessibleBy(ability, action = 'read') {
   const rules = ability.rulesFor(action, this.model || this);
   const query = toMongoQuery(rules);
 
-  return isEmpty(query) ? emptyQuery(this.find()) : this.find(query)
+  return Object.keys(query).length > 0 ? this.find(query) : emptyQuery(this.find());
 }
 
 export function mongoosePlugin(schema) {
