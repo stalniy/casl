@@ -2,24 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="0.3.2"></a>
-## [0.3.2](https://github.com/stalniy/casl/compare/v0.3.1...v0.3.2) (2017-07-24)
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/stalniy/casl/compare/v0.3.0...v0.3.3) (2017-07-24)
 
 
 ### Bug Fixes
 
 * **mongoose:** adds proper modelName detection for mongoose query ([0508400](https://github.com/stalniy/casl/commit/0508400))
-
-
-
-<a name="0.3.1"></a>
-## [0.3.1](https://github.com/stalniy/casl/compare/v0.3.0...v0.3.1) (2017-07-24)
-
-
-### Bug Fixes
-
 * **query:** makes query to be empty if there is at least one rule without conditions ([d82c3fc](https://github.com/stalniy/casl/commit/d82c3fc))
-
 
 
 <a name="0.3.0"></a>

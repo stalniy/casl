@@ -14,10 +14,10 @@ export function toMongoQuery(rules) {
 }
 
 function accessibleBy(ability, action = 'read') {
-  const rules = ability.rulesFor(action, this);
+  const rules = ability.rulesFor(action, this.modelName || this.model.modelName);
   const query = toMongoQuery(rules);
 
-  return Object.keys(query).length > 0 ? this.find(query) : emptyQuery(this.find());
+  return query === null ? emptyQuery(this.find()) : this.find(query);
 }
 
 export function mongoosePlugin(schema) {

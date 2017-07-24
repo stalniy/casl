@@ -18,23 +18,23 @@ describe('Ability MongoDB query', () => {
     expect(Object.keys(query)).to.be.empty
   })
 
-  it('has empty `$and` part if at least one inverted rule does not have conditions', () => {
+  it('equals `null` if at least one inverted rule does not have conditions', () => {
     const query = toMongoQuery([
       cannot('read', 'Post', { author: 123 }),
       cannot('read', 'Post'),
     ])
 
-    expect(Object.keys(query)).to.be.empty
+    expect(query).to.be.null
   })
 
-  it('is empty if at least one inverted rule does not have conditions', () => {
+  it('equals `null`  if at least one inverted rule does not have conditions', () => {
     const query = toMongoQuery([
       can('read', 'Post', { public: true }),
       cannot('read', 'Post', { author: 321 }),
       cannot('read', 'Post'),
     ])
 
-    expect(Object.keys(query)).to.be.empty
+    expect(query).to.be.null
   })
 
   it('OR-es conditions for regular rules', () => {

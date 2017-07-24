@@ -8,7 +8,7 @@ export function rulesToQuery(rules, convert) {
 
     if (!rule.conditions) {
       if (rule.inverted) {
-        return {};
+        return null;
       }
 
       if (query[op]) {
@@ -22,5 +22,5 @@ export function rulesToQuery(rules, convert) {
     }
   }
 
-  return query;
+  return rules.length > 0 ? query : null;
 }

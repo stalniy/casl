@@ -1,7 +1,7 @@
 import { AbilityBuilder, Ability, mongoosePlugin, toMongoQuery } from '../src'
 
 class PostQuery {
-  static get modelName() {
+  get modelName() {
     return 'Post'
   }
 
@@ -50,7 +50,7 @@ describe('Mongoose Plugin', () => {
     })
   })
 
-  describe('`accessibleBy` infterface', () => {
+  describe('`accessibleBy` method', () => {
     beforeEach(() => {
       ability = AbilityBuilder.define(can => {
         can('read', 'Post', { state: 'draft' })
@@ -62,12 +62,12 @@ describe('Mongoose Plugin', () => {
 
     it('creates query from ability and `read` action by default', () => {
       schema.query.accessibleBy(ability)
-      expect(ability.rulesFor).to.have.been.called.with.exactly('read', schema.query)
+      expect(ability.rulesFor).to.have.been.called.with.exactly('read', schema.query.modelName)
     })
 
     it('creates query from ability and specified action', () => {
       schema.query.accessibleBy(ability, 'delete')
-      expect(ability.rulesFor).to.have.been.called.with.exactly('delete', schema.query)
+      expect(ability.rulesFor).to.have.been.called.with.exactly('delete', schema.query.modelName)
     })
 
     it('calls `find` method of the query', () => {
