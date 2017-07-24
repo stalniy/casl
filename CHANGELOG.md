@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * **error:** fixes ForbiddenError instanceof checks in umd build ([e0a910c](https://github.com/stalniy/casl/commit/e0a910c))
-* **error:** fixes instanceof for ForbiddenError in umd build ([30a2d6f](https://github.com/stalniy/casl/commit/30a2d6f))
 
 
 
