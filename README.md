@@ -49,7 +49,7 @@ const ability = AbilityBuilder.define((can, cannot) => {
 })
 ```
 
-Yes, you can use some operators from MongoDB query language to define conditions for your abilities. See [Definiing Abilities][define-abilities] for details.
+Yes, you can use some operators from MongoDB query language to define conditions for your abilities. See [Defining Abilities][define-abilities] for details.
 
 ### 2. Check Abilities
 
@@ -123,6 +123,8 @@ Post.accessibleBy(ability).where({ createdAt: { $gt: Date.now() - 24 * 3600 } })
 Post.find({ author: 'someoneelse' }).accessibleBy(ability).exec()
 ```
 
+See [Database integration][database-integration] for details.
+
 ### 4. UI integration
 
 CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in application.
@@ -158,3 +160,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
+[database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
