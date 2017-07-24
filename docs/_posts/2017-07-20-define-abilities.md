@@ -22,6 +22,24 @@ function defineAbilitiesFor(user) {
 }
 ```
 
+If you don't like nesting, you can alternatively use `extract` method:
+
+```js
+import { AbilityBuilder, Ability } from 'casl'
+
+function defineAbilitiesFor(user) {
+  const { rules, can, cannot } = AbilityBuilder.extract()
+
+  if (user.isAdmin()) {
+    can('manage', 'all')
+  } else {
+    can('read', 'all')
+  }
+
+  return new Ability(rules)
+}
+```
+
 The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Roles and Abilities][roles-example] for an example.
 
 `AbilityBuilder.define` has a different signature which allows you to pass some ability options like `subjectName`. For example
