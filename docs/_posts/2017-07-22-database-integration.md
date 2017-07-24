@@ -115,7 +115,8 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
 })
 ```
 
-As you can see rules for specified action and subject can be retrieved with help of `rulesFor` method (the second argument is processed by `subjectName` function, see [Defining Abilities][defining-abilities] for details):
+As you can see rules for specified action and subject can be retrieved with help of `rulesFor` method (the second argument is processed by `subjectName` function, see [Defining Abilities][defining-abilities] for details).
+**Important**: `toMongoQuery` returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
 
 ## Other databases
 
@@ -152,6 +153,7 @@ const Post = db.define('Post', {
 }, {
   scopes: {
     accessibleBy(ability, action = 'read') {
+      // TODO: handle case when `toSequalizeQuery` returns `null`
       const rules = ability.rulesFor(action, 'Post')
       return { where: toSequalizeQuery(rules) }
     }
@@ -166,6 +168,7 @@ Post.scope({ method: ['accessibleBy', ability] }).findAll()
 ```
 
 **Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. User `ability.rulesFor(action, subject)` to retrieve rules for specific action and subject.
+They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
 
 
 [defining-abilities]: {% post_url 2017-07-20-define-abilities %}
