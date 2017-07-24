@@ -1,5 +1,6 @@
 export function ForbiddenError(message) {
-  Error.call(message);
+  Error.call(this);
+  this.message = message;
   this.constructor = ForbiddenError;
 
   if (typeof Error.captureStackTrace === 'function') {
