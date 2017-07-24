@@ -7,7 +7,7 @@ function getSubjectName(subject) {
   }
 
   const Type = typeof subject === 'object' ? subject.constructor : subject;
-  const modelName = Type.model ? Type.model.modelName : ''
+  const modelName = Type.model ? Type.model.modelName : '';
 
   return modelName || Type.modelName || Type.name;
 }
