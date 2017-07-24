@@ -1,12 +1,13 @@
-export class ForbiddenError extends Error {
-  constructor(message) {
-    super(message);
-    this.constructor = ForbiddenError;
+export function ForbiddenError(message) {
+  Error.call(message);
+  this.constructor = ForbiddenError;
 
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = new Error(this.message).stack;
-    }
+  if (typeof Error.captureStackTrace === 'function') {
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    this.stack = new Error(this.message).stack;
   }
 }
+
+ForbiddenError.prototype = Object.create(Error.prototype);

@@ -33,10 +33,10 @@
     "build.umd": "rollup -c tools/rollup.umd.js",
     "prebuild": "npm run lint",
     "build": "npm run build.es && npm run build.umd",
-    "test": "cross-env NODE_ENV=test nyc mocha spec/*.spec.js",
+    "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
     "coverage.submit": "nyc report --reporter=lcov && codecov",
     "lint": "eslint -c .eslintrc src/",
-    "release": "NODE_ENV=production standard-version && npm run build && npm test"
+    "release": "standard-version && NODE_ENV=production npm run build && npm test"
   },
   "keywords": [
     "access control",
@@ -59,7 +59,6 @@
     "chai": "^4.1.0",
     "chai-spies": "^0.7.1",
     "codecov": "^2.2.0",
-    "cross-env": "^5.0.1",
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
