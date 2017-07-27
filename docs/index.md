@@ -149,6 +149,8 @@ export class Session {
 }
 ```
 
+Read [CASL in Aurelia app][casl-aurelia-example] for details.
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
@@ -161,3 +163,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
+[casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
