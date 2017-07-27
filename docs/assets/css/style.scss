@@ -26,8 +26,15 @@ h2 code {
   display: none;
 }
 
-#sidebar {
-  transition: top 100ms;
+aside#sidebar {
+  position: relative;
+  background: transparent;
+  padding-left: 0;
+}
+
+#sidebar-wrapper {
+  background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
+  padding-left: 20px;
 
   &.fixed {
     position: fixed;
@@ -119,11 +126,16 @@ h2 code {
   }
 
   aside#sidebar {
+    margin-top: 0;
+    padding: 0 10px;
+  }
+
+  #sidebar-wrapper {
     position: fixed;
     top: 0;
     left: 0;
-    margin-top: 0;
-    padding: 0 10px;
+    width: 100%;
+    padding-left: 0;
     background: transparent url(../images/header-bg.jpg);
   }
 
