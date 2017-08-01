@@ -12,7 +12,7 @@ describe('Ability MongoDB query', () => {
   it('has empty `$or` part if at least one regular rule does not have conditions', () => {
     const query = toMongoQuery([
       can('read', 'Post', { author: 123 }),
-      can('read', 'Post'),
+      can('read', 'Post')
     ])
 
     expect(Object.keys(query)).to.be.empty
@@ -21,7 +21,7 @@ describe('Ability MongoDB query', () => {
   it('equals `null` if at least one inverted rule does not have conditions', () => {
     const query = toMongoQuery([
       cannot('read', 'Post', { author: 123 }),
-      cannot('read', 'Post'),
+      cannot('read', 'Post')
     ])
 
     expect(query).to.be.null
@@ -31,7 +31,7 @@ describe('Ability MongoDB query', () => {
     const query = toMongoQuery([
       can('read', 'Post', { public: true }),
       cannot('read', 'Post', { author: 321 }),
-      cannot('read', 'Post'),
+      cannot('read', 'Post')
     ])
 
     expect(query).to.be.null
