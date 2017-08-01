@@ -25,7 +25,6 @@ describe('Mongoose Plugin', () => {
   let ability
 
   beforeEach(() => {
-    const infterface =
     schema = mongoosePlugin({
       statics: new PostQuery(),
       query: new PostQuery()
