@@ -89,7 +89,7 @@ export class Ability {
 
   can(action, subject) {
     const subjectName = this[PRIVATE_FIELD].subjectName(subject);
-    const rules = this.rulesFor(action, subjectName);
+    const rules = this.rulesFor(action, subject);
 
     if (subject === subjectName) {
       return rules.length > 0;

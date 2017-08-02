@@ -47,6 +47,10 @@ The current user object is passed into the `defineAbilitiesFor` function, so the
 ```js
 function subjectName(subject) {
   // logic to extract subject name from subject instances
+  // It's important to handle case when `subject` is undefined or string!
+  // Otherwise you will not be able to check abilities on class names (e.g., `ability.can('read', 'Post')`)
+
+  return !subject || typeof subject === 'string' ? subject : subject.$type
 }
 
 const ability = AbilityBuilder.define({ subjectName }, can => {
