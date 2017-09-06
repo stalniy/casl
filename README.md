@@ -151,6 +151,10 @@ export class Session {
 
 Read [CASL in Aurelia app][casl-aurelia-example] for details.
 
+## Documentation
+
+A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
@@ -164,3 +168,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
 [casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
+[documentation]: https://stalniy.github.io/casl/
