@@ -3,7 +3,8 @@
   "version": "1.0.2",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "main": "dist/umd/index.js",
-  "module": "dist/es6/index.js",
+  "module": "index.js",
+  "es2015": "dist/es6/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
@@ -31,12 +32,13 @@
   "scripts": {
     "build.es": "rollup -c tools/rollup.es.js",
     "build.umd": "rollup -c tools/rollup.umd.js",
+    "build.es5m": "rollup -c tools/rollup.es5m.js",
     "prebuild": "npm run lint",
-    "build": "npm run build.es && npm run build.umd",
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
     "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
     "coverage.submit": "nyc report --reporter=lcov && codecov",
     "lint": "eslint -c .eslintrc src/",
-    "prerelease": "NODE_ENV=production npm run build && npm test && cp dist/es6/index.js .",
+    "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "standard-version"
   },
   "keywords": [
