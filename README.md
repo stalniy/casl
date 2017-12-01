@@ -149,7 +149,7 @@ export class Session {
 }
 ```
 
-Read [CASL in Aurelia app][casl-aurelia-example] for details.
+Read [CASL in Aurelia app][casl-aurelia-example] or [Vue ACL with CASL][casl-vue-example] for details.
 
 ## Documentation
 
@@ -168,4 +168,5 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
 [casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
+[casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
 [documentation]: https://stalniy.github.io/casl/
