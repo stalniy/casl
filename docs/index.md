@@ -28,7 +28,7 @@ npm install casl --save
 
 ## Getting started
 
-CASL allows you to use any data layer (e.g., `mongoose`, raw `mongodb` adapter, `sequalize`) and any HTTP framework (e.g., `koa`, `express`, `feathersjs`). It doesn't force you to choose even a database (however currently is the best integrated with MongoDB).
+CASL allows you to use any data layer (e.g., `mongoose`, raw `mongodb` adapter, `sequelize`) and any HTTP framework (e.g., `koa`, `express`, `feathersjs`). It doesn't force you to choose even a database (however currently is the best integrated with MongoDB).
 
 CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
 
@@ -114,7 +114,7 @@ const Post = mongoose.model('Post', mongoose.Schema({
   createdAt: Date
 }))
 
-// by default if asks for `read` rules
+// by default it asks for `read` rules
 // returns mongoose Query, so you can chain it with other conditions
 Post.accessibleBy(ability).where({ createdAt: { $gt: Date.now() - 24 * 3600 } })
 
@@ -149,7 +149,11 @@ export class Session {
 }
 ```
 
-Read [CASL in Aurelia app][casl-aurelia-example] for details.
+Read [CASL in Aurelia app][casl-aurelia-example] or [Vue ACL with CASL][casl-vue-example] for details.
+
+## Documentation
+
+A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
 
 ## Want to help?
 
@@ -164,3 +168,5 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
 [casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
+[casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
+[documentation]: https://stalniy.github.io/casl/
