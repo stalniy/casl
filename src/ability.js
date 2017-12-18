@@ -92,7 +92,7 @@ export class Ability {
     const rules = this.rulesFor(action, subject);
 
     if (subject === subjectName) {
-      return rules.length > 0;
+      return rules.length > 0 && !rules[0].inverted;
     }
 
     for (let i = 0; i < rules.length; i++) {

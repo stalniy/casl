@@ -76,9 +76,10 @@ describe('Ability', () => {
 
   describe('by default', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define(can => {
+      ability = AbilityBuilder.define((can, cannot) => {
         can(['read', 'update'], 'Post')
         can('delete', 'Post', { creator: 'admin' })
+        cannot('publish', 'Post')
       })
     })
 
@@ -116,6 +117,10 @@ describe('Ability', () => {
 
     it('disallows to perform action if target instance does not match conditions', () => {
       expect(ability).not.to.allow('delete', new Post({ creator: 'user' }))
+    })
+
+    it('disallows to perform action for inverted rule when checks by subject type', () => {
+      expect(ability).not.to.allow('publish', 'Post')
     })
 
     describe('`throwUnlessCan` method', () => {
