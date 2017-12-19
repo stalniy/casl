@@ -30,9 +30,9 @@ export class Ability {
 export abstract class AbilityBuilderParts {
   rules: Rule[]
 
-  can(action: string | string[], subject: string | string[]): Rule
+  can(action: string | string[], subject: string | string[], conditions?: any): Rule
 
-  cannot(action: string | string[], subject: string | string[]): Rule
+  cannot(action: string | string[], subject: string | string[], conditions?: any): Rule
 }
 
 export class AbilityBuilder extends AbilityBuilderParts {
