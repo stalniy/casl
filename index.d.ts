@@ -30,9 +30,9 @@ export class Ability {
 export abstract class AbilityBuilderParts {
   rules: Rule[]
 
-  can(action: string | string[], subject: string | string[], conditions?: any): Rule
+  can(action: string | string[], subject: string | string[], conditions?: Object): Rule
 
-  cannot(action: string | string[], subject: string | string[], conditions?: any): Rule
+  cannot(action: string | string[], subject: string | string[], conditions?: Object): Rule
 }
 
 export class AbilityBuilder extends AbilityBuilderParts {
@@ -44,8 +44,8 @@ export class AbilityBuilder extends AbilityBuilderParts {
 
 export class ForbiddenError extends Error {}
 
-export function rulesToQuery(rules: Rule[], convert: (rule: Rule) => Object): Object[] | null
+export function rulesToQuery(rules: Rule[], convert: (rule: Rule) => Object): Object | null
 
-export function toMongoQuery(rules: Rule[]): Object[] | null
+export function toMongoQuery(rules: Rule[]): Object | null
 
 export function mongoosePlugin(schema: any): any
