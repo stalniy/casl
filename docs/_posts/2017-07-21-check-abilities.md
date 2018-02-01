@@ -52,13 +52,13 @@ By default, CASL is looking for `modelName` attribute on constructor of the pass
 
 ```js
 class Post {
-  constructor(title, published) {
+  constructor({ title, published }) {
     this.title = title
     this.published = published
   }
 }
 
-ability.can('read', new Post({ published: true }))
+ability.can('read', new Post({ title: 'Hello CASL', published: true }))
 ```
 
 In this case, ability will check whether rules for `Post` class is defined and check if user can read this particular instance of `Post`.
@@ -73,13 +73,13 @@ class Article {
     return 'Post'
   }
 
-  constructor(title, published) {
+  constructor({ title, published }) {
     this.title = title
     this.published = published
   }
 }
 
-ability.can('read', new Article({ published: true }))
+ability.can('read', new Article({ title: 'Hello CASL', published: true }))
 ```
 
 In case if the default behavior is not satisfied for you, it's possible to pass custom `subjectName` option in `Ability` constructor, which should return passed object name. This may be useful if you want to define actions for `RPC` procedures (e.g., in CQRS or GraphQL interfaces).
