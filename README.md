@@ -31,6 +31,8 @@ npm install casl --save
 CASL allows you to use any data layer (e.g., [mongoose][mongoose], [raw mongodb adapter][mongo-adapter], [sequelize][sequelize]), any HTTP framework (e.g., [koa][koa], [express][expressjs], [feathersjs][feathersjs]) and even any frontend framework (e.g., [Vuejs][vuejs], [Angular][angular], [React][react], [Ionic][ionic]) because of its isomorphic nature.
 Also, it doesn't force you to choose a database (however currently is the best integrated with MongoDB).
 
+Check sidebar in [documentation][documentation] for integration examples.
+
 CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
 
 ### 1. Define Abilities
