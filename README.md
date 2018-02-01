@@ -28,7 +28,8 @@ npm install casl --save
 
 ## Getting started
 
-CASL allows you to use any data layer (e.g., `mongoose`, raw `mongodb` adapter, `sequelize`) and any HTTP framework (e.g., `koa`, `express`, `feathersjs`). It doesn't force you to choose even a database (however currently is the best integrated with MongoDB).
+CASL allows you to use any data layer (e.g., [mongoose][mongoose], [raw mongodb adapter][mongo-adapter], [sequelize][sequelize]), any HTTP framework (e.g., [koa][koa], [express][expressjs], [feathersjs][feathersjs]) and even any frontend framework (e.g., [Vuejs][vuejs], [Angular][angular], [React][react], [Ionic][ionic]) because of its isomorphic nature.
+Also, it doesn't force you to choose a database (however currently is the best integrated with MongoDB).
 
 CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
 
@@ -170,3 +171,13 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
 [casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
 [documentation]: https://stalniy.github.io/casl/
+[mongoose]: http://mongoosejs.com/
+[mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
+[sequelize]: http://docs.sequelizejs.com/
+[koa]: http://koajs.com/
+[feathersjs]: https://feathersjs.com/
+[expressjs]: https://expressjs.com/
+[vuejs]: https://vuejs.org
+[angular]: https://angular.io/
+[react]: https://reactjs.org/
+[ionic]: https://ionicframework.com
