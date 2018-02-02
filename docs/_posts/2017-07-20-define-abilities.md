@@ -184,6 +184,25 @@ ability.update([]) // removes all rules
 ability.update([{ subject: 'all', actions: 'read' }]) // switches ability in readonly mode
 ```
 
+Also it's possible to subscribe to rules update using `on` method:
+
+```js
+ability.on('update', ({ rules, ability }) => {
+  // `rules` is an array passed to `update` method
+  // `ability` is an Ability instance where event was registered
+})
+
+ability.update([])
+```
+
+Method `on` returns a function, by calling this function you can unsubscribe from event:
+
+```js
+const unsubscribe = ability.on('update', updateOutsideState)
+
+unsubscribe() // removes subscription
+```
+
 [roles-example]: {% post_url 2017-07-21-roles %}
 [instance-checks]: {% post_url 2017-07-21-check-abilities %}#instance-checks
 [fetching-records]: {% post_url 2017-07-22-database-integration %}

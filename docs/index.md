@@ -8,7 +8,7 @@
 [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
-CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
+CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
 
 Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
@@ -30,6 +30,8 @@ npm install casl --save
 
 CASL allows you to use any data layer (e.g., [mongoose][mongoose], [raw mongodb adapter][mongo-adapter], [sequelize][sequelize]), any HTTP framework (e.g., [koa][koa], [express][expressjs], [feathersjs][feathersjs]) and even any frontend framework (e.g., [Vuejs][vuejs], [Angular][angular], [React][react], [Ionic][ionic]) because of its isomorphic nature.
 Also, it doesn't force you to choose a database (however currently is the best integrated with MongoDB).
+
+Check sidebar in [documentation][documentation] for integration examples.
 
 CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
 
