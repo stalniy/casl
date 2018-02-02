@@ -22,7 +22,7 @@ const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol.for('private') : `_
 
 export class Ability {
   static addAlias(alias, actions) {
-    if (alias === actions || actions.indexOf(alias) !== -1) {
+    if (alias === actions || Array.isArray(actions) && actions.indexOf(alias) !== -1) {
       throw new Error(`Attempt to alias action to itself: ${alias} -> ${actions.toString()}`);
     }
 
