@@ -158,6 +158,15 @@ Read [CASL in Aurelia app][casl-aurelia-example] or [Vue ACL with CASL][casl-vue
 
 A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
 
+## Examples
+
+There are several repositories which show how to integrate CASL in popular frontend and backend frameworks:
+* [CASL and Vue](https://github.com/stalniy/casl-vue-example)
+* [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
+* [CASL and React](https://github.com/stalniy/casl-react-example)
+* [CASL and Expressjs](https://github.com/stalniy/casl-express-example)
+* [CASL and Feathersjs](https://github.com/stalniy/casl-feathersjs-example)
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
