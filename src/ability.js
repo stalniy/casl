@@ -21,8 +21,12 @@ const DEFAULT_ALIASES = {
 const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol.for('private') : `__private${Date.now()}`;
 
 export class Ability {
-  static addAlias(alias, fields) {
-    DEFAULT_ALIASES[alias] = fields;
+  static addAlias(alias, actions) {
+    if (alias === actions || actions.indexOf(alias) !== -1) {
+      throw new Error(`Attempt to alias action to itself: ${alias} -> ${actions.toString()}`);
+    }
+
+    DEFAULT_ALIASES[alias] = actions;
     return this;
   }
 

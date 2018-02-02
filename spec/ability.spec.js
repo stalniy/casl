@@ -24,6 +24,11 @@ describe('Ability', () => {
     expect(ability).to.allow('increment', 123)
   })
 
+  it('throws exception when trying to alias action to itself', () => {
+    expect(() => Ability.addAlias('sort', 'sort')).to.throw(Error)
+    expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
+  })
+
   it('provides predefined to use "manage" alias for create, read, update, delete', () => {
     ability = AbilityBuilder.define(can => can('manage', 'Post'))
 
