@@ -79,6 +79,15 @@ describe('Ability', () => {
     expect(ability).to.allow('read', 'User')
   })
 
+  it('allows to update rules', () => {
+    ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
+    ability.update([])
+
+    expect(ability.rules).to.be.empty
+    expect(ability).not.to.allow('read', 'Post')
+    expect(ability).not.to.allow('read', 'User')
+  })
+
   describe('by default', () => {
     beforeEach(() => {
       ability = AbilityBuilder.define((can, cannot) => {
@@ -142,6 +151,43 @@ describe('Ability', () => {
 
       it('does not raise forbidden exception on allowed action', () => {
         expect(() => ability.throwUnlessCan('read', 'Post')).not.to.throw(Error)
+      })
+    })
+
+    describe('`update` method', () => {
+      let updateHandler
+
+      beforeEach(() => {
+        updateHandler = spy()
+      })
+
+      it('triggers "update" event', () => {
+        const rules = []
+        ability.on('update', updateHandler)
+        ability.update(rules)
+
+        expect(updateHandler).to.have.been.called.with.exactly({ ability, rules })
+      })
+
+      it('allows to remove subscription to "update" event', () => {
+        const unsubscribe = ability.on('update', updateHandler)
+        unsubscribe()
+        ability.update([])
+
+        expect(updateHandler).not.to.have.been.called()
+      })
+
+      it('does not remove 2nd subscription when unsubscribe called 2 times', () => {
+        const anotherHandler = spy()
+        const unsubscribe = ability.on('update', updateHandler)
+
+        ability.on('update', anotherHandler)
+        unsubscribe()
+        unsubscribe()
+        ability.update([])
+
+        expect(updateHandler).not.to.have.been.called()
+        expect(anotherHandler).to.have.been.called()
       })
     })
   })

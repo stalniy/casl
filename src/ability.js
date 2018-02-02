@@ -36,6 +36,7 @@ export class Ability {
       subjectName,
       originalRules: rules,
       rules: {},
+      events: {},
       aliases: clone(DEFAULT_ALIASES)
     };
     this.update(rules);
@@ -43,6 +44,7 @@ export class Ability {
 
   update(rules) {
     if (Array.isArray(rules)) {
+      this.emit('update', { rules, ability: this });
       this[PRIVATE_FIELD].originalRules = Object.freeze(rules.slice(0));
       this[PRIVATE_FIELD].rules = this.buildIndexFor(this.rules);
     }
@@ -124,6 +126,33 @@ export class Ability {
   throwUnlessCan(action, subject) {
     if (this.cannot(action, subject)) {
       throw new ForbiddenError(`Cannot execute "${action}" on "${this[PRIVATE_FIELD].subjectName(subject)}"`);
+    }
+  }
+
+  on(event, handler) {
+    const events = this[PRIVATE_FIELD].events;
+    let isAttached = true;
+
+    if (!events[event]) {
+      events[event] = [];
+    }
+
+    events[event].push(handler);
+
+    return () => {
+      if (isAttached) {
+        isAttached = false;
+        const index = events[event].indexOf(handler);
+        events[event].splice(index, 1);
+      }
+    };
+  }
+
+  emit(event, payload) {
+    const handlers = this[PRIVATE_FIELD].events[event];
+
+    if (handlers) {
+      handlers.forEach(handler => handler(payload));
     }
   }
 }
