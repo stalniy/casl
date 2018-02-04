@@ -10,3 +10,4 @@ kramdown:
     css_class: 'highlight'
 sass:
   style: compressed
+twitter_username: stalniy

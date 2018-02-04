@@ -6,7 +6,45 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}" media="screen" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print" type="text/css">
-
+    <meta content="{{ site.title }}" property="og:site_name">
+    {% if page.title %}
+      <meta content="{{ page.title }}" property="og:title">
+    {% else %}
+      <meta content="{{ site.title }}" property="og:title">
+    {% endif %}
+    {% if page.title %}
+      <meta content="article" property="og:type">
+    {% else %}
+      <meta content="website" property="og:type">
+    {% endif %}
+    {% if page.description %}
+      <meta content="{{ page.description }}" property="og:description">
+      <meta name="description" content="{{ page.description }}">
+    {% else %}
+      <meta content="{{ site.description }}" property="og:description">
+      <meta name="description" content="{{ site.description }}">
+    {% endif %}
+    {% if page.url %}
+      <meta content="{{ site.url }}{{ page.url }}" property="og:url">
+    {% endif %}
+    {% if page.date %}
+      <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+    {% endif %}
+    {% if page.image %}
+      <meta content="/img/posts/{{ page.image }}" property="og:image">
+    {% else %}
+      <meta content="/img/logo-high-resolution.png" property="og:image">
+    {% endif %}
+    {% if page.categories %}
+      {% for category in page.categories limit:1 %}
+      <meta content="{{ category }}" property="article:section">
+      {% endfor %}
+    {% endif %}
+    {% if page.tags %}
+      {% for tag in page.tags %}
+      <meta content="{{ tag }}" property="article:tag">
+      {% endfor %}
+    {% endif %}
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
