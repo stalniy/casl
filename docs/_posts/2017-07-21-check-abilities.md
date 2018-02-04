@@ -105,4 +105,4 @@ function subjectName(subject) {
 }
 ```
 
-[define-abilities]: {% post_url 2017-07-20-define-abilities %}
+[define-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}

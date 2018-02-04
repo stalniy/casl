@@ -171,4 +171,4 @@ Post.scope({ method: ['accessibleBy', ability] }).findAll()
 They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
 
 
-[defining-abilities]: {% post_url 2017-07-20-define-abilities %}
+[defining-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}
