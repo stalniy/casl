@@ -1,6 +1,7 @@
 title: CASL
 description: CASL is an isomorphic authorization JavaScript library
 show_downloads: false
+baseurl: /casl
 theme: jekyll-theme-architect
 kramdown:
   input: GFM
