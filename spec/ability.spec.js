@@ -169,6 +169,14 @@ describe('Ability', () => {
         expect(updateHandler).to.have.been.called.with.exactly({ ability, rules })
       })
 
+      it('triggers "updated" event after rules have been updated', () => {
+        const rules = []
+        ability.on('updated', updateHandler)
+        ability.update(rules)
+
+        expect(updateHandler).to.have.been.called.with.exactly({ ability, rules })
+      })
+
       it('allows to remove subscription to "update" event', () => {
         const unsubscribe = ability.on('update', updateHandler)
         unsubscribe()

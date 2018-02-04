@@ -44,9 +44,12 @@ export class Ability {
 
   update(rules) {
     if (Array.isArray(rules)) {
-      this.emit('update', { rules, ability: this });
+      const payload = { rules, ability: this };
+
+      this.emit('update', payload);
       this[PRIVATE_FIELD].originalRules = Object.freeze(rules.slice(0));
       this[PRIVATE_FIELD].rules = this.buildIndexFor(this.rules);
+      this.emit('updated', payload);
     }
 
     return this;
