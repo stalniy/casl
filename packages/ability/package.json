@@ -1,0 +1,80 @@
+{
+  "name": "casl",
+  "version": "1.1.0",
+  "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
+  "main": "dist/umd/index.js",
+  "module": "index.js",
+  "es2015": "dist/es6/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stalniy/casl.git"
+  },
+  "nyc": {
+    "all": true,
+    "cache": true,
+    "sourceMap": false,
+    "instrument": false,
+    "require": [
+      "babel-register",
+      "./spec/config"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "spec/**/*.spec.js"
+    ]
+  },
+  "scripts": {
+    "build.es": "rollup -c tools/rollup.es.js",
+    "build.umd": "rollup -c tools/rollup.umd.js",
+    "build.es5m": "rollup -c tools/rollup.es5m.js",
+    "prebuild": "npm run lint",
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
+    "coverage.submit": "nyc report --reporter=lcov && codecov",
+    "lint": "eslint -c .eslintrc src/",
+    "prerelease": "NODE_ENV=production npm run build && npm test",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "access control",
+    "authorization",
+    "acl",
+    "cancan",
+    "security",
+    "permissions"
+  ],
+  "author": "Sergii Stotskyi <sergiy.stotskiy@freaksidea.com>",
+  "license": "MIT",
+  "engines": {
+    "npm": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "chai": "^4.1.0",
+    "chai-spies": "^0.7.1",
+    "codecov": "^2.2.0",
+    "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "standard-version": "^4.2.0"
+  },
+  "dependencies": {
+    "sift": "^5.0.0"
+  }
+}
