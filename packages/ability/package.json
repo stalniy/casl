@@ -37,7 +37,7 @@
     "build": "npm run build.es && npm run build.umd && npm run build.es5m",
     "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
     "coverage.submit": "nyc report --reporter=lcov && codecov",
-    "lint": "eslint -c .eslintrc src/",
+    "lint": "eslint -c ../../.eslintrc src/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "standard-version"
   },
