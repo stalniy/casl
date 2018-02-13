@@ -1,5 +1,15 @@
 {
-	"devDependencies": {
-		"lerna": "^2.8.0"
-	}
+  "scripts": {
+    "bootstrap": "npm i && lerna bootstrap",
+    "postbootstrap": "npm run build",
+    "build": "lerna run -- build",
+    "test": "lerna run -- test",
+    "prelint": "npm run lint-fix",
+    "lint": "lerna run -- lint",
+    "coverage": "lerna run -- coverage",
+    "coverage:upload": "codecov"
+  },
+  "devDependencies": {
+    "lerna": "^2.8.0"
+  }
 }

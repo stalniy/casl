@@ -1,7 +1,7 @@
 {
   "name": "@casl/querier",
   "version": "1.1.0",
-  "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
+  "description": "Abstract query builder for CASL. Allows to query accessible records from any database",
   "main": "dist/umd/index.js",
   "module": "index.js",
   "es2015": "dist/es6/index.js",
@@ -32,12 +32,11 @@
   "scripts": {
     "build.es": "rollup -c tools/rollup.es.js",
     "build.umd": "rollup -c tools/rollup.umd.js",
-    "build.es5m": "rollup -c tools/rollup.es5m.js",
     "prebuild": "npm run lint",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "build": "npm run build.es && npm run build.umd",
     "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
     "coverage.submit": "nyc report --reporter=lcov && codecov",
-    "lint": "eslint -c .eslintrc src/",
+    "lint": "eslint -c ../../.eslintrc src/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "standard-version"
   },
@@ -72,7 +71,8 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
-    "standard-version": "^4.2.0"
+    "standard-version": "^4.2.0",
+    "@casl/ability": "^1.1.0"
   },
   "peerDependencies": {
     "@casl/ability": "^1.1.0"

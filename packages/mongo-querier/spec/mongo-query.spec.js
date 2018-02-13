@@ -1,69 +1,8 @@
-import { AbilityBuilder, toMongoQuery } from '../src'
+import { AbilityBuilder } from '@casl/ability'
+import { toMongoQuery } from '../src'
 
-describe('Ability MongoDB query', () => {
+describe('Mongo Query builder', () => {
   const { can, cannot } = AbilityBuilder.extract()
-
-  it('is empty if there are no rules with conditions', () => {
-    const query = toMongoQuery([can('read', 'Post')])
-
-    expect(Object.keys(query)).to.be.empty
-  })
-
-  it('has empty `$or` part if at least one regular rule does not have conditions', () => {
-    const query = toMongoQuery([
-      can('read', 'Post', { author: 123 }),
-      can('read', 'Post')
-    ])
-
-    expect(Object.keys(query)).to.be.empty
-  })
-
-  it('equals `null` if at least one inverted rule does not have conditions', () => {
-    const query = toMongoQuery([
-      cannot('read', 'Post', { author: 123 }),
-      cannot('read', 'Post')
-    ])
-
-    expect(query).to.be.null
-  })
-
-  it('equals `null`  if at least one inverted rule does not have conditions', () => {
-    const query = toMongoQuery([
-      can('read', 'Post', { public: true }),
-      cannot('read', 'Post', { author: 321 }),
-      cannot('read', 'Post')
-    ])
-
-    expect(query).to.be.null
-  })
-
-  it('OR-es conditions for regular rules', () => {
-    const query = toMongoQuery([
-      can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' }),
-      can('read', 'Post', { status: 'published', createdBy: 'me' })
-    ])
-
-    expect(query).to.deep.equal({
-      $or: [
-        { status: 'draft', createdBy: 'someoneelse' },
-        { status: 'published', createdBy: 'me' }
-      ]
-    })
-  })
-
-  it('AND-es conditions for inverted rules', () => {
-    const query = toMongoQuery([
-      cannot('read', 'Post', { status: 'draft', createdBy: 'someoneelse' }),
-      cannot('read', 'Post', { status: 'published', createdBy: 'me' })
-    ])
-
-    expect(query).to.deep.equal({
-      $and: [
-        { $nor: [{ status: 'draft', createdBy: 'someoneelse' }] },
-        { $nor: [{ status: 'published', createdBy: 'me' }] }
-      ]
-    })
-  })
 
   it('OR-es conditions for regular rules and AND-es for inverted ones', () => {
     const query = toMongoQuery([
@@ -118,7 +57,6 @@ describe('Ability MongoDB query', () => {
 
       expect(query).to.deep.equal({ $or: [{ state: { $all: ['draft', 'archived'] } }] })
     })
-
     it('is defined by `$lt` and `$lte` criteria', () => {
       const query = toMongoQuery([
         can('read', 'Post', { views: { $lt: 10 } }),

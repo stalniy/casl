@@ -1,4 +1,5 @@
-import { AbilityBuilder, Ability, mongoosePlugin, toMongoQuery } from '../src'
+import { AbilityBuilder, Ability } from '@casl/ability'
+import { mongoosePlugin, toMongoQuery } from '../src'
 
 class PostQuery {
   get modelName() {
