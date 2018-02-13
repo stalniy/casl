@@ -1,5 +1,5 @@
 {
-  "name": "@casl/ability",
+  "name": "@casl/querier",
   "version": "1.1.0",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "main": "dist/umd/index.js",
@@ -74,7 +74,7 @@
     "rollup-plugin-uglify": "^2.0.1",
     "standard-version": "^4.2.0"
   },
-  "dependencies": {
-    "sift": "^5.0.0"
+  "peerDependencies": {
+    "@casl/ability": "^1.1.0"
   }
 }
