@@ -1,2 +1,2 @@
 export * from './mongoose';
-export * from './query';
+export * from './mongo';

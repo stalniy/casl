@@ -1,16 +1,8 @@
-import { rulesToQuery } from './query';
-
-function ruleToMongoQuery(rule) {
-  return rule.inverted ? { $nor: [rule.conditions] } : rule.conditions;
-}
+import { toMongoQuery } from './mongo';
 
 function emptyQuery(query) {
   query.exec = () => Promise.resolve(query.op === 'findOne' ? null : []);
   return query;
-}
-
-export function toMongoQuery(rules) {
-  return rulesToQuery(rules, ruleToMongoQuery);
 }
 
 function accessibleBy(ability, action = 'read') {
