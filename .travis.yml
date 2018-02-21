@@ -1,14 +1,15 @@
 language: node_js
 node_js:
-  - "4.0.0"
-  - "6.11.3"
-  - "8.4.0"
+  - 4 # to be removed 2018-04-01
+  - 6 # to be removed 2019-04-01
+  - lts/* # safety net; don't remove
+  - node # safety net; don't remove
 
 before_install:
   - if [[ `npm -v` = 2* ]]; then npm i -g npm@3.10.8; fi
 
 before_script:
-  - npm run build
+  - npm run bootstrap
 
-after_success:
-  -  npm run coverage.submit
+# after_success:
+#   -  npm run coverage.submit
