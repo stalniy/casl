@@ -1,10 +1,9 @@
 {
   "scripts": {
-    "bootstrap": "npm i && lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "postbootstrap": "npm run build",
     "build": "lerna run -- build",
     "test": "lerna run -- test",
-    "prelint": "npm run lint-fix",
     "lint": "lerna run -- lint",
     "coverage": "lerna run -- coverage",
     "coverage:upload": "codecov"
