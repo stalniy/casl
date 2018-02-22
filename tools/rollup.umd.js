@@ -4,11 +4,13 @@ import config from './rollup.es';
 const packageDetails = require(`${process.cwd()}/package.json`);
 
 export default Object.assign({}, config, {
-  dest: 'dist/umd/index.js',
-  format: 'umd',
-  moduleName: packageDetails.name
-    .slice(1)
-    .replace(/[\/-](\w)/g, (match, letter) => letter.toUpperCase()),
+  output: {
+    file: 'dist/umd/index.js',
+    format: 'umd',
+    name: packageDetails.name
+      .slice(1)
+      .replace(/[\/-](\w)/g, (match, letter) => letter.toUpperCase()),
+  },
   plugins: config.plugins.concat([
     babel({
       exclude: 'node_modules/**',
