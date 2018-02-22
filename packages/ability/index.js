@@ -137,6 +137,7 @@ var Ability = function () {
       var indexedRules = {};
       var RuleType = this[PRIVATE_FIELD].RuleType;
 
+
       for (var i = 0; i < rules.length; i++) {
         var rule = rules[i];
         var actions = this.expandActions(rule.actions);
@@ -163,6 +164,7 @@ var Ability = function () {
 
       var actions = Array.isArray(rawActions) ? rawActions : [rawActions];
       var aliases = this[PRIVATE_FIELD].aliases;
+
 
       return actions.reduce(function (expanded, action) {
         if (aliases.hasOwnProperty(action)) {
@@ -195,6 +197,7 @@ var Ability = function () {
     value: function rulesFor(action, subject) {
       var subjectName = this[PRIVATE_FIELD].subjectName(subject);
       var rules = this[PRIVATE_FIELD].rules;
+
       var specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
       var generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
 
@@ -216,6 +219,7 @@ var Ability = function () {
     key: 'on',
     value: function on(event, handler) {
       var events = this[PRIVATE_FIELD].events;
+
       var isAttached = true;
 
       if (!events[event]) {
@@ -226,9 +230,9 @@ var Ability = function () {
 
       return function () {
         if (isAttached) {
-          isAttached = false;
           var index = events[event].indexOf(handler);
           events[event].splice(index, 1);
+          isAttached = false;
         }
       };
     }
