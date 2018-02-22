@@ -6,7 +6,8 @@ function isStringOrNonEmptyArray(value) {
 
 export class AbilityBuilder {
   static define(params, dsl) {
-    const [options, define] = typeof params === 'function' ? [{}, params] : [params, dsl];
+    const options = typeof params === 'function' ? {} : params;
+    const define = params === options ? dsl : params;
     const builder = new this();
     define(builder.can.bind(builder), builder.cannot.bind(builder));
 

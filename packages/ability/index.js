@@ -637,44 +637,6 @@ var createClass = function () {
   };
 }();
 
-var slicedToArray = function () {
-  function sliceIterator(arr, i) {
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _e = undefined;
-
-    try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"]) _i["return"]();
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-
-    return _arr;
-  }
-
-  return function (arr, i) {
-    if (Array.isArray(arr)) {
-      return arr;
-    } else if (Symbol.iterator in Object(arr)) {
-      return sliceIterator(arr, i);
-    } else {
-      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-    }
-  };
-}();
-
 var Rule = function () {
   function Rule(params) {
     classCallCheck(this, Rule);
@@ -890,11 +852,8 @@ var AbilityBuilder = function () {
   createClass(AbilityBuilder, null, [{
     key: 'define',
     value: function define(params, dsl) {
-      var _ref = typeof params === 'function' ? [{}, params] : [params, dsl],
-          _ref2 = slicedToArray(_ref, 2),
-          options = _ref2[0],
-          define = _ref2[1];
-
+      var options = typeof params === 'function' ? {} : params;
+      var define = params === options ? dsl : params;
       var builder = new this();
       define(builder.can.bind(builder), builder.cannot.bind(builder));
 
@@ -907,12 +866,8 @@ var AbilityBuilder = function () {
 
       return {
         can: builder.can.bind(builder),
-
         cannot: builder.cannot.bind(builder),
-
-        get rules() {
-          return builder.rules;
-        }
+        rules: builder.rules
       };
     }
   }]);
