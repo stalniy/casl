@@ -11,5 +11,5 @@ before_install:
 before_script:
   - npm run bootstrap
 
-# after_success:
-#   -  npm run coverage.submit
+after_success:
+  -  npm run coverage.submit
