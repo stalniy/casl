@@ -18,12 +18,8 @@ export class AbilityBuilder {
 
     return {
       can: builder.can.bind(builder),
-
       cannot: builder.cannot.bind(builder),
-
-      get rules() {
-        return builder.rules;
-      }
+      rules: builder.rules
     };
   }
 
