@@ -119,7 +119,7 @@ export class Ability {
     const specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
     const generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
 
-    return (generalRules || []).concat(specificRules || []);
+    return (specificRules || []).concat(generalRules || []);
   }
 
   cannot(action, subject) {
