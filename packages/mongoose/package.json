@@ -1,6 +1,6 @@
 {
   "name": "@casl/mongoose",
-  "version": "1.1.0",
+  "version": "2.0.0-alpha.1",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "dist/umd/index.js",
   "module": "index.js",
