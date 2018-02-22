@@ -201,7 +201,7 @@ var Ability = function () {
       var specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
       var generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
 
-      return (generalRules || []).concat(specificRules || []);
+      return (specificRules || []).concat(generalRules || []);
     }
   }, {
     key: 'cannot',

@@ -251,13 +251,14 @@ describe('Ability', () => {
       expect(ability).to.allow('delete', new Post({ creator: 'me' }))
     })
 
-    it('checks rules for "all" first', () => {
+    it('favor subject specific rules over general ones (i.e., defined via "all")', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('delete', 'all')
         cannot('delete', 'Post')
       })
 
-      expect(ability).to.allow('delete', 'Post')
+      expect(ability).not.to.allow('delete', 'Post')
+      expect(ability).to.allow('delete', 'User')
     })
   })
 
