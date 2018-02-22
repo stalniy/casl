@@ -1,5 +1,4 @@
-import { AbilityBuilder } from '@casl/ability'
-import { rulesToQuery } from '../src'
+import { AbilityBuilder, rulesToQuery } from '../src'
 
 function toQuery(rules) {
   return rulesToQuery(rules, rule => {

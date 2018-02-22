@@ -33,8 +33,6 @@ var sift = createCommonjsModule(function (module, exports) {
 
 (function() {
 
-  'use strict';
-
   /**
    */
 
@@ -615,16 +613,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-
-
-
-
-
-
-
-
-
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -648,32 +636,6 @@ var createClass = function () {
     return Constructor;
   };
 }();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -994,4 +956,31 @@ var AbilityBuilder = function () {
   return AbilityBuilder;
 }();
 
-export { Ability, Rule, AbilityBuilder, ForbiddenError };
+function rulesToQuery(rules, convert) {
+  var query = {};
+  var ignoreOperators = {};
+
+  for (var i = 0; i < rules.length; i++) {
+    var rule = rules[i];
+    var op = rule.inverted ? '$and' : '$or';
+
+    if (!rule.conditions) {
+      if (rule.inverted) {
+        return null;
+      }
+
+      if (query[op]) {
+        delete query[op];
+      }
+
+      ignoreOperators[op] = true;
+    } else if (!ignoreOperators.hasOwnProperty(op)) {
+      query[op] = query[op] || [];
+      query[op].push(convert(rule));
+    }
+  }
+
+  return rules.length > 0 ? query : null;
+}
+
+export { Ability, Rule, AbilityBuilder, ForbiddenError, rulesToQuery };

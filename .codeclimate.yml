@@ -5,10 +5,12 @@ engines:
       import/extensions:
         enabled: false
       import/no-extraneous-dependencies:
-        enabled: false        
+        enabled: false
 ratings:
   paths:
-  - src/**
+  - packages/ability/src/**
+  - packages/mongoose/src/**
 exclude_paths:
-- spec/**/*
+- packages/ability/spec/**/*
+- packages/mongoose/spec/**/*
 - docs/**/*

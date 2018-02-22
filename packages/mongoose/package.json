@@ -1,7 +1,7 @@
 {
-  "name": "@casl/querier",
+  "name": "@casl/mongoose",
   "version": "1.1.0",
-  "description": "Abstract query builder for CASL. Allows to query accessible records from any database",
+  "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "dist/umd/index.js",
   "module": "index.js",
   "es2015": "dist/es6/index.js",
@@ -35,16 +35,16 @@
     "prebuild": "npm run lint",
     "build": "npm run build.es && npm run build.umd",
     "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
-    "coverage.submit": "nyc report --reporter=lcov && codecov",
+    "coverage": "nyc report --reporter=lcov",
     "lint": "eslint -c ../../.eslintrc src/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "standard-version"
   },
   "keywords": [
+    "mongo",
     "access control",
     "authorization",
     "acl",
-    "cancan",
     "security",
     "permissions"
   ],
@@ -53,10 +53,10 @@
   "engines": {
     "npm": "^3.0.0"
   },
-  "devDependencies": {
+  "peerDependencies": {
     "@casl/ability": "^1.1.0"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "@casl/ability": "^1.1.0"
   }
 }
