@@ -16,16 +16,16 @@
     "chai-spies": "^1.0.0",
     "codecov": "^3.0.0",
     "eslint": "^4.2.0",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
     "lerna": "^2.9.0",
     "mocha": "^5.0.1",
-    "nyc": "^11.0.3",
+    "nyc": "^11.4.1",
     "rollup": "^0.56.2",
-    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-uglify": "^3.0.0",
     "standard-version": "^4.2.0"
   }
 }

@@ -57,7 +57,7 @@ export class Ability {
 
   buildIndexFor(rules) {
     const indexedRules = {};
-    const RuleType = this[PRIVATE_FIELD].RuleType;
+    const { RuleType } = this[PRIVATE_FIELD];
 
     for (let i = 0; i < rules.length; i++) {
       const rule = rules[i];
@@ -81,7 +81,7 @@ export class Ability {
 
   expandActions(rawActions) {
     const actions = Array.isArray(rawActions) ? rawActions : [rawActions];
-    const aliases = this[PRIVATE_FIELD].aliases;
+    const { aliases } = this[PRIVATE_FIELD];
 
     return actions.reduce((expanded, action) => {
       if (aliases.hasOwnProperty(action)) {
@@ -115,7 +115,7 @@ export class Ability {
 
   rulesFor(action, subject) {
     const subjectName = this[PRIVATE_FIELD].subjectName(subject);
-    const rules = this[PRIVATE_FIELD].rules;
+    const { rules } = this[PRIVATE_FIELD];
     const specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
     const generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
 
@@ -133,7 +133,7 @@ export class Ability {
   }
 
   on(event, handler) {
-    const events = this[PRIVATE_FIELD].events;
+    const { events } = this[PRIVATE_FIELD];
     let isAttached = true;
 
     if (!events[event]) {
@@ -144,9 +144,9 @@ export class Ability {
 
     return () => {
       if (isAttached) {
-        isAttached = false;
         const index = events[event].indexOf(handler);
         events[event].splice(index, 1);
+        isAttached = false;
       }
     };
   }
