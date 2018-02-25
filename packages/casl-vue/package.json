@@ -31,7 +31,7 @@
     "npm": "^3.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0",
     "vue": "^2.0.0"
   },
   "devDependencies": {

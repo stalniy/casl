@@ -28,9 +28,9 @@
     "npm": "^3.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^1.1.0"
+    "@casl/ability": "^2.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^1.1.0"
+    "@casl/ability": "^2.0.0-alpha.1"
   }
 }
