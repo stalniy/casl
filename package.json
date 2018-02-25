@@ -29,6 +29,7 @@
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.1",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",

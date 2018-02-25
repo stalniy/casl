@@ -3,6 +3,9 @@
     "test": {
       "presets":[
         ["es2015", { "modules": "commonjs" }]
+      ],
+      "plugins": [
+        "transform-class-properties"
       ]
     }
   }
