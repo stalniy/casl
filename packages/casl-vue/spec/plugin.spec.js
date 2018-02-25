@@ -12,7 +12,7 @@ describe('Abilities plugin', () => {
   let ability
   let Component
 
-  before(() => {
+  beforeAll(() => {
     ability = AbilityBuilder.define(can => {
       can('read', 'Post')
       can(['update', 'delete'], 'Post', { userId: 'me' })
@@ -23,7 +23,9 @@ describe('Abilities plugin', () => {
       props: {
         post: { default: () => new Post() }
       },
-      template: `{{ $can('read', post) ? 'Yes' : 'No' }}`
+      render(h) {
+        return h('div', this.$can('read', this.post) ? 'Yes' : 'No')
+      }
     })
   })
 
@@ -34,8 +36,13 @@ describe('Abilities plugin', () => {
   })
 
   describe('`$can`', () => {
+    let vm
+
+    beforeEach(() => {
+      vm = new Component().$mount()
+    })
+
     it('calls `can` method of underlying ability instance', () => {
-      const vm = new Component()
       spy.on(ability, 'can')
       vm.$can('read', vm.post)
 
@@ -44,8 +51,17 @@ describe('Abilities plugin', () => {
       spy.restore(ability, 'can')
     })
 
-    it('updates components when ability is updated', () => {
-      // TODO
+    it('can be used inside component template', () => {
+      expect(vm.$el.textContent).to.equal('Yes')
+    })
+
+    it ('updates components when ability is updated', (done) => {
+      ability.update([])
+
+      vm.$nextTick(() => {
+        expect(vm.$el.textContent).to.equal('No')
+        done()
+      })
     })
   })
 })
