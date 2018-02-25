@@ -1,0 +1,65 @@
+{
+  "name": "@casl/react",
+  "version": "0.0.1",
+  "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
+  "main": "dist/umd/index.js",
+  "module": "index.js",
+  "es2015": "dist/es6/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stalniy/casl.git"
+  },
+  "nyc": {
+    "all": true,
+    "cache": true,
+    "sourceMap": false,
+    "instrument": false,
+    "require": [
+      "babel-register",
+      "./spec/config"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "spec/**/*.spec.js"
+    ]
+  },
+  "scripts": {
+    "build.es": "rollup -c ../../tools/rollup.es.js -e vue,@casl/ability",
+    "build.umd": "rollup -c ../../tools/rollup.umd.js -e vue,@casl/ability",
+    "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e vue,@casl/ability",
+    "prebuild": "npm run lint",
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
+    "coverage": "nyc report --reporter=lcov",
+    "lint": "eslint -c ../../.eslintrc src/",
+    "prerelease": "NODE_ENV=production npm run build && npm test",
+    "release": "standard-version"
+  },
+  "keywords": [
+    "access control",
+    "authorization",
+    "acl",
+    "cancan",
+    "security",
+    "permissions"
+  ],
+  "author": "Sergii Stotskyi <sergiy.stotskiy@freaksidea.com>",
+  "license": "MIT",
+  "engines": {
+    "npm": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@casl/ability": "^2.0.0-alpha.1",
+    "react": "^15.0.0 || ^16.0.0"
+  },
+  "devDependencies": {
+    "@casl/ability": "^2.0.0-alpha.1",
+    "react": "^16.2.0"
+  }
+}
