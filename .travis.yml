@@ -10,6 +10,7 @@ before_install:
 
 before_script:
   - npm run bootstrap
+  - npm run build
 
 after_success:
   -  npm run coverage.submit

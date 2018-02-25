@@ -1,0 +1,9 @@
+{
+  "env": {
+    "test": {
+      "presets":[
+        ["es2015", { "modules": "commonjs" }]
+      ]
+    }
+  }
+}

@@ -1,26 +1,43 @@
 {
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "collectCoverageFrom": [
+      "packages/**/src/**/*.{js,jsx}"
+    ],
+    "testMatch": [
+      "**/*/spec/*.spec.js"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "setupTestFrameworkScriptFile": "./tools/spec_helper.js"
+  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postbootstrap": "npm run build",
-    "build": "lerna run -- build",
-    "test": "lerna run -- test",
-    "lint": "lerna run -- lint",
-    "coverage.submit": "lerna run -- coverage && codecov"
+    "prebuild": "npm run lint",
+    "build": "lerna run build",
+    "test": "NODE_ENV=test jest",
+    "lint": "eslint -c .eslintrc packages/*/src",
+    "coverage.submit": "codecov"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.1",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-istanbul": "^4.1.4",
     "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.24.1",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
     "codecov": "^3.0.0",
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
+    "jest": "^22.4.2",
     "lerna": "^2.9.0",
-    "mocha": "^5.0.1",
-    "nyc": "^11.4.1",
     "rollup": "^0.56.2",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.0.2",

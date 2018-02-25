@@ -1,4 +1,5 @@
 import { AbilityBuilder, ForbiddenError, Ability } from '../src'
+import './spec_helper'
 
 class Post {
   constructor(attrs) {
