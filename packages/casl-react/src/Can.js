@@ -1,15 +1,8 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import ability from '../config/ability';
 
 const noop = () => {};
 
 export default class Can extends PureComponent {
-  static propTypes = {
-    run: PropTypes.string,
-    on: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
-  };
-
   unsubscribeFromAbility = noop;
   state = {
     allowed: false
@@ -20,9 +13,7 @@ export default class Can extends PureComponent {
   }
 
   componentWillMount() {
-    this.unsubscribeFromAbility = ability.on('update', () => {
-      setTimeout(() => this.recheck(), 0)
-    });
+    this.unsubscribeFromAbility = ability.on('updated', () => this.recheck());
     this.recheck();
   }
 

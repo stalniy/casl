@@ -1,7 +1,7 @@
 {
   "name": "@casl/react",
   "version": "0.0.1",
-  "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
+  "description": "React component for CASL which makes it easy to add permissions in any React application",
   "main": "dist/umd/index.js",
   "module": "index.js",
   "es2015": "dist/es6/index.js",
@@ -30,18 +30,14 @@
     ]
   },
   "scripts": {
-    "build.es": "rollup -c ../../tools/rollup.es.js -e vue,@casl/ability",
-    "build.umd": "rollup -c ../../tools/rollup.umd.js -e vue,@casl/ability",
-    "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e vue,@casl/ability",
-    "prebuild": "npm run lint",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
-    "test": "NODE_ENV=test nyc mocha spec/*.spec.js",
-    "coverage": "nyc report --reporter=lcov",
-    "lint": "eslint -c ../../.eslintrc src/",
-    "prerelease": "NODE_ENV=production npm run build && npm test",
-    "release": "standard-version"
+    "build.es": "rollup -c ../../tools/rollup.es.js -e react,@casl/ability",
+    "build.umd": "rollup -c ../../tools/rollup.umd.js -e react,@casl/ability",
+    "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e react,@casl/ability",
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m"
   },
   "keywords": [
+    "casl",
+    "react",
     "access control",
     "authorization",
     "acl",
