@@ -1,14 +1,12 @@
 (function(factory) {
-  if (typeof window === 'object') {
-    window.global = window;
-    factory(window.chai, window);
-  } else if (typeof require === 'function' && typeof module !== 'undefined') {
+  if (typeof require === 'function' && typeof module !== 'undefined') {
     require('chai').use(require('chai-spies'));
     factory(require('chai'), global);
+  } else if (typeof window === 'object') {
+    window.global = window;
+    factory(window.chai, window);
   }
-})(function(chai, global) {
-  global.expect = chai.expect;
-  global.spy = chai.spy;
+})(function(chai) {
   chai.Assertion.addMethod('allow', function(action, subject) {
     const subjectRepresantation = prettifyObject(subject)
     this.assert(
@@ -31,3 +29,4 @@
     return `${object.constructor.name} { ${attrs[0] === '{' ? attrs.slice(1, -1) : attrs} }`
   }
 });
+
