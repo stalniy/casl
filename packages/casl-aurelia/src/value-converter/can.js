@@ -5,9 +5,7 @@ export const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
 export class CanValueConverter {
   signals = [ABILITY_CHANGED_SIGNAL];
 
-  static get inject() {
-    return [Ability];
-  }
+  static inject = [Ability];
 
   constructor(ability) {
     this.ability = ability;
