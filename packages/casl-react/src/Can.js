@@ -6,18 +6,18 @@ const noop = () => {};
 
 export default class Can extends PureComponent {
   static propTypes = {
-    run: PropTypes.string,
-    on: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    run: PropTypes.string.isRequired,
+    on: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     children: PropTypes.any.isRequired,
-    ability: PropTypes.instanceOf(Ability)
+    ability: PropTypes.instanceOf(Ability).isRequired
   };
 
   constructor(...args) {
-    super(...args)
+    super(...args);
 
     this.unsubscribeFromAbility = noop;
     this.state = {
-      ability: this.props.ability || this.__ability
+      ability: this.props.ability,
       allowed: false
     };
   }
@@ -28,7 +28,7 @@ export default class Can extends PureComponent {
 
   componentWillReceiveProps(props) {
     if (props.ability && this.state.ability !== props.ability) {
-      this.connectToAbility(ability);
+      this.connectToAbility(props.ability);
       this.setState({ ability: props.ability });
     }
   }
@@ -43,8 +43,11 @@ export default class Can extends PureComponent {
 
   connectToAbility(ability) {
     this.unsubscribeFromAbility();
-    this.unsubscribeFromAbility = ability.on('updated', () => this.recheck());
-    this.recheck();
+
+    if (ability) {
+      this.unsubscribeFromAbility = ability.on('updated', () => this.recheck());
+      this.recheck();
+    }
   }
 
   recheck() {
