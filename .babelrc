@@ -5,7 +5,9 @@
         ["es2015", { "modules": "commonjs" }]
       ],
       "plugins": [
-        "transform-class-properties"
+        "transform-class-properties",
+        "transform-async-to-generator",
+        "transform-object-rest-spread"
       ]
     }
   }
