@@ -8,7 +8,7 @@ export default {
   },
   plugins: [
     babel({
-      plugins: ['transform-class-properties']
+      plugins: ['transform-class-properties', 'external-helpers']
     })
   ]
 };
