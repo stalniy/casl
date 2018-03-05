@@ -4,15 +4,10 @@ import config from './rollup.es';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 
-const packageDetails = require(`${process.cwd()}/package.json`);
-
 export default Object.assign({}, config, {
   output: {
     file: 'dist/umd/index.js',
     format: 'umd',
-    name: packageDetails.name
-      .slice(1)
-      .replace(/[\/-](\w)/g, (match, letter) => letter.toUpperCase()),
   },
   plugins: config.plugins.concat([
     resolve({

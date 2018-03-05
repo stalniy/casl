@@ -5,17 +5,18 @@
   "main": "dist/umd/index.js",
   "module": "index.js",
   "es2015": "dist/es6/index.js",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
   },
   "scripts": {
     "build.es": "rollup -c ../../tools/rollup.es.js -e sift",
-    "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift",
+    "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift -n casl",
     "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e sift",
     "build.query.es": "rollup -c ../../tools/rollup.es.js -i src/query.js -o dist/es6/query.js",
     "build.query.es5m": "rollup -c ../../tools/rollup.es5m.js -i src/query.js -o query.js",
-    "build.query.umd": "rollup -c ../../tools/rollup.umd.js -i src/query.js -o dist/umd/query.js -n caslQuery",
+    "build.query.umd": "rollup -c ../../tools/rollup.umd.js -i src/query.js -o dist/umd/query.js -n casl.query",
     "build.query": "npm run build.query.es && npm run build.query.es5m && npm run build.query.umd",
     "build": "npm run build.es && npm run build.umd && npm run build.es5m && npm run build.query"
   },
