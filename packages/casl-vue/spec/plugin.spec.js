@@ -13,10 +13,7 @@ describe('Abilities plugin', () => {
   let Component
 
   beforeAll(() => {
-    ability = AbilityBuilder.define(can => {
-      can('read', 'Post')
-      can(['update', 'delete'], 'Post', { userId: 'me' })
-    })
+    ability = AbilityBuilder.define(can => can('read', 'Post'))
     Vue.use(abilitiesPlugin, ability)
 
     Component = Vue.extend({
