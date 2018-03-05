@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "rollup": "rollup -g @angular/core:ng.core,@casl/ability:casl",
     "build.es": "npm run rollup -- -c ../../tools/rollup.es.js",

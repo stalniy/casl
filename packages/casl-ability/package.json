@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build.es": "rollup -c ../../tools/rollup.es.js -e sift",
     "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift -n casl",
