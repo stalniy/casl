@@ -1,4 +1,4 @@
-import { rulesToQuery } from '@casl/ability';
+import { rulesToQuery } from '@casl/ability/query';
 
 function ruleToMongoQuery(rule) {
   return rule.inverted ? { $nor: [rule.conditions] } : rule.conditions;
