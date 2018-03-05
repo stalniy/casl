@@ -1,1 +1,2 @@
-export * from './can'
+export * from './can';
+export * from './module';
