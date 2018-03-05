@@ -10,9 +10,10 @@
     "url": "git@github.com:stalniy/casl.git"
   },
   "scripts": {
-    "build.es": "rollup -c ../../tools/rollup.es.js -e @angular/core,@casl/ability",
-    "build.umd": "rollup -c ../../tools/rollup.umd.js -e @angular/core,@casl/ability",
-    "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e @angular/core,@casl/ability",
+    "rollup": "rollup -g @angular/core:ng.core,@casl/ability:casl",
+    "build.es": "npm run rollup -- -c ../../tools/rollup.es.js",
+    "build.umd": "npm run rollup -- -c ../../tools/rollup.umd.js -n casl.ng",
+    "build.es5m": "npm run rollup -- -c ../../tools/rollup.es5m.js",
     "build": "npm run build.es && npm run build.umd && npm run build.es5m"
   },
   "keywords": [
