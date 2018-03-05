@@ -1,9 +1,8 @@
 language: node_js
 node_js:
-  - 4 # to be removed 2018-04-01
   - 6 # to be removed 2019-04-01
-  - lts/* # safety net; don't remove
-  - node # safety net; don't remove
+  - lts/*
+  - node
 
 before_install:
   - if [[ `npm -v` = 2* ]]; then npm i -g npm@3.10.8; fi
