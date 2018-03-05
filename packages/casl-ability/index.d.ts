@@ -43,5 +43,3 @@ export class AbilityBuilder extends AbilityBuilderParts {
 }
 
 export class ForbiddenError extends Error {}
-
-export function rulesToQuery(rules: Rule[], convert: (rule: Rule) => Object): Object | null
