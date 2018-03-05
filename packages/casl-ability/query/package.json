@@ -1,5 +1,5 @@
 {
-  "name": "@casl/ability/query`",
+  "name": "@casl/ability/query",
   "typings": "./query.d.ts",
   "main": "../dist/umd/query.js",
   "module": "../query.js",
