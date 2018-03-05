@@ -19,8 +19,8 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "prebuild": "npm run lint",
     "build": "lerna run build",
+    "pretest": "npm run lint",
     "test": "NODE_ENV=test jest",
     "lint": "eslint -c .eslintrc packages/*/src",
     "coverage.submit": "codecov"

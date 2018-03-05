@@ -9,8 +9,8 @@ before_install:
   - if [[ `npm -v` = 2* ]]; then npm i -g npm@3.10.8; fi
 
 before_script:
-  - npm run bootstrap
   - npm run build
+  - npm run bootstrap
 
 after_success:
   -  npm run coverage.submit
