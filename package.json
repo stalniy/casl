@@ -61,7 +61,7 @@
     "babel-register": "^6.24.1",
     "chai": "^4.1.0",
     "chai-spies": "^0.7.1",
-    "codecov": "^2.2.0",
+    "codecov": "^2.2.0 || ^3.0.0",
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
