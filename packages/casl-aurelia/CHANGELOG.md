@@ -9,4 +9,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **integration:** adds new folder for vue integration ([24b9957](https://github.com/stalniy/casl/commit/24b9957)), closes [#22](https://github.com/stalniy/casl/issues/22)
+* **integration:** Create package for Aurelia ([ce7a3fc](https://github.com/stalniy/casl/commit/ce7a3fc)), closes [#26](https://github.com/stalniy/casl/issues/26)
