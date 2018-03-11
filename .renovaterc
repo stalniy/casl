@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "pinVersions": false,
+  "separatePatchReleases": false,
+  "ignoreUnstable": true,
+  "versionStrategy": "widen",
+  "automerge": true,
+  "automergeType": "branch-push",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "extends": "monorepo:babel6",
+      "groupName": "babel6 monorepo"
+    },
+    {
+      "packageNames": [
+        "chai",
+        "chai-spies",
+        "mocha"
+      ],
+      "groupName": "mocha"
+    },
+    {
+      "packagePatterns": ["^karma"],
+      "groupName": "karma"
+    },
+    {
+      "packagePatterns": ["^eslint"],
+      "groupName": "eslint"
+    },
+    {
+      "packagePatterns": ["^rollup"],
+      "groupName": "rollup"
+    },
+    {
+      "packagePatterns": ["lerna"],
+      "groupName": "lerna"
+    }
+  ]
+}
