@@ -1,6 +1,5 @@
 # CASL
 
-[![CASL NPM version](https://badge.fury.io/js/casl.svg)](http://badge.fury.io/js/casl)
 [![CASL Build Status](https://travis-ci.org/stalniy/casl.svg?branch=master)](https://travis-ci.org/stalniy/casl)
 [![CASL  codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
 [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl)
@@ -20,11 +19,11 @@ npm install casl --save
 
 ## Features
 * supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, field dot notation)
-* can construct MongoDB query based on defined abilities
-* supports direct and inverted rules
-* provides [mongoose](https://github.com/Automattic/mongoose) plugin
-* can be easily integrated with any data storage
+* supports direct and inverted rules (i.e., `can` & `cannot`)
 * provides ES6 build, so you are able to shake out unused functionality
+* has integration with all major frontend frameworks ([@casl/vue](packages/casl-vue), [@casl/react](packages/casl-react), [@casl/angular](packages/casl-angular), [@casl/aurelia](packages/casl-aurelia))
+* [@casl/mongoose](packages/casl-mongoose) provides [mongoose](https://github.com/Automattic/mongoose) plugin which can construct query to MongoDB based on CASL rules
+* can be easily integrated with any data storage
 
 ## Getting started
 
@@ -43,7 +42,7 @@ Lets define `Ability` for a blog website where visitors:
 * cannot delete post if it has at least 1 comment
 
 ```js
-import { AbilityBuilder } from 'casl'
+import { AbilityBuilder } from '@casl/ability'
 
 const ability = AbilityBuilder.define((can, cannot) => {
   can('read', 'all')
@@ -67,7 +66,7 @@ ability.cannot('read', post)
 ```
 Also there is a conveninse method `throwUnlessCan` which throws `ForbiddenError` exception in case if action is not allowed on target object:
 ```js
-import { ForbiddenError } from 'casl'
+import { ForbiddenError } from '@casl/ability'
 
 try {
   ability.throwUnlessCan('delete', post)
@@ -81,10 +80,11 @@ See [Check Abilities][check-abilities] for details.
 
 ### 3. MongoDB integration
 
-CASL provides easy integration with MongoDB database.
+CASL has a complementary package [@casl/mongoose](packages/casl-mongoose) which provides easy integration with MongoDB database.
 
 ```js
-const { toMongoQuery, AbilityBuilder } = require('casl')
+const { AbilityBuilder } = require('@casl/ability')
+const { toMongoQuery } = require('@casl/mongoose')
 const { MongoClient } = require('mongodb')
 
 const ability = AbilityBuilder.define(can => {
@@ -98,13 +98,14 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
 })
 ```
 
-And if you use [mongoose](https://github.com/Automattic/mongoose), you are lucky because CASL provides mongoose middleware which hides all boilerplate under convenient `accessibleBy` method.
+And if you use [mongoose](https://github.com/Automattic/mongoose), you are lucky because that package provides mongoose middleware which hides all boilerplate under convenient `accessibleBy` method.
 
 ```js
-const { mongoosePlugin, AbilityBuilder } = require('casl')
+const { AbilityBuilder } = require('@casl/ability')
+const { abilitiesPlugin } = require('@casl/mongoose')
 const mongoose = require('mongoose')
 
-mongoose.plugin(mongoosePlugin)
+mongoose.plugin(abilitiesPlugin)
 
 const ability = AbilityBuilder.define(can => {
   can('read', 'Post', { author: 'me' })
@@ -130,29 +131,13 @@ See [Database integration][database-integration] for details.
 
 ### 4. UI integration
 
-CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in application.
+CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in the application. 
 
-```js
-import { Ability } from 'casl'
-
-export class Session {
-  constructor() {
-    this.ability = new Ability()
-  }
-
-  find() {
-    return fetch('https://domain.com/session')
-      .then(session => this.ability.update(session.rules))
-  }
-
-  destroy() {
-    return fetch('https://domain.com/session', { method: 'DELETE' })
-      .then(() => this.ability.update([]))
-  }
-}
-```
-
-Read [CASL in Aurelia app][casl-aurelia-example] or [Vue ACL with CASL][casl-vue-example] for details.
+There are also complementary libraries for major frontend frameworks which makes integration of CASL super easy in your application. Pick the package for your application and protect it with the power of CASL:
+* [@casl/vue](packages/casl-vue) for [Vue][vuejs]
+* [@casl/react](packages/casl-react) for [React][react]
+* [@casl/angular](packages/casl-angular) for [Angular 2+][angular] 
+* [@casl/aurelia](packages/casl-aurelia) for [Aurelia][aurelia]
 
 ## Documentation
 
@@ -162,8 +147,9 @@ A lot of useful information about CASL can be found in [documentation][documenta
 
 There are several repositories which show how to integrate CASL in popular frontend and backend frameworks:
 * [CASL and Vue](https://github.com/stalniy/casl-vue-example)
-* [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
 * [CASL and React](https://github.com/stalniy/casl-react-example)
+* [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
+* [CASL and Angular](https://github.com/stalniy/casl-angular-example)
 * [CASL and Expressjs](https://github.com/stalniy/casl-express-example)
 * [CASL and Feathersjs](https://github.com/stalniy/casl-feathersjs-example)
 
@@ -179,7 +165,6 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
-[casl-aurelia-example]: https://medium.com/@sergiy.stotskiy/casl-based-authorization-in-aurelia-app-3e44c0fe1703
 [casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
 [documentation]: https://stalniy.github.io/casl/
 [mongoose]: http://mongoosejs.com/
@@ -192,3 +177,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
 [ionic]: https://ionicframework.com
+[aurelia]: http://aurelia.io
