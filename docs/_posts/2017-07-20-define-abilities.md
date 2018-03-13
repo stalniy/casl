@@ -9,7 +9,7 @@ The `Ability` class is where all user permissions are defined. You can create `A
 
 `AbilityBuilder` allows to define rules in DSL-like style with help of `can` and `cannot` functions:
 ```js
-import { AbilityBuilder } from 'casl'
+import { AbilityBuilder } from '@casl/ability'
 
 function defineAbilitiesFor(user) {
   return AbilityBuilder.define((can, cannot) => {
@@ -25,7 +25,7 @@ function defineAbilitiesFor(user) {
 If you don't like nesting, you can alternatively use `extract` method:
 
 ```js
-import { AbilityBuilder, Ability } from 'casl'
+import { AbilityBuilder, Ability } from '@casl/ability'
 
 function defineAbilitiesFor(user) {
   const { rules, can, cannot } = AbilityBuilder.extract()
@@ -75,7 +75,7 @@ interface Rule {
 Rule should have `inverted` set to `true` in case if it forbids to perform specified action. For example, the next list of rules allows to manage `all` models and disallows to `delete` posts:
 
 ```js
-import { Ability } from 'casl'
+import { Ability } from '@casl/ability'
 
 const ability = new Ability([
   { subject: 'all', actions: 'manage' },
@@ -99,6 +99,15 @@ can('read', 'all')     // user can read any object
 can('manage', 'all')   // user can perform any action on any object
 ```
 
+`all` subject has lower priority than specific subject. In the example below user is able to read only public posts and any objects.
+
+```js
+can('read', 'all')
+can('read', 'Post', { public: true })
+```
+
+So the specific rule for `Post`, overwrites more general `all` rule, despite the order.
+
 You can pass an array for either of these parameters to match any one. For example, here the user will have the ability to `update` or `delete` both posts and comments.
 
 ```js
@@ -112,7 +121,7 @@ Common actions are `read`, `create`, `update` and `delete` but it can be anythin
 To define a new alias you can use `addAlias` method which accepts 2 arguments: alias name and one or few action names. For example, here we define `modify` alias to `update` and `delete`
 
 ```js
-import { Ability, AbilityBuilder } from 'casl'
+import { Ability, AbilityBuilder } from '@casl/ability'
 
 Ability.addAlias('modify', ['update', 'delete'])
 AbilityBuilder.define(can => {
