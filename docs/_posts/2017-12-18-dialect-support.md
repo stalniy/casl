@@ -9,7 +9,7 @@ tags: [dialect, es5, typescript]
 CASL is written in pure ES6 and compiled for 3 different dialects:
 - UMD
 - single ES6 module
-- ES5 with ES6 modules (i.e. import/export)
+- ES5 with ES6 modules (i.e. `import/export`, so called ES5m)
 
 Also CASL provides typings for Typescript, so it can be easily used for enterprise apps and by those who prefers strict typing.
 
@@ -19,7 +19,7 @@ UMD is basically just an ES5 compiled version with helper funciton which allows 
 such as browser or Node.js without help of bundlers such as webpack, browserify or rollup  (dist/umd/index.js).
 
 ```js
-var casl = require('casl')
+var casl = require('@casl/ability')
 var ability = casl.AbilityBuilder.define(function(can, cannot) {
   can('read', 'all')
   can('manage', 'Post', { author: loggedInUser.id })
@@ -32,7 +32,7 @@ console.log(ability.can('read', 'Post'))
 Alternatively you can access `Ability` constructor:
 
 ```js
-var casl = require('casl')
+var casl = require('@casl/ability')
 var rules = [....]
 var ability = new casl.Ability(rules)
 
@@ -44,7 +44,7 @@ console.log(ability.can('read', 'Post'))
 Those who are working on top of the latest browsers are able to use ES6 version of CASL (dist/es6/index.js).
 
 ```js
-import { AbilityBuilder } from 'casl'
+import { AbilityBuilder } from '@casl/ability'
 
 const ability = AbilityBuilder.define((can, cannot) => {
   can('read', 'all')
@@ -66,7 +66,7 @@ but contains `export` statements which allow webpack to understand what can be d
 Typings for TypeScript can be found in `index.ts`. They allow to use CASL in strict typed apps
 
 ```ts
-import { AbilityBuilder, Ability } from 'casl'
+import { AbilityBuilder, Ability } from '@casl/ability'
 
 const ability: Ability = AbilityBuilder.define((can, cannot) => {
   can('read', 'all')
@@ -77,3 +77,5 @@ const ability: Ability = AbilityBuilder.define((can, cannot) => {
 
 const canPublishPost: boolean = ability.can('publish', 'Post')
 ```
+
+All complementary `@casl/*` packages supports the same versions (except of `@casl/mongoose`, which doesn't need ES5m build)
