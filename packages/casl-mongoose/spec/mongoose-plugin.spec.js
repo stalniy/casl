@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '@casl/ability'
-import { mongoosePlugin, toMongoQuery } from '../src'
+import { accessibleRecordsPlugin, toMongoQuery } from '../src'
 
 class PostQuery {
   get modelName() {
@@ -26,7 +26,7 @@ describe('Mongoose Plugin', () => {
   let ability
 
   beforeEach(() => {
-    schema = mongoosePlugin({
+    schema = accessibleRecordsPlugin({
       statics: new PostQuery(),
       query: new PostQuery()
     })

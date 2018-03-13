@@ -12,7 +12,7 @@ function accessibleBy(ability, action = 'read') {
   return query === null ? emptyQuery(this.find()) : this.find(query);
 }
 
-export function mongoosePlugin(schema) {
+export function accessibleRecordsPlugin(schema) {
   schema.query.accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
   return schema;
