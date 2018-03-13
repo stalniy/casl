@@ -5,7 +5,7 @@ date:   2017-07-22 19:00:48 +0300
 categories: [abilities, database, integration]
 ---
 
-Sometimes you need to restrict which records are returned from the database based on what the user is able to access. CASL provides built-in integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
+Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. And there is a complementary package [@casl/mongoose](/packages/casl-mongoose) which provides integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
 
 ## Mongoose plugin
 
@@ -13,9 +13,9 @@ In order to restrict fetched records, you need to add CASL plugin into mongoose 
 
 ```js
 const mongoose = require('mongoose')
-const { mongoosePlugin } = require('casl')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
 
-mongoose.plugin(mongoosePlugin)
+mongoose.plugin(accessibleRecordsPlugin)
 ```
 
 If you include plugin globally (i.e., for all models), please make sure that you added it before calling `mongoose.model(...)` method. Models which were defined before adding plugin will not have CASL defined methods.
@@ -24,7 +24,7 @@ Alternatively you can include CASL plugin for each model manually:
 
 ```js
 const mongoose = require('mongoose')
-const { mongoosePlugin } = require('casl')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
 
 const Post = new mongoose.Schema({
   title: String,
@@ -33,7 +33,7 @@ const Post = new mongoose.Schema({
   createdAt: Date
 })
 
-Post.plugin(mongoosePlugin)
+Post.plugin(accessibleRecordsPlugin)
 
 module.exports = mongoose.model('Post', Post)
 ```
@@ -99,13 +99,12 @@ const ability = AbilityBuilder.define((can, cannot) => {
 Post.accessibleBy(ability)
 ```
 
-
 ## Other MongoDB libraries
 
 Don't worry if you don't use mongoose, CASL also provide `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
 
 ```js
-const { toMongoQuery } = require('casl')
+const { toMongoQuery } = require('@casl/mongoose')
 
 MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
   const rules = ability.rulesFor('read', 'Post')
@@ -123,14 +122,14 @@ As you can see rules for specified action and subject can be retrieved with help
 CASL provides 2 methods which can be used to add support for other libraries and databases:
 
 * `rulesFor` method of `Ability` instance which was described above
-* `rulesToQuery` function
+* `rulesToQuery` function (in separate `@casl/ability/extra` submodule)
 
 `rulesToQuery` accepts two arguments: rules to process and conversion function which accepts rule as the only argument. The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
 
 So, the only thing which needs to be written is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
 
 ```js
-const { rulesToQuery } = require('casl')
+const { rulesToQuery } = require('@casl/ability/extra')
 
 function ruleToQuery(rule) {
   if (JSON.stringify(rule.conditions).includes('$all:')) {
