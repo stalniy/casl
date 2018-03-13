@@ -1,6 +1,6 @@
 {
   "name": "@casl/react",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "React component for CASL which makes it easy to add permissions in any React application",
   "main": "dist/umd/index.js",
   "module": "index.js",
@@ -40,7 +40,7 @@
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^2.0.0",
+    "@casl/ability": "^2.0.0-alpha.1",
     "check-prop-types": "^1.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.3.0-alpha.1",
