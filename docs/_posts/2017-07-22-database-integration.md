@@ -5,11 +5,11 @@ date:   2017-07-22 19:00:48 +0300
 categories: [abilities, database, integration]
 ---
 
-Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. And there is a complementary package [@casl/mongoose](/packages/casl-mongoose) which provides integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
+Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. To do this, you can use the complementary package [@casl/mongoose](/packages/casl-mongoose) which provides integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
 
 ## Mongoose plugin
 
-In order to restrict fetched records, you need to add CASL plugin into mongoose globally (recommended way) or add it for each model separately.
+In order to restrict fetched records, you need to add `accessibleRecordsPlugin` plugin into mongoose globally (recommended way) or add it for each model separately.
 
 ```js
 const mongoose = require('mongoose')
@@ -20,7 +20,7 @@ mongoose.plugin(accessibleRecordsPlugin)
 
 If you include plugin globally (i.e., for all models), please make sure that you added it before calling `mongoose.model(...)` method. Models which were defined before adding plugin will not have CASL defined methods.
 
-Alternatively you can include CASL plugin for each model manually:
+Alternatively you can include this plugin for each model manually:
 
 ```js
 const mongoose = require('mongoose')
@@ -101,7 +101,7 @@ Post.accessibleBy(ability)
 
 ## Other MongoDB libraries
 
-Don't worry if you don't use mongoose, CASL also provide `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
+Don't worry if you use another MongoDB library, `@casl/mongoose` also exports `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
 
 ```js
 const { toMongoQuery } = require('@casl/mongoose')
@@ -115,7 +115,7 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
 ```
 
 As you can see rules for specified action and subject can be retrieved with help of `rulesFor` method (the second argument is processed by `subjectName` function, see [Defining Abilities][defining-abilities] for details).
-**Important**: `toMongoQuery` returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
+**Important**: `toMongoQuery` returns `null` in case if `rules` array is empty or there is an inverted rule without conditions. In that case, user doesn't have permission to get access to requested information.
 
 ## Other databases
 
