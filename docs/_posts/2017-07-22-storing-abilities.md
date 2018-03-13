@@ -17,7 +17,7 @@ categories: [abilities, storage]
 
 ```js
 const LruCache = require('lru-cache')
-const { AbilityBuilder } = require('casl')
+const { AbilityBuilder } = require('@casl/ability')
 
 function defineAbilitiesFor(user) {
   return AbilityBuilder.define(can => {
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 If application uses stored sessions and LRU cache doesn't satisfy business requirements, you can store abilities in session (e.g., Redis, Memcached)
 
 ```js
-const { Ability } = require('casl')
+const { Ability } = require('@casl/ability')
 
 app.use(express.session({ store: new RedisStore() }))
 app.use((req, res, next) => {
@@ -67,7 +67,7 @@ You can also store abilities in JWT token:
 
 ```js
 const jwt = require('jsonwebtoken')
-const { Ability } = require('casl')
+const { Ability } = require('@casl/ability')
 
 // passport initialization
 
@@ -128,7 +128,7 @@ The most optimal way is to store abilities as a json string because eventually y
 In the example above I used ES6 style variable interpolation and will parse this template using [reviver argument of JSON.parse][json-reviver] and `lodash.get` package:
 
 ```js
-const { Ability } = require('casl')
+const { Ability } = require('@casl/ability')
 const getByPath = require('lodash.get')
 
 function parseJSON(template, variables) {
