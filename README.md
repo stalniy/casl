@@ -99,10 +99,10 @@ And if you use [mongoose](https://github.com/Automattic/mongoose), you are lucky
 
 ```js
 const { AbilityBuilder } = require('@casl/ability')
-const { abilitiesPlugin } = require('@casl/mongoose')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
 const mongoose = require('mongoose')
 
-mongoose.plugin(abilitiesPlugin)
+mongoose.plugin(accessibleRecordsPlugin)
 
 const ability = AbilityBuilder.define(can => {
   can('read', 'Post', { author: 'me' })
@@ -128,12 +128,12 @@ See [Database integration][database-integration] for details.
 
 ### 4. UI integration
 
-CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in the application. 
+CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in the application.
 
 There are also complementary libraries for major frontend frameworks which makes integration of CASL super easy in your application. Pick the package for your application and protect it with the power of CASL:
 * [@casl/vue](packages/casl-vue) for [Vue][vuejs]
 * [@casl/react](packages/casl-react) for [React][react]
-* [@casl/angular](packages/casl-angular) for [Angular 2+][angular] 
+* [@casl/angular](packages/casl-angular) for [Angular 2+][angular]
 * [@casl/aurelia](packages/casl-aurelia) for [Aurelia][aurelia]
 
 ## Documentation
