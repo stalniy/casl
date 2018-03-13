@@ -166,8 +166,7 @@ And fetch accessible records from database:
 Post.scope({ method: ['accessibleBy', ability] }).findAll()
 ```
 
-**Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. User `ability.rulesFor(action, subject)` to retrieve rules for specific action and subject.
-They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
+**Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions. And when they return `null` that means user is not able to acess that information and should return empty set (either `null` for single record request or empty array for multiple records request)
 
 
 [defining-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}
