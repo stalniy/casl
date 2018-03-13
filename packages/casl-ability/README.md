@@ -97,6 +97,28 @@ jwt.sign(payload, secret, (error, token) => {
 })
 ```
 
+### 4. Extra
+
+This package also provides `@casl/ability/extra` submodule which contains helper functions that can construct a database query based on permissions
+or extract information some information from them.
+
+```js
+import { rulesToQuery } from '@casl/ability/extra'
+
+function ruleToSequelizeQuery(rule) {
+  return rule.inverted ? { not: rule.conditions } : rule.conditions
+}
+
+function toSequelizeQuery(rules) {
+  return rulesToQuery(rules, ruleToSequelizeQuery)
+}
+
+// now you can construct sequelize query based on Ability
+const query = toSequelizeQuery(ability.rulesFor('read', 'Post'))
+```
+
+In similar way [@casl/mongoose](/packages/casl-mongoose) constructs queries to MongoDB database
+
 See [Storing Abilities][storing-abilities] for details.
 
 ## Want to help?
