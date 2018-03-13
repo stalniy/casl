@@ -99,15 +99,6 @@ can('read', 'all')     // user can read any object
 can('manage', 'all')   // user can perform any action on any object
 ```
 
-`all` subject has lower priority than specific subject. In the example below user is able to read only public posts and any objects.
-
-```js
-can('read', 'all')
-can('read', 'Post', { public: true })
-```
-
-So the specific rule for `Post`, overwrites more general `all` rule, despite the order.
-
 You can pass an array for either of these parameters to match any one. For example, here the user will have the ability to `update` or `delete` both posts and comments.
 
 ```js
