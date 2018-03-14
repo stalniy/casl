@@ -1,5 +1,10 @@
 # CASL Mongoose
 
+[![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose)
+[![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/)
+[![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
 This package connects CASL and MongoDB. Basically it allows to fetch records based on CASL rules from MongoDB. That means you can easily answer on the question: "Which records can be read?" or "Which records can be updated?". Lets see how
 
 ## Getting Started
@@ -38,12 +43,12 @@ Afterwards you can fetch accessible records by doing this:
 
 ```js
 const Post = require('./post.model')
-const ability = require('./ability')
+const ability = require('./ability') // defines Ability instance
 
 Post.accessibleBy(ability).exec()
 ```
 
-Check [@casl/ability](/packages/casl-ability) to understand how to define abilities.
+Check [@casl/ability](/packages/casl-ability) package to understand how to define abilities.
 
 ### 2. Integrate with any MongoDB library
 
@@ -74,6 +79,11 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
 
 See [Database integration][database-integration] for details
 
+## Want to help?
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+
+[contributing]: /CONTRIBUTING.md
 [mongoose]: http://mongoosejs.com/
 [mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
