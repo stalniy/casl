@@ -7,6 +7,12 @@
 This package is the core of CASL. It includes logic responsible for [checking][check-abilities] and [defining][define-abilities] permissions.
 Also it includes `@casl/ability/extra` submodule which contains functions that allow to extract infromation from ability (e.g., convert rules to database query)
 
+## Installation
+
+```js
+npm install @casl/ability
+```
+
 ## Getting Started
 
 CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
