@@ -5,11 +5,10 @@
 [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This package is the core of CASL. It includes logic responsible for [checking][check-abilities] and [defining][define-abilities] permissions.
-Also it includes `@casl/ability/extra` submodule which contains functions that allow to extract infromation from ability (e.g., convert rules to database query)
 
 ## Installation
 
-```js
+```sh
 npm install @casl/ability
 ```
 
@@ -19,7 +18,7 @@ CASL concentrates all attention at what a user can actually do and allows to cre
 
 ### 1. Defining Abilities
 
-This package provides `AbilityBuilder` allows to define abilities using DSL.
+`AbilityBuilder` allows to define abilities using DSL:
 
 ```js
 import { AbilityBuidler } from '@casl/abiltiy'
@@ -82,9 +81,9 @@ ability.cannot('update', post)
 
 See [Check Abilities][check-abilities] for details.
 
-### 3. Serialize rules
+### 3. Serializing rules
 
-As rules are plain objects, they can be easily serialized and [cached in session or JWT token][cache-rules] or even [saved to any database][store-rules] and added dynamically later by admmin.
+As rules are plain objects, they can be easily serialized and cached in session or JWT token or even [saved to any database][store-rules] and added dynamically later in admin panel.
 
 ```js
 const jwt = require('jsonwebtoken')
@@ -103,10 +102,11 @@ jwt.sign(payload, secret, (error, token) => {
 })
 ```
 
+See [Caching Abilities][cache-rules] for details.
+
 ### 4. Extra
 
-This package also provides `@casl/ability/extra` submodule which contains helper functions that can construct a database query based on permissions
-or extract information some information from them.
+This package also provides `@casl/ability/extra` submodule which contains helper functions that can construct a database query based on permissions or extract some information from them.
 
 ```js
 import { rulesToQuery } from '@casl/ability/extra'
@@ -123,7 +123,7 @@ function toSequelizeQuery(rules) {
 const query = toSequelizeQuery(ability.rulesFor('read', 'Post'))
 ```
 
-In similar way [@casl/mongoose](/packages/casl-mongoose) constructs queries to MongoDB database
+[@casl/mongoose](/packages/casl-mongoose) uses `rulesToQuery` function to construct queries to MongoDB database.
 
 See [Storing Abilities][storing-abilities] for details.
 
@@ -133,7 +133,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
-[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
+[contributing]: /CONTRIBUTING.md
 [storing-abilities]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html
 [store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
 [cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
