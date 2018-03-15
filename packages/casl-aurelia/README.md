@@ -1,4 +1,4 @@
-# CASL Angular
+# CASL Aurelia
 
 [![@casl/aurelia NPM version](https://badge.fury.io/js/%40casl%2Faurelia.svg)](https://badge.fury.io/js/%40casl%2Faurelia)
 [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/)
