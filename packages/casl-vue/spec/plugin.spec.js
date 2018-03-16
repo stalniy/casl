@@ -1,21 +1,15 @@
-import Vue from 'vue'
-import { AbilityBuilder } from '@casl/ability'
+import { createLocalVue } from '@vue/test-utils'
+import { AbilityBuilder, Ability } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
-
-class Post {
-  constructor(attrs) {
-    Object.assign(this, attrs)
-  }
-}
 
 describe('Abilities plugin', () => {
   let ability
   let Component
+  let Vue
+  let vm
 
-  beforeAll(() => {
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
-    Vue.use(abilitiesPlugin, ability)
-
+  beforeEach(() => {
+    Vue = createLocalVue()
     Component = Vue.extend({
       props: {
         post: { default: () => new Post() }
@@ -26,16 +20,38 @@ describe('Abilities plugin', () => {
     })
   })
 
-  it('defines `$can` for each component', () => {
-    const vm = new Component()
+  describe('when ability is provided', () => {
+    beforeEach(() => {
+      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      Vue.use(abilitiesPlugin, ability)
+      vm = new Component()
+    })
 
-    expect(vm.$can).to.be.a('function')
+    it('defines `$can` for each component', () => {
+      expect(vm.$can).to.be.a('function')
+    })
+
+    it('defines `$ability` instance for all components', () => {
+      expect(vm.$ability).to.equal(ability)
+    })
+  })
+
+  describe('when ability is not provided', () => {
+    beforeEach(() => {
+      Vue.use(abilitiesPlugin)
+      vm = new Component()
+    })
+
+    it('defines empty `$ability` instance for all components', () => {
+      expect(vm.$ability).to.be.instanceof(Ability)
+      expect(vm.$ability.rules).to.be.empty
+    })
   })
 
   describe('`$can`', () => {
-    let vm
-
     beforeEach(() => {
+      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      Vue.use(abilitiesPlugin, ability)
       vm = new Component().$mount()
     })
 
@@ -61,4 +77,10 @@ describe('Abilities plugin', () => {
       })
     })
   })
+
+  class Post {
+    constructor(attrs) {
+      Object.assign(this, attrs)
+    }
+  }
 })
