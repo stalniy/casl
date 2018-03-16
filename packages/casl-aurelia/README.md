@@ -33,7 +33,7 @@ export function configure(aurelia) {
 
 ### 2. Defining Abilities
 
-This plugin provides an empty `Ability` instance, so you either need to provide your own or update existing one. In case if you want to provide your own, just define it using `AbilityBuilder` (or whatever way you prefer):
+By default, this package provides an empty `Ability` instance, so you either need to update provided one or provide your own. In case if you want to provide your own, just define it using `AbilityBuilder` (or whatever way you prefer):
 
 ```js
 // ability.js
@@ -44,7 +44,7 @@ export const ability = AbilityBuilder.define(can => {
 })
 ```
 
-Later in you can register your `Ability` in dependency injection container:
+Later you can register your `Ability` in dependency injection container:
 
 ```js
 import { Ability } from '@casl/ability'
@@ -61,7 +61,16 @@ export function configure(aurelia) {
 }
 ```
 
-Alternatively, you can just inject existing instance and update rules. 
+Also it's possible to provide `Ability` instance as plugin argument:
+
+```js
+aurelia.use
+  .standardConfiguration()
+  .developmentLogging()
+  .plugin('@casl/aurelia', ability)
+```
+
+Alternatively, you can just inject existing instance and update rules.
 Imagine that we have a `Session` service which is responsible for user login/logout functionality. Whenever user login, we need to update ability rules with rules which server returns and reset them back on logout. Lets do this:
 
 ```js
@@ -75,7 +84,7 @@ export class Session {
     this.ability = ability
     this.token = ''
   }
-  
+
   login(details) {
     return fetch('path/to/api/login', { methods: 'POST', body: JSON.stringify(details) })
       .then(response => response.json())
@@ -84,7 +93,7 @@ export class Session {
         this.token = session.token
       })
   }
-  
+
   logout() {
     this.token = ''
     this.ability.update([])
