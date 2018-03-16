@@ -1,6 +1,8 @@
+import { signalBindings } from 'aurelia-binding';
 import { Ability } from '@casl/ability';
 
-export const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
+const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
+const ABILITY_HAS_SUBSCRIPTION_FIELD = typeof Symbol === 'undefined' ? `__hasAuSubscription${Date.now()}` : Symbol('hasAuSubscription')
 
 export class CanValueConverter {
   signals = [ABILITY_CHANGED_SIGNAL];
@@ -12,6 +14,11 @@ export class CanValueConverter {
   }
 
   toView(subject, action) {
+    if (!this.ability[ABILITY_HAS_SUBSCRIPTION_FIELD]) {
+      this.ability.on('updated', () => signalBindings(ABILITY_CHANGED_SIGNAL));
+      this.ability[ABILITY_HAS_SUBSCRIPTION_FIELD] = true
+    }
+
     return this.ability.can(action, subject);
   }
 }
