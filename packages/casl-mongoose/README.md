@@ -8,8 +8,8 @@ This package connects CASL and MongoDB. Basically it allows to fetch records bas
 
 ## Installation
 
-```js
-npm install @casl/mongoose
+```sh
+npm install @casl/mongoose @casl/ability
 ```
 
 ## Getting Started
@@ -67,17 +67,17 @@ const ability = require('./ability') // allows to update posts if author equals 
 MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
   if (err) {
     return console.error(err)
-  } 
+  }
 
   const rules = ability.rulesFor('update', 'Post')
   const query = toMongoQuery(rules) // e.g., { $or: [{ author: 'me' }] }
-  
+
   if (query === null) {
     // user is not allowed to update any posts
   } else {
     db.collection('posts').find(query) // find all Posts where author equals 'me'
   }
-  
+
   db.close();
 })
 ```
