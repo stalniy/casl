@@ -1,6 +1,6 @@
 {
   "name": "@casl/aurelia",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0f34c7ca",
   "description": "Aurelia plugin for CASL which makes it easy to add permissions in any Aurelia application",
   "main": "dist/umd/index.js",
   "module": "index.js",
@@ -39,7 +39,7 @@
     "aurelia-binding": "^1.6.0"
   },
   "devDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0-alpha.0f34c7ca",
     "aurelia-bootstrapper": "^2.2.0",
     "aurelia-loader-nodejs": "^1.0.1",
     "aurelia-pal-browser": "^1.4.0",

@@ -23,7 +23,8 @@
     "pretest": "npm run lint",
     "test": "NODE_ENV=test jest",
     "lint": "eslint -c .eslintrc packages/*/src",
-    "coverage.submit": "codecov"
+    "coverage.submit": "codecov",
+    "release": "lerna publish --conventional-commits"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
