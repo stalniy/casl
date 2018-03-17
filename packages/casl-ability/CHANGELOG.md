@@ -1,6 +1,16 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="2.0.0-alpha.0f34c7ca"></a>
+# [2.0.0-alpha.0f34c7ca](https://github.com/stalniy/casl/compare/@casl/ability@2.0.0...@casl/ability@2.0.0-alpha.0f34c7ca) (2018-03-17)
+
+### Breaking Changes
+
+* **ability:** subject specific rules now takes precedence over `all` rules
+* **rulesToQuery:** moves `rulesToQuery` into submodule `@casl/ability/extra`
+* **mongoose:** moves mongo related functions into separate `@casl/mongoose` package
 
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/stalniy/casl/compare/v1.0.6...v1.1.0) (2018-02-02)

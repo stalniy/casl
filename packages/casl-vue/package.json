@@ -1,6 +1,6 @@
 {
   "name": "@casl/vue",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0f34c7ca",
   "description": "Vue plugin for CASL which makes it easy to add permissions in any Vue application",
   "main": "dist/umd/index.js",
   "module": "index.js",
@@ -39,7 +39,7 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0-alpha.0f34c7ca",
     "@vue/test-utils": "^1.0.0-beta.12",
     "vue": "^2.5.13",
     "vue-template-compiler": "^2.5.13"

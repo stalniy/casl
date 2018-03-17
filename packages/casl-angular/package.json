@@ -1,6 +1,6 @@
 {
   "name": "@casl/angular",
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.0f34c7ca",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular application",
   "main": "dist/umd/index.js",
   "module": "index.js",
@@ -44,7 +44,7 @@
     "@angular/core": "latest",
     "@angular/platform-browser": "^5.2.7",
     "@angular/platform-browser-dynamic": "^5.2.7",
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0-alpha.0f34c7ca",
     "jest-zone-patch": "0.0.8",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.20"
