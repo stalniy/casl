@@ -10,12 +10,6 @@ CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization Ja
 
 Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
-## Installation
-
-```sh
-npm install casl --save
-```
-
 ## Features
 
 * supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, field dot notation)
