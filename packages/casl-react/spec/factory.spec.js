@@ -20,13 +20,13 @@ describe('Factory methods which create `Can` component', () => {
     })
 
     it('creates another component with bound ability instance', () => {
-      const component = renderer.create(e(BoundCan, { run: 'read', on: 'Post' }, child))
+      const component = renderer.create(e(BoundCan, { do: 'read', on: 'Post' }, child))
 
       expect(component.toJSON().children).to.deep.equal([child().props.children])
     })
 
     it('extends `Can` component', () => {
-      const component = renderer.create(e(BoundCan, { run: 'read', on: 'Post' }, child))
+      const component = renderer.create(e(BoundCan, { do: 'read', on: 'Post' }, child))
       const instance = component.getInstance()
 
       expect(instance).to.be.instanceof(Can)
@@ -35,7 +35,7 @@ describe('Factory methods which create `Can` component', () => {
 
     it('allows to override ability by passing "ability" property', () => {
       const anotherAbility = AbilityBuilder.define(can => can('update', 'Post'))
-      const component = renderer.create(e(BoundCan, { run: 'read', on: 'Post', ability: anotherAbility }, child))
+      const component = renderer.create(e(BoundCan, { do: 'read', on: 'Post', ability: anotherAbility }, child))
 
       expect(component.toJSON()).to.be.empty
     })
@@ -51,7 +51,7 @@ describe('Factory methods which create `Can` component', () => {
     })
 
     it('allows to override `Ability` instance by passing it in props', () => {
-      const element = e(ContextualCan, { run: 'read', on: 'Post', ability }, child)
+      const element = e(ContextualCan, { do: 'read', on: 'Post', ability }, child)
       const component = renderer.create(element)
 
       expect(child).to.have.been.called.with.exactly(ability)
@@ -59,7 +59,7 @@ describe('Factory methods which create `Can` component', () => {
 
     it('expects `Ability` instance to be provided by context Provider', () => {
       const App = e(AbilityContext.Provider, { value: ability },
-        e(ContextualCan, { run: 'read', on: 'Post' }, child)
+        e(ContextualCan, { do: 'read', on: 'Post' }, child)
       )
       const component = renderer.create(App)
 

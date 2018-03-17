@@ -16,14 +16,14 @@ npm install @casl/react @casl/ability
 
 This package provides `Can` component which can be used to conditionally show UI elements based on user abilities.
 This component accepts children and 3 properties:
-* `run` - name of the action
+* `do` - name of the action
 * `on` - checked subject
 * `ability` - an instance of `Ability` which will be used to check permissions
 
 `children` property may be either a render function (a recommended way):
 
 ```jsx
-<Can run="create" on="Post" ability={ability}>
+<Can do="create" on="Post" ability={ability}>
   () => <button onClick={this.createPost.bind(this)}>Create Post</button>
 </Can>
 ```
@@ -31,7 +31,7 @@ This component accepts children and 3 properties:
 or React elements:
 
 ```jsx
-<Can run="create" on="Post" ability={ability}>
+<Can do="create" on="Post" ability={ability}>
   <button onClick={this.createPost.bind(this)}>Create Post</button>
 </Can>
 ```
@@ -48,7 +48,7 @@ There are 2 function which allow to scope `Can` to use a particular instance of 
 * `createCanBoundTo`
 * `createContextualCan`
 
-The first function just creates a new component which is bound to a particular ability and accepts only 2 properties: `run` and `on`:
+The first function just creates a new component which is bound to a particular ability and accepts only 2 properties: `do` and `on`:
 
 ```js
 // Can.js
@@ -65,7 +65,7 @@ import Can from './Can'
 
 export function button() {
   return (
-    <Can run="create" on="Post">
+    <Can do="create" on="Post">
       () => <button onClick={this.createPost.bind(this)}>Create Post</button>
     </Can>
   )
@@ -111,7 +111,7 @@ export class TodoApp extends Component {
 
   render() {
     return (
-      <Can run="create" on="Todo">
+      <Can do="create" on="Todo">
         () => <button onClick={this.createTodo.bind(this)}>Create Todo</button>
       </Can>
     )

@@ -6,7 +6,7 @@ const noop = () => {};
 
 export default class Can extends PureComponent {
   static propTypes = {
-    run: PropTypes.string.isRequired,
+    do: PropTypes.string.isRequired,
     on: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired
@@ -55,7 +55,7 @@ export default class Can extends PureComponent {
   }
 
   check() {
-    return this.state.ability.can(this.props.run, this.props.on);
+    return this.state.ability.can(this.props.do, this.props.on);
   }
 
   render() {
