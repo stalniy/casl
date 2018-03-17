@@ -80,7 +80,7 @@ Alternatively, you can just update existing instance, for example, in `SignIn.vu
 </script>
 ```
 
-Obviously, in this case your server API should provide the list of possible abilities in `rules` field of the response.
+Obviously, in this case your server API should provide the list of user abilities in `rules` field of the response.
 See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
 
 ### 3. Check permissios in templates
