@@ -1,29 +1,24 @@
 # CASL
 
 [![CASL Build Status](https://travis-ci.org/stalniy/casl.svg?branch=master)](https://travis-ci.org/stalniy/casl)
-[![CASL  codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
+[![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
 [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl)
 [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/)
 [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 
 CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
 
 Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
-## Installation
-
-```sh
-npm install casl --save
-```
-
 ## Features
+
 * supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, field dot notation)
 * supports direct and inverted rules (i.e., `can` & `cannot`)
 * provides ES6 build, so you are able to shake out unused functionality
 * provides easy integration with [popular frontend frameworks](#4-ui-integration)
 * provides easy [integration with mongoose and MongoDB](#3-mongodb-integration)
 * can be easily integrated with any data storage
+* serializable rules which can be [stored][store-rules] or [cached][cache-rules] in JWT token or any other storage
 
 ## Getting started
 
@@ -52,8 +47,15 @@ Yes, you can use some operators from MongoDB query language to define conditions
 
 ### 2. Check Abilities
 
-Later on you can check abilities using `can` and `cannot`.
+Later on you can check abilities by using `can` and `cannot`.
+
 ```js
+class Post {
+  constructor(props) {
+    Object.assign(this, props)
+  }
+}
+
 // true if ability allows to read at least one Post
 ability.can('read', 'Post')
 
@@ -61,41 +63,13 @@ ability.can('read', 'Post')
 const post = new Post({ title: 'What is CASL?' })
 ability.cannot('read', post)
 ```
-Also there is a conveninse method `throwUnlessCan` which throws `ForbiddenError` exception in case if action is not allowed on target object:
-```js
-import { ForbiddenError } from '@casl/ability'
-
-try {
-  ability.throwUnlessCan('delete', post)
-} catch (error) {
-  console.log(error instanceof Error) // true
-  console.log(error instanceof ForbiddenError) // true
-}
-```
 
 See [Check Abilities][check-abilities] for details.
 
 ### 3. MongoDB integration
 
 CASL has a complementary package [@casl/mongoose](packages/casl-mongoose) which provides easy integration with MongoDB database.
-
-```js
-const { AbilityBuilder } = require('@casl/ability')
-const { toMongoQuery } = require('@casl/mongoose')
-const { MongoClient } = require('mongodb')
-
-const ability = AbilityBuilder.define(can => {
-  can('read', 'Post', { author: 'me' })
-})
-
-MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
-  const query = toMongoQuery(ability.rulesFor('read', 'Post')) // { $or: [{ author: 'me' }] }
-  db.collection('posts').find(query) // find all Posts where author equals 'me'
-  db.close();
-})
-```
-
-And if you use [mongoose](https://github.com/Automattic/mongoose), you are lucky because that package provides mongoose middleware which hides all boilerplate under convenient `accessibleBy` method.
+That package provides [mongoose](https://github.com/Automattic/mongoose) middleware which hides all boilerplate under convenient `accessibleBy` method.
 
 ```js
 const { AbilityBuilder } = require('@casl/ability')
@@ -146,7 +120,6 @@ There are several repositories which show how to integrate CASL in popular front
 * [CASL and Vue](https://github.com/stalniy/casl-vue-example)
 * [CASL and React](https://github.com/stalniy/casl-react-example)
 * [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
-* [CASL and Angular](https://github.com/stalniy/casl-angular-example)
 * [CASL and Expressjs](https://github.com/stalniy/casl-express-example)
 * [CASL and Feathersjs](https://github.com/stalniy/casl-feathersjs-example)
 
@@ -164,6 +137,8 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
 [casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
 [documentation]: https://stalniy.github.io/casl/
+[store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
+[cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
 [mongoose]: http://mongoosejs.com/
 [mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
 [sequelize]: http://docs.sequelizejs.com/
