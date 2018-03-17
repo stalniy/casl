@@ -14,7 +14,7 @@ npm install @casl/mongoose @casl/ability
 
 ## Getting Started
 
-### 1. Integrate with mongoose
+### 1. Integrating with mongoose
 
 `accessibleRecordsPlugin` is a [mongoose][mongoose] plugin which adds `accessibleBy` method to query and static methods. For example, you can add this plugin globally to all models
 
@@ -55,7 +55,7 @@ Post.accessibleBy(ability).exec()
 
 Check [@casl/ability](/packages/casl-ability) package to understand how to define abilities.
 
-### 2. Integrate with any MongoDB library
+### 2. Integrating with any MongoDB library
 
 In case you don't use mongoose, this package provides `toMongoQuery` function which can convert CASL rules into MongoDB query. Lets see an example of how to fetch accessible records using raw [MongoDB adapter][mongo-adapter]
 
@@ -87,6 +87,10 @@ See [Database integration][database-integration] for details
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
 
 [contributing]: /CONTRIBUTING.md
 [mongoose]: http://mongoosejs.com/

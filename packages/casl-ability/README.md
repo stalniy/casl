@@ -131,6 +131,10 @@ See [Storing Abilities][storing-abilities] for details.
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
 
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [contributing]: /CONTRIBUTING.md
