@@ -71,7 +71,7 @@ import { ability } from './ability'
 export class AppModule {}
 ```
 
-Alternatively, you can just inject existing instance and update rules. 
+Alternatively, you can just inject existing instance and update rules.
 Imagine that we have a `Session` service which is responsible for user login/logout functionality. Whenever user login, we need to update ability rules with rules which server returns and reset them back on logout. Lets do this:
 
 ```ts
@@ -82,7 +82,7 @@ export class Session {
   private token: string
 
   constructor(private ability: Ability) {}
-  
+
   login(details) {
     return fetch('path/to/api/login', { methods: 'POST', body: JSON.stringify(details) })
       .then(response => response.json())
@@ -91,7 +91,7 @@ export class Session {
         this.token = session.token
        })
   }
-  
+
   logout() {
     this.token = null
     this.ability.update([])
@@ -121,7 +121,7 @@ Don't worry, as there are several strategies which you can pick to make it faste
 * use immutable objects and overwrite existing pipe to be pure
 * use `ChangeDectionStrategy.OnPush` on your components whenever possible
 
-To memoize results of `CanPipe`, you will need to create your own one and change its `can` method to cache results (this method was specifically designed to be overloaded by child class). Also you will need to clear all memoized results when corresponding `Ability` instance is updated (see [update ability][update-ability] for details). 
+To memoize results of `CanPipe`, you will need to create your own one and change its `can` method to cache results (this method was specifically designed to be overloaded by child class). Also you will need to clear all memoized results when corresponding `Ability` instance is updated (see [update ability][update-ability] for details).
 The similar strategy can be applied to `Ability` class. Don't forget to provide new pipe or `Ability` class in Dependency injection! For example
 
 ```ts
@@ -161,6 +161,10 @@ export class AppModule {}
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
 
 [contributing]: /CONTRIBUTING.md
 [angular]: https://angular.io/

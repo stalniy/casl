@@ -118,6 +118,10 @@ To check permissions in any template you can use `CanPipe`:
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
 
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
 [contributing]: /CONTRIBUTING.md
 [aurelia]: https://aurelia.io/
 [update-ability]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html#update-abilities
