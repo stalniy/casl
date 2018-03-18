@@ -367,4 +367,130 @@ describe('Ability', () => {
       expect(ability).to.allow('delete', new Post({ title: '[DELETED] title' }))
     })
   })
+
+  describe('per field abilities', () => {
+    it('allows to define per field rules', () => {
+      ability = AbilityBuilder.define(can => can('read', 'Post', 'title'))
+
+      expect(ability).to.allow('read', 'Post')
+      expect(ability).to.allow('read', 'Post', 'title')
+      expect(ability).not.to.allow('read', 'Post', 'description')
+    })
+
+    it('allows to define rules for several fields', () => {
+      ability = AbilityBuilder.define(can => can('read', 'Post', ['title', 'id']))
+
+      expect(ability).to.allow('read', 'Post')
+      expect(ability).to.allow('read', 'Post', 'title')
+      expect(ability).to.allow('read', 'Post', 'id')
+      expect(ability).not.to.allow('read', 'Post', 'description')
+    })
+
+    it('allows to define inverted rules for a field', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'Post')
+        cannot('read', 'Post', 'description')
+      })
+
+      expect(ability).to.allow('read', 'Post')
+      expect(ability).to.allow('read', 'Post', 'title')
+      expect(ability).not.to.allow('read', 'Post', 'description')
+    })
+
+    it('allows to perform actions on all attributes if none is specified', () => {
+      ability = AbilityBuilder.define(can => can('read', 'Post'))
+
+      expect(ability).to.allow('read', 'Post', 'title')
+      expect(ability).to.allow('read', 'Post', 'description')
+    })
+
+    describe('when `conditions` defined', () => {
+      const myPost = new Post({ author: 'me' })
+
+      beforeEach(() => {
+        ability = AbilityBuilder.define(can => {
+          can('read', 'Post', ['title', 'description'], { author: myPost.author })
+        })
+      })
+
+      it('allows to perform action on subject specified as string', () => {
+        expect(ability).to.allow('read', 'Post')
+      })
+
+      it('allows to perform action on subject field, both specified as strings', () => {
+        expect(ability).to.allow('read', 'Post', 'title')
+        expect(ability).to.allow('read', 'Post', 'description')
+      })
+
+      it('does not allow to perform action on instance of the subject which mismatches specified conditions', () => {
+        expect(ability).not.to.allow('read', new Post())
+      })
+
+      it('allows to perform action on instance which matches conditions', () => {
+        expect(ability).to.allow('read', myPost)
+      })
+
+      it('allows to perform action on instance field if that instance matches conditions', () => {
+        expect(ability).to.allow('read', myPost, 'title')
+        expect(ability).to.allow('read', myPost, 'description')
+      })
+
+      it('does not allow to perform action on instance field if that instance matches conditions but field is not in specified list', () => {
+        expect(ability).not.to.allow('read', myPost, 'id')
+      })
+    })
+  })
+
+  describe('`rulesFor`', () => {
+    it('returns rules for specific subject and action', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'Post')
+        can('update', 'Post')
+        cannot('read', 'Post', { private: true })
+      })
+
+      const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
+
+      expect(rules).to.deep.equal([
+        { actions: 'read', subject: 'Post', inverted: true, conditions: { private: true } },
+        { actions: 'read', subject: 'Post', inverted: false },
+      ])
+    })
+
+    it('does not return inverted rules with fields when invoked for specific subject and action', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'Post')
+        cannot('read', 'Post', 'title')
+      })
+
+      const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
+
+      expect(rules).to.deep.equal([
+        { actions: 'read', subject: 'Post', inverted: false },
+      ])
+    })
+
+    it('returns rules for specific subject, action and field', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'Post')
+        cannot('read', 'Post', 'title')
+      })
+
+      const rules = ability.rulesFor('read', 'Post', 'title').map(ruleToObject)
+
+      expect(rules).to.deep.equal([
+        { actions: 'read', subject: 'Post', inverted: true, fields: ['title'] },
+        { actions: 'read', subject: 'Post', inverted: false }
+      ])
+    })
+
+    function ruleToObject(rule) {
+      return ['actions', 'subject', 'conditions', 'fields', 'inverted'].reduce((object, field) => {
+        if (typeof rule[field] !== 'undefined') {
+          object[field] = rule[field]
+        }
+        return object
+      }, {})
+    }
+  })
 })

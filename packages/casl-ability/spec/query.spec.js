@@ -9,86 +9,97 @@ function toQuery(rules) {
 }
 
 describe('rulesToQuery', () => {
-  const { can, cannot } = AbilityBuilder.extract()
-
-  it('is empty if there are no rules with conditions', () => {
-    const query = toQuery([can('read', 'Post')])
-
-    expect(Object.keys(query)).to.be.empty
-  })
-
-  it('has empty `$or` part if at least one regular rule does not have conditions', () => {
-    const query = toQuery([
-      can('read', 'Post', { author: 123 }),
-      can('read', 'Post')
-    ])
+  it('returns empty object if there are no rules with conditions', () => {
+    const ability = AbilityBuilder.define(can => can('read', 'Post'))
+    const query = toQuery(ability.rulesFor('read', 'Post'))
 
     expect(Object.keys(query)).to.be.empty
   })
 
-  it('equals `null` if at least one inverted rule does not have conditions', () => {
-    const query = toQuery([
-      cannot('read', 'Post', { author: 123 }),
-      cannot('read', 'Post')
-    ])
+  it('returns `null` if empty list rules is passed', () => {
+    const query = toQuery([])
 
     expect(query).to.be.null
   })
 
-  it('equals `null` if at least one inverted rule does not have conditions even if direct condition exists', () => {
-    const query = toQuery([
-      can('read', 'Post', { public: true }),
-      cannot('read', 'Post', { author: 321 }),
+  it('returns empty `$or` part if at least one regular rule does not have conditions', () => {
+    const ability = AbilityBuilder.define(can => {
+      can('read', 'Post', { author: 123 })
+      can('read', 'Post')
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
+
+    expect(Object.keys(query)).to.be.empty
+  })
+
+  it('returns `null` if at least one inverted rule does not have conditions', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      cannot('read', 'Post', { author: 123 })
       cannot('read', 'Post')
-    ])
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
+
+    expect(query).to.be.null
+  })
+
+  it('returns `null` if at least one inverted rule does not have conditions even if direct condition exists', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Post', { public: true })
+      cannot('read', 'Post', { author: 321 })
+      cannot('read', 'Post')
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
 
     expect(query).to.be.null
   })
 
   it('OR-es conditions for regular rules', () => {
-    const query = toQuery([
-      can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' }),
+    const ability = AbilityBuilder.define(can => {
+      can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       can('read', 'Post', { status: 'published', createdBy: 'me' })
-    ])
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
 
     expect(query).to.deep.equal({
       $or: [
-        { status: 'draft', createdBy: 'someoneelse' },
-        { status: 'published', createdBy: 'me' }
+        { status: 'published', createdBy: 'me' },
+        { status: 'draft', createdBy: 'someoneelse' }
       ]
     })
   })
 
   it('AND-es conditions for inverted rules', () => {
-    const query = toQuery([
-      cannot('read', 'Post', { status: 'draft', createdBy: 'someoneelse' }),
+    const ability = AbilityBuilder.define((can, cannot) => {
+      cannot('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       cannot('read', 'Post', { status: 'published', createdBy: 'me' })
-    ])
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
 
     expect(query).to.deep.equal({
       $and: [
-        { $not: { status: 'draft', createdBy: 'someoneelse' } },
-        { $not: { status: 'published', createdBy: 'me' } }
+        { $not: { status: 'published', createdBy: 'me' } },
+        { $not: { status: 'draft', createdBy: 'someoneelse' } }
       ]
     })
   })
 
   it('OR-es conditions for regular rules and AND-es for inverted ones', () => {
-    const query = toQuery([
-      can('read', 'Post', { _id: 'mega' }),
-      can('read', 'Post', { state: 'draft' }),
-      cannot('read', 'Post', { private: true }),
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Post', { _id: 'mega' })
+      can('read', 'Post', { state: 'draft' })
+      cannot('read', 'Post', { private: true })
       cannot('read', 'Post', { state: 'archived' })
-    ])
+    })
+    const query = toQuery(ability.rulesFor('read', 'Post'))
 
     expect(query).to.deep.equal({
       $or: [
-        { _id: 'mega' },
-        { state: 'draft' }
+        { state: 'draft' },
+        { _id: 'mega' }
       ],
       $and: [
-        { $not: { private: true } },
-        { $not: { state: 'archived' } }
+        { $not: { state: 'archived' } },
+        { $not: { private: true } }
       ]
     })
   })
