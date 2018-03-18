@@ -3,8 +3,8 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="2.0.0-alpha.0f34c7ca"></a>
-# [2.0.0-alpha.0f34c7ca](https://github.com/stalniy/casl/compare/@casl/ability@2.0.0...@casl/ability@2.0.0-alpha.0f34c7ca) (2018-03-17)
+<a name="2.0.0-alpha.2"></a>
+# 2.0.0-alpha.2 (2018-03-17)
 
 ### Breaking Changes
 
