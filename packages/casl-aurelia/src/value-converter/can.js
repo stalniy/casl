@@ -1,4 +1,4 @@
-import { signalBindings } from 'aurelia-framework';
+import { signalBindings } from 'aurelia-binding';
 import { Ability } from '@casl/ability';
 
 const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
