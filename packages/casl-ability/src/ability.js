@@ -34,7 +34,7 @@ export class Ability {
     this[PRIVATE_FIELD] = {
       RuleType,
       subjectName,
-      originalRules: rules,
+      originalRules: rules || [],
       rules: {},
       events: {},
       aliases: clone(DEFAULT_ALIASES)
@@ -96,13 +96,8 @@ export class Ability {
     return this[PRIVATE_FIELD].originalRules;
   }
 
-  can(action, subject) {
-    const subjectName = this[PRIVATE_FIELD].subjectName(subject);
-    const rules = this.rulesFor(action, subject);
-
-    if (subject === subjectName) {
-      return rules.length > 0 && !rules[0].inverted;
-    }
+  can(action, subject, field) {
+    const rules = this.rulesFor(action, subject, field);
 
     for (let i = 0; i < rules.length; i++) {
       if (rules[i].matches(subject)) {
@@ -113,17 +108,18 @@ export class Ability {
     return false;
   }
 
-  rulesFor(action, subject) {
+  rulesFor(action, subject, field) {
     const subjectName = this[PRIVATE_FIELD].subjectName(subject);
     const { rules } = this[PRIVATE_FIELD];
     const specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
     const generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
+    const relevantRules = (specificRules || []).concat(generalRules || []);
 
-    return (specificRules || []).concat(generalRules || []);
+    return relevantRules.filter(rule => rule.matchesField(subject, field));
   }
 
-  cannot(action, subject) {
-    return !this.can(action, subject);
+  cannot(...args) {
+    return !this.can(...args);
   }
 
   throwUnlessCan(action, subject) {

@@ -4,6 +4,10 @@ function isStringOrNonEmptyArray(value) {
   return typeof value === 'string' || Array.isArray(value) && value.length > 0;
 }
 
+function isObject(value) {
+  return value && typeof value === 'object';
+}
+
 export class AbilityBuilder {
   static define(params, dsl) {
     const options = typeof params === 'function' ? {} : params;
@@ -28,7 +32,7 @@ export class AbilityBuilder {
     this.rules = [];
   }
 
-  can(actions, subject, conditions) {
+  can(actions, subject, conditionsOrFields, conditions) {
     if (!isStringOrNonEmptyArray(actions)) {
       throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
     }
@@ -39,8 +43,12 @@ export class AbilityBuilder {
 
     const rule = { actions, subject };
 
-    if (typeof conditions === 'object' && conditions) {
-      rule.conditions = conditions;
+    if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
+      rule.fields = conditionsOrFields;
+    }
+
+    if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
+      rule.conditions = conditions || conditionsOrFields;
     }
 
     this.rules.push(rule);
