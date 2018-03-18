@@ -24,6 +24,7 @@
     "test": "NODE_ENV=test jest",
     "lint": "eslint -c .eslintrc packages/*/src",
     "coverage.submit": "codecov",
+    "prerelease": "npm test && npm run build",
     "release": "lerna publish --conventional-commits"
   },
   "devDependencies": {
@@ -47,7 +48,6 @@
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^3.0.0",
-    "standard-version": "^4.2.0"
+    "rollup-plugin-uglify": "^3.0.0"
   }
 }
