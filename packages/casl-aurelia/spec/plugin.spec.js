@@ -50,7 +50,7 @@ describe('CASL Aurelia plugin', () => {
       ability = component.container.get(Ability)
 
       expect(ability).to.be.instanceof(Ability)
-      expect(ability.rules).to.be.undefined
+      expect(ability.rules).to.be.empty
     })
 
     it('allows to check abilities using `can` value converter', () => {
