@@ -8,6 +8,12 @@ function isObject(value) {
   return value && typeof value === 'object';
 }
 
+export class RuleBuilder {
+  constructor(rule) {
+    this.rule = rule;
+  }
+}
+
 export class AbilityBuilder {
   static define(params, dsl) {
     const options = typeof params === 'function' ? {} : params;
@@ -53,13 +59,13 @@ export class AbilityBuilder {
 
     this.rules.push(rule);
 
-    return rule;
+    return new RuleBuilder(rule);
   }
 
   cannot(...args) {
-    const rule = this.can(...args);
-    rule.inverted = true;
+    const builder = this.can(...args);
+    builder.rule.inverted = true;
 
-    return rule;
+    return builder.rule;
   }
 }
