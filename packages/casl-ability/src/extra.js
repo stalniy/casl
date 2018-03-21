@@ -24,3 +24,21 @@ export function rulesToQuery(rules, convert) {
 
   return rules.length > 0 ? query : null;
 }
+
+const getRuleFields = rule => rule.fields;
+
+export function permittedFieldsOf(ability, action, subject, options = {}) {
+  const fieldsFrom = options.fieldsFrom || getRuleFields;
+  const uniqueFields = ability.possibleRulesFor(action, subject).reduce((fields, rule) => {
+    const names = fieldsFrom(rule);
+
+    if (names && !rule.inverted) {
+      names.forEach(fields.add, fields);
+    }
+
+    return fields;
+  }, new Set());
+
+  return Array.from(uniqueFields)
+    .filter(field => ability.can(action, subject, field));
+}
