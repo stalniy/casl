@@ -1,8 +1,8 @@
 import { AbilityBuilder } from '../src'
 import { rulesToQuery } from '../src/extra'
 
-function toQuery(rules) {
-  return rulesToQuery(rules, rule => {
+function toQuery(ability, action, subject) {
+  return rulesToQuery(ability, action, subject, rule => {
     return rule.inverted ? { $not: rule.conditions } : rule.conditions
   })
 }
@@ -10,13 +10,14 @@ function toQuery(rules) {
 describe('rulesToQuery', () => {
   it('returns empty object if there are no rules with conditions', () => {
     const ability = AbilityBuilder.define(can => can('read', 'Post'))
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(Object.keys(query)).to.be.empty
   })
 
-  it('returns `null` if empty list rules is passed', () => {
-    const query = toQuery([])
+  it('returns `null` if empty `Ability` instance is passed', () => {
+    const ability = AbilityBuilder.define(() => {})
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.be.null
   })
@@ -26,7 +27,7 @@ describe('rulesToQuery', () => {
       can('read', 'Post', { author: 123 })
       can('read', 'Post')
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(Object.keys(query)).to.be.empty
   })
@@ -36,7 +37,7 @@ describe('rulesToQuery', () => {
       cannot('read', 'Post', { author: 123 })
       cannot('read', 'Post')
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.be.null
   })
@@ -47,7 +48,7 @@ describe('rulesToQuery', () => {
       cannot('read', 'Post', { author: 321 })
       cannot('read', 'Post')
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.be.null
   })
@@ -57,7 +58,7 @@ describe('rulesToQuery', () => {
       can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       can('read', 'Post', { status: 'published', createdBy: 'me' })
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.deep.equal({
       $or: [
@@ -72,7 +73,7 @@ describe('rulesToQuery', () => {
       cannot('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       cannot('read', 'Post', { status: 'published', createdBy: 'me' })
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.deep.equal({
       $and: [
@@ -89,7 +90,7 @@ describe('rulesToQuery', () => {
       cannot('read', 'Post', { private: true })
       cannot('read', 'Post', { state: 'archived' })
     })
-    const query = toQuery(ability.rulesFor('read', 'Post'))
+    const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.deep.equal({
       $or: [
