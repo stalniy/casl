@@ -1,8 +1,14 @@
-export interface Rule {
+export interface RawRule {
   subject: string | string[],
   actions: string | string[],
+  fields?: string[],
   conditions?: Object,
   inverted?: boolean
+}
+
+export interface Rule extends RawRule {
+  matches(subject: any): boolean
+  isRelevantFor(subject: any, field?: string): boolean
 }
 
 export interface AbilityOptions {
@@ -10,29 +16,37 @@ export interface AbilityOptions {
 }
 
 export class Ability {
-  rules: Rule[]
+  rules: RawRule[]
 
   static addAlias(alias: string, fields: string | string[]): void
 
-  constructor(rules?: Rule[], options?: AbilityOptions)
+  constructor(rules?: RawRule[], options?: AbilityOptions)
 
-  update(rules: Rule[]): Ability
+  update(rules: RawRule[]): Ability
 
-  can(action: string, subject: any): boolean
+  can(action: string, subject: any, field?: string): boolean
 
-  cannot(action: string, subject: any): boolean
+  cannot(action: string, subject: any, field?: string): boolean
 
-  rulesFor(action: string, subject: any): Rule[]
+  possibleRulesFor(action: string, subject: any): Rule[]
 
-  throwUnlessCan(action: string, subject: any): void
+  rulesFor(action: string, subject: any, field?: string): Rule[]
+
+  throwUnlessCan(action: string, subject: any, field?: string): void
+}
+
+export class RuleBuilder {
+  rule: RawRule
 }
 
 export abstract class AbilityBuilderParts {
-  rules: Rule[]
+  rules: RawRule[]
 
-  can(action: string | string[], subject: string | string[], conditions?: Object): Rule
+  can(action: string | string[], subject: string | string[], conditions?: Object): RuleBuilder
+  can(action: string | string[], subject: string | string[], fields?: string[], conditions?: Object): RuleBuilder
 
-  cannot(action: string | string[], subject: string | string[], conditions?: Object): Rule
+  cannot(action: string | string[], subject: string | string[], conditions?: Object): RuleBuilder
+  cannot(action: string | string[], subject: string | string[], fields?: string[], conditions?: Object): RuleBuilder
 }
 
 export class AbilityBuilder extends AbilityBuilderParts {
