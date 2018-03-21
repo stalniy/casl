@@ -1,6 +1,5 @@
 import { AbilityBuilder } from '../src'
-import { rulesToQuery } from '../src/query'
-import './spec_helper'
+import { rulesToQuery } from '../src/extra'
 
 function toQuery(rules) {
   return rulesToQuery(rules, rule => {

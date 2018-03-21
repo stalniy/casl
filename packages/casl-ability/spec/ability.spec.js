@@ -1,11 +1,5 @@
 import { AbilityBuilder, ForbiddenError, Ability } from '../src'
-import './spec_helper'
-
-class Post {
-  constructor(attrs) {
-    Object.assign(this, attrs)
-  }
-}
+import { Post } from './spec_helper'
 
 describe('Ability', () => {
   let ability

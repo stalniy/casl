@@ -108,14 +108,18 @@ export class Ability {
     return false;
   }
 
-  rulesFor(action, subject, field) {
+  possibleRulesFor(action, subject) {
     const subjectName = this[PRIVATE_FIELD].subjectName(subject);
     const { rules } = this[PRIVATE_FIELD];
     const specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
     const generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
-    const relevantRules = (specificRules || []).concat(generalRules || []);
 
-    return relevantRules.filter(rule => rule.matchesField(subject, field));
+    return (specificRules || []).concat(generalRules || []);
+  }
+
+  rulesFor(action, subject, field) {
+    return this.possibleRulesFor(action, subject)
+      .filter(rule => rule.isRelevantFor(subject, field));
   }
 
   cannot(...args) {

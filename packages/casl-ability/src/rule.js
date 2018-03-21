@@ -18,7 +18,7 @@ export class Rule {
     return !this._matches || typeof object === 'string' || this._matches(object);
   }
 
-  matchesField(object, field) {
+  isRelevantFor(object, field) {
     if (!this.fields) {
       return true;
     }
