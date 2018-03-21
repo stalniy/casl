@@ -5,9 +5,8 @@ function emptyQuery(query) {
   return query;
 }
 
-function accessibleBy(ability, action = 'read') {
-  const rules = ability.rulesFor(action, this.modelName || this.model.modelName);
-  const query = toMongoQuery(rules);
+function accessibleBy(ability, action) {
+  const query = toMongoQuery(ability, this.modelName || this.model.modelName, action);
 
   return query === null ? emptyQuery(this.find()) : this.find(query);
 }

@@ -1,6 +1,7 @@
-export function rulesToQuery(rules, convert) {
+export function rulesToQuery(ability, action, subject, convert) {
   const query = {};
   const ignoreOperators = {};
+  const rules = ability.rulesFor(action, subject);
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];

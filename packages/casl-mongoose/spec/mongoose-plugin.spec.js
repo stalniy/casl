@@ -78,7 +78,7 @@ describe('Mongoose Plugin', () => {
     })
 
     it('passes query created by `toMongoQuery` in `find` method of the query', () => {
-      const query = toMongoQuery(ability.rulesFor('read', 'Post'))
+      const query = toMongoQuery(ability, 'Post')
       spy.on(schema.query, 'find')
       schema.query.accessibleBy(ability)
 
