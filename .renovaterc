@@ -1,6 +1,7 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "monorepo:angular"
   ],
   "pinVersions": false,
   "separatePatchReleases": false,
@@ -19,10 +20,9 @@
     {
       "packageNames": [
         "chai",
-        "chai-spies",
-        "mocha"
+        "chai-spies"
       ],
-      "groupName": "mocha"
+      "groupName": "chai"
     },
     {
       "packagePatterns": ["^karma"],
@@ -39,6 +39,29 @@
     {
       "packagePatterns": ["lerna"],
       "groupName": "lerna"
+    },
+    {
+      "packagePatterns": ["jest"],
+      "groupName": "lerna"
+    },
+    {
+      "packageNames": [
+        "@vue/test-utils",
+        "vue",
+        "vue-template-compiler"
+      ],
+      "groupName": "vue"
+    },
+    {
+      "packageNames": [
+        "react",
+        "react-test-renderer"
+      ],
+      "groupName": "react"
+    },
+    {
+      "packagePatterns": ["^aurelia-"],
+      "groupName": "aurelia"
     }
   ]
 }
