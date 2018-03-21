@@ -1,5 +1,5 @@
-import { Rule } from '@casl/ability'
+import { Ability } from '@casl/ability'
 
-export function toMongoQuery(rules: Rule[]): Object | null
+export function toMongoQuery(ability: Ability, subject: any, action?: string): Object | null
 
 export function mongoosePlugin(schema: any): any
