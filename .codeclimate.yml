@@ -1,4 +1,5 @@
-engines:
+version: "2" 
+plugins:
   eslint:
     enabled: true
     checks:
@@ -6,14 +7,7 @@ engines:
         enabled: false
       import/no-extraneous-dependencies:
         enabled: false
-ratings:
-  paths:
-  - packages/casl-ability/src/**
-  - packages/casl-angular/src/**
-  - packages/casl-aurelia/src/**
-  - packages/casl-mongoose/src/**
-  - packages/casl-react/src/**
-  - packages/casl-vue/src/**
-exclude_paths:
-- "**/spec/**/*"
+exclude_patterns:
 - docs/**/*
+- "**/spec/**/*"
+- "**/*.d.ts"
