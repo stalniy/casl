@@ -15,5 +15,5 @@ ratings:
   - packages/casl-react/src/**
   - packages/casl-vue/src/**
 exclude_paths:
-- **/spec/**/*
+- "**/spec/**/*"
 - docs/**/*
