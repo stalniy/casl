@@ -8,9 +8,12 @@ engines:
         enabled: false
 ratings:
   paths:
-  - packages/ability/src/**
-  - packages/mongoose/src/**
+  - packages/casl-ability/src/**
+  - packages/casl-angular/src/**
+  - packages/casl-aurelia/src/**
+  - packages/casl-mongoose/src/**
+  - packages/casl-react/src/**
+  - packages/casl-vue/src/**
 exclude_paths:
-- packages/ability/spec/**/*
-- packages/mongoose/spec/**/*
+- **/spec/**/*
 - docs/**/*
