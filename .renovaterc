@@ -11,7 +11,7 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "versionStrategy": "widen"
   },
   "packageRules": [
