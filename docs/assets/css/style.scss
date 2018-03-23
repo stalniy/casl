@@ -56,6 +56,11 @@ aside#sidebar {
   }
 }
 
+summary > h3 {
+  display: inline-block;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 767px) {
   $menu-color: #fff;
 
