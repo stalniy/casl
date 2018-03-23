@@ -1,6 +1,6 @@
 {
   "name": "@casl/ability",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "main": "dist/umd/index.js",
   "module": "index.js",
