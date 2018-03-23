@@ -1,6 +1,6 @@
 {
   "name": "@casl/mongoose",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "index.js",
   "es2015": "dist/es6/index.js",
@@ -34,6 +34,6 @@
     "@casl/ability": "^2.0.0-alpha.1"
   },
   "devDependencies": {
-    "@casl/ability": "^2.0.0-alpha.2"
+    "@casl/ability": "^2.0.0"
   }
 }
