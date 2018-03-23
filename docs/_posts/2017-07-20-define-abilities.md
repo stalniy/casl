@@ -174,7 +174,7 @@ can('update', 'Post', ['title', 'description'], { authorId: user.id })
 
 It allows to retrieve only fields which user can update (e.g., when PATCH/PUT request sent to API) or show only editable fields on UI (e.g., on post edit page).
 
-See [Checking Abilities with fields][checking-ability-fields] fordetails.
+See [Checking Abilities with fields][checking-ability-fields] for details.
 
 ## Combining Abilities
 
