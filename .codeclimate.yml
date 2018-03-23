@@ -1,4 +1,5 @@
-engines:
+version: "2" 
+plugins:
   eslint:
     enabled: true
     checks:
@@ -6,11 +7,7 @@ engines:
         enabled: false
       import/no-extraneous-dependencies:
         enabled: false
-ratings:
-  paths:
-  - packages/ability/src/**
-  - packages/mongoose/src/**
-exclude_paths:
-- packages/ability/spec/**/*
-- packages/mongoose/spec/**/*
+exclude_patterns:
 - docs/**/*
+- "**/spec/**/*"
+- "**/*.d.ts"
