@@ -30,8 +30,6 @@ aside#sidebar {
   position: relative;
   background: transparent;
   padding-left: 0;
-  min-width: 300px;
-  width: auto;
 }
 
 #sidebar-wrapper {
@@ -58,9 +56,13 @@ aside#sidebar {
   }
 }
 
-summary > h3 {
-  display: inline-block;
-  cursor: pointer;
+summary {
+   white-space: nowrap;
+  
+  > h3 {
+    display: inline-block;
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -135,7 +137,6 @@ summary > h3 {
   aside#sidebar {
     margin-top: 0;
     padding: 0 10px;
-    min-width: 0;
   }
 
   #sidebar-wrapper {
@@ -143,7 +144,6 @@ summary > h3 {
     top: 0;
     left: 0;
     width: 100%;
-    min-width: 0;
     padding-left: 0;
     background: transparent url(../images/header-bg.jpg);
   }
