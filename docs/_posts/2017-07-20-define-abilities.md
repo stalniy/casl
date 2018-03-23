@@ -166,6 +166,7 @@ or allow user to update only `title` and `description`
 can('update', 'Post', ['title', 'description'])
 ```
 
+If fields are not specified then user is allowed to access all fields.
 You can combine fields together with conditions:
 
 ```js
@@ -230,4 +231,4 @@ unsubscribe() // removes subscription
 [roles-example]: {{ site.baseurl }}{% post_url 2017-07-21-roles %}
 [instance-checks]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#instance-checks
 [fetching-records]: {{ site.baseurl }}{% post_url 2017-07-22-database-integration %}
-[checking-ability-fields]: {% post_url 2017-07-21-check-abilities %}#checking-field-access
+[checking-ability-fields]: {% post_url 2017-07-21-check-abilities %}#checking-fields
