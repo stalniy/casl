@@ -64,6 +64,22 @@ can(['read', 'update'], ['Post', 'Comment'], { authorId: 'me' })
 console.log(rules)
 ```
 
+Sometimes you may need to define permissions per field. For example, you can let moderator update only post status field
+
+```js
+const { can, rules } = AbilityBuilder.extract()
+
+can('read', 'all')
+
+if (user.is('moderator')) {
+  can('update', 'Post', 'status')
+} else if (user.is('editor')) {
+  can('update', 'Post', ['title', 'description'], { authorId: user.id })
+}
+
+const ability = new Ability(rules)
+```
+
 See [Defining Abilities][define-abilities] for details.
 
 ### 2. Checking rules
@@ -111,21 +127,40 @@ This package also provides `@casl/ability/extra` submodule which contains helper
 ```js
 import { rulesToQuery } from '@casl/ability/extra'
 
-function ruleToSequelizeQuery(rule) {
-  return rule.inverted ? { not: rule.conditions } : rule.conditions
+function ruleToMongoQuery(rule) {
+  return rule.inverted ? { $nor: [rule.conditions] } : rule.conditions
 }
 
-function toSequelizeQuery(rules) {
-  return rulesToQuery(rules, ruleToSequelizeQuery)
+function toMongoQuery(ability, subject, action = 'read') {
+  return rulesToQuery(ability, action, subject, ruleToMongoQuery)
 }
 
-// now you can construct sequelize query based on Ability
-const query = toSequelizeQuery(ability.rulesFor('read', 'Post'))
+// now you can construct query based on Ability
+const query = toMongoQuery(ability, 'Post')
 ```
 
 [@casl/mongoose](/packages/casl-mongoose) uses `rulesToQuery` function to construct queries to MongoDB database.
 
 See [Storing Abilities][storing-abilities] for details.
+
+Another useful method is `permittedFieldsOf` which allows to find all permitted fields for specific subject and action.
+You can use this method together with [lodash.pick](https://lodash.com/docs/4.17.5#pick) to extract only allowed fields from request body
+
+```js
+import { permittedFieldsOf } from '@casl/ability/extra'
+
+const { can, rules } = AbilityBuilder.extract()
+
+can('update', 'Post', ['title', 'description'])
+
+const ability = new Ability(rules)
+
+// later in request middleware
+const fields = permittedFieldsOf(ability, 'update', 'Post')
+const attributesToUpdate = _.pick(req.body, fields)
+```
+
+See [Extracting Permitted Attributes][extract-permitted-attrs] for details.
 
 ## Want to help?
 
@@ -141,3 +176,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [storing-abilities]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html
 [store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
 [cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
+[extract-permitted-attrs]: #

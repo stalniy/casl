@@ -69,8 +69,7 @@ MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
     return console.error(err)
   }
 
-  const rules = ability.rulesFor('update', 'Post')
-  const query = toMongoQuery(rules) // e.g., { $or: [{ author: 'me' }] }
+  const query = toMongoQuery(ability, 'Post', 'update') // e.g., { $or: [{ author: 'me' }] }
 
   if (query === null) {
     // user is not allowed to update any posts

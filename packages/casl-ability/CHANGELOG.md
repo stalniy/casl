@@ -3,22 +3,93 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="2.0.0-alpha.ade5be4a"></a>
-# [2.0.0-alpha.ade5be4a](https://github.com/stalniy/casl/compare/@casl/ability@2.0.0-alpha.2...@casl/ability@2.0.0-alpha.ade5be4a) (2018-03-18)
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/stalniy/casl/compare/v1.1.0...@casl/ability@2.0.0) (2018-03-23)
 
+### Features
 
-
-
-**Note:** Version bump only for package @casl/ability
-
-<a name="2.0.0-alpha.2"></a>
-# 2.0.0-alpha.2 (2018-03-17)
+* **ability:** implement per field rules support ([471358f](https://github.com/stalniy/casl/commit/471358f)), closes [#18](https://github.com/stalniy/casl/issues/18)
+* **extra:** adds `permittedAttributesOf` ([3474fcc](https://github.com/stalniy/casl/commit/3474fcc)), closes [#18](https://github.com/stalniy/casl/issues/18)
 
 ### Breaking Changes
 
+* **package:** casl was split into several packages available under `@casl` npm scope
 * **ability:** subject specific rules now takes precedence over `all` rules
 * **rulesToQuery:** moves `rulesToQuery` into submodule `@casl/ability/extra`
 * **mongoose:** moves mongo related functions into separate `@casl/mongoose` package
+
+### Migration Guide
+
+1. CASL was split into several packages which are available under `@casl` scope.
+
+`Ability` related functionality now is in `@casl/ability` package. `casl` package is deperecated now.
+
+**Before**:
+
+```js
+import { AbilityBuilder } from 'casl'
+```
+
+**Now**:
+
+```js
+import { AbilityBuilder } from '@casl/ability'
+```
+
+2. Previously it was not possible to override `all` rule with subject specific inverted one. It was a bug and it's fixed.
+
+**Before**:
+
+```js
+const ability = AbilityBuilder.define((can, cannot) => {
+  can('read', 'all')
+  cannot('read', 'Post')
+})
+
+ability.can('read', 'Post') // true
+```
+
+**Now**:
+
+with the same setup
+
+```js
+ability.can('read', 'Post') // false
+```
+
+3. `rulesToQuery` was moved into submodule. And its signature was changed
+
+**Before**:
+
+```js
+import { rulesToQuery } from 'casl'
+
+rulesToQuery(ability.rulesFor('read', 'Post'), rule => ...)
+```
+
+**Now**:
+
+```js
+import { rulesToQuery } from '@casl/ability/extra'
+
+rulesToQuery(ability, 'read', 'Post', rule => ...)
+```
+
+This allows to ensure that people use this function correctly (i.e, by passing only 1 pair or action-subject rules)
+
+4. MongoDB integration was moved into [@casl/mongoose](/packages/casl-mongoose).
+
+**Before**:
+
+```js
+import { toMongoQuery, mongoosePlugin } from 'casl'
+```
+
+**Now**:
+
+```js
+import { toMongoQuery, accessibleRecordsPlugin } from '@casl/mongoose'
+```
 
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/stalniy/casl/compare/v1.0.6...v1.1.0) (2018-02-02)
