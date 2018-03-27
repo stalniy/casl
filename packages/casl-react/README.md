@@ -136,7 +136,7 @@ import { Ability } from '@casl/ability'
 export default new Ability([])
 ```
 
-To crete ability using `AbilityBuilder`
+To create ability using `AbilityBuilder`
 
 ```js
 // ability.js
