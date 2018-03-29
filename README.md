@@ -6,7 +6,7 @@
 [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/)
 [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across controllers, views, and database queries.
+CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across UI components, API services, and database queries.
 
 Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
@@ -17,7 +17,6 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 * provides ES6 build, so you are able to shake out unused functionality
 * provides easy integration with [popular frontend frameworks](#4-ui-integration)
 * provides easy [integration with mongoose and MongoDB](#3-mongodb-integration)
-* can be easily integrated with any data storage
 * serializable rules which can be [stored][store-rules] or [cached][cache-rules] in JWT token or any other storage
 
 ## Getting started
