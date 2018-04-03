@@ -107,26 +107,39 @@ Don't worry if you use another MongoDB library, `@casl/mongoose` also exports `t
 const { toMongoQuery } = require('@casl/mongoose')
 
 MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
-  const rules = ability.rulesFor('read', 'Post')
-  // query = { $or: [{ published: true }, { author: 'me' }] }
-  db.collection('posts').find(toMongoQuery(rules))
+  const query = toMongoQuery(ability, 'Post', 'read')
+  
+  if (query === null) {
+    // user is not allowed to read Posts
+  } else {
+    // query = { $or: [{ published: true }, { author: 'me' }] }
+    db.collection('posts').find(query)
+  }
+  
   db.close();
 })
 ```
 
-As you can see rules for specified action and subject can be retrieved with help of `rulesFor` method (the second argument is processed by `subjectName` function, see [Defining Abilities][defining-abilities] for details).
-**Important**: `toMongoQuery` returns `null` in case if `rules` array is empty or there is an inverted rule without conditions. In that case, user doesn't have permission to get access to requested information.
+**Important**: `toMongoQuery` returns `null` in case if ability's `rules` array is empty or there is an inverted rule without conditions. In that case, user doesn't have permission to get access to requested information.
 
 ## Other databases
 
-CASL provides 2 methods which can be used to add support for other libraries and databases:
+CASL provides a helper function which can be used to add support for other libraries and databases:
 
-* `rulesFor` method of `Ability` instance which was described above
-* `rulesToQuery` function (in separate `@casl/ability/extra` submodule)
+* `rulesToQuery`, can be imported from `@casl/ability/extra` submodule
 
-`rulesToQuery` accepts two arguments: rules to process and conversion function which accepts rule as the only argument. The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
+It accepts 4 arguments: 
 
-So, the only thing which needs to be written is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
+* `Ability` instance to get rules from
+* action
+* subject name
+* conversion function which accepts rule as the only argument
+
+The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
+
+**Important**: this function returns `null` if user is not allowed to perform specified action on specified subject.
+
+So, the only thing which needs to be done is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
 
 ```js
 const { rulesToQuery } = require('@casl/ability/extra')
@@ -139,7 +152,7 @@ function ruleToQuery(rule) {
   return rule.inverted ? { $not: rule.conditions } : rule.conditions
 }
 
-module.exports = function toSequalizeQuery(rules) {
+module.exports = function toSequalizeQuery(ability, subject, action = 'read') {
   return rulesToQuery(rules, ruleToQuery)
 }
 ```
@@ -153,8 +166,7 @@ const Post = db.define('Post', {
   scopes: {
     accessibleBy(ability, action = 'read') {
       // TODO: handle case when `toSequalizeQuery` returns `null`
-      const rules = ability.rulesFor(action, 'Post')
-      return { where: toSequalizeQuery(rules) }
+      return { where: toSequalizeQuery(ability, 'Post') }
     }
   }
 });
@@ -165,8 +177,6 @@ And fetch accessible records from database:
 ```js
 Post.scope({ method: ['accessibleBy', ability] }).findAll()
 ```
-
-**Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions. And when they return `null` that means user is not able to acess that information and should return empty set (either `null` for single record request or empty array for multiple records request)
 
 
 [defining-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}

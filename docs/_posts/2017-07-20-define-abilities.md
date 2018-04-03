@@ -22,7 +22,7 @@ function defineAbilitiesFor(user) {
 }
 ```
 
-If you don't like nesting, you can alternatively use `extract` method:
+If you don't like nesting, you can use `extract` method:
 
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability'
@@ -60,7 +60,7 @@ const ability = AbilityBuilder.define({ subjectName }, can => {
 
 See [Intance checks][instance-checks] for details.
 
-`Ability` constructor is very handy in case if you store permissions in database or request from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
+`Ability` constructor is very handy in case if you store permissions in database or retrieve from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
 
 ```ts
 // TypeScript definition
@@ -153,6 +153,31 @@ can('delete', 'Post', { 'comments.0': { $exists: false } })
 
 As you may know already, it's possible to use few MongoDB query operators to define more complex conditions (supports only `$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`).
 
+## Rules per field
+
+It's possible to define abilities per subject fields. For example, you may want to allow `moderator` to update only `isPublished` field of the article:
+
+```js
+can('update', 'Post', 'isPublished')
+```
+
+or allow user to update only `title` and `description`
+
+```js
+can('update', 'Post', ['title', 'description'])
+```
+
+If fields are not specified then user is allowed to access all fields.
+You can combine fields together with conditions:
+
+```js
+can('update', 'Post', ['title', 'description'], { authorId: user.id })
+```
+
+It allows to retrieve only fields which user can update (e.g., when PATCH/PUT request sent to API) or show only editable fields on UI (e.g., on post edit page).
+
+See [Checking Abilities with fields][checking-ability-fields] for details.
+
 ## Combining Abilities
 
 It is possible to define multiple abilities for the same resource.
@@ -207,3 +232,4 @@ unsubscribe() // removes subscription
 [roles-example]: {{ site.baseurl }}{% post_url 2017-07-21-roles %}
 [instance-checks]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#instance-checks
 [fetching-records]: {{ site.baseurl }}{% post_url 2017-07-22-database-integration %}
+[checking-ability-fields]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#checking-fields

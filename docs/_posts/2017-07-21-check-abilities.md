@@ -105,4 +105,69 @@ function subjectName(subject) {
 }
 ```
 
+## Checking fields
+
+It is also posible to check whether user has permission to perform an action on specified subject field. Lets consider an example when user is allowed to update only `price` on products:
+
+```js
+const ability = AbilityBuidler.define(can => {
+  can('read', 'all')
+  can('update', 'Product', 'price')
+})
+```
+
+Later you can check whether user is allowed to update `price`:
+
+```js
+ability.can('update', 'Product', 'price') //  true
+```
+
+This can be used to display only editable form fields:
+
+```jsx
+if (ability.can('update', 'Product', 'price')) {
+  <input type="number" name="price">
+}
+```
+
+or extract fields from user input (e.g., request body in Nodejs application). To do so, we need to collect a list of permitted fields. And this is exactly why `permittedFieldsOf` was added into `@casl/ability/extra`. It allows to retrieve permitted fields of specific set of ability rules. For example:
+
+```js
+import { permittedFieldsOf } from '@casl/ability'
+
+const allowedFields = permittedFieldsOf(ability, 'update', 'Product')
+```
+
+Later you can use [lodash.pick](https://lodash.com/docs/4.17.5#pick) to extract all that fields from user specified input (e.g., request body in Nodejs application). However there is **a little caveat**. As you already know, user may access all fields on a subject if they were not defined. For example, we have `Product` class with 4 fields `id`, `title`, `description`, `price` and we define ability like this:
+
+```js
+const ability = AbilityBuidler.define(can => {
+  can('read', 'all')
+  can('update', 'Product')
+})
+```
+
+then `permittedFieldsOf` returns an empty array because it knows nothing about `Product`'s shape.
+Fortunately, `permittedFieldsOf` accepts `fieldsFrom` callback which is called for every rule in specified set. It allows to return all `Product` fields for rules which doesn't contain such.
+
+Lets extract permitted fields correctly, for `Product` which is a mongoose model:
+
+```js
+const mongoose = require('mongoose')
+
+const schema = mongoose.Schema({
+  title: String,
+  description: String,
+  price: Number
+})
+const Product = mongoose.model('Product', schema)
+
+const allProductFields = Object.keys(schema.paths)
+const allowedFields = permittedFieldsOf(ability, 'update', 'Product', { 
+  fieldsFrom: rule => rule.fields || allProductFields
+})
+
+console.log(allowedFields) // ['_id', 'title', 'description', 'price']
+```
+
 [define-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}
