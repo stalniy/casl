@@ -65,7 +65,7 @@ export class Ability {
 
       for (let j = 0; j < actions.length; j++) {
         const action = actions[j];
-        const subjects = Array.isArray(rule.subject) ? rule.subject : [rule.subject];
+        const subjects = Array.isArray(rule.subject) ? rule.subject : rule.subject.split(',');
 
         for (let k = 0; k < subjects.length; k++) {
           const subject = subjects[k];

@@ -30,16 +30,20 @@ const getRuleFields = rule => rule.fields;
 
 export function permittedFieldsOf(ability, action, subject, options = {}) {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
-  const uniqueFields = ability.possibleRulesFor(action, subject).reduce((fields, rule) => {
-    const names = fieldsFrom(rule);
+  const uniqueFields = ability.possibleRulesFor(action, subject)
+    .slice(0)
+    .reverse()
+    .filter(rule => rule.matches(subject))
+    .reduce((fields, rule) => {
+      const names = fieldsFrom(rule);
 
-    if (names && !rule.inverted) {
-      names.forEach(fields.add, fields);
-    }
+      if (names) {
+        const toggle = rule.inverted ? 'delete' : 'add';
+        names.forEach(fields[toggle], fields);
+      }
 
-    return fields;
-  }, new Set());
+      return fields;
+    }, new Set());
 
-  return Array.from(uniqueFields)
-    .filter(field => ability.can(action, subject, field));
+  return Array.from(uniqueFields);
 }
