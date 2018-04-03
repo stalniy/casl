@@ -19,9 +19,10 @@ export class AbilityBuilder {
     const options = typeof params === 'function' ? {} : params;
     const define = params === options ? dsl : params;
     const builder = new this();
-    define(builder.can.bind(builder), builder.cannot.bind(builder));
+    const result = define(builder.can.bind(builder), builder.cannot.bind(builder));
+    const buildAbility = () => new Ability(builder.rules, options);
 
-    return new Ability(builder.rules, options);
+    return result && typeof result.then === 'function' ? result.then(buildAbility) : buildAbility();
   }
 
   static extract() {
@@ -66,6 +67,6 @@ export class AbilityBuilder {
     const builder = this.can(...args);
     builder.rule.inverted = true;
 
-    return builder.rule;
+    return builder;
   }
 }
