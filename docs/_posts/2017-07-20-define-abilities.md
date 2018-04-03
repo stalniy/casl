@@ -68,7 +68,8 @@ interface Rule {
   actions: string | string[],
   subject: string | string[],
   conditions?: Object,
-  inverted?: boolean
+  fields?: string[],
+  inverted?: boolean // default is `false`
 }
 ```
 
