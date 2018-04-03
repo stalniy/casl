@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.2"></a>
+# [2.0.2](https://github.com/stalniy/casl/compare/@casl/ability@2.0.0...@casl/ability@2.0.2) (2018-04-03)
+
+### Features
+
+* **ability:** allows to pass subjects as comma separated items ([7612425](https://github.com/stalniy/casl/commit/7612425))
+* **builder:** allows to pass async function in `AbilityBuilder.define` ([def07c7](https://github.com/stalniy/casl/commit/def07c7))
+
+### Performance
+
+* **ability:** improves performance of `permittedFieldsOf` helper function ([7612425](https://github.com/stalniy/casl/commit/7612425))
+
+### Bug Fixes
+
+* **builder:** returns RuleBuilder from AbilityBuilder#cannot ([def07c7](https://github.com/stalniy/casl/commit/def07c7))
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/stalniy/casl/compare/v1.1.0...@casl/ability@2.0.0) (2018-03-23)
 
@@ -42,8 +59,8 @@ import { AbilityBuilder } from '@casl/ability'
 
 ```js
 const ability = AbilityBuilder.define((can, cannot) => {
-  can('read', 'all')
-  cannot('read', 'Post')
+can('read', 'all')
+cannot('read', 'Post')
 })
 
 ability.can('read', 'Post') // true
