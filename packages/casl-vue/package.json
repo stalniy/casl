@@ -5,6 +5,7 @@
   "main": "dist/umd/index.js",
   "module": "index.js",
   "es2015": "dist/es6/index.js",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
