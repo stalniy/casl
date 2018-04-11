@@ -1,8 +1,14 @@
 {
   "env": {
     "test": {
-      "presets": ["es2015"],
-      "plugins": ["istanbul"]
+      "presets":[
+        ["es2015", { "modules": "commonjs" }]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-async-to-generator",
+        "transform-object-rest-spread"
+      ]
     }
   }
 }

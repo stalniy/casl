@@ -5,26 +5,26 @@ date:   2017-07-22 19:00:48 +0300
 categories: [abilities, database, integration]
 ---
 
-Sometimes you need to restrict which records are returned from the database based on what the user is able to access. CASL provides built-in integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
+Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. To do this, you can use the complementary package [@casl/mongoose](/packages/casl-mongoose) which provides integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.
 
 ## Mongoose plugin
 
-In order to restrict fetched records, you need to add CASL plugin into mongoose globally (recommended way) or add it for each model separately.
+In order to restrict fetched records, you need to add `accessibleRecordsPlugin` plugin into mongoose globally (recommended way) or add it for each model separately.
 
 ```js
 const mongoose = require('mongoose')
-const { mongoosePlugin } = require('casl')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
 
-mongoose.plugin(mongoosePlugin)
+mongoose.plugin(accessibleRecordsPlugin)
 ```
 
 If you include plugin globally (i.e., for all models), please make sure that you added it before calling `mongoose.model(...)` method. Models which were defined before adding plugin will not have CASL defined methods.
 
-Alternatively you can include CASL plugin for each model manually:
+Alternatively you can include this plugin for each model manually:
 
 ```js
 const mongoose = require('mongoose')
-const { mongoosePlugin } = require('casl')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
 
 const Post = new mongoose.Schema({
   title: String,
@@ -33,7 +33,7 @@ const Post = new mongoose.Schema({
   createdAt: Date
 })
 
-Post.plugin(mongoosePlugin)
+Post.plugin(accessibleRecordsPlugin)
 
 module.exports = mongoose.model('Post', Post)
 ```
@@ -99,38 +99,50 @@ const ability = AbilityBuilder.define((can, cannot) => {
 Post.accessibleBy(ability)
 ```
 
-
 ## Other MongoDB libraries
 
-Don't worry if you don't use mongoose, CASL also provide `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
+Don't worry if you use another MongoDB library, `@casl/mongoose` also exports `toMongoQuery` function which builds MongoDB query from abilities. It accepts only 1 argument which is an array of ability rules.
 
 ```js
-const { toMongoQuery } = require('casl')
+const { toMongoQuery } = require('@casl/mongoose')
 
 MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
-  const rules = ability.rulesFor('read', 'Post')
-  // query = { $or: [{ published: true }, { author: 'me' }] }
-  db.collection('posts').find(toMongoQuery(rules))
+  const query = toMongoQuery(ability, 'Post', 'read')
+  
+  if (query === null) {
+    // user is not allowed to read Posts
+  } else {
+    // query = { $or: [{ published: true }, { author: 'me' }] }
+    db.collection('posts').find(query)
+  }
+  
   db.close();
 })
 ```
 
-As you can see rules for specified action and subject can be retrieved with help of `rulesFor` method (the second argument is processed by `subjectName` function, see [Defining Abilities][defining-abilities] for details).
-**Important**: `toMongoQuery` returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
+**Important**: `toMongoQuery` returns `null` in case if ability's `rules` array is empty or there is an inverted rule without conditions. In that case, user doesn't have permission to get access to requested information.
 
 ## Other databases
 
-CASL provides 2 methods which can be used to add support for other libraries and databases:
+CASL provides a helper function which can be used to add support for other libraries and databases:
 
-* `rulesFor` method of `Ability` instance which was described above
-* `rulesToQuery` function
+* `rulesToQuery`, can be imported from `@casl/ability/extra` submodule
 
-`rulesToQuery` accepts two arguments: rules to process and conversion function which accepts rule as the only argument. The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
+It accepts 4 arguments: 
 
-So, the only thing which needs to be written is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
+* `Ability` instance to get rules from
+* action
+* subject name
+* conversion function which accepts rule as the only argument
+
+The function aggregates all abilities into single object with 2 properties `$or` and `$and`. Regular rules are added into `$or` array and inverted are added into `$and` array.
+
+**Important**: this function returns `null` if user is not allowed to perform specified action on specified subject.
+
+So, the only thing which needs to be done is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
 
 ```js
-const { rulesToQuery } = require('casl')
+const { rulesToQuery } = require('@casl/ability/extra')
 
 function ruleToQuery(rule) {
   if (JSON.stringify(rule.conditions).includes('$all:')) {
@@ -140,7 +152,7 @@ function ruleToQuery(rule) {
   return rule.inverted ? { $not: rule.conditions } : rule.conditions
 }
 
-module.exports = function toSequalizeQuery(rules) {
+module.exports = function toSequalizeQuery(ability, subject, action = 'read') {
   return rulesToQuery(rules, ruleToQuery)
 }
 ```
@@ -154,8 +166,7 @@ const Post = db.define('Post', {
   scopes: {
     accessibleBy(ability, action = 'read') {
       // TODO: handle case when `toSequalizeQuery` returns `null`
-      const rules = ability.rulesFor(action, 'Post')
-      return { where: toSequalizeQuery(rules) }
+      return { where: toSequalizeQuery(ability, 'Post') }
     }
   }
 });
@@ -166,9 +177,6 @@ And fetch accessible records from database:
 ```js
 Post.scope({ method: ['accessibleBy', ability] }).findAll()
 ```
-
-**Important**: `toMongoQuery` and `rulesToQuery` expects to receive rules for single pair of action and subject. User `ability.rulesFor(action, subject)` to retrieve rules for specific action and subject.
-They both returns `null` in case if `rules` array is empty or there is an inverted rule without conditions.
 
 
 [defining-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}

@@ -9,7 +9,7 @@ The `Ability` class is where all user permissions are defined. You can create `A
 
 `AbilityBuilder` allows to define rules in DSL-like style with help of `can` and `cannot` functions:
 ```js
-import { AbilityBuilder } from 'casl'
+import { AbilityBuilder } from '@casl/ability'
 
 function defineAbilitiesFor(user) {
   return AbilityBuilder.define((can, cannot) => {
@@ -22,10 +22,10 @@ function defineAbilitiesFor(user) {
 }
 ```
 
-If you don't like nesting, you can alternatively use `extract` method:
+If you don't like nesting, you can use `extract` method:
 
 ```js
-import { AbilityBuilder, Ability } from 'casl'
+import { AbilityBuilder, Ability } from '@casl/ability'
 
 function defineAbilitiesFor(user) {
   const { rules, can, cannot } = AbilityBuilder.extract()
@@ -60,7 +60,7 @@ const ability = AbilityBuilder.define({ subjectName }, can => {
 
 See [Intance checks][instance-checks] for details.
 
-`Ability` constructor is very handy in case if you store permissions in database or request from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
+`Ability` constructor is very handy in case if you store permissions in database or retrieve from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
 
 ```ts
 // TypeScript definition
@@ -68,14 +68,15 @@ interface Rule {
   actions: string | string[],
   subject: string | string[],
   conditions?: Object,
-  inverted?: boolean
+  fields?: string[],
+  inverted?: boolean // default is `false`
 }
 ```
 
 Rule should have `inverted` set to `true` in case if it forbids to perform specified action. For example, the next list of rules allows to manage `all` models and disallows to `delete` posts:
 
 ```js
-import { Ability } from 'casl'
+import { Ability } from '@casl/ability'
 
 const ability = new Ability([
   { subject: 'all', actions: 'manage' },
@@ -112,7 +113,7 @@ Common actions are `read`, `create`, `update` and `delete` but it can be anythin
 To define a new alias you can use `addAlias` method which accepts 2 arguments: alias name and one or few action names. For example, here we define `modify` alias to `update` and `delete`
 
 ```js
-import { Ability, AbilityBuilder } from 'casl'
+import { Ability, AbilityBuilder } from '@casl/ability'
 
 Ability.addAlias('modify', ['update', 'delete'])
 AbilityBuilder.define(can => {
@@ -151,6 +152,31 @@ can('delete', 'Post', { 'comments.0': { $exists: false } })
 ```
 
 As you may know already, it's possible to use few MongoDB query operators to define more complex conditions (supports only `$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`).
+
+## Rules per field
+
+It's possible to define abilities per subject fields. For example, you may want to allow `moderator` to update only `isPublished` field of the article:
+
+```js
+can('update', 'Post', 'isPublished')
+```
+
+or allow user to update only `title` and `description`
+
+```js
+can('update', 'Post', ['title', 'description'])
+```
+
+If fields are not specified then user is allowed to access all fields.
+You can combine fields together with conditions:
+
+```js
+can('update', 'Post', ['title', 'description'], { authorId: user.id })
+```
+
+It allows to retrieve only fields which user can update (e.g., when PATCH/PUT request sent to API) or show only editable fields on UI (e.g., on post edit page).
+
+See [Checking Abilities with fields][checking-ability-fields] for details.
 
 ## Combining Abilities
 
@@ -206,3 +232,4 @@ unsubscribe() // removes subscription
 [roles-example]: {{ site.baseurl }}{% post_url 2017-07-21-roles %}
 [instance-checks]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#instance-checks
 [fetching-records]: {{ site.baseurl }}{% post_url 2017-07-22-database-integration %}
+[checking-ability-fields]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#checking-fields

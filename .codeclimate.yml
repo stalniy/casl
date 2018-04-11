@@ -1,14 +1,13 @@
-engines:
+version: "2" 
+plugins:
   eslint:
     enabled: true
     checks:
       import/extensions:
         enabled: false
       import/no-extraneous-dependencies:
-        enabled: false        
-ratings:
-  paths:
-  - src/**
-exclude_paths:
-- spec/**/*
+        enabled: false
+exclude_patterns:
 - docs/**/*
+- "**/spec/**/*"
+- "**/*.d.ts"

@@ -1,0 +1,69 @@
+{
+  "extends": [
+    "config:base",
+    "monorepo:angular"
+  ],
+  "pinVersions": false,
+  "separatePatchReleases": false,
+  "ignoreUnstable": true,
+  "automerge": true,
+  "automergeType": "branch-push",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "peerDependencies": {
+    "versionStrategy": "widen"
+  },
+  "packageRules": [
+    {
+      "extends": "monorepo:babel6",
+      "groupName": "babel6 monorepo"
+    },
+    {
+      "packageNames": [
+        "chai",
+        "chai-spies"
+      ],
+      "groupName": "chai"
+    },
+    {
+      "packagePatterns": ["^karma"],
+      "groupName": "karma"
+    },
+    {
+      "packagePatterns": ["^eslint"],
+      "groupName": "eslint"
+    },
+    {
+      "packagePatterns": ["^rollup"],
+      "groupName": "rollup"
+    },
+    {
+      "packagePatterns": ["lerna"],
+      "groupName": "lerna"
+    },
+    {
+      "packagePatterns": ["jest"],
+      "groupName": "lerna"
+    },
+    {
+      "packageNames": [
+        "@vue/test-utils",
+        "vue",
+        "vue-template-compiler"
+      ],
+      "groupName": "vue"
+    },
+    {
+      "packageNames": [
+        "react",
+        "react-test-renderer"
+      ],
+      "groupName": "react"
+    },
+    {
+      "packagePatterns": ["^aurelia-"],
+      "groupName": "aurelia"
+    }
+  ]
+}

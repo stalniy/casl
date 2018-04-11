@@ -1,0 +1,50 @@
+{
+  "name": "@casl/aurelia",
+  "version": "0.1.1",
+  "description": "Aurelia plugin for CASL which makes it easy to add permissions in any Aurelia application",
+  "main": "dist/umd/index.js",
+  "module": "index.js",
+  "es2015": "dist/es6/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stalniy/casl.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "rollup": "rollup -g aurelia-binding:au,@casl/ability:casl",
+    "build.es": "npm run rollup -- -c ../../tools/rollup.es.js",
+    "build.umd": "npm run rollup -- -c ../../tools/rollup.umd.js -n casl.au",
+    "build.es5m": "npm run rollup -- -c ../../tools/rollup.es5m.js",
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m"
+  },
+  "keywords": [
+    "casl",
+    "aurelia",
+    "access control",
+    "authorization",
+    "acl",
+    "cancan",
+    "security",
+    "permissions"
+  ],
+  "author": "Sergii Stotskyi <sergiy.stotskiy@freaksidea.com>",
+  "license": "MIT",
+  "engines": {
+    "npm": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@casl/ability": "^2.0.0-alpha.1",
+    "aurelia-binding": "^1.6.0"
+  },
+  "devDependencies": {
+    "@casl/ability": "^2.0.0",
+    "aurelia-binding": "^1.6.0",
+    "aurelia-bootstrapper": "^2.2.0",
+    "aurelia-loader-nodejs": "^1.0.1",
+    "aurelia-pal-browser": "^1.4.0",
+    "aurelia-polyfills": "^1.3.0",
+    "aurelia-testing": "^1.0.0-beta.4.0.0"
+  }
+}

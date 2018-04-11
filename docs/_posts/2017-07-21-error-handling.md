@@ -23,7 +23,7 @@ try {
 Usually frameworks provide a way to catch errors globally. For example, [expressjs][expressjs-errors] uses the last middleware with 4 arguments for error handling:
 
 ```js
-const { ForbiddenError } = require('casl')
+const { ForbiddenError } = require('@casl/ability')
 
 app.delete('/posts/:id', (req, res, next) => {
   Post.findOne({ _id: req.params.id })
@@ -66,6 +66,7 @@ In [Angular][angular-errors] specify custom `ErrorHandler` provider:
 
 ```js
 import { NgModule, Injectable, ErrorHandler } from '@angular/core'
+import { ToasterService } from './toaster'
 
 @Injectable()
 class CustomErrorHandler extends ErrorHandler {

@@ -2,8 +2,10 @@ import babel from 'rollup-plugin-babel';
 import config from './rollup.es';
 
 export default Object.assign({}, config, {
-  dest: 'index.js',
-  format: 'es',
+  output: {
+    file: 'index.js',
+    format: 'es'
+  },
   plugins: config.plugins.concat([
     babel({
       exclude: 'node_modules/**',
