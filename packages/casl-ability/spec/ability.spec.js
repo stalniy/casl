@@ -360,6 +360,15 @@ describe('Ability', () => {
       expect(ability).not.to.allow('delete', new Post({ title: '[deleted] title' }))
       expect(ability).to.allow('delete', new Post({ title: '[DELETED] title' }))
     })
+
+    it('returns true for `Ability` which contains inverted rule and subject specified as string', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'Post')
+        cannot('read', 'Post', { private: true })
+      })
+
+      expect(ability).to.allow('read', 'Post')
+    })
   })
 
   describe('per field abilities', () => {

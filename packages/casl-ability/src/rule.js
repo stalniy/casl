@@ -15,7 +15,15 @@ export class Rule {
   }
 
   matches(object) {
-    return !this._matches || typeof object === 'string' || this._matches(object);
+    if (!this._matches) {
+      return true;
+    }
+
+    if (typeof object === 'string') {
+      return !this.inverted;
+    }
+
+    return this._matches(object);
   }
 
   isRelevantFor(object, field) {
