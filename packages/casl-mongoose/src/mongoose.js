@@ -1,7 +1,34 @@
 import { toMongoQuery } from './mongo';
 
+const noop = () => {};
+
 function emptyQuery(query) {
-  query.exec = () => Promise.resolve(query.op === 'findOne' ? null : []);
+  const originalExec = query.exec;
+
+  query.exec = function exec(operation, callback) {
+    const op = typeof operation === 'string' ? operation : this.op;
+    const cb = typeof operation === 'function' ? operation : callback;
+    let value;
+
+    if (op.indexOf('findOne') === 0) {
+      value = null;
+    } else if (op.indexOf('find') === 0) {
+      value = [];
+    } else if (op === 'count') {
+      value = 0;
+    } else {
+      this.where({ __notAllowed__: Date.now() });
+      return originalExec.call(this, operation, callback);
+    }
+
+    return Promise.resolve(value)
+      .then(v => {
+        if (typeof cb === 'function') {
+          cb(null, v);
+        }
+      });
+  };
+
   return query;
 }
 

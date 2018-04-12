@@ -31,9 +31,10 @@
     "npm": "^3.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1"
+    "@casl/ability": "^2.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^2.0.0"
+    "@casl/ability": "^2.0.0",
+    "mongoose": "^5.0.14"
   }
 }
