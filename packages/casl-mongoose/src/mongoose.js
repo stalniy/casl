@@ -1,7 +1,5 @@
 import { toMongoQuery } from './mongo';
 
-const noop = () => {};
-
 function emptyQuery(query) {
   const originalExec = query.exec;
 
@@ -22,10 +20,12 @@ function emptyQuery(query) {
     }
 
     return Promise.resolve(value)
-      .then(v => {
+      .then((v) => {
         if (typeof cb === 'function') {
           cb(null, v);
         }
+
+        return v;
       });
   };
 
