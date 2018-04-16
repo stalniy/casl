@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/stalniy/casl/compare/@casl/ability@2.0.2...@casl/ability@2.0.3) (2018-04-16)
+
+
+### Bug Fixes
+
+* **ability:** ignores inverted rule with conditions when checking subject type ([36916dc](https://github.com/stalniy/casl/commit/36916dc)), closes [#53](https://github.com/stalniy/casl/issues/53)
+
+
+
+
 <a name="2.0.2"></a>
 # [2.0.2](https://github.com/stalniy/casl/compare/@casl/ability@2.0.0...@casl/ability@2.0.2) (2018-04-03)
 
