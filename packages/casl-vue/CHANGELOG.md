@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# 0.2.0 (2018-04-16)
+
+
+### Features
+
+* **vue:** adds typescript definitions ([a7eac4b](https://github.com/stalniy/casl/commit/a7eac4b)), closes [#38](https://github.com/stalniy/casl/issues/38)
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2018-03-23)
 
@@ -10,5 +19,5 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 * **integration:** adds new folder for vue integration, closes [#22](https://github.com/stalniy/casl/issues/22)
-* **vue:** adds empty ability instance in case if such is not provided
+* **vue:** adds empty ability instance in case if such is not provided ([a971f05](https://github.com/stalniy/casl/commit/a971f05))
 * **ability:** adds reactivity to ability rules
