@@ -24,7 +24,7 @@
     "test": "NODE_ENV=test jest",
     "lint": "eslint -c .eslintrc packages/*/src",
     "coverage.submit": "codecov",
-    "prerelease": "npm test && npm run build",
+    "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "lerna publish --conventional-commits"
   },
   "devDependencies": {
