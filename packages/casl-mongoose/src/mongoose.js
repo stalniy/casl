@@ -3,6 +3,7 @@ import { toMongoQuery } from './mongo';
 function emptyQuery(query) {
   const originalExec = query.exec;
 
+  query.where({ __forbiddenByCasl__: 1 });
   query.exec = function exec(operation, callback) {
     const op = typeof operation === 'string' ? operation : this.op;
     const cb = typeof operation === 'function' ? operation : callback;
@@ -15,7 +16,6 @@ function emptyQuery(query) {
     } else if (op === 'count') {
       value = 0;
     } else {
-      this.where({ __notAllowed__: Date.now() });
       return originalExec.call(this, operation, callback);
     }
 
