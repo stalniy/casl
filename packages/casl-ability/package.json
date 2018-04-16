@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git@github.com:stalniy/casl.git"
   },
+  "homepage": "https://stalniy.github.io/casl/",
   "publishConfig": {
     "access": "public"
   },
