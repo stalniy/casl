@@ -4,6 +4,11 @@ node_js:
   - lts/*
   - node
 
+cache:
+  directories:
+    - ./node_modules
+    - ./packages/*/node_modules
+
 before_install:
   - if [[ `npm -v` = 2* ]]; then npm i -g npm@3.10.8; fi
 
