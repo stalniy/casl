@@ -2,7 +2,7 @@ import { AbilityBuilder, Ability } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleRecordsPlugin, toMongoQuery } from '../src'
 
-describe('Mongoose Plugin', () => {
+describe('Accessible Records Plugin', () => {
   const PostSchema = mongoose.Schema({
     title: String,
     state: String
