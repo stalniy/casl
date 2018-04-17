@@ -32,6 +32,16 @@ describe('rulesToQuery', () => {
     expect(Object.keys(query)).to.be.empty
   })
 
+  it('returns empty `$or` part if rule with conditions defined last', () => {
+    const ability = AbilityBuilder.define(can => {
+      can('read', 'Post')
+      can('read', 'Post', { author: 123 })
+    })
+    const query = toQuery(ability, 'read', 'Post')
+
+    expect(Object.keys(query)).to.be.empty
+  })
+
   it('returns `null` if at least one inverted rule does not have conditions', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
       cannot('read', 'Post', { author: 123 })

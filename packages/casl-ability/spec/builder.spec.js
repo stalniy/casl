@@ -26,4 +26,60 @@ describe('AbilityBuilder', () => {
       { inverted: true, actions: 'read', subject: 'Book', conditions: { private: true } }
     ])
   })
+
+  it('allows to pass options into `Ability` constructor as the 1st parameter for `define` method', () => {
+    const subjectName = subject => typeof subject === 'string' ? subject : subject.ModelName
+    const ability = AbilityBuilder.define({ subjectName }, (can) => {
+      can('read', 'Book')
+    })
+
+    expect(ability.can('read', { ModelName: 'Book' })).to.be.true
+  })
+
+  describe('`can` DSL method', () => {
+    it('throws exception if the 1st argument is not a string or array of strings', () => {
+      expect(() => {
+        AbilityBuilder.define(can => can({}, 'Post'))
+      }).to.throw(/to be an action or array of actions/)
+    })
+
+    it('throws exception if the 2nd argument is not a string', () => {
+      expect(() => {
+        AbilityBuilder.define(can => can('read', {}))
+      }).to.throw(/to be a subject name or array of subject names/)
+    })
+  })
+
+  describe('`extract` method', () => {
+    it('returns plain object with properties: `can`, `cannot` and `rules`', () => {
+      const { can, cannot, rules } = AbilityBuilder.extract()
+
+      expect(can).to.be.a('function')
+      expect(cannot).to.be.a('function')
+      expect(rules).to.be.an('array')
+    })
+
+    it('allows to define regular rules', () => {
+      const { can, cannot, rules } = AbilityBuilder.extract()
+      can('read', 'Post')
+      can('read', 'Comment', { private: false })
+
+      expect(rules).to.deep.equal([
+        { actions: 'read', subject: 'Post' },
+        { actions: 'read', subject: 'Comment', conditions: { private: false } }
+      ])
+    })
+
+    it('allows to define inverted rules', () => {
+      const { can, cannot, rules } = AbilityBuilder.extract()
+      can('read', 'Post')
+      cannot('read', 'Comment', { private: true })
+
+      expect(rules).to.deep.equal([
+        { actions: 'read', subject: 'Post' },
+        { actions: 'read', subject: 'Comment', conditions: { private: true }, inverted: true }
+      ])
+
+    })
+  })
 })
