@@ -12,6 +12,10 @@ npm install @casl/mongoose @casl/ability
 
 ### 1. Integrating with mongoose
 
+There are 2 plugins which allow to seamlessly integrate CASL into mongoose:
+
+#### Accessible Records plugin
+
 `accessibleRecordsPlugin` is a [mongoose][mongoose] plugin which adds `accessibleBy` method to query and static methods. For example, you can add this plugin globally to all models
 
 ```js
@@ -50,6 +54,53 @@ Post.accessibleBy(ability).exec()
 ```
 
 Check [@casl/ability](/packages/casl-ability) package to understand how to define abilities.
+
+#### Permitted Fields plugins
+
+`permittedFieldsPlugin` is a [mongoose][mongoose] plugin which adds `permittedFieldsBy` method to instance and static methods.
+That method allow to retrieve accessible fields by ability:
+
+```js
+const { permittedFieldsPlugin } = require('@casl/mongoose')
+const mongoose = require('mongoose')
+const PostSchema = require('./schema')
+const ability = require('../ability') // defines Ability instance
+
+PostSchema.plugin(permittedFieldsPlugin)
+const Post = mongoose.model('Post', PostSchema)
+
+const readableFields = Post.permittedFieldsBy(ability) // by default, returns fields for `read` action
+```
+
+Later, you can use that array of fields to return user only fields which he can read or pick ones from body which he can update!
+
+```js
+const pick = require('lodash.pick')
+
+app // express instance for example
+  .patch('/posts/:id', (req, res) => {
+    const updatableFields = Post.permittedFieldsBy(ability, 'update')
+    const body = pick(req.body, updatableFields)
+
+    // now `body` is an object of fields which user is allowed to update
+  })
+```
+
+The same method exists on Model instance and takes into consideration rule conditions & object properties as well.
+For example, if you have the next rules:
+
+```js
+const ability = AbilityBuilder.define(can => {
+  can('read', 'Post', ['title'], { private: true })
+  can('read', 'Post', ['title', 'description'], { private: false })
+})
+const post = new Post({ private: true, title: 'Private post' })
+
+Post.permittedFieldsBy(ability) // ['title', 'description']
+post.permittedFieldsBy(ability) // ['title']
+```
+
+Without knowing context (i.e., `Post` instance attributes) `permittedFieldsBy` can't return the correct permitted fields. That's why it's recommended to use instance method instead of class method!
 
 ### 2. Integrating with any MongoDB library
 
