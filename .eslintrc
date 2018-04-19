@@ -8,6 +8,7 @@
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "no-param-reassign": ["error", { "props": false }],
     "no-mixed-operators": 0,
-    "no-prototype-builtins": 0
+    "no-prototype-builtins": 0,
+    "no-confusing-arrow": 0
   }
 }
