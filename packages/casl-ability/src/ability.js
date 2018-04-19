@@ -60,18 +60,18 @@ export class Ability {
     const { RuleType } = this[PRIVATE_FIELD];
 
     for (let i = 0; i < rules.length; i++) {
-      const rule = rules[i];
+      const rule = new RuleType(rules[i]);
       const actions = this.expandActions(rule.actions);
+      const subjects = Array.isArray(rule.subject) ? rule.subject : rule.subject.split(',');
 
-      for (let j = 0; j < actions.length; j++) {
-        const action = actions[j];
-        const subjects = Array.isArray(rule.subject) ? rule.subject : rule.subject.split(',');
+      for (let k = 0; k < subjects.length; k++) {
+        const subject = subjects[k];
+        indexedRules[subject] = indexedRules[subject] || {};
 
-        for (let k = 0; k < subjects.length; k++) {
-          const subject = subjects[k];
-          indexedRules[subject] = indexedRules[subject] || {};
+        for (let j = 0; j < actions.length; j++) {
+          const action = actions[j];
           indexedRules[subject][action] = indexedRules[subject][action] || [];
-          indexedRules[subject][action].unshift(new RuleType(rule));
+          indexedRules[subject][action].unshift(rule);
         }
       }
     }
