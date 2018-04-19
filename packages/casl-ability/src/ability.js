@@ -1,5 +1,6 @@
 import { ForbiddenError } from './error';
 import { Rule } from './rule';
+import { wrapArray } from './utils';
 
 function getSubjectName(subject) {
   if (!subject || typeof subject === 'string') {
@@ -18,7 +19,7 @@ function clone(object) {
 const DEFAULT_ALIASES = {
   manage: ['create', 'read', 'update', 'delete'],
 };
-const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol.for('private') : `__private${Date.now()}`;
+const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol('private') : `__${Date.now()}`;
 
 export class Ability {
   static addAlias(alias, actions) {
@@ -62,7 +63,7 @@ export class Ability {
     for (let i = 0; i < rules.length; i++) {
       const rule = new RuleType(rules[i]);
       const actions = this.expandActions(rule.actions);
-      const subjects = Array.isArray(rule.subject) ? rule.subject : rule.subject.split(',');
+      const subjects = wrapArray(rule.subject);
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = subjects[k];
@@ -80,7 +81,7 @@ export class Ability {
   }
 
   expandActions(rawActions) {
-    const actions = Array.isArray(rawActions) ? rawActions : [rawActions];
+    const actions = wrapArray(rawActions);
     const { aliases } = this[PRIVATE_FIELD];
 
     return actions.reduce((expanded, action) => {

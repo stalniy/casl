@@ -47,3 +47,31 @@ export function permittedFieldsOf(ability, action, subject, options = {}) {
 
   return Array.from(uniqueFields);
 }
+
+const joinIfArray = value => Array.isArray(value) ? value.join(',') : value;
+
+export function packRules(rules) {
+  return rules.map(({ actions, subject, inverted, conditions, fields }) => { // eslint-disable-line
+    const rule = [
+      joinIfArray(actions),
+      joinIfArray(subject),
+      inverted ? 1 : 0,
+      conditions || 0,
+      joinIfArray(fields) || 0
+    ];
+
+    while (!rule[rule.length - 1]) rule.pop();
+
+    return rule;
+  });
+}
+
+export function unpackRules(rules) {
+  return rules.map(([actions, subject, inverted, conditions, fields]) => ({
+    actions: actions.split(','),
+    subject: subject.split(','),
+    inverted: !!inverted,
+    conditions: conditions || null,
+    fields: fields ? fields.split(',') : null
+  }));
+}
