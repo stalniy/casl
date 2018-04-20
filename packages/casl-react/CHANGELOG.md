@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# 0.3.0 (2018-04-20)
+
+
+### Bug Fixes
+
+* **react:** fixes support for React 15.x ([8e17738](https://github.com/stalniy/casl/commit/8e17738))
+* **react:** fixes typings for react 15.x & 16.x ([f147a8a](https://github.com/stalniy/casl/commit/f147a8a)), closes [#38](https://github.com/stalniy/casl/issues/38)
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2018-04-20)
 
