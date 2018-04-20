@@ -1,23 +1,29 @@
-import { PureComponent, createElement, Consumer } from 'react';
-import { Ability } from '@casl/ability';
+import { PureComponent, StatelessComponent } from 'react'
+import { Ability } from '@casl/ability'
 
-/**
- * Base properties shared between Can and ContextualCan
- */
 type BaseProps = {
-  do : string          ;
-  on : Object | string ;
+  do: string
+  on: Object | string
 };
 
-
-type CanProps = BaseProps & {
-  ability : Ability;  
+type CanPropsStrict = BaseProps & {
+  ability: Ability
 }
 
-type ContextualCanDelegate = (props: BaseProps) => React.PureComponent<BaseProps>
+type CanProps = BaseProps & {
+  ability?: Ability
+}
 
-// Class definition
-export default class Can extends PureComponent<CanProps>{}
+declare class CanComponent<T> extends PureComponent<T> {
+  allowed: boolean
+}
 
-export function createCanBoundTo(ability: Ability): ContextualCanDelegate;
-export function createContextualCan<T>(Consumer: Consumer<T>): ContextualCanDelegate;
+export class Can extends CanComponent<CanPropsStrict> {
+}
+
+export class BoundCan extends CanComponent<CanProps> {
+}
+
+export function createCanBoundTo(ability: Ability): typeof BoundCan
+
+export function createContextualCan(Consumer: any): StatelessComponent<CanProps>
