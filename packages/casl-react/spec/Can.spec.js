@@ -89,14 +89,14 @@ describe('`Can` component', () => {
     it('does not render children if ability does not allow to `do` action `on` subject', () => {
       const component = renderer.create(e(Can, { do: 'update', on: 'Post', ability }, child))
 
-      expect(component.toJSON()).to.be.empty
+      expect(component.toJSON()).to.be.null
     })
 
     it('rerenders when ability rules are changed', () => {
       const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, child))
       ability.update([])
 
-      expect(component.toJSON()).to.be.empty
+      expect(component.toJSON()).to.be.null
     })
 
     it('does not rerender itself when previous ability rules are changed', () => {

@@ -37,7 +37,7 @@ describe('Factory methods which create `Can` component', () => {
       const anotherAbility = AbilityBuilder.define(can => can('update', 'Post'))
       const component = renderer.create(e(BoundCan, { do: 'read', on: 'Post', ability: anotherAbility }, child))
 
-      expect(component.toJSON()).to.be.empty
+      expect(component.toJSON()).to.be.null
     })
   })
 

@@ -59,7 +59,7 @@ export default class Can extends PureComponent {
   }
 
   render() {
-    return this.state.allowed ? this.renderChildren() : '';
+    return this.state.allowed ? this.renderChildren() : null;
   }
 
   renderChildren() {
