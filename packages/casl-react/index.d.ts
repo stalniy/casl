@@ -5,8 +5,8 @@ import { Ability } from '@casl/ability';
  * Base properties shared between Can and ContextualCan
  */
 type BaseProps = {
-  do      : string          ;
-  on      : Object | string ;
+  do : string          ;
+  on : Object | string ;
 };
 
 
