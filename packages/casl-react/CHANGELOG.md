@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# 0.4.0 (2018-04-23)
+
+
+### Bug Fixes
+
+* **react:** rechecks abilities in `Can` on props update ([e08db1e](https://github.com/stalniy/casl/commit/e08db1e)), closes [#55](https://github.com/stalniy/casl/issues/55)
+
+
 <a name="0.3.0"></a>
 # 0.3.0 (2018-04-20)
 
