@@ -99,6 +99,20 @@ describe('`Can` component', () => {
       expect(component.toJSON()).to.be.null
     })
 
+    it('rerenders when `do` prop is changed', () => {
+      const component = renderer.create(e(Can, { do: 'update', on: 'Post', ability }, child))
+      component.update(e(Can, { do: 'read', on: 'Post', ability }, child))
+
+      expect(component.toJSON().children).to.deep.equal([child.props.children])
+    })
+
+    fit('rerenders when `on` prop is changed', () => {
+      const component = renderer.create(e(Can, { do: 'read', on: 'User', ability }, child))
+      component.update(e(Can, { do: 'read', on: 'Post', ability }, child))
+
+      expect(component.toJSON().children).to.deep.equal([child.props.children])
+    })
+
     it('does not rerender itself when previous ability rules are changed', () => {
       const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, child))
       const anotherAbility = AbilityBuilder.define(can => can('manage', 'Post'))
