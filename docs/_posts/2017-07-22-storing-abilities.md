@@ -88,7 +88,56 @@ const token = decodedToken(req.headers.authorization)
 const ability = new Ability(token.rules)
 ```
 
-In order to reduce token size you can use different JSON packing algorithms (e.g., [msgpack.org](http://msgpack.org/))
+In order to reduce token size you can use helper functions (`packRules` and `unpackRules`) from `@casl/ability/extra` package.
+`packRules` **decreases serialized rules in 2 times**, by converting objects to arrays.
+
+```js
+const { packRules } = require('@casl/ability/extra')
+
+app.post('/session', (req, res) => {
+  const token = jwt.sign({
+    id: req.user.id,
+    rules: packRules(req.ability.rules)
+  }, 'secret', { expiresIn: '1d' })
+
+  res.send({ token })
+})
+```
+
+On the receiving side, use `unpackRules` before updating `Ability` instance:
+
+```js
+import { unpackRules } = require('@casl/ability/extra')
+
+// inside LoginComponent
+{
+  login(params) {
+    return http.post('/session')
+      .then((response) => {
+        const token = parseJwtToken(response.token)
+        this.ability.update(unpackRules(token.rules))
+      })
+  }
+}
+
+```
+
+If that's not enough, you can combine `packRules` (or replace) with other JSON packing algorithms (e.g., [msgpack.org](http://msgpack.org/))
+
+**Important**: don't use directly result returned by `packRules`, its format is not public and may change in future versions.
+
+```js
+const packedRules = packRules(ability.rules)
+
+// don't !!!
+myMethod(packedRules[0][0], packedRules[0][1])
+
+// use `unpackRules` to work with rules in the code
+const rules = unpackRules(packedRules)
+
+// good
+myMethod(rules[0].actions, rules[0].subject)
+```
 
 ## Storing abilities
 
