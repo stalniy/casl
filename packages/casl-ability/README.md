@@ -19,12 +19,12 @@ CASL concentrates all attention at what a user can actually do and allows to cre
 ```js
 import { AbilityBuidler } from '@casl/abiltiy'
 
+class Website {}
+
 const ability = AbilityBuilder.define((can, cannot) => {
   can('protect', 'Website')
   cannot('delete', 'Website')
 })
-
-class Website {}
 
 console.log(ability.can('delete', new Website())) // false
 ```
@@ -90,6 +90,30 @@ ability.can('read', 'Post')
 const post = new Post({ title: 'What is CASL?', authorId: 'not_me' })
 ability.cannot('update', post)
 ```
+
+Regular rules are logically OR-ed, so if you have permissions like:
+
+```js
+const { can } = AbilityBuilder.extract()
+
+can('read', 'Post', { author: user.id })
+can('read', 'Post', { public: true })
+
+// Note: `user` is a variable which contains information about user for whom these permissions are defined
+```
+
+Then a user is able to read posts which are created by him or they are public:
+
+```js
+class Post {
+  ....
+}
+
+ability.can('read', new Post({ public: true })) // true
+ability.can('read', new Post({ author: user.id })) // true
+```
+
+**Note**: pay attention that all conditions, specified in `can` & `cannot` DSL functions of `AbilityBuilder`, are compared to properties of object passed as 2nd argument to `ability.can`.
 
 See [Check Abilities][check-abilities] for details.
 
