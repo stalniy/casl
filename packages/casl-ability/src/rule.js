@@ -3,7 +3,7 @@ import { wrapArray } from './utils';
 
 export class Rule {
   constructor(params) {
-    this.actions = params.actions;
+    this.actions = params.actions || params.action;
     this.subject = params.subject;
     this.fields = !params.fields || params.fields.length === 0
       ? undefined
