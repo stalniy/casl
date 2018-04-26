@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/stalniy/casl/compare/@casl/ability@2.0.3...@casl/ability@2.1.0) (2018-04-26)
+
+
+### Features
+
+* **ability:** adds alias `action` to `actions` Rule field ([88d82a8](https://github.com/stalniy/casl/commit/88d82a8))
+* **ability:** adds pack/unpack rules methods ([c60ab5d](https://github.com/stalniy/casl/commit/c60ab5d)), closes [#44](https://github.com/stalniy/casl/issues/44)
+
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/stalniy/casl/compare/@casl/ability@2.0.2...@casl/ability@2.0.3) (2018-04-16)
 
