@@ -3,7 +3,8 @@ export interface RawRule {
   actions: string | string[],
   fields?: string[],
   conditions?: Object,
-  inverted?: boolean
+  inverted?: boolean,
+  reason?: string
 }
 
 export interface Rule extends RawRule {
@@ -28,6 +29,8 @@ export class Ability {
 
   cannot(action: string, subject: any, field?: string): boolean
 
+  relevantRuleFor(action: string, subject: any, field?: string): Rule | null
+
   possibleRulesFor(action: string, subject: any): Rule[]
 
   rulesFor(action: string, subject: any, field?: string): Rule[]
@@ -37,6 +40,8 @@ export class Ability {
 
 export class RuleBuilder {
   rule: RawRule
+
+  because(reason: string): RuleBuilder
 }
 
 export abstract class AbilityBuilderParts {
@@ -56,4 +61,9 @@ export class AbilityBuilder extends AbilityBuilderParts {
   static extract(): AbilityBuilderParts
 }
 
-export class ForbiddenError extends Error {}
+export class ForbiddenError extends Error {
+  subject: any
+  subjectName: string
+  action: string
+  field: string
+}

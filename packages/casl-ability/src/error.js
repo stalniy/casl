@@ -1,7 +1,11 @@
-export function ForbiddenError(message) {
+export function ForbiddenError(message, options = {}) {
   Error.call(this);
-  this.message = message;
   this.constructor = ForbiddenError;
+  this.subject = options.subject;
+  this.subjectName = options.subjectName;
+  this.action = options.action;
+  this.field = options.field;
+  this.message = message || `Cannot execute "${this.action}" on "${this.subjectName}"`;
 
   if (typeof Error.captureStackTrace === 'function') {
     this.name = this.constructor.name;

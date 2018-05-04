@@ -98,15 +98,21 @@ export class Ability {
   }
 
   can(action, subject, field) {
+    const rule = this.relevantRuleFor(action, subject, field);
+
+    return !!rule && !rule.inverted;
+  }
+
+  relevantRuleFor(action, subject, field) {
     const rules = this.rulesFor(action, subject, field);
 
     for (let i = 0; i < rules.length; i++) {
       if (rules[i].matches(subject)) {
-        return !rules[i].inverted;
+        return rules[i];
       }
     }
 
-    return false;
+    return null;
   }
 
   possibleRulesFor(action, subject) {
@@ -127,9 +133,19 @@ export class Ability {
     return !this.can(...args);
   }
 
-  throwUnlessCan(action, subject) {
-    if (this.cannot(action, subject)) {
-      throw new ForbiddenError(`Cannot execute "${action}" on "${this[PRIVATE_FIELD].subjectName(subject)}"`);
+  throwUnlessCan(...args) {
+    const rule = this.relevantRuleFor(...args);
+
+    if (!rule || rule.inverted) {
+      const [action, subject, field] = args;
+      const subjectName = this[PRIVATE_FIELD].subjectName(subject);
+
+      throw new ForbiddenError(rule ? rule.reason : null, {
+        action,
+        subjectName,
+        subject,
+        field
+      });
     }
   }
 

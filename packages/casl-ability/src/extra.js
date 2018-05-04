@@ -51,13 +51,14 @@ export function permittedFieldsOf(ability, action, subject, options = {}) {
 const joinIfArray = value => Array.isArray(value) ? value.join(',') : value;
 
 export function packRules(rules) {
-  return rules.map(({ actions, subject, conditions, inverted, fields }) => { // eslint-disable-line
+  return rules.map(({ actions, subject, conditions, inverted, fields, reason }) => { // eslint-disable-line
     const rule = [
       joinIfArray(actions),
       joinIfArray(subject),
       conditions || 0,
       inverted ? 1 : 0,
-      joinIfArray(fields) || 0
+      joinIfArray(fields) || 0,
+      reason || 0
     ];
 
     while (!rule[rule.length - 1]) rule.pop();
@@ -67,11 +68,12 @@ export function packRules(rules) {
 }
 
 export function unpackRules(rules) {
-  return rules.map(([actions, subject, conditions, inverted, fields]) => ({
+  return rules.map(([actions, subject, conditions, inverted, fields, reason]) => ({
     actions: actions.split(','),
     subject: subject.split(','),
     inverted: !!inverted,
     conditions: conditions || null,
-    fields: fields ? fields.split(',') : null
+    fields: fields ? fields.split(',') : null,
+    reason
   }));
 }

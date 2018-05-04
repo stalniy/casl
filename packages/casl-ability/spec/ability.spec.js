@@ -133,19 +133,35 @@ describe('Ability', () => {
     })
 
     describe('`throwUnlessCan` method', () => {
-      it('relies on `cannot` method', () => {
-        ability.cannot = spy(() => false)
-        ability.throwUnlessCan('read', 'Post')
-
-        expect(ability.cannot).to.have.been.called.with.exactly('read', 'Post')
-      })
-
       it('raises forbidden exception on disallowed action', () => {
         expect(() => ability.throwUnlessCan('archive', 'Post')).to.throw(ForbiddenError)
       })
 
       it('does not raise forbidden exception on allowed action', () => {
         expect(() => ability.throwUnlessCan('read', 'Post')).not.to.throw(Error)
+      })
+
+      it('raises error with context information', () => {
+        let error = new Error('No error raised');
+
+        try {
+          ability.throwUnlessCan('archive', 'Post')
+        } catch (abilityError) {
+          error = abilityError
+        }
+
+        expect(error).to.have.property('action').that.equal('archive')
+        expect(error).to.have.property('subject').that.equal('Post')
+        expect(error).to.have.property('subjectName').that.equal('Post')
+      })
+
+      it('raises error with message provided in `reason` field of forbidden rule', () => {
+        const NO_CARD_MESSAGE = 'No credit card provided'
+        const ability = AbilityBuilder.define((can, cannot) => {
+          cannot('update', 'Post').because(NO_CARD_MESSAGE)
+        })
+
+        expect(() => ability.throwUnlessCan('update', 'Post')).to.throw(NO_CARD_MESSAGE)
       })
     })
 

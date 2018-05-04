@@ -11,6 +11,7 @@ export class Rule {
     this.inverted = !!params.inverted;
     this.conditions = params.conditions;
     this._matches = this.conditions ? sift(this.conditions) : undefined;
+    this.reason = params.reason;
   }
 
   matches(object) {
