@@ -68,6 +68,22 @@ fdescribe('Ability rules packing', () => {
       expect(rules[0][4]).to.equal(fields.join(','))
       expect(rules[0]).to.have.length(5)
     })
+
+    it('puts `0` in place of `fields` when reason is provided and fields are not', () => {
+      const reason = 'forbidden reason'
+      const rules = packRules([{ actions: 'read', subject: 'Post', reason }])
+
+      expect(rules[0][4]).to.equal(0)
+      expect(rules[0]).to.have.length(6)
+    })
+
+    it('puts `reason` as 6th element of rule array', () => {
+      const reason = 'forbidden reason'
+      const rules = packRules([{ actions: 'read', subject: 'Post', reason }])
+
+      expect(rules[0][5]).to.equal(reason)
+      expect(rules[0]).to.have.length(6)
+    })
   })
 
   describe('`unpackRules` function', () => {
@@ -136,11 +152,23 @@ fdescribe('Ability rules packing', () => {
       expect(rules[0].fields).to.deep.equal(fields)
     })
 
-
     it('converts `fields` to `null` if its value is `0`', () => {
       const rules = unpackRules([['read', 'Post,Comment', 1, 0, 0]])
 
       expect(rules[0].fields).to.be.null
+    })
+
+    it('puts 6th element under `reason` field', () => {
+      const reason = 'forbidden reason'
+      const rules = unpackRules([['read', 'Post,Comment', 1, 0, 0, reason]])
+
+      expect(rules[0].reason).to.equal(reason)
+    })
+
+    it('converts `reason` to `null` if its value is `0`', () => {
+      const rules = unpackRules([['read', 'Post,Comment', 1, 0, 0, 0]])
+
+      expect(rules[0].reason).to.be.null
     })
   })
 })
