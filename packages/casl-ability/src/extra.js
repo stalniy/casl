@@ -74,6 +74,6 @@ export function unpackRules(rules) {
     inverted: !!inverted,
     conditions: conditions || null,
     fields: fields ? fields.split(',') : null,
-    reason
+    reason: reason || null
   }));
 }
