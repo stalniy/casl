@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/stalniy/casl/compare/@casl/ability@2.1.0...@casl/ability@2.2.0) (2018-05-04)
+
+
+### Bug Fixes
+
+* **ability:** properly unpacks `reason` field ([d6eeee0](https://github.com/stalniy/casl/commit/d6eeee0)), closes [#45](https://github.com/stalniy/casl/issues/45)
+
+
+### Features
+
+* **ability:** adds forbidden reasons ([1c01c42](https://github.com/stalniy/casl/commit/1c01c42)), closes [#45](https://github.com/stalniy/casl/issues/45)
+
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/stalniy/casl/compare/@casl/ability@2.0.3...@casl/ability@2.1.0) (2018-04-26)
 
