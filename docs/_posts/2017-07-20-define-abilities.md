@@ -200,6 +200,40 @@ AbilityBuilder.define((can, cannot) => {
 
 It is important that the `cannot delete` line comes after the `can manage` line. If they were reversed, `cannot delete` would be overridden by `can manage`. The rule of thumb is to define general rules first and more specific after general ones.
 
+## Forbidden reasons
+
+Sometimes you may want to define rules with possibility to specify more clear error message when `ability.can` fails.
+To do that, you need explicitly forbid actions and provide corresponding messages. You can use `because` method of `RuleBuilder` or provide `reason` key in `RawRule` object:
+
+```js
+// `user` is a reference to user object
+
+const ability = AbilityBuilder.define(async (can, cannot) => {
+  can('read', 'Post')
+
+  if (!user.hasActiveSubscription()) {
+    cannot('update', 'Post').because('subscription expired')
+  } else if (user.isUpdatesPerDayExceeded()) {
+    cannot('update', 'Post').because('updates per day exceeded')
+  } else {
+    can('update', 'Post', { userId: user.id })
+  }
+})
+```
+
+Alternatively, you can provide `reason` key when using object notation:
+
+```js
+const ability = new Ability([
+  { action: 'read', subject: 'Post' },
+  { action: 'update', subject: 'Post', inverted: true, reason: 'subscription expired' }
+])
+```
+
+Now, `ability` knows why user can't update `Post` and can provide more friendly error message.
+
+Read [checking abilities][checking-ability] to see how this can be used together with `throwUnlessCan` method.
+
 ## Update abilities
 
 It's possible to update abilities of created `Ability` instance. For example, in Single Page Application you need to reset all abilities once user is logged out.
@@ -233,3 +267,4 @@ unsubscribe() // removes subscription
 [instance-checks]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#instance-checks
 [fetching-records]: {{ site.baseurl }}{% post_url 2017-07-22-database-integration %}
 [checking-ability-fields]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}#checking-fields
+[checking-ability]: {{ site.baseurl }}{% post_url 2017-07-21-check-abilities %}

@@ -46,6 +46,34 @@ async function findPost(req, res) {
 }
 ```
 
+Also it works seamlessly with [forbidden reasons][forbidden-reasons]. For example
+
+```js
+const ability = AbilityBuidler.define((can, cannot) => {
+  can('read', 'all')
+
+  if (!user.isAdmin()) {
+    cannot('update', 'Product', 'price').because('Only admins can update product prices')
+  }
+})
+
+ability.throwUnlessCan('update', 'Post')
+```
+
+The code above will throw error with corresponding message, if user is not an admin.
+Also that error object contains information about what `action`, `subject` and `field` were checked, so you can use this to provide template message and evaluate it later:
+
+```js
+try {
+  ability.throwUnlessCan('update', 'Post')
+} catch (error) {
+  console.log(error.message) // "Only admins can update product prices"
+  console.log(error.action) // "update"
+  console.log(error.subjectName) // "Post"
+  console.log(error.subject) // "Post", does not equal `subjectName` when check on instance
+}
+```
+
 ## Instance checks
 
 By default, CASL is looking for `modelName` attribute on constructor of the passed object (and fallbacks to constructor `name` if that is blank). Lets consider example:
@@ -163,7 +191,7 @@ const schema = mongoose.Schema({
 const Product = mongoose.model('Product', schema)
 
 const allProductFields = Object.keys(schema.paths)
-const allowedFields = permittedFieldsOf(ability, 'update', 'Product', { 
+const allowedFields = permittedFieldsOf(ability, 'update', 'Product', {
   fieldsFrom: rule => rule.fields || allProductFields
 })
 
@@ -171,3 +199,4 @@ console.log(allowedFields) // ['_id', 'title', 'description', 'price']
 ```
 
 [define-abilities]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}
+[forbidden-reasons]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}#forbidden-reasons
