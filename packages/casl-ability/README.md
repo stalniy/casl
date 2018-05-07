@@ -180,8 +180,6 @@ const fields = permittedFieldsOf(ability, 'update', 'Post')
 const attributesToUpdate = _.pick(req.body, fields)
 ```
 
-See [Extracting Permitted Attributes][extract-permitted-attrs] for details.
-
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
@@ -196,4 +194,3 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [storing-abilities]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html
 [store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
 [cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
-[extract-permitted-attrs]: #

@@ -108,14 +108,14 @@ const { toMongoQuery } = require('@casl/mongoose')
 
 MongoClient.connect('mongodb://localhost:27017/blog', function(err, db) {
   const query = toMongoQuery(ability, 'Post', 'read')
-  
+
   if (query === null) {
     // user is not allowed to read Posts
   } else {
     // query = { $or: [{ published: true }, { author: 'me' }] }
     db.collection('posts').find(query)
   }
-  
+
   db.close();
 })
 ```
@@ -128,7 +128,7 @@ CASL provides a helper function which can be used to add support for other libra
 
 * `rulesToQuery`, can be imported from `@casl/ability/extra` submodule
 
-It accepts 4 arguments: 
+It accepts 4 arguments:
 
 * `Ability` instance to get rules from
 * action
@@ -145,7 +145,7 @@ So, the only thing which needs to be done is a function which converts rules int
 const { rulesToQuery } = require('@casl/ability/extra')
 
 function ruleToQuery(rule) {
-  if (JSON.stringify(rule.conditions).includes('$all:')) {
+  if (JSON.stringify(rule.conditions).includes('"$all":')) {
     throw new Error('Sequalize does not support "$all" operator')
   }
 
@@ -153,7 +153,7 @@ function ruleToQuery(rule) {
 }
 
 module.exports = function toSequalizeQuery(ability, subject, action = 'read') {
-  return rulesToQuery(rules, ruleToQuery)
+  return rulesToQuery(ability, action, subject, ruleToQuery)
 }
 ```
 
