@@ -1,16 +1,6 @@
 import { ForbiddenError } from './error';
 import { Rule } from './rule';
-import { wrapArray } from './utils';
-
-function getSubjectName(subject) {
-  if (!subject || typeof subject === 'string') {
-    return subject;
-  }
-
-  const Type = typeof subject === 'object' ? subject.constructor : subject;
-
-  return Type.modelName || Type.name;
-}
+import { wrapArray, getSubjectName } from './utils';
 
 function clone(object) {
   return JSON.parse(JSON.stringify(object));
