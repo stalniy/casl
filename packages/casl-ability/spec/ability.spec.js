@@ -52,11 +52,11 @@ describe('Ability', () => {
     })
 
     expect(ability.rules).to.deep.equal([
-      { actions: 'manage', subject: 'all' },
-      { actions: 'learn', subject: 'Range' },
-      { actions: 'read', subject: 'String', inverted: true },
-      { actions: 'read', subject: 'Hash', inverted: true },
-      { actions: 'preview', subject: 'Array', inverted: true },
+      { actions: 'manage', subject: ['all'] },
+      { actions: 'learn', subject: ['Range'] },
+      { actions: 'read', subject: ['String'], inverted: true },
+      { actions: 'read', subject: ['Hash'], inverted: true },
+      { actions: 'preview', subject: ['Array'], inverted: true },
     ])
   })
 
@@ -471,8 +471,8 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: 'Post', inverted: true, conditions: { private: true } },
-        { actions: 'read', subject: 'Post', inverted: false },
+        { actions: 'read', subject: ['Post'], inverted: true, conditions: { private: true } },
+        { actions: 'read', subject: ['Post'], inverted: false },
       ])
     })
 
@@ -485,7 +485,7 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: 'Post', inverted: false },
+        { actions: 'read', subject: ['Post'], inverted: false },
       ])
     })
 
@@ -498,8 +498,8 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post', 'title').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: 'Post', inverted: true, fields: ['title'] },
-        { actions: 'read', subject: 'Post', inverted: false }
+        { actions: 'read', subject: ['Post'], inverted: true, fields: ['title'] },
+        { actions: 'read', subject: ['Post'], inverted: false }
       ])
     })
 

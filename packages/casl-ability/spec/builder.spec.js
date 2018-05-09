@@ -1,4 +1,5 @@
 import { AbilityBuilder, Ability } from '../src'
+import { Post } from './spec_helper';
 
 describe('AbilityBuilder', () => {
   it('defines `Ability` instance using DSL', () => {
@@ -9,8 +10,21 @@ describe('AbilityBuilder', () => {
 
     expect(ability).to.be.instanceof(Ability)
     expect(ability.rules).to.deep.equal([
-      { actions: 'read', subject: 'Book' },
-      { inverted: true, actions: 'read', subject: 'Book', conditions: { private: true } }
+      { actions: 'read', subject: ['Book'] },
+      { inverted: true, actions: 'read', subject: ['Book'], conditions: { private: true } }
+    ])
+  })
+
+  it('defines `Ability` instance using DSL with Constructor', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', Post)
+      cannot('read', Post, { private: true })
+    })
+
+    expect(ability).to.be.instanceof(Ability)
+    expect(ability.rules).to.deep.equal([
+      { actions: 'read', subject: ['Post'] },
+      { inverted: true, actions: 'read', subject: ['Post'], conditions: { private: true } }
     ])
   })
 
@@ -22,8 +36,8 @@ describe('AbilityBuilder', () => {
 
     expect(ability).to.be.instanceof(Ability)
     expect(ability.rules).to.deep.equal([
-      { actions: 'read', subject: 'Book' },
-      { inverted: true, actions: 'read', subject: 'Book', conditions: { private: true } }
+      { actions: 'read', subject: ['Book'] },
+      { inverted: true, actions: 'read', subject: ['Book'], conditions: { private: true } }
     ])
   })
 
@@ -43,10 +57,10 @@ describe('AbilityBuilder', () => {
       }).to.throw(/to be an action or array of actions/)
     })
 
-    it('throws exception if the 2nd argument is not a string', () => {
+    it('throws exception if the 2nd argument is not a string (and no suitable getSubjectName)', () => {
       expect(() => {
-        AbilityBuilder.define(can => can('read', {}))
-      }).to.throw(/to be a subject name or array of subject names/)
+        AbilityBuilder.define(can => can('read', null))
+      }).to.throw(/to be a subject name\/type or an array of subject names\/types/)
     })
   })
 
@@ -65,8 +79,8 @@ describe('AbilityBuilder', () => {
       can('read', 'Comment', { private: false })
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: 'Post' },
-        { actions: 'read', subject: 'Comment', conditions: { private: false } }
+        { actions: 'read', subject: ['Post'] },
+        { actions: 'read', subject: ['Comment'], conditions: { private: false } }
       ])
     })
 
@@ -76,8 +90,8 @@ describe('AbilityBuilder', () => {
       cannot('read', 'Comment', { private: true })
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: 'Post' },
-        { actions: 'read', subject: 'Comment', conditions: { private: true }, inverted: true }
+        { actions: 'read', subject: ['Post'] },
+        { actions: 'read', subject: ['Comment'], conditions: { private: true }, inverted: true }
       ])
 
     })

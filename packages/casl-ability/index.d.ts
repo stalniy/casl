@@ -47,11 +47,11 @@ export class RuleBuilder {
 export abstract class AbilityBuilderParts {
   rules: RawRule[]
 
-  can(action: string | string[], subject: string | string[], conditions?: Object): RuleBuilder
-  can(action: string | string[], subject: string | string[], fields?: string[], conditions?: Object): RuleBuilder
+  can(action: string | string[], subject: any | any[], conditions?: Object): RuleBuilder
+  can(action: string | string[], subject: any | any[], fields?: string[], conditions?: Object): RuleBuilder
 
-  cannot(action: string | string[], subject: string | string[], conditions?: Object): RuleBuilder
-  cannot(action: string | string[], subject: string | string[], fields?: string[], conditions?: Object): RuleBuilder
+  cannot(action: string | string[], subject: any | any[], conditions?: Object): RuleBuilder
+  cannot(action: string | string[], subject: any | any[], fields?: string[], conditions?: Object): RuleBuilder
 }
 
 export class AbilityBuilder extends AbilityBuilderParts {
