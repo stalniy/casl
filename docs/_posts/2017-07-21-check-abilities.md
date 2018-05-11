@@ -57,7 +57,7 @@ const ability = AbilityBuidler.define((can, cannot) => {
   }
 })
 
-ability.throwUnlessCan('update', 'Post')
+ability.throwUnlessCan('update', 'Post', 'price')
 ```
 
 The code above will throw error with corresponding message, if user is not an admin.
@@ -65,7 +65,7 @@ Also that error object contains information about what `action`, `subject` and `
 
 ```js
 try {
-  ability.throwUnlessCan('update', 'Post')
+  ability.throwUnlessCan('update', 'Post', 'price')
 } catch (error) {
   console.log(error.message) // "Only admins can update product prices"
   console.log(error.action) // "update"

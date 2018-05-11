@@ -8,6 +8,7 @@ categories: abilities
 The `Ability` class is where all user permissions are defined. You can create `Ability` using `AbilityBuilder` or `Ability` constructor.
 
 `AbilityBuilder` allows to define rules in DSL-like style with help of `can` and `cannot` functions:
+
 ```js
 import { AbilityBuilder } from '@casl/ability'
 
@@ -69,7 +70,8 @@ interface Rule {
   subject: string | string[],
   conditions?: Object,
   fields?: string[],
-  inverted?: boolean // default is `false`
+  inverted?: boolean, // default is `false`
+  reason?: string // mainly to specify why user can't do something. See forbidden reasons for details
 }
 ```
 
@@ -106,7 +108,34 @@ You can pass an array for either of these parameters to match any one. For examp
 can(['update', 'delete'], ['Post', 'Comment'])
 ```
 
-Common actions are `read`, `create`, `update` and `delete` but it can be anything. Also you can define own aliases to one or few actions.
+Common actions are `read`, `create`, `update` and `delete` but it can be anything.
+
+Starting from `@casl/ability@2.3.0`, it's also possible to define rules using Types (i.e., classes or constructor functions)
+
+```js
+class Post {
+  ...
+}
+
+const ability = AbilityBuilder.define(can => {
+  can('read', Post)
+  can('update', Post)
+})
+```
+
+`AbilityBuilder` uses default (or provided) `subjectName` option to determine subject name and resulting rules contain `subject` field which is a string, in the case above `Post`.
+
+```js
+console.log(ability.rules)
+/*
+[
+  { actions: 'read', subject: 'Post' },
+  { actions: 'update', subject: 'Post' }
+]
+*/
+```
+
+**Note**: `cannot` DSL function accepts the same arguments as `can` but defines `inverted` rules (i.e., forbids to perform an action)
 
 ## Define own aliases
 
