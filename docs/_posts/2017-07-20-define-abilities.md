@@ -237,12 +237,12 @@ To do that, you need explicitly forbid actions and provide corresponding message
 ```js
 // `user` is a reference to user object
 
-const ability = AbilityBuilder.define(async (can, cannot) => {
+const ability = await AbilityBuilder.define(async (can, cannot) => {
   can('read', 'Post')
 
-  if (!user.hasActiveSubscription()) {
+  if (!(await user.hasActiveSubscription())) {
     cannot('update', 'Post').because('subscription expired')
-  } else if (user.isUpdatesPerDayExceeded()) {
+  } else if (await user.isUpdatesPerDayExceeded()) {
     cannot('update', 'Post').because('updates per day exceeded')
   } else {
     can('update', 'Post', { userId: user.id })
