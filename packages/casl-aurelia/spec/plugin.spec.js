@@ -1,6 +1,7 @@
 import './spec_helper'
 import { AbilityBuilder, Ability } from '@casl/ability'
 import { ComponentTester } from 'aurelia-testing'
+import { BindingEngine } from 'aurelia-binding'
 import { bootstrap } from 'aurelia-bootstrapper'
 import { configure } from '../src'
 
@@ -96,6 +97,7 @@ describe('CASL Aurelia plugin', () => {
     component.bootstrap(aurelia => {
       component.container = aurelia.container
       aurelia.use.standardConfiguration()
+      aurelia.container.get(BindingEngine).observerLocator.dirtyChecker.checkDelay = 20
       callback(aurelia)
     })
 
