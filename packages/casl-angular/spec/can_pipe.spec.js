@@ -18,7 +18,7 @@ describe('Can pipe', () => {
     pipe.transform('Post', 'read')
     spy.restore(ability)
 
-    expect(can).to.have.been.called.with.exactly('read', 'Post')
+    expect(can).to.have.been.called.with('read', 'Post')
   })
 
   it('marks change detector as dirty when ability updates', () => {
