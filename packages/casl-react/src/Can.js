@@ -3,11 +3,26 @@ import PropTypes from 'prop-types';
 import { Ability } from '@casl/ability';
 
 const noop = () => {};
+const REQUIRED_OBJECT_OR_STRING = PropTypes
+  .oneOfType([PropTypes.object, PropTypes.string])
+  .isRequired;
+
+function alias(names, validate) {
+  return (props, ...args) => { // eslint-disable-line
+    if (!names.split(' ').some(name => props[name])) {
+      return validate(props, ...args);
+    }
+  };
+}
 
 export default class Can extends PureComponent {
   static propTypes = {
-    do: PropTypes.string.isRequired,
-    on: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+    I: alias('do', PropTypes.string.isRequired),
+    a: alias('on this of', REQUIRED_OBJECT_OR_STRING),
+    of: alias('on a this', REQUIRED_OBJECT_OR_STRING),
+    this: alias('on a of', REQUIRED_OBJECT_OR_STRING),
+    do: alias('I', PropTypes.string.isRequired),
+    on: alias('this a of', REQUIRED_OBJECT_OR_STRING),
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired
   };
@@ -58,7 +73,10 @@ export default class Can extends PureComponent {
 
   check(props = null) {
     const params = props || this.props;
-    return this.state.ability.can(params.do, params.on);
+    const [action, field] = (params.I || params.do).split(/\s+/);
+    const subject = params.of || params.a || params.this || params.on;
+
+    return this.state.ability.can(action, subject, field);
   }
 
   render() {

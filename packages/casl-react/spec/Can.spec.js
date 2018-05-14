@@ -14,42 +14,42 @@ describe('`Can` component', () => {
   })
 
   it('requires to pass children', () => {
-    const props = { ability, do: 'read', on: 'subject' }
+    const props = { ability, I: 'read', a: 'subject' }
 
     expect(() => validateProps(Can, props)).to.throw(/`children` is marked as required/)
   })
 
   it('may accept children as a function', () => {
-    const props = { ability, do: 'read', on: 'subject', children: () => {} }
+    const props = { ability, I: 'read', a: 'subject', children: () => {} }
 
     expect(() => validateProps(Can, props)).not.to.throw(Error)
   })
 
   it('passes ability instance as an argument to "children" function', () => {
-    const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, children))
+    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
     expect(children).to.have.been.called.with.exactly(ability)
   })
 
-  it('requires to pass "do" as string', () => {
-    const props = { ability, children, on: 'subject' }
+  it('requires to pass "I" as string', () => {
+    const props = { ability, children, a: 'subject' }
 
-    expect(() => validateProps(Can, props)).to.throw(/`do` is marked as required/)
-    expect(() => validateProps(Can, { do: {}, ...props })).to.throw(/expected `string`/)
-    expect(() => validateProps(Can, { do: 'test', ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, props)).to.throw(/`I` is marked as required/)
+    expect(() => validateProps(Can, { I: {}, ...props })).to.throw(/expected `string`/)
+    expect(() => validateProps(Can, { I: 'read', ...props })).not.to.throw(Error)
   })
 
-  it('requires to pass "on" as string or object', () => {
-    const props = { ability, children, do: 'test' }
+  it('requires to pass "a" or "this" or "of" as string or object', () => {
+    const props = { ability, children, I: 'test' }
 
-    expect(() => validateProps(Can, props)).to.throw(/`on` is marked as required/)
-    expect(() => validateProps(Can, { on: 123, ...props })).to.throw(/Invalid prop `on`/)
-    expect(() => validateProps(Can, { on: {}, ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { on: 'subject', ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, props)).to.throw(/`a` is marked as required/)
+    expect(() => validateProps(Can, { a: 123, ...props })).to.throw(/Invalid prop `a`/)
+    expect(() => validateProps(Can, { a: {}, ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { a: 'subject', ...props })).not.to.throw(Error)
   })
 
   it('requires "ability" prop to be an instance of `Ability`', () => {
-    const props = { children, do: 'test', on: 'subject' }
+    const props = { children, I: 'test', a: 'subject' }
 
     expect(() => validateProps(Can, props)).to.throw(/`ability` is marked as required/)
     expect(() => validateProps(Can, { ability: {}, ...props })).to.throw(/Invalid prop `ability`/)
@@ -57,13 +57,13 @@ describe('`Can` component', () => {
   })
 
   it('has public "allowed" property which returns boolean indicating wether children will be rendered', () => {
-    const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, children))
+    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
     expect(component.getInstance().allowed).to.equal(ability.can('read', 'Post'))
   })
 
   it('unsubscribes from ability updates when unmounted', () => {
-    const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, children))
+    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
     const instance = component.getInstance()
 
     component.unmount()
@@ -80,44 +80,44 @@ describe('`Can` component', () => {
       child = e('a', null, 'children')
     })
 
-    it('renders children if ability allows to `do` action `on` specified subject', () => {
-      const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, child))
+    it('renders children if ability allows to perform an action', () => {
+      const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
 
-    it('does not render children if ability does not allow to `do` action `on` subject', () => {
-      const component = renderer.create(e(Can, { do: 'update', on: 'Post', ability }, child))
+    it('does not render children if ability does not allow to perform an action', () => {
+      const component = renderer.create(e(Can, { I: 'update', a: 'Post', ability }, child))
 
       expect(component.toJSON()).to.be.null
     })
 
     it('rerenders when ability rules are changed', () => {
-      const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, child))
+      const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
       ability.update([])
 
       expect(component.toJSON()).to.be.null
     })
 
-    it('rerenders when `do` prop is changed', () => {
-      const component = renderer.create(e(Can, { do: 'update', on: 'Post', ability }, child))
-      component.update(e(Can, { do: 'read', on: 'Post', ability }, child))
+    it('rerenders when `I` prop is changed', () => {
+      const component = renderer.create(e(Can, { I: 'update', a: 'Post', ability }, child))
+      component.update(e(Can, { I: 'read', a: 'Post', ability }, child))
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
 
-    fit('rerenders when `on` prop is changed', () => {
-      const component = renderer.create(e(Can, { do: 'read', on: 'User', ability }, child))
-      component.update(e(Can, { do: 'read', on: 'Post', ability }, child))
+    it('rerenders when `a` or `this` or `of` prop is changed', () => {
+      const component = renderer.create(e(Can, { I: 'read', a: 'User', ability }, child))
+      component.update(e(Can, { I: 'read', a: 'Post', ability }, child))
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
 
     it('does not rerender itself when previous ability rules are changed', () => {
-      const component = renderer.create(e(Can, { do: 'read', on: 'Post', ability }, child))
+      const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
       const anotherAbility = AbilityBuilder.define(can => can('manage', 'Post'))
 
-      component.update(e(Can, { do: 'read', on: 'Post', ability: anotherAbility }, child))
+      component.update(e(Can, { I: 'read', a: 'Post', ability: anotherAbility }, child))
       ability.update([])
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
