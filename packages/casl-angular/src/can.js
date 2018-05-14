@@ -24,8 +24,8 @@ export class CanPipe {
     return this.can(action, resource, field);
   }
 
-  can(action, resource, field) {
-    return this.ability.can(action, resource, field);
+  can(...args) {
+    return this.ability.can(...args);
   }
 
   ngOnDestroy() {

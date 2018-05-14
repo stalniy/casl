@@ -1,4 +1,6 @@
 import { Ability } from '@casl/ability';
+import Can from './component/can';
+import AbilityProvider from './component/abilityProvider';
 
 export function abilitiesPlugin(Vue, providedAbility) {
   const ability = providedAbility || new Ability([]);
@@ -22,4 +24,6 @@ export function abilitiesPlugin(Vue, providedAbility) {
       }
     }
   });
+  Vue.component('AbilityProvider', AbilityProvider);
+  Vue.component('Can', Can);
 }
