@@ -6,21 +6,24 @@ categories: abilities
 ---
 
 After [abilities are defined][define-abilities], you can use the `can` method of `Ability` instance to check the user's permission for a given action and object.
+There are 2 types of checks:
+1. Per subject name (i.e., Type)
+
+```js
+ability.can('read', 'Post')
+```
+
+2. Per subject (i.e., Type instance)
 
 ```js
 ability.can('delete', post)
+// `post` is an instance of class Post
 ```
 
 The `cannot` method is for convenience and performs the opposite check of `can`
 
 ```js
 ability.cannot('delete', post)
-```
-
-You can also pass a class or model name instead of instance
-
-```js
-ability.can('delete', 'Post')
 ```
 
 **Important**: If an object of conditions exist they will be ignored when checking on a class name, and it will return `true`. For example:
@@ -110,7 +113,7 @@ class Article {
 ability.can('read', new Article({ title: 'Hello CASL', published: true }))
 ```
 
-In case if the default behavior is not satisfied for you, it's possible to pass custom `subjectName` option in `Ability` constructor, which should return passed object name. This may be useful if you want to define actions for `RPC` procedures (e.g., in CQRS or GraphQL interfaces).
+In case if the default behavior is not satisfied for you, it's possible to pass custom `subjectName` option in `Ability` constructor, which should return passed object type. This may be useful if you want to define actions for `RPC` procedures (e.g., in CQRS or GraphQL interfaces).
 
 ```js
 const ability = new Ability([...], {
