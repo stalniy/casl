@@ -16,16 +16,16 @@ export class CanPipe {
     this.unsubscribeFromAbility = noop;
   }
 
-  transform(resource, action) {
+  transform(resource, action, field) {
     if (this.unsubscribeFromAbility === noop) {
       this.unsubscribeFromAbility = this.ability.on('updated', () => this.cd.markForCheck());
     }
 
-    return this.can(action, resource);
+    return this.can(action, resource, field);
   }
 
-  can(action, resource) {
-    return this.ability.can(action, resource);
+  can(action, resource, field) {
+    return this.ability.can(action, resource, field);
   }
 
   ngOnDestroy() {
