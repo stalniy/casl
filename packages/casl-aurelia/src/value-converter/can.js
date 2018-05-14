@@ -15,12 +15,12 @@ export class CanValueConverter {
     this.ability = ability;
   }
 
-  toView(subject, action) {
+  toView(subject, action, field) {
     if (!this.ability[ABILITY_HAS_SUBSCRIPTION_FIELD]) {
       this.ability.on('updated', () => signalBindings(ABILITY_CHANGED_SIGNAL));
       this.ability[ABILITY_HAS_SUBSCRIPTION_FIELD] = true;
     }
 
-    return this.ability.can(action, subject);
+    return this.ability.can(action, subject, field);
   }
 }
