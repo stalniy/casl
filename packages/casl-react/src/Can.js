@@ -75,11 +75,10 @@ export default class Can extends PureComponent {
   check(props = null) {
     const params = props || this.props;
     const { ability } = this.state;
-    const checkMethod = params.not ? ability.cannot : ability.can;
     const [action, field] = (params.I || params.do).split(/\s+/);
     const subject = params.of || params.a || params.this || params.on;
 
-    return checkMethod(action, subject, field);
+    return params.not ? ability.cannot(action, subject, field) : ability.can(action, subject, field);
   }
 
   render() {
