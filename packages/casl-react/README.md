@@ -11,7 +11,7 @@ npm install @casl/react @casl/ability
 ## Getting Started
 
 This package provides `Can` component which can be used to conditionally show UI elements based on user abilities.
-This component accepts children and 4 properties (see [Property names and aliases](#property-names-and-aliases))
+This component accepts children and 4 properties (see [Property names and aliases](#3-property-names-and-aliases))
 * `I` (`do` is an alias) - name of the action and field
 * `a` (`on`, `of`, `this` are aliases) - checked subject
 * `not` - checks whether the ability does *not* allow an action
