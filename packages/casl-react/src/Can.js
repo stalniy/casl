@@ -23,6 +23,7 @@ export default class Can extends PureComponent {
     this: alias('on a of', REQUIRED_OBJECT_OR_STRING),
     do: alias('I', PropTypes.string.isRequired),
     on: alias('this a of', REQUIRED_OBJECT_OR_STRING),
+    not: PropTypes.bool,
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired
   };
@@ -73,10 +74,12 @@ export default class Can extends PureComponent {
 
   check(props = null) {
     const params = props || this.props;
+    const {ability} = this.state;
+    const checkMethod = params.not ? ability.cannot : ability.can;
     const [action, field] = (params.I || params.do).split(/\s+/);
     const subject = params.of || params.a || params.this || params.on;
 
-    return this.state.ability.can(action, subject, field);
+    return checkMethod(action, subject, field);
   }
 
   render() {
