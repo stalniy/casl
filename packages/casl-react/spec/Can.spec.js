@@ -31,6 +31,15 @@ describe('`Can` component', () => {
     expect(children).to.have.been.called.with.exactly(ability)
   })
 
+  it('requires to pass "a" or "this" or "of" as string or object', () => {
+    const props = { ability, children, I: 'test' }
+
+    expect(() => validateProps(Can, props)).to.throw(/`a` is marked as required/)
+    expect(() => validateProps(Can, { a: 123, ...props })).to.throw(/Invalid prop `a`/)
+    expect(() => validateProps(Can, { a: {}, ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { a: 'subject', ...props })).not.to.throw(Error)
+  })
+
   it('requires to pass "I" as string', () => {
     const props = { ability, children, a: 'subject' }
 
@@ -39,13 +48,11 @@ describe('`Can` component', () => {
     expect(() => validateProps(Can, { I: 'read', ...props })).not.to.throw(Error)
   })
 
-  it('requires to pass "a" or "this" or "of" as string or object', () => {
-    const props = { ability, children, I: 'test' }
+  it('only accepts "not" as boolean', () => {
+    const props = { ability, children, I: 'test', a: 'subject' }
 
-    expect(() => validateProps(Can, props)).to.throw(/`a` is marked as required/)
-    expect(() => validateProps(Can, { a: 123, ...props })).to.throw(/Invalid prop `a`/)
-    expect(() => validateProps(Can, { a: {}, ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { a: 'subject', ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { not: true, ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { not: 'string', ...props })).to.throw(/expected `boolean`/)
   })
 
   it('requires "ability" prop to be an instance of `Ability`', () => {
@@ -56,10 +63,12 @@ describe('`Can` component', () => {
     expect(() => validateProps(Can, { ability, ...props })).not.to.throw(Error)
   })
 
-  it('has public "allowed" property which returns boolean indicating wether children will be rendered', () => {
-    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
+  it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
+    const canComponent = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
+    const cannotComponent = renderer.create(e(Can, {not: true, I: 'run', a: 'Marathon', ability }, children))
 
-    expect(component.getInstance().allowed).to.equal(ability.can('read', 'Post'))
+    expect(canComponent.getInstance().allowed).to.equal(ability.can('read', 'Post'))
+    expect(canComponent.getInstance().allowed).to.equal(ability.cannot('run', 'Marathon'))
   })
 
   it('unsubscribes from ability updates when unmounted', () => {
@@ -92,6 +101,12 @@ describe('`Can` component', () => {
       expect(component.toJSON()).to.be.null
     })
 
+    it('does not render children if ability allows to perform an action, but `not` is set to true', () => {
+      const component = renderer.create(e(Can, { not: true, I: 'read', a: 'Post', ability }, child))
+
+      expect(component.toJSON()).to.be.null
+    })
+
     it('rerenders when ability rules are changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
       ability.update([])
@@ -109,6 +124,13 @@ describe('`Can` component', () => {
     it('rerenders when `a` or `this` or `of` prop is changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'User', ability }, child))
       component.update(e(Can, { I: 'read', a: 'Post', ability }, child))
+
+      expect(component.toJSON().children).to.deep.equal([child.props.children])
+    })
+
+    it('rerenders when `not` prop is changed', () => {
+      const component = renderer.create(e(Can, { not: true, I: 'read', a: 'Post', ability }, child))
+      component.update(e(Can, { not: false, I: 'read', a: 'Post', ability }, child))
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })

@@ -11,9 +11,10 @@ npm install @casl/react @casl/ability
 ## Getting Started
 
 This package provides `Can` component which can be used to conditionally show UI elements based on user abilities.
-This component accepts children and 3 properties (see [Property names and aliases](#property-names-and-aliases))
+This component accepts children and 4 properties (see [Property names and aliases](#3-property-names-and-aliases))
 * `I` (`do` is an alias) - name of the action and field
 * `a` (`on`, `of`, `this` are aliases) - checked subject
+* `not` - checks whether the ability does *not* allow an action
 * `ability` - an instance of `Ability` which will be used to check permissions
 
 `children` property may be either a render function (a recommended way):
@@ -209,7 +210,7 @@ There are several other property aliases which allow to construct a readable que
 <Can I="read" this={this.props.post}>...</Can>
 ```
 
-* use always `do` and `on` if you are bored and don't want to make your code more readable :)
+* use `do` and `on` if you are bored and don't want to make your code more readable :)
 
 ```jsx
 // `this.props.post` is an instance of `Post` class (i.e., model instance)
@@ -218,6 +219,12 @@ There are several other property aliases which allow to construct a readable que
 
 // or per field check
 <Can do="read title" on={this.props.post}>...</Can>
+```
+
+* use `not` when you want to invert the render method
+
+```jsx
+<Can not I="read" a="Post">...</Can>
 ```
 
 
