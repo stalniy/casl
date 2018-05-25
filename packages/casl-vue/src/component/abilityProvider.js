@@ -5,14 +5,27 @@ export default {
   props: {
     ability: Ability
   },
+<<<<<<< HEAD
   provide() {
-    // const { ability } = this;
+    const { ability } = this;
     return {
-      ability: {}
+      ability: ability || undefined
     };
   },
   render(_) {
-    return _(this.$slots.default);
+    return this.$slots.default[0];
+    // return _('div');
+=======
+  // functional: true,
+  provide() {
+    const { ability } = this;
+    return {
+      ability: ability || null
+    };
+  },
+  render(_) {
+    return _(this.$children);
+>>>>>>> 5965a30... add can component
   }
 };
 
