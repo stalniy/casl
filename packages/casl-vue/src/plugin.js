@@ -1,6 +1,5 @@
-import { Ability } from '@casl/ability';
+import { Ability, AbilityBuilder } from '@casl/ability';
 import Can from './component/can';
-import AbilityProvider from './component/abilityProvider';
 
 export function abilitiesPlugin(Vue, providedAbility) {
   const ability = providedAbility || new Ability([]);
@@ -21,9 +20,21 @@ export function abilitiesPlugin(Vue, providedAbility) {
       $can(...args) {
         watcher.rules = watcher.rules; // create dependency
         return this.$ability.can(...args);
+      },
+      $defineAbility(fn) {
+        const watcherForComponent = new Vue({
+          data: {
+            rules: []
+          }
+        });
+        const abilityForComponent = AbilityBuilder.define(fn);
+        abilityForComponent.on('updated', ({ rules }) => {
+          watcherForComponent.rules = rules;
+        });
+        abilityForComponent.watcherForComponent = watcherForComponent;
+        return abilityForComponent;
       }
     }
   });
-  Vue.component('AbilityProvider', AbilityProvider);
   Vue.component('Can', Can);
 }

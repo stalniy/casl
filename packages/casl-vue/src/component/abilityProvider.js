@@ -13,7 +13,8 @@ export default {
     };
   },
   render(_) {
-    return this.$slots.default[0];
+<<<<<<< HEAD
+    return _('div', {}, this.$slots.default);
     // return _('div');
 =======
   // functional: true,
@@ -26,6 +27,8 @@ export default {
   render(_) {
     return _(this.$children);
 >>>>>>> 5965a30... add can component
+=======
+    return _(this.$slots.default[0]);
+>>>>>>> 1a5bfbf... add test,fix can component
   }
 };
-
