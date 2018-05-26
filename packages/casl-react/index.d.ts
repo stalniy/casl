@@ -3,7 +3,16 @@ import { Ability } from '@casl/ability'
 
 type BaseProps = {
   do: string
-  on: Object | string
+  on: any
+} | {
+  I: string
+  a: string
+} | {
+  I: string
+  of: any
+} | {
+  I: string
+  this: any
 };
 
 type CanPropsStrict = BaseProps & {
