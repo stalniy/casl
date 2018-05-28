@@ -7,7 +7,7 @@
   "typings": "./index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git@github.com:stalniy/casl.git"
+    "url": "https://github.com/stalniy/casl.git"
   },
   "publishConfig": {
     "access": "public"
