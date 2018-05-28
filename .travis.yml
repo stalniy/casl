@@ -17,7 +17,7 @@ before_script:
   - npm run bootstrap
 
 script:
-  - npm test -- --coverage
+  - WITH_COVERAGE=1 npm test
 
 after_success:
   -  npm run coverage.submit

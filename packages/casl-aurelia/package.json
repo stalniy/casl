@@ -17,7 +17,10 @@
     "build.es": "npm run rollup -- -c ../../tools/rollup.es.js",
     "build.umd": "npm run rollup -- -c ../../tools/rollup.umd.js -n casl.au",
     "build.es5m": "npm run rollup -- -c ../../tools/rollup.es5m.js",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m"
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
+    "prerelease": "npm test && NODE_ENV=production npm run build",
+    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },
   "keywords": [
     "casl",

@@ -22,7 +22,10 @@
     "build.extra.es5m": "rollup -c ../../tools/rollup.es5m.js -i src/extra.js -o extra.js",
     "build.extra.umd": "rollup -c ../../tools/rollup.umd.js -i src/extra.js -o dist/umd/extra.js -n casl.extra",
     "build.extra": "npm run build.extra.es && npm run build.extra.es5m && npm run build.extra.umd",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m && npm run build.extra"
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m && npm run build.extra",
+    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
+    "prerelease2": "npm test && NODE_ENV=production npm run build",
+    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },
   "keywords": [
     "access control",
