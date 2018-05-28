@@ -110,7 +110,7 @@ A lot of useful information about CASL can be found in [documentation][documenta
 ## Examples
 
 There are several repositories which show how to integrate CASL in popular frontend and backend frameworks:
-* [CASL and Vue](https://github.com/stalniy/casl-vue-example)
+* [CASL and Vue](https://github.com/stalniy/casl-vue-example), [CASL and Vuex](https://github.com/stalniy/casl-vue-api-example)
 * [CASL and React](https://github.com/stalniy/casl-react-example)
 * [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
 * [CASL and Expressjs](https://github.com/stalniy/casl-express-example)

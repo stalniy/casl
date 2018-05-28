@@ -91,7 +91,7 @@ To check permissions in any component you can use `$can` method:
 </template>
 ```
 
-See [casl-vue-example][casl-vue-example] for more examples.
+See [casl-vue-example][casl-vue-example] and [casl-vuex-example][casl-vuex-example] for more examples.
 
 ## Want to help?
 
@@ -104,3 +104,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [contributing]: /CONTRIBUTING.md
 [vue]: https://vuejs.org/
 [casl-vue-example]: https://github.com/stalniy/casl-vue-example
+[casl-vuex-example]: https://github.com/stalniy/casl-vue-api-example

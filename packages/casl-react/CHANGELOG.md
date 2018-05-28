@@ -13,7 +13,7 @@
 
 ### Features
 
-* **react:** adds `not` attribute ([94ef6d4](https://github.com/stalniy/casl/commit/94ef6d4))
+* **react:** adds `not` attribute ([94ef6d4](https://github.com/stalniy/casl/commit/94ef6d4)), by @emilbruckner in [#66](https://github.com/stalniy/casl/issues/66)
 
 
 <a name="0.5.0"></a>
