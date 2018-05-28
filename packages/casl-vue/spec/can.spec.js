@@ -82,4 +82,20 @@ describe('vue Can component', () => {
       expect(wrapper.contains('h1')).to.equal(false);
     });
   });
+
+  describe('Can component return single element when only have one element', () => {
+    const Component = {
+      template: `
+                  <Can  I = 'read' of = 'Plugin'>
+                    <h1></h1>
+                  </Can>
+      `
+    };
+    const wrapper = mount(Component, {
+      localVue
+    });
+    it('use ability from plugin', () => {
+      expect(wrapper.contains('h1')).to.equal(true);
+    });
+  });
 });

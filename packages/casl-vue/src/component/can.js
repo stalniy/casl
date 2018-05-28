@@ -25,7 +25,7 @@ export default {
       ...props,
       $ability: parent.$ability,
     };
-    return check.call(checkContext) && children;
+    return check.call(checkContext) && children.length > 1 ? children : children[0];
   }
 };
 
