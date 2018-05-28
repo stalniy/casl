@@ -1,3 +1,10 @@
+function check() {
+  const [action, field] = this.I.split(/\s+/);
+  const subject = this.of || this.a || this.this || this.on;
+  const ability = this.ability || this.$ability;
+  return ability.can(action, subject, field);
+}
+
 export default {
   name: 'Can',
   inject: ['ability'],
@@ -33,11 +40,3 @@ export default {
     return check.call(checkContext) && children.length > 1 ? children : children[0];
   }
 };
-
-function check() {
-  const [action, field] = this.I.split(/\s+/);
-  const subject = this.of || this.a || this.this || this.on;
-  const ability = this.ability || this.$ability;
-  return ability.can(action, subject, field);
-}
-
