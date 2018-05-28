@@ -43,6 +43,8 @@
     "@casl/ability": "^2.0.0",
     "@vue/test-utils": "^1.0.0-beta.12",
     "vue": "^2.5.13",
-    "vue-template-compiler": "^2.5.13"
+    "vue-template-compiler": "^2.5.13",
+    "chai": "^4.1.0",
+    "chai-spies": "^1.0.0"
   }
 }
