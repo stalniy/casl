@@ -9,7 +9,6 @@
     "no-param-reassign": ["error", { "props": false }],
     "no-mixed-operators": 0,
     "no-prototype-builtins": 0,
-    "no-confusing-arrow": 0,
-    "linebreak-style": ["error", "windows"]
+    "no-confusing-arrow": 0
   }
 }
