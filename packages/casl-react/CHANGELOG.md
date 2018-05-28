@@ -1,7 +1,20 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+
+<a name="@casl/react-v0.6.0"></a>
+# [@casl/react-v0.6.0](https://github.com/stalniy/casl/compare/@casl/react@0.5.0...@casl/react@0.6.0) (2018-05-28)
+
+
+### Bug Fixes
+
+* **react:** adds `I`, `a`, `of`, `this` aliases in types ([a412868](https://github.com/stalniy/casl/commit/a412868)), closes [#65](https://github.com/stalniy/casl/issues/65)
+
+
+### Features
+
+* **react:** adds `not` attribute ([94ef6d4](https://github.com/stalniy/casl/commit/94ef6d4))
+
 
 <a name="0.5.0"></a>
 # 0.5.0 (2018-05-14)
