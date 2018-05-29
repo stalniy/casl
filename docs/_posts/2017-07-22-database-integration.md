@@ -3,6 +3,7 @@ layout: default
 title:  "Database Integration"
 date:   2017-07-22 19:00:48 +0300
 categories: [abilities, database, integration]
+tags: [CASL MongoDB, CASL mongoose, CASL sequelize, CASL and databases, filter database by permissions]
 ---
 
 Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. To do this, you can use the complementary package [@casl/mongoose](/packages/casl-mongoose) which provides integration with MongoDB through query builder function and [mongoose](http://mongoosejs.com/) plugin.

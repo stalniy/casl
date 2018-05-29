@@ -3,6 +3,7 @@ layout: default
 title:  "Define Abilities"
 date:   2017-07-20 20:12:48 +0300
 categories: abilities
+tags: [CASL define abilities, define permissions per field, permissions per entity, updating permissions, CASL subjectName option, determine subject name for entity]
 ---
 
 The `Ability` class is where all user permissions are defined. You can create `Ability` using `AbilityBuilder` or `Ability` constructor.

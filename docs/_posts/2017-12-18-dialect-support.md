@@ -3,7 +3,7 @@ layout: default
 title:  "Dialect Support"
 date:   2017-12-18 8:03:48 +0300
 categories: [abilities]
-tags: [dialect, es5, typescript]
+tags: [dialect, es5, es6, typescript]
 ---
 
 CASL is written in pure ES6 and compiled for 3 different dialects:
@@ -63,7 +63,7 @@ but contains `export` statements which allow webpack to understand what can be d
 
 ## TypeScript
 
-Typings for TypeScript can be found in `index.ts`. They allow to use CASL in strict typed apps
+Typings for TypeScript can be found in `index.d.ts` files in each package folder. They allow to use CASL in strict typed apps
 
 ```ts
 import { AbilityBuilder, Ability } from '@casl/ability'

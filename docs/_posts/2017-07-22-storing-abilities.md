@@ -3,6 +3,7 @@ layout: default
 title:  "Storing abilities"
 date:   2017-07-22 13:00:48 +0300
 categories: [abilities, storage]
+tags: [permissions in database, store CASL abilities, CASL JWT, CASL session]
 ---
 
 `Ability` instance is basically just an array of objects, thus it can be serialized and stored in any database. There are several reasons why you would like to store abilities:

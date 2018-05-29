@@ -3,6 +3,7 @@ layout: default
 title:  "Error Handling"
 date:   2017-07-21 10:52:48 +0300
 categories: [abilities, errors]
+tags: [CASL errors, handling permission errors]
 ---
 
 You can use `throwUnlessCan` method to throw `ForbiddenError` in case if user doesn't have ability to perform particular action. Afterwards you can catch this exception and provide expressive error message:
@@ -91,6 +92,9 @@ class CustomErrorHandler extends ErrorHandler {
 export class AppModule {}
 ```
 
+See also [Forbidden reasons][forbidden-reasons]
+
 [expressjs-errors]: http://expressjs.com/en/guide/error-handling.html
 [koa-errors]: https://github.com/koajs/koa/wiki/Error-Handling
 [angular-errors]: https://angular.io/api/core/ErrorHandler
+[forbidden-reasons]: {{ site.baseurl }}{% post_url 2017-07-20-define-abilities %}#forbidden-reasons

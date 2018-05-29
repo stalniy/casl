@@ -3,6 +3,7 @@ layout: default
 title:  "Check Abilities"
 date:   2017-07-21 08:08:48 +0300
 categories: abilities
+tags: [CASL check abilities, check permissions per field, forbidden reasons]
 ---
 
 After [abilities are defined][define-abilities], you can use the `can` method of `Ability` instance to check the user's permission for a given action and object.
