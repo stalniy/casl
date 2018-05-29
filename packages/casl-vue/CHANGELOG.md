@@ -1,7 +1,13 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+<a name="@casl/vue-v0.2.1"></a>
+# [@casl/vue-v0.2.1](https://github.com/stalniy/casl/compare/@casl/vue@0.2.0...@casl/vue@0.2.1) (2018-05-29)
+
+
+### Bug Fixes
+
+* **vue:** fixes issue with wrong type definition for `abilitiesPlugin` ([a7e2251](https://github.com/stalniy/casl/commit/a7e2251))
+
 
 <a name="0.2.0"></a>
 # 0.2.0 (2018-04-16)
