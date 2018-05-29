@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# 0.3.0 (2018-05-14)
+
+
+### Features
+
+* **aurelia:** support for per field abilities ([1ca5051](https://github.com/stalniy/casl/commit/1ca5051))
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2018-04-26)
 

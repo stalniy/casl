@@ -11,15 +11,16 @@ npm install @casl/react @casl/ability
 ## Getting Started
 
 This package provides `Can` component which can be used to conditionally show UI elements based on user abilities.
-This component accepts children and 3 properties:
-* `do` - name of the action
-* `on` - checked subject
+This component accepts children and 4 properties (see [Property names and aliases](#3-property-names-and-aliases))
+* `I` (`do` is an alias) - name of the action and field
+* `a` (`on`, `of`, `this` are aliases) - checked subject
+* `not` - checks whether the ability does *not* allow an action
 * `ability` - an instance of `Ability` which will be used to check permissions
 
 `children` property may be either a render function (a recommended way):
 
 ```jsx
-<Can do="create" on="Post" ability={ability}>
+<Can I="create" a="Post" ability={ability}>
   () => <button onClick={this.createPost.bind(this)}>Create Post</button>
 </Can>
 ```
@@ -27,17 +28,16 @@ This component accepts children and 3 properties:
 or React elements:
 
 ```jsx
-<Can do="create" on="Post" ability={ability}>
+<Can I="create" a="Post" ability={ability}>
   <button onClick={this.createPost.bind(this)}>Create Post</button>
 </Can>
 ```
 
 **Note**: it's better to pass children as a render function just because it will not create additional React elements if user doesn't have ability to do some action (in the case above `read Post`)
 
-
 ### 1. Scoping Can to use a particular ability
 
-Yes, it's a bit unconvenient to pass `ability` in every `Can` component.
+Yes, it's a bit inconvenient to pass `ability` in every `Can` component.
 This was actually done for cases when you have several abilities in your app and/or want to restrict a particular `Can` component to check abilities using another instance.
 
 There are 2 function which allow to scope `Can` to use a particular instance of `Ability`:
@@ -61,7 +61,7 @@ import Can from './Can'
 
 export function button() {
   return (
-    <Can do="create" on="Post">
+    <Can I="create" a="Post">
       () => <button onClick={this.createPost.bind(this)}>Create Post</button>
     </Can>
   )
@@ -107,7 +107,7 @@ export class TodoApp extends Component {
 
   render() {
     return (
-      <Can do="create" on="Todo">
+      <Can I="create" a="Todo">
         () => <button onClick={this.createTodo.bind(this)}>Create Todo</button>
       </Can>
     )
@@ -172,6 +172,61 @@ export class LoginComponent extends Component {
 
 Obviously, in this case your server API should provide the list of user abilities in `rules` field of the response.
 See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
+
+### 3. Property names and aliases
+
+As you can see from the code above, component name and its property names and values creates an English sentence, basically a question.
+For example, the code below reads as `Can I create a Post`.
+
+```jsx
+<Can I="create" a="Post">
+  () => <button onClick={...}>Create Post</button>
+</Can>
+```
+
+There are several other property aliases which allow to construct a readable question:
+
+* use `a` alias when you check by Type
+
+```jsx
+<Can I="read" a="Post">...</Can>
+```
+
+* use `of` alias instead of `a` when you check by subject field
+
+```jsx
+<Can I="read title" of="Post">...</Can>
+
+// or when checking on instance. `this.props.post` is an instance of `Post` class (i.e., model instance)
+
+<Can I="read title" of={this.props.post}>...</Can>
+```
+
+* use `this` alias instead of `of` and `a` when you check action on instance
+
+```jsx
+// `this.props.post` is an instance of `Post` class (i.e., model instance)
+
+<Can I="read" this={this.props.post}>...</Can>
+```
+
+* use `do` and `on` if you are bored and don't want to make your code more readable :)
+
+```jsx
+// `this.props.post` is an instance of `Post` class (i.e., model instance)
+
+<Can do="read" on={this.props.post}>...</Can>
+
+// or per field check
+<Can do="read title" on={this.props.post}>...</Can>
+```
+
+* use `not` when you want to invert the render method
+
+```jsx
+<Can not I="read" a="Post">...</Can>
+```
+
 
 ## Want to help?
 

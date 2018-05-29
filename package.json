@@ -1,35 +1,20 @@
 {
-  "jest": {
-    "coverageDirectory": "./coverage",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "collectCoverageFrom": [
-      "packages/**/src/**/*.{js,jsx}"
-    ],
-    "testMatch": [
-      "**/*/spec/*.spec.js"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "setupTestFrameworkScriptFile": "./tools/spec_helper.js"
-  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=test jest",
+    "test": "lerna run test",
     "lint": "eslint -c .eslintrc packages/*/src",
     "coverage.submit": "codecov",
-    "prerelease": "npm test && NODE_ENV=production npm run build",
-    "release": "lerna publish --conventional-commits"
+    "prerelease": "npm run lint",
+    "release": "lerna run release"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^2.0.2",
+    "@semantic-release/git": "^5.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
-    "babel-jest": "^22.4.1",
+    "babel-jest": "^23.0.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -41,12 +26,19 @@
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
-    "jest": "^22.4.2",
+    "jest": "^23.0.0",
     "lerna": "^2.9.0",
-    "rollup": "^0.58.0",
+    "rollup": "^0.59.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.0.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^3.0.0"
+    "rollup-plugin-uglify": "^4.0.0",
+    "semantic-release": "^15.5.0",
+    "semantic-release-monorepo": "^6.0.1"
+  },
+  "version": "0.0.0-development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stalniy/casl.git"
   }
 }

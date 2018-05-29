@@ -1,6 +1,6 @@
 {
   "name": "@casl/react",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "React component for CASL which makes it easy to add permissions in any React application",
   "main": "dist/umd/index.js",
   "module": "index.js",
@@ -8,7 +8,7 @@
   "typings": "./index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git@github.com:stalniy/casl.git"
+    "url": "https://github.com/stalniy/casl.git"
   },
   "publishConfig": {
     "access": "public"
@@ -18,7 +18,10 @@
     "build.es": "npm run rollup -- -c ../../tools/rollup.es.js",
     "build.umd": "npm run rollup -- -c ../../tools/rollup.umd.js -n casl.react",
     "build.es5m": "npm run rollup -- -c ../../tools/rollup.es5m.js",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m"
+    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
+    "prerelease": "npm test && NODE_ENV=production npm run build",
+    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },
   "keywords": [
     "casl",
@@ -45,6 +48,7 @@
     "check-prop-types": "^1.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.3.0",
-    "react-test-renderer": "^16.3.0"
+    "react-test-renderer": "^16.3.0",
+    "semantic-release": "^15.5.0"
   }
 }

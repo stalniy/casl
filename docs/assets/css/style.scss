@@ -35,6 +35,8 @@ aside#sidebar {
 #sidebar-wrapper {
   background: transparent url(../images/sidebar-bg.jpg) 0 0 no-repeat;
   padding-left: 20px;
+  overflow-y: auto;
+  height: 100%;
 
   &.fixed {
     position: fixed;
@@ -58,7 +60,7 @@ aside#sidebar {
 
 summary {
    white-space: nowrap;
-  
+
   > h3 {
     display: inline-block;
     cursor: pointer;

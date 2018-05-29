@@ -79,7 +79,7 @@ Alternatively, you can just update existing instance, for example, in `SignIn.vu
 Obviously, in this case your server API should provide the list of user abilities in `rules` field of the response.
 See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
 
-### 3. Check permissios in templates
+### 3. Check permissions in templates
 
 To check permissions in any component you can use `$can` method:
 
@@ -91,7 +91,7 @@ To check permissions in any component you can use `$can` method:
 </template>
 ```
 
-See [casl-vue-example][casl-vue-example] for more examples.
+See [casl-vue-example][casl-vue-example] and [casl-vuex-example][casl-vuex-example] for more examples.
 
 ## Want to help?
 
@@ -104,3 +104,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [contributing]: /CONTRIBUTING.md
 [vue]: https://vuejs.org/
 [casl-vue-example]: https://github.com/stalniy/casl-vue-example
+[casl-vuex-example]: https://github.com/stalniy/casl-vue-api-example
