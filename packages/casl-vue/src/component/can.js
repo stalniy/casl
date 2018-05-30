@@ -1,12 +1,3 @@
-function validateProps(props) {
-  if (!props.I && !props.do) {
-    console.error('Invalid prop:neither of prop:`I` and prop:`do` exist');     // eslint-disable-line
-  }
-  if (!props.of && !props.a && !props.this && !props.on) {
-    console.error('Invalid prop:neither of prop:`of`,prop:`a`,prop:`this`,prop:`on` exist');     // eslint-disable-line
-  }
-}
-
 export default {
   name: 'Can',
   functional: true,
@@ -14,19 +5,26 @@ export default {
     I: String,
     do: String,
     a: [String, Function],
-    of: [String, Function],
-    this: [String, Function],
-    on: [String, Function]
+    of: [String, Function, Object],
+    this: [String, Function, Object],
+    on: [String, Function, Object]
   },
-  render(createElement, {
-    props, children, parent
-  }) {
-    validateProps(props);
-    const action = props.I || props.do || '';
+  render(createElement, { props, children, parent }) {
+    const action = props.I || props.do;
     const subject = props.of || props.a || props.this || props.on;
-    if (parent.$can(action, subject)) {
-      return children.length > 1 ? children : children[0];
+
+    if (!action) {
+      throw new Error('Can: neither `I` nor `do` property exist');
     }
-    return null;
+
+    if (!subject) {
+      throw new Error('Can: neither `of` nor `a` nor `this` nor `on` property exist');
+    }
+
+    if (!parent.$can(action, subject)) {
+      return null;
+    }
+
+    return children.length > 1 ? children : children[0];
   }
 };

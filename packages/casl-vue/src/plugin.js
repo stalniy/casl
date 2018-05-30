@@ -15,11 +15,6 @@ export function abilitiesPlugin(Vue, providedAbility) {
   Object.defineProperty(Vue.prototype, '$ability', { value: ability });
 
   Vue.mixin({
-    provide() {
-      return {
-        ability: undefined
-      };
-    },
     methods: {
       $can(...args) {
         watcher.rules = watcher.rules; // create dependency
