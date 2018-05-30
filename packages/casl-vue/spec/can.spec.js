@@ -87,7 +87,10 @@ describe('`Can` component', () => {
     })
   })
 
-  function render(template, defs) {
-    return mount({ ...defs, template: `<div>${template}</div>` }, { localVue: LocalVue })
+  function render(template, options) {
+    return mount({ template: `<div>${template}</div>` }, {
+      localVue: LocalVue,
+      ...options
+    })
   }
 })
