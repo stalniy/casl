@@ -19,7 +19,7 @@ export function abilitiesPlugin(Vue, providedAbility) {
       $can(...args) {
         watcher.rules = watcher.rules; // create dependency
         return this.$ability.can(...args);
-      },
+      }
     }
   });
 }

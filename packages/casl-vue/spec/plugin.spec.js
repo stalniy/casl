@@ -20,7 +20,6 @@ describe('Abilities plugin', () => {
     })
   })
 
-
   describe('when ability is provided', () => {
     beforeEach(() => {
       ability = AbilityBuilder.define(can => can('read', 'Post'))
