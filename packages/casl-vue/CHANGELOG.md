@@ -1,5 +1,14 @@
 # Change Log
 
+<a name="@casl/vue-v0.3.0"></a>
+# [@casl/vue-v0.3.0](https://github.com/stalniy/casl/compare/@casl/vue@0.2.1...@casl/vue@0.3.0) (2018-05-30)
+
+
+### Features
+
+* **vue:** adds can component ([42ee540](https://github.com/stalniy/casl/commit/42ee540)), closes [#63](https://github.com/stalniy/casl/issues/63)
+
+
 <a name="@casl/vue-v0.2.1"></a>
 # [@casl/vue-v0.2.1](https://github.com/stalniy/casl/compare/@casl/vue@0.2.0...@casl/vue@0.2.1) (2018-05-29)
 
