@@ -44,7 +44,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(wrapper.isEmpty()).to.be.true
+    expect(wrapper.contains('h1')).to.be.false
   })
 
   it('does not render children if `Ability` instance disallows to do an action', () => {
@@ -54,7 +54,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(wrapper.isEmpty()).to.be.true
+    expect(wrapper.contains('h1')).to.be.false
   })
 
   describe('props validation', () => {
@@ -87,10 +87,9 @@ describe('`Can` component', () => {
     })
   })
 
-  function render(template, options) {
-    return mount({ template: `<div>${template}</div>` }, {
-      localVue: LocalVue,
-      ...options
+  function render(template) {
+    return mount({ template: `<div>${template.trim()}</div>` }, {
+      localVue: LocalVue
     })
   }
 })
