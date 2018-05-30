@@ -68,7 +68,7 @@ describe('Abilities plugin', () => {
       expect(vm.$el.textContent).to.equal('Yes')
     })
 
-    it ('updates components when ability is updated', (done) => {
+    it('updates components when ability is updated', (done) => {
       ability.update([])
 
       vm.$nextTick(() => {
