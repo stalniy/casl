@@ -32,7 +32,7 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@freaksidea.com>",
   "license": "MIT",
   "engines": {
-    "npm": "^3.0.0"
+    "npm": "^6.0.0"
   },
   "peerDependencies": {
     "@casl/ability": "^2.0.0",
