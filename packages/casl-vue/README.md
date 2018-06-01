@@ -133,6 +133,75 @@ In that way, you can also provide a different ability for a components subtree.
 **Note**: I don't recommend to manage more than 1 `Ability` instance in the app
 because this contradicts to the main goal of CASL: keep all permissions in a single place and manage them from the single location (`Ability` instance).
 
+### 5. `Can` component
+
+There is an alternative way how you can check your permissions in the app, by using `Can` component. To enable this feature you need to register it globally:
+
+```js
+import Vue from 'vue'
+import { Can } from '@casl/vue'
+
+Vue.component('Can', Can)
+```
+
+Now, instead of using `v-if="$can(...)"`, we can do this:
+
+```html
+<template>
+  <can I="create" a="Post">
+    <a @click="createPost">Add Post</a>
+  </can>
+</template>
+```
+
+#### Property names and aliases
+
+As you can see from the code above, component name and its property names and values creates an English sentence, basically a question.
+For example, the code above reads as `Can I create a Post`.
+
+There are several other property aliases which allow to construct a readable question:
+
+* use `a` alias when you check by Type
+
+```html
+<Can I="read" a="Post">...</Can>
+```
+
+* use `of` alias instead of `a` when you check by subject field
+
+```html
+<Can I="read title" of="Post">...</Can>
+
+<!-- or when checking on instance. `post` is an instance of `Post` class (i.e., model instance) -->
+
+<Can I="read title" :of="post">...</Can>
+```
+
+* use `this` alias instead of `of` and `a` when you check action on instance
+
+```html
+<!-- `post` is an instance of `Post` class (i.e., model instance) -->
+
+<Can I="read" :this="post">...</Can>
+```
+
+* use `do` and `on` if you are bored and don't want to make your code more readable :)
+
+```html
+<!-- `post` is an instance of `Post` class (i.e., model instance) -->
+
+<Can do="read" :on="post">...</Can>
+
+<!-- or per field check -->
+<Can do="read title" :on="post">...</Can>
+```
+
+* use `not` when you want to invert the render method (renders children only if user can't read a post)
+
+```html
+<Can not I="read" a="Post">...</Can>
+```
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
