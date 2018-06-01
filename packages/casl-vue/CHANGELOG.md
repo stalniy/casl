@@ -1,3 +1,11 @@
+<a name="@casl/vue-v0.4.0"></a>
+# [@casl/vue-v0.4.0](https://github.com/stalniy/casl/compare/@casl/vue@0.3.0...@casl/vue@0.4.0) (2018-06-01)
+
+
+### Features
+
+* **vue:** pass ability down components tree ([28e3d8d](https://github.com/stalniy/casl/commit/28e3d8d)), closes [#72](https://github.com/stalniy/casl/issues/72)
+
 # Change Log
 
 <a name="@casl/vue-v0.3.0"></a>
