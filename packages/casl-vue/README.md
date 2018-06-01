@@ -93,6 +93,46 @@ To check permissions in any component you can use `$can` method:
 
 See [casl-vue-example][casl-vue-example] and [casl-vuex-example][casl-vuex-example] for more examples.
 
+### 4. Provide ability for a components tree
+
+Another way to provide `Ability` instance is to pass it as option into your root component:
+
+```js
+// main.js
+
+import App from './App'
+import ability from './ability'
+
+new Vue({
+  store,
+  router,
+  ability,
+  render: h => h(App)
+}).$mount('#app')
+```
+
+That instance will be available under `$ability` property, and `$can` method will use it to check permissions.
+In that way, you can also provide a different ability for a components subtree.
+
+```js
+// TodoList.vue
+
+<template>...</template>
+<script>
+  import { AbilityBuilder } from '@casl/ability'
+
+  export default {
+    name: 'TodoList',
+    ability: AbilityBuilder.define(can => {
+      ...
+    })
+  }
+</script>
+```
+
+**Note**: I don't recommend to manage more than 1 `Ability` instance in the app
+because this contradicts to the main goal of CASL: keep all permissions in a single place and manage them from the single location (`Ability` instance).
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]

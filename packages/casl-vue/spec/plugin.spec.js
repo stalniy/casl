@@ -36,6 +36,31 @@ describe('Abilities plugin', () => {
     })
   })
 
+  describe('when ability is provided as option of a component', () => {
+    beforeEach(() => {
+      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      Vue.use(abilitiesPlugin)
+    })
+
+    it('uses that ability', () => {
+      vm = new Component({ ability })
+      spy.on(ability, 'can')
+      vm.$can('read', 'Post')
+
+      expect(vm.$ability).to.equal(ability)
+      expect(ability.can).to.have.been.called.with.exactly('read', 'Post')
+    })
+
+    it('passes ability down through the components tree', () => {
+      vm = new Vue({
+        ability,
+        render: h => h(Component)
+      }).$mount()
+
+      expect(vm.$children[0].$ability).to.equal(ability)
+    })
+  })
+
   describe('when ability is not provided', () => {
     beforeEach(() => {
       Vue.use(abilitiesPlugin)
