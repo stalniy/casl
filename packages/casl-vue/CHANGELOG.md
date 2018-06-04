@@ -1,3 +1,11 @@
+<a name="@casl/vue-v0.4.1"></a>
+# [@casl/vue-v0.4.1](https://github.com/stalniy/casl/compare/@casl/vue@0.4.0...@casl/vue@0.4.1) (2018-06-04)
+
+
+### Bug Fixes
+
+* **vue:** extends `ComponentOptions` with `ability` member ([#73](https://github.com/stalniy/casl/issues/73)) ([94d4c24](https://github.com/stalniy/casl/commit/94d4c24))
+
 <a name="@casl/vue-v0.4.0"></a>
 # [@casl/vue-v0.4.0](https://github.com/stalniy/casl/compare/@casl/vue@0.3.0...@casl/vue@0.4.0) (2018-06-01)
 
