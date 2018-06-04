@@ -9,3 +9,9 @@ declare module "vue/types/vue" {
     $can(action: string, subject: any, field?: string): boolean
   }
 }
+ 
+declare module "vue/types/options" {
+  interface ComponentOptions<V extends Vue> {
+    ability?: Ability;
+  }
+}
