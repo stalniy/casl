@@ -107,6 +107,9 @@ There are also complementary libraries for major frontend frameworks which makes
 
 A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
 
+**Have a question?**: ask it in [gitter chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl)
+
+
 ## Examples
 
 There are several repositories which show how to integrate CASL in popular frontend and backend frameworks:
