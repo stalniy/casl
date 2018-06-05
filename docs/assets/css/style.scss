@@ -3,6 +3,10 @@
 
 @import "{{ site.theme }}";
 
+html, body {
+  min-width: 350px;
+}
+
 header,
 a.button,
 #main-content h1,
@@ -59,11 +63,58 @@ aside#sidebar {
 }
 
 summary {
-   white-space: nowrap;
+  white-space: nowrap;
+  cursor: pointer;
 
   > h3 {
     display: inline-block;
-    cursor: pointer;
+  }
+}
+
+header {
+  h1, h2 {
+    width: auto;
+  }
+}
+
+.header-buttons {
+  float: right;
+  padding-top: 10px;
+
+  .github-button,
+  .get-help {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .github-button {
+    img {
+      margin-right: 10px;
+      width: 50px;
+    }
+  }
+
+  .casl-support {
+    a {
+      display: block;
+      color: #fff;
+    }
+  }
+
+  .get-help {
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      font-size: 3rem;
+      cursor: help;
+    }
   }
 }
 
@@ -82,6 +133,52 @@ summary {
     font-weight: bold;
     color: $menu-color;
     outline: none;
+  }
+
+  .header-buttons {
+    position: fixed;
+    top: 0;
+    left: 3.5%;
+    right: 110px;
+    z-index: 10;
+    min-width: 350px;
+
+    .github-button,
+    .get-help {
+      display: inline-flex;
+      margin-bottom: 0;
+      vertical-align: top;
+    }
+
+    .github-button img,
+    .get-help .icon {
+      width: 20px;
+      margin-right: 5px;
+      font-size: 1.2rem;
+    }
+
+    .get-help {
+      margin-left: 10px;
+
+      .icon {
+        height: 15px;
+      }
+    }
+
+    .github-counters,
+    .casl-support {
+      display: flex;
+    }
+
+    .gh-forks,
+    .support-so {
+
+      &::before {
+        display: inline-block;
+        content: ',';
+        margin-right: 3px;
+      }
+    }
   }
 
   .sandwich {
@@ -146,6 +243,8 @@ summary {
     top: 0;
     left: 0;
     width: 100%;
+    height: auto;
+    overflow: visible;
     padding-left: 0;
     background: transparent url(../images/header-bg.jpg);
   }
@@ -190,8 +289,15 @@ summary {
       }
     }
 
-    h3 {
+    > h3 {
       display: none;
     }
+  }
+}
+
+@media(max-width: 535px) {
+  .gh-forks,
+  .casl-support a.support-so {
+    display: none;
   }
 }

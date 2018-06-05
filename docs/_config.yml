@@ -11,3 +11,5 @@ kramdown:
 sass:
   style: compressed
 twitter_username: stalniy
+gitter_url: https://gitter.im/stalniy-casl/casl?utm_source=docs&utm_medium=docs&utm_campaign=pr-docs&utm_content=docs
+so_url: https://stackoverflow.com/questions/tagged/casl

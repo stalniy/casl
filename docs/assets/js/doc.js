@@ -73,4 +73,56 @@
 
   window.addEventListener('resize', calculateSidebarSize, isPassiveListenersSupported ? { passive: true } : false);
   window.addEventListener('orientationchange', calculateSidebarSize);
+
+  var ONE_DAY = 24 * 3600 * 1000;
+
+  function updateGitStats() {
+    var cachedAt = localStorage.getItem('casl-github-cached-at');
+
+    if (cachedAt && cachedAt >= Date.now() - ONE_DAY) {
+      var starsCount = localStorage.getItem('casl-github-stars');
+      var forksCount = localStorage.getItem('casl-github-forks');
+
+      if (starsCount) {
+        document.querySelector('.gh-stars > span').innerText = starsCount;
+      }
+
+      if (forksCount) {
+        document.querySelector('.gh-forks > span').innerText = forksCount;
+      }
+
+      return;
+    }
+
+
+    fetch('https://api.github.com/repos/stalniy/casl')
+      .then(function(response) {
+        console.log(response)
+        return response.json()
+      })
+      .then(function(body) {
+        if (!body) {
+          return;
+        }
+
+        localStorage.setItem('casl-github-cached-at', Date.now());
+
+        if (body.stargazers_count){
+          var stars = body.stargazers_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          localStorage.setItem('casl-github-stars', stars);
+        }
+
+        if (body.forks){
+          var forks = body.forks.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          localStorage.setItem('casl-github-forks', forks);
+        }
+
+        updateGitStats();
+      })
+      .catch(function(error) {
+        console.log('Unable to retrieve github stats: ', error);
+      });
+  }
+
+  updateGitStats();
 })();
