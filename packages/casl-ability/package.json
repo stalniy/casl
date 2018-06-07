@@ -24,7 +24,7 @@
     "build.extra": "npm run build.extra.es && npm run build.extra.es5m && npm run build.extra.umd",
     "build": "npm run build.es && npm run build.umd && npm run build.es5m && npm run build.extra",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
-    "prerelease2": "npm test && NODE_ENV=production npm run build",
+    "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },
   "keywords": [
