@@ -44,6 +44,7 @@ function defineAbilitiesFor(user) {
 
 The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Roles and Abilities][roles-example] for an example.
 
+<a name="ability-subject-name"></a>
 `AbilityBuilder.define` has a different signature which allows you to pass some ability options like `subjectName`. For example
 
 ```js
@@ -62,6 +63,7 @@ const ability = AbilityBuilder.define({ subjectName }, can => {
 
 See [Intance checks][instance-checks] for details.
 
+<a name="ability-constructor"></a>
 `Ability` constructor is very handy in case if you store permissions in database or retrieve from API. The first parameter of the constructor is an array of abilities, objects which has the next shape:
 
 ```ts
