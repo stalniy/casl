@@ -22,6 +22,7 @@ export function createContextualCan(Consumer) {
       ability: props.ability || ability,
       I: props.I || props.do,
       a: props.a || props.of || props.this || props.on,
+      not: props.not,
       children: props.children
     }));
   };
