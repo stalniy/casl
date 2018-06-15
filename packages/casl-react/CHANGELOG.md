@@ -1,3 +1,17 @@
+<a name="@casl/react-v0.7.0"></a>
+# [@casl/react-v0.7.0](https://github.com/stalniy/casl/compare/@casl/react@0.6.0...@casl/react@0.7.0) (2018-06-15)
+
+
+### Bug Fixes
+
+* **react:** adds ts defs for `not` attribute ([17f76a9](https://github.com/stalniy/casl/commit/17f76a9))
+* **react:** contextual can don't respect 'not' prop ([#74](https://github.com/stalniy/casl/issues/74)) ([d727230](https://github.com/stalniy/casl/commit/d727230))
+
+
+### Features
+
+* **vue:** adds can component ([42ee540](https://github.com/stalniy/casl/commit/42ee540)), closes [#63](https://github.com/stalniy/casl/issues/63)
+
 # Change Log
 
 
