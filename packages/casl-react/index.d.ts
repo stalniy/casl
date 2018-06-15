@@ -17,10 +17,12 @@ type BaseProps = {
 
 type CanPropsStrict = BaseProps & {
   ability: Ability
+  not: boolean
 }
 
 type CanProps = BaseProps & {
   ability?: Ability
+  not: boolean
 }
 
 declare class CanComponent<T> extends PureComponent<T> {
