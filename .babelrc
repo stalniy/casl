@@ -2,7 +2,10 @@
   "env": {
     "test": {
       "presets":[
-        ["es2015", { "modules": "commonjs" }]
+        ["env", {
+          "loose": true,
+          "browsers": ["last 3 versions", "safari >= 7"]
+        }]
       ],
       "plugins": [
         "transform-class-properties",

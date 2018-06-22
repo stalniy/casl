@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build.es": "rollup -c ../../tools/rollup.es.js -e sift",
-    "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift -n casl",
+    "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift -n casl -g sift:sift",
     "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e sift",
     "build.extra.es": "rollup -c ../../tools/rollup.es.js -i src/extra.js -o dist/es6/extra.js",
     "build.extra.es5m": "rollup -c ../../tools/rollup.es5m.js -i src/extra.js -o extra.js",

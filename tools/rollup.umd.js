@@ -7,7 +7,7 @@ import commonjs from 'rollup-plugin-commonjs';
 export default Object.assign({}, config, {
   output: {
     file: 'dist/umd/index.js',
-    format: 'umd',
+    format: 'umd'
   },
   plugins: config.plugins.concat([
     resolve({
@@ -19,7 +19,11 @@ export default Object.assign({}, config, {
     babel({
       exclude: 'node_modules/**',
       presets: [
-        ['es2015', { modules: false }]
+        ['env', {
+          modules: false,
+          loose: true,
+          browsers: ['last 3 versions', 'safari >= 7']
+        }]
       ],
       plugins: ['external-helpers']
     }),
