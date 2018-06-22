@@ -142,7 +142,7 @@ console.log(ability.rules)
 
 ## Define own aliases
 
-To define a new alias you can use `addAlias` method which accepts 2 arguments: alias name and one or few action names. For example, here we define `modify` alias to `update` and `delete`. While checking abilities, you can then use the action names `update` or `delete` to check for the `modify` ability defined in your rules.
+To define a new alias you can use `addAlias` method which accepts 2 arguments: the action name and one or few aliases for that action. For example, here we target `modify` as the action to which `update` and `delete` refer. Then while checking abilities, you can use the aliases `update` or `delete` to check against the `modify` ability defined in your rules.
 
 ```js
 import { Ability, AbilityBuilder } from '@casl/ability'
