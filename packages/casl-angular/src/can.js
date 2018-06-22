@@ -5,6 +5,7 @@ const noop = () => {};
 
 export class CanPipe {
   static parameters = [[Ability], [ChangeDetectorRef]];
+
   static annotations = [
     // TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
     new Pipe({ name: 'can', pure: false })
