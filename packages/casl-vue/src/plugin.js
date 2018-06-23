@@ -46,7 +46,9 @@ export function abilitiesPlugin(Vue, providedAbility) {
           ? ability[WATCHER_KEY]
           : createWatcherFor(ability);
 
-        watcher.rules = watcher.rules; // create rendering dependency
+        // create rendering dependency
+        // eslint-disable-next-line
+        watcher.rules = watcher.rules;
 
         return ability.can(...args);
       }
