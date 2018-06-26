@@ -8,10 +8,25 @@
       gtag('js', new Date());
       gtag('config', 'UA-19088556-6');
     </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('{{ "sw.js" | relative_url }}')
+          .catch(err => console.log('Unable to register service worker', err));
+      }
+    </script>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="icon" href="{{ '/assets/img/favicon.png' | relative_url }}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/img/apple-touch-icon.png' | relative_url }}">
+    <link rel="icon" href="{{ '/assets/img/favicon.ico' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/img/favicon-32x32.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/img/favicon-16x16.png' | relative_url }}">
+    <link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
+    <link rel="mask-icon" href="{{ '/assets/img/safari-pinned-tab.svg' | relative_url }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}" media="screen" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print" type="text/css">
     <meta content="{{ site.title }}" property="og:site_name">
@@ -59,7 +74,7 @@
     <![endif]-->
 
     <title>{{ page.title | default: site.title | default: site.github.repository_name }} by {{ site.github.owner_name }}</title>
-    <script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async="async"></script>
+    <script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script>
   </head>
 
   <body>
