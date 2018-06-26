@@ -142,16 +142,50 @@ console.log(ability.rules)
 
 ## Define own aliases
 
-To define a new alias you can use `addAlias` method which accepts 2 arguments: alias name and one or few action names. For example, here we define `modify` alias to `update` and `delete`
+To define a new alias you can use `addAlias` method which accepts 2 arguments: alias name and one or few action or alias names. For example, here we define `modify` alias as a combination of `update` and `delete` actions:
 
 ```js
 import { Ability, AbilityBuilder } from '@casl/ability'
 
+// user can `modify` only if he has both `update` and `delete` permission
 Ability.addAlias('modify', ['update', 'delete'])
-AbilityBuilder.define(can => {
+
+const ability = AbilityBuilder.define(can => {
  can('modify', 'Post')
 })
 ```
+
+**Be aware** that aliases works only one way! It means that `modify` is an alias for 2 actions `update` and `delete` but `update` and `delete` are not aliases for `modify`.
+So, if we check permissions defined in the example above:
+
+```js
+ability.can('modify', 'Post') // true
+ability.can('delete', 'Post') // true
+ability.can('update', 'Post') // true
+```
+
+Everything returns `true` but if we rewrite that example to this:
+
+```js
+Ability.addAlias('modify', ['update', 'delete'])
+
+const ability = AbilityBuilder.define(can => {
+ can('delete', 'Post')
+ can('update', 'Post')
+})
+```
+
+and then check abilities:
+
+```js
+ability.can('modify', 'Post') // false !!!
+ability.can('delete', 'Post') // true
+ability.can('update', 'Post') // true
+```
+
+`ability` returns `false` for `modify` even though it allows to `delete` and `update` a `Post`. Aliases are resolved once on `Ability` instantiation level or when you call `ability.update`.
+It was done this way in order to gain performance improvements. In the current implementation `Ability` doesn't need to expand aliases during each call to `ability.can`.
+So, aliases are mainly useful as shortcuts for multiple actions or other aliases.
 
 Also it's possible to define aliases for other aliases. Lets add `access` alias which is an alias for `manage`:
 
