@@ -108,7 +108,7 @@ app.post('/session', (req, res) => {
 On the receiving side, use `unpackRules` before updating `Ability` instance:
 
 ```js
-import { unpackRules } = require('@casl/ability/extra')
+import { unpackRules } from '@casl/ability/extra'
 
 // inside LoginComponent
 {
@@ -120,7 +120,6 @@ import { unpackRules } = require('@casl/ability/extra')
       })
   }
 }
-
 ```
 
 If that's not enough, you can combine `packRules` (or replace) with other JSON packing algorithms (e.g., [msgpack.org](http://msgpack.org/))
