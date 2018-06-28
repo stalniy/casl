@@ -76,7 +76,7 @@ export class Ability {
     let i = 0;
 
     while (i < actions.length) {
-      let action = actions[i++];
+      const action = actions[i++];
 
       if (aliases.hasOwnProperty(action)) {
         actions = actions.concat(aliases[action]);
