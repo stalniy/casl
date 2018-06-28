@@ -71,16 +71,19 @@ export class Ability {
   }
 
   expandActions(rawActions) {
-    const actions = wrapArray(rawActions);
     const { aliases } = this[PRIVATE_FIELD];
+    let actions = wrapArray(rawActions);
+    let i = 0;
 
-    return actions.reduce((expanded, action) => {
+    while (i < actions.length) {
+      let action = actions[i++];
+
       if (aliases.hasOwnProperty(action)) {
-        return expanded.concat(this.expandActions(aliases[action]));
+        actions = actions.concat(aliases[action]);
       }
+    }
 
-      return expanded;
-    }, actions);
+    return actions;
   }
 
   get rules() {
