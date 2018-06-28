@@ -1,3 +1,7 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
 <a name="@casl/react-v0.7.0"></a>
 # [@casl/react-v0.7.0](https://github.com/stalniy/casl/compare/@casl/react@0.6.0...@casl/react@0.7.0) (2018-06-15)
 
@@ -11,9 +15,6 @@
 ### Features
 
 * **vue:** adds can component ([42ee540](https://github.com/stalniy/casl/commit/42ee540)), closes [#63](https://github.com/stalniy/casl/issues/63)
-
-# Change Log
-
 
 
 <a name="@casl/react-v0.6.0"></a>

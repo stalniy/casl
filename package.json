@@ -10,7 +10,7 @@
     "release": "lerna run release"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^2.0.2",
+    "@semantic-release/changelog": "^2.1.1",
     "@semantic-release/git": "^5.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
