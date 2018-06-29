@@ -142,7 +142,7 @@ function subjectName(subject) {
 It is also posible to check whether user has permission to perform an action on specified subject field. Lets consider an example when user is allowed to update only `price` on products:
 
 ```js
-const ability = AbilityBuidler.define(can => {
+const ability = AbilityBuilder.define(can => {
   can('read', 'all')
   can('update', 'Product', 'price')
 })
