@@ -6,7 +6,7 @@ categories: [abilities, errors]
 tags: [CASL errors, handling permission errors]
 ---
 
-You can use `throwUnlessCan` method to throw `ForbiddenError` in case if user doesn't have ability to perform particular action. Afterwards you can catch this exception and provide expressive error message:
+You can use `throwUnlessCan` method to throw `ForbiddenError` in case user doesn't have ability to perform particular action. Afterwards you can catch this exception and provide expressive error message:
 
 ```js
 try {
