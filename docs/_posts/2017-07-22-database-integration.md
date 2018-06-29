@@ -140,20 +140,20 @@ The function aggregates all abilities into single object with 2 properties `$or`
 
 **Important**: this function returns `null` if user is not allowed to perform specified action on specified subject.
 
-So, the only thing which needs to be done is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequalize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
+So, the only thing which needs to be done is a function which converts rules into library or database specific language. Lets try to implement basic support for [sequelize](http://docs.sequelizejs.com/manual/tutorial/querying.html):
 
 ```js
 const { rulesToQuery } = require('@casl/ability/extra')
 
 function ruleToQuery(rule) {
   if (JSON.stringify(rule.conditions).includes('"$all":')) {
-    throw new Error('Sequalize does not support "$all" operator')
+    throw new Error('Sequelize does not support "$all" operator')
   }
 
   return rule.inverted ? { $not: rule.conditions } : rule.conditions
 }
 
-module.exports = function toSequalizeQuery(ability, subject, action = 'read') {
+module.exports = function toSequelizeQuery(ability, subject, action = 'read') {
   return rulesToQuery(ability, action, subject, ruleToQuery)
 }
 ```
@@ -166,8 +166,8 @@ const Post = db.define('Post', {
 }, {
   scopes: {
     accessibleBy(ability, action = 'read') {
-      // TODO: handle case when `toSequalizeQuery` returns `null`
-      return { where: toSequalizeQuery(ability, 'Post') }
+      // TODO: handle case when `toSequelizeQuery` returns `null`
+      return { where: toSequelizeQuery(ability, 'Post') }
     }
   }
 });
