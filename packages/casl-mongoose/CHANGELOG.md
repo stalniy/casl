@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/mongoose-v2.1.2"></a>
+# [@casl/mongoose-v2.1.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.1.1...@casl/mongoose@2.1.2) (2018-07-02)
+
+
+### Bug Fixes
+
+* **mongoose:** `accessibleBy` now doesn't change query type ([da7ed74](https://github.com/stalniy/casl/commit/da7ed74)), closes [#87](https://github.com/stalniy/casl/issues/87)
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/stalniy/casl/compare/@casl/mongoose@2.1.0...@casl/mongoose@2.1.1) (2018-05-06)
 
