@@ -39,11 +39,11 @@
   },
   "peerDependencies": {
     "@casl/ability": "^2.0.0-alpha.1",
-    "aurelia-binding": "^1.6.0"
+    "aurelia-binding": "^1.6.0 || ^2.0.0"
   },
   "devDependencies": {
     "@casl/ability": "^2.0.0",
-    "aurelia-binding": "^1.6.0",
+    "aurelia-binding": "^2.0.0",
     "aurelia-bootstrapper": "^2.2.0",
     "aurelia-loader-nodejs": "^1.0.1",
     "aurelia-pal-browser": "^1.4.0",
