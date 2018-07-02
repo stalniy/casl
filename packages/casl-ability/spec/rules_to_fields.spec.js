@@ -18,6 +18,13 @@ describe('rulesToFields', () => {
     expect(object).to.be.an('object').and.empty
   })
 
+  it('returns an empty object for `Ability` instance with rules without conditions', () => {
+    const ability = AbilityBuilder.define(can => can('read', 'Post'))
+    const object = rulesToFields(ability, 'read', 'Post')
+
+    expect(object).to.be.an('object').and.empty
+  })
+
   it('extracts field values from direct rule conditions', () => {
     const ability = AbilityBuilder.define((can) => {
       can('read', 'Post', { id: 5 })

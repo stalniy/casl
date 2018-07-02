@@ -30,7 +30,7 @@ export function rulesToQuery(ability, action, subject, convert) {
 
 export function rulesToFields(ability, action, subject) {
   return ability.rulesFor(action, subject)
-    .filter(rule => !rule.inverted)
+    .filter(rule => !rule.inverted && rule.conditions)
     .reduce((values, rule) => {
       return Object.keys(rule.conditions).reduce((fields, fieldName) => {
         const value = rule.conditions[fieldName];
