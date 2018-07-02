@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/aurelia-v0.4.0"></a>
+# [@casl/aurelia-v0.4.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.3.0...@casl/aurelia@0.4.0) (2018-07-02)
+
+
+### Features
+
+* **aurelia:** upgrades to the latest version of aurelia ([8833993](https://github.com/stalniy/casl/commit/8833993))
+
 <a name="0.3.0"></a>
 # 0.3.0 (2018-05-14)
 
