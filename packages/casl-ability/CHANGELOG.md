@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/ability-v2.4.0"></a>
+# [@casl/ability-v2.4.0](https://github.com/stalniy/casl/compare/@casl/ability@2.3.0...@casl/ability@2.4.0) (2018-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sift to v6 ([791f78c](https://github.com/stalniy/casl/commit/791f78c))
+
+
+### Features
+
+* **ability:** adds `rulesToFields` method ([4bf9ddc](https://github.com/stalniy/casl/commit/4bf9ddc)), closes [#86](https://github.com/stalniy/casl/issues/86)
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/stalniy/casl/compare/@casl/ability@2.1.0...@casl/ability@2.3.0) (2018-05-09)
 
