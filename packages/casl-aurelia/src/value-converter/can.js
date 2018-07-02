@@ -11,6 +11,11 @@ export class CanValueConverter {
 
   static inject = [Ability];
 
+  static $resource = {
+    name: 'can',
+    type: 'valueConverter'
+  }
+
   constructor(ability) {
     this.ability = ability;
   }
