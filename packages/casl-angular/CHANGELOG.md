@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/angular-v0.3.1"></a>
+# [@casl/angular-v0.3.1](https://github.com/stalniy/casl/compare/@casl/angular@0.3.0...@casl/angular@0.3.1) (2018-07-02)
+
+
+### Bug Fixes
+
+* **package:** changes location of ES5M modules ([2b1ad4e](https://github.com/stalniy/casl/commit/2b1ad4e)), closes [#89](https://github.com/stalniy/casl/issues/89)
+
 <a name="0.3.0"></a>
 # 0.3.0 (2018-05-14)
 
