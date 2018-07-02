@@ -34,7 +34,6 @@ describe('rulesToFields', () => {
       can('read', 'Post', { 'state.private': true })
     })
     const object = rulesToFields(ability, 'read', 'Post')
-    console.log(object)
 
     expect(object).to.deep.equal({
       id: 5,

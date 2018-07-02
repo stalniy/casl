@@ -1,4 +1,4 @@
-import { getByPath, setByPath } from './utils';
+import { setByPath } from './utils';
 
 export function rulesToQuery(ability, action, subject, convert) {
   const query = {};

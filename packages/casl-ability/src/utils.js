@@ -3,8 +3,8 @@ export function wrapArray(value) {
 }
 
 export function setByPath(object, path, value) {
-  let ref = object
-  let lastKey = path
+  let ref = object;
+  let lastKey = path;
 
   if (path.indexOf('.') !== -1) {
     const keys = path.split('.');

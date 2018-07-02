@@ -10,6 +10,8 @@
     "no-mixed-operators": 0,
     "no-prototype-builtins": 0,
     "no-confusing-arrow": 0,
-    "no-bitwise": ["error", { "allow": ["^"] }]
+    "no-bitwise": ["error", { "allow": ["^"] }],
+    "no-return-assign": 1,
+    "arrow-body-style": 1
   }
 }
