@@ -14,7 +14,7 @@ export class CanValueConverter {
   static $resource = {
     name: 'can',
     type: 'valueConverter'
-  }
+  };
 
   constructor(ability) {
     this.ability = ability;
