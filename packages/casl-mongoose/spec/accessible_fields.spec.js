@@ -1,8 +1,8 @@
 import { AbilityBuilder, Ability } from '@casl/ability'
 import mongoose from 'mongoose'
-import { permittedFieldsPlugin } from '../src'
+import { accessibleFieldsPlugin } from '../src'
 
-describe('Permitted fields plugin', () => {
+describe('Accessible fields plugin', () => {
   let PostSchema
 
   beforeEach(() => {
@@ -17,24 +17,24 @@ describe('Permitted fields plugin', () => {
     mongoose.models = {}
   })
 
-  it('adds static and instace `permittedFieldsBy` method', () => {
-    const Post = PostSchema.plugin(permittedFieldsPlugin).toModel('Post')
+  it('adds static and instace `accessibleFieldsBy` method', () => {
+    const Post = PostSchema.plugin(accessibleFieldsPlugin).toModel('Post')
     const post = new Post()
 
-    expect(Post.permittedFieldsBy).to.be.a('function')
-    expect(post.permittedFieldsBy).to.equal(Post.permittedFieldsBy)
+    expect(Post.accessibleFieldsBy).to.be.a('function')
+    expect(post.accessibleFieldsBy).to.equal(Post.accessibleFieldsBy)
   })
 
-  describe('`permittedFieldsBy` method', () => {
+  describe('`accessibleFieldsBy` method', () => {
     let Post
 
     describe('by default', () => {
       beforeEach(() => {
-        Post = PostSchema.plugin(permittedFieldsPlugin).toModel('Post')
+        Post = PostSchema.plugin(accessibleFieldsPlugin).toModel('Post')
       })
 
       it('returns empty array for empty `Ability` instance', () => {
-        const fields = Post.permittedFieldsBy(new Ability())
+        const fields = Post.accessibleFieldsBy(new Ability())
 
         expect(fields).to.be.an('array').that.is.empty
       })
@@ -42,19 +42,19 @@ describe('Permitted fields plugin', () => {
       it('returns all fields for model if ability does not have restrictions on rules', () => {
         const ability = AbilityBuilder.define(can => can('read', 'Post'))
 
-        expect(Post.permittedFieldsBy(ability)).to.have.all.members(['_id', '__v', 'title', 'state'])
+        expect(Post.accessibleFieldsBy(ability)).to.have.all.members(['_id', '__v', 'title', 'state'])
       })
 
       it('returns fields for `read` action by default', () => {
         const ability = AbilityBuilder.define(can => can('read', 'Post', ['title', 'state']))
 
-        expect(Post.permittedFieldsBy(ability)).to.deep.equal(['title', 'state'])
+        expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title', 'state'])
       })
 
       it('returns fields for an action specified as 2nd parameter', () => {
         const ability = AbilityBuilder.define(can => can('update', 'Post', ['title', 'state']))
 
-        expect(Post.permittedFieldsBy(ability, 'update')).to.deep.equal(['title', 'state'])
+        expect(Post.accessibleFieldsBy(ability, 'update')).to.deep.equal(['title', 'state'])
       })
 
       it('returns fields permitted for the instance when called on model instance', () => {
@@ -64,7 +64,7 @@ describe('Permitted fields plugin', () => {
         })
         const post = new Post({ state: 'public' })
 
-        expect(post.permittedFieldsBy(ability, 'update')).to.deep.equal(['title'])
+        expect(post.accessibleFieldsBy(ability, 'update')).to.deep.equal(['title'])
       })
     })
 
@@ -76,27 +76,27 @@ describe('Permitted fields plugin', () => {
       })
 
       it('returns fields provided in `only` option specified as string', () => {
-        Post = PostSchema.plugin(permittedFieldsPlugin, { only: 'title' }).toModel('Post')
+        Post = PostSchema.plugin(accessibleFieldsPlugin, { only: 'title' }).toModel('Post')
 
-        expect(Post.permittedFieldsBy(ability)).to.deep.equal(['title'])
+        expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title'])
       })
 
       it('returns fields provided in `only` option specified as array', () => {
-        Post = PostSchema.plugin(permittedFieldsPlugin, { only: ['title', 'state'] }).toModel('Post')
+        Post = PostSchema.plugin(accessibleFieldsPlugin, { only: ['title', 'state'] }).toModel('Post')
 
-        expect(Post.permittedFieldsBy(ability)).to.deep.equal(['title', 'state'])
+        expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title', 'state'])
       })
 
       it('returns all fields except one specified in `except` option as string', () => {
-        Post = PostSchema.plugin(permittedFieldsPlugin, { except: '_id' }).toModel('Post')
+        Post = PostSchema.plugin(accessibleFieldsPlugin, { except: '_id' }).toModel('Post')
 
-        expect(Post.permittedFieldsBy(ability)).to.deep.equal(['title', 'state', '__v'])
+        expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title', 'state', '__v'])
       })
 
       it('returns all fields except specified in `except` option as array', () => {
-        Post = PostSchema.plugin(permittedFieldsPlugin, { except: ['_id', '__v'] }).toModel('Post')
+        Post = PostSchema.plugin(accessibleFieldsPlugin, { except: ['_id', '__v'] }).toModel('Post')
 
-        expect(Post.permittedFieldsBy(ability)).to.deep.equal(['title', 'state'])
+        expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title', 'state'])
       })
     })
   })
