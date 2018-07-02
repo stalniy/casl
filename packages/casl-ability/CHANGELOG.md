@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/ability-v2.4.2"></a>
+# [@casl/ability-v2.4.2](https://github.com/stalniy/casl/compare/@casl/ability@2.4.1...@casl/ability@2.4.2) (2018-07-02)
+
+
+### Bug Fixes
+
+* **ability:** adds additional check to `rulesToFields` ([a6f4875](https://github.com/stalniy/casl/commit/a6f4875))
+
 <a name="@casl/ability-v2.4.1"></a>
 # [@casl/ability-v2.4.1](https://github.com/stalniy/casl/compare/@casl/ability@2.4.0...@casl/ability@2.4.1) (2018-07-02)
 
