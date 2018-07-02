@@ -37,6 +37,7 @@ const ability = AbilityBuilder.define((can, cannot) => {
 ```
 
 Yes, you can use some operators from MongoDB query language to define conditions for your abilities. See [Defining Abilities][define-abilities] for details.
+It's also possible to [store CASL abilities in a database][store-rules].
 
 ### 2. Check Abilities
 
