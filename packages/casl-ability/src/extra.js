@@ -1,3 +1,5 @@
+import { getByPath, setByPath } from './utils';
+
 export function rulesToQuery(ability, action, subject, convert) {
   const query = {};
   const ignoreOperators = {};
@@ -24,6 +26,22 @@ export function rulesToQuery(ability, action, subject, convert) {
   }
 
   return rules.length > 0 ? query : null;
+}
+
+export function rulesToFields(ability, action, subject) {
+  return ability.rulesFor(action, subject)
+    .filter(rule => !rule.inverted)
+    .reduce((values, rule) => {
+      return Object.keys(rule.conditions).reduce((fields, fieldName) => {
+        const value = rule.conditions[fieldName];
+
+        if (!value || value.constructor !== Object) {
+          setByPath(fields, fieldName, value);
+        }
+
+        return fields;
+      }, values);
+    }, {});
 }
 
 const getRuleFields = rule => rule.fields;

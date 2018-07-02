@@ -144,6 +144,8 @@ See [Caching Abilities][cache-rules] for details.
 
 This package also provides `@casl/ability/extra` submodule which contains helper functions that can construct a database query based on permissions or extract some information from them.
 
+#### rulesToQuery
+
 ```js
 import { rulesToQuery } from '@casl/ability/extra'
 
@@ -163,7 +165,9 @@ const query = toMongoQuery(ability, 'Post')
 
 See [Storing Abilities][storing-abilities] for details.
 
-Another useful method is `permittedFieldsOf` which allows to find all permitted fields for specific subject and action.
+#### permittedFieldsOf
+
+This function allows to find all permitted fields for a specific subject and action.
 You can use this method together with [lodash.pick](https://lodash.com/docs/4.17.5#pick) to extract only allowed fields from request body
 
 ```js
@@ -178,6 +182,44 @@ const ability = new Ability(rules)
 // later in request middleware
 const fields = permittedFieldsOf(ability, 'update', 'Post')
 const attributesToUpdate = _.pick(req.body, fields)
+```
+
+#### rulesToFields
+
+This function allows to extract an object of field-value pairs from rule conditions.
+That object later can be passed in a constructor of a class, to provide initial values:
+
+```js
+import { rulesToFields } from '@casl/ability/extra'
+
+const ability = AbilityBuilder.define(can => {
+  can('read', 'Post', { user: 5 })
+  can('read', 'Post', { public: true })
+})
+
+// { user: 5, public: true }
+const initialValues = rulesToFields(ability, 'read', 'Post')
+
+// `Post` may be a mongoose or sequelize record
+// or any other class which accepts fields as the 1st argument
+const newPost = new Post(initialValues)
+
+console.log(newPost.user) // 5
+console.log(newPost.public) // true
+```
+
+This method completely ignores inverted rules (so, **do check abilities on created instance!**)
+and collects only those fields which values are non plain objects (i.e., skips mongo query conditions).
+For example:
+
+```js
+const ability = AbilityBuilder.define(can => {
+  can('read', 'Post', { createdAt: { $gte: new Date() } })
+  can('read', 'Post', { userId: ObjectId(...) })
+  can('read', 'Post', { public: true })
+})
+
+rulesToFields(ability, 'read', 'Post') // { userId: ObjectId(...), public: true }
 ```
 
 ## Want to help?
