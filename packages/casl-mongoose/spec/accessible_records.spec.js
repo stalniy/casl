@@ -51,19 +51,26 @@ describe('Accessible Records Plugin', () => {
       expect(ability.rulesFor).to.have.been.called.with.exactly('delete', Post.modelName)
     })
 
-    it('calls `find` method of the query', () => {
-      spy.on(Post, 'find')
+    it('calls `where` method of the query', () => {
+      spy.on(Post, 'where')
       Post.accessibleBy(ability)
 
-      expect(Post.find).to.be.called()
+      expect(Post.where).to.be.called()
     })
 
-    it('passes query created by `toMongoQuery` in `find` method of the query', () => {
+    it('passes query created by `toMongoQuery` in `where` method of the query', () => {
       const query = toMongoQuery(ability, 'Post')
-      spy.on(Post, 'find')
+      spy.on(Post, 'where')
       Post.accessibleBy(ability)
 
-      expect(Post.find).to.be.called.with.exactly(query)
+      expect(Post.where).to.be.called.with.exactly(query)
+    })
+
+    it('does not change query return type', () => {
+      const originalType = Post.findById(1).op
+      const type = Post.findById(1).accessibleBy(ability).op
+
+      expect(type).to.equal(originalType)
     })
 
     describe('when ability disallow to perform an action', () => {
