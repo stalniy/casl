@@ -2,6 +2,6 @@
   "name": "@casl/ability/extra",
   "typings": "./extra.d.ts",
   "main": "../dist/umd/extra.js",
-  "module": "../extra.js",
+  "module": "../dist/es5m/extra.js",
   "es2015": "../dist/es6/extra.js"
 }

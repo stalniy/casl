@@ -3,7 +3,7 @@ import config from './rollup.es';
 
 export default Object.assign({}, config, {
   output: {
-    file: 'index.js',
+    file: 'dist/es5m/index.js',
     format: 'es',
   },
   plugins: config.plugins.concat([

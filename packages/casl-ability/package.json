@@ -3,7 +3,7 @@
   "version": "2.4.0",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "main": "dist/umd/index.js",
-  "module": "index.js",
+  "module": "dist/es5m/index.js",
   "es2015": "dist/es6/index.js",
   "typings": "./index.d.ts",
   "repository": {
@@ -19,7 +19,7 @@
     "build.umd": "rollup -c ../../tools/rollup.umd.js -e sift -n casl -g sift:sift",
     "build.es5m": "rollup -c ../../tools/rollup.es5m.js -e sift",
     "build.extra.es": "rollup -c ../../tools/rollup.es.js -i src/extra.js -o dist/es6/extra.js",
-    "build.extra.es5m": "rollup -c ../../tools/rollup.es5m.js -i src/extra.js -o extra.js",
+    "build.extra.es5m": "rollup -c ../../tools/rollup.es5m.js -i src/extra.js -o dist/es5m/extra.js",
     "build.extra.umd": "rollup -c ../../tools/rollup.umd.js -i src/extra.js -o dist/umd/extra.js -n casl.extra",
     "build.extra": "npm run build.extra.es && npm run build.extra.es5m && npm run build.extra.umd",
     "build": "npm run build.es && npm run build.umd && npm run build.es5m && npm run build.extra",
