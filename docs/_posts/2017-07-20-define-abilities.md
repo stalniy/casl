@@ -44,8 +44,43 @@ function defineAbilitiesFor(user) {
 
 The current user object is passed into the `defineAbilitiesFor` function, so the permissions can be modified based on any user attributes. CASL makes no assumption about how roles are handled in your application. See [Roles and Abilities][roles-example] for an example.
 
+**Pay attention** that `can` and `cannot` DSL functions used for defining permissions **are different from** `Ability#can` and `Ability#cannot` which are used for checking permissions!
+In case it looks confusing, you may rename `can` and `cannot` DSL functions to `allow` and `forbid` correspondingly. So, the example for `AbilityBuilder.define` will look like:
+
+```js
+import { AbilityBuilder } from '@casl/ability'
+
+function defineAbilitiesFor(user) {
+  return AbilityBuilder.define((allow, forbid) => {
+    if (user.isAdmin()) {
+      allow('manage', 'all')
+    } else {
+      allow('read', 'all')
+    }
+  })
+}
+```
+
+And if you prefer to use `AbilityBuilder.extract` method:
+
+```js
+import { AbilityBuilder, Ability } from '@casl/ability'
+
+function defineAbilitiesFor(user) {
+  const { rules, can: allow, cannot: forbid } = AbilityBuilder.extract()
+
+  if (user.isAdmin()) {
+    allow('manage', 'all')
+  } else {
+    allow('read', 'all')
+  }
+
+  return new Ability(rules)
+}
+```
+
 <a name="ability-subject-name"></a>
-`AbilityBuilder.define` has a different signature which allows you to pass some ability options like `subjectName`. For example
+`AbilityBuilder.define` has another signature which allows you to pass some ability options like `subjectName`. For example
 
 ```js
 function subjectName(subject) {
