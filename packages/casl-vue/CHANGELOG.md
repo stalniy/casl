@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="@casl/vue-v0.4.3"></a>
+# [@casl/vue-v0.4.3](https://github.com/stalniy/casl/compare/@casl/vue@0.4.2...@casl/vue@0.4.3) (2018-07-14)
+
+
+### Bug Fixes
+
+* **vue:** fixes ts declaration for `abilitiesPlugin`  ([7d8e9ca](https://github.com/stalniy/casl/commit/7d8e9ca)), closes [#92](https://github.com/stalniy/casl/issues/92)
+
 <a name="@casl/vue-v0.4.2"></a>
 # [@casl/vue-v0.4.2](https://github.com/stalniy/casl/compare/@casl/vue@0.4.1...@casl/vue@0.4.2) (2018-07-02)
 
