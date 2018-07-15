@@ -39,12 +39,12 @@
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
-    "@casl/ability": "^2.0.0-alpha.1"
+    "@casl/ability": "^2.0.0"
   },
   "devDependencies": {
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
-    "@angular/core": "latest",
+    "@angular/core": "^6.0.0",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@casl/ability": "^2.0.0",
