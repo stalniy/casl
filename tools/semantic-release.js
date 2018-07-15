@@ -18,5 +18,6 @@ module.exports = {
       path: '@semantic-release/git',
       message: `chore(release): ${PACKAGE_NAME}@\${nextRelease.version} [skip ci]`
     }
-  ]
+  ],
+  success: []
 }
