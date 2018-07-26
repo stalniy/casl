@@ -17,7 +17,7 @@ CASL concentrates all attention at what a user can actually do and allows to cre
 `AbilityBuilder` allows to define abilities using DSL:
 
 ```js
-import { AbilityBuidler } from '@casl/abiltiy'
+import { AbilityBuilder } from '@casl/ability'
 
 class Website {}
 
@@ -32,7 +32,7 @@ console.log(ability.can('delete', new Website())) // false
 If you would like to define abilities in own function, it'd better to use its `extract` method:
 
 ```js
-import { AbilityBuidler, Ability } from '@casl/abiltiy'
+import { AbilityBuilder, Ability } from '@casl/ability'
 
 function defineAbilityFor(user) {
   const { rules, can, cannot } = AbilityBuilder.extract()
