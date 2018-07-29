@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v0.7.2](https://github.com/stalniy/casl/compare/@casl/react@0.7.1...@casl/react@0.7.2) (2018-07-29)
+
+
+### Bug Fixes
+
+* **react:** makes `not` prop to be optional ([8f841bf](https://github.com/stalniy/casl/commit/8f841bf)), closes [#95](https://github.com/stalniy/casl/issues/95)
+
 <a name="@casl/react-v0.7.1"></a>
 # [@casl/react-v0.7.1](https://github.com/stalniy/casl/compare/@casl/react@0.7.0...@casl/react@0.7.1) (2018-07-02)
 

@@ -1,6 +1,6 @@
 {
   "name": "@casl/react",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "React component for CASL which makes it easy to add permissions in any React application",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
