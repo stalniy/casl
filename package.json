@@ -10,8 +10,8 @@
     "release": "lerna run release"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^2.1.1",
-    "@semantic-release/git": "^6.0.0",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^23.0.0",
@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.9.0",
     "jest": "^23.0.0",
     "lerna": "^2.9.0",
-    "rollup": "^0.62.0",
+    "rollup": "^0.63.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.0.0",
     "rollup-plugin-node-resolve": "^3.0.0",
