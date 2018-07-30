@@ -1,4 +1,5 @@
 module.exports = {
+  testURL: 'http://localhost',
   collectCoverage: !!process.env.WITH_COVERAGE,
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
