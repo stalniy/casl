@@ -27,7 +27,7 @@
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.9.0",
     "jest": "^23.0.0",
-    "lerna": "^2.9.0",
+    "lerna": "^3.0.0",
     "rollup": "^0.64.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.0.0",
