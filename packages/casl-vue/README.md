@@ -1,6 +1,6 @@
 # CASL Vue [![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue) [![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This package allows to integrate [@casl/ability](/packages/casl-ability) into [Vue][vue] application. So, you can show or hide UI elements based on user ability to see them.
+This package allows to integrate [@casl/ability][casl-ability] into [Vue][vue] application. So, you can show or hide UI elements based on user ability to see them.
 
 ## Installation
 
@@ -77,7 +77,7 @@ Alternatively, you can just update existing instance, for example, in `SignIn.vu
 ```
 
 Obviously, in this case your server API should provide the list of user abilities in `rules` field of the response.
-See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
+See [@casl/ability][casl-ability] package for more information on how to define abilities.
 
 ### 3. Check permissions in templates
 
@@ -214,3 +214,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [vue]: https://vuejs.org/
 [casl-vue-example]: https://github.com/stalniy/casl-vue-example
 [casl-vuex-example]: https://github.com/stalniy/casl-vue-api-example
+[casl-ability]: https://www.npmjs.com/package/@casl/ability

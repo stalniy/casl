@@ -1,6 +1,6 @@
 # CASL React [![@casl/react NPM version](https://badge.fury.io/js/%40casl%2Freact.svg)](https://badge.fury.io/js/%40casl%2Freact) [![](https://img.shields.io/npm/dm/%40casl%2Freact.svg)](https://www.npmjs.com/package/%40casl%2Freact) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This package allows to integrate [@casl/ability](/packages/casl-ability) into [React][react] application. So, you can show or hide UI elements based on user ability to see them.
+This package allows to integrate [@casl/ability][casl-ability] into [React][react] application. So, you can show or hide UI elements based on user ability to see them.
 
 ## Installation
 
@@ -171,7 +171,7 @@ export class LoginComponent extends Component {
 ```
 
 Obviously, in this case your server API should provide the list of user abilities in `rules` field of the response.
-See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
+See [@casl/ability][casl-ability] package for more information on how to define abilities.
 
 ### 3. Property names and aliases
 
@@ -240,3 +240,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [react]: https://reactjs.org/
 [casl-react-example]: https://github.com/stalniy/casl-react-example
 [react-ctx-api]: https://medium.com/dailyjs/reacts-%EF%B8%8F-new-context-api-70c9fe01596b
+[casl-ability]: https://www.npmjs.com/package/@casl/ability

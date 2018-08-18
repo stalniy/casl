@@ -161,7 +161,7 @@ function toMongoQuery(ability, subject, action = 'read') {
 const query = toMongoQuery(ability, 'Post')
 ```
 
-[@casl/mongoose](/packages/casl-mongoose) uses `rulesToQuery` function to construct queries to MongoDB database.
+[@casl/mongoose][casl-mongoose] uses `rulesToQuery` function to construct queries to MongoDB database.
 
 See [Storing Abilities][storing-abilities] for details.
 
@@ -236,3 +236,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [storing-abilities]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html
 [store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
 [cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
+[casl-mongoose]: http://npmjs.com/package/@casl/mongoose

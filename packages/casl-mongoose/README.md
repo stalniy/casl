@@ -1,6 +1,6 @@
 # [CASL Mongoose](https://stalniy.github.io/casl/) [![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This package connects CASL and MongoDB. Basically it allows to fetch records based on CASL rules from MongoDB. That means you can easily answer on the question: "Which records can be read?" or "Which records can be updated?". Lets see how
+This package connects [CASL][casl] and [MongoDB](https://www.mongodb.com/). In other words, it allows to fetch records based on CASL rules from MongoDB. That means you can easily answer on the question: "Which records can be read?" or "Which records can be updated?". Lets see how
 
 ## Installation
 
@@ -53,9 +53,9 @@ const ability = require('./ability') // defines Ability instance
 Post.accessibleBy(ability).exec()
 ```
 
-Check [@casl/ability](/packages/casl-ability) package to understand how to define abilities.
+Check [@casl/ability][casl-ability] package to understand how to define abilities.
 
-#### Permitted Fields plugins
+#### Permitted Fields plugin
 
 `permittedFieldsPlugin` is a [mongoose][mongoose] plugin which adds `permittedFieldsBy` method to instance and static methods.
 That method allow to retrieve accessible fields by ability:
@@ -142,3 +142,5 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [mongoose]: http://mongoosejs.com/
 [mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
 [database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
+[casl-ability]: https://github.com/stalniy/casl
+[casl]: https://github.com/stalniy/casl

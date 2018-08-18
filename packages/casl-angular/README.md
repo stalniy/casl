@@ -1,6 +1,6 @@
 # CASL Angular [![@casl/angular NPM version](https://badge.fury.io/js/%40casl%2Fangular.svg)](https://badge.fury.io/js/%40casl%2Fangular) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This package allows to integrate [@casl/ability](/packages/casl-ability) into [Angular][angular] application. So, you can show or hide some components, buttons, etc based on user ability to see them.
+This package allows to integrate [@casl/ability][casl-ability] into [Angular][angular] application. So, you can show or hide some components, buttons, etc based on user ability to see them.
 
 ## Installation
 
@@ -96,7 +96,7 @@ export class Session {
 }
 ```
 
-See [@casl/ability](/packages/casl-ability) package for more information on how to define abilities.
+See [@casl/ability][casl-ability] package for more information on how to define abilities.
 
 ### 3. Check permissios in templates
 
@@ -165,3 +165,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 [contributing]: /CONTRIBUTING.md
 [angular]: https://angular.io/
 [update-ability]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html#update-abilities
+[casl-ability]: http://npmjs.com/package/@casl/ability
