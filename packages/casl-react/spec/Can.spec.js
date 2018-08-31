@@ -25,10 +25,10 @@ describe('`Can` component', () => {
     expect(() => validateProps(Can, props)).not.to.throw(Error)
   })
 
-  it('passes ability instance as an argument to "children" function', () => {
+  it('passes ability check value and instance as arguments to "children" function', () => {
     const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
-    expect(children).to.have.been.called.with.exactly(ability)
+    expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability)
   })
 
   it('requires to pass "a" or "this" or "of" as string or object', () => {
@@ -153,6 +153,15 @@ describe('`Can` component', () => {
       const renderedChildren = children.map(element => renderer.create(element).toJSON())
 
       expect(component.toJSON()).to.deep.equal(renderedChildren)
+    })
+
+    it('always renders children if `passThrough` prop is `true`', () => {
+      const component = renderer.create(
+        e(Can, { I: 'delete', a: 'Post', passThrough: true, ability }, child)
+      )
+
+      expect(ability.can('delete', 'Post')).to.be.false
+      expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
   })
 

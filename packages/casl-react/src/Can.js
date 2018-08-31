@@ -28,6 +28,7 @@ export default class Can extends PureComponent {
     do: alias('I', PropTypes.string.isRequired),
     on: alias('this a of an', REQUIRED_OBJECT_OR_STRING),
     not: PropTypes.bool,
+    passThrough: PropTypes.bool,
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired
   };
@@ -86,13 +87,14 @@ export default class Can extends PureComponent {
   }
 
   render() {
-    return this.state.allowed ? this.renderChildren() : null;
+    const canRender = this.props.passThrough || this.state.allowed;
+    return canRender ? this.renderChildren() : null;
   }
 
   renderChildren() {
     const { children } = this.props;
     const elements = typeof children === 'function'
-      ? children(this.state.ability)
+      ? children(this.state.allowed, this.state.ability)
       : children;
 
     return renderChildren(elements);

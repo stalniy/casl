@@ -23,7 +23,8 @@ export function createContextualCan(Consumer) {
       I: props.I || props.do,
       a: props.on || props.a || props.an || props.of || props.this,
       not: props.not,
-      children: props.children
+      children: props.children,
+      passThrough: props.passThrough,
     }));
   };
 }

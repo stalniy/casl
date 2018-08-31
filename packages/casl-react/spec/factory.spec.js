@@ -54,7 +54,7 @@ describe('Factory methods which create `Can` component', () => {
       const element = e(ContextualCan, { I: 'read', a: 'Post', ability }, child)
       const component = renderer.create(element)
 
-      expect(child).to.have.been.called.with.exactly(ability)
+      expect(child).to.have.been.called.with(ability)
     })
 
     it('expects `Ability` instance to be provided by context Provider', () => {
@@ -63,7 +63,7 @@ describe('Factory methods which create `Can` component', () => {
       )
       const component = renderer.create(App)
 
-      expect(child).to.have.been.called.with.exactly(ability)
+      expect(child).to.have.been.called.with(ability)
     })
   })
 })

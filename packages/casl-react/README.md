@@ -186,7 +186,7 @@ For example, the code below reads as `Can I create a Post`.
 
 There are several other property aliases which allow to construct a readable question:
 
-* use `a` alias when you check by Type
+* use `a` (or `an`) alias when you check by Type
 
 ```jsx
 <Can I="read" a="Post">...</Can>
@@ -225,6 +225,14 @@ There are several other property aliases which allow to construct a readable que
 
 ```jsx
 <Can not I="read" a="Post">...</Can>
+```
+
+* use `passThrough` if you want to customize behavior of `<Can>` component, for example disable button instead of hiding it:
+
+```jsx
+<Can I="read" a="Post" passThrough>
+  {can => <button disabled={!can}>Save</button>}
+</Can>
 ```
 
 
