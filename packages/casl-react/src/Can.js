@@ -6,20 +6,22 @@ const noop = () => {};
 const renderChildren = Fragment
   ? children => createElement.apply(null, [Fragment, null].concat(children))
   : React.Children.only;
-const REQUIRED_OBJECT_OR_STRING = PropTypes
-  .oneOfType([PropTypes.object, PropTypes.string])
-  .isRequired;
+let propTypes = {};
 
-function alias(names, validate) {
-  return (props, ...args) => { // eslint-disable-line
-    if (!names.split(' ').some(name => props[name])) {
-      return validate(props, ...args);
-    }
-  };
-}
+if (process.env.NODE_ENV !== 'production') {
+  const REQUIRED_OBJECT_OR_STRING = PropTypes
+    .oneOfType([PropTypes.object, PropTypes.string])
+    .isRequired;
 
-export default class Can extends PureComponent {
-  static propTypes = {
+  function alias(names, validate) {
+    return (props, ...args) => { // eslint-disable-line
+      if (!names.split(' ').some(name => props[name])) {
+        return validate(props, ...args);
+      }
+    };
+  }
+
+  propTypes = {
     I: alias('do', PropTypes.string.isRequired),
     a: alias('on this of an', REQUIRED_OBJECT_OR_STRING),
     an: alias('on this of a', REQUIRED_OBJECT_OR_STRING),
@@ -32,6 +34,10 @@ export default class Can extends PureComponent {
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired
   };
+}
+
+export default class Can extends PureComponent {
+  static propTypes = propTypes;
 
   constructor(...args) {
     super(...args);
