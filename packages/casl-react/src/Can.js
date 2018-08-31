@@ -21,11 +21,12 @@ function alias(names, validate) {
 export default class Can extends PureComponent {
   static propTypes = {
     I: alias('do', PropTypes.string.isRequired),
-    a: alias('on this of', REQUIRED_OBJECT_OR_STRING),
-    of: alias('on a this', REQUIRED_OBJECT_OR_STRING),
-    this: alias('on a of', REQUIRED_OBJECT_OR_STRING),
+    a: alias('on this of an', REQUIRED_OBJECT_OR_STRING),
+    an: alias('on this of a', REQUIRED_OBJECT_OR_STRING),
+    of: alias('on a this an', REQUIRED_OBJECT_OR_STRING),
+    this: alias('on a of an', REQUIRED_OBJECT_OR_STRING),
     do: alias('I', PropTypes.string.isRequired),
-    on: alias('this a of', REQUIRED_OBJECT_OR_STRING),
+    on: alias('this a of an', REQUIRED_OBJECT_OR_STRING),
     not: PropTypes.bool,
     children: PropTypes.any.isRequired,
     ability: PropTypes.instanceOf(Ability).isRequired

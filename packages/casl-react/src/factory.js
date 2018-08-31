@@ -21,7 +21,7 @@ export function createContextualCan(Consumer) {
     return createElement(Consumer, null, ability => createElement(Can, {
       ability: props.ability || ability,
       I: props.I || props.do,
-      a: props.a || props.of || props.this || props.on,
+      a: props.on || props.a || props.an || props.of || props.this,
       not: props.not,
       children: props.children
     }));
