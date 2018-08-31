@@ -21,7 +21,7 @@ This component accepts children and 4 properties (see [Property names and aliase
 
 ```jsx
 <Can I="create" a="Post" ability={ability}>
-  () => <button onClick={this.createPost.bind(this)}>Create Post</button>
+  {() => <button onClick={this.createPost.bind(this)}>Create Post</button>}
 </Can>
 ```
 
@@ -62,7 +62,7 @@ import Can from './Can'
 export function button() {
   return (
     <Can I="create" a="Post">
-      () => <button onClick={this.createPost.bind(this)}>Create Post</button>
+      {() => <button onClick={this.createPost.bind(this)}>Create Post</button>}
     </Can>
   )
 }
@@ -108,7 +108,7 @@ export class TodoApp extends Component {
   render() {
     return (
       <Can I="create" a="Todo">
-        () => <button onClick={this.createTodo.bind(this)}>Create Todo</button>
+        {() => <button onClick={this.createTodo.bind(this)}>Create Todo</button>}
       </Can>
     )
   }
@@ -180,7 +180,7 @@ For example, the code below reads as `Can I create a Post`.
 
 ```jsx
 <Can I="create" a="Post">
-  () => <button onClick={...}>Create Post</button>
+  {() => <button onClick={...}>Create Post</button>}
 </Can>
 ```
 
