@@ -13,13 +13,11 @@ if (process.env.NODE_ENV !== 'production') {
     .oneOfType([PropTypes.object, PropTypes.string])
     .isRequired;
 
-  function alias(names, validate) {
-    return (props, ...args) => { // eslint-disable-line
-      if (!names.split(' ').some(name => props[name])) {
-        return validate(props, ...args);
-      }
-    };
-  }
+  const alias = (names, validate) => (props, ...args) => { // eslint-disable-line
+    if (!names.split(' ').some(name => props[name])) {
+      return validate(props, ...args);
+    }
+  };
 
   propTypes = {
     I: alias('do', PropTypes.string.isRequired),
