@@ -144,6 +144,16 @@ describe('`Can` component', () => {
 
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
+
+    it('can render multiple children if `React.Fragment` is available', () => {
+      const children = [child, e('h1', null, 'another children')]
+      const component = renderer.create(
+        e(Can, { I: 'read', a: 'Post', ability }, ...children)
+      )
+      const renderedChildren = children.map(element => renderer.create(element).toJSON())
+
+      expect(component.toJSON()).to.deep.equal(renderedChildren)
+    })
   })
 
   function validateProps(Component, props, propName) {
