@@ -1,8 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment, createElement } from 'react';
 import PropTypes from 'prop-types';
 import { Ability } from '@casl/ability';
 
 const noop = () => {};
+const renderChildren = Fragment
+  ? children => createElement.apply(null, [Fragment, null].concat(children))
+  : React.Children.only;
 const REQUIRED_OBJECT_OR_STRING = PropTypes
   .oneOfType([PropTypes.object, PropTypes.string])
   .isRequired;
@@ -87,7 +90,10 @@ export default class Can extends PureComponent {
 
   renderChildren() {
     const { children } = this.props;
+    const elements = typeof children === 'function'
+      ? children(this.state.ability)
+      : children;
 
-    return typeof children === 'function' ? children(this.state.ability) : React.Children.only(children);
+    return renderChildren(elements);
   }
 }
