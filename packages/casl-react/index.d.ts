@@ -9,6 +9,9 @@ type BaseProps = {
   a: string
 } | {
   I: string
+  an: string
+} | {
+  I: string
   of: any
 } | {
   I: string
@@ -18,11 +21,13 @@ type BaseProps = {
 type CanPropsStrict = BaseProps & {
   ability: Ability
   not?: boolean
+  passThrough?: boolean
 }
 
 type CanProps = BaseProps & {
   ability?: Ability
   not?: boolean
+  passThrough?: boolean
 }
 
 declare class CanComponent<T> extends PureComponent<T> {
