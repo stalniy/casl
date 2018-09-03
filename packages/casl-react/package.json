@@ -39,7 +39,7 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0",
     "prop-types": "^15.0.0",
     "react": "^15.0.0 || ^16.0.0"
   },
@@ -48,7 +48,6 @@
     "check-prop-types": "^1.1.2",
     "prop-types": "^15.6.0",
     "react": "^16.3.0",
-    "react-test-renderer": "^16.3.0",
-    "semantic-release": "^15.5.0"
+    "react-test-renderer": "^16.3.0"
   }
 }
