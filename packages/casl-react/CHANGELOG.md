@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v0.8.0](https://github.com/stalniy/casl/compare/@casl/react@0.7.2...@casl/react@0.8.0) (2018-09-03)
+
+
+### Bug Fixes
+
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+
+
+### Features
+
+* **react:can:** adds `an` alias to `on` prop ([748ea64](https://github.com/stalniy/casl/commit/748ea64))
+* **react:can:** adds `passThrough` option ([045318c](https://github.com/stalniy/casl/commit/045318c)), closes [#105](https://github.com/stalniy/casl/issues/105)
+* **react:can:** adds support for multiple <Can> children ([c022b32](https://github.com/stalniy/casl/commit/c022b32))
+* **react:can:** updates typescript declarations ([70953ed](https://github.com/stalniy/casl/commit/70953ed))
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+
+
+### Performance Improvements
+
+* **react:can:** moves prop type checks undef `if`, so they can be removed for production builds ([4bebf0b](https://github.com/stalniy/casl/commit/4bebf0b))
+
 # [@casl/react-v0.7.2](https://github.com/stalniy/casl/compare/@casl/react@0.7.1...@casl/react@0.7.2) (2018-07-29)
 
 
