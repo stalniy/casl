@@ -3,6 +3,11 @@
     "config:base",
     "monorepo:angular"
   ],
+  "ignoreDeps": [
+    "semantic-release",
+    "@semantic-release/git",
+    "@semantic-release/changelog"
+  ],
   "pinVersions": false,
   "separatePatchReleases": false,
   "ignoreUnstable": true,
