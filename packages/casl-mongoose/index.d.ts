@@ -3,13 +3,23 @@ import * as mongoose from 'mongoose'
 
 export function toMongoQuery(ability: Ability, subject: any, action?: string): Object | null
 
+interface PermittedFieldsOptions {
+  only?: string | string[],
+  except?: string | string[]
+}
 interface AccessibleFieldsOptions {
   only?: string | string[],
   except?: string | string[]
 }
 
+export function permittedFieldsPlugin(schema: PermittedFieldsSchema, options?: PermittedFieldsOptions): void
 export function accessibleFieldsPlugin(schema: AccessibleFieldsSchema, options?: AccessibleFieldsOptions): void
 
+export interface PermittedFieldsSchema extends mongoose.Schema {
+  plugin(
+    plugin: typeof permittedFieldsPlugin,
+    options?: PermittedFieldsOptions): this
+}
 export interface AccessibleFieldsSchema extends mongoose.Schema {
   plugin(
     plugin: typeof accessibleFieldsPlugin,
@@ -25,7 +35,7 @@ export interface AccessibleSchema extends mongoose.Schema {
 declare module "mongoose" {
   export function model<T extends Document>(
       name: string,
-      schema?: AccessibleFieldsSchema | AccessibleSchema,
+      schema?: PermittedFieldsSchema | AccessibleFieldsSchema | AccessibleSchema,
       collection?: string,
       skipInit?: boolean): Model<T>
 
@@ -35,10 +45,12 @@ declare module "mongoose" {
 
   interface Model<T extends Document> {
     accessibleBy(ability: Ability, action?: string): Query<T>
+    permittedFieldsBy(ability: Ability, action?: string): string[]
     accessibleFieldsBy(ability: Ability, action?: string): string[]
   }
 
   interface Document {
+    permittedFieldsBy(ability: Ability, action?: string): string[]
     accessibleFieldsBy(ability: Ability, action?: string): string[]
   }
 }
