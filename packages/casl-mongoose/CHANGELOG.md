@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.2.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.1.2...@casl/mongoose@2.2.0) (2018-10-10)
+
+
+### Bug Fixes
+
+* **angular:** adding type definitions for accessibleFields ([#117](https://github.com/stalniy/casl/issues/117)) ([a00c02b](https://github.com/stalniy/casl/commit/a00c02b))
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+
+
+### Features
+
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+
 <a name="@casl/mongoose-v2.1.2"></a>
 # [@casl/mongoose-v2.1.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.1.1...@casl/mongoose@2.1.2) (2018-07-02)
 
