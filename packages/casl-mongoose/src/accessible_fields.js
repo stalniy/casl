@@ -5,12 +5,12 @@ function wrapArray(value) {
 }
 
 function deprecate(name, { by: replacementName, fn }) {
-  return (...args) => {
+  return function wrapDeprecated(...args) {
     if (process.env.NODE_ENV !== 'production') {
       console.warn(`"${name}" is deprecated, use "${replacementName}"`);
     }
 
-    return fn(...args);
+    return fn.apply(this, args);
   };
 }
 
