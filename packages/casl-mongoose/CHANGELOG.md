@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.0...@casl/mongoose@2.2.1) (2018-10-14)
+
+
+### Bug Fixes
+
+* **mongoose:** sets the correct `this` for deprecated methods ([488a227](https://github.com/stalniy/casl/commit/488a227)), closes [#116](https://github.com/stalniy/casl/issues/116)
+
 # [@casl/mongoose-v2.2.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.1.2...@casl/mongoose@2.2.0) (2018-10-10)
 
 
