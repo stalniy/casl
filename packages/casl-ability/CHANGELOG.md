@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v2.5.0](https://github.com/stalniy/casl/compare/@casl/ability@2.4.2...@casl/ability@2.5.0) (2018-10-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sift to v7 ([0c02695](https://github.com/stalniy/casl/commit/0c02695))
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+
+
+### Features
+
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+
 <a name="@casl/ability-v2.4.2"></a>
 # [@casl/ability-v2.4.2](https://github.com/stalniy/casl/compare/@casl/ability@2.4.1...@casl/ability@2.4.2) (2018-07-02)
 
