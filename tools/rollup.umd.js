@@ -13,13 +13,15 @@ export default Object.assign({}, config, {
     babel({
       exclude: 'node_modules/**',
       presets: [
-        ['env', {
+        ['@babel/preset-env', {
           modules: false,
           loose: true,
-          browsers: ['last 3 versions', 'safari >= 7']
+          targets: {
+            browsers: ['last 3 versions', 'safari >= 7']
+          }
         }]
       ],
-      plugins: ['external-helpers']
+      plugins: ['@babel/plugin-external-helpers']
     }),
     process.env.NODE_ENV === 'production' && uglify()
   ])

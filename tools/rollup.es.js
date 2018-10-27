@@ -9,7 +9,10 @@ export default {
   },
   plugins: [
     babel({
-      plugins: ['transform-class-properties', 'external-helpers']
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-external-helpers'
+      ]
     }),
     resolve({
       jsnext: true,

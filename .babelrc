@@ -1,16 +1,18 @@
 {
   "env": {
     "test": {
-      "presets":[
-        ["env", {
+      "presets": [
+        ["@babel/preset-env", {
           "loose": true,
-          "browsers": ["last 3 versions", "safari >= 7"]
+          "targets": {
+            "browsers": ["last 3 versions", "safari >= 7"]
+          }
         }]
       ],
       "plugins": [
-        "transform-class-properties",
-        "transform-async-to-generator",
-        "transform-object-rest-spread"
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-transform-async-to-generator",
+        "@babel/plugin-proposal-object-rest-spread"
       ]
     }
   }
