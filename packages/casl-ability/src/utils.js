@@ -10,7 +10,10 @@ export function setByPath(object, path, value) {
     const keys = path.split('.');
 
     lastKey = keys.pop();
-    ref = keys.reduce((res, prop) => res[prop] = res[prop] || {}, object);
+    ref = keys.reduce((res, prop) => {
+      res[prop] = res[prop] || {};
+      return res[prop];
+    }, object);
   }
 
   ref[lastKey] = value;
