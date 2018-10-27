@@ -7,6 +7,7 @@ function wrapArray(value) {
 function deprecate(name, { by: replacementName, fn }) {
   return function wrapDeprecated(...args) {
     if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
       console.warn(`"${name}" is deprecated, use "${replacementName}"`);
     }
 
