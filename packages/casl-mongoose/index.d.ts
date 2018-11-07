@@ -26,10 +26,12 @@ export interface AccessibleFieldsSchema extends mongoose.Schema {
     options?: AccessibleFieldsOptions): this
 }
 
-export function accessibleRecordsPlugin(schema: mongoose.Schema): void
+export function accessibleRecordsPlugin(schema: mongoose.Schema, options?: null): void
 
 export interface AccessibleSchema extends mongoose.Schema {
-  plugin(plugin: typeof accessibleRecordsPlugin): this
+  plugin(
+    plugin: typeof accessibleRecordsPlugin,
+    options?: null): this
 }
 
 declare module "mongoose" {
