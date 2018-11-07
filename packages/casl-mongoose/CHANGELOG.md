@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.2.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.1...@casl/mongoose@2.2.2) (2018-11-07)
+
+
+### Bug Fixes
+
+* **mongoose:** adds optional options as null type ([#127](https://github.com/stalniy/casl/issues/127)) ([ac3c262](https://github.com/stalniy/casl/commit/ac3c262))
+
 # [@casl/mongoose-v2.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.0...@casl/mongoose@2.2.1) (2018-10-14)
 
 
