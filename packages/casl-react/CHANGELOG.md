@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v0.8.1](https://github.com/stalniy/casl/compare/@casl/react@0.8.0...@casl/react@0.8.1) (2018-11-08)
+
+
+### Bug Fixes
+
+* **react:** moves this.connectToAbility to the setState callback ([#129](https://github.com/stalniy/casl/issues/129)) ([9d0c839](https://github.com/stalniy/casl/commit/9d0c839)), closes [#128](https://github.com/stalniy/casl/issues/128)
+
 # [@casl/react-v0.8.0](https://github.com/stalniy/casl/compare/@casl/react@0.7.2...@casl/react@0.8.0) (2018-09-03)
 
 
