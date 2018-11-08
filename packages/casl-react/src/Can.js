@@ -55,7 +55,7 @@ export default class Can extends PureComponent {
     if (props.ability && this.state.ability !== props.ability) {
       this.setState(
         { ability: props.ability },
-        () => {this.connectToAbility(this.state.ability)}
+        () => { this.connectToAbility(this.state.ability); }
       );
     } else {
       this.recheck(props);
