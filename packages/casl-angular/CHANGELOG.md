@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/angular-v0.4.0](https://github.com/stalniy/casl/compare/@casl/angular@0.3.1...@casl/angular@0.4.0) (2018-11-11)
+
+
+### Bug Fixes
+
+* **angular:** converts source to typescript ([565936d](https://github.com/stalniy/casl/commit/565936d)), closes [#126](https://github.com/stalniy/casl/issues/126)
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+* **semantic-release:** test ([cab3f4b](https://github.com/stalniy/casl/commit/cab3f4b)), closes [#94](https://github.com/stalniy/casl/issues/94)
+
+
+### Features
+
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+
 <a name="@casl/angular-v0.3.1"></a>
 # [@casl/angular-v0.3.1](https://github.com/stalniy/casl/compare/@casl/angular@0.3.0...@casl/angular@0.3.1) (2018-07-02)
 
