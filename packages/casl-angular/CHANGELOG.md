@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/angular-v0.4.1](https://github.com/stalniy/casl/compare/@casl/angular@0.4.0...@casl/angular@0.4.1) (2018-11-11)
+
+
+### Bug Fixes
+
+* **angular:** makes `field` to be optional argument ([a3eec63](https://github.com/stalniy/casl/commit/a3eec63)), closes [#126](https://github.com/stalniy/casl/issues/126)
+
 # [@casl/angular-v0.4.0](https://github.com/stalniy/casl/compare/@casl/angular@0.3.1...@casl/angular@0.4.0) (2018-11-11)
 
 
