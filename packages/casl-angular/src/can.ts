@@ -11,7 +11,7 @@ export class CanPipe {
   constructor(protected ability: Ability, protected cd: ChangeDetectorRef) {
   }
 
-  transform(resource: any, action: string, field: string) {
+  transform(resource: any, action: string, field?: string) {
     if (this.unsubscribeFromAbility === noop) {
       this.unsubscribeFromAbility = this.ability.on('updated', () => this.cd.markForCheck());
     }
@@ -19,8 +19,8 @@ export class CanPipe {
     return this.can(action, resource, field);
   }
 
-  can(...args: [string, any, string?]) {
-    return this.ability.can(...args);
+  can(action: string, subject: any, field?: string) {
+    return this.ability.can(action, subject, field);
   }
 
   ngOnDestroy() {
