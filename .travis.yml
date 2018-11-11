@@ -5,8 +5,8 @@ node_js:
   - node
 
 before_script:
-  - npm run build
   - npm run bootstrap
+  - npm run build
 
 script:
   - WITH_COVERAGE=1 npm test
