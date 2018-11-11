@@ -4,7 +4,7 @@
     "build": "lerna run build",
     "pretest": "npm run lint",
     "test": "lerna run test",
-    "lint": "eslint -c .eslintrc packages/*/src",
+    "lint": "lerna run lint",
     "coverage.submit": "codecov",
     "prerelease": "npm run lint",
     "release": "lerna run release"

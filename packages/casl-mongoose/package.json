@@ -17,6 +17,7 @@
     "build.es": "rollup -c ../../tools/rollup.es.js -e @casl/ability/extra",
     "build.cjs": "rollup -c ../../tools/rollup.umd.js -e @casl/ability/extra -f cjs -o index.js",
     "build": "npm run build.es && npm run build.cjs",
+    "lint": "eslint src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
