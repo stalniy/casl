@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v2.5.1](https://github.com/stalniy/casl/compare/@casl/ability@2.5.0...@casl/ability@2.5.1) (2018-11-11)
+
+
+### Bug Fixes
+
+* **ability:** adds `on` method into typescript defs ([86e35cc](https://github.com/stalniy/casl/commit/86e35cc))
+
 # [@casl/ability-v2.5.0](https://github.com/stalniy/casl/compare/@casl/ability@2.4.2...@casl/ability@2.5.0) (2018-10-14)
 
 
