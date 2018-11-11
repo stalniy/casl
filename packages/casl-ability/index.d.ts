@@ -36,6 +36,8 @@ export class Ability {
   rulesFor(action: string, subject: any, field?: string): Rule[]
 
   throwUnlessCan(action: string, subject: any, field?: string): void
+
+  on(event: string, listen: Function): Function
 }
 
 export class RuleBuilder {
