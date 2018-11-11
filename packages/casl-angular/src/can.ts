@@ -3,21 +3,15 @@ import { Ability } from '@casl/ability';
 
 const noop = () => {};
 
+// TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
+@Pipe({ name: 'can', pure: false })
 export class CanPipe {
-  static parameters = [[Ability], [ChangeDetectorRef]];
+  protected unsubscribeFromAbility: Function = noop;
 
-  static annotations = [
-    // TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
-    new Pipe({ name: 'can', pure: false })
-  ]
-
-  constructor(ability, cd) {
-    this.ability = ability;
-    this.cd = cd;
-    this.unsubscribeFromAbility = noop;
+  constructor(protected ability: Ability, protected cd: ChangeDetectorRef) {
   }
 
-  transform(resource, action, field) {
+  transform(resource: any, action: string, field: string) {
     if (this.unsubscribeFromAbility === noop) {
       this.unsubscribeFromAbility = this.ability.on('updated', () => this.cd.markForCheck());
     }
@@ -25,7 +19,7 @@ export class CanPipe {
     return this.can(action, resource, field);
   }
 
-  can(...args) {
+  can(...args: [string, any, string?]) {
     return this.ability.can(...args);
   }
 

@@ -1,3 +1,4 @@
+import 'core-js/es7/reflect'
 import 'zone.js/dist/zone.js'
 import 'zone.js/dist/proxy'
 import 'zone.js/dist/sync-test'
@@ -18,11 +19,13 @@ TestBed.initTestEnvironment(
 
 export class App {
   static get annotations() {
-    return new Component({
-      selector: 'app-ability',
-      template: '{{ post | can: "read" }}',
-      inputs: ['post']
-    })
+    return [
+      new Component({
+        selector: 'app-ability',
+        template: '{{ post | can: "read" }}',
+        inputs: ['post']
+      })
+    ]
   }
 }
 
