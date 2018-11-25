@@ -8,9 +8,10 @@ export default {
     of: [String, Function, Object],
     this: [String, Function, Object],
     on: [String, Function, Object],
-    not: { type: Boolean, default: false }
+    not: Boolean,
+    passThrough: Boolean,
   },
-  render(h, { props, children, parent }) {
+  render(h, { props, children, parent, data }) {
     const [action, field] = (props.I || props.do || '').split(' ');
     const subject = props.of || props.a || props.this || props.on;
 
@@ -22,6 +23,19 @@ export default {
       throw new Error('[Vue Can]: neither `of` nor `a` nor `this` nor `on` property exist');
     }
 
-    return props.not ^ parent.$can(action, subject, field) ? children : null;
+    const allowed = !!(props.not ^ parent.$can(action, subject, field));
+
+    if (!props.passThrough) {
+      return allowed ? children : null;
+    }
+
+    if (!data.scopedSlots || !data.scopedSlots.default) {
+      throw new Error('[Vue Can]: `passThrough` expects default scoped slot to be specified')
+    }
+
+    return data.scopedSlots.default({
+      allowed,
+      ability: parent.$ability,
+    });
   }
 };

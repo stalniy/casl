@@ -57,38 +57,72 @@ describe('`Can` component', () => {
     expect(wrapper.contains('h1')).to.be.false
   })
 
-  xdescribe('props validation', () => {
-    // beforeAll(() => {
-    //   spy.on(Vue.config, 'errorHandler', (error, vm) => vm.error = error)
-    // })
+  describe('`passThrough` property', () => {
+    let scopedSlot
 
-    // afterAll(() => {
-    //   spy.restore(Vue.config, 'errorHandler')
-    // })
+    beforeEach(() => {
+      scopedSlot = spy()
+      render((h) => h('div', [
+        h(Can, {
+          props: { I: 'delete', a: 'Plugin', passThrough: true },
+          scopedSlots: { default: scopedSlot }
+        })
+      ]))
+    })
+
+    it('allows to always render scoped slot', () => {
+      expect(scopedSlot).to.have.been.called()
+    })
+
+    it('passes `allowed` and `ability` vars into scoped slot', () => {
+      expect(scopedSlot).to.have.been.called.with({ ability, allowed: false })
+    })
+  })
+
+  describe('props validation', () => {
+    beforeAll(() => {
+      spy.on(console, 'error', () => {})
+    })
+
+    afterAll(() => {
+      spy.restore(console, 'error')
+    })
 
     it('throws error if action (i.e., `I` or `do`) is not specified', () => {
-      const wrapper = render(`
+      expect(() => render(`
         <Can a="Plugin">
           <h1></h1>
         </Can>
-      `)
-
-      expect(wrapper.vm.error).to.match(/`I` nor `do` property exist/)
+      `)).to.throw(/`I` nor `do` property exist/)
     })
 
     it('throws error if subject (i.e., `a`, `of`, `this` or `on`) is not specified', () => {
-      const wrapper = render(`
+      expect(() => render(`
         <Can I="read">
           <h1></h1>
         </Can>
-      `)
+      `)).to.throw(/`of` nor `a` nor `this` nor `on` property exist/)
+    })
 
-      expect(wrapper.vm.error).to.match(/`of` nor `a` nor `this` nor `on` property exist/)
+    it('throws error if `passThrough` is passed without scoped slot', () => {
+      expect(() => render(`
+        <Can I="read" a="Post" passThrough>
+          <h1></h1>
+        </Can>
+      `)).to.throw(/`passThrough` expects default scoped slot/)
     })
   })
 
   function render(template) {
-    return mount({ template: `<div>${template.trim()}</div>` }, {
+    const defs = {}
+
+    if (typeof template === 'function') {
+      defs.render = template
+    } else {
+      defs.template = `<div>${template.trim()}</div>`
+    }
+
+    return mount(defs, {
       localVue: LocalVue
     })
   }

@@ -40,12 +40,12 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0-alpha.1",
+    "@casl/ability": "^2.0.0",
     "vue": "^2.0.0"
   },
   "devDependencies": {
     "@casl/ability": "^2.0.0",
-    "@vue/test-utils": "^1.0.0-beta.12",
+    "@vue/test-utils": "^1.0.0-beta.25",
     "vue": "^2.5.13",
     "vue-template-compiler": "^2.5.13"
   }
