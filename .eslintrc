@@ -13,6 +13,9 @@
     "no-bitwise": ["error", { "allow": ["^"] }],
     "no-return-assign": 1,
     "arrow-body-style": 1,
-    "prefer-spread": 0
+    "prefer-spread": 0,
+    "object-curly-newline": ["error", {
+      "ObjectPattern": "never"
+    }]
   }
 }

@@ -30,7 +30,7 @@ export default {
     }
 
     if (!data.scopedSlots || !data.scopedSlots.default) {
-      throw new Error('[Vue Can]: `passThrough` expects default scoped slot to be specified')
+      throw new Error('[Vue Can]: `passThrough` expects default scoped slot to be specified');
     }
 
     return data.scopedSlots.default({
