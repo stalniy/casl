@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/vue-v0.5.0](https://github.com/stalniy/casl/compare/@casl/vue@0.4.3...@casl/vue@0.5.0) (2018-11-25)
+
+
+### Bug Fixes
+
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+
+
+### Features
+
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+* **vue:** adds `passThrough` prop to `Can` ([28ca883](https://github.com/stalniy/casl/commit/28ca883)), closes [#105](https://github.com/stalniy/casl/issues/105)
+
 <a name="@casl/vue-v0.4.3"></a>
 # [@casl/vue-v0.4.3](https://github.com/stalniy/casl/compare/@casl/vue@0.4.2...@casl/vue@0.4.3) (2018-07-14)
 
