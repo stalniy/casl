@@ -24,13 +24,15 @@ import { AbilityModule } from '@casl/angular'
 @NgModule({
   imports: [
     ...,
-    AbilityModule
+    AbilityModule.forRoot()
   ],
   declarations: [...],
   bootstrap: [...],
 })
 export class AppModule {}
 ```
+
+**Note**: make sure that you use `AbilityModule.forRoot()` in your main module (usually it's `AppModule`) and `AbilityModule` in children modules (including lazy loaded ones).
 
 ### 2. Defining Abilities
 
@@ -56,7 +58,7 @@ import { ability } from './ability'
 @NgModule({
   imports: [
     ...,
-    AbilityModule
+    AbilityModule.forRoot()
   ],
   declarations: [...],
   providers: [
@@ -98,7 +100,7 @@ export class Session {
 
 See [@casl/ability][casl-ability] package for more information on how to define abilities.
 
-### 3. Check permissios in templates
+### 3. Check permissions in templates
 
 To check permissions in any template you can use `CanPipe`:
 

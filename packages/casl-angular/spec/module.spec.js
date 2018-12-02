@@ -8,7 +8,7 @@ describe('Ability', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [AbilityModule],
+      imports: [AbilityModule.forRoot()],
       declarations: [App]
     })
     await TestBed.compileComponents()
