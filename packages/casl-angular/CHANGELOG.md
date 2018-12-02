@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/angular-v1.0.0](https://github.com/stalniy/casl/compare/@casl/angular@0.4.1...@casl/angular@1.0.0) (2018-12-02)
+
+
+### Bug Fixes
+
+* **angular:** adds possibility to use angular module in lazy loaded routes ([0c7c3c1](https://github.com/stalniy/casl/commit/0c7c3c1))
+
+
+### BREAKING CHANGES
+
+* **angular:** Fixes #131
+
 # [@casl/angular-v0.4.1](https://github.com/stalniy/casl/compare/@casl/angular@0.4.0...@casl/angular@0.4.1) (2018-11-11)
 
 
