@@ -1,7 +1,7 @@
 import { Ability } from '@casl/ability'
 import * as mongoose from 'mongoose'
 
-export function toMongoQuery(ability: Ability, subject: any, action?: string): Object | null
+export function toMongoQuery(ability: typeof Ability, subject: any, action?: string): Object | null
 
 interface PermittedFieldsOptions {
   only?: string | string[],
@@ -42,17 +42,17 @@ declare module "mongoose" {
       skipInit?: boolean): Model<T>
 
   interface DocumentQuery<T, DocType extends Document> {
-    accessibleBy(ability: Ability, action?: string): this
+    accessibleBy(ability: typeof Ability, action?: string): this
   }
 
   interface Model<T extends Document> {
-    accessibleBy(ability: Ability, action?: string): Query<T>
-    permittedFieldsBy(ability: Ability, action?: string): string[]
-    accessibleFieldsBy(ability: Ability, action?: string): string[]
+    accessibleBy(ability: typeof Ability, action?: string): Query<T>
+    permittedFieldsBy(ability: typeof Ability, action?: string): string[]
+    accessibleFieldsBy(ability: typeof Ability, action?: string): string[]
   }
 
   interface Document {
-    permittedFieldsBy(ability: Ability, action?: string): string[]
-    accessibleFieldsBy(ability: Ability, action?: string): string[]
+    permittedFieldsBy(ability: typeof Ability, action?: string): string[]
+    accessibleFieldsBy(ability: typeof Ability, action?: string): string[]
   }
 }
