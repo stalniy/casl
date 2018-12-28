@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.3.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.2...@casl/mongoose@2.3.0) (2018-12-28)
+
+
+### Features
+
+* **mongoose:** wraps resulting query into additional `$and` ([1af1c54](https://github.com/stalniy/casl/commit/1af1c54)), closes [#140](https://github.com/stalniy/casl/issues/140)
+
 # [@casl/mongoose-v2.2.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.1...@casl/mongoose@2.2.2) (2018-11-07)
 
 
