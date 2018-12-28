@@ -53,7 +53,7 @@
     "@angular/platform-browser": "^7.0.0",
     "@angular/platform-browser-dynamic": "^7.0.0",
     "@casl/ability": "^2.0.0",
-    "jest-zone-patch": "0.0.8",
+    "jest-zone-patch": "0.0.10",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
     "zone.js": "^0.8.20"
