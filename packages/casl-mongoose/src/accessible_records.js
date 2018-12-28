@@ -35,7 +35,7 @@ function emptyQuery(query) {
 function accessibleBy(ability, action) {
   const query = toMongoQuery(ability, this.modelName || this.model.modelName, action);
 
-  return query === null ? emptyQuery(this.where()) : this.where(query);
+  return query === null ? emptyQuery(this.where()) : this.where({ $and: [query] });
 }
 
 export function accessibleRecordsPlugin(schema) {

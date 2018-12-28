@@ -58,12 +58,12 @@ describe('Accessible Records Plugin', () => {
       expect(Post.where).to.be.called()
     })
 
-    it('passes query created by `toMongoQuery` in `where` method of the query', () => {
+    it('wraps `toMongoQuery` result with additional `$and` to prevent collisions when combined with `$or` query', () => {
       const query = toMongoQuery(ability, 'Post')
       spy.on(Post, 'where')
       Post.accessibleBy(ability)
 
-      expect(Post.where).to.be.called.with.exactly(query)
+      expect(Post.where).to.be.called.with.exactly({ $and: [query] })
     })
 
     it('does not change query return type', () => {
