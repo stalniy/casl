@@ -21,6 +21,10 @@ export class Ability {
     return this;
   }
 
+  static possibleRulesForAction(action, subjectRules) {
+    return (subjectRules[action] || []).concat(subjectRules.all || []);
+  }
+
   constructor(rules, { RuleType = Rule, subjectName = getSubjectName } = {}) {
     this[PRIVATE_FIELD] = {
       RuleType,
@@ -111,8 +115,9 @@ export class Ability {
   possibleRulesFor(action, subject) {
     const subjectName = this[PRIVATE_FIELD].subjectName(subject);
     const { rules } = this[PRIVATE_FIELD];
-    const specificRules = rules.hasOwnProperty(subjectName) ? rules[subjectName][action] : null;
-    const generalRules = rules.hasOwnProperty('all') ? rules.all[action] : null;
+    const specificRules = rules.hasOwnProperty(subjectName)
+      ? Ability.possibleRulesForAction(action, rules[subjectName]) : null;
+    const generalRules = rules.hasOwnProperty('all') ? Ability.possibleRulesForAction(action, rules.all) : null;
 
     return (specificRules || []).concat(generalRules || []);
   }

@@ -460,6 +460,33 @@ describe('Ability', () => {
     })
   })
 
+  describe('`all` action', ()=>{
+    it('allows `all` action', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('all', 'all')
+      })
+
+      expect(ability).to.allow('read', 'post')
+    })
+
+    it('cannot is still honoured', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        cannot('read', 'post')
+        can('all', 'all')
+      })
+
+      expect(ability).not.to.allow('read', 'post')
+    })
+
+    it('fields are still honoured', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('all', 'all', 'subject')
+      })
+
+      expect(ability).to.allow('read', 'post', 'subject')
+    })
+  });
+
   describe('`rulesFor`', () => {
     it('returns rules for specific subject and action', () => {
       ability = AbilityBuilder.define((can, cannot) => {
