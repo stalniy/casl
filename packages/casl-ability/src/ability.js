@@ -7,7 +7,7 @@ function clone(object) {
 }
 
 const DEFAULT_ALIASES = {
-  manage: ['create', 'read', 'update', 'delete'],
+  crud: ['create', 'read', 'update', 'delete'],
 };
 const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol('private') : `__${Date.now()}`;
 
@@ -22,7 +22,10 @@ export class Ability {
   }
 
   static possibleRulesForAction(action, subjectRules) {
-    return (subjectRules[action] || []).concat(subjectRules.all || []);
+    if (!subjectRules || !action) {
+      return [];
+    }
+    return (subjectRules[action] || []).concat(subjectRules.manage || []);
   }
 
   constructor(rules, { RuleType = Rule, subjectName = getSubjectName } = {}) {
