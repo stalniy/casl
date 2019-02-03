@@ -24,10 +24,10 @@ describe('Ability', () => {
     expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
   })
 
-  it('provides predefined to use "manage" alias for create, read, update, delete', () => {
-    ability = AbilityBuilder.define(can => can('manage', 'Post'))
+  it('provides predefined to use "crud" alias for create, read, update, delete', () => {
+    ability = AbilityBuilder.define(can => can('crud', 'Post'))
 
-    expect(ability).to.allow('manage', 'Post')
+    expect(ability).to.allow('crud', 'Post')
     expect(ability).to.allow('create', 'Post')
     expect(ability).to.allow('read', 'Post')
     expect(ability).to.allow('update', 'Post')
@@ -44,7 +44,7 @@ describe('Ability', () => {
 
   it('lists all rules', () => {
     ability = AbilityBuilder.define((can, cannot) => {
-      can('manage', 'all')
+      can('crud', 'all')
       can('learn', 'Range')
       cannot('read', 'String')
       cannot('read', 'Hash')
@@ -52,7 +52,7 @@ describe('Ability', () => {
     })
 
     expect(ability.rules).to.deep.equal([
-      { actions: 'manage', subject: ['all'] },
+      { actions: 'crud', subject: ['all'] },
       { actions: 'learn', subject: ['Range'] },
       { actions: 'read', subject: ['String'], inverted: true },
       { actions: 'read', subject: ['Hash'], inverted: true },
@@ -234,7 +234,7 @@ describe('Ability', () => {
 
     it('shadows rule with conditions by the same rule without conditions', () => {
       ability = AbilityBuilder.define(can => {
-        can('manage', 'Post')
+        can('crud', 'Post')
         can('delete', 'Post', { creator: 'me' })
       })
 
@@ -244,7 +244,7 @@ describe('Ability', () => {
 
     it('does not shadow rule with conditions by the same rule if the last one is disallowed by `cannot`', () => {
       ability = AbilityBuilder.define((can, cannot) => {
-        can('manage', 'Post')
+        can('crud', 'Post')
         cannot('delete', 'Post')
         can('delete', 'Post', { creator: 'me' })
       })
@@ -256,13 +256,13 @@ describe('Ability', () => {
     it('shadows inverted rule by regular one', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         cannot('delete', 'Post', { creator: 'me' })
-        can('manage', 'Post', { creator: 'me' })
+        can('crud', 'Post', { creator: 'me' })
       })
 
       expect(ability).to.allow('delete', new Post({ creator: 'me' }))
     })
 
-    it('favor subject specific rules over general ones (i.e., defined via "all")', () => {
+    it('shadows `all` subject rule by specific one', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('delete', 'all')
         cannot('delete', 'Post')
@@ -459,6 +459,45 @@ describe('Ability', () => {
       })
     })
   })
+
+  describe('`manage` action', () => {
+    it('is an alias for any action', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('manage', 'all')
+      })
+
+      expect(ability).to.allow('read', 'post')
+      expect(ability).to.allow('do_whatever_anywhere', 'post')
+    })
+
+    it('honours `cannot` rules', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('manage', 'all')
+        cannot('read', 'post')
+      })
+
+      expect(ability).not.to.allow('read', 'post')
+      expect(ability).to.allow('update', 'post')
+    })
+
+    it('can be used with `cannot`', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('read', 'post')
+        cannot('manage', 'all')
+      })
+
+      expect(ability).not.to.allow('read', 'post')
+      expect(ability).not.to.allow('delete', 'post')
+    })
+
+    it('honours field specific rules', () => {
+      ability = AbilityBuilder.define((can, cannot) => {
+        can('manage', 'all', 'subject')
+      })
+
+      expect(ability).to.allow('read', 'post', 'subject')
+    })
+  });
 
   describe('`rulesFor`', () => {
     it('returns rules for specific subject and action', () => {
