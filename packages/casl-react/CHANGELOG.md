@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 # [@casl/react-v1.0.0](https://github.com/stalniy/casl/compare/@casl/react@0.8.1...@casl/react@1.0.0) (2019-02-03)
 
+### Breaking Changes
+
+* **react:** removes internal state in <Can> component ([#122](https://github.com/stalniy/casl/issues/122)) ([df9dd51](https://github.com/stalniy/casl/commit/df9dd51)), closes [#122](https://github.com/stalniy/casl/issues/122)
+
 # [@casl/react-v0.8.1](https://github.com/stalniy/casl/compare/@casl/react@0.8.0...@casl/react@0.8.1) (2018-11-08)
 
 
