@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v1.0.0](https://github.com/stalniy/casl/compare/@casl/react@0.8.1...@casl/react@1.0.0) (2019-02-03)
+
 # [@casl/react-v0.8.1](https://github.com/stalniy/casl/compare/@casl/react@0.8.0...@casl/react@0.8.1) (2018-11-08)
 
 
