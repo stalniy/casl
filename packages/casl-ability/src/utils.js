@@ -28,3 +28,7 @@ export function getSubjectName(subject) {
 
   return Type.modelName || Type.name;
 }
+
+export function clone(object) {
+  return JSON.parse(JSON.stringify(object));
+}
