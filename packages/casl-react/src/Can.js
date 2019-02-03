@@ -39,31 +39,7 @@ export default class Can extends PureComponent {
 
   constructor(...args) {
     super(...args);
-
     this.unsubscribeFromAbility = noop;
-    this.state = {
-      ability: this.props.ability,
-      allowed: false
-    };
-  }
-
-  get allowed() {
-    return this.state.allowed;
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.ability && this.state.ability !== props.ability) {
-      this.setState(
-        { ability: props.ability },
-        () => { this.connectToAbility(this.state.ability); }
-      );
-    } else {
-      this.recheck(props);
-    }
-  }
-
-  componentWillMount() {
-    this.connectToAbility(this.state.ability);
   }
 
   componentWillUnmount() {
@@ -74,33 +50,33 @@ export default class Can extends PureComponent {
     this.unsubscribeFromAbility();
 
     if (ability) {
-      this.unsubscribeFromAbility = ability.on('updated', () => this.recheck());
-      this.recheck();
+      this.unsubscribeFromAbility = ability.on('updated', () => this.forceUpdate());
     }
   }
 
-  recheck(props) {
-    return this.setState({ allowed: this.check(props) });
+  get allowed() {
+    return this._isAllowed
   }
 
-  check(props = null) {
-    const params = props || this.props;
+  isAllowed() {
+    const params = this.props;
     const [action, field] = (params.I || params.do).split(/\s+/);
     const subject = params.of || params.a || params.this || params.on;
     const can = params.not ? 'cannot' : 'can';
 
-    return this.state.ability[can](action, subject, field);
+    return params.ability[can](action, subject, field);
   }
 
   render() {
-    const canRender = this.props.passThrough || this.state.allowed;
-    return canRender ? this.renderChildren() : null;
+    this.connectToAbility(this.props.ability);
+    this._isAllowed = this.isAllowed()
+    return this.props.passThrough || this._isAllowed ? this.renderChildren() : null;
   }
 
   renderChildren() {
-    const { children } = this.props;
+    const { children, ability } = this.props;
     const elements = typeof children === 'function'
-      ? children(this.state.allowed, this.state.ability)
+      ? children(this._isAllowed, ability)
       : children;
 
     return renderChildren(elements);

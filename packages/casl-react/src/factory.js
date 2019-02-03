@@ -9,9 +9,8 @@ export function createCanBoundTo(ability) {
       ability: PropTypes.instanceOf(Ability)
     });
 
-    constructor(...args) {
-      super(...args);
-      this.state.ability = this.state.ability || ability;
+    static defaultProps = {
+      ability
     }
   };
 }
