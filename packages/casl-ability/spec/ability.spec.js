@@ -262,7 +262,7 @@ describe('Ability', () => {
       expect(ability).to.allow('delete', new Post({ creator: 'me' }))
     })
 
-    it('favor subject specific rules over general ones (i.e., defined via "all")', () => {
+    it('shadows `all` subject rule by specific one', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('delete', 'all')
         cannot('delete', 'Post')
@@ -460,35 +460,37 @@ describe('Ability', () => {
     })
   })
 
-  describe('`manage` action', ()=>{
-    it('allows `all` action', () => {
+  describe('`manage` action', () => {
+    it('is an alias for any action', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('manage', 'all')
       })
 
       expect(ability).to.allow('read', 'post')
+      expect(ability).to.allow('do_whatever_anywhere', 'post')
     })
 
-    it('cannot is still honoured', () => {
+    it('honours `cannot` rules', () => {
       ability = AbilityBuilder.define((can, cannot) => {
-        cannot('read', 'post')
         can('manage', 'all')
+        cannot('read', 'post')
       })
 
       expect(ability).not.to.allow('read', 'post')
+      expect(ability).to.allow('update', 'post')
     })
 
-    it('`managcannote` can be used with cannot', () => {
+    it('can be used with `cannot`', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('read', 'post')
         cannot('manage', 'all')
       })
 
-      expect(ability).to.allow('read', 'post')
+      expect(ability).not.to.allow('read', 'post')
       expect(ability).not.to.allow('delete', 'post')
     })
 
-    it('fields are still honoured', () => {
+    it('honours field specific rules', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('manage', 'all', 'subject')
       })

@@ -1,6 +1,6 @@
 import { packRules, unpackRules } from '../src/extra'
 
-fdescribe('Ability rules packing', () => {
+describe('Ability rules packing', () => {
   describe('`packRules` function', () => {
     it('converts array of rule objects to array of rule arrays', () => {
       const rules = packRules([
