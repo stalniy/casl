@@ -55,7 +55,7 @@ export default class Can extends PureComponent {
   }
 
   get allowed() {
-    return this._isAllowed
+    return this._isAllowed;
   }
 
   isAllowed() {
@@ -69,7 +69,7 @@ export default class Can extends PureComponent {
 
   render() {
     this.connectToAbility(this.props.ability);
-    this._isAllowed = this.isAllowed()
+    this._isAllowed = this.isAllowed();
     return this.props.passThrough || this._isAllowed ? this.renderChildren() : null;
   }
 
