@@ -86,9 +86,9 @@ const ability = AbilityBuilder.define(can => {
 Post.accessibleBy(ability)
 ```
 
-In this case we have 2 overlapped rules: `read all` and `read Post where author = me` (`manage` is an alias to CRUD actions), thus all posts will be fetched from database.
+In this case we have 2 overlapped rules: `read all` and `read Post where author = me` (`manage` represents any action), thus all posts will be fetched from database.
 
-Another case if when you can regular and inverted abilities for the same action and subject. In such situation `accessibleBy` behaves pesimistically and always returns empty set:
+Another case when you have regular and inverted abilities for the same action and subject. In such situation `accessibleBy` behaves pesimistically and always returns empty set:
 
 ```js
 const ability = AbilityBuilder.define((can, cannot) => {

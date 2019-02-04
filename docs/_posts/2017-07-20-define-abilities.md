@@ -132,12 +132,13 @@ The `can` method is used to define permissions and requires two arguments. The f
 can('update', 'Post')
 ```
 
-You can pass `manage` to represent CRUD action and `all` to represent any object.
+You can pass `manage` to represent any action and `all` to represent any object. You can use `crud` alias to represent `create`, `read`, `update` and `delete` actions.
 
 ```js
-can('manage', 'Post')  // user can perform create, read, update, delete action on the post
+can('manage', 'Post')  // user can perform any action on the post
 can('read', 'all')     // user can read any object
 can('manage', 'all')   // user can perform any action on any object
+can('crud', 'all') // user can create, read, update and delete any object
 ```
 
 You can pass an array for either of these parameters to match any one. For example, here the user will have the ability to `update` or `delete` both posts and comments.
@@ -222,18 +223,26 @@ ability.can('update', 'Post') // true
 It was done this way in order to gain performance improvements. In the current implementation `Ability` doesn't need to expand aliases during each call to `ability.can`.
 So, aliases are mainly useful as shortcuts for multiple actions or other aliases.
 
-Also it's possible to define aliases for other aliases. Lets add `access` alias which is an alias for `manage`:
+Also it's possible to define aliases for other aliases. Lets add `access` alias which is an alias for `crud`:
 
 ```js
-Ability.addAlias('access', 'manage')
+Ability.addAlias('access', 'crud')
 
-const ability = AbilityBuilder.define(can => {
+const ability = AbilityBuilder.define((can) => {
   can('access', 'Post')
 })
 
-ability.can('manage', 'Post') // true
+ability.can('crud', 'Post')    // true
 ability.can('access', 'Post') // true
-ability.can('read', 'Post') // true
+ability.can('read', 'Post')  // true
+```
+
+You cannot define `manage` alias as it's a reserved keyword that represents any action. Also it's not possible to add an alias for `manage` action:
+
+```js
+Ability.addAlias('manage', 'crud') // throws error
+
+Ability.addAlias('doAnything', 'manage') // throws error
 ```
 
 ## Rule Conditions
