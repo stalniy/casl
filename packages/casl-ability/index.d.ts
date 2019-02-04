@@ -33,6 +33,8 @@ export class Ability {
 
   possibleRulesFor(action: string, subject: any): Rule[]
 
+  protected mergeRulesFor(action: string, subjectName: string): Rule[]
+
   rulesFor(action: string, subject: any, field?: string): Rule[]
 
   throwUnlessCan(action: string, subject: any, field?: string): void
