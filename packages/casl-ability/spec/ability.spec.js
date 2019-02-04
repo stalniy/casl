@@ -19,12 +19,20 @@ describe('Ability', () => {
     expect(ability).to.allow('increment', 123)
   })
 
+  it('throws exception when trying to define `manage` alias', () => {
+    expect(() => Ability.addAlias('manage', 'crud')).to.throw(Error)
+  })
+
+  it('throws exception when trying to make `manage` a part of aliased action', () => {
+    expect(() => Ability.addAlias('modify', ['crud', 'manage'])).to.throw(Error)
+  })
+
   it('throws exception when trying to alias action to itself', () => {
     expect(() => Ability.addAlias('sort', 'sort')).to.throw(Error)
     expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
   })
 
-  it('provides predefined to use "crud" alias for create, read, update, delete', () => {
+  it('provides predefined `crud` alias for `create`, `read`, `update` and `delete` actions', () => {
     ability = AbilityBuilder.define(can => can('crud', 'Post'))
 
     expect(ability).to.allow('crud', 'Post')
@@ -76,6 +84,9 @@ describe('Ability', () => {
 
   it('allows to update rules', () => {
     ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
+
+    expect(ability).to.allow('read', 'Post')
+
     ability.update([])
 
     expect(ability.rules).to.be.empty

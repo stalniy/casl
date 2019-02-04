@@ -7,9 +7,17 @@ const DEFAULT_ALIASES = {
   crud: ['create', 'read', 'update', 'delete'],
 };
 
+function hasAction(action, actions) {
+  return action === actions || Array.isArray(actions) && actions.indexOf(action) !== -1;
+}
+
 export class Ability {
   static addAlias(alias, actions) {
-    if (alias === actions || Array.isArray(actions) && actions.indexOf(alias) !== -1) {
+    if (alias === 'manage' || hasAction('manage', actions)) {
+      throw new Error('Cannot add alias for "manage" action because it represents any action');
+    }
+
+    if (hasAction(alias, actions)) {
       throw new Error(`Attempt to alias action to itself: ${alias} -> ${actions.toString()}`);
     }
 
@@ -131,10 +139,13 @@ export class Ability {
       return Object.assign(rules, subjectRules[action], subjectRules.manage);
     }, []);
 
+    // TODO: think whether there is a better to way to prioritize rules
+    // or convert sparse array to regular one
     return mergedRules.filter(Boolean);
   }
 
   rulesFor(action, subject, field) {
+    // TODO: skip `isRelevantFor` method calls if there are not fields in rules
     return this.possibleRulesFor(action, subject)
       .filter(rule => rule.isRelevantFor(subject, field));
   }
