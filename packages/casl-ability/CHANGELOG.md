@@ -15,7 +15,6 @@ All notable changes to this project will be documented in this file.
 
 * **ability:** adds support for `manage` action ([d9ab56c](https://github.com/stalniy/casl/commit/d9ab56c)), closes [#119](https://github.com/stalniy/casl/issues/119)
 
-
 ### BREAKING CHANGES
 
 * **ability:** `manage` is not anymore an alias for CRUD but represents any action.
@@ -44,6 +43,29 @@ ability.can('publish', 'Post') // true, because `manage` represents any action
 ```
 
 To migrate the code, just replace `manage` with `crud` and everything will work as previously.
+
+* **ability:** prioritise rules with `all` subject in the same way as other rules
+
+Let's consider the next example:
+
+```js
+const ability = AbilityBuilder.define((can) => {
+  can('read', 'User', { id: 1 })
+  cannot('read', 'all')
+})
+```
+
+According to rule ordering `read all` rule must override `read User` rule but in @casl/ability@2.x there was a bug and this is not true:
+
+```js
+ability.can('read', 'User') // true
+```
+
+In @casl/ability@3.x this works as expected
+
+```js
+ability.can('read', 'User') // false
+```
 
 # [@casl/ability-v2.5.1](https://github.com/stalniy/casl/compare/@casl/ability@2.5.0...@casl/ability@2.5.1) (2018-11-11)
 
