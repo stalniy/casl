@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.0.0](https://github.com/stalniy/casl/compare/@casl/ability@2.5.1...@casl/ability@3.0.0) (2019-02-04)
+
+
+### Bug Fixes
+
+* **ability:** prevent creation of `manage` alias ([4ca1268](https://github.com/stalniy/casl/commit/4ca1268)), closes [#119](https://github.com/stalniy/casl/issues/119)
+* **ability:** updates ts definitions for `Ability` ([2c989b2](https://github.com/stalniy/casl/commit/2c989b2)), closes [#119](https://github.com/stalniy/casl/issues/119)
+
+
+### Features
+
+* **ability:** adds support for `manage` action ([d9ab56c](https://github.com/stalniy/casl/commit/d9ab56c)), closes [#119](https://github.com/stalniy/casl/issues/119)
+
+
+### BREAKING CHANGES
+
+* **ability:** `manage` is not anymore an alias for CRUD but represents any action.
+
+Let's consider the next example:
+
+```js
+const ability = AbilityBuilder.define((can) => {
+  can('manage', 'Post')
+  can('read', 'User')
+})
+```
+
+In @casl/ability@2.x the definition above produces the next results:
+
+```js
+ability.can('read', 'Post') // true
+ability.can('publish', 'Post') // false, because `manage` is an alias for CRUD
+```
+
+In @casl/ability@3.x the results:
+
+```js
+ability.can('read', 'Post') // true
+ability.can('publish', 'Post') // true, because `manage` represents any action
+```
+
+To migrate the code, just replace `manage` with `crud` and everything will work as previously.
+
 # [@casl/ability-v2.5.1](https://github.com/stalniy/casl/compare/@casl/ability@2.5.0...@casl/ability@2.5.1) (2018-11-11)
 
 
