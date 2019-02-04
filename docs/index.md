@@ -29,7 +29,7 @@ CASL concentrates all attention at what a user can actually do and allows to cre
 
 Lets define `Ability` for a blog website where visitors:
 * can read everything.
-* can manage (i.e., create, update, delete, read) posts which were created by them
+* can manage (i.e., do any action) posts which were created by them
 * cannot delete post if it has at least 1 comment
 
 ```js
