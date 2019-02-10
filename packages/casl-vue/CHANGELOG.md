@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/vue-v0.5.1](https://github.com/stalniy/casl/compare/@casl/vue@0.5.0...@casl/vue@0.5.1) (2019-02-10)
+
+
+### Bug Fixes
+
+* **packages:** increases peerDependency of [@casl](https://github.com/casl)/ability ([9f6a7b8](https://github.com/stalniy/casl/commit/9f6a7b8)), closes [#119](https://github.com/stalniy/casl/issues/119)
+
 # [@casl/vue-v0.5.0](https://github.com/stalniy/casl/compare/@casl/vue@0.4.3...@casl/vue@0.5.0) (2018-11-25)
 
 
