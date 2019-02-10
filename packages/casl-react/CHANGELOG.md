@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v1.0.1](https://github.com/stalniy/casl/compare/@casl/react@1.0.0...@casl/react@1.0.1) (2019-02-10)
+
+
+### Bug Fixes
+
+* **packages:** increases peerDependency of [@casl](https://github.com/casl)/ability ([9f6a7b8](https://github.com/stalniy/casl/commit/9f6a7b8)), closes [#119](https://github.com/stalniy/casl/issues/119)
+
 # [@casl/react-v1.0.0](https://github.com/stalniy/casl/compare/@casl/react@0.8.1...@casl/react@1.0.0) (2019-02-03)
 
 ### Breaking Changes
