@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.3.1](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.0...@casl/mongoose@2.3.1) (2019-02-10)
+
+
+### Bug Fixes
+
+* **packages:** increases peerDependency of [@casl](https://github.com/casl)/ability ([9f6a7b8](https://github.com/stalniy/casl/commit/9f6a7b8)), closes [#119](https://github.com/stalniy/casl/issues/119)
+
 # [@casl/mongoose-v2.3.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.2.2...@casl/mongoose@2.3.0) (2018-12-28)
 
 
