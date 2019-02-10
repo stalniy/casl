@@ -39,7 +39,7 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0",
+    "@casl/ability": "^2.0.0 || ^3.0.0",
     "aurelia-binding": "^2.1.0"
   },
   "devDependencies": {
