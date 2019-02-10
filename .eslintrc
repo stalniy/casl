@@ -16,6 +16,11 @@
     "prefer-spread": 0,
     "object-curly-newline": ["error", {
       "ObjectPattern": "never"
+    }],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "tools/**/*.js"
+      ]
     }]
   }
 }

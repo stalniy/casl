@@ -1,6 +1,8 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 
+process.env.BUILD_TYPE = 'es';
+
 export default {
   input: 'src/index.js',
   output: {
@@ -8,13 +10,11 @@ export default {
     format: 'es'
   },
   plugins: [
-    babel({
-      plugins: ['transform-class-properties', 'external-helpers']
-    }),
+    babel({ rootMode: 'upward' }),
     resolve({
       jsnext: true,
       main: true,
-      browser: true
+      browser: true,
     }),
   ]
 };
