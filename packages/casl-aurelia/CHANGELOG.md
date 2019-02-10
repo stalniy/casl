@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/aurelia-v0.5.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.4.1...@casl/aurelia@0.5.0) (2019-02-10)
+
+
+### Bug Fixes
+
+* **packages:** increases peerDependency of [@casl](https://github.com/casl)/ability ([9f6a7b8](https://github.com/stalniy/casl/commit/9f6a7b8)), closes [#119](https://github.com/stalniy/casl/issues/119)
+* **README:** changes links to [@casl](https://github.com/casl)/ability to point to npm package instead to git root [skip ci] ([a74086b](https://github.com/stalniy/casl/commit/a74086b)), closes [#102](https://github.com/stalniy/casl/issues/102)
+
+
+### Features
+
+* **react:can:** updates typescript declarations ([213dcde](https://github.com/stalniy/casl/commit/213dcde))
+
 <a name="@casl/aurelia-v0.4.1"></a>
 # [@casl/aurelia-v0.4.1](https://github.com/stalniy/casl/compare/@casl/aurelia@0.4.0...@casl/aurelia@0.4.1) (2018-07-02)
 
