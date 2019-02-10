@@ -49,7 +49,7 @@
     },
     {
       "packagePatterns": ["jest"],
-      "groupName": "lerna"
+      "groupName": "jest"
     },
     {
       "packageNames": [
