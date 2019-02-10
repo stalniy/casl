@@ -1,5 +1,4 @@
 module.exports = {
-  testURL: 'http://localhost',
   collectCoverage: !!process.env.WITH_COVERAGE,
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
@@ -14,7 +13,9 @@ module.exports = {
     '<rootDir>/spec/*.spec.js'
   ],
   transform: {
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.jsx?$': `${__dirname}/jest.babel.js`
   },
-  setupTestFrameworkScriptFile: `${__dirname}/spec_helper.js`
-}
+  setupFilesAfterEnv: [
+    `${__dirname}/spec_helper.js`
+  ]
+};

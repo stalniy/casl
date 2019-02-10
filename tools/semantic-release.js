@@ -1,4 +1,4 @@
-const PACKAGE_NAME = process.env.LERNA_PACKAGE_NAME || process.env.npm_package_name
+const PACKAGE_NAME = process.env.LERNA_PACKAGE_NAME || process.env.npm_package_name;
 
 module.exports = {
   tagFormat: `${PACKAGE_NAME}@\${version}`,
@@ -20,4 +20,4 @@ module.exports = {
     }
   ],
   success: []
-}
+};
