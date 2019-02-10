@@ -18,7 +18,7 @@
     "build.cjs": "SKIP_MINIFY=1 rollup -c ../../tools/rollup.umd.js -e @casl/ability/extra -f cjs -o index.js",
     "build": "npm run build.es && npm run build.cjs",
     "lint": "eslint src/",
-    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
+    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
     "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },
