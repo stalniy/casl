@@ -40,6 +40,8 @@ export default class Can extends PureComponent {
   constructor(...args) {
     super(...args);
     this.unsubscribeFromAbility = noop;
+    this._isAllowed = false;
+    this._ability = null;
   }
 
   componentWillUnmount() {
@@ -47,9 +49,15 @@ export default class Can extends PureComponent {
   }
 
   connectToAbility(ability) {
+    if (ability === this._ability) {
+      return;
+    }
+
     this.unsubscribeFromAbility();
+    this._ability = null;
 
     if (ability) {
+      this._ability = ability;
       this.unsubscribeFromAbility = ability.on('updated', () => this.forceUpdate());
     }
   }
