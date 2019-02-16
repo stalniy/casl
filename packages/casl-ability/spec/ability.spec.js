@@ -219,6 +219,25 @@ describe('Ability', () => {
         expect(updateHandler).not.to.have.been.called()
         expect(anotherHandler).to.have.been.called()
       })
+
+      it('invokes all subscribers even if they are changed during "emit" phase', () => {
+        const firstSubscription = setupListenerChangesInListener()
+        const secondSubscription = setupListenerChangesInListener()
+
+        ability.update([])
+
+        expect(firstSubscription).to.have.been.called()
+        expect(secondSubscription).to.have.been.called()
+      })
+
+      function setupListenerChangesInListener() {
+        const unsubscribe = spy(ability.on('update', function listen() {
+          unsubscribe()
+          ability.on('update', listen)
+        }))
+
+        return unsubscribe
+      }
     })
   })
 

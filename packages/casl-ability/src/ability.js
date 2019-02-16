@@ -193,7 +193,7 @@ export class Ability {
     const handlers = this[PRIVATE_FIELD].events[event];
 
     if (handlers) {
-      handlers.forEach(handler => handler(payload));
+      handlers.slice(0).forEach(handler => handler(payload));
     }
   }
 }
