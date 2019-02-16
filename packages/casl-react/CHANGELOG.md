@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v1.0.2](https://github.com/stalniy/casl/compare/@casl/react@1.0.1...@casl/react@1.0.2) (2019-02-16)
+
+
+### Performance Improvements
+
+* **react:** checks whether ability changed before unsubsribing ([d865fa8](https://github.com/stalniy/casl/commit/d865fa8)), closes [#159](https://github.com/stalniy/casl/issues/159)
+
 # [@casl/react-v1.0.1](https://github.com/stalniy/casl/compare/@casl/react@1.0.0...@casl/react@1.0.1) (2019-02-10)
 
 
