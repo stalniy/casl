@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.0.1](https://github.com/stalniy/casl/compare/@casl/ability@3.0.0...@casl/ability@3.0.1) (2019-02-16)
+
+
+### Bug Fixes
+
+* **ability:** copies event listeners before calling them ([3148da1](https://github.com/stalniy/casl/commit/3148da1)), closes [#159](https://github.com/stalniy/casl/issues/159)
+
 # [@casl/ability-v3.0.0](https://github.com/stalniy/casl/compare/@casl/ability@2.5.1...@casl/ability@3.0.0) (2019-02-04)
 
 
