@@ -36,12 +36,12 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 * Fork the project and setup it (CASL uses [lerna](https://lernajs.io/) monorepo structure):
 
-```shell
-git clone git@github.com:${YOUR_GITHUB_USER_NAME}/casl.git # replace ${YOUR_GITHUB_USER_NAME} with your github username
-cd casl
-npm ci # requires npm v6+
-npm run bootstrap # installs external and links internal dependencies
-```
+     ```shell
+     git clone git@github.com:${YOUR_GITHUB_USER_NAME}/casl.git # replace ${YOUR_GITHUB_USER_NAME} with your github username
+     cd casl
+     npm ci # requires npm v6+
+     npm run bootstrap # installs external and links internal dependencies
+     ```
 
 * Make your changes in a new git branch:
 
