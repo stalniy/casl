@@ -6,7 +6,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 ## Features
 
-* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, field dot notation)
+* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, `$elemMatch`, field dot notation)
 * supports direct and inverted rules (i.e., `can` & `cannot`)
 * provides ES6 build, so you are able to shake out unused functionality
 * provides easy integration with [popular frontend frameworks](#4-ui-integration)
