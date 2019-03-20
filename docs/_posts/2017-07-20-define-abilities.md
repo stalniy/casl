@@ -261,7 +261,7 @@ You can use dot notation to define conditions on nested objects. Here the post c
 can('delete', 'Post', { 'comments.0': { $exists: false } })
 ```
 
-As you may know already, it's possible to use few MongoDB query operators to define more complex conditions (supports only `$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`).
+As you may know already, it's possible to use few MongoDB query operators to define more complex conditions (supports only `$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regexp`, `$elemMatch`).
 
 ## Rules per field
 

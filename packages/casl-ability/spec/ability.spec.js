@@ -407,6 +407,16 @@ describe('Ability', () => {
       expect(ability).to.allow('delete', new Post({ title: '[DELETED] title' }))
     })
 
+    it('allows to use mongo like `$elemMatch` condition', () => {
+      ability = AbilityBuilder.define(can => {
+        can('delete', 'Post', { authors: { $elemMatch: { id: 'me-id' } } })
+      })
+
+      expect(ability).not.to.allow('delete', new Post({ authors: [{ id: 'someone-else-id' }] }))
+      expect(ability).to.allow('delete', new Post({ authors: [{ id: 'me-id' }] }))
+      expect(ability).to.allow('delete', new Post({ authors: [{ id: 'someone-else-id' }, { id: 'me-id' }] }))
+    })
+
     it('returns true for `Ability` which contains inverted rule and subject specified as string', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         can('read', 'Post')
