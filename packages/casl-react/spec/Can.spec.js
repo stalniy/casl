@@ -31,13 +31,15 @@ describe('`Can` component', () => {
     expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability)
   })
 
-  it('requires to pass "a" or "this" or "of" as string or object', () => {
+  it('requires to pass "a", "an", "this" or "of" as string or object', () => {
     const props = { ability, children, I: 'test' }
 
     expect(() => validateProps(Can, props)).to.throw(/`a` is marked as required/)
     expect(() => validateProps(Can, { a: 123, ...props })).to.throw(/Invalid prop `a`/)
     expect(() => validateProps(Can, { a: {}, ...props })).not.to.throw(Error)
     expect(() => validateProps(Can, { a: 'subject', ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { an: 'subject', ...props })).not.to.throw(Error)
+    expect(() => validateProps(Can, { an: 123, ...props })).to.throw(/Invalid prop `an`/)
   })
 
   it('requires to pass "I" as string', () => {
