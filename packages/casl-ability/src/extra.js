@@ -25,7 +25,9 @@ export function rulesToQuery(ability, action, subject, convert) {
     }
   }
 
-  return rules.length > 0 ? query : null;
+  const isOnlyInvertedRules = query.$and && query.$and.length === rules.length;
+
+  return rules.length === 0 || isOnlyInvertedRules ? null : query;
 }
 
 export function rulesToFields(ability, action, subject) {

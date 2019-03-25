@@ -42,6 +42,15 @@ describe('rulesToQuery', () => {
     expect(Object.keys(query)).to.be.empty
   })
 
+  it('returns `null` if specified only inverted rules', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      cannot('read', 'Post', { private: true })
+    })
+    const query = toQuery(ability, 'read', 'Post')
+
+    expect(query).to.be.null
+  })
+
   it('returns `null` if at least one inverted rule does not have conditions', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
       cannot('read', 'Post', { author: 123 })
@@ -80,6 +89,7 @@ describe('rulesToQuery', () => {
 
   it('AND-es conditions for inverted rules', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Post')
       cannot('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       cannot('read', 'Post', { status: 'published', createdBy: 'me' })
     })
