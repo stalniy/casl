@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v1.0.3](https://github.com/stalniy/casl/compare/@casl/react@1.0.2...@casl/react@1.0.3) (2019-03-25)
+
+
+### Bug Fixes
+
+* **react:** handles `an` prop as subject name ([608c99b](https://github.com/stalniy/casl/commit/608c99b)), closes [#169](https://github.com/stalniy/casl/issues/169)
+
 # [@casl/react-v1.0.2](https://github.com/stalniy/casl/compare/@casl/react@1.0.1...@casl/react@1.0.2) (2019-02-16)
 
 
