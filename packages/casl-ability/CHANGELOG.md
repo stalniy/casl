@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.0.2](https://github.com/stalniy/casl/compare/@casl/ability@3.0.1...@casl/ability@3.0.2) (2019-03-25)
+
+
+### Bug Fixes
+
+* **ability:** returns `null` from `rulesToQuery` if ability has only inverted rules ([744061c](https://github.com/stalniy/casl/commit/744061c)), closes [#170](https://github.com/stalniy/casl/issues/170)
+
 # [@casl/ability-v3.0.1](https://github.com/stalniy/casl/compare/@casl/ability@3.0.0...@casl/ability@3.0.1) (2019-02-16)
 
 
