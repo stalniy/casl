@@ -12,7 +12,8 @@ npm install @casl/react @casl/ability
 
 This package provides `Can` component which can be used to conditionally show UI elements based on user abilities.
 This component accepts children and 4 properties (see [Property names and aliases](#3-property-names-and-aliases))
-* `I` (`do` is an alias) - name of the action and field
+* `I` (`do` is an alias) - name of the action and field (e.g., `read`, `update` or `read title`).\
+  **Note**: action names are not allowed to have spaces (e.g., this is invalid action `send email`) because `<Can>` component expects that the 2nd word in action is a field name which needs to be checked.
 * `a` (`on`, `of`, `this` are aliases) - checked subject
 * `not` - checks whether the ability does *not* allow an action
 * `ability` - an instance of `Ability` which will be used to check permissions
@@ -176,7 +177,7 @@ See [@casl/ability][casl-ability] package for more information on how to define 
 ### 3. Property names and aliases
 
 As you can see from the code above, component name and its property names and values creates an English sentence, basically a question.
-For example, the code below reads as `Can I create a Post`.
+For example, the code below reads as `Can I create a Post`:
 
 ```jsx
 <Can I="create" a="Post">
@@ -184,7 +185,7 @@ For example, the code below reads as `Can I create a Post`.
 </Can>
 ```
 
-There are several other property aliases which allow to construct a readable question:
+There are several other property aliases which allow to construct a readable question (all possible combinations of readable alias names can be found in [Typescript definitions](./index.d.ts#L4):
 
 * use `a` (or `an`) alias when you check by Type
 
