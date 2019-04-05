@@ -19,7 +19,8 @@
     }],
     "import/no-extraneous-dependencies": ["error", {
       "devDependencies": [
-        "tools/**/*.js"
+        "tools/**/*.js",
+        "packages/*/spec/**/*.js"
       ]
     }]
   }
