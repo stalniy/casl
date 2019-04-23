@@ -34,7 +34,7 @@ export interface AccessibleSchema extends mongoose.Schema {
     options?: null): this
 }
 
-declare module "mongoose" {
+declare module mongoose {
   export function model<T extends Document>(
       name: string,
       schema?: PermittedFieldsSchema | AccessibleFieldsSchema | AccessibleSchema,
@@ -46,7 +46,7 @@ declare module "mongoose" {
   }
 
   interface Model<T extends Document> {
-    accessibleBy(ability: Ability, action?: string): Query<T>
+    accessibleBy(ability: Ability, action?: string): this
     permittedFieldsBy(ability: Ability, action?: string): string[]
     accessibleFieldsBy(ability: Ability, action?: string): string[]
   }
