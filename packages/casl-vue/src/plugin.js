@@ -8,11 +8,12 @@ export function abilitiesPlugin(Vue, providedAbility) {
   const defaultAbility = providedAbility || new Ability([]);
 
   function createWatcherFor(ability) {
-    const watcher = new Vue({
-      data: {
-        rules: []
-      }
-    });
+    const dataObject = {
+      rules: []
+    };
+    const watcher = Vue.observable
+      ? Vue.observable(dataObject)
+      : new Vue({ data: dataObject });
 
     ability.on('updated', (event) => {
       watcher.rules = event.rules;
