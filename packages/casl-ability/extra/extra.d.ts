@@ -2,6 +2,8 @@ import { Ability, Rule, RawRule } from '@casl/ability'
 
 export function rulesToQuery(ability: Ability, action: string, subject: any, convert: (rule: Rule) => Object): Object | null
 
+export function rulesToFields(ability: Ability, action: string, subject: any): Object
+
 export interface PermittedFieldsOptions {
   fieldsFrom?: (rule: Rule) => string[] | null | undefined
 }
