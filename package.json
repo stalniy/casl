@@ -41,7 +41,7 @@
     "semantic-release": "15.9.17",
     "semantic-release-monorepo": "^6.1.1",
     "tslib": "^1.9.3",
-    "typescript": "3.2.4"
+    "typescript": "3.5.2"
   },
   "repository": {
     "type": "git",
