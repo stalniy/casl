@@ -55,12 +55,15 @@ export class Ability {
   buildIndexFor(rules) {
     const indexedRules = Object.create(null);
     const { RuleType } = this[PRIVATE_FIELD];
+    let isAllInverted = true;
 
     for (let i = 0; i < rules.length; i++) {
       const rule = new RuleType(rules[i]);
       const actions = this.expandActions(rule.actions);
       const subjects = wrapArray(rule.subject);
       const priority = rules.length - i - 1;
+
+      isAllInverted = !!(isAllInverted && rule.inverted);
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = subjects[k];
@@ -72,6 +75,11 @@ export class Ability {
           indexedRules[subject][action][priority] = rule;
         }
       }
+    }
+
+    if (process.env.NODE_ENV !== 'production' && isAllInverted && rules.length) {
+      // eslint-disable-next-line
+      console.warn('[casl]: Ability contains only inverted rules. That means user will not be able to do any actions. This will be changed to Error throw in the next major version')
     }
 
     return indexedRules;
@@ -98,6 +106,11 @@ export class Ability {
   }
 
   can(action, subject, field) {
+    if (field && typeof field !== 'string') {
+      // eslint-disable-next-line
+      throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details')
+    }
+
     const rule = this.relevantRuleFor(action, subject, field);
 
     return !!rule && !rule.inverted;

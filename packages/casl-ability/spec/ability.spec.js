@@ -230,6 +230,15 @@ describe('Ability', () => {
         expect(secondSubscription).to.have.been.called()
       })
 
+      it('warns if ability contains only inverted rules', () => {
+        spy.on(console, 'warn')
+        ability.update([{ inverted: true, action: 'read', subject: 'Post' }])
+
+        expect(console.warn).to.have.been.called()
+
+        spy.restore(console, 'warn')
+      })
+
       function setupListenerChangesInListener() {
         const unsubscribe = spy(ability.on('update', function listen() {
           unsubscribe()
@@ -461,6 +470,12 @@ describe('Ability', () => {
 
       expect(ability).to.allow('read', 'Post', 'title')
       expect(ability).to.allow('read', 'Post', 'description')
+    })
+
+    it('throws exception if 3rd argument is not a string', () => {
+      ability = AbilityBuilder.define(can => can('read', 'Post', 'title'))
+
+      expect(() => ability.can('read', 'Post', { title: 'test'})).to.throw(/expects 3rd parameter to be a string/)
     })
 
     describe('when `conditions` defined', () => {
