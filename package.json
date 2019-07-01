@@ -29,7 +29,7 @@
     "eslint": "^6.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.9.0",
-    "husky": "^2.0.0",
+    "husky": "^3.0.0",
     "jest": "^24.1.0",
     "lerna": "^3.4.3",
     "lint-staged": "^8.1.0",
