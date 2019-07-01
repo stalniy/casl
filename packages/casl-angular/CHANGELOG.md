@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/angular-v2.1.0](https://github.com/stalniy/casl/compare/@casl/angular@2.0.0...@casl/angular@2.1.0) (2019-07-01)
+
+
+### Features
+
+* **angular:** upgrades Angular and typescript ([08591f4](https://github.com/stalniy/casl/commit/08591f4)), closes [#158](https://github.com/stalniy/casl/issues/158) [#195](https://github.com/stalniy/casl/issues/195)
+
 # [@casl/angular-v2.0.0](https://github.com/stalniy/casl/compare/@casl/angular@1.0.0...@casl/angular@2.0.0) (2019-02-10)
 
 
