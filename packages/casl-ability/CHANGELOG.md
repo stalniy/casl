@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.1.0](https://github.com/stalniy/casl/compare/@casl/ability@3.0.2...@casl/ability@3.1.0) (2019-07-01)
+
+
+### Bug Fixes
+
+* **extra:** add rulesToFields TS definition ([#205](https://github.com/stalniy/casl/issues/205)) ([b772ad6](https://github.com/stalniy/casl/commit/b772ad6))
+
+
+### Features
+
+* **ability:** adds validation of 3rd parameter to Ability.can ([9df032c](https://github.com/stalniy/casl/commit/9df032c)), closes [#192](https://github.com/stalniy/casl/issues/192)
+
 # [@casl/ability-v3.0.2](https://github.com/stalniy/casl/compare/@casl/ability@3.0.1...@casl/ability@3.0.2) (2019-03-25)
 
 
