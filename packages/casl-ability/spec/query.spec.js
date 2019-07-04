@@ -72,6 +72,22 @@ describe('rulesToQuery', () => {
     expect(query).to.be.null
   })
 
+  it('returns non-`null` if there is at least one regular rule after last inverted one without conditions', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Post', { public: true })
+      cannot('read', 'Post', { author: 321 })
+      cannot('read', 'Post')
+      can('read', 'Post', { author: 123 })
+    })
+    const query = toQuery(ability, 'read', 'Post')
+
+    expect(query).to.deep.equal({
+      $or: [
+        { author: 123 }
+      ]
+    })
+  })
+
   it('OR-es conditions for regular rules', () => {
     const ability = AbilityBuilder.define(can => {
       can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
@@ -122,5 +138,16 @@ describe('rulesToQuery', () => {
         { $not: { private: true } }
       ]
     })
+  })
+
+  it('returns empty `$and` part if inverted rule with conditions defined before regular rule without conditions', () => {
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Post', { author: 123 })
+      cannot('read', 'Post', { private: true })
+      can('read', 'Post')
+    })
+    const query = toQuery(ability, 'read', 'Post')
+
+    expect(Object.keys(query)).to.be.empty
   })
 })

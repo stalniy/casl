@@ -2,7 +2,6 @@ import { setByPath } from './utils';
 
 export function rulesToQuery(ability, action, subject, convert) {
   const query = {};
-  const ignoreOperators = {};
   const rules = ability.rulesFor(action, subject);
 
   for (let i = 0; i < rules.length; i++) {
@@ -11,23 +10,18 @@ export function rulesToQuery(ability, action, subject, convert) {
 
     if (!rule.conditions) {
       if (rule.inverted) {
-        return null;
-      }
-
-      if (query[op]) {
+        break;
+      } else {
         delete query[op];
+        return query;
       }
-
-      ignoreOperators[op] = true;
-    } else if (!ignoreOperators.hasOwnProperty(op)) {
+    } else {
       query[op] = query[op] || [];
       query[op].push(convert(rule));
     }
   }
 
-  const isOnlyInvertedRules = query.$and && query.$and.length === rules.length;
-
-  return rules.length === 0 || isOnlyInvertedRules ? null : query;
+  return query.$or ? query : null;
 }
 
 export function rulesToFields(ability, action, subject) {
