@@ -8,21 +8,21 @@ function toQuery(ability, action, subject) {
 }
 
 describe('rulesToQuery', () => {
-  it('returns empty object if there are no rules with conditions', () => {
+  it('returns an empty object if there are no rules with conditions', () => {
     const ability = AbilityBuilder.define(can => can('read', 'Post'))
     const query = toQuery(ability, 'read', 'Post')
 
     expect(Object.keys(query)).to.be.empty
   })
 
-  it('returns `null` if empty `Ability` instance is passed', () => {
+  it('returns `null` if an empty `Ability` instance is passed', () => {
     const ability = AbilityBuilder.define(() => {})
     const query = toQuery(ability, 'read', 'Post')
 
     expect(query).to.be.null
   })
 
-  it('returns empty `$or` part if at least one regular rule does not have conditions', () => {
+  it('returns an empty `$or` part if at least one regular rule does not have conditions', () => {
     const ability = AbilityBuilder.define(can => {
       can('read', 'Post', { author: 123 })
       can('read', 'Post')
@@ -32,7 +32,7 @@ describe('rulesToQuery', () => {
     expect(Object.keys(query)).to.be.empty
   })
 
-  it('returns empty `$or` part if rule with conditions defined last', () => {
+  it('returns an empty `$or` part if a rule with conditions defined last', () => {
     const ability = AbilityBuilder.define(can => {
       can('read', 'Post')
       can('read', 'Post', { author: 123 })
@@ -44,6 +44,7 @@ describe('rulesToQuery', () => {
 
   it('returns `null` if specified only inverted rules', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Mind');
       cannot('read', 'Post', { private: true })
     })
     const query = toQuery(ability, 'read', 'Post')
@@ -53,6 +54,7 @@ describe('rulesToQuery', () => {
 
   it('returns `null` if at least one inverted rule does not have conditions', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Mind');
       cannot('read', 'Post', { author: 123 })
       cannot('read', 'Post')
     })
@@ -140,7 +142,7 @@ describe('rulesToQuery', () => {
     })
   })
 
-  it('returns empty `$and` part if inverted rule with conditions defined before regular rule without conditions', () => {
+  it('returns an empty `$and` part if an inverted rule with conditions defined before a regular rule without conditions', () => {
     const ability = AbilityBuilder.define((can, cannot) => {
       can('read', 'Post', { author: 123 })
       cannot('read', 'Post', { private: true })

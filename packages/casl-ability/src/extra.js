@@ -1,8 +1,8 @@
 import { setByPath } from './utils';
 
 export function rulesToQuery(ability, action, subject, convert) {
+  const rules = ability.possibleRulesFor(action, subject);
   const query = {};
-  const rules = ability.rulesFor(action, subject);
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
@@ -15,29 +15,47 @@ export function rulesToQuery(ability, action, subject, convert) {
         delete query[op];
         return query;
       }
-    } else {
-      query[op] = query[op] || [];
-      query[op].push(convert(rule));
     }
+
+    query[op] = query[op] || [];
+    query[op].push(convert(rule));
   }
 
   return query.$or ? query : null;
 }
 
+function assignFields(fields, conditions) {
+  Object.keys(conditions).forEach((key) => {
+    const value = conditions[key];
+
+    if (!value || value.constructor !== Object) {
+      setByPath(fields, key, value);
+    }
+  });
+}
+
 export function rulesToFields(ability, action, subject) {
-  return ability.rulesFor(action, subject)
-    .filter(rule => !rule.inverted && rule.conditions)
-    .reduce((values, rule) => (
-      Object.keys(rule.conditions).reduce((fields, fieldName) => {
-        const value = rule.conditions[fieldName];
+  const rules = ability.possibleRulesFor(action, subject);
+  let fields = null;
 
-        if (!value || value.constructor !== Object) {
-          setByPath(fields, fieldName, value);
-        }
+  for (let i = 0; i < rules.length; i++) {
+    const rule = rules[i];
 
-        return fields;
-      }, values)
-    ), {});
+    if (!rule.conditions) {
+      if (rule.inverted) {
+        break;
+      } else {
+        return {};
+      }
+    }
+
+    if (!rule.inverted) {
+      fields = fields || {};
+      assignFields(fields, rule.conditions);
+    }
+  }
+
+  return fields;
 }
 
 const getRuleFields = rule => rule.fields;
