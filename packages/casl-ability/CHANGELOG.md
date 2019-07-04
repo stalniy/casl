@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.1.1](https://github.com/stalniy/casl/compare/@casl/ability@3.1.0...@casl/ability@3.1.1) (2019-07-04)
+
+
+### Bug Fixes
+
+* **extra:** fixes edge cases when building query to database ([#206](https://github.com/stalniy/casl/issues/206)) ([437d4e7](https://github.com/stalniy/casl/commit/437d4e7))
+
 # [@casl/ability-v3.1.0](https://github.com/stalniy/casl/compare/@casl/ability@3.0.2...@casl/ability@3.1.0) (2019-07-01)
 
 
