@@ -45,9 +45,8 @@ const getRuleFields = rule => rule.fields;
 export function permittedFieldsOf(ability, action, subject, options = {}) {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
   const uniqueFields = ability.possibleRulesFor(action, subject)
-    .slice(0)
-    .reverse()
     .filter(rule => rule.matches(subject))
+    .reverse()
     .reduce((fields, rule) => {
       const names = fieldsFrom(rule);
 
