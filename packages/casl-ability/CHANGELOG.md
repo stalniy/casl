@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.1.2](https://github.com/stalniy/casl/compare/@casl/ability@3.1.1...@casl/ability@3.1.2) (2019-07-08)
+
+
+### Performance Improvements
+
+* **ability:** checks for fields only if fields were specified in rules ([da013d4](https://github.com/stalniy/casl/commit/da013d4))
+
 # [@casl/ability-v3.1.1](https://github.com/stalniy/casl/compare/@casl/ability@3.1.0...@casl/ability@3.1.1) (2019-07-04)
 
 
