@@ -17,14 +17,20 @@ CASL concentrates all attention at what a user can actually do and allows to cre
 `AbilityBuilder` allows to define abilities using DSL:
 
 ```js
-import { AbilityBuilder } from '@casl/ability'
+import { AbilityBuilder, Ability } from '@casl/ability'
 
 class Website {}
 
-const ability = AbilityBuilder.define((can, cannot) => {
-  can('protect', 'Website')
-  cannot('delete', 'Website')
-})
+function defineRules() {
+  const { can, cannot, rules } = AbilityBuilder.extract()
+
+  can('protect', 'Website') // you can use name of the class
+  cannot('delete', Website) // or class reference
+
+  return new Ability(rules)
+}
+
+const ability = defineRules()
 
 console.log(ability.can('delete', new Website())) // false
 ```
@@ -190,15 +196,16 @@ This function allows to extract an object of field-value pairs from rule conditi
 That object later can be passed in a constructor of a class, to provide initial values:
 
 ```js
+import { AbilityBuilder, Ability } from '@casl/ability'
 import { rulesToFields } from '@casl/ability/extra'
 
-const ability = AbilityBuilder.define(can => {
-  can('read', 'Post', { user: 5 })
-  can('read', 'Post', { public: true })
-})
+const { can, rules } = AbilityBuilder.extract()
+
+can('read', 'Post', { user: 5 })
+can('read', 'Post', { public: true })
 
 // { user: 5, public: true }
-const initialValues = rulesToFields(ability, 'read', 'Post')
+const initialValues = rulesToFields(new Ability(rules), 'read', 'Post')
 
 // `Post` may be a mongoose or sequelize record
 // or any other class which accepts fields as the 1st argument
@@ -213,13 +220,13 @@ and collects only those fields which values are non plain objects (i.e., skips m
 For example:
 
 ```js
-const ability = AbilityBuilder.define(can => {
-  can('read', 'Post', { createdAt: { $gte: new Date() } })
-  can('read', 'Post', { userId: ObjectId(...) })
-  can('read', 'Post', { public: true })
-})
+const { can, rules } = AbilityBuilder.extract()
 
-rulesToFields(ability, 'read', 'Post') // { userId: ObjectId(...), public: true }
+can('read', 'Post', { createdAt: { $gte: new Date() } })
+can('read', 'Post', { userId: ObjectId(...) })
+can('read', 'Post', { public: true })
+
+rulesToFields(new Ability(rules), 'read', 'Post') // { userId: ObjectId(...), public: true }
 ```
 
 ## Want to help?
