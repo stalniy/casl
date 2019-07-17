@@ -21,8 +21,10 @@
   },
   "packageRules": [
     {
-      "extends": "monorepo:babel6",
-      "groupName": "babel6 monorepo"
+      "sourceUrlPrefixes": [
+        "https://github.com/babel/babel"
+      ],
+      "groupName": "babel monorepo"
     },
     {
       "packageNames": [
