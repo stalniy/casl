@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.2.0](https://github.com/stalniy/casl/compare/@casl/ability@3.1.2...@casl/ability@3.2.0) (2019-07-28)
+
+
+### Features
+
+* **ability:** adds support for field patterns in rules ([#213](https://github.com/stalniy/casl/issues/213)) ([55ad2db](https://github.com/stalniy/casl/commit/55ad2db)), closes [#194](https://github.com/stalniy/casl/issues/194)
+
 # [@casl/ability-v3.1.2](https://github.com/stalniy/casl/compare/@casl/ability@3.1.1...@casl/ability@3.1.2) (2019-07-08)
 
 
