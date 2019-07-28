@@ -116,6 +116,21 @@ export class TodoApp extends Component {
 }
 ```
 
+Alternatively you may use [React's `contextType` component property](https://reactjs.org/docs/context.html#classcontexttype) to set context for the component:
+
+```jsx
+class MyComponent extends PureComponent {
+  // ...
+
+  render() {
+    // this.context is a provided Ability instance
+    return this.context.can('manage', 'Todo') ? <TodoApp /> : null
+  }
+}
+
+MyComponent.contextType = AbilityContext
+````
+
 See [casl-react-example][casl-react-example] for more examples.
 
 ### 2. Defining Abilities
@@ -236,6 +251,19 @@ There are several other property aliases which allow to construct a readable que
 </Can>
 ```
 
+### 4. Usage with React hooks
+
+Sometimes logic in the component may be a bit complicated, so you can't use `<Can>` component.
+In such cases, you can use new React `useContext` hook:
+
+```jsx
+function MyComponent() {
+  const ability = useContext(AbilityContext)
+
+  return ability.can('manage', 'Todo') ? <TodoApp /> : null
+}
+
+````
 
 ## Want to help?
 
