@@ -406,7 +406,7 @@ describe('Ability', () => {
       expect(ability).to.allow('update', new Post({ state: complexValue('draft') }))
     })
 
-    it('allows to use mongo like `$regexp` condition', () => {
+    it('allows to use mongo like `$regex` condition', () => {
       ability = AbilityBuilder.define((can) => {
         can('delete', 'Post', { title: { $regex: '\\[DELETED\\]' } })
       })
