@@ -1,33 +1,30 @@
 import { toMongoQuery } from './mongo';
 
+const DENY_CONDITION_NAME = '__forbiddenByCasl__';
+
+function returnQueryResult(original, returnValue, ...args) {
+  const [conditions, , callback] = args;
+
+  if (conditions[DENY_CONDITION_NAME]) {
+    return typeof callback === 'function'
+      ? callback(null, returnValue)
+      : Promise.resolve(returnValue);
+  }
+
+  if (conditions.hasOwnProperty(DENY_CONDITION_NAME)) {
+    delete conditions[DENY_CONDITION_NAME];
+  }
+
+  return original.apply(this, args);
+}
+
 function emptyQuery(query) {
-  const originalExec = query.exec;
-
-  query.where({ __forbiddenByCasl__: 1 });
-  query.exec = function exec(operation, callback) {
-    const op = typeof operation === 'string' ? operation : this.op;
-    const cb = typeof operation === 'function' ? operation : callback;
-    let value;
-
-    if (op.indexOf('findOne') === 0) {
-      value = null;
-    } else if (op.indexOf('find') === 0) {
-      value = [];
-    } else if (op === 'count') {
-      value = 0;
-    } else {
-      return originalExec.call(this, operation, callback);
-    }
-
-    return Promise.resolve(value)
-      .then((v) => {
-        if (typeof cb === 'function') {
-          cb(null, v);
-        }
-
-        return v;
-      });
-  };
+  query.where({ [DENY_CONDITION_NAME]: 1 });
+  const collection = Object.create(query._collection) // eslint-disable-line
+  query._collection = collection // eslint-disable-line
+  collection.find = returnQueryResult.bind(collection, collection.find, []);
+  collection.findOne = returnQueryResult.bind(collection, collection.findOne, null);
+  collection.count = returnQueryResult.bind(collection, collection.count, 0);
 
   return query;
 }
