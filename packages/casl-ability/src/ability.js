@@ -30,6 +30,7 @@ export class Ability {
       RuleType,
       subjectName,
       originalRules: rules || [],
+      hasPerFieldRules: false,
       indexedRules: Object.create(null),
       mergedRules: Object.create(null),
       events: {},
@@ -39,15 +40,27 @@ export class Ability {
   }
 
   update(rules) {
-    if (Array.isArray(rules)) {
-      const payload = { rules, ability: this };
-
-      this.emit('update', payload);
-      this[PRIVATE_FIELD].originalRules = Object.freeze(rules.slice(0));
-      this[PRIVATE_FIELD].indexedRules = this.buildIndexFor(rules);
-      this[PRIVATE_FIELD].mergedRules = Object.create(null);
-      this.emit('updated', payload);
+    if (!Array.isArray(rules)) {
+      return this;
     }
+
+    const payload = { rules, ability: this };
+
+    this.emit('update', payload);
+    this[PRIVATE_FIELD].originalRules = rules.slice(0);
+    this[PRIVATE_FIELD].mergedRules = Object.create(null);
+
+    const index = this.buildIndexFor(rules);
+
+    if (process.env.NODE_ENV !== 'production' && index.isAllInverted && rules.length) {
+      // eslint-disable-next-line
+      console.warn('[casl]: Ability contains only inverted rules. That means user will not be able to do any actions. This will be changed to Error throw in the next major version')
+    }
+
+    this[PRIVATE_FIELD].indexedRules = index.rules;
+    this[PRIVATE_FIELD].hasPerFieldRules = index.hasPerFieldRules;
+
+    this.emit('updated', payload);
 
     return this;
   }
@@ -55,12 +68,20 @@ export class Ability {
   buildIndexFor(rules) {
     const indexedRules = Object.create(null);
     const { RuleType } = this[PRIVATE_FIELD];
+    let isAllInverted = true;
+    let hasPerFieldRules = false;
 
     for (let i = 0; i < rules.length; i++) {
       const rule = new RuleType(rules[i]);
       const actions = this.expandActions(rule.actions);
       const subjects = wrapArray(rule.subject);
       const priority = rules.length - i - 1;
+
+      isAllInverted = !!(isAllInverted && rule.inverted);
+
+      if (!hasPerFieldRules && rule.fields) {
+        hasPerFieldRules = true;
+      }
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = subjects[k];
@@ -74,7 +95,11 @@ export class Ability {
       }
     }
 
-    return indexedRules;
+    return {
+      isAllInverted,
+      hasPerFieldRules,
+      rules: indexedRules,
+    };
   }
 
   expandActions(rawActions) {
@@ -98,6 +123,11 @@ export class Ability {
   }
 
   can(action, subject, field) {
+    if (field && typeof field !== 'string') {
+      // eslint-disable-next-line
+      throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details')
+    }
+
     const rule = this.relevantRuleFor(action, subject, field);
 
     return !!rule && !rule.inverted;
@@ -139,15 +169,19 @@ export class Ability {
       return Object.assign(rules, subjectRules[action], subjectRules.manage);
     }, []);
 
-    // TODO: think whether there is a better to way to prioritize rules
+    // TODO: think whether there is a better way to prioritize rules
     // or convert sparse array to regular one
     return mergedRules.filter(Boolean);
   }
 
   rulesFor(action, subject, field) {
-    // TODO: skip `isRelevantFor` method calls if there are not fields in rules
-    return this.possibleRulesFor(action, subject)
-      .filter(rule => rule.isRelevantFor(subject, field));
+    const rules = this.possibleRulesFor(action, subject);
+
+    if (!this[PRIVATE_FIELD].hasPerFieldRules) {
+      return rules;
+    }
+
+    return rules.filter(rule => rule.isRelevantFor(subject, field));
   }
 
   cannot(...args) {

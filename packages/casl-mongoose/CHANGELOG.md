@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/mongoose-v2.3.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.1...@casl/mongoose@2.3.2) (2019-09-14)
+
+
+### Bug Fixes
+
+* **mongoose:** mock query result on collection level ([1e8c241](https://github.com/stalniy/casl/commit/1e8c241)), closes [#218](https://github.com/stalniy/casl/issues/218)
+
 # [@casl/mongoose-v2.3.1](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.0...@casl/mongoose@2.3.1) (2019-02-10)
 
 

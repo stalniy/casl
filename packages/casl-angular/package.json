@@ -1,6 +1,6 @@
 {
   "name": "@casl/angular",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular application",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
@@ -42,21 +42,21 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
     "@casl/ability": "^2.0.0 || ^3.0.0"
   },
   "devDependencies": {
-    "@abraham/reflection": "^0.5.1",
-    "@angular/common": "^7.0.0",
-    "@angular/compiler": "^7.0.3",
-    "@angular/compiler-cli": "^7.0.3",
-    "@angular/core": "^7.0.0",
-    "@angular/platform-browser": "^7.0.0",
-    "@angular/platform-browser-dynamic": "^7.0.0",
-    "@casl/ability": "^2.0.0",
+    "@abraham/reflection": "^0.6.0",
+    "@angular/common": "^8.0.0",
+    "@angular/compiler": "^8.0.0",
+    "@angular/compiler-cli": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/platform-browser": "^8.0.0",
+    "@angular/platform-browser-dynamic": "^8.0.0",
+    "@casl/ability": "^3.0.0",
     "jest-zone-patch": "0.0.10",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
-    "zone.js": "^0.9.0"
+    "zone.js": "^0.10.0"
   }
 }

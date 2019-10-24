@@ -1,0 +1,14 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "expect": true,
+    "spy": true
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "no-use-before-define": "off",
+    "no-unused-expressions": "off"
+  }
+}

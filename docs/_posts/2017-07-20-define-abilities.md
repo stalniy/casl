@@ -263,7 +263,7 @@ can('delete', 'Post', { 'comments.0': { $exists: false } })
 
 As you may know already, it's possible to use few MongoDB query operators to define more complex conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, `$elemMatch`).
 
-Check out the supported [sift.js](https://github.com/crcn/sift.js/tree/7.0.1) operators.
+CASL uses [sift.js](https://github.com/crcn/sift.js/tree/7.0.1) under the hood, so you can use other operators and `sift` functionality but this may change in the future.
 
 ## Rules per field
 

@@ -117,6 +117,7 @@ There are several repositories which show how to integrate CASL in popular front
 * [CASL and Vue](https://github.com/stalniy/casl-vue-example), [CASL and Vuex](https://github.com/stalniy/casl-vue-api-example)
 * [CASL and React](https://github.com/stalniy/casl-react-example)
 * [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
+* [CASL and Angular](https://github.com/stalniy/casl-angular-example)
 * [CASL and Expressjs](https://github.com/stalniy/casl-express-example)
 * [CASL and Feathersjs](https://github.com/stalniy/casl-feathersjs-example)
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/react-v1.0.4](https://github.com/stalniy/casl/compare/@casl/react@1.0.3...@casl/react@1.0.4) (2019-07-28)
+
+
+### Performance Improvements
+
+* **react:** adds check if children array has length of 1 then render it without React.Fragment ([655d08f](https://github.com/stalniy/casl/commit/655d08f)), closes [#211](https://github.com/stalniy/casl/issues/211)
+
 # [@casl/react-v1.0.3](https://github.com/stalniy/casl/compare/@casl/react@1.0.2...@casl/react@1.0.3) (2019-03-25)
 
 

@@ -4,7 +4,15 @@ import { Ability } from '@casl/ability';
 
 const noop = () => {};
 const renderChildren = Fragment
-  ? children => createElement.apply(null, [Fragment, null].concat(children))
+  ? (children) => {
+    if (!children) {
+      return null;
+    }
+
+    return children.length > 1
+      ? createElement.apply(null, [Fragment, null].concat(children))
+      : React.Children.only(children);
+  }
   : React.Children.only;
 let propTypes = {};
 

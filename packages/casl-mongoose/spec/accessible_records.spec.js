@@ -1,4 +1,4 @@
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { AbilityBuilder } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleRecordsPlugin, toMongoQuery } from '../src'
 
@@ -33,7 +33,7 @@ describe('Accessible Records Plugin', () => {
 
   describe('`accessibleBy` method', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define(can => {
+      ability = AbilityBuilder.define((can) => {
         can('read', 'Post', { state: 'draft' })
         can('update', 'Post', { state: 'published' })
       })
@@ -77,7 +77,6 @@ describe('Accessible Records Plugin', () => {
       let query
 
       beforeEach(() => {
-        Post.Query.prototype.exec = spy(() => Promise.resolve('original `exec` method call'))
         query = Post.find().accessibleBy(ability, 'notAllowedAction')
       })
 
@@ -128,7 +127,8 @@ describe('Accessible Records Plugin', () => {
       })
 
       it('calls original `exec` for other cases', async () => {
-        await query.update({ $set: { state: 'draft' } }).exec()
+        Post.Query.prototype.exec = spy(() => Promise.resolve('original `exec` method call'))
+        await query.update({ $set: { state: 'draft' } })
 
         expect(Post.Query.prototype.exec).to.have.been.called()
       })
