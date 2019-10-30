@@ -46,7 +46,7 @@
     "@casl/ability": "^2.0.0 || ^3.0.0"
   },
   "devDependencies": {
-    "@abraham/reflection": "^0.6.0",
+    "@abraham/reflection": "^0.7.0",
     "@angular/common": "^8.0.0",
     "@angular/compiler": "^8.0.0",
     "@angular/compiler-cli": "^8.0.0",
