@@ -27,7 +27,7 @@
     "chai-spies": "^1.0.0",
     "codecov": "^3.0.0",
     "eslint": "^6.0.0",
-    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.9.0",
     "husky": "^3.0.0",
     "jest": "^24.1.0",
