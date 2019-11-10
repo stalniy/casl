@@ -5,9 +5,10 @@ import Can from './Can';
 
 export function createCanBoundTo(ability) {
   return class BoundCan extends Can {
-    static propTypes = Object.assign({}, Can.propTypes, {
+    static propTypes = {
+      ...Can.propTypes,
       ability: PropTypes.instanceOf(Ability)
-    });
+    };
 
     static defaultProps = {
       ability
