@@ -108,6 +108,14 @@ There are also complementary libraries for major frontend frameworks which makes
 
 A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
 
+Documentation for complementary packages can be found in respective README files:
+* [@casl/ability](packages/casl-ability/README.md), here you can find docs about `@casl/ability/extra` helpers package.
+* [@casl/vue](packages/casl-vue/README.md)
+* [@casl/react](packages/casl-react/README.md)
+* [@casl/angular](packages/casl-angular/README.md)
+* [@casl/aurelia](packages/casl-aurelia/README.md)
+* [@casl/mongoose](packages/casl-aurelia/README.md)
+
 **Have a question?**: ask it in [gitter chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl)
 
 
