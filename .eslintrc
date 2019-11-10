@@ -2,18 +2,22 @@
   "extends": "airbnb-base",
   "parser": "babel-eslint",
   "rules": {
-    "import/prefer-default-export": 0,
-    "no-plusplus": 0,
-    "comma-dangle": 0,
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
+    "comma-dangle": "off",
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "no-param-reassign": ["error", { "props": false }],
-    "no-mixed-operators": 0,
-    "no-prototype-builtins": 0,
-    "no-confusing-arrow": 0,
+    "no-mixed-operators": "off",
+    "no-prototype-builtins": "off",
+    "no-confusing-arrow": "off",
     "no-bitwise": ["error", { "allow": ["^"] }],
     "no-return-assign": 1,
     "arrow-body-style": 1,
-    "prefer-spread": 0,
+    "prefer-spread": "off",
+    "max-classes-per-file": "off",
+    "arrow-parens": ["error", "as-needed", {
+      "requireForBlockBody": true
+    }],
     "object-curly-newline": ["error", {
       "ObjectPattern": "never"
     }],
