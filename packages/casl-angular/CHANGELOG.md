@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/angular-v2.1.1](https://github.com/stalniy/casl/compare/@casl/angular@2.1.0...@casl/angular@2.1.1) (2019-12-09)
+
+
+### Performance Improvements
+
+* **angular:** makes casl-angular much smaller by utilizing tslib.es6 ([093cefa](https://github.com/stalniy/casl/commit/093cefa2e26aa4b2cd9e733b0e77aaff1664dbcf))
+
 # [@casl/angular-v2.1.0](https://github.com/stalniy/casl/compare/@casl/angular@2.0.0...@casl/angular@2.1.0) (2019-07-01)
 
 
