@@ -10,11 +10,9 @@ export default {
     format: 'es'
   },
   plugins: [
-    babel({ rootMode: 'upward' }),
     resolve({
-      jsnext: true,
-      main: true,
-      browser: true,
+      mainFields: ['jsnext', 'main', 'browser'],
     }),
+    babel({ rootMode: 'upward' }),
   ]
 };
