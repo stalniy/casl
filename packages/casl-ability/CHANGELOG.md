@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.3.0](https://github.com/stalniy/casl/compare/@casl/ability@3.2.0...@casl/ability@3.3.0) (2019-12-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sift to v9 ([cf3aa9a](https://github.com/stalniy/casl/commit/cf3aa9a145947e091187bb970f8a3d3819537ce3))
+
+
+### Features
+
+* **ability:** uses CSP build of sift.js ([f238813](https://github.com/stalniy/casl/commit/f23881322b585b9487153295d355341968b349c5)), closes [#234](https://github.com/stalniy/casl/issues/234)
+
 # [@casl/ability-v3.2.0](https://github.com/stalniy/casl/compare/@casl/ability@3.1.2...@casl/ability@3.2.0) (2019-07-28)
 
 
