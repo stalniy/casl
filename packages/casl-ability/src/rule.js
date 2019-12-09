@@ -1,4 +1,4 @@
-import sift from 'sift';
+import sift from 'sift/sift.csp.min';
 import { wrapArray } from './utils';
 
 const REGEXP_SPECIAL_CHARS = /[-/\\^$+?.()|[\]{}]/g;
