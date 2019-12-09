@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 8 # 2019-12-01
+  - 10 # 2020-04-01
   - lts/*
   - node
 
