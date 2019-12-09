@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
+    "noEmitHelpers": true,
     "lib": [
       "es2018",
       "dom"

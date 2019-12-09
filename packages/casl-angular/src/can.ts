@@ -1,6 +1,9 @@
 import { Pipe, ChangeDetectorRef } from '@angular/core';
 import { Ability } from '@casl/ability';
+import { __decorate as d, __metadata as m } from 'tslib/tslib.es6';
 
+const __decorate = d;
+const __metadata = m;
 const noop = () => {};
 
 // TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
