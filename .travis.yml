@@ -4,9 +4,6 @@ node_js:
   - lts/*
   - node
 
-before_install:
-  - if [[ `npm -v` = 3* ]]; then npm i -g npm@6; fi  
-
 before_script:
   - npm run bootstrap
   - npm run build
