@@ -114,7 +114,7 @@ Documentation for complementary packages can be found in respective README files
 * [@casl/react](packages/casl-react/README.md)
 * [@casl/angular](packages/casl-angular/README.md)
 * [@casl/aurelia](packages/casl-aurelia/README.md)
-* [@casl/mongoose](packages/casl-aurelia/README.md)
+* [@casl/mongoose](packages/casl-mongoose/README.md)
 
 **Have a question?**: ask it in [gitter chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl)
 
