@@ -344,7 +344,7 @@ const ability = new Ability([
 
 Now, `ability` knows why user can't update `Post` and can provide more friendly error message.
 
-Read [checking abilities][checking-ability] to see how this can be used together with `throwUnlessCan` method.
+Read [checking abilities][checking-ability] to see how this can be used together with `ForbiddenError`.
 
 ## Update abilities
 

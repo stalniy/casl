@@ -39,13 +39,15 @@ ability.can('read', 'Post') // true
 
 Think of it as asking "can the current user read at least one post?". The user can read a post which has `published` set to `true`, so this returns `true`. If you are doing a class name check, it is important you do another check once an instance becomes available so the object of conditions can be used.
 
-One more handy method is `throwUnlessCan`, it throws `ForbiddenError` if user is not able to perform an action on specified object.
+One more handy way to enforce permissions is to throw `ForbiddenError` if user is not able to perform an action on specified object.
 
 ```js
+import { ForbiddenError } from '@casl/ability'
+
 async function findPost(req, res) {
   const post = await Post.find({ _id: req.params.id })
 
-  req.ability.throwUnlessCan('read', post)
+  ForbiddenError.from(req.ability).throwUnlessCan('read', post)
   res.send(post)
 }
 ```
@@ -61,7 +63,7 @@ const ability = AbilityBuidler.define((can, cannot) => {
   }
 })
 
-ability.throwUnlessCan('update', 'Product', 'price')
+ForbiddenError.from(req.ability).throwUnlessCan('update', 'Product', 'price')
 ```
 
 The code above will throw error with corresponding message, if user is not an admin.
@@ -69,7 +71,7 @@ Also that error object contains information about what `action`, `subject` and `
 
 ```js
 try {
-  ability.throwUnlessCan('update', 'Product', 'price')
+  ForbiddenError.from(req.ability).throwUnlessCan('update', 'Product', 'price')
 } catch (error) {
   console.log(error.message) // "Only admins can update product prices"
   console.log(error.action) // "update"

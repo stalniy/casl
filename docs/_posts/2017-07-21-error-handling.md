@@ -6,13 +6,13 @@ categories: [abilities, errors]
 tags: [CASL errors, handling permission errors]
 ---
 
-You can use `throwUnlessCan` method to throw `ForbiddenError` in case user doesn't have ability to perform particular action. Afterwards you can catch this exception and provide expressive error message:
+You can use `throwUnlessCan` method of `ForbiddenError` in case user doesn't have ability to perform particular action. Afterwards you can catch an exception and provide expressive error message:
 
 ```js
 try {
   const post = new Post({ private: true })
 
-  ability.throwUnlessCan('delete', post)
+  ForbiddenError.from(ability).throwUnlessCan('delete', post)
   post.destroy()
 } catch (error) {
   if (error instanceof ForbiddenError) {
@@ -29,7 +29,7 @@ const { ForbiddenError } = require('@casl/ability')
 app.delete('/posts/:id', (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then(post => {
-      req.ability.throwUnlessCan('delete', post)
+      ForbiddenError.from(req.ability).throwUnlessCan('delete', post)
       return post.remove()
     })
     .catch(next)
