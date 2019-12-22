@@ -65,9 +65,16 @@ export class AbilityBuilder extends AbilityBuilderParts {
   static extract(): AbilityBuilderParts
 }
 
+type GenerateErrorMessage = (error: ForbiddenError) => string
+
 export class ForbiddenError extends Error {
   subject: any
   subjectName: string
   action: string
   field: string
+
+  static setDefaultMessage(fnOrMessage: string | GenerateErrorMessage | null): void
+  static from(ability: Ability): ForbiddenError
+
+  throwUnlessCan(action: string, subject: any, field?: string): void
 }

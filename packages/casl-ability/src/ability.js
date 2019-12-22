@@ -25,10 +25,10 @@ export class Ability {
     return this;
   }
 
-  constructor(rules, { RuleType = Rule, subjectName = getSubjectName } = {}) {
+  constructor(rules, options = {}) {
+    Object.defineProperty(this, 'subjectName', { value: options.subjectName || getSubjectName });
     this[PRIVATE_FIELD] = {
-      RuleType,
-      subjectName,
+      RuleType: options.RuleType || Rule,
       originalRules: rules || [],
       hasPerFieldRules: false,
       indexedRules: Object.create(null),
@@ -146,7 +146,7 @@ export class Ability {
   }
 
   possibleRulesFor(action, subject) {
-    const subjectName = this[PRIVATE_FIELD].subjectName(subject);
+    const subjectName = this.subjectName(subject);
     const { mergedRules } = this[PRIVATE_FIELD];
     const key = `${subjectName}_${action}`;
 
@@ -189,19 +189,11 @@ export class Ability {
   }
 
   throwUnlessCan(...args) {
-    const rule = this.relevantRuleFor(...args);
-
-    if (!rule || rule.inverted) {
-      const [action, subject, field] = args;
-      const subjectName = this[PRIVATE_FIELD].subjectName(subject);
-
-      throw new ForbiddenError(rule ? rule.reason : null, {
-        action,
-        subjectName,
-        subject,
-        field
-      });
-    }
+    console.warn(`
+      Ability.throwUnlessCan is deprecated and will be removed in 4.x version.
+      Please use "ForbiddenError.from(ability).throwUnlessCan(...)" instead.
+    `.trim());
+    ForbiddenError.from(this).throwUnlessCan(...args);
   }
 
   on(event, handler) {

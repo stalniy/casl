@@ -7,6 +7,9 @@ plugins:
         enabled: false
       import/no-extraneous-dependencies:
         enabled: false
+      no-console:
+        enabled: false
+        
 exclude_patterns:
 - docs/**/*
 - "**/spec/**/*"
