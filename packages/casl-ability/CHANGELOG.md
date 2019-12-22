@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@casl/ability-v3.4.0](https://github.com/stalniy/casl/compare/@casl/ability@3.3.0...@casl/ability@3.4.0) (2019-12-22)
+
+
+### Features
+
+* **ability:** adds possibility to specify custom error messages ([#245](https://github.com/stalniy/casl/issues/245)) ([4b48562](https://github.com/stalniy/casl/commit/4b485620fabb290f0451bc2e828637eaec043c32)), closes [#241](https://github.com/stalniy/casl/issues/241)
+
 # [@casl/ability-v3.3.0](https://github.com/stalniy/casl/compare/@casl/ability@3.2.0...@casl/ability@3.3.0) (2019-12-09)
 
 
