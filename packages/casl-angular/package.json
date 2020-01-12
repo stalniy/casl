@@ -14,15 +14,11 @@
     "access": "public"
   },
   "scripts": {
-    "rollup": "rollup -g @angular/core:ng.core,@casl/ability:casl",
-    "build.es": "npm run rollup -- -c ../../tools/rollup.es.js -i dist/types/index.js",
-    "build.umd": "npm run rollup -- -c ../../tools/rollup.umd.js -n casl.ng -i dist/types/index.js",
-    "build.es5m": "npm run rollup -- -c ../../tools/rollup.es5m.js -i dist/types/index.js",
     "prebuild": "ngc",
-    "build": "npm run build.es && npm run build.umd && npm run build.es5m",
+    "build": "rollup -c ../../tools/rollup.config.js -i dist/types/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl",
     "postbuild": "rm -f dist/types/*.{js,js.map}",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
-    "lint": "node -p -e '`Skip linting for typescript`' ",
+    "lint": "node -p -e '`Skip linting for typescript`'",
     "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
   },

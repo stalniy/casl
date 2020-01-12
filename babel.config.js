@@ -1,47 +1,51 @@
-const ES_CONFIGS = {
-  es: {
+const CONFIG = {
+  default: {
     plugins: [
-      '@babel/plugin-proposal-class-properties',
-    ]
+      ['@babel/plugin-proposal-class-properties', {
+        loose: true
+      }]
+    ],
   },
-  js: {
+  es5: {
     presets: [
       ['@babel/preset-env', {
         modules: false,
         loose: true,
         targets: {
-          browsers: ['last 3 versions', 'safari >= 7']
+          browsers: ['last 3 versions']
         }
       }]
     ],
-    plugins: [
-      '@babel/plugin-proposal-class-properties'
-    ]
-  }
-};
-
-module.exports = (api) => {
-  api.cache(true);
-
-  const test = {
+  },
+  test: {
     presets: [
       ['@babel/preset-env', {
         loose: true,
         targets: {
-          node: '6.9'
+          node: '10'
         }
       }]
     ],
-    plugins: [
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-transform-async-to-generator',
-      '@babel/plugin-proposal-object-rest-spread'
-    ]
+  }
+};
+
+function config(name) {
+  if (name === 'default' || !CONFIG[name]) {
+    return CONFIG.default;
+  }
+
+  const { presets = [], plugins = [] } = CONFIG[name];
+
+  return {
+    presets: presets.concat(CONFIG.default.presets || []),
+    plugins: plugins.concat(CONFIG.default.plugins || []),
   };
+}
 
-  const defaultConfig = ES_CONFIGS[process.env.BUILD_TYPE] || ES_CONFIGS.js;
+module.exports = (api) => {
+  let format;
+  api.caller(caller => format = caller.output || process.env.NODE_ENV);
+  api.cache.using(() => format);
 
-  return Object.assign({}, defaultConfig, {
-    env: { test }
-  });
+  return config(format);
 };

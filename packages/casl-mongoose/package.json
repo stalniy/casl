@@ -14,9 +14,7 @@
   },
   "homepage": "https://stalniy.github.io/casl/",
   "scripts": {
-    "build.es": "rollup -c ../../tools/rollup.es.js -e @casl/ability/extra",
-    "build.cjs": "SKIP_MINIFY=1 rollup -c ../../tools/rollup.umd.js -e @casl/ability/extra -f cjs -o index.js",
-    "build": "npm run build.es && npm run build.cjs",
+    "build": "BUILD_TYPES=es6,umd:cjs rollup -c ../../tools/rollup.config.js -e @casl/ability/extra",
     "lint": "eslint src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
     "prerelease": "npm test && NODE_ENV=production npm run build",
