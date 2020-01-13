@@ -26,7 +26,6 @@ export class Ability {
   }
 
   constructor(rules, options = {}) {
-    Object.defineProperty(this, 'subjectName', { value: options.subjectName || getSubjectName });
     this[PRIVATE_FIELD] = {
       RuleType: options.RuleType || Rule,
       originalRules: rules || [],
@@ -36,6 +35,12 @@ export class Ability {
       events: {},
       aliases: clone(DEFAULT_ALIASES)
     };
+    Object.defineProperty(this, 'subjectName', {
+      value: options.subjectName || getSubjectName
+    });
+    Object.defineProperty(this, 'rules', {
+      get: () => this[PRIVATE_FIELD].originalRules
+    });
     this.update(rules);
   }
 
@@ -116,10 +121,6 @@ export class Ability {
     }
 
     return actions;
-  }
-
-  get rules() {
-    return this[PRIVATE_FIELD].originalRules;
   }
 
   can(action, subject, field) {

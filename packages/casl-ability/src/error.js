@@ -1,37 +1,41 @@
 const getDefaultMessage = error => `Cannot execute "${error.action}" on "${error.subjectName}"`;
 let defaultErrorMessage = getDefaultMessage;
 
-export class ForbiddenError extends Error {
-  static setDefaultMessage(messageOrFn) {
+export function ForbiddenError(message, options = {}) {
+  Error.call(this, message);
+  this._setMetadata(options);
+  this.message = message || defaultErrorMessage(this);
+  this._customMessage = null;
+
+  if (typeof Error.captureStackTrace === 'function') {
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+Object.assign(ForbiddenError, {
+  setDefaultMessage(messageOrFn) {
     if (messageOrFn === null) {
       defaultErrorMessage = getDefaultMessage;
     } else {
       defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
     }
-  }
+  },
 
-  static from(ability) {
+  from(ability) {
     const error = new this('');
     Object.defineProperty(error, 'ability', { value: ability });
     return error;
   }
+});
 
-  constructor(message, options = {}) {
-    super(message);
-    this._setMetadata(options);
-    this.message = message || defaultErrorMessage(this);
-    this._customMessage = null;
+ForbiddenError.prototype = Object.create(Error.prototype);
 
-    if (typeof Error.captureStackTrace === 'function') {
-      this.name = this.constructor.name;
-      Error.captureStackTrace(this, this.constructor);
-    }
-  }
-
+Object.assign(ForbiddenError.prototype, {
   setMessage(message) {
     this._customMessage = message;
     return this;
-  }
+  },
 
   throwUnlessCan(action, subject, field) {
     if (!this.ability) {
@@ -54,7 +58,7 @@ export class ForbiddenError extends Error {
     const reason = rule ? rule.reason : '';
     this.message = this._customMessage || reason || defaultErrorMessage(this);
     throw this; // eslint-disable-line
-  }
+  },
 
   _setMetadata(options) {
     this.subject = options.subject;
@@ -62,4 +66,4 @@ export class ForbiddenError extends Error {
     this.action = options.action;
     this.field = options.field;
   }
-}
+});
