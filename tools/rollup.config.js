@@ -42,9 +42,11 @@ function aggregate(configs, optionsOverrides) {
       plugins: [
         resolve({
           mainFields: ['module', 'main', 'browser'],
+          extensions: ['.js', '.mjs', '.ts'],
         }),
         babel({
           rootMode: 'upward',
+          extensions: ['.js', '.mjs', '.ts'],
           caller: {
             output: config.type,
           }

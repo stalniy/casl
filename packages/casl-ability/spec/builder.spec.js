@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '../src'
-import { Post } from './spec_helper';
+import { Post } from './spec_helper'
 
 describe('AbilityBuilder', () => {
   it('defines `Ability` instance using DSL', () => {
@@ -74,7 +74,7 @@ describe('AbilityBuilder', () => {
     })
 
     it('allows to define regular rules', () => {
-      const { can, cannot, rules } = AbilityBuilder.extract()
+      const { can, rules } = AbilityBuilder.extract()
       can('read', 'Post')
       can('read', 'Comment', { private: false })
 
@@ -93,7 +93,6 @@ describe('AbilityBuilder', () => {
         { actions: 'read', subject: ['Post'] },
         { actions: 'read', subject: ['Comment'], conditions: { private: true }, inverted: true }
       ])
-
     })
   })
 })

@@ -7,8 +7,9 @@
     "spy": true
   },
   "rules": {
-    "semi": ["error", "never"],
-    "no-use-before-define": "off",
-    "no-unused-expressions": "off"
+    "@typescript-eslint/semi": ["error", "never"],
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }

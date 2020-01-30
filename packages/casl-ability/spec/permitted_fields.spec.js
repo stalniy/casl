@@ -15,7 +15,7 @@ describe('permittedFieldsOf', () => {
   })
 
   it('returns a unique array of fields if there are duplicated fields across fields', () => {
-    const ability = AbilityBuilder.define(can => {
+    const ability = AbilityBuilder.define((can) => {
       can('read', 'Post', ['title'])
       can('read', 'Post', ['title', 'description'], { id: 1 })
     })

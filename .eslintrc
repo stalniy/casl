@@ -1,7 +1,17 @@
 {
-  "extends": "airbnb-base",
-  "parser": "babel-eslint",
+  "root": true,
+  "extends": [
+    "airbnb-typescript/base"
+  ],
   "rules": {
+    "max-len": ["error", {
+      "code": 100,
+      "ignoreComments": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "no-dupe-class-members": "off",
+    "lines-between-class-members": "off",
     "import/prefer-default-export": "off",
     "no-plusplus": "off",
     "comma-dangle": "off",
@@ -24,7 +34,8 @@
     "import/no-extraneous-dependencies": ["error", {
       "devDependencies": [
         "tools/**/*.js",
-        "packages/*/spec/**/*.js"
+        "**/*.spec.js",
+        "**/*/spec_helper.js"
       ]
     }]
   }

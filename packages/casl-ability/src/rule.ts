@@ -1,12 +1,14 @@
-import sift from 'sift/sift.csp.min';
-import { wrapArray } from './utils';
+import './sift';
+import sift, { Query as SiftQuery } from 'sift';
+import { wrapArray, AbilitySubject } from './utils';
+import { UnifiedRawRule, RawRule } from './RawRule';
 
 const REGEXP_SPECIAL_CHARS = /[-/\\^$+?.()|[\]{}]/g;
 const REGEXP_ANY = /\.?\*+\.?/g;
 const REGEXP_STARS = /\*+/;
 const REGEXP_DOT = /\./g;
 
-function detectRegexpPattern(match, index, string) {
+function detectRegexpPattern(match: string, index: number, string: string): string {
   const quantifier = string[0] === '*' || match[0] === '.' && match[match.length - 1] === '.'
     ? '+'
     : '*';
@@ -17,7 +19,7 @@ function detectRegexpPattern(match, index, string) {
   return index + match.length === string.length ? `(?:${pattern})?` : pattern;
 }
 
-function escapeRegexp(match, index, string) {
+function escapeRegexp(match: string, index: number, string: string): string {
   if (match === '.' && (string[index - 1] === '*' || string[index + 1] === '*')) {
     return match;
   }
@@ -25,7 +27,7 @@ function escapeRegexp(match, index, string) {
   return `\\${match}`;
 }
 
-function createPattern(fields) {
+function createPattern(fields: string[]) {
   const patterns = fields.map(field => field
     .replace(REGEXP_SPECIAL_CHARS, escapeRegexp)
     .replace(REGEXP_ANY, detectRegexpPattern));
@@ -34,9 +36,15 @@ function createPattern(fields) {
   return new RegExp(`^${pattern}$`);
 }
 
-export class Rule {
-  constructor(params) {
-    this.actions = params.actions || params.action;
+type ConditionsMatcher = (object: object) => boolean;
+
+class Rule {
+  private _fieldsPattern?: RegExp | null;
+
+  private _matches?: ConditionsMatcher;
+
+  constructor(params: RawRule) {
+    this.actions = 'actions' in params ? params.actions : params.action;
     this.subject = params.subject;
     this.fields = !params.fields || params.fields.length === 0
       ? undefined
@@ -46,12 +54,12 @@ export class Rule {
     this.conditions = params.conditions;
     Object.defineProperty(this, '_matches', {
       writable: true,
-      value: this.conditions ? sift(this.conditions) : undefined,
+      value: this.conditions ? sift(this.conditions as SiftQuery) : undefined,
     });
     this.reason = params.reason;
   }
 
-  matches(object) {
+  matches(object: AbilitySubject): boolean {
     if (!this._matches) {
       return true;
     }
@@ -63,7 +71,7 @@ export class Rule {
     return this._matches(object);
   }
 
-  isRelevantFor(object, field) {
+  isRelevantFor(object: AbilitySubject, field?: string): boolean {
     if (!this.fields) {
       return true;
     }
@@ -72,20 +80,24 @@ export class Rule {
       return !this.inverted;
     }
 
-    return this.matchesField(field);
+    return this._matchesField(this.fields, field);
   }
 
-  matchesField(field) {
+  _matchesField(fields: string[], field: string): boolean {
     if (typeof this._fieldsPattern === 'undefined') {
-      this._fieldsPattern = this.fields.join('').indexOf('*') === -1
+      this._fieldsPattern = fields.join('').indexOf('*') === -1
         ? null
-        : createPattern(this.fields);
+        : createPattern(fields);
     }
 
     if (this._fieldsPattern === null || field.indexOf('*') !== -1) {
-      return this.fields.indexOf(field) !== -1;
+      return fields.indexOf(field) !== -1;
     }
 
     return this._fieldsPattern.test(field);
   }
 }
+
+interface Rule extends UnifiedRawRule {}
+
+export default Rule;

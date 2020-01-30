@@ -7,6 +7,7 @@
   "module": "dist/es5m/index.js",
   "es2015": "dist/es6/index.js",
   "typings": "./index.d.ts",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"
@@ -16,10 +17,10 @@
     "access": "public"
   },
   "scripts": {
-    "build.core": "rollup -c ../../tools/rollup.config.js -g sift/sift.csp.min:sift -n casl",
-    "build.extra": "rollup -c ../../tools/rollup.config.js -i src/extra.js -n casl.extra",
-    "build": "npm run build.core && npm run build.extra",
-    "lint": "eslint src/",
+    "build.core": "rollup -c ../../tools/rollup.config.js -i src/index.ts -g sift:sift -n casl",
+    "build.extra": "rollup -c ../../tools/rollup.config.js -i src/extra.ts -n casl.extra",
+    "build": "npm run build.core && npm run build.extra && tsc",
+    "lint": "eslint --ext .js,.ts src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
     "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e ../../tools/semantic-release"
@@ -38,7 +39,7 @@
     "npm": "^6.0.0"
   },
   "dependencies": {
-    "sift": "^11.0.0"
+    "sift": "^11.1.1"
   },
   "files": [
     "dist",

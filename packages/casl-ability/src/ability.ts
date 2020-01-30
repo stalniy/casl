@@ -1,18 +1,64 @@
-import { ForbiddenError } from './error';
-import { Rule } from './rule';
-import { wrapArray, getSubjectName, clone } from './utils';
+import ForbiddenError from './error';
+import Rule from './rule';
+import { RawRule } from './RawRule';
+import { wrapArray, getSubjectName, clone, GetSubjectName, AbilitySubject } from './utils';
 
-const PRIVATE_FIELD = typeof Symbol !== 'undefined' ? Symbol('private') : `__${Date.now()}`;
-const DEFAULT_ALIASES = {
+type AliasesMap = {
+  [key: string]: string | string[]
+};
+const DEFAULT_ALIASES: AliasesMap = {
   crud: ['create', 'read', 'update', 'delete'],
 };
 
-function hasAction(action, actions) {
+function hasAction(action: string, actions: string | string[]): boolean {
   return action === actions || Array.isArray(actions) && actions.indexOf(action) !== -1;
 }
 
+export interface AbilityOptions {
+  subjectName?: GetSubjectName
+  RuleType?: typeof Rule
+}
+
+export interface EventPayload {
+  ability: Ability
+}
+
+export interface UpdateEventPayload extends EventPayload {
+  rules: RawRule[]
+}
+
+export type EventHandler = (payload: EventPayload) => void;
+
+interface Internals {
+  RuleType: typeof Rule
+  originalRules: RawRule[]
+  hasPerFieldRules: boolean
+  indexedRules: {
+    [subjectName: string]: {
+      [action: string]: {
+        [priority: number]: Rule
+      }
+    }
+  }
+  mergedRules: {
+    [key: string]: Rule[]
+  }
+  events: {
+    [key: string]: EventHandler[]
+  }
+  aliases: AliasesMap
+}
+
+const PRIVATE_FIELD = Symbol('private');
+
 export class Ability {
-  static addAlias(alias, actions) {
+  private readonly [PRIVATE_FIELD]: Internals;
+
+  public readonly subjectName: GetSubjectName;
+
+  public readonly rules: RawRule[];
+
+  static addAlias(alias: string, actions: string | string[]) {
     if (alias === 'manage' || hasAction('manage', actions)) {
       throw new Error('Cannot add alias for "manage" action because it represents any action');
     }
@@ -25,7 +71,7 @@ export class Ability {
     return this;
   }
 
-  constructor(rules, options = {}) {
+  constructor(rules: RawRule[], options: AbilityOptions = {}) {
     this[PRIVATE_FIELD] = {
       RuleType: options.RuleType || Rule,
       originalRules: rules || [],
@@ -35,23 +81,21 @@ export class Ability {
       events: {},
       aliases: clone(DEFAULT_ALIASES)
     };
-    Object.defineProperty(this, 'subjectName', {
-      value: options.subjectName || getSubjectName
-    });
-    Object.defineProperty(this, 'rules', {
-      get: () => this[PRIVATE_FIELD].originalRules
-    });
+    this.subjectName = options.subjectName || getSubjectName;
+    Object.defineProperty(this, 'subjectName', { value: this.subjectName });
+    this.rules = [];
+    Object.defineProperty(this, 'rules', { get: () => this[PRIVATE_FIELD].originalRules });
     this.update(rules);
   }
 
-  update(rules) {
+  update(rules: RawRule[]): Ability {
     if (!Array.isArray(rules)) {
       return this;
     }
 
-    const payload = { rules, ability: this };
+    const payload: UpdateEventPayload = { rules, ability: this };
 
-    this.emit('update', payload);
+    this._emit('update', payload);
     this[PRIVATE_FIELD].originalRules = rules.slice(0);
     this[PRIVATE_FIELD].mergedRules = Object.create(null);
 
@@ -65,13 +109,13 @@ export class Ability {
     this[PRIVATE_FIELD].indexedRules = index.rules;
     this[PRIVATE_FIELD].hasPerFieldRules = index.hasPerFieldRules;
 
-    this.emit('updated', payload);
+    this._emit('updated', payload);
 
     return this;
   }
 
-  buildIndexFor(rules) {
-    const indexedRules = Object.create(null);
+  buildIndexFor(rules: RawRule[]) {
+    const indexedRules: Internals['indexedRules'] = Object.create(null);
     const { RuleType } = this[PRIVATE_FIELD];
     let isAllInverted = true;
     let hasPerFieldRules = false;
@@ -107,7 +151,7 @@ export class Ability {
     };
   }
 
-  expandActions(rawActions) {
+  expandActions(rawActions: string | string[]) {
     const { aliases } = this[PRIVATE_FIELD];
     let actions = wrapArray(rawActions);
     let i = 0;
@@ -123,7 +167,7 @@ export class Ability {
     return actions;
   }
 
-  can(action, subject, field) {
+  can(action: string, subject: AbilitySubject, field?: string): boolean {
     if (field && typeof field !== 'string') {
       // eslint-disable-next-line
       throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details')
@@ -134,7 +178,7 @@ export class Ability {
     return !!rule && !rule.inverted;
   }
 
-  relevantRuleFor(action, subject, field) {
+  relevantRuleFor(action: string, subject: AbilitySubject, field?: string): Rule | null {
     const rules = this.rulesFor(action, subject, field);
 
     for (let i = 0; i < rules.length; i++) {
@@ -146,19 +190,19 @@ export class Ability {
     return null;
   }
 
-  possibleRulesFor(action, subject) {
+  possibleRulesFor(action: string, subject: AbilitySubject): Rule[] {
     const subjectName = this.subjectName(subject);
     const { mergedRules } = this[PRIVATE_FIELD];
     const key = `${subjectName}_${action}`;
 
     if (!mergedRules[key]) {
-      mergedRules[key] = this.mergeRulesFor(action, subjectName);
+      mergedRules[key] = this._mergeRulesFor(action, subjectName);
     }
 
     return mergedRules[key];
   }
 
-  mergeRulesFor(action, subjectName) {
+  private _mergeRulesFor(action: string, subjectName: string): Rule[] {
     const { indexedRules } = this[PRIVATE_FIELD];
     const mergedRules = [subjectName, 'all'].reduce((rules, subjectType) => {
       const subjectRules = indexedRules[subjectType];
@@ -175,7 +219,7 @@ export class Ability {
     return mergedRules.filter(Boolean);
   }
 
-  rulesFor(action, subject, field) {
+  rulesFor(action: string, subject: AbilitySubject, field?: string): Rule[] {
     const rules = this.possibleRulesFor(action, subject);
 
     if (!this[PRIVATE_FIELD].hasPerFieldRules) {
@@ -185,11 +229,12 @@ export class Ability {
     return rules.filter(rule => rule.isRelevantFor(subject, field));
   }
 
-  cannot(...args) {
+  cannot(...args: [string, AbilitySubject, string?]): boolean {
     return !this.can(...args);
   }
 
-  throwUnlessCan(...args) {
+  throwUnlessCan(...args: [string, AbilitySubject, string?]) {
+    // eslint-disable-next-line
     console.warn(`
       Ability.throwUnlessCan is deprecated and will be removed in 4.x version.
       Please use "ForbiddenError.from(ability).throwUnlessCan(...)" instead.
@@ -197,7 +242,7 @@ export class Ability {
     ForbiddenError.from(this).throwUnlessCan(...args);
   }
 
-  on(event, handler) {
+  on(event: string, handler: EventHandler): () => void {
     const { events } = this[PRIVATE_FIELD];
     let isAttached = true;
 
@@ -216,7 +261,7 @@ export class Ability {
     };
   }
 
-  emit(event, payload) {
+  private _emit(event: string, payload: EventPayload): void {
     const handlers = this[PRIVATE_FIELD].events[event];
 
     if (handlers) {

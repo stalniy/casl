@@ -2,7 +2,7 @@ import { AbilityBuilder } from '../src'
 import { rulesToQuery } from '../src/extra'
 
 function toQuery(ability, action, subject) {
-  return rulesToQuery(ability, action, subject, rule => {
+  return rulesToQuery(ability, action, subject, (rule) => {
     return rule.inverted ? { $not: rule.conditions } : rule.conditions
   })
 }
@@ -23,7 +23,7 @@ describe('rulesToQuery', () => {
   })
 
   it('returns empty `$or` part if at least one regular rule does not have conditions', () => {
-    const ability = AbilityBuilder.define(can => {
+    const ability = AbilityBuilder.define((can) => {
       can('read', 'Post', { author: 123 })
       can('read', 'Post')
     })
@@ -33,7 +33,7 @@ describe('rulesToQuery', () => {
   })
 
   it('returns empty `$or` part if rule with conditions defined last', () => {
-    const ability = AbilityBuilder.define(can => {
+    const ability = AbilityBuilder.define((can) => {
       can('read', 'Post')
       can('read', 'Post', { author: 123 })
     })
@@ -89,7 +89,7 @@ describe('rulesToQuery', () => {
   })
 
   it('OR-es conditions for regular rules', () => {
-    const ability = AbilityBuilder.define(can => {
+    const ability = AbilityBuilder.define((can) => {
       can('read', 'Post', { status: 'draft', createdBy: 'someoneelse' })
       can('read', 'Post', { status: 'published', createdBy: 'me' })
     })

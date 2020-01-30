@@ -7,13 +7,13 @@ module.exports = {
     'text'
   ],
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.{js,jsx}'
+    '<rootDir>/src/**/*.{ts,js,jsx}'
   ],
   testMatch: [
     '<rootDir>/spec/*.spec.js'
   ],
   transform: {
-    '^.+\\.jsx?$': `${__dirname}/jest.babel.js`
+    '^.+\\.[t|j]sx?$': `${__dirname}/jest.babel.js`
   },
   setupFilesAfterEnv: [
     `${__dirname}/spec_helper.js`

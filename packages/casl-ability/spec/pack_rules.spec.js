@@ -127,10 +127,10 @@ describe('Ability rules packing', () => {
       expect(rules[0].conditions).to.equal(conditions)
     })
 
-    it('converts `conditions` to `null` if its value is `0`', () => {
+    it('converts `conditions` to `undefined` if its value is `0`', () => {
       const rules = unpackRules([['read', 'Post,Comment', 0, 1]])
 
-      expect(rules[0].conditions).to.be.null
+      expect(rules[0].conditions).to.be.undefined
     })
 
     it('puts 4th element under `inverted` field and converts it to boolean', () => {
@@ -152,10 +152,10 @@ describe('Ability rules packing', () => {
       expect(rules[0].fields).to.deep.equal(fields)
     })
 
-    it('converts `fields` to `null` if its value is `0`', () => {
+    it('converts `fields` to `undefined` if its value is `0`', () => {
       const rules = unpackRules([['read', 'Post,Comment', 1, 0, 0]])
 
-      expect(rules[0].fields).to.be.null
+      expect(rules[0].fields).to.be.undefined
     })
 
     it('puts 6th element under `reason` field', () => {
@@ -165,10 +165,10 @@ describe('Ability rules packing', () => {
       expect(rules[0].reason).to.equal(reason)
     })
 
-    it('converts `reason` to `null` if its value is `0`', () => {
+    it('converts `reason` to `undefined` if its value is `0`', () => {
       const rules = unpackRules([['read', 'Post,Comment', 1, 0, 0, 0]])
 
-      expect(rules[0].reason).to.be.null
+      expect(rules[0].reason).to.be.undefined
     })
   })
 })
