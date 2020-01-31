@@ -14,25 +14,30 @@ function hasAction(action: string, actions: string | string[]): boolean {
   return action === actions || Array.isArray(actions) && actions.indexOf(action) !== -1;
 }
 
+export type CanArgsType = [string, AbilitySubject, string?];
+
+export type Unsubscribe = () => void;
+
 export interface AbilityOptions {
   subjectName?: GetSubjectName
   RuleType?: typeof Rule
 }
 
-export interface EventPayload {
+export interface AbilityEvent {
   ability: Ability
 }
 
-export interface UpdateEventPayload extends EventPayload {
+export interface UpdateEvent extends AbilityEvent {
   rules: RawRule[]
 }
 
-export type EventHandler = (payload: EventPayload) => void;
+export type EventHandler<T extends AbilityEvent> = (event: T) => void;
 
 interface Internals {
   RuleType: typeof Rule
   originalRules: RawRule[]
   hasPerFieldRules: boolean
+  aliases: AliasesMap
   indexedRules: {
     [subjectName: string]: {
       [action: string]: {
@@ -44,9 +49,8 @@ interface Internals {
     [key: string]: Rule[]
   }
   events: {
-    [key: string]: EventHandler[]
+    [name: string]: EventHandler<AbilityEvent>[]
   }
-  aliases: AliasesMap
 }
 
 const PRIVATE_FIELD = Symbol('private');
@@ -93,7 +97,7 @@ export class Ability {
       return this;
     }
 
-    const payload: UpdateEventPayload = { rules, ability: this };
+    const payload: UpdateEvent = { rules, ability: this };
 
     this._emit('update', payload);
     this[PRIVATE_FIELD].originalRules = rules.slice(0);
@@ -229,11 +233,11 @@ export class Ability {
     return rules.filter(rule => rule.isRelevantFor(subject, field));
   }
 
-  cannot(...args: [string, AbilitySubject, string?]): boolean {
+  cannot(...args: CanArgsType): boolean {
     return !this.can(...args);
   }
 
-  throwUnlessCan(...args: [string, AbilitySubject, string?]) {
+  throwUnlessCan(...args: CanArgsType) {
     // eslint-disable-next-line
     console.warn(`
       Ability.throwUnlessCan is deprecated and will be removed in 4.x version.
@@ -242,7 +246,8 @@ export class Ability {
     ForbiddenError.from(this).throwUnlessCan(...args);
   }
 
-  on(event: string, handler: EventHandler): () => void {
+  on(event: 'update' | 'updated', handler: EventHandler<UpdateEvent>): Unsubscribe;
+  on<T extends AbilityEvent>(event: string, handler: EventHandler<T>): Unsubscribe {
     const { events } = this[PRIVATE_FIELD];
     let isAttached = true;
 
@@ -250,22 +255,23 @@ export class Ability {
       events[event] = [];
     }
 
-    events[event].push(handler);
+    events[event].push(handler as EventHandler<AbilityEvent>);
 
     return () => {
       if (isAttached) {
-        const index = events[event].indexOf(handler);
+        const index = events[event].indexOf(handler as EventHandler<AbilityEvent>);
         events[event].splice(index, 1);
         isAttached = false;
       }
     };
   }
 
-  private _emit(event: string, payload: EventPayload): void {
-    const handlers = this[PRIVATE_FIELD].events[event];
+  private _emit(eventName: 'update' | 'updated', event: UpdateEvent): void;
+  private _emit(eventName: string, event: AbilityEvent): void {
+    const handlers = this[PRIVATE_FIELD].events[eventName];
 
     if (handlers) {
-      handlers.slice(0).forEach(handler => handler(payload));
+      handlers.slice(0).forEach(handler => handler(event));
     }
   }
 }
