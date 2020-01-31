@@ -38,5 +38,25 @@
         "**/*/spec_helper.js"
       ]
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "packages/*/spec/**/*.{js,ts}"
+      ],
+      "env": {
+        "jest": true
+      },
+      "globals": {
+        "expect": true,
+        "spy": true
+      },
+      "rules": {
+        "@typescript-eslint/semi": ["error", "never"],
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import { AbilityBuilder } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
@@ -6,7 +5,7 @@ import Can from '../src/component/can'
 
 describe('`Can` component', () => {
   const LocalVue = createLocalVue()
-  const ability = AbilityBuilder.define(can => {
+  const ability = AbilityBuilder.define((can) => {
     can('read', 'Plugin')
     can('update', 'Plugin', 'version')
   })
@@ -62,7 +61,7 @@ describe('`Can` component', () => {
 
     beforeEach(() => {
       scopedSlot = spy()
-      render((h) => h('div', [
+      render(h => h('div', [
         h(Can, {
           props: { I: 'delete', a: 'Plugin', passThrough: true },
           scopedSlots: { default: scopedSlot }

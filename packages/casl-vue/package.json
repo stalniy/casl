@@ -17,7 +17,7 @@
     "build": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl.vue -g vue:Vue,@casl/ability:casl",
     "build.types": "tsc",
     "postbuild": "npm run build.types",
-    "lint": "eslint --ext .ts,.js src/",
+    "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "prerelease": "npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e ../../tools/semantic-release"
