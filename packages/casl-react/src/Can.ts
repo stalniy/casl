@@ -1,16 +1,16 @@
 import React, { PureComponent, Fragment, createElement } from 'react';
 import PropTypes from 'prop-types';
-import { Ability } from '@casl/ability';
+import { Ability, Unsubscribe, AbilitySubject } from '@casl/ability';
 
 const noop = () => {};
 const renderChildren = Fragment
-  ? (children) => {
+  ? (children?: React.ReactNodeArray) => {
     if (!children) {
       return null;
     }
 
     return children.length > 1
-      ? createElement.apply(null, [Fragment, null].concat(children))
+      ? createElement(Fragment, null, ...children)
       : React.Children.only(children);
   }
   : React.Children.only;
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
     .oneOfType([PropTypes.object, PropTypes.string])
     .isRequired;
 
-  const alias = (names, validate) => (props, ...args) => { // eslint-disable-line
+  const alias = (names: string, validate: Function) => (props: any, ...args: unknown[]) => { // eslint-disable-line
     if (!names.split(' ').some(name => props[name])) {
       return validate(props, ...args);
     }
@@ -42,31 +42,45 @@ if (process.env.NODE_ENV !== 'production') {
   };
 }
 
-export default class Can extends PureComponent {
+export type AbilityCanProps =
+  { do: string, on: AbilitySubject } |
+  { I: string, a: Exclude<AbilitySubject, object> } |
+  { I: string, an: Exclude<AbilitySubject, object> } |
+  { I: string, of: AbilitySubject } |
+  { I: string, this: object };
+
+export type CanExtraProps = {
+  not?: boolean,
+  passThrough?: boolean,
+  ability: Ability
+};
+
+export type CanProps = AbilityCanProps & CanExtraProps;
+
+export default class Can<T extends AbilityCanProps=CanProps> extends PureComponent<CanProps> {
   static propTypes = propTypes;
 
-  constructor(...args) {
-    super(...args);
-    this.unsubscribeFromAbility = noop;
-    this._isAllowed = false;
-    this._ability = null;
-  }
+  private _isAllowed: boolean = false;
+
+  private _ability: Ability | null = null;
+
+  private _unsubscribeFromAbility: Unsubscribe = noop;
 
   componentWillUnmount() {
-    this.unsubscribeFromAbility();
+    this._unsubscribeFromAbility();
   }
 
-  connectToAbility(ability) {
+  connectToAbility(ability: Ability) {
     if (ability === this._ability) {
       return;
     }
 
-    this.unsubscribeFromAbility();
+    this._unsubscribeFromAbility();
     this._ability = null;
 
     if (ability) {
       this._ability = ability;
-      this.unsubscribeFromAbility = ability.on('updated', () => this.forceUpdate());
+      this._unsubscribeFromAbility = ability.on('updated', () => this.forceUpdate());
     }
   }
 
@@ -75,12 +89,12 @@ export default class Can extends PureComponent {
   }
 
   isAllowed() {
-    const params = this.props;
-    const [action, field] = (params.I || params.do).split(/\s+/);
-    const subject = params.of || params.a || params.an || params.this || params.on;
-    const can = params.not ? 'cannot' : 'can';
+    const props: any = this.props;
+    const [action, field] = (props.I || props.do).split(/\s+/);
+    const subject = props.of || props.a || props.an || props.this || props.on;
+    const can = props.not ? 'cannot' : 'can';
 
-    return params.ability[can](action, subject, field);
+    return props.ability[can](action, subject, field);
   }
 
   render() {

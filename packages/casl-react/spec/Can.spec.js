@@ -9,7 +9,7 @@ describe('`Can` component', () => {
   let children
 
   beforeEach(() => {
-    children = spy(returns => null)
+    children = spy(() => null)
     ability = AbilityBuilder.define(can => can('read', 'Post'))
   })
 
@@ -26,7 +26,7 @@ describe('`Can` component', () => {
   })
 
   it('passes ability check value and instance as arguments to "children" function', () => {
-    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
+    renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
     expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability)
   })
@@ -67,7 +67,7 @@ describe('`Can` component', () => {
 
   it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
     const canComponent = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
-    const cannotComponent = renderer.create(e(Can, {not: true, I: 'run', a: 'Marathon', ability }, children))
+    renderer.create(e(Can, { not: true, I: 'run', a: 'Marathon', ability }, children))
 
     expect(canComponent.getInstance().allowed).to.equal(ability.can('read', 'Post'))
     expect(canComponent.getInstance().allowed).to.equal(ability.cannot('run', 'Marathon'))
@@ -148,11 +148,11 @@ describe('`Can` component', () => {
     })
 
     it('can render multiple children if `React.Fragment` is available', () => {
-      const children = [child, e('h1', null, 'another children')]
+      const localChildren = [child, e('h1', null, 'another children')]
       const component = renderer.create(
-        e(Can, { I: 'read', a: 'Post', ability }, ...children)
+        e(Can, { I: 'read', a: 'Post', ability }, ...localChildren)
       )
-      const renderedChildren = children.map(element => renderer.create(element).toJSON())
+      const renderedChildren = localChildren.map(element => renderer.create(element).toJSON())
 
       expect(component.toJSON()).to.deep.equal(renderedChildren)
     })
@@ -167,7 +167,7 @@ describe('`Can` component', () => {
     })
   })
 
-  function validateProps(Component, props, propName) {
+  function validateProps(Component, props) {
     assertPropTypes(Component.propTypes, props, 'prop', Component.name)
   }
 })

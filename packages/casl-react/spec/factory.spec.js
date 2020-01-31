@@ -9,7 +9,7 @@ describe('Factory methods which create `Can` component', () => {
 
   beforeEach(() => {
     ability = AbilityBuilder.define(can => can('read', 'Post'))
-    child = spy(returns => e('p', null, 'children'))
+    child = spy(() => e('p', null, 'children'))
   })
 
   describe('`createCanBoundTo`', () => {
@@ -52,16 +52,18 @@ describe('Factory methods which create `Can` component', () => {
 
     it('allows to override `Ability` instance by passing it in props', () => {
       const element = e(ContextualCan, { I: 'read', a: 'Post', ability }, child)
-      const component = renderer.create(element)
+      renderer.create(element)
 
       expect(child).to.have.been.called.with(ability)
     })
 
     it('expects `Ability` instance to be provided by context Provider', () => {
-      const App = e(AbilityContext.Provider, { value: ability },
+      const App = e(
+        AbilityContext.Provider,
+        { value: ability },
         e(ContextualCan, { I: 'read', a: 'Post' }, child)
       )
-      const component = renderer.create(App)
+      renderer.create(App)
 
       expect(child).to.have.been.called.with(ability)
     })
