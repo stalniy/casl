@@ -1,4 +1,4 @@
-import { AnyObject } from './utils';
+import { AnyObject } from './types';
 
 interface BaseRawRule {
   subject: string | string[]

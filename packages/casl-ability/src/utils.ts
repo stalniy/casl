@@ -1,8 +1,8 @@
+import { AnyObject, GetSubjectName, SubjectType } from './types';
+
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
 }
-
-export type AnyObject = { [key: string]: unknown | AnyObject };
 
 export function setByPath(object: AnyObject, path: string, value: unknown): void {
   let ref = object;
@@ -20,11 +20,6 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 
   ref[lastKey] = value;
 }
-
-type SubjectType = Function & { modelName: string };
-
-export type AbilitySubject = string | SubjectType | object;
-export type GetSubjectName = (subject: AbilitySubject) => string;
 
 export const getSubjectName: GetSubjectName = (subject) => {
   if (!subject || typeof subject === 'string') {

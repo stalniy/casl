@@ -1,7 +1,8 @@
 import { Ability } from './ability';
 import Rule from './rule';
 import { RawRule, UnifiedRawRule } from './RawRule';
-import { setByPath, AbilitySubject, AnyObject } from './utils';
+import { setByPath } from './utils';
+import { AbilitySubject, AnyObject } from './types';
 
 export type RuleToQueryConverter = (rule: Rule) => object;
 export interface AbilityQuery {

@@ -1,4 +1,4 @@
-import { AbilitySubject, GetSubjectName } from './utils';
+import { AbilitySubject, GetSubjectName } from './types';
 import Rule from './rule';
 
 export type GetErrorMessage = (error: ForbiddenError) => string;

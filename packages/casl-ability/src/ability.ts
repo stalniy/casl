@@ -1,7 +1,8 @@
 import ForbiddenError from './error';
 import Rule from './rule';
 import { RawRule } from './RawRule';
-import { wrapArray, getSubjectName, clone, GetSubjectName, AbilitySubject } from './utils';
+import { wrapArray, getSubjectName, clone } from './utils';
+import { GetSubjectName, AbilitySubject } from './types';
 
 type AliasesMap = {
   [key: string]: string | string[]

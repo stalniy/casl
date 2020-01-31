@@ -1,7 +1,8 @@
 import './sift';
 import sift, { Query as SiftQuery } from 'sift';
-import { wrapArray, AbilitySubject } from './utils';
+import { wrapArray } from './utils';
 import { UnifiedRawRule, RawRule } from './RawRule';
+import { AbilitySubject } from './types';
 
 const REGEXP_SPECIAL_CHARS = /[-/\\^$+?.()|[\]{}]/g;
 const REGEXP_ANY = /\.?\*+\.?/g;

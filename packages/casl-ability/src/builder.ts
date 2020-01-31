@@ -1,5 +1,6 @@
 import { Ability, AbilityOptions } from './ability';
-import { getSubjectName, isObject, isStringOrNonEmptyArray, AbilitySubject, wrapArray } from './utils';
+import { getSubjectName, isObject, isStringOrNonEmptyArray, wrapArray } from './utils';
+import { AbilitySubject } from './types';
 import { UnifiedRawRule } from './RawRule';
 
 export class RuleBuilder {
