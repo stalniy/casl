@@ -4,6 +4,7 @@ import { AbilitySubject } from '@casl/ability';
 export type AbilityCanProps =
   { do: string, on: AbilitySubject } |
   { I: string, a: Exclude<AbilitySubject, object> } |
+  { I: string, an: Exclude<AbilitySubject, object> } |
   { I: string, of: AbilitySubject } |
   { I: string, this: object };
 
@@ -19,6 +20,7 @@ const Can: FunctionalComponentOptions<AllCanProps> = {
     I: String,
     do: String,
     a: [String, Function],
+    an: [String, Function],
     of: [String, Function, Object],
     this: [String, Function, Object],
     on: [String, Function, Object],
@@ -26,9 +28,9 @@ const Can: FunctionalComponentOptions<AllCanProps> = {
     passThrough: Boolean,
   },
   render(h, { props, children, parent, data }): VNode | VNode[] {
-    const mixedProps = props as any;
-    const [action, field] = (mixedProps.I || mixedProps.do || '').split(' ');
-    const subject = mixedProps.of || mixedProps.a || mixedProps.this || mixedProps.on;
+    const mixed = props as any;
+    const [action, field] = (mixed.I || mixed.do || '').split(' ');
+    const subject = mixed.of || mixed.an || mixed.a || mixed.this || mixed.on;
 
     if (!action) {
       throw new Error('[Vue Can]: neither `I` nor `do` prop was passed in <Can>');
