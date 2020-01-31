@@ -12,7 +12,7 @@ export function createCanBoundTo(ability) {
 
     static defaultProps = {
       ability
-    }
+    };
   };
 }
 
