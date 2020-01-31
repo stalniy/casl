@@ -99,8 +99,7 @@ export type PackedRule =
   [string, string, UnifiedRawRule['conditions']] |
   [string, string, UnifiedRawRule['conditions'] | 0, 1] |
   [string, string, UnifiedRawRule['conditions'] | 0, 1 | 0, string] |
-  [string, string, UnifiedRawRule['conditions'] | 0, 1 | 0, string | 0, string]
-;
+  [string, string, UnifiedRawRule['conditions'] | 0, 1 | 0, string | 0, string];
 
 export function packRules(rules: UnifiedRawRule[]): PackedRule[] {
   return rules.map(({ actions, subject, conditions, inverted, fields, reason }) => { // eslint-disable-line
