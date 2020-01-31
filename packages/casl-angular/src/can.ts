@@ -1,6 +1,5 @@
 import { Pipe, ChangeDetectorRef } from '@angular/core';
 import { Ability } from '@casl/ability';
-
 const noop = () => {};
 
 // TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041

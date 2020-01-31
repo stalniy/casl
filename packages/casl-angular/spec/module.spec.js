@@ -1,6 +1,6 @@
-import { App, Post } from './spec_helper'
 import { Ability } from '@casl/ability'
 import { TestBed } from '@angular/core/testing'
+import { App, Post } from './spec_helper'
 import { AbilityModule } from '../dist/es6'
 
 describe('Ability', () => {
