@@ -92,7 +92,7 @@ describe('`Can` component', () => {
         <Can a="Plugin">
           <h1></h1>
         </Can>
-      `)).to.throw(/`I` nor `do` property exist/)
+      `)).to.throw(/`I` nor `do` prop was passed/)
     })
 
     it('throws error if subject (i.e., `a`, `of`, `this` or `on`) is not specified', () => {
@@ -100,7 +100,7 @@ describe('`Can` component', () => {
         <Can I="read">
           <h1></h1>
         </Can>
-      `)).to.throw(/`of` nor `a` nor `this` nor `on` property exist/)
+      `)).to.throw(/`of` nor `a` nor `this` nor `on` prop was passed/)
     })
 
     it('throws error if `passThrough` is passed without scoped slot', () => {
