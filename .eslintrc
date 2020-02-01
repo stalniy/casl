@@ -12,6 +12,7 @@
     }],
     "no-dupe-class-members": "off",
     "lines-between-class-members": "off",
+    "prefer-destructuring": "off",
     "import/prefer-default-export": "off",
     "no-plusplus": "off",
     "comma-dangle": "off",
