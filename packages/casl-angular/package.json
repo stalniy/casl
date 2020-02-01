@@ -17,7 +17,7 @@
     "prebuild": "rm -rf dist/types/* && ngc",
     "build": "rollup -c ../../tools/rollup.config.js -i dist/types/src/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl",
     "postbuild": "mv dist/types/src/*.d.ts dist/types && rm -rf dist/types/src",
-    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
+    "test": "NODE_ENV=test jest --config jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "semantic-release -e ../../tools/semantic-release"
