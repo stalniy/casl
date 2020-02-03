@@ -32,7 +32,17 @@ function emptifyQuery<T extends Document>(query: DocumentQuery<T, T>) {
   return query;
 }
 
-function accessibleBy<T extends Document>(this: any, ability: Ability, action: string = 'read'): DocumentQuery<T, T> {
+type GetAccessibleRecords<T extends Document> = (
+  this: any,
+  ability: Ability,
+  action?: string
+) => DocumentQuery<T, T>;
+
+function accessibleBy<T extends Document>(
+  this: any,
+  ability: Ability,
+  action: string = 'read'
+): DocumentQuery<T, T> {
   let modelName: string | null = this.modelName;
 
   if (!modelName) {
@@ -49,12 +59,12 @@ function accessibleBy<T extends Document>(this: any, ability: Ability, action: s
 }
 
 export interface AccessibleRecordModel<T extends Document, K={}> extends Model<T, K & {
-  accessibleBy: typeof accessibleBy
+  accessibleBy: GetAccessibleRecords<T>
 }> {
-  accessibleBy: typeof accessibleBy
+  accessibleBy: GetAccessibleRecords<T>
 }
 
-export function accessibleRecordsPlugin<T=any>(schema: Schema<T>) {
+export function accessibleRecordsPlugin<T extends Document=any>(schema: Schema<T>) {
   schema.query.accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
 }

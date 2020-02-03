@@ -22,7 +22,7 @@ function fieldsOf<T>(schema: Schema<T>, options?: AccessibleFieldsOptions) {
 }
 
 type GetAccessibleFields<T extends AccessibleFieldsDocument> =
-  (this: Model<T> | AccessibleFieldsDocument, ability: Ability, action?: string) => string[];
+  (this: Model<T> | T, ability: Ability, action?: string) => string[];
 
 export interface AccessibleFieldsModel<T extends AccessibleFieldsDocument> extends Model<T> {
   accessibleFieldsBy: GetAccessibleFields<T>
