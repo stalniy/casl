@@ -65,7 +65,7 @@ const getRuleFields: GetRuleFields = (rule: Rule) => rule.fields;
 
 export type GetRuleFields = (rule: Rule) => string[] | undefined;
 
-export interface AccessibleFieldsOptions {
+export interface PermittedFieldsOptions {
   fieldsFrom?: GetRuleFields
 }
 
@@ -73,7 +73,7 @@ export function permittedFieldsOf(
   ability: Ability,
   action: string,
   subject: AbilitySubject,
-  options: AccessibleFieldsOptions = {}
+  options: PermittedFieldsOptions = {}
 ): string[] {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
   const uniqueFields = ability.possibleRulesFor(action, subject)

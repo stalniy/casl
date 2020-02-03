@@ -1,0 +1,60 @@
+import { Ability } from '@casl/ability';
+import { Schema, DocumentQuery, Model, Document } from 'mongoose';
+import { toMongoQuery } from './mongo';
+
+const DENY_CONDITION_NAME = '__forbiddenByCasl__';
+
+function returnQueryResult(this: any, methodName: string, returnValue: any, ...args: any[]) {
+  const [conditions, , callback] = args;
+
+  if (conditions[DENY_CONDITION_NAME]) {
+    return typeof callback === 'function'
+      ? callback(null, returnValue)
+      : Promise.resolve(returnValue);
+  }
+
+  if (conditions.hasOwnProperty(DENY_CONDITION_NAME)) {
+    delete conditions[DENY_CONDITION_NAME];
+  }
+
+  return this[methodName].apply(this, args);
+}
+
+function emptifyQuery<T extends Document>(query: DocumentQuery<T, T>) {
+  query.where({ [DENY_CONDITION_NAME]: 1 });
+  const privateQuery: any = query;
+  const collection = Object.create(privateQuery._collection); // eslint-disable-line
+  privateQuery._collection = collection; // eslint-disable-line
+  collection.find = returnQueryResult.bind(collection, 'find', []);
+  collection.findOne = returnQueryResult.bind(collection, 'findOne', null);
+  collection.count = returnQueryResult.bind(collection, 'count', 0);
+
+  return query;
+}
+
+function accessibleBy<T extends Document>(this: any, ability: Ability, action: string = 'read'): DocumentQuery<T, T> {
+  let modelName: string | null = this.modelName;
+
+  if (!modelName) {
+    modelName = 'model' in this ? this.model.modelName : null;
+  }
+
+  if (!modelName) {
+    throw new TypeError('Cannot detect model name to return accessible records');
+  }
+
+  const query = toMongoQuery(ability, modelName, action);
+
+  return query === null ? emptifyQuery(this.where()) : this.where({ $and: [query] });
+}
+
+export interface AccessibleRecordModel<T extends Document, K={}> extends Model<T, K & {
+  accessibleBy: typeof accessibleBy
+}> {
+  accessibleBy: typeof accessibleBy
+}
+
+export function accessibleRecordsPlugin<T=any>(schema: Schema<T>) {
+  schema.query.accessibleBy = accessibleBy;
+  schema.statics.accessibleBy = accessibleBy;
+}

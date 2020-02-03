@@ -58,7 +58,7 @@ describe('Accessible fields plugin', () => {
       })
 
       it('returns fields permitted for the instance when called on model instance', () => {
-        const ability = AbilityBuilder.define(can => {
+        const ability = AbilityBuilder.define((can) => {
           can('update', 'Post', ['title', 'state'], { state: 'draft' })
           can('update', 'Post', ['title'], { state: 'public' })
         })
