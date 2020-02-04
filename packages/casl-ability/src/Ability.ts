@@ -1,4 +1,4 @@
-import Rule from './rule';
+import Rule from './Rule';
 import { RawRule } from './RawRule';
 import { wrapArray, getSubjectName, clone } from './utils';
 import { GetSubjectName, AbilitySubject } from './types';

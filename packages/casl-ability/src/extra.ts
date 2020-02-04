@@ -1,5 +1,5 @@
-import { Ability } from './ability';
-import Rule from './rule';
+import { Ability } from './Ability';
+import Rule from './Rule';
 import { RawRule, UnifiedRawRule } from './RawRule';
 import { setByPath } from './utils';
 import { AbilitySubject, AnyObject } from './types';

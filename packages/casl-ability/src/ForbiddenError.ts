@@ -1,4 +1,4 @@
-import { Ability } from './ability';
+import { Ability } from './Ability';
 import { AbilitySubject } from './types';
 
 export type GetErrorMessage = (error: ForbiddenError) => string;

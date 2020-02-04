@@ -1,4 +1,4 @@
-import { Ability, AbilityOptions } from './ability';
+import { Ability, AbilityOptions } from './Ability';
 import { getSubjectName, isObject, isStringOrNonEmptyArray, wrapArray } from './utils';
 import { AbilitySubject } from './types';
 import { UnifiedRawRule } from './RawRule';
