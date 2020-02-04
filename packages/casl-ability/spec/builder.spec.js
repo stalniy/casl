@@ -69,6 +69,20 @@ describe('AbilityBuilder', () => {
     ])
   })
 
+  it('allows to specify multiple actions and match any', () => {
+    const ability = AbilityBuilder.define(can => can(['read', 'update'], 'Post'))
+
+    expect(ability).to.allow('read', 'Post')
+    expect(ability).to.allow('update', 'Post')
+  })
+
+  it('allows to specify multiple subjects and match any', () => {
+    const ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
+
+    expect(ability).to.allow('read', 'Post')
+    expect(ability).to.allow('read', 'User')
+  })
+
   describe('`can` DSL method', () => {
     it('throws exception if the 1st argument is not a string or array of strings', () => {
       expect(() => {

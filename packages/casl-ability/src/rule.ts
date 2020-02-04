@@ -65,7 +65,7 @@ class Rule {
       return true;
     }
 
-    if (typeof object === 'string') {
+    if (typeof object === 'string' || typeof object === 'function') {
       return !this.inverted;
     }
 

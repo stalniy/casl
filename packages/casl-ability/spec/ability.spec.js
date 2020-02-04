@@ -68,20 +68,6 @@ describe('Ability', () => {
     ])
   })
 
-  it('allows to specify multiple actions and match any', () => {
-    ability = AbilityBuilder.define(can => can(['read', 'update'], 'Post'))
-
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('update', 'Post')
-  })
-
-  it('allows to specify multiple subjects and match any', () => {
-    ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
-
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('read', 'User')
-  })
-
   it('allows to update rules', () => {
     ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
 
@@ -108,9 +94,14 @@ describe('Ability', () => {
       expect(ability).to.allow('update', new Post())
     })
 
-    it('allows to perform specified actions on target type', () => {
+    it('allows to perform specified actions on target type (string)', () => {
       expect(ability).to.allow('read', 'Post')
       expect(ability).to.allow('update', 'Post')
+    })
+
+    it('allows to perform specified actions on target type (class)', () => {
+      expect(ability).to.allow('read', Post)
+      expect(ability).to.allow('update', Post)
     })
 
     it('disallows to perform unspecified action on target', () => {
