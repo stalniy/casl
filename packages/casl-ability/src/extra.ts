@@ -1,5 +1,5 @@
 import { Ability } from './Ability';
-import Rule from './Rule';
+import { Rule } from './Rule';
 import { RawRule, UnifiedRawRule } from './RawRule';
 import { setByPath } from './utils';
 import { AbilitySubject, AnyObject } from './types';
@@ -77,7 +77,7 @@ export function permittedFieldsOf(
 ): string[] {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
   const uniqueFields = ability.possibleRulesFor(action, subject)
-    .filter(rule => rule.matches(subject))
+    .filter(rule => rule.matchesConditions(subject))
     .reverse()
     .reduce((fields, rule) => {
       const names = fieldsFrom(rule);

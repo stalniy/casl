@@ -1,7 +1,9 @@
-import Rule from './Rule';
+import { Rule, ConditionsMatcher, FieldMatcher } from './Rule';
 import { RawRule } from './RawRule';
 import { wrapArray, getSubjectName, clone } from './utils';
 import { GetSubjectName, AbilitySubject } from './types';
+import { mongoQueryMatcher } from './matchers/conditions';
+import { fieldPatternMatcher } from './matchers/field';
 
 type AliasesMap = {
   [key: string]: string | string[]
@@ -21,6 +23,8 @@ export type Unsubscribe = () => void;
 export interface AbilityOptions {
   subjectName?: GetSubjectName
   RuleType?: typeof Rule
+  conditionsMatcher?: ConditionsMatcher<any>
+  fieldMatcher?: FieldMatcher
 }
 
 export interface AbilityEvent {
@@ -34,7 +38,6 @@ export interface UpdateEvent extends AbilityEvent {
 export type EventHandler<T extends AbilityEvent> = (event: T) => void;
 
 interface Internals {
-  RuleType: typeof Rule
   originalRules: RawRule[]
   hasPerFieldRules: boolean
   aliases: AliasesMap
@@ -58,6 +61,10 @@ const PRIVATE_FIELD = Symbol('private');
 export class Ability {
   private readonly [PRIVATE_FIELD]: Internals;
 
+  private readonly _fieldMatcher: FieldMatcher;
+
+  private readonly _conditionsMatcher: ConditionsMatcher<any>;
+
   public readonly subjectName: GetSubjectName;
 
   public readonly rules: RawRule[];
@@ -76,8 +83,9 @@ export class Ability {
   }
 
   constructor(rules: RawRule[], options: AbilityOptions = {}) {
+    this._conditionsMatcher = options.conditionsMatcher || mongoQueryMatcher;
+    this._fieldMatcher = options.fieldMatcher || fieldPatternMatcher;
     this[PRIVATE_FIELD] = {
-      RuleType: options.RuleType || Rule,
       originalRules: rules || [],
       hasPerFieldRules: false,
       indexedRules: Object.create(null),
@@ -119,12 +127,15 @@ export class Ability {
 
   buildIndexFor(rules: RawRule[]) {
     const indexedRules: Internals['indexedRules'] = Object.create(null);
-    const { RuleType } = this[PRIVATE_FIELD];
+    const options = {
+      fieldMatcher: this._fieldMatcher,
+      conditionsMatcher: this._conditionsMatcher
+    };
     let isAllInverted = true;
     let hasPerFieldRules = false;
 
     for (let i = 0; i < rules.length; i++) {
-      const rule = new RuleType(rules[i]);
+      const rule = new Rule(rules[i], options);
       const actions = this.expandActions(rule.actions);
       const subjects = wrapArray(rule.subject);
       const priority = rules.length - i - 1;
@@ -184,7 +195,7 @@ export class Ability {
     const rules = this.rulesFor(action, subject, field);
 
     for (let i = 0; i < rules.length; i++) {
-      if (rules[i].matches(subject)) {
+      if (rules[i].matchesConditions(subject)) {
         return rules[i];
       }
     }
@@ -228,7 +239,7 @@ export class Ability {
       return rules;
     }
 
-    return rules.filter(rule => rule.isRelevantFor(subject, field));
+    return rules.filter(rule => rule.matchesField(field));
   }
 
   cannot(...args: CanArgsType): boolean {

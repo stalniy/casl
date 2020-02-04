@@ -1,14 +1,17 @@
 import { AnyObject } from './types';
 
-interface BaseRawRule {
+interface BaseRawRule<TConditions> {
   subject: string | string[]
   fields?: string[]
-  conditions?: AnyObject
+  conditions?: TConditions
   inverted?: boolean
   reason?: string
 }
 
-export type UnifiedRawRule = BaseRawRule & { actions: string | string[] };
-export type RawRule =
-  UnifiedRawRule |
-  BaseRawRule & { action: string | string[] };
+export type UnifiedRawRule<TConditions=AnyObject> =
+  BaseRawRule<TConditions> &
+  { actions: string | string[] };
+
+export type RawRule<TConditions=AnyObject> =
+  UnifiedRawRule<TConditions> |
+  BaseRawRule<TConditions> & { action: string | string[] };

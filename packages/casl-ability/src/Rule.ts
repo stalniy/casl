@@ -1,67 +1,55 @@
-import './sift';
-import sift, { Query as SiftQuery } from 'sift';
 import { wrapArray } from './utils';
 import { UnifiedRawRule, RawRule } from './RawRule';
 import { AbilitySubject } from './types';
 
-const REGEXP_SPECIAL_CHARS = /[-/\\^$+?.()|[\]{}]/g;
-const REGEXP_ANY = /\.?\*+\.?/g;
-const REGEXP_STARS = /\*+/;
-const REGEXP_DOT = /\./g;
+export type MatchConditions = (object: object) => boolean;
+export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
+export type MatchField = (field: string) => boolean;
+export type FieldMatcher = (fields: string[]) => MatchField;
 
-function detectRegexpPattern(match: string, index: number, string: string): string {
-  const quantifier = string[0] === '*' || match[0] === '.' && match[match.length - 1] === '.'
-    ? '+'
-    : '*';
-  const matcher = match.indexOf('**') === -1 ? '[^.]' : '.';
-  const pattern = match.replace(REGEXP_DOT, '\\$&')
-    .replace(REGEXP_STARS, matcher + quantifier);
-
-  return index + match.length === string.length ? `(?:${pattern})?` : pattern;
+interface RuleOptions<TConditions> {
+  conditionsMatcher?: ConditionsMatcher<TConditions>
+  fieldMatcher?: FieldMatcher
 }
 
-function escapeRegexp(match: string, index: number, string: string): string {
-  if (match === '.' && (string[index - 1] === '*' || string[index + 1] === '*')) {
-    return match;
-  }
+export class Rule<TConditions=any> implements UnifiedRawRule<TConditions> {
+  private _matchConditions?: MatchConditions;
 
-  return `\\${match}`;
-}
+  private _matchField?: MatchField;
 
-function createPattern(fields: string[]) {
-  const patterns = fields.map(field => field
-    .replace(REGEXP_SPECIAL_CHARS, escapeRegexp)
-    .replace(REGEXP_ANY, detectRegexpPattern));
-  const pattern = patterns.length > 1 ? `(?:${patterns.join('|')})` : patterns[0];
+  public actions: UnifiedRawRule['actions'];
 
-  return new RegExp(`^${pattern}$`);
-}
+  public subject: UnifiedRawRule['subject'];
 
-type ConditionsMatcher = (object: object) => boolean;
+  public reason: UnifiedRawRule['reason'];
 
-class Rule {
-  private _fieldsPattern?: RegExp | null;
+  public fields: UnifiedRawRule['fields'];
 
-  private _matches?: ConditionsMatcher;
+  public inverted: boolean;
 
-  constructor(params: RawRule) {
+  public conditions?: TConditions;
+
+  constructor(params: RawRule, options: RuleOptions<TConditions>) {
     this.actions = 'actions' in params ? params.actions : params.action;
     this.subject = params.subject;
+    this.inverted = !!params.inverted;
+    this.conditions = params.conditions as unknown as TConditions;
+    this.reason = params.reason;
     this.fields = !params.fields || params.fields.length === 0
       ? undefined
       : wrapArray(params.fields);
-    Object.defineProperty(this, '_fieldsPattern', { writable: true });
-    this.inverted = !!params.inverted;
-    this.conditions = params.conditions;
-    Object.defineProperty(this, '_matches', {
-      writable: true,
-      value: this.conditions ? sift(this.conditions as SiftQuery) : undefined,
-    });
-    this.reason = params.reason;
+
+    if (this.conditions && options.conditionsMatcher) {
+      this._matchConditions = options.conditionsMatcher(this.conditions);
+    }
+
+    if (this.fields && options.fieldMatcher) {
+      this._matchField = options.fieldMatcher(this.fields);
+    }
   }
 
-  matches(object: AbilitySubject): boolean {
-    if (!this._matches) {
+  matchesConditions(object: AbilitySubject): boolean {
+    if (!this._matchConditions) {
       return true;
     }
 
@@ -69,11 +57,11 @@ class Rule {
       return !this.inverted;
     }
 
-    return this._matches(object);
+    return this._matchConditions(object);
   }
 
-  isRelevantFor(object: AbilitySubject, field?: string): boolean {
-    if (!this.fields) {
+  matchesField(field?: string): boolean {
+    if (!this._matchField) {
       return true;
     }
 
@@ -81,24 +69,6 @@ class Rule {
       return !this.inverted;
     }
 
-    return this._matchesField(this.fields, field);
-  }
-
-  _matchesField(fields: string[], field: string): boolean {
-    if (typeof this._fieldsPattern === 'undefined') {
-      this._fieldsPattern = fields.join('').indexOf('*') === -1
-        ? null
-        : createPattern(fields);
-    }
-
-    if (this._fieldsPattern === null || field.indexOf('*') !== -1) {
-      return fields.indexOf(field) !== -1;
-    }
-
-    return this._fieldsPattern.test(field);
+    return this._matchField(field);
   }
 }
-
-interface Rule extends UnifiedRawRule {}
-
-export default Rule;
