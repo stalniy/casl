@@ -1,5 +1,5 @@
-import { AbilitySubject, GetSubjectName } from './types';
-import Rule from './rule';
+import { Ability } from './ability';
+import { AbilitySubject } from './types';
 
 export type GetErrorMessage = (error: ForbiddenError) => string;
 
@@ -13,14 +13,9 @@ type ForbiddenErrorMeta = {
   subjectName: string
 };
 
-interface AbilityLike {
-  relevantRuleFor(action: string, subject: AbilitySubject, field?: string): Rule | null;
-  subjectName: GetSubjectName
-}
-
 interface ForbiddenErrorType {
   (this: ForbiddenError, message: string, options?: ForbiddenErrorMeta): void
-  from: (ability: AbilityLike) => ForbiddenError
+  from: (ability: Ability) => ForbiddenError
   setDefaultMessage(messageOrFn: string | GetErrorMessage): void
 }
 
@@ -28,7 +23,7 @@ type ExtendedError = Error & ForbiddenErrorMeta;
 
 interface ForbiddenError extends ExtendedError {
   _customMessage: string | null
-  _ability?: AbilityLike
+  _ability?: Ability
 
   setMessage(message: string | null): this
   throwUnlessCan(action: string, subject: AbilitySubject, field?: string): void
@@ -60,7 +55,7 @@ const ForbiddenError: ForbiddenErrorType = Object.assign(
       }
     },
 
-    from(ability: AbilityLike): ForbiddenError {
+    from(ability: Ability): ForbiddenError {
       const error = new (this as any)('');
       Object.defineProperty(error, '_ability', { value: ability });
       return error;

@@ -1,4 +1,3 @@
-import ForbiddenError from './error';
 import Rule from './rule';
 import { RawRule } from './RawRule';
 import { wrapArray, getSubjectName, clone } from './utils';
@@ -98,23 +97,22 @@ export class Ability {
       return this;
     }
 
-    const payload: UpdateEvent = { rules, ability: this };
+    const event: UpdateEvent = { rules, ability: this };
 
-    this._emit('update', payload);
+    this._emit('update', event);
     this[PRIVATE_FIELD].originalRules = rules.slice(0);
     this[PRIVATE_FIELD].mergedRules = Object.create(null);
 
     const index = this.buildIndexFor(rules);
 
-    if (process.env.NODE_ENV !== 'production' && index.isAllInverted && rules.length) {
+    if (index.isAllInverted) {
       // eslint-disable-next-line
-      console.warn('[casl]: Ability contains only inverted rules. That means user will not be able to do any actions. This will be changed to Error throw in the next major version')
+      console.warn('Make sure your ability has allowable rules, not only inverted ones. Otherwise `ability.can` will always return `false`.');
     }
 
     this[PRIVATE_FIELD].indexedRules = index.rules;
     this[PRIVATE_FIELD].hasPerFieldRules = index.hasPerFieldRules;
-
-    this._emit('updated', payload);
+    this._emit('updated', event);
 
     return this;
   }
@@ -150,7 +148,7 @@ export class Ability {
     }
 
     return {
-      isAllInverted,
+      isAllInverted: isAllInverted && rules.length > 0,
       hasPerFieldRules,
       rules: indexedRules,
     };
@@ -174,8 +172,7 @@ export class Ability {
 
   can(action: string, subject: AbilitySubject, field?: string): boolean {
     if (field && typeof field !== 'string') {
-      // eslint-disable-next-line
-      throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details')
+      throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details');
     }
 
     const rule = this.relevantRuleFor(action, subject, field);
@@ -236,15 +233,6 @@ export class Ability {
 
   cannot(...args: CanArgsType): boolean {
     return !this.can(...args);
-  }
-
-  throwUnlessCan(...args: CanArgsType) {
-    // eslint-disable-next-line
-    console.warn(`
-      Ability.throwUnlessCan is deprecated and will be removed in 4.x version.
-      Please use "ForbiddenError.from(ability).throwUnlessCan(...)" instead.
-    `.trim());
-    ForbiddenError.from(this).throwUnlessCan(...args);
   }
 
   on(event: 'update' | 'updated', handler: EventHandler<UpdateEvent>): Unsubscribe;
