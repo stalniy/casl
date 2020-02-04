@@ -50,6 +50,25 @@ describe('AbilityBuilder', () => {
     expect(ability.can('read', { ModelName: 'Book' })).to.be.true
   })
 
+  it('allows to define forbidden rule with the reason', () => {
+    const reason = 'is private'
+    const ability = AbilityBuilder.define((can, cannot) => {
+      can('read', 'Book')
+      cannot('read', 'Book', { private: true }).because(reason)
+    })
+
+    expect(ability.rules).to.deep.eql([
+      { actions: 'read', subject: ['Book'] },
+      {
+        inverted: true,
+        actions: 'read',
+        subject: ['Book'],
+        conditions: { private: true },
+        reason
+      }
+    ])
+  })
+
   describe('`can` DSL method', () => {
     it('throws exception if the 1st argument is not a string or array of strings', () => {
       expect(() => {
