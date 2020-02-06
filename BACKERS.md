@@ -39,4 +39,4 @@ If you'd like to help and see how CASL evolves, please consider:
 
 ## OpenCollective Backers
 
-<a href="https://opencollective.com/casljs#backers" target="_blank"><img src="https://opencollective.com/casljs/backers.svg?width=890"></a>
+<a href="https://opencollective.com/casljs#section-contributors" target="_blank"><img src="https://opencollective.com/casljs/backers.svg?width=890"></a>
