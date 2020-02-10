@@ -40,7 +40,7 @@
     "npm": "^6.0.0"
   },
   "dependencies": {
-    "sift": "^11.1.1"
+    "sift": "^11.1.6"
   },
   "files": [
     "dist",

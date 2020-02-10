@@ -1,4 +1,3 @@
-import '../sift';
 import sift, { Query as SiftQuery } from 'sift';
 import { ConditionsMatcher as Matcher, MatchConditions } from '../Rule';
 
