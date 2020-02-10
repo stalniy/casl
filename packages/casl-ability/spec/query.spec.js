@@ -2,9 +2,8 @@ import { AbilityBuilder } from '../src'
 import { rulesToQuery } from '../src/extra'
 
 function toQuery(ability, action, subject) {
-  return rulesToQuery(ability, action, subject, (rule) => {
-    return rule.inverted ? { $not: rule.conditions } : rule.conditions
-  })
+  const convert = rule => rule.inverted ? { $not: rule.conditions } : rule.conditions
+  return rulesToQuery(ability, action, subject, convert)
 }
 
 describe('rulesToQuery', () => {

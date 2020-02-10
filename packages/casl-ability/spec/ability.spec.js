@@ -192,6 +192,7 @@ describe('Ability', () => {
         spy.on(console, 'warn')
         ability.update([{ inverted: true, action: 'read', subject: 'Post' }])
 
+        // eslint-disable-next-line
         expect(console.warn).to.have.been.called()
 
         spy.restore(console, 'warn')

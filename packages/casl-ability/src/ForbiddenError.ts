@@ -13,8 +13,8 @@ type ForbiddenErrorMeta = {
   subjectName: string
 };
 
-interface ForbiddenErrorType {
-  (this: ForbiddenError, message: string, options?: ForbiddenErrorMeta): void
+interface ForbiddenErrorContructor {
+  new (ability: Ability, options?: ForbiddenErrorMeta): ForbiddenError
   from: (ability: Ability) => ForbiddenError
   setDefaultMessage(messageOrFn: string | GetErrorMessage): void
 }
@@ -22,68 +22,64 @@ interface ForbiddenErrorType {
 type ExtendedError = Error & ForbiddenErrorMeta;
 
 interface ForbiddenError extends ExtendedError {
-  _customMessage: string | null
-  _ability?: Ability
+  _ability: Ability
 
   setMessage(message: string | null): this
   throwUnlessCan(action: string, subject: AbilitySubject, field?: string): void
-  _setMetadata(meta: ForbiddenErrorMeta): void
 }
 
-const ForbiddenError: ForbiddenErrorType = Object.assign(
-  function ForbiddenError(this: ForbiddenError, message: string, options?: ForbiddenErrorMeta) {
-    Error.call(this, message);
-
-    if (options) {
-      this._setMetadata(options);
-    }
-
-    this.message = message || defaultErrorMessage(this);
-    this._customMessage = null;
-
-    if (typeof Error.captureStackTrace === 'function') {
-      this.name = this.constructor.name;
-      Error.captureStackTrace(this, this.constructor);
-    }
-  },
-  {
-    setDefaultMessage(messageOrFn: string | GetErrorMessage): void {
-      if (messageOrFn === null) {
-        defaultErrorMessage = getDefaultMessage;
-      } else {
-        defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
-      }
-    },
-
-    from(ability: Ability): ForbiddenError {
-      const error = new (this as any)('');
-      Object.defineProperty(error, '_ability', { value: ability });
-      return error;
-    }
+function setMeta(error: ForbiddenError, meta?: ForbiddenErrorMeta) {
+  if (meta) {
+    error.subject = meta.subject;
+    error.subjectName = meta.subjectName;
+    error.action = meta.action;
+    error.field = meta.field;
   }
-);
+}
 
-ForbiddenError.prototype = Object.create(Error.prototype);
-ForbiddenError.prototype.constructor = ForbiddenError;
+const ForbiddenError = function ForbiddenError(
+  this: ForbiddenError,
+  ability: Ability,
+  options?: ForbiddenErrorMeta
+) {
+  Error.call(this, '');
+  this._ability = ability;
+  setMeta(this, options);
 
-Object.assign(ForbiddenError.prototype, {
-  setMessage(this: ForbiddenError, message: string | null): ForbiddenError {
-    this._customMessage = message;
+  if (typeof Error.captureStackTrace === 'function') {
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
+  }
+} as Function as ForbiddenErrorContructor;
+
+ForbiddenError.setDefaultMessage = function setMessage(messageOrFn: string | GetErrorMessage) {
+  if (messageOrFn === null) {
+    defaultErrorMessage = getDefaultMessage;
+  } else {
+    defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
+  }
+};
+
+ForbiddenError.from = function fromAbility(ability: Ability): ForbiddenError {
+  return new this(ability);
+};
+
+ForbiddenError.prototype = Object.assign(Object.create(Error.prototype), {
+  constructor: ForbiddenError,
+
+  setMessage(this: ForbiddenError, message: string) {
+    this.message = message;
     return this;
   },
 
   throwUnlessCan(this: ForbiddenError, action: string, subject: AbilitySubject, field?: string) {
-    if (!this._ability) {
-      throw new ReferenceError('Cannot throw FordiddenError without respective ability instance');
-    }
-
     const rule = this._ability.relevantRuleFor(action, subject, field);
 
     if (rule && !rule.inverted) {
       return;
     }
 
-    this._setMetadata({
+    setMeta(this, {
       action,
       subject,
       field,
@@ -91,15 +87,8 @@ Object.assign(ForbiddenError.prototype, {
     });
 
     const reason = rule ? rule.reason : '';
-    this.message = this._customMessage || reason || defaultErrorMessage(this);
+    this.message = this.message || reason || defaultErrorMessage(this);
     throw this; // eslint-disable-line
-  },
-
-  _setMetadata(this: ForbiddenError, meta: ForbiddenErrorMeta): void {
-    this.subject = meta.subject;
-    this.subjectName = meta.subjectName;
-    this.action = meta.action;
-    this.field = meta.field;
   },
 });
 
