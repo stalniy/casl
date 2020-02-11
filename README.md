@@ -1,4 +1,4 @@
-# [CASL](https://stalniy.github.io/casl/) [![CASL Build Status](https://travis-ci.org/stalniy/casl.svg?branch=master)](https://travis-ci.org/stalniy/casl) [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl) [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# [CASL](https://stalniy.github.io/casl/) [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs) [![CASL Build Status](https://travis-ci.org/stalniy/casl.svg?branch=master)](https://travis-ci.org/stalniy/casl) [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl) [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across UI components, API services, and database queries.
 
@@ -132,6 +132,36 @@ There are several repositories which show how to integrate CASL in popular front
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/stalniy/casl/graphs/contributors"><img src="https://opencollective.com/casljs/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/casljs/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/casljs"><img src="https://opencollective.com/casljs/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/casljs/contribute)]
+
+<a href="https://opencollective.com/casljs/organization/0/website"><img src="https://opencollective.com/casljs/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/1/website"><img src="https://opencollective.com/casljs/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/2/website"><img src="https://opencollective.com/casljs/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/3/website"><img src="https://opencollective.com/casljs/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/4/website"><img src="https://opencollective.com/casljs/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/5/website"><img src="https://opencollective.com/casljs/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/6/website"><img src="https://opencollective.com/casljs/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/7/website"><img src="https://opencollective.com/casljs/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/8/website"><img src="https://opencollective.com/casljs/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/casljs/organization/9/website"><img src="https://opencollective.com/casljs/organization/9/avatar.svg"></a>
 
 ## License
 
