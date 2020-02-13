@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl.au -g aurelia-framework:au,@casl/ability:casl",
-    "build.types": "tsc",
+    "build.types": "rm -rf dist/types/* && tsc",
     "postbuild": "npm run build.types",
     "lint": "eslint --ext .js,.ts src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
