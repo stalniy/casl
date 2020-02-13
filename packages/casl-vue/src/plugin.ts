@@ -1,27 +1,27 @@
-import { Ability, CanArgsType, RawRule } from '@casl/ability';
+import { Ability, Subject } from '@casl/ability';
 import { VueConstructor } from 'vue';
 import './extendVueTypes';
 
 const WATCHERS = new WeakMap();
 
-export function abilitiesPlugin(Vue: VueConstructor, providedAbility?: Ability) {
-  const defaultAbility = providedAbility || new Ability([]);
+export function abilitiesPlugin<
+  A extends string = string,
+  S extends Subject = Subject,
+  C = object
+>(Vue: VueConstructor, providedAbility?: Ability<A, S, C>) {
+  const defaultAbility = providedAbility || new Ability<A, S, C>([]);
 
-  function watcherFor(ability: Ability) {
+  function renderingDependencyFor(ability: Ability) {
     if (WATCHERS.has(ability)) {
       return WATCHERS.get(ability);
     }
 
-    const data: { rules: RawRule[] | null } = {
-      rules: null
-    };
+    const data = { count: 0 };
     const watcher = typeof Vue.observable === 'function'
       ? Vue.observable(data)
       : new Vue({ data });
 
-    ability.on('updated', (event) => {
-      watcher.rules = event.rules;
-    });
+    ability.on('updated', () => watcher.count++);
     WATCHERS.set(ability, watcher);
 
     return watcher;
@@ -39,10 +39,9 @@ export function abilitiesPlugin(Vue: VueConstructor, providedAbility?: Ability) 
     },
 
     methods: {
-      $can(...args: CanArgsType) {
-        const watcher = watcherFor(this.$ability);
-        // create rendering dependency
-        watcher.rules = watcher.rules; // eslint-disable-line
+      $can(...args: Parameters<Ability<A, S, C>['can']>): boolean {
+        const dep = renderingDependencyFor(this.$ability);
+        dep.count = dep.count; // eslint-disable-line
 
         return this.$ability.can(...args);
       }

@@ -1,11 +1,11 @@
 import { FunctionalComponentOptions, VNode } from 'vue';
-import { AbilitySubject } from '@casl/ability';
+import { SubjectType, Subject } from '@casl/ability';
 
 export type AbilityCanProps =
-  { do: string, on: AbilitySubject } |
-  { I: string, a: Exclude<AbilitySubject, object> } |
-  { I: string, an: Exclude<AbilitySubject, object> } |
-  { I: string, of: AbilitySubject } |
+  { do: string, on: Subject } |
+  { I: string, a: SubjectType } |
+  { I: string, an: SubjectType } |
+  { I: string, of: Subject } |
   { I: string, this: object };
 
 export type AllCanProps = AbilityCanProps & {
