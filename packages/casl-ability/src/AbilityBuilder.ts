@@ -16,7 +16,6 @@ class RuleBuilder<A extends string, S extends SubjectType, C> {
   }
 }
 
-type ToA<T> = T | T[];
 type AsyncDSL = <T extends Function>(can: T, cannot: T) => Promise<void>;
 type DSL = <T extends Function>(can: T, cannot: T) => void;
 
@@ -26,30 +25,30 @@ export class AbilityBuilder<
   Conditions
 > {
   static define<
-    A extends string,
-    S extends Subject,
-    C
+    A extends string = string,
+    S extends Subject = Subject,
+    C = object
   >(dsl: AsyncDSL): Promise<Ability<A, S, C>>;
   static define<
-    A extends string,
-    S extends Subject,
-    C
-  >(params: AbilityOptions<C>, dsl: AsyncDSL): Promise<Ability<A, S, C>>;
+    A extends string = string,
+    S extends Subject = Subject,
+    C = object
+  >(params: AbilityOptions<S, C>, dsl: AsyncDSL): Promise<Ability<A, S, C>>;
   static define<
-    A extends string,
-    S extends Subject,
-    C
+    A extends string = string,
+    S extends Subject = Subject,
+    C = object
   >(dsl: DSL): Ability<A, S, C>;
   static define<
-    A extends string,
-    S extends Subject,
-    C
-  >(params: AbilityOptions<C>, dsl: DSL): Ability<A, S, C>;
+    A extends string = string,
+    S extends Subject = Subject,
+    C = object
+  >(params: AbilityOptions<S, C>, dsl: DSL): Ability<A, S, C>;
   static define<A extends string, S extends Subject, C>(
-    params: AbilityOptions<C> | DSL | AsyncDSL,
+    params: AbilityOptions<S, C> | DSL | AsyncDSL,
     dsl?: DSL | AsyncDSL
   ): Ability<A, S, C> | Promise<Ability<A, S, C>> {
-    let options: AbilityOptions<C>;
+    let options: AbilityOptions<S, C>;
     let define: Function;
 
     if (typeof params === 'function') {
@@ -77,7 +76,11 @@ export class AbilityBuilder<
       : buildAbility();
   }
 
-  static extract<A extends string, S extends Subject, C>(options?: AbilityOptions<C>) {
+  static extract<
+    A extends string = string,
+    S extends Subject = Subject,
+    C = object
+  >(options?: AbilityOptions<S, C>) {
     const builder = new this<A, S, C>();
 
     return {
@@ -95,20 +98,20 @@ export class AbilityBuilder<
   }
 
   can(
-    action: ToA<Actions>,
-    subject: ToA<E<Subjects>>,
+    action: Actions | Actions[],
+    subject: E<Subjects> | E<Subjects>[],
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   can(
-    action: ToA<Actions>,
-    subject: ToA<E<Subjects>>,
-    fields: ToA<string>,
+    action: Actions | Actions[],
+    subject: E<Subjects> | E<Subjects>[],
+    fields: string | string[],
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   can(
-    action: ToA<Actions>,
-    subject: ToA<E<Subjects>>,
-    conditionsOrFields?: ToA<string> | Conditions,
+    action: Actions | Actions[],
+    subject: E<Subjects> | E<Subjects>[],
+    conditionsOrFields?: string | string[] | Conditions,
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions> {
     if (!isStringOrNonEmptyArray(action)) {
@@ -135,14 +138,14 @@ export class AbilityBuilder<
   }
 
   cannot(
-    action: ToA<Actions>,
-    subject: ToA<E<Subjects>>,
+    action: Actions | Actions[],
+    subject: E<Subjects> | E<Subjects>[],
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   cannot(
-    action: ToA<Actions>,
-    subject: ToA<E<Subjects>>,
-    fields: ToA<string>,
+    action: Actions | Actions[],
+    subject: E<Subjects> | E<Subjects>[],
+    fields: string | string[],
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   cannot(...args: [any, any, any?, any?]): RuleBuilder<Actions, E<Subjects>, Conditions> {

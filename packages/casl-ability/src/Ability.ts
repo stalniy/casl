@@ -2,7 +2,7 @@ import { Rule, ConditionsMatcher, FieldMatcher } from './Rule';
 import { RawRule } from './RawRule';
 import { wrapArray, getSubjectName, expandActions, AliasesMap } from './utils';
 import { GetSubjectName, Subject, ExtractSubjectType as E, ValueOf } from './types';
-import { mongoQueryMatcher, MongoQuery } from './matchers/conditions';
+import { mongoQueryMatcher } from './matchers/conditions';
 import { fieldPatternMatcher } from './matchers/field';
 
 const DEFAULT_ALIASES: AliasesMap = {};
@@ -13,8 +13,8 @@ function hasAction(action: string, actions: string | string[]): boolean {
 
 export type Unsubscribe = () => void;
 
-export interface AbilityOptions<Conditions> {
-  subjectName?: GetSubjectName
+export interface AbilityOptions<Subjects extends Subject, Conditions> {
+  subjectName?: GetSubjectName<Subjects>
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
 }
@@ -49,8 +49,8 @@ type EventsMap<A extends string, S extends Subject, C> = {
 
 export class Ability<
   Actions extends string = string,
-  Subjects extends Subject = string,
-  Conditions = MongoQuery
+  Subjects extends Subject = Subject,
+  Conditions = object
 > {
   private _hasPerFieldRules: boolean = false;
   private _mergedRules: Record<string, Rule<Actions, Subjects, Conditions>[]> = {};
@@ -58,7 +58,7 @@ export class Ability<
   private _indexedRules: RuleIndex<Actions, Subjects, Conditions> = {};
   private readonly _fieldMatcher: FieldMatcher;
   private readonly _conditionsMatcher: ConditionsMatcher<Conditions>;
-  public readonly subjectName: GetSubjectName = getSubjectName;
+  public readonly subjectName: GetSubjectName<Subjects> = getSubjectName;
   private _rules: Rule<Actions, Subjects, Conditions>[] = [];
   public readonly rules: Rule<Actions, Subjects, Conditions>[] = [];
 
@@ -80,7 +80,7 @@ export class Ability<
 
   constructor(
     rules: RawRule<Actions, E<Subjects>, Conditions>[],
-    options: AbilityOptions<Conditions> = {}
+    options: AbilityOptions<Subjects, Conditions> = {}
   ) {
     this._conditionsMatcher = options.conditionsMatcher
       || mongoQueryMatcher as unknown as ConditionsMatcher<Conditions>;

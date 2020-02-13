@@ -12,9 +12,9 @@ import { CanPipe } from './can';
 })
 export class AbilityModule {
   static forRoot<
-    Actions extends string,
-    Subjects extends Subject,
-    Conditions
+    Actions extends string = string,
+    Subjects extends Subject = Subject,
+    Conditions = object
   >(): ModuleWithProviders<AbilityModule> {
     return {
       ngModule: AbilityModule,

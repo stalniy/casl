@@ -4,7 +4,7 @@ export type SubjectConstructor<N extends string = string> = AnyClass & { modelNa
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectType = string | SubjectConstructor | AnyClass;
 export type Subject = object | SubjectType;
-export type GetSubjectName = (subject: Subject) => string;
+export type GetSubjectName<T extends Subject> = (subject: T) => string;
 
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType>;
 export type CollectSubjects<T, IncludeTagName = unknown> =
