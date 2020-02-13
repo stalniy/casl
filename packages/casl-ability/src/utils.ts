@@ -1,4 +1,4 @@
-import { AnyObject, GetSubjectName, SubjectType } from './types';
+import { AnyObject, GetSubjectName, SubjectConstructor } from './types';
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
@@ -26,13 +26,9 @@ export const getSubjectName: GetSubjectName = (subject) => {
     return subject;
   }
 
-  const Type = typeof subject === 'object' ? subject.constructor as SubjectType : subject;
-  return Type.modelName || Type.name;
+  const Type = typeof subject === 'object' ? subject.constructor : subject;
+  return (Type as SubjectConstructor).modelName || Type.name;
 };
-
-export function clone(object: object) {
-  return JSON.parse(JSON.stringify(object));
-}
 
 export function isObject(value: unknown): value is object {
   return value && typeof value === 'object';
@@ -48,4 +44,20 @@ export function isStringOrNonEmptyArray(value: string | string[]): boolean {
   }
 
   return typeof value === 'string';
+}
+
+export type AliasesMap = Record<string, string | string[]>;
+export function expandActions(aliases: AliasesMap, rawActions: string | string[]) {
+  let actions = wrapArray(rawActions);
+  let i = 0;
+
+  while (i < actions.length) {
+    const action = actions[i++];
+
+    if (aliases.hasOwnProperty(action)) {
+      actions = actions.concat(aliases[action]);
+    }
+  }
+
+  return actions;
 }

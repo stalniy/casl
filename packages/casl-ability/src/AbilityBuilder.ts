@@ -1,12 +1,12 @@
 import { Ability, AbilityOptions } from './Ability';
-import { getSubjectName, isObject, isStringOrNonEmptyArray, wrapArray } from './utils';
-import { AbilitySubject } from './types';
+import { isObject, isStringOrNonEmptyArray } from './utils';
+import { SubjectType, Subject, ExtractSubjectType as E } from './types';
 import { UnifiedRawRule } from './RawRule';
 
-export class RuleBuilder {
-  public rule: UnifiedRawRule;
+class RuleBuilder<A extends string, S extends SubjectType, C> {
+  public rule: UnifiedRawRule<A, S, C>;
 
-  constructor(rule: UnifiedRawRule) {
+  constructor(rule: UnifiedRawRule<A, S, C>) {
     this.rule = rule;
   }
 
@@ -16,25 +16,41 @@ export class RuleBuilder {
   }
 }
 
-type SyncAbilityBuilderDSL = (can: Function, cannot: Function) => void;
-type AsyncAbilityBuilderDSL = (can: Function, cannot: Function) => Promise<void>;
+type ToA<T> = T | T[];
+type AsyncDSL = <T extends Function>(can: T, cannot: T) => Promise<void>;
+type DSL = <T extends Function>(can: T, cannot: T) => void;
 
-export type AbilityBuilderDSL = SyncAbilityBuilderDSL | AsyncAbilityBuilderDSL;
-
-export type SubjectDefinition = string | string[] | AbilitySubject | AbilitySubject[];
-export type Action = string | string[];
-
-export class AbilityBuilder {
-  static define(dsl: AsyncAbilityBuilderDSL): Promise<Ability>;
-  static define(params: AbilityOptions, dsl: AsyncAbilityBuilderDSL): Promise<Ability>;
-  static define(dsl: SyncAbilityBuilderDSL): Ability;
-  static define(params: AbilityOptions, dsl: SyncAbilityBuilderDSL): Ability;
-  static define(
-    params: AbilityOptions | AbilityBuilderDSL,
-    dsl?: AbilityBuilderDSL
-  ): Ability | Promise<Ability> {
-    let options: AbilityOptions;
-    let define: AbilityBuilderDSL | AsyncAbilityBuilderDSL;
+export class AbilityBuilder<
+  Actions extends string,
+  Subjects extends Subject,
+  Conditions
+> {
+  static define<
+    A extends string,
+    S extends Subject,
+    C
+  >(dsl: AsyncDSL): Promise<Ability<A, S, C>>;
+  static define<
+    A extends string,
+    S extends Subject,
+    C
+  >(params: AbilityOptions<C>, dsl: AsyncDSL): Promise<Ability<A, S, C>>;
+  static define<
+    A extends string,
+    S extends Subject,
+    C
+  >(dsl: DSL): Ability<A, S, C>;
+  static define<
+    A extends string,
+    S extends Subject,
+    C
+  >(params: AbilityOptions<C>, dsl: DSL): Ability<A, S, C>;
+  static define<A extends string, S extends Subject, C>(
+    params: AbilityOptions<C> | DSL | AsyncDSL,
+    dsl?: DSL | AsyncDSL
+  ): Ability<A, S, C> | Promise<Ability<A, S, C>> {
+    let options: AbilityOptions<C>;
+    let define: Function;
 
     if (typeof params === 'function') {
       define = params;
@@ -46,65 +62,90 @@ export class AbilityBuilder {
       throw new Error('AbilityBuilder#define expects to receive either options and dsl function or only dsl function');
     }
 
-    const builder = new this(options);
-    const result = define(builder.can.bind(builder), builder.cannot.bind(builder));
-    const buildAbility = () => new Ability(builder._rules, options); // eslint-disable-line
+    // eslint-disable-next-line
+    console.warn('AbilityBuilder.define method is deprecated. Use AbilityBuilder.extract instead.');
+
+    const builder = new this<A, S, C>();
+    const result: Promise<void> | void = define(
+      builder.can.bind(builder),
+      builder.cannot.bind(builder)
+    );
+    const buildAbility = () => new Ability(builder.rules, options); // eslint-disable-line
 
     return result && typeof result.then === 'function'
       ? result.then(buildAbility)
       : buildAbility();
   }
 
-  static extract() {
-    const builder = new this();
+  static extract<A extends string, S extends Subject, C>(options?: AbilityOptions<C>) {
+    const builder = new this<A, S, C>();
 
     return {
       can: builder.can.bind(builder),
       cannot: builder.cannot.bind(builder),
-      rules: builder._rules, // eslint-disable-line
-    };
+      rules: builder.rules,
+      build: () => new Ability(builder.rules, options),
+    } as const;
   }
 
-  private _rules: UnifiedRawRule[];
+  public rules: UnifiedRawRule<Actions, E<Subjects>, Conditions>[];
 
-  private _subjectName: AbilityOptions['subjectName'];
-
-  constructor({ subjectName = getSubjectName }: AbilityOptions = {}) {
-    this._rules = [];
-    this._subjectName = subjectName;
+  private constructor() {
+    this.rules = [];
   }
 
-  can(actions: Action, subject: SubjectDefinition, conditions?: UnifiedRawRule['conditions']): RuleBuilder
-  can(actions: Action, subject: SubjectDefinition, fields: UnifiedRawRule['fields'], conditions?: UnifiedRawRule['conditions']): RuleBuilder
-  can(actions: Action, subject: SubjectDefinition, conditionsOrFields?: UnifiedRawRule['fields'] | UnifiedRawRule['conditions'], conditions?: UnifiedRawRule['conditions']): RuleBuilder {
-    if (!isStringOrNonEmptyArray(actions)) {
+  can(
+    action: ToA<Actions>,
+    subject: ToA<E<Subjects>>,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions>
+  can(
+    action: ToA<Actions>,
+    subject: ToA<E<Subjects>>,
+    fields: ToA<string>,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions>
+  can(
+    action: ToA<Actions>,
+    subject: ToA<E<Subjects>>,
+    conditionsOrFields?: ToA<string> | Conditions,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions> {
+    if (!isStringOrNonEmptyArray(action)) {
       throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
     }
 
-    const subjectName = wrapArray(subject).map(subjectType => this._subjectName!(subjectType));
-
-    if (!isStringOrNonEmptyArray(subjectName)) {
+    if (!subject || Array.isArray(subject) && !subject.every(Boolean)) {
       throw new TypeError('AbilityBuilder#can expects the second argument to be a subject name/type or an array of subject names/types');
     }
 
-    const rule: UnifiedRawRule = { actions, subject: subjectName };
+    const rule: UnifiedRawRule<Actions, E<Subjects>, Conditions> = { action, subject };
 
     if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
       rule.fields = conditionsOrFields;
     }
 
     if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
-      rule.conditions = conditions || conditionsOrFields as UnifiedRawRule['conditions'];
+      rule.conditions = conditions || conditionsOrFields as Conditions;
     }
 
-    this._rules.push(rule);
+    this.rules.push(rule);
 
     return new RuleBuilder(rule);
   }
 
-  cannot(...args: [Action, SubjectDefinition, UnifiedRawRule['conditions']?]): RuleBuilder
-  cannot(...args: [Action, SubjectDefinition, UnifiedRawRule['fields'], UnifiedRawRule['conditions']?]): RuleBuilder
-  cannot(...args: [Action, SubjectDefinition, any?, UnifiedRawRule['conditions']?]): RuleBuilder {
+  cannot(
+    action: ToA<Actions>,
+    subject: ToA<E<Subjects>>,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions>
+  cannot(
+    action: ToA<Actions>,
+    subject: ToA<E<Subjects>>,
+    fields: ToA<string>,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions>
+  cannot(...args: [any, any, any?, any?]): RuleBuilder<Actions, E<Subjects>, Conditions> {
     const builder = this.can(...args);
     builder.rule.inverted = true;
     return builder;

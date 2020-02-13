@@ -30,3 +30,13 @@ export class Post {
     Object.assign(this, attrs)
   }
 }
+
+export function ruleToObject(rule) {
+  const fields = ['action', 'subject', 'conditions', 'fields', 'inverted', 'reason']
+  return fields.reduce((object, field) => {
+    if (rule[field]) {
+      object[field] = rule[field]
+    }
+    return object
+  }, {})
+}

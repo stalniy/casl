@@ -33,8 +33,6 @@ function createPattern(fields: string[]) {
   return new RegExp(`^${pattern}$`);
 }
 
-export const fieldMatcher: FieldMatcher = fields => field => fields.indexOf(field) !== -1;
-
 export const fieldPatternMatcher: FieldMatcher = (fields) => {
   let pattern: RegExp | null;
 
@@ -52,3 +50,5 @@ export const fieldPatternMatcher: FieldMatcher = (fields) => {
     return pattern.test(field);
   };
 };
+
+export const fieldMatcher: FieldMatcher = fields => field => fields.indexOf(field) !== -1;

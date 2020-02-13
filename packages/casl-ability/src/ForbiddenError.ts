@@ -1,34 +1,23 @@
 import { Ability } from './Ability';
-import { AbilitySubject } from './types';
+import { Subject } from './types';
 
-export type GetErrorMessage = (error: ForbiddenError) => string;
+export type GetErrorMessage = <
+  A extends string,
+  S extends Subject,
+  C
+>(error: ForbiddenError<A, S, C>) => string;
 
 const getDefaultMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectName}"`;
 let defaultErrorMessage = getDefaultMessage;
 
 type ForbiddenErrorMeta = {
   action: string
-  subject: AbilitySubject
+  subject: Subject
   field?: string
   subjectName: string
 };
 
-interface ForbiddenErrorContructor {
-  new (ability: Ability, options?: ForbiddenErrorMeta): ForbiddenError
-  from: (ability: Ability) => ForbiddenError
-  setDefaultMessage(messageOrFn: string | GetErrorMessage): void
-}
-
-type ExtendedError = Error & ForbiddenErrorMeta;
-
-interface ForbiddenError extends ExtendedError {
-  _ability: Ability
-
-  setMessage(message: string | null): this
-  throwUnlessCan(action: string, subject: AbilitySubject, field?: string): void
-}
-
-function setMeta(error: ForbiddenError, meta?: ForbiddenErrorMeta) {
+function setMeta(error: ForbiddenErrorMeta, meta?: ForbiddenErrorMeta) {
   if (meta) {
     error.subject = meta.subject;
     error.subjectName = meta.subjectName;
@@ -37,42 +26,48 @@ function setMeta(error: ForbiddenError, meta?: ForbiddenErrorMeta) {
   }
 }
 
-const ForbiddenError = function ForbiddenError(
-  this: ForbiddenError,
-  ability: Ability,
-  options?: ForbiddenErrorMeta
-) {
-  Error.call(this, '');
-  this._ability = ability;
-  setMeta(this, options);
+const MyError = Error; // to prevent babel of doing it's magic around native classes
 
-  if (typeof Error.captureStackTrace === 'function') {
-    this.name = this.constructor.name;
-    Error.captureStackTrace(this, this.constructor);
+export default class ForbiddenError<
+  Actions extends string,
+  Subjects extends Subject,
+  Conditions
+> extends MyError implements ForbiddenErrorMeta {
+  private _ability: Ability<Actions, Subjects, Conditions>;
+  public action: ForbiddenErrorMeta['action'] = '';
+  public subject: ForbiddenErrorMeta['subject'] = '';
+  public field?: ForbiddenErrorMeta['field'];
+  public subjectName: ForbiddenErrorMeta['subjectName'] = '';
+
+  static setDefaultMessage(messageOrFn: string | GetErrorMessage) {
+    if (messageOrFn === null) {
+      defaultErrorMessage = getDefaultMessage;
+    } else {
+      defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
+    }
   }
-} as Function as ForbiddenErrorContructor;
 
-ForbiddenError.setDefaultMessage = function setMessage(messageOrFn: string | GetErrorMessage) {
-  if (messageOrFn === null) {
-    defaultErrorMessage = getDefaultMessage;
-  } else {
-    defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
+  static from<A extends string, S extends Subject, C>(ability: Ability<A, S, C>) {
+    return new this(ability);
   }
-};
 
-ForbiddenError.from = function fromAbility(ability: Ability): ForbiddenError {
-  return new this(ability);
-};
+  constructor(ability: Ability<Actions, Subjects, Conditions>, options?: ForbiddenErrorMeta) {
+    super('');
+    this._ability = ability;
+    setMeta(this, options);
 
-ForbiddenError.prototype = Object.assign(Object.create(Error.prototype), {
-  constructor: ForbiddenError,
+    if (typeof Error.captureStackTrace === 'function') {
+      this.name = this.constructor.name;
+      Error.captureStackTrace(this, this.constructor);
+    }
+  }
 
-  setMessage(this: ForbiddenError, message: string) {
+  setMessage(message: string) {
     this.message = message;
     return this;
-  },
+  }
 
-  throwUnlessCan(this: ForbiddenError, action: string, subject: AbilitySubject, field?: string) {
+  throwUnlessCan(action: Actions, subject: Subjects, field?: string) {
     const rule = this._ability.relevantRuleFor(action, subject, field);
 
     if (rule && !rule.inverted) {
@@ -89,7 +84,5 @@ ForbiddenError.prototype = Object.assign(Object.create(Error.prototype), {
     const reason = rule ? rule.reason : '';
     this.message = this.message || reason || defaultErrorMessage(this);
     throw this; // eslint-disable-line
-  },
-});
-
-export default ForbiddenError;
+  }
+}

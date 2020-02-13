@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '../src'
-import { Post } from './spec_helper'
+import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
   let ability
@@ -32,17 +32,6 @@ describe('Ability', () => {
     expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
   })
 
-  it('provides predefined `crud` alias for `create`, `read`, `update` and `delete` actions', () => {
-    ability = AbilityBuilder.define(can => can('crud', 'Post'))
-
-    expect(ability).to.allow('crud', 'Post')
-    expect(ability).to.allow('create', 'Post')
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('update', 'Post')
-    expect(ability).to.allow('delete', 'Post')
-    expect(ability).not.to.allow('any other action', 'Post')
-  })
-
   it('provides `can` and `cannot` methods to check abilities', () => {
     ability = AbilityBuilder.define(can => can('read', 'Post'))
 
@@ -59,12 +48,12 @@ describe('Ability', () => {
       cannot('preview', 'Array')
     })
 
-    expect(ability.rules).to.deep.equal([
-      { actions: 'crud', subject: ['all'] },
-      { actions: 'learn', subject: ['Range'] },
-      { actions: 'read', subject: ['String'], inverted: true },
-      { actions: 'read', subject: ['Hash'], inverted: true },
-      { actions: 'preview', subject: ['Array'], inverted: true },
+    expect(ability.rules.map(ruleToObject)).to.deep.equal([
+      { action: 'crud', subject: 'all' },
+      { action: 'learn', subject: 'Range' },
+      { action: 'read', subject: 'String', inverted: true },
+      { action: 'read', subject: 'Hash', inverted: true },
+      { action: 'preview', subject: 'Array', inverted: true },
     ])
   })
 
@@ -232,7 +221,7 @@ describe('Ability', () => {
 
     it('shadows rule with conditions by the same rule without conditions', () => {
       ability = AbilityBuilder.define((can) => {
-        can('crud', 'Post')
+        can('delete', 'Post')
         can('delete', 'Post', { creator: 'me' })
       })
 
@@ -254,7 +243,7 @@ describe('Ability', () => {
     it('shadows inverted rule by regular one', () => {
       ability = AbilityBuilder.define((can, cannot) => {
         cannot('delete', 'Post', { creator: 'me' })
-        can('crud', 'Post', { creator: 'me' })
+        can('delete', 'Post', { creator: 'me' })
       })
 
       expect(ability).to.allow('delete', new Post({ creator: 'me' }))
@@ -600,8 +589,8 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: true, conditions: { private: true } },
-        { actions: 'read', subject: ['Post'], inverted: false },
+        { action: 'read', subject: 'Post', inverted: true, conditions: { private: true } },
+        { action: 'read', subject: 'Post' },
       ])
     })
 
@@ -614,7 +603,7 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: false },
+        { action: 'read', subject: 'Post' },
       ])
     })
 
@@ -627,18 +616,9 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post', 'title').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: true, fields: ['title'] },
-        { actions: 'read', subject: ['Post'], inverted: false }
+        { action: 'read', subject: 'Post', inverted: true, fields: ['title'] },
+        { action: 'read', subject: 'Post' }
       ])
     })
-
-    function ruleToObject(rule) {
-      return ['actions', 'subject', 'conditions', 'fields', 'inverted'].reduce((object, field) => {
-        if (typeof rule[field] !== 'undefined') {
-          object[field] = rule[field]
-        }
-        return object
-      }, {})
-    }
   })
 })

@@ -4,36 +4,36 @@ describe('Ability rules packing', () => {
   describe('`packRules` function', () => {
     it('converts array of rule objects to array of rule arrays', () => {
       const rules = packRules([
-        { actions: 'read', subject: 'Post' },
-        { actions: 'delete', subject: 'Post' }
+        { action: 'read', subject: 'Post' },
+        { action: 'delete', subject: 'Post' }
       ])
 
       expect(rules.every(Array.isArray)).to.be.true
     })
 
     it('puts `actions` as 1st element of rule array', () => {
-      const rules = packRules([{ actions: 'read', subject: 'Post' }])
+      const rules = packRules([{ action: 'read', subject: 'Post' }])
 
       expect(rules[0][0]).to.equal('read')
       expect(rules[0]).to.have.length(2)
     })
 
     it('joins `actions` with comma if its value is an array', () => {
-      const rules = packRules([{ actions: ['read', 'update'], subject: 'Post' }])
+      const rules = packRules([{ action: ['read', 'update'], subject: 'Post' }])
 
       expect(rules[0][0]).to.equal('read,update')
       expect(rules[0]).to.have.length(2)
     })
 
     it('puts `subject` as 2nd element of rule array', () => {
-      const rules = packRules([{ actions: 'read', subject: 'Post' }])
+      const rules = packRules([{ action: 'read', subject: 'Post' }])
 
       expect(rules[0][1]).to.equal('Post')
       expect(rules[0]).to.have.length(2)
     })
 
     it('puts `subject` with comma if its value is an array', () => {
-      const rules = packRules([{ actions: 'read', subject: ['Post', 'Comment'] }])
+      const rules = packRules([{ action: 'read', subject: ['Post', 'Comment'] }])
 
       expect(rules[0][1]).to.equal('Post,Comment')
       expect(rules[0]).to.have.length(2)
@@ -41,21 +41,21 @@ describe('Ability rules packing', () => {
 
     it('puts `conditions` as 3rd element of rule array', () => {
       const conditions = { private: true }
-      const rules = packRules([{ actions: 'read', subject: 'Post', conditions }])
+      const rules = packRules([{ action: 'read', subject: 'Post', conditions }])
 
       expect(rules[0][2]).to.equal(conditions)
       expect(rules[0]).to.have.length(3)
     })
 
     it('puts `0` in place of `conditions` if they are not defined but `fields` are defined', () => {
-      const rules = packRules([{ actions: 'read', subject: 'Post', fields: ['title'] }])
+      const rules = packRules([{ action: 'read', subject: 'Post', fields: ['title'] }])
 
       expect(rules[0][2]).to.equal(0)
       expect(rules[0]).to.have.length(5)
     })
 
     it('converts `inverted` to number and puts it as 4th element of rule array', () => {
-      const rules = packRules([{ actions: 'read', subject: 'Post', inverted: true }])
+      const rules = packRules([{ action: 'read', subject: 'Post', inverted: true }])
 
       expect(rules[0][3]).to.equal(1)
       expect(rules[0]).to.have.length(4)
@@ -63,7 +63,7 @@ describe('Ability rules packing', () => {
 
     it('joins `fields` and puts it as 5th element of rule array', () => {
       const fields = ['title', 'description']
-      const rules = packRules([{ actions: 'read', subject: 'Post', fields }])
+      const rules = packRules([{ action: 'read', subject: 'Post', fields }])
 
       expect(rules[0][4]).to.equal(fields.join(','))
       expect(rules[0]).to.have.length(5)
@@ -71,7 +71,7 @@ describe('Ability rules packing', () => {
 
     it('puts `0` in place of `fields` when reason is provided and fields are not', () => {
       const reason = 'forbidden reason'
-      const rules = packRules([{ actions: 'read', subject: 'Post', reason }])
+      const rules = packRules([{ action: 'read', subject: 'Post', reason }])
 
       expect(rules[0][4]).to.equal(0)
       expect(rules[0]).to.have.length(6)
@@ -79,7 +79,7 @@ describe('Ability rules packing', () => {
 
     it('puts `reason` as 6th element of rule array', () => {
       const reason = 'forbidden reason'
-      const rules = packRules([{ actions: 'read', subject: 'Post', reason }])
+      const rules = packRules([{ action: 'read', subject: 'Post', reason }])
 
       expect(rules[0][5]).to.equal(reason)
       expect(rules[0]).to.have.length(6)
@@ -99,13 +99,13 @@ describe('Ability rules packing', () => {
     it('puts 1st element under `actions` field and converts it to an array', () => {
       const rules = unpackRules([['read,update', 'Post']])
 
-      expect(rules[0].actions).to.deep.equal(['read', 'update'])
+      expect(rules[0].action).to.deep.equal(['read', 'update'])
     })
 
     it('converts even a single `action` to an array', () => {
       const rules = unpackRules([['read', 'Post']])
 
-      expect(rules[0].actions).to.deep.equal(['read'])
+      expect(rules[0].action).to.deep.equal(['read'])
     })
 
     it('puts 2nd element under `subject` field and converts it to an array', () => {

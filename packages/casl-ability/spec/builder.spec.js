@@ -1,5 +1,5 @@
 import { AbilityBuilder, Ability } from '../src'
-import { Post } from './spec_helper'
+import { Post, ruleToObject } from './spec_helper'
 
 describe('AbilityBuilder', () => {
   it('defines `Ability` instance using DSL', () => {
@@ -9,9 +9,9 @@ describe('AbilityBuilder', () => {
     })
 
     expect(ability).to.be.instanceof(Ability)
-    expect(ability.rules).to.deep.equal([
-      { actions: 'read', subject: ['Book'] },
-      { inverted: true, actions: 'read', subject: ['Book'], conditions: { private: true } }
+    expect(ability.rules.map(ruleToObject)).to.deep.equal([
+      { action: 'read', subject: 'Book' },
+      { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }
     ])
   })
 
@@ -22,9 +22,9 @@ describe('AbilityBuilder', () => {
     })
 
     expect(ability).to.be.instanceof(Ability)
-    expect(ability.rules).to.deep.equal([
-      { actions: 'read', subject: ['Post'] },
-      { inverted: true, actions: 'read', subject: ['Post'], conditions: { private: true } }
+    expect(ability.rules.map(ruleToObject)).to.deep.equal([
+      { action: 'read', subject: Post },
+      { inverted: true, action: 'read', subject: Post, conditions: { private: true } }
     ])
   })
 
@@ -35,9 +35,9 @@ describe('AbilityBuilder', () => {
     })
 
     expect(ability).to.be.instanceof(Ability)
-    expect(ability.rules).to.deep.equal([
-      { actions: 'read', subject: ['Book'] },
-      { inverted: true, actions: 'read', subject: ['Book'], conditions: { private: true } }
+    expect(ability.rules.map(ruleToObject)).to.deep.equal([
+      { action: 'read', subject: 'Book' },
+      { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }
     ])
   })
 
@@ -57,12 +57,15 @@ describe('AbilityBuilder', () => {
       cannot('read', 'Book', { private: true }).because(reason)
     })
 
-    expect(ability.rules).to.deep.eql([
-      { actions: 'read', subject: ['Book'] },
+    expect(ability.rules.map(ruleToObject)).to.deep.eql([
+      {
+        action: 'read',
+        subject: 'Book'
+      },
       {
         inverted: true,
-        actions: 'read',
-        subject: ['Book'],
+        action: 'read',
+        subject: 'Book',
         conditions: { private: true },
         reason
       }
@@ -112,8 +115,8 @@ describe('AbilityBuilder', () => {
       can('read', 'Comment', { private: false })
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'] },
-        { actions: 'read', subject: ['Comment'], conditions: { private: false } }
+        { action: 'read', subject: 'Post' },
+        { action: 'read', subject: 'Comment', conditions: { private: false } }
       ])
     })
 
@@ -123,8 +126,8 @@ describe('AbilityBuilder', () => {
       cannot('read', 'Comment', { private: true })
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'] },
-        { actions: 'read', subject: ['Comment'], conditions: { private: true }, inverted: true }
+        { action: 'read', subject: 'Post' },
+        { action: 'read', subject: 'Comment', conditions: { private: true }, inverted: true }
       ])
     })
   })
