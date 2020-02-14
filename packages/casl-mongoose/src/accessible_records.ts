@@ -1,4 +1,4 @@
-import { Ability } from '@casl/ability';
+import { Ability, Subject } from '@casl/ability';
 import { Schema, DocumentQuery, Model, Document } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
@@ -20,7 +20,7 @@ function returnQueryResult(this: any, methodName: string, returnValue: any, ...a
   return this[methodName].apply(this, args);
 }
 
-function emptifyQuery<T extends Document>(query: DocumentQuery<T, T>) {
+function emptifyQuery(query: DocumentQuery<Document, Document>) {
   query.where({ [DENY_CONDITION_NAME]: 1 });
   const privateQuery: any = query;
   const collection = Object.create(privateQuery._collection); // eslint-disable-line
@@ -38,10 +38,10 @@ type GetAccessibleRecords<T extends Document> = (
   action?: string
 ) => DocumentQuery<T, T>;
 
-function accessibleBy<T extends Document>(
+function accessibleBy<T extends Document, A extends string = string>(
   this: any,
-  ability: Ability,
-  action: string = 'read'
+  ability: Ability<A, Subject, any>,
+  action: A | 'read' = 'read'
 ): DocumentQuery<T, T> {
   let modelName: string | null = this.modelName;
 
@@ -58,13 +58,13 @@ function accessibleBy<T extends Document>(
   return query === null ? emptifyQuery(this.where()) : this.where({ $and: [query] });
 }
 
-export interface AccessibleRecordModel<T extends Document, K={}> extends Model<T, K & {
+export interface AccessibleRecordModel<T extends Document, K = {}> extends Model<T, K & {
   accessibleBy: GetAccessibleRecords<T>
 }> {
   accessibleBy: GetAccessibleRecords<T>
 }
 
-export function accessibleRecordsPlugin<T extends Document=any>(schema: Schema<T>) {
+export function accessibleRecordsPlugin(schema: Schema<Document>) {
   schema.query.accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
 }

@@ -1,11 +1,15 @@
-import { Ability, Rule, AbilitySubject } from '@casl/ability';
+import { Ability, Rule, Subject, MongoQuery } from '@casl/ability';
 import { rulesToQuery } from '@casl/ability/extra';
 
-function convertToMongoQuery(rule: Rule): object {
+function convertToMongoQuery<C extends MongoQuery>(rule: Rule<string, Subject, C>) {
   const conditions = rule.conditions!;
   return rule.inverted ? { $nor: [conditions] } : conditions;
 }
 
-export function toMongoQuery(ability: Ability, subject: AbilitySubject, action: string = 'read') {
+export function toMongoQuery<
+  A extends string,
+  S extends Subject,
+  C extends MongoQuery
+>(ability: Ability<A, S, C>, subject: S, action: A | 'read' = 'read') {
   return rulesToQuery(ability, action, subject, convertToMongoQuery);
 }

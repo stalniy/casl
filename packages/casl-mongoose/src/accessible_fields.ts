@@ -1,16 +1,12 @@
-import { Ability, wrapArray, Rule } from '@casl/ability';
+import { Ability, wrapArray, Rule, Subject } from '@casl/ability';
 import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
 import { Schema, Model, Document } from 'mongoose';
 
 export type AccessibleFieldsOptions =
-  {
-    only: string | string[]
-  } |
-  {
-    except: string | string[]
-  };
+  { only: string | string[] } |
+  { except: string | string[] };
 
-function fieldsOf<T>(schema: Schema<T>, options?: AccessibleFieldsOptions) {
+function fieldsOf(schema: Schema<Document>, options?: AccessibleFieldsOptions) {
   const fields = Object.keys((schema as any).paths);
 
   if (!options || !('except' in options)) {
@@ -22,7 +18,7 @@ function fieldsOf<T>(schema: Schema<T>, options?: AccessibleFieldsOptions) {
 }
 
 type GetAccessibleFields<T extends AccessibleFieldsDocument> =
-  (this: Model<T> | T, ability: Ability, action?: string) => string[];
+  <A extends string = string>(this: Model<T> | T, ability: Ability<A>, action?: A) => string[];
 
 export interface AccessibleFieldsModel<T extends AccessibleFieldsDocument> extends Model<T> {
   accessibleFieldsBy: GetAccessibleFields<T>
@@ -32,27 +28,25 @@ export interface AccessibleFieldsDocument extends Document {
   accessibleFieldsBy: GetAccessibleFields<AccessibleFieldsDocument>
 }
 
-export function accessibleFieldsPlugin<T extends AccessibleFieldsDocument>(
-  schema: Schema<T>,
+export function accessibleFieldsPlugin(
+  schema: Schema<Document>,
   options?: AccessibleFieldsOptions
 ) {
   let fieldsFrom: PermittedFieldsOptions['fieldsFrom'];
-
-  const accessibleFieldsBy: GetAccessibleFields<T> = function accessibleFieldsBy(
-    ability,
-    action = 'read'
-  ) {
+  function accessibleFieldsBy<
+    A extends string = string
+  >(this: Model<Document>, ability: Ability<A>, action: A | 'read' = 'read') {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options
         ? wrapArray(options.only)
         : fieldsOf(schema, options);
-      fieldsFrom = (rule: Rule) => rule.fields || ALL_FIELDS;
+      fieldsFrom = (rule: Rule<string, Subject, any>) => rule.fields || ALL_FIELDS;
     }
 
     const subject = typeof this === 'function' ? this.modelName : this;
 
     return permittedFieldsOf(ability, action, subject, { fieldsFrom });
-  };
+  }
 
   schema.statics.accessibleFieldsBy = accessibleFieldsBy;
   (schema.methods as any).accessibleFieldsBy = accessibleFieldsBy;
