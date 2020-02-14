@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment, createElement } from 'react';
 import PropTypes from 'prop-types';
-import { Ability, Unsubscribe, AbilitySubject } from '@casl/ability';
+import { Ability, Unsubscribe, Subject, SubjectType } from '@casl/ability';
 
 const noop = () => {};
 const renderChildren = Fragment
@@ -21,7 +21,8 @@ if (process.env.NODE_ENV !== 'production') {
     .oneOfType([PropTypes.object, PropTypes.string])
     .isRequired;
 
-  const alias = (names: string, validate: Function) => (props: any, ...args: unknown[]) => { // eslint-disable-line
+  // eslint-disable-next-line
+  const alias = (names: string, validate: Function) => (props: any, ...args: unknown[]) => {
     if (!names.split(' ').some(name => props[name])) {
       return validate(props, ...args);
     }
@@ -42,35 +43,50 @@ if (process.env.NODE_ENV !== 'production') {
   };
 }
 
-export type AbilityCanProps =
-  { do: string, on: AbilitySubject } |
-  { I: string, a: Exclude<AbilitySubject, object> } |
-  { I: string, an: Exclude<AbilitySubject, object> } |
-  { I: string, of: AbilitySubject } |
-  { I: string, this: object };
+export type AbilityCanProps<A extends string, S extends Subject> =
+  { do: A | string, on: S } |
+  { I: A | string, a: Extract<S, SubjectType> } |
+  { I: A | string, an: Extract<S, SubjectType> } |
+  { I: A | string, of: S } |
+  { I: A | string, this: Exclude<S, SubjectType> };
 
-export type CanExtraProps = {
+export type CanExtraProps<A extends string, S extends Subject, C> = {
   not?: boolean,
   passThrough?: boolean,
-  ability: Ability
+  ability: Ability<A, S, C>
 };
 
-export type CanProps = AbilityCanProps & CanExtraProps;
+export type CanProps<
+  A extends string = string,
+  S extends Subject = Subject,
+  C = object
+> = AbilityCanProps<A, S> & CanExtraProps<A, S, C>;
 
-export default class Can<T extends AbilityCanProps=CanProps> extends PureComponent<CanProps> {
+export type BoundCanProps<
+  A extends string = string,
+  S extends Subject = Subject,
+  C = object
+> = AbilityCanProps<A, S> & Omit<CanExtraProps<A, S, C>, 'ability'> & {
+  ability?: Ability<A, S, C>
+};
+
+export class Can<
+  A extends string = string,
+  S extends Subject = Subject,
+  C = object,
+  IsBound extends boolean = false
+> extends PureComponent<true extends IsBound ? BoundCanProps<A, S, C> : CanProps<A, S, C>> {
   static propTypes = propTypes;
 
   private _isAllowed: boolean = false;
-
-  private _ability: Ability | null = null;
-
+  private _ability: Ability<A, S, C> | null = null;
   private _unsubscribeFromAbility: Unsubscribe = noop;
 
   componentWillUnmount() {
     this._unsubscribeFromAbility();
   }
 
-  connectToAbility(ability: Ability) {
+  private _connectToAbility(ability?: Ability<A, S, C>) {
     if (ability === this._ability) {
       return;
     }
@@ -88,7 +104,7 @@ export default class Can<T extends AbilityCanProps=CanProps> extends PureCompone
     return this._isAllowed;
   }
 
-  isAllowed() {
+  private _canRender(): boolean {
     const props: any = this.props;
     const [action, field] = (props.I || props.do).split(/\s+/);
     const subject = props.of || props.a || props.an || props.this || props.on;
@@ -98,12 +114,12 @@ export default class Can<T extends AbilityCanProps=CanProps> extends PureCompone
   }
 
   render() {
-    this.connectToAbility(this.props.ability);
-    this._isAllowed = this.isAllowed();
-    return this.props.passThrough || this._isAllowed ? this.renderChildren() : null;
+    this._connectToAbility(this.props.ability);
+    this._isAllowed = this._canRender();
+    return this.props.passThrough || this._isAllowed ? this._renderChildren() : null;
   }
 
-  renderChildren() {
+  private _renderChildren() {
     const { children, ability } = this.props;
     const elements = typeof children === 'function'
       ? children(this._isAllowed, ability)

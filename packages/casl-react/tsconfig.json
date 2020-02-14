@@ -4,6 +4,7 @@
     "src/*"
   ],
   "compilerOptions": {
-    "outDir": "dist/types"
+    "outDir": "dist/types",
+    "allowSyntheticDefaultImports": true
   }
 }

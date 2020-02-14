@@ -1,2 +1,2 @@
-export { default as Can } from './Can';
+export * from './Can';
 export * from './factory';
