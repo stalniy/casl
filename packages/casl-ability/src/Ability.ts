@@ -193,7 +193,8 @@ export class Ability<
   }
 
   private _mergeRulesFor(action: Actions, subjectName: string) {
-    const mergedRules = [subjectName, 'all'].reduce((rules, subjectType) => {
+    const subjects = subjectName === 'all' ? [subjectName] : [subjectName, 'all'];
+    const mergedRules = subjects.reduce((rules, subjectType) => {
       const subjectRules = this._indexedRules[subjectType];
 
       if (!subjectRules) {

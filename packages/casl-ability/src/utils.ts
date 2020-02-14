@@ -21,9 +21,9 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
   ref[lastKey] = value;
 }
 
-export function getSubjectName<T extends Subject>(subject: T) {
+export function getSubjectName<T extends Subject>(subject?: T) {
   if (!subject) {
-    throw new Error('subject cannot be falsy');
+    return 'all';
   }
 
   if (typeof subject === 'string') {

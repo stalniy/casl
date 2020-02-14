@@ -72,6 +72,7 @@ describe('Ability', () => {
   describe('by default', () => {
     beforeEach(() => {
       ability = AbilityBuilder.define((can, cannot) => {
+        can('test', 'all')
         can(['read', 'update'], 'Post')
         can('delete', 'Post', { creator: 'admin' })
         cannot('publish', 'Post')
@@ -98,9 +99,12 @@ describe('Ability', () => {
       expect(ability).not.to.allow('archive', new Post())
     })
 
-    it('disallows to perform action if action or/and target is falsy', () => {
+    it('disallows to perform action if action parameter is falsy', () => {
       expect(ability).not.to.allow(null, 'Post')
-      expect(ability).not.to.allow('read', null)
+    })
+
+    it('checks by `all` subject if subject parameter is falsy', () => {
+      expect(ability).to.allow('test', null)
     })
 
     it('disallows to perform action on unspecified target type', () => {
