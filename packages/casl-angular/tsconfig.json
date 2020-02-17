@@ -21,10 +21,8 @@
     "src/index.ts"
   ],
   "angularCompilerOptions": {
-    "skipTemplateCodegen": true,
     "strictMetadataEmit": false,
     "skipTemplateCodegen": true,
-    "flatModuleOutFile": "angular.js",
     "flatModuleId": "@casl/angular"
   }
 }

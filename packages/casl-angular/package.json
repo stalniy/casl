@@ -5,7 +5,7 @@
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
   "es2015": "dist/es6/index.js",
-  "typings": "dist/types/angular.d.ts",
+  "typings": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"
@@ -14,13 +14,14 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "ngc",
-    "build": "rollup -c ../../tools/rollup.config.js -i dist/types/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl",
-    "postbuild": "rm -f dist/types/*.{js,js.map}",
+    "prebuild": "rm -rf dist/types/* && ngc",
+    "build": "rollup -c ../../tools/rollup.config.js -i dist/types/src/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl",
+    "postbuild": "mv dist/types/src/*.d.ts dist/types && rm -rf dist/types/src",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "lint": "node -p -e '`Skip linting for typescript`'",
     "prerelease": "npm test && NODE_ENV=production npm run build",
-    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
+    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release",
+    "postinstall": "ngcc"
   },
   "keywords": [
     "casl",
@@ -38,21 +39,20 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0",
     "@casl/ability": "^2.0.0 || ^3.0.0"
   },
   "devDependencies": {
     "@abraham/reflection": "^0.7.0",
-    "@angular/common": "^8.0.0",
-    "@angular/compiler": "^8.0.0",
-    "@angular/compiler-cli": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/platform-browser": "^8.0.0",
-    "@angular/platform-browser-dynamic": "^8.0.0",
+    "@angular/common": "^9.0.0",
+    "@angular/compiler": "^9.0.0",
+    "@angular/compiler-cli": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/platform-browser": "^9.0.0",
+    "@angular/platform-browser-dynamic": "^9.0.0",
     "@casl/ability": "^3.0.0",
     "jest-zone-patch": "0.0.10",
     "rxjs": "^6.0.0",
-    "rxjs-compat": "^6.0.0",
-    "zone.js": "^0.10.0"
+    "zone.js": "^0.10.2"
   }
 }
