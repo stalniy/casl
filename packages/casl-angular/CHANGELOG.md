@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.0.0](https://github.com/stalniy/casl/compare/@casl/angular@2.2.0...@casl/angular@3.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* **angular:** ensure postinstall hook is executed only during local dev ([a47bac8](https://github.com/stalniy/casl/commit/a47bac8f60c544b90be476ae73a17e0ddfdc479c))
+
+
+### BREAKING CHANGES
+
+* **angular:** upgrades angular to v9
+
 # [2.2.0](https://github.com/stalniy/casl/compare/@casl/angular@2.1.1...@casl/angular@2.2.0) (2020-02-17)
 
 **Deprecated because of invalid package.json peerDependencies and postinstall hook**
