@@ -39,5 +39,9 @@
   },
   "dependencies": {
     "sift": "^11.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ]
 }

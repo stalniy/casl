@@ -17,5 +17,5 @@ module.exports = {
   },
   setupFilesAfterEnv: [
     `${__dirname}/spec_helper.js`
-  ]
+  ],
 };
