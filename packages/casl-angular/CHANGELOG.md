@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.2.0](https://github.com/stalniy/casl/compare/@casl/angular@2.1.1...@casl/angular@2.2.0) (2020-02-17)
+
+
+### Features
+
+* **angular:** upgrades angular to v9 ([#260](https://github.com/stalniy/casl/issues/260)) ([3452636](https://github.com/stalniy/casl/commit/34526360ddd3c03605127223823c3beadc6fff84)), closes [#265](https://github.com/stalniy/casl/issues/265)
+
 # [@casl/angular-v2.1.1](https://github.com/stalniy/casl/compare/@casl/angular@2.1.0...@casl/angular@2.1.1) (2019-12-09)
 
 
