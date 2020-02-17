@@ -1,1 +1,1 @@
-export * from './dist/types/angular';
+export * from './dist/types';

@@ -1,22 +1,21 @@
 import { App, Post } from './spec_helper'
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { Ability } from '@casl/ability'
 import { TestBed } from '@angular/core/testing'
 import { AbilityModule } from '../dist/es6'
 
 describe('Ability', () => {
   let fixture
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AbilityModule.forRoot()],
-      declarations: [App]
+      declarations: [App],
     })
-    await TestBed.compileComponents()
   })
 
   describe('module', () => {
     it('provides empty `Ability` instance', () => {
-      const ability = TestBed.get(Ability)
+      const ability = TestBed.inject(Ability)
 
       expect(ability).to.be.instanceof(Ability)
       expect(ability.rules).to.be.empty
@@ -36,7 +35,7 @@ describe('Ability', () => {
     let post
 
     beforeEach(() => {
-      ability = TestBed.get(Ability)
+      ability = TestBed.inject(Ability)
       post = new Post({ author: 'me' })
     })
 
