@@ -27,5 +27,5 @@ jobs:
       run: WITH_COVERAGE=1 npm test
     - name: submit coverage
       env:
-        CODECOV_TOKEN: "{{ secrets.CODECOV_TOKEN }}"
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: npm run coverage.submit
