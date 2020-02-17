@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 # [2.2.0](https://github.com/stalniy/casl/compare/@casl/angular@2.1.1...@casl/angular@2.2.0) (2020-02-17)
 
+**Deprecated because of invalid package.json peerDependencies and postinstall hook**
 
 ### Features
 

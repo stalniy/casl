@@ -19,9 +19,9 @@
     "postbuild": "mv dist/types/src/*.d.ts dist/types && rm -rf dist/types/src",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "lint": "node -p -e '`Skip linting for typescript`'",
-    "prerelease": "NODE_ENV=production npm run build && npm test",
+    "prerelease2": "NODE_ENV=production npm run build && npm test",
     "release": "semantic-release -e ../../tools/semantic-release",
-    "postinstall": "ngcc"
+    "postinstall": "test -f package-lock.json && ngcc || true"
   },
   "keywords": [
     "casl",
@@ -39,7 +39,7 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0",
+    "@angular/core": "^9.0.0",
     "@casl/ability": "^2.0.0 || ^3.0.0"
   },
   "devDependencies": {
