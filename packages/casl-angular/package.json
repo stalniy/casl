@@ -20,7 +20,7 @@
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "lint": "node -p -e '`Skip linting for typescript`'",
     "prerelease": "npm test && NODE_ENV=production npm run build",
-    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release",
+    "release": "semantic-release -e ../../tools/semantic-release",
     "postinstall": "ngcc"
   },
   "keywords": [

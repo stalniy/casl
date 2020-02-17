@@ -22,7 +22,7 @@
     "lint": "eslint src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
     "prerelease": "npm test && NODE_ENV=production npm run build",
-    "release": "semantic-release -e semantic-release-monorepo -e ../../tools/semantic-release"
+    "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [
     "access control",
