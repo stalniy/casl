@@ -124,5 +124,41 @@ describe('AbilityBuilder', () => {
         { action: 'read', subject: 'Comment', conditions: { private: true }, inverted: true }
       ])
     })
+
+    it('allows to build claim based `Ability`', () => {
+      const { can, cannot, rules } = AbilityBuilder.extract()
+
+      can('read')
+      can('write')
+      cannot('delete')
+
+      expect(rules).to.deep.equal([
+        { action: 'read' },
+        { action: 'write' },
+        { action: 'delete', inverted: true }
+      ])
+    })
+
+    it('provides `build` function which builds an instance of `Ability`', () => {
+      const { can, build } = AbilityBuilder.extract()
+
+      can('read', 'Post')
+      const ability = build()
+
+      expect(ability).to.be.an.instanceof(Ability)
+      expect(ability.rules.map(ruleToObject)).to.deep.equal([
+        { action: 'read', subject: 'Post' }
+      ])
+    })
+
+    it('accepts optional `options` parameter which is them passed to `Ability` constructor', () => {
+      const subjectName = () => 'all'
+      const { can, build } = AbilityBuilder.extract({ subjectName })
+
+      can('read', 'Post')
+      const ability = build()
+
+      expect(ability.subjectName).to.equal(subjectName)
+    })
   })
 })
