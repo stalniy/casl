@@ -1,20 +1,22 @@
 import { FrameworkConfiguration } from 'aurelia-framework';
-import { Ability, Subject } from '@casl/ability';
-import { CanValueConverter } from './value-converter/can';
+import { Ability, AnyAbility } from '@casl/ability';
+import { CanValueConverter, AbleValueConverter } from './value-converter/can';
 
-export { CanValueConverter } from './value-converter/can';
+export { CanValueConverter, AbleValueConverter } from './value-converter/can';
 
-export function configure<
-  A extends string = string,
-  S extends Subject = Subject,
-  C = object
->(config: FrameworkConfiguration, providedAbility?: Ability<A, S, C>) {
+export function configure<T extends AnyAbility>(
+  config: FrameworkConfiguration,
+  providedAbility?: T
+) {
   if (providedAbility && providedAbility instanceof Ability) {
     config.container.registerInstance(
-      Ability as unknown as Ability<A, S, C>,
+      Ability,
       providedAbility
     );
   }
 
-  config.globalResources([CanValueConverter]);
+  config.globalResources([
+    CanValueConverter,
+    AbleValueConverter
+  ]);
 }
