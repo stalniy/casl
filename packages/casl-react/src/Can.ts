@@ -1,6 +1,12 @@
 import React, { PureComponent, Fragment, createElement } from 'react';
-import PropTypes from 'prop-types';
-import { Ability, Unsubscribe, Subject, SubjectType } from '@casl/ability';
+import {
+  IfExtends,
+  Unsubscribe,
+  Subject,
+  SubjectType,
+  AnyAbility,
+  AbilityParameters
+} from '@casl/ability';
 
 const noop = () => {};
 const renderChildren = Fragment
@@ -14,79 +20,47 @@ const renderChildren = Fragment
       : React.Children.only(children);
   }
   : React.Children.only;
-let propTypes = {};
 
-if (process.env.NODE_ENV !== 'production') {
-  const REQUIRED_OBJECT_OR_STRING = PropTypes
-    .oneOfType([PropTypes.object, PropTypes.string])
-    .isRequired;
+type AbilityCanProps<A extends string, S extends Subject> = IfExtends<
+S,
+'all',
+{ do: A } | { I: A },
+{ field?: string } & (
+  { do: A, on: S } |
+  { I: A, a: Extract<S, SubjectType> } |
+  { I: A, an: Extract<S, SubjectType> } |
+  { I: A, of: S } |
+  { I: A, this: Exclude<S, SubjectType> }
+)
+>;
 
-  // eslint-disable-next-line
-  const alias = (names: string, validate: Function) => (props: any, ...args: unknown[]) => {
-    if (!names.split(' ').some(name => props[name])) {
-      return validate(props, ...args);
-    }
-  };
-
-  propTypes = {
-    I: alias('do', PropTypes.string.isRequired),
-    a: alias('on this of an', REQUIRED_OBJECT_OR_STRING),
-    an: alias('on this of a', REQUIRED_OBJECT_OR_STRING),
-    of: alias('on a this an', REQUIRED_OBJECT_OR_STRING),
-    this: alias('on a of an', REQUIRED_OBJECT_OR_STRING),
-    do: alias('I', PropTypes.string.isRequired),
-    on: alias('this a of an', REQUIRED_OBJECT_OR_STRING),
-    not: PropTypes.bool,
-    passThrough: PropTypes.bool,
-    children: PropTypes.any.isRequired,
-    ability: PropTypes.instanceOf(Ability).isRequired
-  };
-}
-
-export type AbilityCanProps<A extends string, S extends Subject> =
-  { do: A | string, on: S } |
-  { I: A | string, a: Extract<S, SubjectType> } |
-  { I: A | string, an: Extract<S, SubjectType> } |
-  { I: A | string, of: S } |
-  { I: A | string, this: Exclude<S, SubjectType> };
-
-export type CanExtraProps<A extends string, S extends Subject, C> = {
+type CanExtraProps<T extends AnyAbility> = {
   not?: boolean,
   passThrough?: boolean,
-  ability: Ability<A, S, C>
+  ability: T
 };
 
-export type CanProps<
-  A extends string = string,
-  S extends Subject = Subject,
-  C = object
-> = AbilityCanProps<A, S> & CanExtraProps<A, S, C>;
-
-export type BoundCanProps<
-  A extends string = string,
-  S extends Subject = Subject,
-  C = object
-> = AbilityCanProps<A, S> & Omit<CanExtraProps<A, S, C>, 'ability'> & {
-  ability?: Ability<A, S, C>
-};
-
-export class Can<
-  A extends string = string,
-  S extends Subject = Subject,
-  C = object,
-  IsBound extends boolean = false
-> extends PureComponent<true extends IsBound ? BoundCanProps<A, S, C> : CanProps<A, S, C>> {
-  static propTypes = propTypes;
-
+export type CanProps<T extends AnyAbility> =
+  AbilityCanProps<AbilityParameters<T>['action'], AbilityParameters<T>['subject']> &
+  CanExtraProps<T>;
+export type BoundCanProps<T extends AnyAbility> =
+  AbilityCanProps<AbilityParameters<T>['action'], AbilityParameters<T>['subject']> &
+  Omit<CanExtraProps<T>, 'ability'> &
+  { ability?: T };
+export class Can<T extends AnyAbility, IsBound extends boolean = false> extends PureComponent<
+true extends IsBound
+  ? BoundCanProps<T>
+  : CanProps<T>
+> {
   private _isAllowed: boolean = false;
-  private _ability: Ability<A, S, C> | null = null;
+  private _ability: T | null = null;
   private _unsubscribeFromAbility: Unsubscribe = noop;
 
   componentWillUnmount() {
     this._unsubscribeFromAbility();
   }
 
-  private _connectToAbility(ability?: Ability<A, S, C>) {
+  private _connectToAbility(ability?: T) {
     if (ability === this._ability) {
       return;
     }

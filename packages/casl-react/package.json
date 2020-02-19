@@ -46,7 +46,6 @@
     "@casl/ability": "^3.0.0",
     "@types/react": "^16.9.19",
     "check-prop-types": "^1.1.2",
-    "prop-types": "^15.6.0",
     "react": "^16.3.0",
     "react-test-renderer": "^16.3.0"
   }
