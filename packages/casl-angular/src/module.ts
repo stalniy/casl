@@ -1,27 +1,25 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { Ability, Subject } from '@casl/ability';
-import { CanPipe } from './can';
+import { Ability, AnyAbility } from '@casl/ability';
+import { CanPipe, AblePipe } from './can';
 
 @NgModule({
   declarations: [
-    CanPipe
+    CanPipe,
+    AblePipe,
   ],
   exports: [
-    CanPipe
+    CanPipe,
+    AblePipe
   ],
 })
 export class AbilityModule {
-  static forRoot<
-    Actions extends string = string,
-    Subjects extends Subject = Subject,
-    Conditions = object
-  >(): ModuleWithProviders<AbilityModule> {
+  static forRoot<T extends AnyAbility>(): ModuleWithProviders<AbilityModule> {
     return {
       ngModule: AbilityModule,
       providers: [
         {
           provide: Ability,
-          useFactory: () => new Ability<Actions, Subjects, Conditions>([])
+          useFactory: () => (new Ability([]) as T)
         },
       ]
     };

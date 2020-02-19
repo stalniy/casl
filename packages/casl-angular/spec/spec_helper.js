@@ -21,7 +21,7 @@ export class App {
     return [
       new Component({
         selector: 'app-ability',
-        template: '{{ post | can: "read" }}',
+        template: '{{ "read" | able: post }}',
         inputs: ['post']
       })
     ]
