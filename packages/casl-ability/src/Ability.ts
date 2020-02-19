@@ -1,7 +1,13 @@
 import { Rule, ConditionsMatcher, FieldMatcher } from './Rule';
 import { RawRule } from './RawRule';
 import { wrapArray, getSubjectName, expandActions, AliasesMap } from './utils';
-import { GetSubjectName, Subject, ExtractSubjectType as E, ValueOf } from './types';
+import {
+  GetSubjectName,
+  Subject,
+  ExtractSubjectType as E,
+  ValueOf,
+  CanParameters,
+} from './types';
 import { mongoQueryMatcher } from './matchers/conditions';
 import { fieldPatternMatcher } from './matchers/field';
 
@@ -19,15 +25,26 @@ export interface AbilityOptions<Subjects extends Subject, Conditions> {
   fieldMatcher?: FieldMatcher
 }
 
-export interface AbilityEvent<A extends string, S extends Subject, C> {
-  ability: Ability<A, S, C>
+export type AnyAbility = Ability<any, any, any>;
+export type AbilityParameters<T> = T extends Ability<infer A, infer S, infer C>
+  ? { action: A, subject: S, conditions: C }
+  : never;
+
+export type RuleOf<T extends AnyAbility> = Rule<
+AbilityParameters<T>['action'],
+AbilityParameters<T>['subject'],
+AbilityParameters<T>['conditions']
+>;
+
+export interface AbilityEvent<T extends AnyAbility> {
+  ability: T
 }
-export interface UpdateEvent<
-  A extends string,
-  S extends Subject,
-  C
-> extends AbilityEvent<A, S, C> {
-  rules: RawRule<A, E<S>, C>[]
+export interface UpdateEvent<T extends AnyAbility> extends AbilityEvent<T> {
+  rules: RawRule<
+  AbilityParameters<T>['action'],
+  E<AbilityParameters<T>['subject']>,
+  AbilityParameters<T>['conditions']
+  >[]
 }
 export type EventHandler<Event> = (event: Event) => void;
 
@@ -39,28 +56,28 @@ type RuleIndex<A extends string, S extends Subject, C> = {
   }
 };
 
-type Events<A extends string, S extends Subject, C> =
-  Record<keyof EventsMap<A, S, C>, EventHandler<ValueOf<EventsMap<A, S, C>>>[]>;
+type Events<T extends AnyAbility> =
+  Record<keyof EventsMap<T>, EventHandler<ValueOf<EventsMap<T>>>[]>;
 
-type EventsMap<A extends string, S extends Subject, C> = {
-  update: UpdateEvent<A, S, C>
-  updated: UpdateEvent<A, S, C>
+type EventsMap<T extends AnyAbility> = {
+  update: UpdateEvent<T>
+  updated: UpdateEvent<T>
 };
 
 export class Ability<
   Actions extends string = string,
   Subjects extends Subject = Subject,
-  Conditions = object
+  Conditions = Subjects extends 'all' ? undefined : object
 > {
   private _hasPerFieldRules: boolean = false;
-  private _mergedRules: Record<string, Rule<Actions, Subjects, Conditions>[]> = {};
-  private _events: Events<Actions, Subjects, Conditions> = Object.create(null);
+  private _mergedRules: Record<string, this['rules']> = {};
+  private _events: Events<this> = Object.create(null);
   private _indexedRules: RuleIndex<Actions, Subjects, Conditions> = {};
   private readonly _fieldMatcher: FieldMatcher;
   private readonly _conditionsMatcher: ConditionsMatcher<Conditions>;
-  public readonly subjectName: GetSubjectName<Subjects> = getSubjectName;
-  private _rules: Rule<Actions, Subjects, Conditions>[] = [];
-  public readonly rules: Rule<Actions, Subjects, Conditions>[] = [];
+  public readonly subjectName: GetSubjectName<Subjects | string> = getSubjectName;
+  private _rules: this['rules'] = [];
+  public readonly rules!: Rule<Actions, Subjects, Conditions>[];
 
   static addAlias<T extends string, U extends string>(
     alias: T,
@@ -139,7 +156,7 @@ export class Ability<
       }
 
       for (let k = 0; k < subjects.length; k++) {
-        const subject = this.subjectName(subjects[k]);
+        const subject = this.subjectName(subjects[k] as E<Subjects>);
         indexedRules[subject] = indexedRules[subject] || Object.create(null);
 
         for (let j = 0; j < actions.length; j++) {
@@ -158,18 +175,21 @@ export class Ability<
     };
   }
 
-  can(action: Actions, subject: Subjects, field?: string): boolean {
+  can(...args: CanParameters<Actions, Subjects>): boolean {
+    const field = args[2];
+
     if (field && typeof field !== 'string') {
       throw new Error('Ability.can expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details');
     }
 
-    const rule = this.relevantRuleFor(action, subject, field);
+    const rule = this.relevantRuleFor(...args);
 
     return !!rule && !rule.inverted;
   }
 
-  relevantRuleFor(action: Actions, subject: Subjects, field?: string) {
-    const rules = this.rulesFor(action, subject, field);
+  relevantRuleFor(...args: CanParameters<Actions, Subjects>) {
+    const rules = this.rulesFor(...args);
+    const subject = args[1] as Subjects;
 
     for (let i = 0; i < rules.length; i++) {
       if (rules[i].matchesConditions(subject)) {
@@ -180,8 +200,9 @@ export class Ability<
     return null;
   }
 
-  possibleRulesFor(action: Actions, subject: Subjects) {
-    const subjectName = this.subjectName(subject);
+  possibleRulesFor(...args: CanParameters<Actions, Subjects, false>) {
+    const [action, subject] = args;
+    const subjectName = this.subjectName(subject as Subjects);
     const mergedRules = this._mergedRules;
     const key = `${subjectName}_${action}`;
 
@@ -209,8 +230,9 @@ export class Ability<
     return mergedRules.filter(Boolean);
   }
 
-  rulesFor(action: Actions, subject: Subjects, field?: string) {
-    const rules = this.possibleRulesFor(action, subject);
+  rulesFor(...args: CanParameters<Actions, Subjects>) {
+    const [action, subject, field] = args;
+    const rules: this['rules'] = (this as any).possibleRulesFor(action, subject);
 
     if (!this._hasPerFieldRules) {
       return rules;
@@ -219,13 +241,13 @@ export class Ability<
     return rules.filter(rule => rule.matchesField(field));
   }
 
-  cannot(action: Actions, subject: Subjects, field?: string): boolean {
-    return !this.can(action, subject, field);
+  cannot(...args: CanParameters<Actions, Subjects>): boolean {
+    return !this.can(...args);
   }
 
-  on<T extends keyof EventsMap<Actions, Subjects, Conditions>>(
+  on<T extends keyof EventsMap<this>>(
     event: T,
-    handler: EventHandler<EventsMap<Actions, Subjects, Conditions>[T]>
+    handler: EventHandler<EventsMap<this>[T]>
   ): Unsubscribe {
     const events = this._events;
     let isAttached = true;
@@ -245,9 +267,9 @@ export class Ability<
     };
   }
 
-  private _emit<T extends keyof EventsMap<Actions, Subjects, Conditions>>(
+  private _emit<T extends keyof EventsMap<this>>(
     eventName: T,
-    event: EventsMap<Actions, Subjects, Conditions>[T]
+    event: EventsMap<this>[T]
   ) {
     const handlers = this._events[eventName];
 

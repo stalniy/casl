@@ -1,18 +1,14 @@
-import { Ability } from './Ability';
+import { AnyAbility, AbilityParameters } from './Ability';
 import { Subject } from './types';
 
-export type GetErrorMessage = <
-  A extends string,
-  S extends Subject,
-  C
->(error: ForbiddenError<A, S, C>) => string;
+export type GetErrorMessage = <T extends AnyAbility>(error: ForbiddenError<T>) => string;
 
 const getDefaultMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectName}"`;
 let defaultErrorMessage = getDefaultMessage;
 
 type ForbiddenErrorMeta = {
   action: string
-  subject: Subject
+  subject: Subject | undefined
   field?: string
   subjectName: string
 };
@@ -28,16 +24,12 @@ function setMeta(error: ForbiddenErrorMeta, meta?: ForbiddenErrorMeta) {
 
 const MyError = Error; // to prevent babel of doing it's magic around native classes
 
-export default class ForbiddenError<
-  Actions extends string,
-  Subjects extends Subject,
-  Conditions
-> extends MyError implements ForbiddenErrorMeta {
-  private _ability: Ability<Actions, Subjects, Conditions>;
-  public action: ForbiddenErrorMeta['action'] = '';
-  public subject: ForbiddenErrorMeta['subject'] = '';
-  public field?: ForbiddenErrorMeta['field'];
-  public subjectName: ForbiddenErrorMeta['subjectName'] = '';
+export default class ForbiddenError<T extends AnyAbility> extends MyError {
+  private _ability: T;
+  public action!: AbilityParameters<T>['action'];
+  public subject!: AbilityParameters<T>['subject'];
+  public field?: string;
+  public subjectName!: string;
 
   static setDefaultMessage(messageOrFn: string | GetErrorMessage) {
     if (messageOrFn === null) {
@@ -47,11 +39,11 @@ export default class ForbiddenError<
     }
   }
 
-  static from<A extends string, S extends Subject, C>(ability: Ability<A, S, C>) {
+  static from<T extends AnyAbility>(ability: T) {
     return new this(ability);
   }
 
-  constructor(ability: Ability<Actions, Subjects, Conditions>, options?: ForbiddenErrorMeta) {
+  private constructor(ability: T, options?: ForbiddenErrorMeta) {
     super('');
     this._ability = ability;
     setMeta(this, options);
@@ -67,7 +59,8 @@ export default class ForbiddenError<
     return this;
   }
 
-  throwUnlessCan(action: Actions, subject: Subjects, field?: string) {
+  throwUnlessCan(...args: Parameters<T['can']>) {
+    const [action, subject, field] = args;
     const rule = this._ability.relevantRuleFor(action, subject, field);
 
     if (rule && !rule.inverted) {

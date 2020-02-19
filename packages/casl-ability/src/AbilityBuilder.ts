@@ -1,12 +1,12 @@
 import { Ability, AbilityOptions } from './Ability';
 import { isObject, isStringOrNonEmptyArray } from './utils';
 import { SubjectType, Subject, ExtractSubjectType as E } from './types';
-import { UnifiedRawRule } from './RawRule';
+import { RawRule } from './RawRule';
 
 class RuleBuilder<A extends string, S extends SubjectType, C> {
-  public rule: UnifiedRawRule<A, S, C>;
+  public rule: RawRule<A, S, C>;
 
-  constructor(rule: UnifiedRawRule<A, S, C>) {
+  constructor(rule: RawRule<A, S, C>) {
     this.rule = rule;
   }
 
@@ -16,37 +16,44 @@ class RuleBuilder<A extends string, S extends SubjectType, C> {
   }
 }
 
-type AsyncDSL = <T extends Function>(can: T, cannot: T) => Promise<void>;
-type DSL = <T extends Function>(can: T, cannot: T) => void;
+type AsyncDSL<A extends string, S extends Subject, C> = (
+  can: AbilityBuilder<A, S, C>['can'],
+  cannot: AbilityBuilder<A, S, C>['cannot']
+) => Promise<void>;
+type DSL<A extends string, S extends Subject, C> = (
+  ...args: Parameters<AsyncDSL<A, S, C>>
+) => void;
+type OptionalSC<T extends Subject, U> = T extends 'all'
+  ? []
+  : Parameters<(subject: E<T> | E<T>[], conditions?: U) => 0>;
+type OptionalSCF<T extends Subject, U> = T extends 'all'
+  ? []
+  : Parameters<(subject: E<T> | E<T>[], fields: string | string[], conditions?: U) => 0>;
 
-export class AbilityBuilder<
-  Actions extends string,
-  Subjects extends Subject,
-  Conditions
-> {
+export class AbilityBuilder<Actions extends string, Subjects extends Subject, Conditions> {
   static define<
     A extends string = string,
     S extends Subject = Subject,
     C = object
-  >(dsl: AsyncDSL): Promise<Ability<A, S, C>>;
+  >(dsl: AsyncDSL<A, S, C>): Promise<Ability<A, S, C>>;
   static define<
     A extends string = string,
     S extends Subject = Subject,
     C = object
-  >(params: AbilityOptions<S, C>, dsl: AsyncDSL): Promise<Ability<A, S, C>>;
+  >(params: AbilityOptions<S, C>, dsl: AsyncDSL<A, S, C>): Promise<Ability<A, S, C>>;
   static define<
     A extends string = string,
     S extends Subject = Subject,
     C = object
-  >(dsl: DSL): Ability<A, S, C>;
+  >(dsl: DSL<A, S, C>): Ability<A, S, C>;
   static define<
     A extends string = string,
     S extends Subject = Subject,
     C = object
-  >(params: AbilityOptions<S, C>, dsl: DSL): Ability<A, S, C>;
+  >(params: AbilityOptions<S, C>, dsl: DSL<A, S, C>): Ability<A, S, C>;
   static define<A extends string, S extends Subject, C>(
-    params: AbilityOptions<S, C> | DSL | AsyncDSL,
-    dsl?: DSL | AsyncDSL
+    params: AbilityOptions<S, C> | DSL<A, S, C> | AsyncDSL<A, S, C>,
+    dsl?: DSL<A, S, C> | AsyncDSL<A, S, C>
   ): Ability<A, S, C> | Promise<Ability<A, S, C>> {
     let options: AbilityOptions<S, C>;
     let define: Function;
@@ -66,8 +73,8 @@ export class AbilityBuilder<
 
     const builder = new this<A, S, C>();
     const result: Promise<void> | void = define(
-      builder.can.bind(builder),
-      builder.cannot.bind(builder)
+      builder.can,
+      builder.cannot
     );
     const buildAbility = () => new Ability(builder.rules, options); // eslint-disable-line
 
@@ -84,33 +91,31 @@ export class AbilityBuilder<
     const builder = new this<A, S, C>();
 
     return {
-      can: builder.can.bind(builder),
-      cannot: builder.cannot.bind(builder),
+      can: builder.can,
+      cannot: builder.cannot,
       rules: builder.rules,
       build: () => new Ability(builder.rules, options),
     } as const;
   }
 
-  public rules: UnifiedRawRule<Actions, E<Subjects>, Conditions>[];
+  public rules: RawRule<Actions, E<Subjects>, Conditions>[] = [];
 
   private constructor() {
-    this.rules = [];
+    this.can = (this as any).can.bind(this);
+    this.cannot = (this as any).cannot.bind(this);
   }
 
   can(
     action: Actions | Actions[],
-    subject: E<Subjects> | E<Subjects>[],
-    conditions?: Conditions
+    ...a: OptionalSC<Subjects, Conditions>
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   can(
     action: Actions | Actions[],
-    subject: E<Subjects> | E<Subjects>[],
-    fields: string | string[],
-    conditions?: Conditions
+    ...a: OptionalSCF<Subjects, Conditions>
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   can(
     action: Actions | Actions[],
-    subject: E<Subjects> | E<Subjects>[],
+    subject?: E<Subjects> | E<Subjects>[],
     conditionsOrFields?: string | string[] | Conditions,
     conditions?: Conditions
   ): RuleBuilder<Actions, E<Subjects>, Conditions> {
@@ -118,18 +123,19 @@ export class AbilityBuilder<
       throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
     }
 
-    if (!subject || Array.isArray(subject) && !subject.every(Boolean)) {
-      throw new TypeError('AbilityBuilder#can expects the second argument to be a subject name/type or an array of subject names/types');
-    }
+    const rule = { action } as RawRule<Actions, E<Subjects>, Conditions>;
 
-    const rule: UnifiedRawRule<Actions, E<Subjects>, Conditions> = { action, subject };
+    if (subject) {
+      const rawRule = rule as unknown as RawRule<Actions, E<Subjects>, Conditions>;
+      rawRule.subject = subject;
 
-    if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
-      rule.fields = conditionsOrFields;
-    }
+      if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
+        rawRule.fields = conditionsOrFields;
+      }
 
-    if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
-      rule.conditions = conditions || conditionsOrFields as Conditions;
+      if (isObject(conditions) || !rawRule.fields && isObject(conditionsOrFields)) {
+        rawRule.conditions = conditions || conditionsOrFields as Conditions;
+      }
     }
 
     this.rules.push(rule);
@@ -139,17 +145,19 @@ export class AbilityBuilder<
 
   cannot(
     action: Actions | Actions[],
-    subject: E<Subjects> | E<Subjects>[],
-    conditions?: Conditions
+    ...a: OptionalSC<Subjects, Conditions>
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
   cannot(
     action: Actions | Actions[],
-    subject: E<Subjects> | E<Subjects>[],
-    fields: string | string[],
-    conditions?: Conditions
+    ...a: OptionalSCF<Subjects, Conditions>
   ): RuleBuilder<Actions, E<Subjects>, Conditions>
-  cannot(...args: [any, any, any?, any?]): RuleBuilder<Actions, E<Subjects>, Conditions> {
-    const builder = this.can(...args);
+  cannot(
+    action: Actions | Actions[],
+    subject?: E<Subjects> | E<Subjects>[],
+    conditionsOrFields?: string | string[] | Conditions,
+    conditions?: Conditions
+  ): RuleBuilder<Actions, E<Subjects>, Conditions> {
+    const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
     builder.rule.inverted = true;
     return builder;
   }

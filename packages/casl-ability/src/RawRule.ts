@@ -1,17 +1,25 @@
-import { SubjectType } from './types';
+import { SubjectType, IfExtends } from './types';
 
-interface BaseRawRule<TSubject extends SubjectType, TConditions> {
-  subject: TSubject | TSubject[]
+interface BaseRawRule<TConditions> {
   fields?: string | string[]
   conditions?: TConditions
   inverted?: boolean
   reason?: string
 }
 
-export type UnifiedRawRule<Actions extends string, TSubject extends SubjectType, TConditions> =
-  BaseRawRule<TSubject, TConditions> &
-  { action: Actions | Actions[] };
+interface PureClaimRawRule extends BaseRawRule<undefined> {
+  subject?: 'all'
+}
 
-export type RawRule<Actions extends string, TSubject extends SubjectType, TConditions> =
-  UnifiedRawRule<Actions, TSubject, TConditions> |
-  BaseRawRule<TSubject, TConditions> & { actions: Actions | Actions[] };
+interface PureSubjectRawRule<S extends SubjectType, C> extends BaseRawRule<C> {
+  subject: S | S[]
+}
+
+type ActionAndLegacyActions<A> = { action: A | A[] } | { actions: A | A[] };
+
+export type SubjectRawRule<A extends string, S extends SubjectType, C> =
+  PureSubjectRawRule<S, C> & ActionAndLegacyActions<A>;
+
+export type RawRule<A extends string, S extends SubjectType, C> =
+  IfExtends<S, 'all', PureClaimRawRule, PureSubjectRawRule<S, C>> &
+  ActionAndLegacyActions<A>;

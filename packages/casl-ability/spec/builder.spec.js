@@ -92,12 +92,6 @@ describe('AbilityBuilder', () => {
         AbilityBuilder.define(can => can({}, 'Post'))
       }).to.throw(/to be an action or array of actions/)
     })
-
-    it('throws exception if the 2nd argument is not a string (and no suitable getSubjectName)', () => {
-      expect(() => {
-        AbilityBuilder.define(can => can('read', null))
-      }).to.throw(/to be a subject name\/type or an array of subject names\/types/)
-    })
   })
 
   describe('`extract` method', () => {

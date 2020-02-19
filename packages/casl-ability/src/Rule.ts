@@ -1,5 +1,5 @@
 import { wrapArray } from './utils';
-import { UnifiedRawRule, RawRule } from './RawRule';
+import { RawRule } from './RawRule';
 import { ExtractSubjectType as E, Subject } from './types';
 
 export type MatchConditions = <T extends object>(object: T) => boolean;
@@ -12,31 +12,27 @@ interface RuleOptions<TConditions> {
   fieldMatcher?: FieldMatcher
 }
 
-export class Rule<
-  A extends string,
-  S extends Subject,
-  C = unknown
-> implements UnifiedRawRule<A, E<S>, C> {
+export class Rule<A extends string, S extends Subject, C = unknown> {
   private readonly _matchConditions?: MatchConditions;
   private readonly _matchField?: MatchField<string>;
-  public readonly action: UnifiedRawRule<A, E<S>, C>['action'];
-  public readonly subject: UnifiedRawRule<A, E<S>, C>['subject'];
+  public readonly action: A | A[];
+  public readonly subject: E<S> | E<S>[];
   public readonly inverted: boolean;
   public readonly conditions?: C;
   public readonly fields?: string[];
-  public readonly reason: UnifiedRawRule<A, string, C>['reason'];
+  public readonly reason: string | undefined;
 
-  constructor(params: RawRule<A, E<S>, C>, options: RuleOptions<C>) {
-    this.action = 'actions' in params ? params.actions : params.action;
-    this.subject = params.subject;
-    this.inverted = !!params.inverted;
-    this.conditions = params.conditions;
-    this.reason = params.reason;
-    this.fields = !params.fields || params.fields.length === 0
+  constructor(rule: RawRule<A, E<S>, C>, options: RuleOptions<C>) {
+    this.action = 'actions' in rule ? rule.actions : rule.action;
+    this.subject = rule.subject as E<S> | E<S>[];
+    this.inverted = !!rule.inverted;
+    this.conditions = rule.conditions;
+    this.reason = rule.reason;
+    this.fields = !rule.fields || rule.fields.length === 0
       ? undefined
-      : wrapArray(params.fields);
+      : wrapArray(rule.fields);
 
-    if ('actions' in params) {
+    if ('actions' in rule) {
       // eslint-disable-next-line
       console.warn('Rule `actions` field is deprecated. Use `action` field instead');
     }
@@ -50,19 +46,19 @@ export class Rule<
     }
   }
 
-  matchesConditions(object: S): boolean {
+  matchesConditions(object: S | undefined): boolean {
     if (!this._matchConditions) {
       return true;
     }
 
-    if (typeof object === 'string' || typeof object === 'function') {
+    if (!object || typeof object === 'string' || typeof object === 'function') {
       return !this.inverted;
     }
 
     return this._matchConditions(object as object);
   }
 
-  matchesField(field?: string): boolean {
+  matchesField(field: string | undefined): boolean {
     if (!this._matchField) {
       return true;
     }
