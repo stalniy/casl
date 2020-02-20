@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.2](https://github.com/stalniy/casl/compare/@casl/angular@3.0.1...@casl/angular@3.0.2) (2020-02-20)
+
+
+### Bug Fixes
+
+* **angular:** adds missing file exists utility ([732e253](https://github.com/stalniy/casl/commit/732e253f65801631a3128fc92e2514bdb6f79987)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
 ## [3.0.1](https://github.com/stalniy/casl/compare/@casl/angular@3.0.0...@casl/angular@3.0.1) (2020-02-20)
 
 
