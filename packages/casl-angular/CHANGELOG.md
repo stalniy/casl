@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1](https://github.com/stalniy/casl/compare/@casl/angular@3.0.0...@casl/angular@3.0.1) (2020-02-20)
+
+
+### Bug Fixes
+
+* **angular:** ensures postinstall script uses node to check whether file exists ([eba8ef4](https://github.com/stalniy/casl/commit/eba8ef460dec655783204819fbb0e0721c34db13))
+
 # [3.0.0](https://github.com/stalniy/casl/compare/@casl/angular@2.2.0...@casl/angular@3.0.0) (2020-02-17)
 
 
