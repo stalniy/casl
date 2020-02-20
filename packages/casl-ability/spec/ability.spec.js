@@ -69,6 +69,12 @@ describe('Ability', () => {
     expect(ability).not.to.allow('read', 'User')
   })
 
+  it('allows to check abilities only by action', () => {
+    ability = new Ability([{ action: 'read' }])
+
+    expect(ability).to.allow('read')
+  })
+
   describe('by default', () => {
     beforeEach(() => {
       ability = AbilityBuilder.define((can, cannot) => {

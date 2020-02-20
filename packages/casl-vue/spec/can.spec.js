@@ -95,14 +95,6 @@ describe('`Can` component', () => {
       `)).to.throw(/`I` nor `do` prop was passed/)
     })
 
-    it('throws error if subject (i.e., `a`, `of`, `this` or `on`) is not specified', () => {
-      expect(() => render(`
-        <Can I="read">
-          <h1></h1>
-        </Can>
-      `)).to.throw(/`of` nor `a` nor `this` nor `on` prop was passed/)
-    })
-
     it('throws error if `passThrough` is passed without scoped slot', () => {
       expect(() => render(`
         <Can I="read" a="Post" passThrough>
