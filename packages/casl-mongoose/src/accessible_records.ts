@@ -1,4 +1,4 @@
-import { Ability, Subject } from '@casl/ability';
+import { AnyAbility, AbilityParameters } from '@casl/ability';
 import { Schema, DocumentQuery, Model, Document } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
@@ -32,17 +32,16 @@ function emptifyQuery(query: DocumentQuery<Document, Document>) {
   return query;
 }
 
-type GetAccessibleRecords<T extends Document> = (
-  this: any,
-  ability: Ability,
-  action?: string
+type GetAccessibleRecords<T extends Document> = <U extends AnyAbility>(
+  ability: U,
+  action?: AbilityParameters<U>['action']
 ) => DocumentQuery<T, T>;
 
-function accessibleBy<T extends Document, A extends string = string>(
+function accessibleBy<T extends AnyAbility>(
   this: any,
-  ability: Ability<A, Subject, any>,
-  action: A | 'read' = 'read'
-): DocumentQuery<T, T> {
+  ability: T,
+  action?: AbilityParameters<T>['action']
+): DocumentQuery<Document, Document> {
   let modelName: string | null = this.modelName;
 
   if (!modelName) {
