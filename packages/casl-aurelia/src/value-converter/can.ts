@@ -20,7 +20,7 @@ class AbilityValueConverter<T extends AnyAbility> {
       HAS_AU_SUBSCRIPTION.set(this._ability, true);
     }
 
-    return this._ability.can(...args);
+    return this._ability.can(...args as [any, any?, any?]);
   }
 }
 

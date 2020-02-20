@@ -15,7 +15,7 @@ class AbilityPipe<T extends AnyAbility> {
     if (!this._unsubscribeFromAbility) {
       this._unsubscribeFromAbility = this._ability.on('updated', () => this._cd.markForCheck());
     }
-    return this._ability.can(...args);
+    return this._ability.can(...args as [any, any?, any?]);
   }
 
   ngOnDestroy() {

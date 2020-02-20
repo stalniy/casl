@@ -1,33 +1,33 @@
-import { Ability, Subject } from '@casl/ability';
+import { Ability } from '@casl/ability';
 import { VueConstructor } from 'vue';
-import './extendVueTypes';
+import { VueAbility } from './types';
 
 const WATCHERS = new WeakMap();
 
-export function abilitiesPlugin<
-  A extends string = string,
-  S extends Subject = Subject,
-  C = object
->(Vue: VueConstructor, providedAbility?: Ability<A, S, C>) {
-  const defaultAbility = providedAbility || new Ability<A, S, C>([]);
+export function abilitiesPlugin(
+  Vue: VueConstructor,
+  providedAbility?: VueAbility
+) {
+  const defaultAbility = providedAbility || (new Ability([]) as VueAbility);
 
-  function renderingDependencyFor(ability: Ability) {
+  function renderingDependencyFor(ability: VueAbility) {
     if (WATCHERS.has(ability)) {
       return WATCHERS.get(ability);
     }
 
-    const data = { count: 0 };
+    const data = { touch: true };
     const watcher = typeof Vue.observable === 'function'
       ? Vue.observable(data)
       : new Vue({ data });
 
-    ability.on('updated', () => watcher.count++);
+    ability.on('updated', () => watcher.touch = !watcher.touch);
     WATCHERS.set(ability, watcher);
 
     return watcher;
   }
 
   Object.defineProperty(Vue.prototype, '$ability', { value: defaultAbility });
+
   Vue.mixin({
     beforeCreate() {
       const { ability, parent } = this.$options;
@@ -39,9 +39,9 @@ export function abilitiesPlugin<
     },
 
     methods: {
-      $can(...args: Parameters<Ability<A, S, C>['can']>): boolean {
+      $can(...args: Parameters<VueAbility['can']>): boolean {
         const dep = renderingDependencyFor(this.$ability);
-        dep.count = dep.count; // eslint-disable-line
+        dep.touch = dep.touch; // eslint-disable-line
 
         return this.$ability.can(...args);
       }

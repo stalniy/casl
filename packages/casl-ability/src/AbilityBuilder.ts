@@ -31,32 +31,24 @@ type OptionalSCF<T extends Subject, U> = T extends 'all'
   : Parameters<(subject: E<T> | E<T>[], fields: string | string[], conditions?: U) => 0>;
 
 export class AbilityBuilder<Actions extends string, Subjects extends Subject, Conditions> {
-  static define<
-    A extends string = string,
-    S extends Subject = Subject,
-    C = object
-  >(dsl: AsyncDSL<A, S, C>): Promise<Ability<A, S, C>>;
-  static define<
-    A extends string = string,
-    S extends Subject = Subject,
-    C = object
-  >(params: AbilityOptions<S, C>, dsl: AsyncDSL<A, S, C>): Promise<Ability<A, S, C>>;
-  static define<
-    A extends string = string,
-    S extends Subject = Subject,
-    C = object
-  >(dsl: DSL<A, S, C>): Ability<A, S, C>;
-  static define<
-    A extends string = string,
-    S extends Subject = Subject,
-    C = object
-  >(params: AbilityOptions<S, C>, dsl: DSL<A, S, C>): Ability<A, S, C>;
+  static define<A extends string, S extends Subject, C>(
+    dsl: AsyncDSL<A, S, C>
+  ): Promise<Ability<A, S, C>>;
+  static define<A extends string, S extends Subject, C>(
+    params: AbilityOptions<S, C>,
+    dsl: AsyncDSL<A, S, C>
+  ): Promise<Ability<A, S, C>>;
+  static define<A extends string, S extends Subject, C>(dsl: DSL<A, S, C>): Ability<A, S, C>;
+  static define<A extends string, S extends Subject, C>(
+    params: AbilityOptions<S, C>,
+    dsl: DSL<A, S, C>
+  ): Ability<A, S, C>;
   static define<A extends string, S extends Subject, C>(
     params: AbilityOptions<S, C> | DSL<A, S, C> | AsyncDSL<A, S, C>,
     dsl?: DSL<A, S, C> | AsyncDSL<A, S, C>
   ): Ability<A, S, C> | Promise<Ability<A, S, C>> {
     let options: AbilityOptions<S, C>;
-    let define: Function;
+    let define: DSL<A, S, C> | AsyncDSL<A, S, C>;
 
     if (typeof params === 'function') {
       define = params;
@@ -72,7 +64,7 @@ export class AbilityBuilder<Actions extends string, Subjects extends Subject, Co
     console.warn('AbilityBuilder.define method is deprecated. Use AbilityBuilder.extract instead.');
 
     const builder = new this<A, S, C>();
-    const result: Promise<void> | void = define(
+    const result = define(
       builder.can,
       builder.cannot
     );
@@ -126,15 +118,14 @@ export class AbilityBuilder<Actions extends string, Subjects extends Subject, Co
     const rule = { action } as RawRule<Actions, E<Subjects>, Conditions>;
 
     if (subject) {
-      const rawRule = rule as unknown as RawRule<Actions, E<Subjects>, Conditions>;
-      rawRule.subject = subject;
+      rule.subject = subject;
 
       if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
-        rawRule.fields = conditionsOrFields;
+        rule.fields = conditionsOrFields;
       }
 
-      if (isObject(conditions) || !rawRule.fields && isObject(conditionsOrFields)) {
-        rawRule.conditions = conditions || conditionsOrFields as Conditions;
+      if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
+        rule.conditions = conditions || conditionsOrFields as Conditions;
       }
     }
 

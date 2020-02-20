@@ -1,14 +1,14 @@
-import { Ability } from '@casl/ability';
+import { AnyAbility } from '@casl/ability';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $ability: Ability
-    $can(...args: Parameters<Ability['can']>): boolean
+    $ability: AnyAbility
+    $can(this: this, ...args: Parameters<this['$ability']['can']>): boolean
   }
 }
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    ability?: Ability;
+    ability?: V['$ability'];
   }
 }

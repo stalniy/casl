@@ -8,7 +8,7 @@ interface BoundCanClass<T extends AnyAbility> extends ComponentClass<BoundCanPro
 
 export function createCanBoundTo<T extends AnyAbility>(ability: T): BoundCanClass<T> {
   return class extends Can<T, true> {
-    static defaultProps = { ability } as Partial<BoundCanProps<T>>;
+    static defaultProps = { ability } as BoundCanClass<T>['defaultProps'];
   };
 }
 

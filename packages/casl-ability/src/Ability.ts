@@ -65,9 +65,9 @@ type EventsMap<T extends AnyAbility> = {
 };
 
 export class Ability<
-  Actions extends string = string,
-  Subjects extends Subject = Subject,
-  Conditions = Subjects extends 'all' ? undefined : object
+  Actions extends string,
+  Subjects extends Subject,
+  Conditions
 > {
   private _hasPerFieldRules: boolean = false;
   private _mergedRules: Record<string, this['rules']> = {};
@@ -156,7 +156,7 @@ export class Ability<
       }
 
       for (let k = 0; k < subjects.length; k++) {
-        const subject = this.subjectName(subjects[k] as E<Subjects>);
+        const subject = this.subjectName(subjects[k]);
         indexedRules[subject] = indexedRules[subject] || Object.create(null);
 
         for (let j = 0; j < actions.length; j++) {
@@ -202,7 +202,7 @@ export class Ability<
 
   possibleRulesFor(...args: CanParameters<Actions, Subjects, false>) {
     const [action, subject] = args;
-    const subjectName = this.subjectName(subject as Subjects);
+    const subjectName = this.subjectName(subject);
     const mergedRules = this._mergedRules;
     const key = `${subjectName}_${action}`;
 

@@ -1,19 +1,29 @@
 import { FunctionalComponentOptions, VNode } from 'vue';
-import { SubjectType, Subject } from '@casl/ability';
+import { IfExtends, SubjectType, Subject, AnyAbility, AbilityParameters } from '@casl/ability';
+import { VueAbility } from '../types';
 
-export type AbilityCanProps =
-  { do: string, on: Subject } |
-  { I: string, a: SubjectType } |
-  { I: string, an: SubjectType } |
-  { I: string, of: Subject } |
-  { I: string, this: object };
+type AbilityCanProps<A extends string, S extends Subject> = IfExtends<
+S,
+'all',
+{ do: A } | { I: A },
+{ field?: string } & (
+  { do: A, on: S } |
+  { I: A, a: Extract<S, SubjectType> } |
+  { I: A, an: Extract<S, SubjectType> } |
+  { I: A, of: S } |
+  { I: A, this: Exclude<S, SubjectType> }
+)
+>;
 
-export type AllCanProps = AbilityCanProps & {
+export type AllCanProps<T extends AnyAbility> = AbilityCanProps<
+AbilityParameters<T>['action'],
+AbilityParameters<T>['subject']
+> & {
   not?: boolean,
   passThrough?: boolean
 };
 
-const Can: FunctionalComponentOptions<AllCanProps> = {
+const Can: FunctionalComponentOptions<AllCanProps<VueAbility>> = {
   name: 'Can',
   functional: true,
   props: {
@@ -26,6 +36,7 @@ const Can: FunctionalComponentOptions<AllCanProps> = {
     on: [String, Function, Object],
     not: Boolean,
     passThrough: Boolean,
+    field: String
   },
   render(h, { props, children, parent, data }): VNode | VNode[] {
     const mixed = props as any;
@@ -34,10 +45,6 @@ const Can: FunctionalComponentOptions<AllCanProps> = {
 
     if (!action) {
       throw new Error('[Vue Can]: neither `I` nor `do` prop was passed in <Can>');
-    }
-
-    if (!subject) {
-      throw new Error('[Vue Can]: neither `of` nor `a` nor `this` nor `on` prop was passed in <Can>');
     }
 
     const isAllowed = parent.$can(action, subject, field);
