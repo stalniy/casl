@@ -54,5 +54,10 @@
     "jest-zone-patch": "0.0.10",
     "rxjs": "^6.0.0",
     "zone.js": "^0.10.2"
-  }
+  },
+  "files": [
+    "dist",
+    "*.d.ts",
+    "tools/exists.js"
+  ]
 }
