@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.4](https://github.com/stalniy/casl/compare/@casl/angular@3.0.3...@casl/angular@3.0.4) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** adds postinstall script into npm package ([c753d44](https://github.com/stalniy/casl/commit/c753d446532a994766860631939f8000b69f06ae)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
 ## [3.0.3](https://github.com/stalniy/casl/compare/@casl/angular@3.0.2...@casl/angular@3.0.3) (2020-02-21)
 
 
