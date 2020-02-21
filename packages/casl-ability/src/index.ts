@@ -1,7 +1,8 @@
 export * from './Ability';
+export * from './PureAbility';
 export * from './Rule';
 export * from './AbilityBuilder';
-export { default as ForbiddenError } from './ForbiddenError';
+export * from './ForbiddenError';
 export * from './RawRule';
 export * from './types';
 export { wrapArray } from './utils';

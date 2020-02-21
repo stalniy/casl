@@ -1,7 +1,9 @@
-import { Ability, AbilityOptions } from './Ability';
+import { Ability } from './Ability';
+import { PureAbility, AbilityOptions } from './PureAbility';
 import { isObject, isStringOrNonEmptyArray } from './utils';
-import { SubjectType, Subject, ExtractSubjectType as E } from './types';
+import { SubjectType, Subject, ExtractSubjectType as E, IfExtends } from './types';
 import { RawRule } from './RawRule';
+import { MongoQuery } from './matchers/conditions';
 
 class RuleBuilder<A extends string, S extends SubjectType, C> {
   public rule: RawRule<A, S, C>;
@@ -16,83 +18,23 @@ class RuleBuilder<A extends string, S extends SubjectType, C> {
   }
 }
 
-type AsyncDSL<A extends string, S extends Subject, C> = (
-  can: AbilityBuilder<A, S, C>['can'],
-  cannot: AbilityBuilder<A, S, C>['cannot']
-) => Promise<void>;
-type DSL<A extends string, S extends Subject, C> = (
-  ...args: Parameters<AsyncDSL<A, S, C>>
-) => void;
-type OptionalSC<T extends Subject, U> = T extends 'all'
-  ? []
-  : Parameters<(subject: E<T> | E<T>[], conditions?: U) => 0>;
-type OptionalSCF<T extends Subject, U> = T extends 'all'
-  ? []
-  : Parameters<(subject: E<T> | E<T>[], fields: string | string[], conditions?: U) => 0>;
+type OptionalSC<T extends Subject, U> = IfExtends<
+T,
+'all',
+[],
+Parameters<(subject: E<T> | E<T>[], conditions?: U) => 0>
+>;
+type OptionalSCF<T extends Subject, U> = IfExtends<
+T,
+'all',
+[],
+Parameters<(subject: E<T> | E<T>[], fields: string | string[], conditions?: U) => 0>
+>;
 
 export class AbilityBuilder<Actions extends string, Subjects extends Subject, Conditions> {
-  static define<A extends string, S extends Subject, C>(
-    dsl: AsyncDSL<A, S, C>
-  ): Promise<Ability<A, S, C>>;
-  static define<A extends string, S extends Subject, C>(
-    params: AbilityOptions<S, C>,
-    dsl: AsyncDSL<A, S, C>
-  ): Promise<Ability<A, S, C>>;
-  static define<A extends string, S extends Subject, C>(dsl: DSL<A, S, C>): Ability<A, S, C>;
-  static define<A extends string, S extends Subject, C>(
-    params: AbilityOptions<S, C>,
-    dsl: DSL<A, S, C>
-  ): Ability<A, S, C>;
-  static define<A extends string, S extends Subject, C>(
-    params: AbilityOptions<S, C> | DSL<A, S, C> | AsyncDSL<A, S, C>,
-    dsl?: DSL<A, S, C> | AsyncDSL<A, S, C>
-  ): Ability<A, S, C> | Promise<Ability<A, S, C>> {
-    let options: AbilityOptions<S, C>;
-    let define: DSL<A, S, C> | AsyncDSL<A, S, C>;
-
-    if (typeof params === 'function') {
-      define = params;
-      options = {};
-    } else if (typeof dsl === 'function') {
-      options = params;
-      define = dsl;
-    } else {
-      throw new Error('AbilityBuilder#define expects to receive either options and dsl function or only dsl function');
-    }
-
-    // eslint-disable-next-line
-    console.warn('AbilityBuilder.define method is deprecated. Use AbilityBuilder.extract instead.');
-
-    const builder = new this<A, S, C>();
-    const result = define(
-      builder.can,
-      builder.cannot
-    );
-    const buildAbility = () => new Ability(builder.rules, options); // eslint-disable-line
-
-    return result && typeof result.then === 'function'
-      ? result.then(buildAbility)
-      : buildAbility();
-  }
-
-  static extract<
-    A extends string = string,
-    S extends Subject = Subject,
-    C = object
-  >(options?: AbilityOptions<S, C>) {
-    const builder = new this<A, S, C>();
-
-    return {
-      can: builder.can,
-      cannot: builder.cannot,
-      rules: builder.rules,
-      build: () => new Ability(builder.rules, options),
-    } as const;
-  }
-
   public rules: RawRule<Actions, E<Subjects>, Conditions>[] = [];
 
-  private constructor() {
+  constructor() {
     this.can = (this as any).can.bind(this);
     this.cannot = (this as any).cannot.bind(this);
   }
@@ -152,4 +94,51 @@ export class AbilityBuilder<Actions extends string, Subjects extends Subject, Co
     builder.rule.inverted = true;
     return builder;
   }
+}
+
+type AsyncDSL<A extends string, S extends Subject, C> = (
+  can: AbilityBuilder<A, S, C>['can'],
+  cannot: AbilityBuilder<A, S, C>['cannot']
+) => Promise<void>;
+type DSL<A extends string, S extends Subject, C> = (
+  ...args: Parameters<AsyncDSL<A, S, C>>
+) => void;
+
+export function defineAbility<A extends string, S extends Subject>(
+  dsl: AsyncDSL<A, S, MongoQuery>
+): Promise<PureAbility<A, S, MongoQuery>>;
+export function defineAbility<A extends string, S extends Subject>(
+  params: AbilityOptions<S, MongoQuery>,
+  dsl: AsyncDSL<A, S, MongoQuery>
+): Promise<PureAbility<A, S, MongoQuery>>;
+export function defineAbility<A extends string, S extends Subject>(
+  dsl: DSL<A, S, MongoQuery>
+): PureAbility<A, S, MongoQuery>;
+export function defineAbility<A extends string, S extends Subject>(
+  params: AbilityOptions<S, MongoQuery>,
+  dsl: DSL<A, S, MongoQuery>
+): PureAbility<A, S, MongoQuery>;
+export function defineAbility<A extends string, S extends Subject>(
+  params: AbilityOptions<S, MongoQuery> | DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>,
+  dsl?: DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>
+): PureAbility<A, S, MongoQuery> | Promise<PureAbility<A, S, MongoQuery>> {
+  let options: AbilityOptions<S, MongoQuery>;
+  let define: DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>;
+
+  if (typeof params === 'function') {
+    define = params;
+    options = {};
+  } else if (typeof dsl === 'function') {
+    options = params;
+    define = dsl;
+  } else {
+    throw new Error('`defineAbility` expects to receive either options and dsl function or only dsl function');
+  }
+
+  const builder = new AbilityBuilder<A, S, MongoQuery>();
+  const result = define(builder.can, builder.cannot);
+
+  return result && typeof result.then === 'function'
+    ? result.then(() => new Ability(builder.rules, options))
+    : new Ability(builder.rules, options);
 }

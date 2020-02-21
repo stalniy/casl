@@ -1,21 +1,21 @@
-import { AbilityBuilder } from '../src'
+import { defineAbility, Ability } from '../src'
 import { permittedFieldsOf } from '../src/extra'
 import { Post } from './spec_helper'
 
 describe('permittedFieldsOf', () => {
   it('returns an empty array for `Ability` with empty rules', () => {
-    const ability = AbilityBuilder.define(() => {})
+    const ability = new Ability()
     expect(permittedFieldsOf(ability, 'read', 'Post')).to.be.empty
   })
 
   it('returns an empty array if none of rules contain fields', () => {
-    const ability = AbilityBuilder.define(can => can('read', 'Post'))
+    const ability = defineAbility(can => can('read', 'Post'))
 
     expect(permittedFieldsOf(ability, 'read', 'Post')).to.be.empty
   })
 
   it('returns a unique array of fields if there are duplicated fields across fields', () => {
-    const ability = AbilityBuilder.define((can) => {
+    const ability = defineAbility((can) => {
       can('read', 'Post', ['title'])
       can('read', 'Post', ['title', 'description'], { id: 1 })
     })
@@ -26,7 +26,7 @@ describe('permittedFieldsOf', () => {
   })
 
   it('returns unique fields for array which contains direct and inverted rules', () => {
-    const ability = AbilityBuilder.define((can, cannot) => {
+    const ability = defineAbility((can, cannot) => {
       can('read', 'Post', ['title', 'description'])
       cannot('read', 'Post', ['description'])
     })
@@ -37,7 +37,7 @@ describe('permittedFieldsOf', () => {
   })
 
   it('allows to provide an option `fieldsFrom` which extract fields from rule', () => {
-    const ability = AbilityBuilder.define(can => can('read', 'Post'))
+    const ability = defineAbility(can => can('read', 'Post'))
     const fields = permittedFieldsOf(ability, 'read', 'Post', {
       fieldsFrom: rule => rule.fields || ['title']
     })
@@ -49,7 +49,7 @@ describe('permittedFieldsOf', () => {
     let ability
 
     beforeEach(() => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post', ['title'])
         can('read', 'Post', ['title', 'description'], { id: 1 })
         cannot('read', 'Post', ['description'], { private: true })

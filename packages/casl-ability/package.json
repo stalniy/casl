@@ -17,7 +17,7 @@
     "access": "public"
   },
   "scripts": {
-    "build.core": "rollup -c ../../tools/rollup.config.js -i src/index.ts -g sift:sift -n casl",
+    "build.core": "rollup -c ../../tools/rollup.config.js -i src/index.ts -g sift:sift,sift/operations:sift.operations -n casl",
     "build.extra": "rollup -c ../../tools/rollup.config.js -i src/extra.ts -n casl.extra",
     "build.types": "rm -rf ./dist/types/* && tsc",
     "build": "npm run build.core && npm run build.extra && npm run build.types",

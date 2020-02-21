@@ -1,4 +1,4 @@
-import { Ability, AnyAbility, AbilityParameters, RuleOf } from './Ability';
+import { PureAbility, AnyAbility, AbilityParameters, RuleOf } from './PureAbility';
 import { Rule } from './Rule';
 import { RawRule, SubjectRawRule } from './RawRule';
 import { setByPath, wrapArray } from './utils';
@@ -39,7 +39,7 @@ export function rulesToQuery<T extends AnyAbility>(
   return query.$or ? query : null;
 }
 
-export function rulesToFields<T extends Ability<any, any, AnyObject>>(
+export function rulesToFields<T extends PureAbility<any, any, AnyObject>>(
   ability: T,
   action: AbilityParameters<T>['action'],
   subject: AbilityParameters<T>['subject']
@@ -70,7 +70,7 @@ export interface PermittedFieldsOptions {
   fieldsFrom?: GetRuleFields
 }
 
-export function permittedFieldsOf<T extends Ability<any, any, AnyObject>>(
+export function permittedFieldsOf<T extends AnyAbility>(
   ability: T,
   action: AbilityParameters<T>['action'],
   subject: AbilityParameters<T>['subject'],

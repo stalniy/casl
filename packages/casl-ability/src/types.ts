@@ -17,15 +17,14 @@ export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectType = string | SubjectConstructor | AnyClass;
 export type Subject = object | SubjectType;
 export type GetSubjectName<T extends Subject> = (subject?: T) => string;
-export type CanParameters<A, S, IncludeField = true> =
-  IfExtends<
-  S,
-  'all',
-  Parameters<(action: A, subject?: 'all') => never>,
-  IncludeField extends true
-    ? Parameters<(action: A, subject: S, field?: string) => never>
-    : Parameters<(action: A, subject: S) => never>
-  >;
+export type CanParameters<A, S, IncludeField = true> = IfExtends<
+S,
+'all',
+Parameters<(action: A, subject?: 'all') => never>,
+IncludeField extends true
+  ? Parameters<(action: A, subject: S, field?: string) => never>
+  : Parameters<(action: A, subject: S) => never>
+>;
 
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType>;
 export type CollectSubjects<T, IncludeTagName = unknown> =

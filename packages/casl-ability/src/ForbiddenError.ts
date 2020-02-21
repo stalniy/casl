@@ -1,4 +1,4 @@
-import { AnyAbility, AbilityParameters } from './Ability';
+import { AnyAbility, AbilityParameters } from './PureAbility';
 import { Subject } from './types';
 
 export type GetErrorMessage = <T extends AnyAbility>(error: ForbiddenError<T>) => string;
@@ -24,7 +24,7 @@ function setMeta(error: ForbiddenErrorMeta, meta?: ForbiddenErrorMeta) {
 
 const MyError = Error; // to prevent babel of doing it's magic around native classes
 
-export default class ForbiddenError<T extends AnyAbility> extends MyError {
+export class ForbiddenError<T extends AnyAbility> extends MyError {
   private _ability: T;
   public action!: AbilityParameters<T>['action'];
   public subject!: AbilityParameters<T>['subject'];

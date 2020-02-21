@@ -1,6 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 
 function aggregate(configs, optionsOverrides) {
   let external = [];
@@ -38,6 +38,15 @@ function aggregate(configs, optionsOverrides) {
         ...config.output,
         globals,
         format: buildTypes[config.id].format || config.output.format,
+        plugins: process.env.NODE_ENV === 'production'
+          ? [terser({
+            mangle: {
+              properties: {
+                regex: /^_/
+              }
+            }
+          })]
+          : []
       },
       plugins: [
         resolve({
@@ -81,8 +90,5 @@ export default overrideOptions => aggregate([
       format: 'umd',
       name: overrideOptions.name,
     },
-    plugins: [
-      process.env.NODE_ENV === 'production' ? uglify() : null
-    ]
   },
 ], overrideOptions);

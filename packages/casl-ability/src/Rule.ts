@@ -2,7 +2,7 @@ import { wrapArray } from './utils';
 import { RawRule } from './RawRule';
 import { ExtractSubjectType as E, Subject } from './types';
 
-export type MatchConditions = <T extends object>(object: T) => boolean;
+export type MatchConditions = (object: object) => boolean;
 export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
 export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;
