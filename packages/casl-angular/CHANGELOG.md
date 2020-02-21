@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.3](https://github.com/stalniy/casl/compare/@casl/angular@3.0.2...@casl/angular@3.0.3) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** reverts back prerelease hook ([1fc60c2](https://github.com/stalniy/casl/commit/1fc60c248d7e837fae39eb760cb308a73959b59d)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
 ## [3.0.2](https://github.com/stalniy/casl/compare/@casl/angular@3.0.1...@casl/angular@3.0.2) (2020-02-20)
 
 
