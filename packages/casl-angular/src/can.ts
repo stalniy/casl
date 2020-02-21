@@ -1,5 +1,5 @@
 import { Pipe, ChangeDetectorRef, Inject } from '@angular/core';
-import { Ability, Unsubscribe, AnyAbility, AbilityParameters } from '@casl/ability';
+import { PureAbility, Unsubscribe, AnyAbility, AbilityParameters } from '@casl/ability';
 
 class AbilityPipe<T extends AnyAbility> {
   protected _unsubscribeFromAbility?: Unsubscribe;
@@ -30,7 +30,7 @@ class AbilityPipe<T extends AnyAbility> {
 export class CanPipe<T extends AnyAbility> {
   protected pipe: AbilityPipe<T>;
 
-  constructor(@Inject(Ability) ability: T, cd: ChangeDetectorRef) {
+  constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {
     this.pipe = new AbilityPipe(ability, cd);
   }
 
@@ -51,7 +51,7 @@ export class CanPipe<T extends AnyAbility> {
 export class AblePipe<T extends AnyAbility> {
   protected pipe: AbilityPipe<T>;
 
-  constructor(@Inject(Ability) ability: T, cd: ChangeDetectorRef) {
+  constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {
     this.pipe = new AbilityPipe(ability, cd);
   }
 

@@ -21,8 +21,8 @@ export class App {
     return [
       new Component({
         selector: 'app-ability',
-        template: '{{ "read" | able: post }}',
-        inputs: ['post']
+        template: '{{ pipe === "able" ? ("read" | able: post) : (post | can: "read") }}',
+        inputs: ['post', 'pipe']
       })
     ]
   }

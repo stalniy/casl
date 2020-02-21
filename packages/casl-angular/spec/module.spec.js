@@ -1,4 +1,4 @@
-import { Ability } from '@casl/ability'
+import { PureAbility, Ability } from '@casl/ability'
 import { TestBed } from '@angular/core/testing'
 import { AbilityModule } from '../dist/es6'
 import { App, Post } from './spec_helper'
@@ -8,25 +8,29 @@ describe('Ability', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AbilityModule.forRoot()],
+      imports: [AbilityModule],
       declarations: [App],
+      providers: [
+        { provide: PureAbility, useFactory: () => new Ability() }
+      ]
     })
   })
 
+  afterEach(() => {
+    if (fixture) {
+      fixture.destroy()
+    }
+  })
+
   describe('module', () => {
-    it('provides empty `Ability` instance', () => {
-      const ability = TestBed.inject(Ability)
-
-      expect(ability).to.be.instanceof(Ability)
-      expect(ability.rules).to.be.empty
-    })
-
     it('provides `can` pipe', () => {
       fixture = createComponent(App)
-
       expect(fixture.nativeElement.textContent).to.equal('false')
+    })
 
-      fixture.destroy()
+    it('provides `able` pipe', () => {
+      fixture = createComponent(App, { pipe: 'able' })
+      expect(fixture.nativeElement.textContent).to.equal('false')
     })
   })
 
@@ -35,12 +39,8 @@ describe('Ability', () => {
     let post
 
     beforeEach(() => {
-      ability = TestBed.inject(Ability)
+      ability = TestBed.inject(PureAbility)
       post = new Post({ author: 'me' })
-    })
-
-    afterEach(() => {
-      fixture.destroy()
     })
 
     it('updates template when `ability` is updated', () => {
