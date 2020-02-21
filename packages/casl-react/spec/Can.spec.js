@@ -1,5 +1,5 @@
 import { createElement as e } from 'react'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import renderer from 'react-test-renderer'
 import { assertPropTypes } from 'check-prop-types'
 import { Can } from '../src'
@@ -10,7 +10,7 @@ describe('`Can` component', () => {
 
   beforeEach(() => {
     children = spy(() => null)
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
+    ability = defineAbility(can => can('read', 'Post'))
   })
 
   it('may accept children as a function', () => {
@@ -98,7 +98,7 @@ describe('`Can` component', () => {
 
     it('does not rerender itself when previous ability rules are changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
-      const anotherAbility = AbilityBuilder.define(can => can('manage', 'Post'))
+      const anotherAbility = defineAbility(can => can('manage', 'Post'))
 
       component.update(e(Can, { I: 'read', a: 'Post', ability: anotherAbility }, child))
       ability.update([])

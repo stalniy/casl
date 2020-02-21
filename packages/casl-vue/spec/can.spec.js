@@ -1,11 +1,11 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
 import Can from '../src/component/can'
 
 describe('`Can` component', () => {
   const LocalVue = createLocalVue()
-  const ability = AbilityBuilder.define((can) => {
+  const ability = defineAbility((can) => {
     can('read', 'Plugin')
     can('update', 'Plugin', 'version')
   })

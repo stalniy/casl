@@ -1,32 +1,28 @@
-import { Ability } from '@casl/ability';
 import { VueConstructor } from 'vue';
 import { VueAbility } from './types';
 
 const WATCHERS = new WeakMap();
 
-export function abilitiesPlugin(
-  Vue: VueConstructor,
-  providedAbility?: VueAbility
-) {
-  const defaultAbility = providedAbility || (new Ability([]) as VueAbility);
-
+export function abilitiesPlugin(Vue: VueConstructor, defaultAbility?: VueAbility) {
   function renderingDependencyFor(ability: VueAbility) {
     if (WATCHERS.has(ability)) {
       return WATCHERS.get(ability);
     }
 
-    const data = { touch: true };
+    const data = { _touch: true };
     const watcher = typeof Vue.observable === 'function'
       ? Vue.observable(data)
       : new Vue({ data });
 
-    ability.on('updated', () => watcher.touch = !watcher.touch);
+    ability.on('updated', () => watcher._touch = !watcher._touch);
     WATCHERS.set(ability, watcher);
 
     return watcher;
   }
 
-  Object.defineProperty(Vue.prototype, '$ability', { value: defaultAbility });
+  if (defaultAbility) {
+    Object.defineProperty(Vue.prototype, '$ability', { value: defaultAbility });
+  }
 
   Vue.mixin({
     beforeCreate() {
@@ -41,7 +37,7 @@ export function abilitiesPlugin(
     methods: {
       $can(...args: Parameters<VueAbility['can']>): boolean {
         const dep = renderingDependencyFor(this.$ability);
-        dep.touch = dep.touch; // eslint-disable-line
+        dep._touch = dep._touch; // eslint-disable-line
 
         return this.$ability.can(...args);
       }

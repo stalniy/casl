@@ -1,6 +1,6 @@
 import { createElement as e, createContext } from 'react'
 import renderer from 'react-test-renderer'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { Can, createCanBoundTo, createContextualCan } from '../src'
 
 describe('Factory methods which create `Can` component', () => {
@@ -8,7 +8,7 @@ describe('Factory methods which create `Can` component', () => {
   let child
 
   beforeEach(() => {
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
+    ability = defineAbility(can => can('read', 'Post'))
     child = spy(() => e('p', null, 'children'))
   })
 
@@ -34,7 +34,7 @@ describe('Factory methods which create `Can` component', () => {
     })
 
     it('allows to override ability by passing "ability" property', () => {
-      const anotherAbility = AbilityBuilder.define(can => can('update', 'Post'))
+      const anotherAbility = defineAbility(can => can('update', 'Post'))
       const component = renderer.create(e(BoundCan, { I: 'read', a: 'Post', ability: anotherAbility }, child))
 
       expect(component.toJSON()).to.be.null

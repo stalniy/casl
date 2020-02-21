@@ -1,5 +1,5 @@
 import { createLocalVue } from '@vue/test-utils'
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { defineAbility, Ability } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
 
 describe('Abilities plugin', () => {
@@ -22,7 +22,7 @@ describe('Abilities plugin', () => {
 
   describe('when ability is provided', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
       Vue.use(abilitiesPlugin, ability)
       vm = new Component()
     })
@@ -38,7 +38,7 @@ describe('Abilities plugin', () => {
 
   describe('when ability is provided as option of a component', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
       Vue.use(abilitiesPlugin)
     })
 
@@ -75,7 +75,7 @@ describe('Abilities plugin', () => {
 
   describe('`$can`', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
       Vue.use(abilitiesPlugin, ability)
       vm = new Component().$mount()
     })
