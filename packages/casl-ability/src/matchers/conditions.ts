@@ -1,5 +1,6 @@
-import { Query, createQueryTester as sift } from 'sift';
 import {
+  Query,
+  createQueryTester as sift,
   $not,
   $eq,
   $ne,
@@ -14,7 +15,7 @@ import {
   $regex,
   $elemMatch,
   $exists
-} from 'sift/operations';
+} from 'sift';
 import { ConditionsMatcher as Matcher, MatchConditions } from '../Rule';
 
 const operations = {

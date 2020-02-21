@@ -1,8 +1,7 @@
 import { PureAbility, AnyAbility, AbilityParameters, RuleOf } from './PureAbility';
-import { Rule } from './Rule';
 import { RawRule, SubjectRawRule } from './RawRule';
 import { setByPath, wrapArray } from './utils';
-import { Subject, AnyObject, SubjectType } from './types';
+import { AnyObject, SubjectType } from './types';
 
 export type RuleToQueryConverter<T extends AnyAbility> = (rule: RuleOf<T>) => object;
 export interface AbilityQuery {
@@ -61,20 +60,19 @@ export function rulesToFields<T extends PureAbility<any, any, AnyObject>>(
     }, {} as AnyObject);
 }
 
-const getRuleFields: GetRuleFields = rule => rule.fields;
+const getRuleFields = (rule: RuleOf<AnyAbility>) => rule.fields;
 
-export type GetRuleFields =
-  <A extends string, S extends Subject, C>(rule: Rule<A, S, C>) => string[] | undefined;
+export type GetRuleFields<T extends AnyAbility> = (rule: RuleOf<T>) => string[] | undefined;
 
-export interface PermittedFieldsOptions {
-  fieldsFrom?: GetRuleFields
+export interface PermittedFieldsOptions<T extends AnyAbility> {
+  fieldsFrom?: GetRuleFields<T>
 }
 
 export function permittedFieldsOf<T extends AnyAbility>(
   ability: T,
   action: AbilityParameters<T>['action'],
   subject: AbilityParameters<T>['subject'],
-  options: PermittedFieldsOptions = {}
+  options: PermittedFieldsOptions<T> = {}
 ): string[] {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
   const uniqueFields = ability.possibleRulesFor(action, subject)

@@ -1,12 +1,13 @@
-import { AnyAbility, AbilityParameters, RuleOf } from '@casl/ability';
+import { AbilityParameters, RuleOf } from '@casl/ability';
 import { rulesToQuery } from '@casl/ability/extra';
+import { AnyMongoAbility } from './types';
 
-function convertToMongoQuery<T extends AnyAbility>(rule: RuleOf<T>) {
+function convertToMongoQuery<T extends AnyMongoAbility>(rule: RuleOf<T>) {
   const conditions = rule.conditions!;
   return rule.inverted ? { $nor: [conditions] } : conditions;
 }
 
-export function toMongoQuery<T extends AnyAbility>(
+export function toMongoQuery<T extends AnyMongoAbility>(
   ability: T,
   subject: AbilityParameters<T>['subject'],
   action?: AbilityParameters<T>['action']

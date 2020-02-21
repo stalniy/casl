@@ -1,6 +1,7 @@
-import { wrapArray, RuleOf, AnyAbility, AbilityParameters } from '@casl/ability';
+import { wrapArray, RuleOf, AbilityParameters } from '@casl/ability';
 import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
 import { Schema, Model, Document } from 'mongoose';
+import { AnyMongoAbility } from './types';
 
 export type AccessibleFieldsOptions =
   { only: string | string[] } |
@@ -17,7 +18,7 @@ function fieldsOf(schema: Schema<AccessibleFieldsDocument>, options?: Accessible
   return fields.filter(field => excludedFields.indexOf(field) === -1);
 }
 
-type GetAccessibleFields<T extends AccessibleFieldsDocument> = <U extends AnyAbility>(
+type GetAccessibleFields<T extends AccessibleFieldsDocument> = <U extends AnyMongoAbility>(
   this: Model<T> | T,
   ability: U,
   action?: AbilityParameters<U>['action']
@@ -35,8 +36,8 @@ export function accessibleFieldsPlugin(
   schema: Schema<AccessibleFieldsDocument>,
   options?: AccessibleFieldsOptions
 ) {
-  let fieldsFrom: PermittedFieldsOptions['fieldsFrom'];
-  function accessibleFieldsBy<T extends AnyAbility>(
+  let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
+  function accessibleFieldsBy<T extends AnyMongoAbility>(
     this: Model<AccessibleFieldsDocument> | AccessibleFieldsDocument,
     ability: T,
     action?: AbilityParameters<T>['action']

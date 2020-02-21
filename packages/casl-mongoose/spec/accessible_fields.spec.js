@@ -1,4 +1,4 @@
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { defineAbility, Ability } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleFieldsPlugin } from '../src'
 
@@ -40,25 +40,25 @@ describe('Accessible fields plugin', () => {
       })
 
       it('returns all fields for model if ability does not have restrictions on rules', () => {
-        const ability = AbilityBuilder.define(can => can('read', 'Post'))
+        const ability = defineAbility(can => can('read', 'Post'))
 
         expect(Post.accessibleFieldsBy(ability)).to.have.all.members(['_id', '__v', 'title', 'state'])
       })
 
       it('returns fields for `read` action by default', () => {
-        const ability = AbilityBuilder.define(can => can('read', 'Post', ['title', 'state']))
+        const ability = defineAbility(can => can('read', 'Post', ['title', 'state']))
 
         expect(Post.accessibleFieldsBy(ability)).to.deep.equal(['title', 'state'])
       })
 
       it('returns fields for an action specified as 2nd parameter', () => {
-        const ability = AbilityBuilder.define(can => can('update', 'Post', ['title', 'state']))
+        const ability = defineAbility(can => can('update', 'Post', ['title', 'state']))
 
         expect(Post.accessibleFieldsBy(ability, 'update')).to.deep.equal(['title', 'state'])
       })
 
       it('returns fields permitted for the instance when called on model instance', () => {
-        const ability = AbilityBuilder.define((can) => {
+        const ability = defineAbility((can) => {
           can('update', 'Post', ['title', 'state'], { state: 'draft' })
           can('update', 'Post', ['title'], { state: 'public' })
         })
@@ -72,7 +72,7 @@ describe('Accessible fields plugin', () => {
       let ability
 
       beforeEach(() => {
-        ability = AbilityBuilder.define(can => can('read', 'Post'))
+        ability = defineAbility(can => can('read', 'Post'))
       })
 
       it('returns fields provided in `only` option specified as string', () => {
