@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.5](https://github.com/stalniy/casl/compare/@casl/angular@3.0.4...@casl/angular@3.0.5) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** moves postinstall hook to postbootstrap hook which links modules ([769e099](https://github.com/stalniy/casl/commit/769e099902eca821e17d4f6a3e5a44fd29191915)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
 ## [3.0.4](https://github.com/stalniy/casl/compare/@casl/angular@3.0.3...@casl/angular@3.0.4) (2020-02-21)
 
 
