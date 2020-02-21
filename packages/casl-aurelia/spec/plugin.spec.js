@@ -1,5 +1,5 @@
-import './spec_helper'
-import { AbilityBuilder, Ability } from '@casl/ability'
+import './spec_helper' // eslint-disable-line
+import { defineAbility, PureAbility as Ability } from '@casl/ability'
 import { ComponentTester } from 'aurelia-testing'
 import { BindingEngine } from 'aurelia-binding'
 import { bootstrap } from 'aurelia-bootstrapper'
@@ -19,9 +19,9 @@ describe('CASL Aurelia plugin', () => {
     component.dispose()
   })
 
-  describe('when `Ability` instance is passed as a plugin parameter', () => {
+  describe('when `PureAbility` instance is passed as a plugin parameter', () => {
     beforeEach(async () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
       await configureApp(component, aurelia => configure(aurelia.use, ability))
     })
 
@@ -41,7 +41,7 @@ describe('CASL Aurelia plugin', () => {
     })
   })
 
-  describe('when `Ability` instance is not passed as a plugin parameter', () => {
+  describe('when `PureAbility` instance is not passed as a plugin parameter', () => {
     beforeEach(async () => {
       await configureApp(component, aurelia => configure(aurelia.use))
     })
@@ -65,10 +65,10 @@ describe('CASL Aurelia plugin', () => {
     })
   })
 
-  describe('when `Ability` instance is not passed as a plugin parameter but was registered in DI container', () => {
+  describe('when `PureAbility` instance is not passed as a plugin parameter but was registered in DI container', () => {
     beforeEach(async () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
-      await configureApp(component, aurelia => {
+      ability = defineAbility(can => can('read', 'Post'))
+      await configureApp(component, (aurelia) => {
         aurelia.container.registerInstance(Ability, ability)
         configure(aurelia.use)
       })
@@ -93,7 +93,7 @@ describe('CASL Aurelia plugin', () => {
   }
 
   function configureApp(cmp, callback) {
-    cmp.bootstrap(aurelia => {
+    cmp.bootstrap((aurelia) => {
       cmp.container = aurelia.container
       aurelia.use.standardConfiguration()
       aurelia.container.get(BindingEngine).observerLocator.dirtyChecker.checkDelay = 20

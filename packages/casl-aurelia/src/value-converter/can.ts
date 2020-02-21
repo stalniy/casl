@@ -1,11 +1,11 @@
 import { signalBindings } from 'aurelia-framework';
-import { Ability, AnyAbility, AbilityParameters } from '@casl/ability';
+import { PureAbility, AnyAbility, AbilityParameters } from '@casl/ability';
 
 const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
 const HAS_AU_SUBSCRIPTION = new WeakMap<object, boolean>();
 
 class AbilityValueConverter<T extends AnyAbility> {
-  static inject = [Ability];
+  static inject = [PureAbility];
 
   public readonly signals = [ABILITY_CHANGED_SIGNAL];
   protected readonly _ability: T;
