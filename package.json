@@ -37,7 +37,7 @@
     "rollup-plugin-uglify": "^6.0.2",
     "semantic-release": "15.9.17",
     "tslib": "^1.9.3",
-    "typescript": "~3.7.0"
+    "typescript": "~3.8.0"
   },
   "repository": {
     "type": "git",
