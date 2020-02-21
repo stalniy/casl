@@ -19,7 +19,7 @@
     "postbuild": "mv dist/types/src/*.d.ts dist/types && rm -rf dist/types/src",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "lint": "node -p -e '`Skip linting for typescript`'",
-    "prerelease2": "NODE_ENV=production npm run build && npm test",
+    "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "semantic-release -e ../../tools/semantic-release",
     "postinstall": "node ./tools/exists.js package-lock.json && ngcc || true"
   },
