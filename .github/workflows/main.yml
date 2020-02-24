@@ -1,17 +1,21 @@
 name: CI
 
-on: 
+on:
   push:
-    paths: 
+    branches:
+    - master
+    paths:
     - '**/*.js'
     - '**/*.ts'
+    - '**/*.json'
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
-        node: 
+      matrix:
+        node:
           - 10 # 2020-04-01
           - 12
           - latest
