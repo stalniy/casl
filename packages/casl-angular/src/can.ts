@@ -1,4 +1,4 @@
-import { Pipe, ChangeDetectorRef, Inject } from '@angular/core';
+import { Pipe, ChangeDetectorRef, Inject, PipeTransform } from '@angular/core';
 import { PureAbility, Unsubscribe, AnyAbility, AbilityParameters } from '@casl/ability';
 
 class AbilityPipe<T extends AnyAbility> {
@@ -27,7 +27,7 @@ class AbilityPipe<T extends AnyAbility> {
 
 // TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
 @Pipe({ name: 'can', pure: false })
-export class CanPipe<T extends AnyAbility> {
+export class CanPipe<T extends AnyAbility> implements PipeTransform {
   protected pipe: AbilityPipe<T>;
 
   constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {
@@ -48,7 +48,7 @@ export class CanPipe<T extends AnyAbility> {
 }
 
 @Pipe({ name: 'able', pure: false })
-export class AblePipe<T extends AnyAbility> {
+export class AblePipe<T extends AnyAbility> implements PipeTransform {
   protected pipe: AbilityPipe<T>;
 
   constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {

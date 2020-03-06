@@ -2,8 +2,63 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.6](https://github.com/stalniy/casl/compare/@casl/angular@3.0.5...@casl/angular@3.0.6) (2020-03-06)
+
+
+### Bug Fixes
+
+* **angular:** reverts back anngular to not use Ivy as it was not recommend by angular team ([b883118](https://github.com/stalniy/casl/commit/b8831184f4bbfc3924e95f1fd4f2861d88b43fdf)), closes [#270](https://github.com/stalniy/casl/issues/270)
+
+## [3.0.5](https://github.com/stalniy/casl/compare/@casl/angular@3.0.4...@casl/angular@3.0.5) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** moves postinstall hook to postbootstrap hook which links modules ([769e099](https://github.com/stalniy/casl/commit/769e099902eca821e17d4f6a3e5a44fd29191915)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
+## [3.0.4](https://github.com/stalniy/casl/compare/@casl/angular@3.0.3...@casl/angular@3.0.4) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** adds postinstall script into npm package ([c753d44](https://github.com/stalniy/casl/commit/c753d446532a994766860631939f8000b69f06ae)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
+## [3.0.3](https://github.com/stalniy/casl/compare/@casl/angular@3.0.2...@casl/angular@3.0.3) (2020-02-21)
+
+
+### Bug Fixes
+
+* **angular:** reverts back prerelease hook ([1fc60c2](https://github.com/stalniy/casl/commit/1fc60c248d7e837fae39eb760cb308a73959b59d)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
+## [3.0.2](https://github.com/stalniy/casl/compare/@casl/angular@3.0.1...@casl/angular@3.0.2) (2020-02-20)
+
+
+### Bug Fixes
+
+* **angular:** adds missing file exists utility ([732e253](https://github.com/stalniy/casl/commit/732e253f65801631a3128fc92e2514bdb6f79987)), closes [#266](https://github.com/stalniy/casl/issues/266)
+
+## [3.0.1](https://github.com/stalniy/casl/compare/@casl/angular@3.0.0...@casl/angular@3.0.1) (2020-02-20)
+
+
+### Bug Fixes
+
+* **angular:** ensures postinstall script uses node to check whether file exists ([eba8ef4](https://github.com/stalniy/casl/commit/eba8ef460dec655783204819fbb0e0721c34db13))
+
+# [3.0.0](https://github.com/stalniy/casl/compare/@casl/angular@2.2.0...@casl/angular@3.0.0) (2020-02-17)
+
+
+### Bug Fixes
+
+* **angular:** ensure postinstall hook is executed only during local dev ([a47bac8](https://github.com/stalniy/casl/commit/a47bac8f60c544b90be476ae73a17e0ddfdc479c))
+
+
+### BREAKING CHANGES
+
+* **angular:** upgrades angular to v9
+
 # [2.2.0](https://github.com/stalniy/casl/compare/@casl/angular@2.1.1...@casl/angular@2.2.0) (2020-02-17)
 
+**Deprecated because of invalid package.json peerDependencies and postinstall hook**
 
 ### Features
 

@@ -1,8 +1,0 @@
-spec/
-src/
-tools/
-node_modules/
-.*
-coverage.lcov
-coverage
-tsconfig.json
