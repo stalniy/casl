@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.6](https://github.com/stalniy/casl/compare/@casl/angular@3.0.5...@casl/angular@3.0.6) (2020-03-06)
+
+
+### Bug Fixes
+
+* **angular:** reverts back anngular to not use Ivy as it was not recommend by angular team ([b883118](https://github.com/stalniy/casl/commit/b8831184f4bbfc3924e95f1fd4f2861d88b43fdf)), closes [#270](https://github.com/stalniy/casl/issues/270)
+
 ## [3.0.5](https://github.com/stalniy/casl/compare/@casl/angular@3.0.4...@casl/angular@3.0.5) (2020-02-21)
 
 
