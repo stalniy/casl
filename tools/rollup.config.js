@@ -45,6 +45,7 @@ function aggregate(configs, optionsOverrides) {
         }),
         babel({
           rootMode: 'upward',
+          inputSourceMap: !!process.env.USE_SRC_MAPS,
           caller: {
             output: config.type,
           }

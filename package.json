@@ -4,7 +4,6 @@
   "version": "0.0.0-development",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "postbootstrap": "cd packages/casl-angular && ./node_modules/.bin/ngcc",
     "build": "lerna run build",
     "pretest": "npm run lint",
     "test": "lerna run test",

@@ -1,16 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/types",
-    "sourceMap": false,
-    "declaration": true,
+    "sourceMap": true,
+    "declaration": false,
     "module": "es2015",
     "target": "es2015",
     "skipLibCheck": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "noEmitHelpers": true,
     "lib": [
       "es2018",
@@ -21,8 +20,9 @@
     "src/index.ts"
   ],
   "angularCompilerOptions": {
-    "strictMetadataEmit": false,
+    "enableIvy": false,
+    "skipMetadataEmit": true,
     "skipTemplateCodegen": true,
-    "flatModuleId": "@casl/angular"
+    "strictInjectionParameters": true
   }
 }

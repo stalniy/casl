@@ -14,9 +14,14 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "rm -rf dist/types/* && ngc",
-    "build": "rollup -c ../../tools/rollup.config.js -i dist/types/src/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl",
-    "postbuild": "mv dist/types/src/*.d.ts dist/types && rm -rf dist/types/src",
+    "prebuild": "rm -rf dist/*",
+    "build": "npm run build.types && npm run build.es5m && npm run build.es6 && npm run build.umd",
+    "build.es5m": "TARGET=es5 BUILD=es5m npm run rollup",
+    "build.es6": "TARGET=es2015 BUILD=es6 npm run rollup",
+    "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
+    "build.types": "ngc -p tsconfig.types.json",
+    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib",
+    "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "lint": "node -p -e '`Skip linting for typescript`'",
     "prerelease": "NODE_ENV=production npm run build && npm test",
