@@ -1,3 +1,4 @@
+import { Query } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
 const DENY_CONDITION_NAME = '__forbiddenByCasl__';
@@ -32,7 +33,11 @@ function emptyQuery(query) {
 function accessibleBy(ability, action) {
   const query = toMongoQuery(ability, this.modelName || this.model.modelName, action);
 
-  return query === null ? emptyQuery(this.where()) : this.where({ $and: [query] });
+  if (query === null) {
+    return emptyQuery(this.where());
+  }
+
+  return this instanceof Query ? this.and([query]) : this.where({ $and: [query] });
 }
 
 export function accessibleRecordsPlugin(schema) {
