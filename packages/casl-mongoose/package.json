@@ -14,7 +14,7 @@
   },
   "homepage": "https://stalniy.github.io/casl/",
   "scripts": {
-    "build": "BUILD_TYPES=es6,umd:cjs rollup -c ../../tools/rollup.config.js -i src/index.ts -e @casl/ability/extra,@casl/ability",
+    "build": "BUILD_TYPES=es6,umd:cjs rollup -c ../../tools/rollup.config.js -i src/index.ts -e @casl/ability/extra,@casl/ability,mongoose",
     "build.types": "rm -rf dist/types/* && tsc",
     "postbuild": "npm run build.types",
     "lint": "eslint --ext .ts,.js src/ spec/",

@@ -51,11 +51,11 @@ describe('Accessible Records Plugin', () => {
       expect(ability.rulesFor).to.have.been.called.with.exactly('delete', Post.modelName)
     })
 
-    it('calls `where` method of the query', () => {
-      spy.on(Post, 'where')
-      Post.accessibleBy(ability)
+    it('does not change query return type', () => {
+      const originalType = Post.findById(1).op
+      const type = Post.findById(1).accessibleBy(ability).op
 
-      expect(Post.where).to.be.called()
+      expect(type).to.equal(originalType)
     })
 
     it('wraps `toMongoQuery` result with additional `$and` to prevent collisions when combined with `$or` query', () => {
@@ -66,11 +66,15 @@ describe('Accessible Records Plugin', () => {
       expect(Post.where).to.be.called.with.exactly({ $and: [query] })
     })
 
-    it('does not change query return type', () => {
-      const originalType = Post.findById(1).op
-      const type = Post.findById(1).accessibleBy(ability).op
+    it('properly merges `toMongoQuery` result with existing in query `$and` conditions', () => {
+      const existingConditions = [{ prop: true }, { anotherProp: false }]
+      const query = Post.find({ $and: existingConditions })
+      const conditions = query.accessibleBy(ability).getQuery()
 
-      expect(type).to.equal(originalType)
+      expect(conditions.$and).to.eql([
+        ...existingConditions,
+        toMongoQuery(ability, 'Post')
+      ])
     })
 
     describe('when ability disallow to perform an action', () => {

@@ -1,5 +1,5 @@
 import { AbilityParameters } from '@casl/ability';
-import { Schema, DocumentQuery, Model, Document } from 'mongoose';
+import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
 import { toMongoQuery } from './mongo';
 import { AnyMongoAbility } from './types';
 
@@ -55,7 +55,11 @@ function accessibleBy<T extends AnyMongoAbility>(
 
   const query = toMongoQuery(ability, modelName, action);
 
-  return query === null ? emptifyQuery(this.where()) : this.where({ $and: [query] });
+  if (query === null) {
+    return emptifyQuery(this.where());
+  }
+
+  return this instanceof Query ? this.and([query]) : this.where({ $and: [query] });
 }
 
 export interface AccessibleRecordModel<T extends Document, K = {}> extends Model<T, K & {
