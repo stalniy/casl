@@ -15,7 +15,7 @@ export default class Header extends LitElement {
 
   render() {
     return html`
-      <header>
+      <header class="container">
         <app-link to="home" class="logo">${t('name')}</app-link>
         <div class="row align-center">
           <app-quick-search></app-quick-search>
@@ -25,17 +25,11 @@ export default class Header extends LitElement {
       <!-- <app-lang-picker></app-lang-picker> -->
     `;
   }
-
-  _renderLink(name) {
-    return html`
-      <app-link to="${name}">${t(`topMenu.${name}`)}</app-link>
-    `;
-  }
 }
 
 Header.styles = [
   gridCss,
-    css`
+  css`
     :host {
       display: block;
     }

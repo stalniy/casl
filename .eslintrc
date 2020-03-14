@@ -39,7 +39,8 @@
       "devDependencies": [
         "tools/**/*.js",
         "**/*.spec.js",
-        "**/*/spec_helper.js"
+        "**/*/spec_helper.js",
+        "**/*/rollup.config.js"
       ]
     }]
   },
@@ -59,6 +60,19 @@
         "@typescript-eslint/semi": ["error", "never"],
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-unused-expressions": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      "files": [
+        "docs-src/**/*.{js,ts}"
+      ],
+      "env": {
+        "browser": true
+      },
+      "rules": {
+        "class-methods-use-this": ["error", { "exceptMethods": ["render"] }],
+        "import/no-unresolved": ["error", { "ignore": ["\\.pages$", "\\.i18n$"] }],
         "import/no-extraneous-dependencies": "off"
       }
     }

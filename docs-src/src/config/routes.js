@@ -1,12 +1,18 @@
 import { html } from 'lit-element';
 import { LOCALES, defaultLocale } from '../services/i18n';
+import { loadPage } from '../services/pages';
 
-const page = (name) => () => ({
-  body: {
-    main: html`<app-page name="${name}"></app-page>`,
-    sidebar: html`menu here`,
-  }
-});
+function respond(success) {
+  return ({ match, error }) => {
+    if (error && error.code === 'NOT_FOUND') {
+      return {
+        body: html`<app-page name="notfound"></app-page>`
+      };
+    }
+
+    return success(match.params);
+  };
+}
 
 export const routes = [
   {
@@ -19,9 +25,15 @@ export const routes = [
     }),
     children: [
       {
-        name: 'guide',
-        path: 'guide',
-        respond: page('guide')
+        name: 'page',
+        path: ':id',
+        resolve: ({ params }) => loadPage(params.lang, params.id),
+        respond: respond(params => ({
+          body: {
+            main: html`<app-page name="${params.id}"></app-page>`,
+            sidebar: html`<app-sidebar></app-sidebar>`,
+          }
+        }))
       },
       {
         name: 'search',

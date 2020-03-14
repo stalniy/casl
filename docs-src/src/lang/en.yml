@@ -1,6 +1,6 @@
 name: CASL
-slogan: | 
-  Isomorphic Authorization 
+slogan: |
+  Isomorphic Authorization
   JavaScript library
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
@@ -66,3 +66,6 @@ features:
 
 search:
   placeholder: Search
+
+categories:
+  guide: Guide

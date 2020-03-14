@@ -33,8 +33,8 @@ export default class App extends LitElement {
 
     return html`
       <app-header .menu="${menu}"></app-header>
-      <section class="${body.sidebar ? 'row2' : ''} content" id="content">
-        <!-- ${cache(body.sidebar ? html`<aside>${body.sidebar}</aside>` : '')} -->
+      <section class="${body.sidebar ? 'row' : ''} content" id="content">
+        ${cache(body.sidebar ? html`<aside><div class="aside">${body.sidebar}</div></aside>` : '')}
         <main>${cache(body.main || body)}</main>
       </section>
       <app-footer></app-footer>
@@ -59,19 +59,27 @@ App.styles = [
     }
 
     .row > main {
-      flex-basis: 70%;
-      max-width: 70%;
+      flex-basis: 80%;
+      margin: 0 auto;
+      max-width: 800px;
+      padding-bottom: 50px;
     }
 
     .row > aside {
-      flex-basis: 30%;
-      max-width: 30%;
-      padding-left: 20px;
+      flex-basis: 260px;
+      max-width: 260px;
+      padding: 0 20px;
+      margin-right: 20px;
+      box-shadow: rgba(0, 0, 0, 0.1) 1px -1px 2px 0px;
     }
 
-    // main {
-    //   margin: auto;
-    //   max-width: 700px;
-    // }
+    .aside {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 84px);
+      overflow-y: auto;
+      padding-top: 2rem;
+      padding-bottom: 50px;
+    }
   `
 ];

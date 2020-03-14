@@ -1,9 +1,10 @@
 ---
 title: Not Found
+draft: true
 meta:
   keywords: ~
   description: ~
 ---
 
-Such page does not exist
+Such page does not exist.
 

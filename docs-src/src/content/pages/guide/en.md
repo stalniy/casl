@@ -1,5 +1,7 @@
 ---
-title: Intoduction
+title: Introduction
+categories: [guide]
+order: 10
 meta:
   keywords: ~
   description: ~
@@ -23,11 +25,11 @@ The easiest way to try out CASL.js is using the [Hello World example][hello-casl
 CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
 
 1. **User Action**\
-   Describes what user can actually do in the app. User action is a word (usually a verb) which depdends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
+   Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
 2. **Subject**\
-   The subject or subject type which you want to check user action on. Ussually this is a business (or domain) entity (e.g., `Subscription`, `Article`, `User`).
+   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity (e.g., `Subscription`, `Article`, `User`).
 3. **Fields**\
-   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `Article` but not update `desription` or `title`)
+   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `Article` but not update `description` or `title`)
 4. **Conditions**\
    An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `Article`)
 
@@ -37,6 +39,9 @@ CASL operates on the abilities level, that is what a user can actually do in the
 
 At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:
 
+> CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript][page-casl-ts] for details
+
+[page-casl-ts]: #
 
 ```js @{data-filename="defineAbility.js"}
 import { defineAbility } from '@casl/ability';
@@ -47,9 +52,9 @@ export default defineAbility((can, cannot) => {
 });
 ```
 
-> CASL has sophistacated support for TypeScript but in this guide we will use JavaScript to grasp basic concepts. See [CASL TypeScript][page-casl-ts] for details
+> `defineAbility` function is useful for simple declarations thus good for guides and tests but for most applications direct usage of `AbilityBuilder` instance should fit better. See [Different ways to define rules][page-ways-to-define-rules]
 
-[page-casl-ts]: #
+[page-ways-to-define-rules]: #
 
 In the example above, we have just defined `Ability` instance which allows to do anything in the app but not delete users. As you probably guessed, `can` and `cannot` accept the same arguments but has different meanings, `can` allows to do an action on the specified subject and `cannot` forbids. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions, `all` and `User` are subjects 
 
@@ -102,7 +107,7 @@ export default function defineAbilityFor(user) {
 }
 ```
 
-Do you see how real bussiness requirements are easily translated to code? Now let's check them! 
+Do you see how real business requirements are easily translated to code? Now let's check them! 
 
 But how can we check conditions? The simplest way to do this is to use classes for your models
 
@@ -140,14 +145,215 @@ ability.can('update', ownArticle) // true
 ability.can('update', anotherArticle) // false
 ```
 
-**Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
-
-Actually `Ability` class uses [sift.js](https://github.com/crcn/sift.js)@{rel="noopener"} to match objects but only specific subset of operators are supported. This allows to use [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/) to check permissions on entities.
-
-> See [CASL conditions in depth][page-condition-advanced] for details
- 
-<!-- > Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. In case it looks confusing, you may rename `can` and `cannot` functions in `defineAbility` to `allow` and `forbid` correspondingly. See [Confusing API][page-confusing-api] for explanation. -->
+> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. In case it looks confusing, you may rename `can` and `cannot` functions in `defineAbility` to `allow` and `forbid` correspondingly. See [Confusing API][page-confusing-api] for explanation.
 
 [page-confusing-api]: #
-[page-condition-advanced]: #
 
+**Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
+
+Thanks to [sift.js](https://github.com/crcn/sift.js)@{rel="noopener"} `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
+
+> If you are not familiar with MongoDB query language, see [CASL conditions in depth][page-advanced-conditions] for details
+ 
+[page-advanced-conditions]: #
+
+You can define the same pair of action and subject with different conditions multiple times. For example, let's allow our blog users to share drafts and publish articles:
+
+```js
+import { defineAbility } from '@casl/ability';
+
+export default function defineAbilityFor(user) {
+  return defineAbility((can) => {
+    can('read', 'Article', { published: true });
+    can('read', 'Article', { published: false, sharedWith: user.id });
+  });
+}
+```
+
+In such case, the pair of action/subject rules are combined by logical `OR`. More formally this can be translated as "users can read Article if it's published OR users can read Article if it's not published AND shared with them".
+
+If it's not enough you can also define permissions for subject fields!
+
+## Fields
+
+Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish `Article`:
+
+```js @{data-filename="defineAbility.js"}
+import { defineAbility } from '@casl/ability';
+
+export default function defineAbilityFor(user) {
+  return defineAbility((can) => {
+    can('read', 'Article');
+    can('update', 'Article', ['title', 'description'], { authorId: user.id })
+
+    if (user.isModerator) {
+      can('update', 'Article', ['published'])
+    }
+  });
+}
+```
+
+Here we defined that any user can update `title` and `description` fields of their own `Article`s and only moderators can update `published` field.
+
+> If fields are not specified, a user is allowed to access any field.
+
+To check permissions on fields, we have 2 options:
+
+1. Use the same `can` and `cannot` methods of `Ability` instance:
+   
+   ```js
+   import defineAbilityFor from './defineAbility';
+   import { Article } from './entities';
+
+   const moderator = { id: 2, isModerator: true };
+   const ownArticle = new Article({ authorId: moderator.id });
+   const foreignArticle = new Article({ authorId: 10 });
+   const ability = defineAbilityFor(moderator);
+
+   ability.can('read', 'Article') // true
+   ability.can('update', 'Article', 'published') // true
+   ability.can('update', ownArticle, 'published') // true
+   ability.can('update', foreignArticle, 'title') // false
+   ```
+
+2. Use `permittedFieldsOf` helper function from `@casl/ability/extra` sub-module to get all permitted fields:
+   
+   ```js
+   import { permittedFieldsOf } from '@casl/ability/extra';
+
+   const moderator = { id: 2, isModerator: true };
+   const ability = defineAbilityFor(moderator);
+   
+   permittedFieldsOf(ability, 'update', ownArticle); // ['title', 'description', 'published'] 
+   const fields = permittedFieldsOf(ability, 'update', foreignArticle); // ['published']
+
+   if (fields.includes('title')) {
+     // do something if can update title
+   }
+   ```
+
+   This method is very useful in combination with [lodash.pick] to extract permitted fields from user request.
+
+   [lodash.pick]: https://lodash.com/docs/4.17.15#pick
+
+> For more complex cases, you can use nested fields and wildcards, see [Wildcards in fields][page-advanced-fields] for details
+
+> To know more about `@casl/ability/extra` check its [API documentation][page-extra-api]
+
+[page-extra-api]: #
+[page-advanced-fields]: #
+
+## Checking logic
+
+Let's consider a simple example where user can published articles:
+
+```js
+import { defineAbility } from '@casl/ability';
+import { Article } from './entities';
+
+const ability = defineAbility((can) => {
+  can('read', 'Article', { published: true })
+});
+const article = new Article({ published: true });
+
+ability.can('read', article); // (1)
+ability.can('read', 'Article'); // (2) 
+ability.can('do', 'SomethingUndeclared'); // (3)
+```
+
+Line `(1)` returns `true` as we expected but what would you expect line `(2)` to return? The answer may be unexpected for some of you but it returns `true` as well. Why?
+
+This happens because these checks ask different questions:
+* the 1st asks "can I read this article?" 
+* the 2nd asks "can I read at least one article?". Our user can read published articles, so it can read at least one published article, that's why we got `true`.
+
+It make sense when you don't have an instance to check on but know its type (for example, during creation), so this allows your app to fail fast. 
+
+> If you do checks on subject type, you need to check permissions one more time, right before sending request to API or database.
+
+Also it's important to note that for any non-declared subject or action CASL returns `false` (if you do not use `manage` and `all` keywords), that's why the `(3)` line returns `false`.
+
+## Inverted rules
+
+This guide talk a lot about direct permissions but nothing about inverted one. This is for the reason. The direct logic is much simpler to understand, and we recommend to use it whenever possible.
+
+To define an inverted rule, you need to use the 2nd argument in callback of `defineAbility`. Let's give user a permission to do anything but not delete:
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const ability = defineAbility((can, cannot) => {
+  can('manage', 'all');
+  cannot('delete', 'all');
+});
+
+ability.can('read', 'Post'); // true
+ability.can('delete', 'Post'); // false
+```
+
+As you should know direct rules are checked by logical `OR` on the other hand inverted ones are checked by logical `AND`. So, in the example above user:
+
+* can do anything on all entities
+* and cannot delete any entity
+
+When action and subject of direct and inverted rules are intersects, its order matters: `cannot` declarations should follow after `can`, otherwise they will be overridden by `can`.
+
+### Forbidden reasons
+
+The good point about inverted rules is that they help to explicitly forbid particular actions. Moreover they allow to add explanation. Let's see how
+
+```js @{data-filename="defineAbility.js"}
+import { defineAbility } from '@casl/ability';
+
+export default defineAbility((can, cannot) => {
+  can('read', 'all');
+  cannot('read', 'all', { private: true }).because('You are not allowed to read private information');
+});
+```
+
+So then, we can check permissions using `ForbiddenError`:
+
+```js
+import { ForbiddenError } from '@casl/ability';
+import ability from './defineAbility';
+
+try {
+  ForbiddenError.from(ability).throwUnlessCan('read', { private: true })
+} catch (error) {
+  if (error instanceof ForbiddenError) {
+    console.log(error.message)
+  }
+}
+```
+
+> To learn more about `ForbiddenError`, see [ForbiddenError API][page-error-api]
+
+[page-error-api]: #
+
+## Update rules
+
+Sometimes, especially in frontend application development, you will need to update `Ability` instance's rules (e.g., on login or logout). To do this, you need to call `update` method:
+
+```js
+import ability from './defineAbility';
+
+ability.update([]); // forbids everything
+ability.update([ // switch to readonly mode
+  { action: 'read', subject: 'all' }
+]);
+```
+
+To track when rules are update, you can subscribe to `update` or `updated` events of `Ability` instance:
+
+```js
+const unsubscribe = ability.on('update', ({ rules, ability }) => {
+  // `rules` is an array passed to `update` method
+  // `ability` is an Ability instance that triggered event
+})
+
+unsubscribe() // removes subscription
+```
+
+## Ready for More?
+
+We’ve briefly introduced all the features of CASL.js core - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!

@@ -6,12 +6,13 @@ import AppLink from './components/AppLink';
 import AppMenu from './components/AppMenu';
 import ArticleDetails from './components/ArticleDetails';
 import Page from './components/Page';
+import PageNav from './components/PageNav';
 import HomePage from './components/HomePage';
 import GithubButton from './components/GithubButton';
-// import Pager from './components/Pager';
 import PageSearch from './components/PageSearch';
 import QuickSearch from './components/QuickSearch';
 import LangPicker from './components/LangPicker';
+import Sidebar from './components/Sidebar';
 import { locale, setLocale, defaultLocale } from './services/i18n';
 import router from './services/router';
 import { setRouteMeta } from './services/meta';
@@ -25,11 +26,12 @@ const components = [
   ArticleDetails,
   Page,
   HomePage,
-  // Pager,
+  PageNav,
   PageSearch,
   QuickSearch,
   LangPicker,
   GithubButton,
+  Sidebar,
 ];
 
 export default function bootstrap(selector) {

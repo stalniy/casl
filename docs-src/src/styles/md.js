@@ -52,4 +52,8 @@ export default css`
   .md blockquote > p:last-child {
     margin-bottom: 0;
   }
+
+  .md blockquote + blockquote {
+    margin-top: 20px;
+  }
 `;

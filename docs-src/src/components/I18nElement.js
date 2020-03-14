@@ -1,15 +1,17 @@
 import { LitElement } from 'lit-element';
-import { listenForLangChanged } from '../services/i18n';
+import { listenForLangChanged, locale } from '../services/i18n';
 
 export default class I18nElement extends LitElement {
   constructor() {
     super();
     this._unwatchLang = null;
+    this._locale = locale();
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this._unwatchLang = listenForLangChanged(() => {
+    this._unwatchLang = listenForLangChanged((lang) => {
+      this._locale = lang;
       this.reload().then(() => this.requestUpdate());
     });
   }

@@ -7,13 +7,17 @@ import { setPageMeta } from '../services/articles';
 import { loadPage } from '../services/pages';
 import router from '../services/router';
 
+function renderContent(page, vars) {
+  return unsafeHTML(interpolate(page.content, vars));
+}
+
 export default class Page extends I18nElement {
   static cName = 'app-page';
   static properties = {
     name: { type: String },
     vars: { type: Object, attribute: false },
     content: { type: Function, attribute: false },
-  }
+  };
 
   constructor() {
     super();
@@ -21,7 +25,7 @@ export default class Page extends I18nElement {
     this._page = null;
     this.name = null;
     this.vars = null;
-    this.content = this._renderContent;
+    this.content = renderContent;
     this._unwatchLang = null;
   }
 
@@ -62,11 +66,8 @@ export default class Page extends I18nElement {
         <h1><i class="icon-idea"></i>${interpolate(this._page.title)}</h1>
         <div class="description md">${this.content(this._page, this.vars)}</div>
       </article>
+      <app-page-nav fromPage="${this.name}"></app-page-nav>
     `;
-  }
-
-  _renderContent(page, vars) {
-    return unsafeHTML(interpolate(page.content, vars));
   }
 }
 

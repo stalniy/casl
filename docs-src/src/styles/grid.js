@@ -1,6 +1,11 @@
 import { css } from 'lit-element';
 
 export default css`
+  .container {
+    margin: auto;
+    max-width: 1200px;
+  }
+
   .row {
     display: flex;
   }

@@ -13,9 +13,7 @@ import xyaml from 'xyaml-webpack-loader/rollup';
 import indexHTML from './tools/index.html';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser';
 
-const env = (name, plugins) => {
-  return process.env.NODE_ENV === name ? plugins : [];
-};
+const env = (name, plugins) => process.env.NODE_ENV === name ? plugins : [];
 const SUPPORTED_LANGS = ['en'];
 const minify = terser({
   mangle: {
@@ -34,6 +32,9 @@ export default {
     format: 'es',
     dir: '../docs',
     sourcemap: true,
+    assetFileNames: process.env.NODE_ENV === 'production'
+      ? 'assets/[name].[hash].[ext]'
+      : 'assets/[name].[ext]',
     entryFileNames: process.env.NODE_ENV === 'production'
       ? '[name].[hash].js'
       : '[name].js',
@@ -122,10 +123,13 @@ export default {
       parse: parsexYaml,
     }),
     content({
-      matches: /\.pages$/i,
+      matches: /\.pages$/,
       langs: SUPPORTED_LANGS,
       pageSchema: false,
-      summarizer: false,
+      summary: {
+        fields: ['id', 'title', 'categories'],
+        sortBy: ['order']
+      },
       parse: parseFrontMatter,
     }),
     replace({
