@@ -31,6 +31,29 @@ export default defineAbility((can, cannot) => {
 });
 ```
 
+You can pass multiple actions, subjects and fields in the single `can` (or `cannot`) function. So, instead of
+
+```js
+import { defineAbility } from '@casl/ability';
+
+export default defineAbility((can, cannot) => {
+  can('read', 'Post');
+  can('update', 'Post');
+  can('read', 'Comment');
+  can('update', 'Comment');
+});
+```
+
+you can do:
+
+```js
+import { defineAbility } from '@casl/ability';
+
+export default defineAbility((can, cannot) => {
+  can(['read', 'update'], ['Post', 'Comment']);
+});
+```
+
 > To learn more about `can` and `cannot` functions' parameters, read [AbilityBuilder API](../../api#abilitybuilder)
 
 ### When to use defineAbility
