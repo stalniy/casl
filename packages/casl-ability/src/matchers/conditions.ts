@@ -1,7 +1,6 @@
 import {
   Query,
   createQueryTester as sift,
-  $not,
   $eq,
   $ne,
   $lt,
@@ -19,7 +18,6 @@ import {
 import { ConditionsMatcher as Matcher, MatchConditions } from '../Rule';
 
 const operations = {
-  $not,
   $eq,
   $ne,
   $lt,
@@ -38,7 +36,6 @@ const operations = {
 type RegExpOptions<T> = { $regex: T, $options?: string };
 type AnyValue = object | string | number | null | boolean | undefined;
 type QueryOperators = {
-  $not?: QueryOperators,
   $eq?: any,
   $ne?: any,
   $lt?: string | number | Date,
@@ -53,7 +50,7 @@ type QueryOperators = {
   $elemMatch?: {
     [k in Exclude<keyof QueryOperators, '$elemMatch'>]?: QueryOperators[k]
   },
-  $exists: boolean
+  $exists?: boolean
 };
 
 export type MongoQuery = Record<PropertyKey, QueryOperators | AnyValue>;
