@@ -21,7 +21,7 @@ export default class HomePage extends LitElement {
             <div class="col">
               <h1>${t('slogan')}</h1>
               <div class="buttons">
-                <app-link to="page" .params="${{ id: 'guide' }}" class="btn btn-lg">
+                <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
                   ${t('buttons.start')}
                 </app-link>
                 <a href="${config.repoURL}" target="_blank" rel="noopener" class="btn btn-lg">

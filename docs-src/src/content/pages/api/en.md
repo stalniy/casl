@@ -1,9 +1,10 @@
 ---
-title: Not Found
+title: Handle forbidden errors
+categories: [api]
 hidden: true
 meta:
   keywords: ~
   description: ~
 ---
 
-Such page does not exist.
+TODO

@@ -1,11 +1,10 @@
 ---
-title: Installation
+title: Subject name detection
 categories: [guide]
-order: 0
+order: 30
 meta:
   keywords: ~
   description: ~
 ---
 
-Test 1 page
-
+TODO

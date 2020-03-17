@@ -5,8 +5,8 @@ export default class Link extends LitElement {
   static cName = 'app-link';
   static properties = {
     to: { type: String },
-    params: { type: Object, attribute: false },
-    query: { type: Object, attribute: false },
+    params: { type: Object },
+    query: { type: Object },
     hash: { type: String },
     active: { type: Boolean }
   };
@@ -60,7 +60,7 @@ export default class Link extends LitElement {
 
   _navigate(event) {
     event.preventDefault();
-    router.navigate({ url: this._url })
+    router.navigate({ url: this._url });
   }
 }
 
@@ -68,19 +68,23 @@ Link.styles = css`
   :host {
     display: inline-block;
     vertical-align: baseline;
-    text-decoration: underline;
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+
+  :host(:hover) {
+    border-bottom-color: #81a2be;
   }
 
   a {
-    display: block;
-    height: 100%;
     font-size: inherit;
     color: inherit;
     text-decoration: inherit;
   }
 
   a:hover {
-    text-decoration: none;
+    text-decoration: inherit;
   }
 
   a.active {

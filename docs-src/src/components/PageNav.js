@@ -53,7 +53,27 @@ PageNav.styles = css`
     content: '';
   }
 
+  app-link {
+    color: #81a2be;
+    text-decoration: none;
+  }
+
+  app-link:hover {
+    border-bottom-color: transparent;
+  }
+
   .next {
     float: right;
+  }
+
+  .next:after,
+  .prev:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: '⇢';
+  }
+
+  .prev:before {
+    content: '⇠';
   }
 `;

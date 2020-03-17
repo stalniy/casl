@@ -1,5 +1,23 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n'
+import { t } from '../directives/i18n';
+
+function renderNavItem(item) {
+  if (item.heading) {
+    return html`<h4>${t(`menu.${item.heading}`)}</h4>`;
+  }
+
+  const title = t(`menu.${item.name}`);
+
+  if (item.route === false) {
+    return html`<a class="link">${title}</a>`;
+  }
+
+  if (item.url) {
+    return html`<a href="${item.url}" target="_blank" rel="nofollow">${title}</a>`;
+  }
+
+  return html`<app-link to="${item.name}">${title}</app-link>`;
+}
 
 export default class Menu extends LitElement {
   static cName = 'app-menu';
@@ -25,34 +43,14 @@ export default class Menu extends LitElement {
   }
 
   _renderNav(items, navClass) {
-    const children = items.map((item) => html`
+    const children = items.map(item => html`
       <li class="dropdown-container">
-        ${this._renderItem(item)}
+        ${renderNavItem(item)}
         ${item.children ? this._renderNav(item.children, 'dropdown') : ''}
       </li>
     `);
 
     return html`<ul class="${navClass}">${children}</ul>`;
-  }
-
-  _renderItem(item) {
-    if (item.heading) {
-      return html`<h4>${t(`menu.${item.heading}`)}</h4>`;
-    }
-
-    const title = t(`menu.${item.name}`);
-
-    if (item.route === false) {
-      return html`<a class="link">${title}</a>`
-    }
-
-    if (item.url) {
-      return html`<a href="${item.url}" target="_blank" rel="nofollow">${title}</a>`;
-    }
-
-    return html`
-      <app-link to="${item.name}">${title}</app-link>
-    `;
   }
 }
 
@@ -134,12 +132,12 @@ Menu.styles = css`
     color: #202428;
     text-decoration: none;
   }
-
   .nav a:hover,
   .nav app-link:hover,
   .dropdown a:hover,
   .dropdown app-link:hover {
-    color: #444;
+    color: #81a2be;
+    border-bottom-color: transparent;
   }
 
   .link {

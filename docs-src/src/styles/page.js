@@ -6,6 +6,11 @@ export default css`
     font-size: 2rem;
   }
 
+  h2 {
+    padding-bottom: .3rem;
+    border-bottom: 1px solid #ddd;
+  }
+
   h1, h2, h3, h4, h5 {
     font-weight: normal;
     cursor: pointer;

@@ -5,12 +5,21 @@ export default css`
     overflow: auto;
   }
 
-  .md a {
-    color: var(--app-link-active-color);
+  .md a,
+  .md app-link {
+    color: #81a2be;
+    text-decoration: underline;
+    border-bottom: 0;
+  }
+
+  .md a:hover,
+  .md app-link:hover {
+    text-decoration: none;
+    border-bottom: 0;
   }
 
   .md code:not([class]) {
-    color: rgb(129, 162, 190);
+    color: rgb(222, 147, 95);;
     background: #f8f8f8;
     padding: 2px 5px;
     margin: 0 2px;
@@ -22,7 +31,7 @@ export default css`
   .md blockquote {
     padding: 0.8rem 1rem;
     margin: 0;
-    border-left: 4px solid rgb(129, 162, 190);
+    border-left: 4px solid #81a2be;
     background-color: #f8f8f8;
     position: relative;
     border-bottom-right-radius: 2px;
@@ -34,7 +43,7 @@ export default css`
     top: 0.8rem;
     left: -12px;
     color: #fff;
-    background: rgb(129, 162, 190);
+    background: #81a2be;
     width: 20px;
     height: 20px;
     border-radius: 100%;
@@ -55,5 +64,19 @@ export default css`
 
   .md blockquote + blockquote {
     margin-top: 20px;
+  }
+
+  .md table {
+    border-collapse: collapse;
+  }
+
+  .md th,
+  .md td {
+    border: 1px solid #c6cbd1;
+    padding: 6px 13px;
+  }
+
+  .md tr {
+    border-top: 1px solid #c6cbd1;
   }
 `;

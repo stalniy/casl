@@ -51,4 +51,8 @@ Sidebar.styles = css`
   nav > h3:first-child {
     margin-top: 0;
   }
+
+  li {
+    margin-top: 8px;
+  }
 `;

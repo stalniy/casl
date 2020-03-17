@@ -69,3 +69,7 @@ search:
 
 categories:
   guide: Guide
+  example: Examples
+  package: Official Packages
+  cookbook: Cookbook
+  advanced: Advanced

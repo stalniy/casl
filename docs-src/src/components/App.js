@@ -68,7 +68,7 @@ App.styles = [
     .row > aside {
       flex-basis: 260px;
       max-width: 260px;
-      padding: 0 20px;
+      padding-left: 20px;
       margin-right: 20px;
       box-shadow: rgba(0, 0, 0, 0.1) 1px -1px 2px 0px;
     }

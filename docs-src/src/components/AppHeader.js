@@ -53,5 +53,9 @@ Header.styles = [
       font-size: 3rem;
       font-family: "Stardos Stencil", "Helvetica Neue", Arial, sans-serif;
     }
+
+    .logo:hover {
+      border-bottom-color: transparent;
+    }
   `
 ];

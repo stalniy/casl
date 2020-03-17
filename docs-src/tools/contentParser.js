@@ -8,6 +8,15 @@ export const markdownOptions = {
     'markdown-it-headinganchor': {
       anchorClass: 'h-link',
       slugify,
+    },
+    [`${__dirname}/tools/mdLink`]: {
+      external: {
+        target: '_blank',
+        rel: 'noopener nofollow'
+      },
+      local: {
+        tagName: 'app-link'
+      }
     }
   }
 };
@@ -21,12 +30,12 @@ const grayMatterOptions = {
   engines: { xyaml: parsexYaml }
 };
 
-export function parseFrontMatter(content) {
+export function parseFrontMatter(content, context) {
   const file = matter(content, grayMatterOptions);
   const parser = getOrCreateMdParser(markdownOptions);
 
   return {
     ...file.data,
-    content: parser.render(file.content).trim(),
+    content: parser.render(file.content, context).trim(),
   };
 }

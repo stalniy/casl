@@ -26,7 +26,10 @@ export const routes = [
     children: [
       {
         name: 'page',
-        path: ':id',
+        path: ':id([\\w/-]+)',
+        pathOptions: {
+          compile: { encode: x => x }
+        },
         resolve: ({ params }) => loadPage(params.lang, params.id),
         respond: respond(params => ({
           body: {

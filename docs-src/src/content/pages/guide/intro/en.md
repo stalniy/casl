@@ -13,12 +13,12 @@ CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization Ja
 
 ## Getting Started
 
-The easiest way to try out CASL.js is using the [Hello World example][hello-casl]. Feel free to open it in another tab and follow along as we go through some basic examples. Alternatively you can create Nodejs project and install `@casl/ability` as a dependency.
+The easiest way to try out CASL.js is using the [Hello World example][example-hello-casl]. Feel free to open it in another tab and follow along as we go through some basic examples. Alternatively you can create Nodejs project and install `@casl/ability` as a dependency.
 
-> The [Installation page][install] provides more options of installing CASL. 
+> The [Installation page][guide-install] provides more options of installing CASL.
 
-[hello-casl]: #
-[install]: #
+[example-hello-casl]: #
+[guide-install]: ../install
 
 ## Basics
 
@@ -33,15 +33,11 @@ CASL operates on the abilities level, that is what a user can actually do in the
 4. **Conditions**\
    An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `Article`)
 
-> CASL doesn't have a concept of a role but it doesn't mean it can't be used in role based system. See [Roles with CASL][page-roles] for details.
-
-[page-roles]: #
+> CASL doesn't have a concept of a role but it doesn't mean it can't be used in role based system. See [Roles with static rules CASL](../../cookbook/roles/with-static-rules) for details.
 
 At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:
 
-> CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript][page-casl-ts] for details
-
-[page-casl-ts]: #
+> CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript](../../advanced/typescript) for details
 
 ```js @{data-filename="defineAbility.js"}
 import { defineAbility } from '@casl/ability';
@@ -52,11 +48,9 @@ export default defineAbility((can, cannot) => {
 });
 ```
 
-> `defineAbility` function is useful for simple declarations thus good for guides and tests but for most applications direct usage of `AbilityBuilder` instance should fit better. See [Different ways to define rules][page-ways-to-define-rules]
+> `defineAbility` function is useful for simple declarations thus good for guides and tests but for most applications direct usage of `AbilityBuilder` instance should fit better. See [Define Rules](../define-rules) for in depth details.
 
-[page-ways-to-define-rules]: #
-
-In the example above, we have just defined `Ability` instance which allows to do anything in the app but not delete users. As you probably guessed, `can` and `cannot` accept the same arguments but has different meanings, `can` allows to do an action on the specified subject and `cannot` forbids. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions, `all` and `User` are subjects 
+In the example above, we have just defined `Ability` instance which allows to do anything in the app but not delete users. As you probably guessed, `can` and `cannot` accept the same arguments but has different meanings, `can` allows to do an action on the specified subject and `cannot` forbids. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions, `all` and `User` are subjects
 
 > `manage` and `all` are special keywords in CASL. `manage` represents any action and `all` represents any subject
 
@@ -72,15 +66,13 @@ ability.can('delete', 'User') // false
 ability.cannot('delete', 'User') // true
 ```
 
-> CASL is perfectly OK to work without specifying subjects. Just don't pass the 2nd argument to functions and that's it. See [Claim based rules][page-claim-rules] for more details.
-
-[page-claim-rules]: #
+> CASL is perfectly OK to work without specifying subjects. Just don't pass the 2nd argument to functions and that's it. See [Claim based authorization](../../cookbook/claim-authorization) for more details.
 
 In the example above, `Ability` instance allows us to check permissions in pretty readable way. You may think: "there is nothing extraordinary, we got results according to how permissions were defined". And you are right! CASL really shines when you need to restrict resources based on their attributes
 
-## Conditions 
+## Conditions
 
-The most common requirement to mid size apps is an ability to restrict action on own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to `can` and `cannot` methods on the definition step. 
+The most common requirement to mid size apps is an ability to restrict action on own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to `can` and `cannot` methods on the definition step.
 
 So, let's consider requirements for permissions for a blog website similar to medium but simpler. In such blog user
 
@@ -107,13 +99,11 @@ export default function defineAbilityFor(user) {
 }
 ```
 
-Do you see how real business requirements are easily translated to code? Now let's check them! 
+Do you see how real business requirements are easily translated to code? Now let's check them!
 
 But how can we check conditions? The simplest way to do this is to use classes for your models
 
-> Classes are natural in backend development but not always makes sense in frontend. CASL supports another way to check conditions on objects, see [Subject name extraction][page-subject-name] for details.
-
-[page-subject-name]: #
+> Classes are natural in backend development but not always makes sense in frontend. CASL supports another way to check conditions on objects, see [Subject name detection](../subject-name) for details.
 
 So, let's define a simple classes for `Article` and `Comment` entities:
 
@@ -145,17 +135,15 @@ ability.can('update', ownArticle) // true
 ability.can('update', anotherArticle) // false
 ```
 
-> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. In case it looks confusing, you may rename `can` and `cannot` functions in `defineAbility` to `allow` and `forbid` correspondingly. See [Confusing API][page-confusing-api] for explanation.
+> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. In case it looks confusing, you may rename `can` and `cannot` functions in `defineAbility` to `allow` and `forbid` correspondingly. See [About `can` API][advanced-about-can-api] for explanation.
 
-[page-confusing-api]: #
+[advanced-about-can-api]: ../../advanced/about-can-api
 
 **Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
 
 Thanks to [sift.js](https://github.com/crcn/sift.js)@{rel="noopener"} `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
 
-> If you are not familiar with MongoDB query language, see [CASL conditions in depth][page-advanced-conditions] for details
- 
-[page-advanced-conditions]: #
+> If you are not familiar with MongoDB query language, see [CASL conditions in depth](../conditions-in-depth) for details
 
 You can define the same pair of action and subject with different conditions multiple times. For example, let's allow our blog users to share drafts and publish articles:
 
@@ -200,7 +188,7 @@ Here we defined that any user can update `title` and `description` fields of the
 To check permissions on fields, we have 2 options:
 
 1. Use the same `can` and `cannot` methods of `Ability` instance:
-   
+
    ```js
    import defineAbilityFor from './defineAbility';
    import { Article } from './entities';
@@ -217,14 +205,14 @@ To check permissions on fields, we have 2 options:
    ```
 
 2. Use `permittedFieldsOf` helper function from `@casl/ability/extra` sub-module to get all permitted fields:
-   
+
    ```js
    import { permittedFieldsOf } from '@casl/ability/extra';
 
    const moderator = { id: 2, isModerator: true };
    const ability = defineAbilityFor(moderator);
-   
-   permittedFieldsOf(ability, 'update', ownArticle); // ['title', 'description', 'published'] 
+
+   permittedFieldsOf(ability, 'update', ownArticle); // ['title', 'description', 'published']
    const fields = permittedFieldsOf(ability, 'update', foreignArticle); // ['published']
 
    if (fields.includes('title')) {
@@ -236,12 +224,9 @@ To check permissions on fields, we have 2 options:
 
    [lodash.pick]: https://lodash.com/docs/4.17.15#pick
 
-> For more complex cases, you can use nested fields and wildcards, see [Wildcards in fields][page-advanced-fields] for details
+> For more complex cases, you can use nested fields and wildcards, see [Restricting field access](../restricting-fields) for details
 
-> To know more about `@casl/ability/extra` check its [API documentation][page-extra-api]
-
-[page-extra-api]: #
-[page-advanced-fields]: #
+> To know more about `@casl/ability/extra` check its [API documentation](../../api#extra-submodule)
 
 ## Checking logic
 
@@ -257,17 +242,17 @@ const ability = defineAbility((can) => {
 const article = new Article({ published: true });
 
 ability.can('read', article); // (1)
-ability.can('read', 'Article'); // (2) 
+ability.can('read', 'Article'); // (2)
 ability.can('do', 'SomethingUndeclared'); // (3)
 ```
 
 Line `(1)` returns `true` as we expected but what would you expect line `(2)` to return? The answer may be unexpected for some of you but it returns `true` as well. Why?
 
 This happens because these checks ask different questions:
-* the 1st asks "can I read this article?" 
+* the 1st asks "can I read this article?"
 * the 2nd asks "can I read at least one article?". Our user can read published articles, so it can read at least one published article, that's why we got `true`.
 
-It make sense when you don't have an instance to check on but know its type (for example, during creation), so this allows your app to fail fast. 
+It make sense when you don't have an instance to check on but know its type (for example, during creation), so this allows your app to fail fast.
 
 > If you do checks on subject type, you need to check permissions one more time, right before sending request to API or database.
 
@@ -326,9 +311,7 @@ try {
 }
 ```
 
-> To learn more about `ForbiddenError`, see [ForbiddenError API][page-error-api]
-
-[page-error-api]: #
+> To learn more about `ForbiddenError`, see [ForbiddenError API](../../api#forbidden-error)
 
 ## Update rules
 
