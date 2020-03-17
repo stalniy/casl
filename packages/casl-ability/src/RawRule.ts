@@ -15,7 +15,12 @@ interface PureSubjectRawRule<S extends SubjectType, C> extends BaseRawRule<C> {
   subject: S | S[]
 }
 
-type ActionAndLegacyActions<A> = { action: A | A[] } | { actions: A | A[] };
+type ActionAndLegacyActions<A> = {
+  action: A | A[]
+} | {
+  /** @deprecated use "action" field instead */
+  actions: A | A[]
+};
 
 export type SubjectRawRule<A extends string, S extends SubjectType, C> =
   PureSubjectRawRule<S, C> & ActionAndLegacyActions<A>;

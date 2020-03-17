@@ -68,6 +68,14 @@ export interface PermittedFieldsOptions<T extends AnyAbility> {
   fieldsFrom?: GetRuleFields<T>
 }
 
+function deleteKey(this: Record<string, any>, key: string) {
+  delete this[key];
+}
+
+function setKey(this: Record<string, any>, key: string) {
+  this[key] = true;
+}
+
 export function permittedFieldsOf<T extends AnyAbility>(
   ability: T,
   action: AbilityParameters<T>['action'],
@@ -82,14 +90,14 @@ export function permittedFieldsOf<T extends AnyAbility>(
       const names = fieldsFrom(rule);
 
       if (names) {
-        const toggle = rule.inverted ? 'delete' : 'add';
-        names.forEach(fields[toggle], fields);
+        const toggle = rule.inverted ? deleteKey : setKey;
+        names.forEach(toggle, fields);
       }
 
       return fields;
-    }, new Set<string>());
+    }, {} as Record<string, true>);
 
-  return Array.from(uniqueFields);
+  return Object.keys(uniqueFields);
 }
 
 const joinIfArray = (value: string | string[]) => Array.isArray(value) ? value.join(',') : value;
