@@ -1,8 +1,8 @@
 import { Rule, ConditionsMatcher, FieldMatcher } from './Rule';
 import { RawRule } from './RawRule';
-import { wrapArray, getSubjectName, expandActions, AliasesMap } from './utils';
+import { wrapArray, detectSubjectType, expandActions, AliasesMap } from './utils';
 import {
-  GetSubjectName,
+  DetectSubjectType,
   Subject,
   ExtractSubjectType as E,
   ValueOf,
@@ -18,7 +18,9 @@ function hasAction(action: string, actions: string | string[]): boolean {
 export type Unsubscribe = () => void;
 
 export interface AbilityOptions<Subjects extends Subject, Conditions> {
-  subjectName?: GetSubjectName<Subjects>
+  /** @deprecated use "detectSubjectType" option instead */
+  subjectName?: DetectSubjectType<Subjects>
+  detectSubjectType?: DetectSubjectType<Subjects>
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
 }
@@ -74,7 +76,7 @@ export class PureAbility<Actions extends string, Subjects extends Subject, Condi
   private _indexedRules: RuleIndex<Actions, Subjects, Conditions> = {};
   private readonly _fieldMatcher?: FieldMatcher;
   private readonly _conditionsMatcher?: ConditionsMatcher<Conditions>;
-  public readonly subjectName: GetSubjectName<Subjects | string> = getSubjectName;
+  public readonly subjectName!: DetectSubjectType<Subjects | string>;
   private _rules: this['rules'] = [];
   public readonly rules!: Rule<Actions, Subjects, Conditions>[];
 
@@ -100,7 +102,9 @@ export class PureAbility<Actions extends string, Subjects extends Subject, Condi
   ) {
     this._conditionsMatcher = options.conditionsMatcher;
     this._fieldMatcher = options.fieldMatcher;
-    Object.defineProperty(this, 'subjectName', { value: options.subjectName || getSubjectName });
+    Object.defineProperty(this, 'subjectName', {
+      value: options.subjectName || options.detectSubjectType || detectSubjectType
+    });
     Object.defineProperty(this, 'rules', { get: () => this._rules });
     this.update(rules);
   }

@@ -114,7 +114,7 @@ Sometimes you will need to define your own type detection algorithm (e.g., [Grap
 
 [GraphQL]: https://graphql.org/
 
-For such cases, CASL provides `subjectName` option to override built-in algorithm:
+For such cases, CASL provides `detectSubjectType` option to override built-in algorithm:
 
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability';
@@ -125,7 +125,7 @@ const { can, rules } = new AbilityBuilder();
 can('read', 'Article');
 
 const ability = new Ability(rules, {
-  subjectName: subjectTypeFromGraphql
+  detectSubjectType: subjectTypeFromGraphql
 });
 
 const article = { __typename: 'Article' };
@@ -146,7 +146,7 @@ The same can be achieved using `defineAbility` function:
 import { defineAbility } from '@casl/ability';
 import subjectTypeFromGraphql from './subjectTypeFromGraphql';
 
-const options = { subjectName: subjectTypeFromGraphql };
+const options = { detectSubjectType: subjectTypeFromGraphql };
 const ability = defineAbility(options, (can) => {
   can('read', 'Article');
 });

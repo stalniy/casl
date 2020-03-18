@@ -21,13 +21,30 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
   ref[lastKey] = value;
 }
 
-export function getSubjectName<T extends Subject>(subject?: T) {
+const TYPE_FIELD = '__caslSubjectType__';
+export function setSubjectType<T extends Record<string, any>>(type: string, object: T): T {
+  if (object) {
+    if (!object.hasOwnProperty(TYPE_FIELD)) {
+      Object.defineProperty(object, TYPE_FIELD, { value: type });
+    } else if (type !== object[TYPE_FIELD]) {
+      throw new Error(`Trying to cast object to subject type ${type} but previously it was casted to ${object[TYPE_FIELD]}`);
+    }
+  }
+
+  return object;
+}
+
+export function detectSubjectType<T extends Subject>(subject?: T): string {
   if (!subject) {
     return 'all';
   }
 
   if (typeof subject === 'string') {
     return subject;
+  }
+
+  if (subject.hasOwnProperty(TYPE_FIELD)) {
+    return (subject as any)[TYPE_FIELD];
   }
 
   const Type = typeof subject === 'function' ? subject : subject.constructor;
