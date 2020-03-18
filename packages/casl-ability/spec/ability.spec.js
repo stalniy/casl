@@ -477,7 +477,7 @@ describe('Ability', () => {
         expect(ability).to.allow('read', 'Post', 'author.publication.country.name')
       })
 
-      it('allows to act on fields defined by star at the begining (e.g., *.name)', () => {
+      it('allows to act on fields defined by star at the beginning (e.g., *.name)', () => {
         ability = defineAbility(can => can('read', 'Post', '*.name'))
 
         expect(ability).to.allow('read', 'Post', 'author.name')
@@ -485,7 +485,7 @@ describe('Ability', () => {
         expect(ability).not.to.allow('read', 'Post', 'author.publication.name')
       })
 
-      it('allows to act on fields defined by 2 stars at the begining (e.g., **.name)', () => {
+      it('allows to act on fields defined by 2 stars at the beginning (e.g., **.name)', () => {
         ability = defineAbility(can => can('read', 'Post', '**.name'))
 
         expect(ability).to.allow('read', 'Post', 'author.name')

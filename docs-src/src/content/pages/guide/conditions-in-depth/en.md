@@ -91,7 +91,7 @@ The list of operators:
 8. [$exists]\
    Checks that property exists in the object.
 9. [$elemMatch]\
-   Checks nested elements shape. If you specify only a single condition in the `$elemMatch` expression, `$elemMatch` is not necessary. Can be used for objects and arrays that have nested objects. Use `$elemMatch` operator to specify multiple criteria on the elements of an array such that at least one array element satisfies all the specified criteria. See [Specify Multiple Conditions for Array Elements](https://docs.mongodb.com/manual/tutorial/query-arrays/#specify-multiple-criteria-for-array-elements) for details.
+   Checks nested elements shape. Use `$elemMatch` operator to specify multiple criteria on the elements of an array such that at least one array element satisfies all the specified criteria. If you specify only a single condition in the `$elemMatch` expression, `$elemMatch` is not necessary. See [Specify Multiple Conditions for Array Elements](https://docs.mongodb.com/manual/tutorial/query-arrays/#specify-multiple-criteria-for-array-elements) for details.
 
 [$eq]: https://docs.mongodb.com/manual/reference/operator/query/eq
 [$ne]: https://docs.mongodb.com/manual/reference/operator/query/ne
@@ -109,8 +109,56 @@ The list of operators:
 
 ## Why logical query operators are not included
 
-By default, CASL doesn't import `$and`, `$or`, `$nor` and `$not` operators. This is because the same behavior can be achieved by combining `can` and `cannot` rules. Combination of `can` rules for the same pair of action and subject allows to mimic `$or` operator and combination of `cannot` rules allows to mimic `$not` and `$and` operators. Moreover as we discussed in this guide, all properties inside conditions object are checked by `AND` logic, this is another way to mimic `$and` operator.
+CASL doesn't import `$and`, `$or`, `$nor` and `$not` operators. This is because the same behavior can be achieved by combining `can` and `cannot` rules. Combination of `can` rules for the same pair of action and subject allows to mimic `$or` operator and combination of `cannot` rules allows to mimic `$not` and `$and` operators. Moreover as we discussed in this guide, all properties inside conditions object are checked by `AND` logic, this is another way to mimic `$and` operator.
 
 `$nor` cannot be reproduced in any way, so if you are sure that you need it, I'd recommend to rethink your permission logic together with the client or product owner.
 
 > Read [Customize ability](../../advanced/custom-ability) to understand how to include `$nor` if you are 100% sure that you need it.
+
+## Checking logic in CASL
+
+When you define rules with conditions, the last are converted in functions that checks whether object matches specified MongoDB query. Let's see an example:
+
+```js @{data-filename="defineAbility.js"}
+import { defaultAbility } from '@casl/ability';
+
+export default defaultAbility((can) => {
+  can('read', 'Article', {
+    createdAt: { $lte: new Date() },
+    status: { $in: ['review', 'published'] }
+  })
+});
+```
+
+The example above says that article can be read it's in review or published and its creation date is in the past or today. Before starting let's define simple class that represents `Article` entity.
+
+```js @{data-filename="entities.js"}
+export class Article {
+  constructor(status, createdAt) {
+    this.status = status;
+    this.createdAt = createdAt;
+  }
+}
+```
+
+> It's not mandatory to use classes, CASL perfectly works with plain javascript objects, see [Subject name detection](../subject-name) for details.
+
+Now we can test which articles user can read and which not:
+
+```js
+import ability from './defineAbility';
+import { Article } from './entities';
+
+const today = new Date().setHours(0, 0, 0, 0);
+const tomorrow = /* logic to calculate date for tomorrow */ ;
+
+ability.can('read', new Article('review', today)) // (1), true
+ability.can('read', new Article('published', today)) // (2), true
+ability.can('read', new Article('draft', today)) // (3), false
+ability.can('read', new Article('review', tomorrow)) // (4), false
+```
+
+`(1)` and `(2)` returns `true` because article's status is one of the specified and `today` less then the specified value in conditions.
+`(3)` fails because article's status is not listed inside `$in` operator and `(4)` fails because article's `createdAt` is in future.
+
+The same logic is applicable to other operators in conditions.

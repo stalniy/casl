@@ -76,7 +76,7 @@ App.styles = [
     .aside {
       position: sticky;
       top: 52px;
-      height: calc(100vh - 84px);
+      height: calc(100vh - 132px);
       overflow-y: auto;
       padding-top: 2rem;
       padding-bottom: 50px;

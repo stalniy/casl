@@ -185,48 +185,24 @@ Here we defined that any user can update `title` and `description` fields of the
 
 > If fields are not specified, a user is allowed to access any field.
 
-To check permissions on fields, we have 2 options:
+To check permissions use the same `can` and `cannot` methods of `Ability` instance:
 
-1. Use the same `can` and `cannot` methods of `Ability` instance:
+```js
+import defineAbilityFor from './defineAbility';
+import { Article } from './entities';
 
-   ```js
-   import defineAbilityFor from './defineAbility';
-   import { Article } from './entities';
+const moderator = { id: 2, isModerator: true };
+const ownArticle = new Article({ authorId: moderator.id });
+const foreignArticle = new Article({ authorId: 10 });
+const ability = defineAbilityFor(moderator);
 
-   const moderator = { id: 2, isModerator: true };
-   const ownArticle = new Article({ authorId: moderator.id });
-   const foreignArticle = new Article({ authorId: 10 });
-   const ability = defineAbilityFor(moderator);
-
-   ability.can('read', 'Article') // true
-   ability.can('update', 'Article', 'published') // true
-   ability.can('update', ownArticle, 'published') // true
-   ability.can('update', foreignArticle, 'title') // false
-   ```
-
-2. Use `permittedFieldsOf` helper function from `@casl/ability/extra` sub-module to get all permitted fields:
-
-   ```js
-   import { permittedFieldsOf } from '@casl/ability/extra';
-
-   const moderator = { id: 2, isModerator: true };
-   const ability = defineAbilityFor(moderator);
-
-   permittedFieldsOf(ability, 'update', ownArticle); // ['title', 'description', 'published']
-   const fields = permittedFieldsOf(ability, 'update', foreignArticle); // ['published']
-
-   if (fields.includes('title')) {
-     // do something if can update title
-   }
-   ```
-
-   This method is very useful in combination with [lodash.pick] to extract permitted fields from user request.
-
-   [lodash.pick]: https://lodash.com/docs/4.17.15#pick
+ability.can('read', 'Article') // true
+ability.can('update', 'Article', 'published') // true
+ability.can('update', ownArticle, 'published') // true
+ability.can('update', foreignArticle, 'title') // false
+```
 
 > For more complex cases, you can use nested fields and wildcards, see [Restricting field access](../restricting-fields) for details
-
-> To know more about `@casl/ability/extra` check its [API documentation](../../api#extra-submodule)
 
 ## Checking logic
 
