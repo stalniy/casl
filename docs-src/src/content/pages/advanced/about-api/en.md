@@ -1,7 +1,7 @@
 ---
 title: About can API
 categories: [advanced]
-order: 50
+order: 70
 meta:
   keywords: ~
   description: ~

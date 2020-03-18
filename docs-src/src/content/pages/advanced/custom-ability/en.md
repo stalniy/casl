@@ -1,7 +1,7 @@
 ---
 title: Custom Ability
 categories: [advanced]
-order: 50
+order: 65
 meta:
   keywords: ~
   description: ~

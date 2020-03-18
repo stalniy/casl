@@ -112,7 +112,7 @@ CASL doesn't imports this operator, so if you use bundlers such as [webpack] or 
 
 If you use bundler which does not support tree shaking, you have 2 options:
 
-1. Set `CSP_ENABLED=1` environment variable, this will replace `process.env.CSP_ENABLED` with `1`. Eventually uglifier will remove this code as not reachable
+1. Set `CSP_ENABLED=1` environment variable, this will replace `process.env.CSP_ENABLED` with `1`. Eventually uglifier will remove this code as unreachable
 2. Depending of the module system you use, replace `from 'sift'` or `require('sift')` with `from 'sift/sift.csp.min'` or `require('sift/sift.csp.min')` in the eventual bundle (e.g., using shell `sed`)
 
 ## Dev build

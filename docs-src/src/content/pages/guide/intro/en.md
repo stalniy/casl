@@ -103,7 +103,7 @@ Do you see how real business requirements are easily translated to code? Now let
 
 But how can we check conditions? The simplest way to do this is to use classes for your models
 
-> Classes are natural in backend development but not always makes sense in frontend. CASL supports another way to check conditions on objects, see [Subject name detection](../subject-name) for details.
+> Classes are natural in backend development but not always makes sense in frontend. CASL supports another way to check conditions on objects, see [Subject type detection](../subject-type-detection) for details.
 
 So, let's define a simple classes for `Article` and `Comment` entities:
 
@@ -206,7 +206,7 @@ ability.can('update', foreignArticle, 'title') // false
 
 ## Checking logic
 
-Let's consider a simple example where user can published articles:
+Let's consider a simple example where user can publish articles:
 
 ```js
 import { defineAbility } from '@casl/ability';
@@ -222,7 +222,7 @@ ability.can('read', 'Article'); // (2)
 ability.can('do', 'SomethingUndeclared'); // (3)
 ```
 
-Line `(1)` returns `true` as we expected but what would you expect line `(2)` to return? The answer may be unexpected for some of you but it returns `true` as well. Why?
+Line `(1)` returns `true` as we expected but what would you expect line `(2)` to return? The answer may be unexpected for some of you, it returns `true` as well. Why?
 
 This happens because these checks ask different questions:
 * the 1st asks "can I read this article?"

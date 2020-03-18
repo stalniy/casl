@@ -1,7 +1,7 @@
 ---
 title: Restricting fields access
 categories: [guide]
-order: 50
+order: 40
 meta:
   keywords: ~
   description: ~

@@ -1,7 +1,7 @@
 ---
 title: Conditions in Depth
 categories: [guide]
-order: 40
+order: 30
 meta:
   keywords: ~
   description: ~
@@ -141,7 +141,7 @@ export class Article {
 }
 ```
 
-> It's not mandatory to use classes, CASL perfectly works with plain javascript objects, see [Subject name detection](../subject-name) for details.
+> It's not mandatory to use classes, CASL perfectly works with plain javascript objects, see [Subject type detection](../subject-type-detection) for details.
 
 Now we can test which articles user can read and which not:
 
