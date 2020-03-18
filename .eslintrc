@@ -72,7 +72,9 @@
       },
       "rules": {
         "class-methods-use-this": ["error", { "exceptMethods": ["render"] }],
-        "import/no-unresolved": ["error", { "ignore": ["\\.pages$", "\\.i18n$"] }],
+        "import/no-unresolved": ["error", {
+          "ignore": ["\\.pages$", "\\.i18n$", "/assets/"]
+        }],
         "import/no-extraneous-dependencies": "off"
       }
     }

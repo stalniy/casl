@@ -1,6 +1,6 @@
 const FORMATS = {
   json: JSON
-}
+};
 
 export function fetch(url, options = {}) {
   const format = FORMATS[options.format || 'json'];

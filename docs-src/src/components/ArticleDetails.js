@@ -57,4 +57,4 @@ ArticleDetails.styles = [
       margin-right: 5px;
     }
   `
-]
+];

@@ -59,7 +59,10 @@ export default class Link extends LitElement {
   }
 
   _navigate(event) {
-    event.preventDefault();
+    if (!event.ctrlKey) {
+      event.preventDefault();
+    }
+
     router.navigate({ url: this._url });
   }
 }

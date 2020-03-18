@@ -42,4 +42,3 @@ export default class GithubButton extends LitElement {
     });
   }
 }
-

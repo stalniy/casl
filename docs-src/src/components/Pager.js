@@ -8,7 +8,7 @@ export default class Pager extends LitElement {
     page: { type: Number },
     pages: { type: Number },
     hash: { type: String },
-  }
+  };
 
   constructor() {
     super();
@@ -59,7 +59,7 @@ export default class Pager extends LitElement {
         .params="${params}"
         .query="${{ ...query, page }}"
         class="${attrs.class}"
-        style="${page < 1 || page > this.pages ? 'display: none': ''}"
+        style="${page < 1 || page > this.pages ? 'display: none' : ''}"
       >
         ${attrs.next || attrs.prev ? '' : page}
       </app-link>

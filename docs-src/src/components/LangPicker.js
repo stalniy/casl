@@ -15,7 +15,7 @@ export default class LangPicker extends LitElement {
 
   _changeLang(event) {
     const lang = event.target.value;
-    const current = router.current().response
+    const current = router.current().response;
 
     router.navigate({
       url: router.url({

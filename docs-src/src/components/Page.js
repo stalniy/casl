@@ -5,7 +5,7 @@ import I18nElement from './I18nElement';
 import { interpolate, locale } from '../services/i18n';
 import { setPageMeta } from '../services/articles';
 import { loadPage } from '../services/pages';
-import router from '../services/router';
+import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection';
 
 function renderContent(page, vars) {
   return unsafeHTML(interpolate(page.content, vars));
@@ -26,24 +26,12 @@ export default class Page extends I18nElement {
     this.name = null;
     this.vars = null;
     this.content = renderContent;
-    this._unwatchLang = null;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.shadowRoot.addEventListener('click', ({ target }) => {
-      let hash;
-      if (target.className === 'h-link') {
-        hash = target.name;
-      } else if (target.tagName[0] === 'H' && target.id) {
-        hash = target.id;
-      }
-
-      if (hash) {
-        const { location } = router.current().response;
-        const url = `${location.pathname}${window.location.search}#${hash}`;
-        router.navigate({ url });
-      }
+    this.shadowRoot.addEventListener('click', (event) => {
+      tryToNavigateElement(this.shadowRoot, event.target);
     }, false);
   }
 
@@ -52,7 +40,9 @@ export default class Page extends I18nElement {
       await this.reload();
     }
 
-    return super.update(changed);
+    super.update(changed);
+    await this.updateComplete;
+    scrollToSectionIn(this.shadowRoot);
   }
 
   async reload() {
@@ -61,6 +51,10 @@ export default class Page extends I18nElement {
   }
 
   render() {
+    if (!this._page) {
+      return null;
+    }
+
     return html`
       <article itemscope itemtype="http://schema.org/Article">
         <h1><i class="icon-idea"></i>${interpolate(this._page.title)}</h1>

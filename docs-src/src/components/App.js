@@ -68,6 +68,7 @@ App.styles = [
     .row > aside {
       flex-basis: 260px;
       max-width: 260px;
+      min-width: 200px;
       padding-left: 20px;
       margin-right: 20px;
       box-shadow: rgba(0, 0, 0, 0.1) 1px -1px 2px 0px;
@@ -75,7 +76,7 @@ App.styles = [
 
     .aside {
       position: sticky;
-      top: 52px;
+      top: 54px;
       height: calc(100vh - 132px);
       overflow-y: auto;
       padding-top: 2rem;

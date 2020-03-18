@@ -7,6 +7,7 @@
   "scripts": {
     "build": "rm -rf ../docs/* && rollup -c",
     "build.watch": "npm run build -- --watch",
+    "lint": "../node_modules/.bin/eslint --fix --ext .js,.ts src",
     "serve": "history-server ../docs"
   },
   "dependencies": {

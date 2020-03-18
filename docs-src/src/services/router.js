@@ -1,5 +1,5 @@
-import { prepareRoutes, createRouter } from "@curi/router";
-import { browser } from "@hickory/browser";
+import { prepareRoutes, createRouter } from '@curi/router';
+import { browser } from '@hickory/browser';
 import { routes } from '../config/routes';
 import { locale } from './i18n';
 
@@ -17,7 +17,7 @@ function stringify(querystring) {
   return Object.keys(querystring)
     .reduce((qs, key) => {
       qs.push(`${key}=${querystring[key]}`);
-      return qs
+      return qs;
     }, [])
     .join('&');
 }
@@ -33,5 +33,9 @@ router.url = (options) => {
   const params = { lang: locale(), ...options.params };
   return originalUrl({ ...options, params });
 };
+
+if ('scrollRestoration' in window.history) {
+  history.scrollRestoration = 'manual';
+}
 
 export default router;
