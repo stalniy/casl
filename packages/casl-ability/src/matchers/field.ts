@@ -1,4 +1,4 @@
-import { FieldMatcher } from '../Rule';
+import { FieldMatcher } from '../types';
 
 const REGEXP_SPECIAL_CHARS = /[-/\\^$+?.()|[\]{}]/g;
 const REGEXP_ANY = /\.?\*+\.?/g;

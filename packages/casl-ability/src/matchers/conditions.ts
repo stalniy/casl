@@ -15,7 +15,7 @@ import {
   $elemMatch,
   $exists
 } from 'sift';
-import { ConditionsMatcher as Matcher, MatchConditions } from '../Rule';
+import { ConditionsMatcher as Matcher, MatchConditions } from '../types';
 
 const operations = {
   $eq,
@@ -34,7 +34,7 @@ const operations = {
 };
 
 type RegExpOptions<T> = { $regex: T, $options?: string };
-type AnyValue = object | string | number | null | boolean | undefined;
+type AnyValue = string | number | null | boolean | undefined;
 type QueryOperators = {
   $eq?: any,
   $ne?: any,
@@ -45,11 +45,14 @@ type QueryOperators = {
   $in?: [any, ...any[]],
   $nin?: [any, ...any[]],
   $all?: [any, ...any[]],
+  /** checks by array length */
   $size?: number,
   $regex?: RegExp | RegExpOptions<string> | RegExpOptions<RegExp>,
+  /** checks the shape of array item */
   $elemMatch?: {
     [k in Exclude<keyof QueryOperators, '$elemMatch'>]?: QueryOperators[k]
   },
+  /** checks that property exists */
   $exists?: boolean
 };
 

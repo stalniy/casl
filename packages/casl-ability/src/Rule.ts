@@ -1,11 +1,14 @@
 import { wrapArray } from './utils';
+import {
+  ExtractSubjectType,
+  Subject,
+  MatchConditions,
+  ConditionsMatcher,
+  MatchField,
+  FieldMatcher,
+  AbilityTuple
+} from './types';
 import { RawRule } from './RawRule';
-import { ExtractSubjectType as E, Subject } from './types';
-
-export type MatchConditions = (object: object) => boolean;
-export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
-export type MatchField<T extends string> = (field: T) => boolean;
-export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;
 
 interface RuleOptions<TConditions> {
   conditionsMatcher?: ConditionsMatcher<TConditions>
@@ -16,15 +19,15 @@ export class Rule<A extends string, S extends Subject, C = unknown> {
   private readonly _matchConditions?: MatchConditions;
   private readonly _matchField?: MatchField<string>;
   public readonly action: A | A[];
-  public readonly subject: E<S> | E<S>[];
+  public readonly subject: ExtractSubjectType<S> | undefined | ExtractSubjectType<S>[] | 'all';
   public readonly inverted: boolean;
   public readonly conditions?: C;
   public readonly fields?: string[];
   public readonly reason: string | undefined;
 
-  constructor(rule: RawRule<A, E<S>, C>, options: RuleOptions<C>) {
-    this.action = 'actions' in rule ? rule.actions : rule.action;
-    this.subject = rule.subject as E<S> | E<S>[];
+  constructor(rule: RawRule<A, C> | RawRule<AbilityTuple<A, S>, C>, options: RuleOptions<C>) {
+    this.action = (rule as any).actions || (rule as any).action;
+    this.subject = rule.subject;
     this.inverted = !!rule.inverted;
     this.conditions = rule.conditions;
     this.reason = rule.reason;

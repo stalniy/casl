@@ -1,5 +1,5 @@
-import { PureAbility, AnyAbility, AbilityParameters, RuleOf } from './PureAbility';
-import { RawRule, SubjectRawRule } from './RawRule';
+import { PureAbility, AnyAbility, RuleOf } from './PureAbility';
+import { RawRule } from './RawRule';
 import { setByPath, wrapArray } from './utils';
 import { AnyObject, SubjectType } from './types';
 
@@ -11,12 +11,12 @@ export interface AbilityQuery {
 
 export function rulesToQuery<T extends AnyAbility>(
   ability: T,
-  action: AbilityParameters<T>['action'],
-  subject: AbilityParameters<T>['subject'],
+  action: Parameters<T['can']>[0],
+  subject: Parameters<T['can']>[1],
   convert: RuleToQueryConverter<T>
 ): AbilityQuery | null {
   const query: AbilityQuery = {};
-  const rules = ability.rulesFor(action, subject);
+  const rules = ability.rulesFor(action, subject) as RuleOf<T>[];
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
@@ -38,10 +38,10 @@ export function rulesToQuery<T extends AnyAbility>(
   return query.$or ? query : null;
 }
 
-export function rulesToFields<T extends PureAbility<any, any, AnyObject>>(
+export function rulesToFields<T extends PureAbility<any, AnyObject>>(
   ability: T,
-  action: AbilityParameters<T>['action'],
-  subject: AbilityParameters<T>['subject']
+  action: Parameters<T['can']>[0],
+  subject: Parameters<T['can']>[1]
 ): AnyObject {
   return ability.rulesFor(action, subject)
     .filter(rule => !rule.inverted && rule.conditions)
@@ -78,8 +78,8 @@ function setKey(this: Record<string, any>, key: string) {
 
 export function permittedFieldsOf<T extends AnyAbility>(
   ability: T,
-  action: AbilityParameters<T>['action'],
-  subject: AbilityParameters<T>['subject'],
+  action: Parameters<T['can']>[0],
+  subject: Parameters<T['can']>[1],
   options: PermittedFieldsOptions<T> = {}
 ): string[] {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
@@ -87,7 +87,7 @@ export function permittedFieldsOf<T extends AnyAbility>(
     .filter(rule => rule.matchesConditions(subject))
     .reverse()
     .reduce((fields, rule) => {
-      const names = fieldsFrom(rule);
+      const names = fieldsFrom(rule as RuleOf<T>);
 
       if (names) {
         const toggle = rule.inverted ? deleteKey : setKey;
@@ -102,31 +102,27 @@ export function permittedFieldsOf<T extends AnyAbility>(
 
 const joinIfArray = (value: string | string[]) => Array.isArray(value) ? value.join(',') : value;
 
-export type PackedRule<A extends string, S extends SubjectType, C> =
+export type PackRule<T extends RawRule<any, any>> =
   [string, string] |
-  [string, string, SubjectRawRule<A, S, C>['conditions']] |
-  [string, string, SubjectRawRule<A, S, C>['conditions'] | 0, 1] |
-  [string, string, SubjectRawRule<A, S, C>['conditions'] | 0, 1 | 0, string] |
-  [string, string, SubjectRawRule<A, S, C>['conditions'] | 0, 1 | 0, string | 0, string];
+  [string, string, T['conditions']] |
+  [string, string, T['conditions'] | 0, 1] |
+  [string, string, T['conditions'] | 0, 1 | 0, string] |
+  [string, string, T['conditions'] | 0, 1 | 0, string | 0, string];
 
 export type PackSubjectType<T extends SubjectType> = (type: T) => string;
 
-export function packRules<A extends string, S extends string, C>(
-  rules: RawRule<A, S, C>[]
-): PackedRule<A, S, C>[];
-export function packRules<A extends string, S extends SubjectType, C>(
-  rules: RawRule<A, S, C>[],
-  packSubject: PackSubjectType<S>
-): PackedRule<A, S, C>[];
-export function packRules<A extends string, S extends SubjectType, C>(
-  rules: RawRule<A, S, C>[],
-  packSubject?: PackSubjectType<S>
-): PackedRule<A, S, C>[] {
+type SubjectOf<R extends RawRule<any, any>> = Extract<R['subject'], SubjectType>;
+
+export function packRules<T extends RawRule<any, any>>(
+  rules: T[],
+  packSubject?: PackSubjectType<SubjectOf<T>>
+): PackRule<T>[] {
   return rules.map((rule) => { // eslint-disable-line
-    const packedRule: PackedRule<A, S, C> = [
-      joinIfArray('action' in rule ? rule.action : rule.actions),
+    const rawRule = rule as any;
+    const packedRule: PackRule<T> = [
+      joinIfArray(rawRule.action || rawRule.actions),
       typeof packSubject === 'function'
-        ? wrapArray(rule.subject as S).map(packSubject).join(',')
+        ? wrapArray(rule.subject as SubjectOf<T>).map(packSubject).join(',')
         : joinIfArray(rule.subject as string),
       rule.conditions || 0,
       rule.inverted ? 1 : 0,
@@ -142,21 +138,19 @@ export function packRules<A extends string, S extends SubjectType, C>(
 
 export type UnpackSubjectType<T extends SubjectType> = (type: string) => T;
 
-export function unpackRules<A extends string, S extends SubjectType, C>(
-  rules: PackedRule<A, S, C>[],
-  ...[unpackSubject]: S extends string
-    ? Parameters<(unpackSubject?: UnpackSubjectType<S>) => 0>
-    : Parameters<(unpackSubject: UnpackSubjectType<S>) => 0>
-): RawRule<A, S, C>[] {
+export function unpackRules<T extends RawRule<any, any>>(
+  rules: PackRule<T>[],
+  unpackSubject?: UnpackSubjectType<SubjectOf<T>>
+): T[] {
   return rules.map(([action, subject, conditions, inverted, fields, reason]) => {
     const subjects = subject.split(',');
     const rule = {
       inverted: !!inverted,
-      action: action.split(',') as A[],
+      action: action.split(',') as Extract<T, { action: any }>['action'],
       subject: typeof unpackSubject === 'function'
-        ? subjects.map(s => unpackSubject(s))
+        ? subjects.map(unpackSubject)
         : subjects
-    } as unknown as RawRule<A, S, C>;
+    } as T;
 
     if (conditions) {
       rule.conditions = conditions;

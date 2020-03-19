@@ -1,14 +1,13 @@
-import { Ability } from './Ability';
-import { PureAbility, AbilityOptions } from './PureAbility';
+import { Ability, AnyMongoAbility } from './Ability';
+import { AnyAbility, RawRuleOf, AbilityOptionsOf, AbilityParameters } from './PureAbility';
 import { isObject, isStringOrNonEmptyArray } from './utils';
-import { SubjectType, Subject, ExtractSubjectType as E, IfExtends } from './types';
+import { ExtractSubjectType as E, AbilityTuple, SubjectType, Abilities } from './types';
 import { RawRule } from './RawRule';
-import { MongoQuery } from './matchers/conditions';
 
-class RuleBuilder<A extends string, S extends SubjectType, C> {
-  public rule: RawRule<A, S, C>;
+class RuleBuilder<T extends RawRule<any, any>> {
+  public rule: T;
 
-  constructor(rule: RawRule<A, S, C>) {
+  constructor(rule: T) {
     this.rule = rule;
   }
 
@@ -18,46 +17,63 @@ class RuleBuilder<A extends string, S extends SubjectType, C> {
   }
 }
 
-type OptionalSC<T extends Subject, U> = IfExtends<
-T,
-'all',
-[],
-Parameters<(subject: E<T> | E<T>[], conditions?: U) => 0>
->;
-type OptionalSCF<T extends Subject, U> = IfExtends<
-T,
-'all',
-[],
-Parameters<(subject: E<T> | E<T>[], fields: string | string[], conditions?: U) => 0>
+type BuilderCanParametersFrom<
+  T extends Abilities,
+  Conditions,
+  WithFields extends boolean,
+  Else
+> = T extends AbilityTuple<infer A, infer S>
+  ? WithFields extends true
+    ? Parameters<(
+      action: A | A[],
+      subject: E<S> | E<S>[],
+      fields?: string | string[],
+      conditions?: Conditions
+    ) => 0>
+    : Parameters<(
+      action: A | A[],
+      subject: E<S> | E<S>[],
+      conditions?: Conditions
+    ) => 0>
+  : Else;
+
+
+type ActionOnly<A> = [A] extends [string]
+  ? Parameters<(action: A | A[], subject?: 'all') => 0>
+  : never;
+
+export type BuilderCanParameters<
+  T extends AnyAbility,
+  WithFields extends boolean = false
+> = BuilderCanParametersFrom<
+AbilityParameters<T, false>['abilities'],
+AbilityParameters<T, false>['conditions'],
+WithFields,
+ActionOnly<AbilityParameters<T, false>['abilities']>
 >;
 
-export class AbilityBuilder<Actions extends string, Subjects extends Subject, Conditions> {
-  public rules: RawRule<Actions, E<Subjects>, Conditions>[] = [];
+export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
+  public rules: RawRuleOf<T>[] = [];
 
   constructor() {
-    this.can = (this as any).can.bind(this);
-    this.cannot = (this as any).cannot.bind(this);
+    const self = this as any;
+    self.can = self.can.bind(self);
+    self.cannot = self.cannot.bind(self);
   }
 
+  can(...args: BuilderCanParameters<T>): RuleBuilder<RawRuleOf<T>>
+  can(...args: BuilderCanParameters<T, true>): RuleBuilder<RawRuleOf<T>>
   can(
-    action: Actions | Actions[],
-    ...a: OptionalSC<Subjects, Conditions>
-  ): RuleBuilder<Actions, E<Subjects>, Conditions>
-  can(
-    action: Actions | Actions[],
-    ...a: OptionalSCF<Subjects, Conditions>
-  ): RuleBuilder<Actions, E<Subjects>, Conditions>
-  can(
-    action: Actions | Actions[],
-    subject?: E<Subjects> | E<Subjects>[],
-    conditionsOrFields?: string | string[] | Conditions,
-    conditions?: Conditions
-  ): RuleBuilder<Actions, E<Subjects>, Conditions> {
+    action: string | string[],
+    subject?: SubjectType | SubjectType[],
+    conditionsOrFields?: string | string[] | AbilityParameters<T>['conditions'],
+    conditions?: AbilityParameters<T>['conditions'],
+  ): RuleBuilder<RawRuleOf<T>> {
     if (!isStringOrNonEmptyArray(action)) {
       throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
     }
 
-    const rule = { action } as RawRule<Actions, E<Subjects>, Conditions>;
+    const rule = { action } as RawRuleOf<T>;
 
     if (subject) {
       rule.subject = subject;
@@ -67,7 +83,7 @@ export class AbilityBuilder<Actions extends string, Subjects extends Subject, Co
       }
 
       if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
-        rule.conditions = conditions || conditionsOrFields as Conditions;
+        rule.conditions = conditions || conditionsOrFields;
       }
     }
 
@@ -76,54 +92,46 @@ export class AbilityBuilder<Actions extends string, Subjects extends Subject, Co
     return new RuleBuilder(rule);
   }
 
+  cannot(...args: BuilderCanParameters<T>): RuleBuilder<RawRuleOf<T>>
+  cannot(...args: BuilderCanParameters<T, true>): RuleBuilder<RawRuleOf<T>>
   cannot(
-    action: Actions | Actions[],
-    ...a: OptionalSC<Subjects, Conditions>
-  ): RuleBuilder<Actions, E<Subjects>, Conditions>
-  cannot(
-    action: Actions | Actions[],
-    ...a: OptionalSCF<Subjects, Conditions>
-  ): RuleBuilder<Actions, E<Subjects>, Conditions>
-  cannot(
-    action: Actions | Actions[],
-    subject?: E<Subjects> | E<Subjects>[],
-    conditionsOrFields?: string | string[] | Conditions,
-    conditions?: Conditions
-  ): RuleBuilder<Actions, E<Subjects>, Conditions> {
+    action: string | string[],
+    subject?: SubjectType | SubjectType[],
+    conditionsOrFields?: string | string[] | AbilityParameters<T>['conditions'],
+    conditions?: AbilityParameters<T>['conditions'],
+  ): RuleBuilder<RawRuleOf<T>> {
     const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
     builder.rule.inverted = true;
     return builder;
   }
 }
 
-type AsyncDSL<A extends string, S extends Subject, C> = (
-  can: AbilityBuilder<A, S, C>['can'],
-  cannot: AbilityBuilder<A, S, C>['cannot']
+type AsyncDSL<T extends AnyMongoAbility> = (
+  can: AbilityBuilder<T>['can'],
+  cannot: AbilityBuilder<T>['cannot']
 ) => Promise<void>;
-type DSL<A extends string, S extends Subject, C> = (
-  ...args: Parameters<AsyncDSL<A, S, C>>
-) => void;
+type DSL<T extends AnyMongoAbility> = (...args: Parameters<AsyncDSL<T>>) => void;
 
-export function defineAbility<A extends string, S extends Subject>(
-  dsl: AsyncDSL<A, S, MongoQuery>
-): Promise<PureAbility<A, S, MongoQuery>>;
-export function defineAbility<A extends string, S extends Subject>(
-  params: AbilityOptions<S, MongoQuery>,
-  dsl: AsyncDSL<A, S, MongoQuery>
-): Promise<PureAbility<A, S, MongoQuery>>;
-export function defineAbility<A extends string, S extends Subject>(
-  dsl: DSL<A, S, MongoQuery>
-): PureAbility<A, S, MongoQuery>;
-export function defineAbility<A extends string, S extends Subject>(
-  params: AbilityOptions<S, MongoQuery>,
-  dsl: DSL<A, S, MongoQuery>
-): PureAbility<A, S, MongoQuery>;
-export function defineAbility<A extends string, S extends Subject>(
-  params: AbilityOptions<S, MongoQuery> | DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>,
-  dsl?: DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>
-): PureAbility<A, S, MongoQuery> | Promise<PureAbility<A, S, MongoQuery>> {
-  let options: AbilityOptions<S, MongoQuery>;
-  let define: DSL<A, S, MongoQuery> | AsyncDSL<A, S, MongoQuery>;
+export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+  dsl: AsyncDSL<T>
+): Promise<T>;
+export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+  params: AbilityOptionsOf<T>,
+  dsl: AsyncDSL<T>
+): Promise<T>;
+export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+  dsl: DSL<T>
+): T;
+export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+  params: AbilityOptionsOf<T>,
+  dsl: DSL<T>
+): T;
+export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+  params: AbilityOptionsOf<T> | DSL<T> | AsyncDSL<T>,
+  dsl?: DSL<T> | AsyncDSL<T>
+): T | Promise<T> {
+  let options: AbilityOptionsOf<T>;
+  let define: DSL<T> | AsyncDSL<T>;
 
   if (typeof params === 'function') {
     define = params;
@@ -135,10 +143,10 @@ export function defineAbility<A extends string, S extends Subject>(
     throw new Error('`defineAbility` expects to receive either options and dsl function or only dsl function');
   }
 
-  const builder = new AbilityBuilder<A, S, MongoQuery>();
+  const builder = new AbilityBuilder<T>();
   const result = define(builder.can, builder.cannot);
 
   return result && typeof result.then === 'function'
-    ? result.then(() => new Ability(builder.rules, options))
-    : new Ability(builder.rules, options);
+    ? result.then(() => new Ability(builder.rules, options) as T)
+    : new Ability(builder.rules, options) as T;
 }

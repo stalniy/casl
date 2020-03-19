@@ -1,17 +1,19 @@
-import { SubjectType, IfExtends } from './types';
+import { SubjectType, Abilities, ExtractSubjectType, AbilityTuple } from './types';
 
-interface BaseRawRule<TConditions> {
+interface BaseRawRule<Conditions> {
   fields?: string | string[]
-  conditions?: TConditions
+  conditions?: Conditions
+  /** indicates that rule forbids something (i.e., has inverted logic) */
   inverted?: boolean
+  /** explains the reason of why rule does not allow to do something */
   reason?: string
 }
 
-interface PureClaimRawRule extends BaseRawRule<undefined> {
+interface ClaimRawRule extends BaseRawRule<undefined> {
   subject?: 'all'
 }
 
-interface PureSubjectRawRule<S extends SubjectType, C> extends BaseRawRule<C> {
+interface SubjectRawRule<S extends SubjectType, C> extends BaseRawRule<C> {
   subject: S | S[]
 }
 
@@ -22,9 +24,13 @@ type ActionAndLegacyActions<A> = {
   actions: A | A[]
 };
 
-export type SubjectRawRule<A extends string, S extends SubjectType, C> =
-  PureSubjectRawRule<S, C> & ActionAndLegacyActions<A>;
+type DefineRawRule<A extends Abilities, Else, C> =
+  A extends AbilityTuple<infer Action, infer Subject>
+    ? SubjectRawRule<ExtractSubjectType<Subject>, C> & ActionAndLegacyActions<Action>
+    : Else;
 
-export type RawRule<A extends string, S extends SubjectType, C> =
-  IfExtends<S, 'all', PureClaimRawRule, PureSubjectRawRule<S, C>> &
-  ActionAndLegacyActions<A>;
+export type RawRule<A extends Abilities, C = unknown> = DefineRawRule<
+A,
+[A] extends [string] ? ClaimRawRule & ActionAndLegacyActions<A> : never,
+C
+>;

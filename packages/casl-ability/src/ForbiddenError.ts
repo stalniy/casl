@@ -2,41 +2,36 @@ import { AnyAbility, AbilityParameters } from './PureAbility';
 import { Subject } from './types';
 
 export type GetErrorMessage = <T extends AnyAbility>(error: ForbiddenError<T>) => string;
-
-const getDefaultMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectName}"`;
-let defaultErrorMessage = getDefaultMessage;
+export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
 
 type ForbiddenErrorMeta = {
   action: string
   subject: Subject | undefined
   field?: string
-  subjectName: string
+  subjectType: string
 };
 
 function setMeta(error: ForbiddenErrorMeta, meta?: ForbiddenErrorMeta) {
   if (meta) {
     error.subject = meta.subject;
-    error.subjectName = meta.subjectName;
+    error.subjectType = meta.subjectType;
     error.action = meta.action;
     error.field = meta.field;
   }
 }
 
 const MyError = Error; // to prevent babel of doing it's magic around native classes
+let defaultErrorMessage = getDefaultErrorMessage;
 
 export class ForbiddenError<T extends AnyAbility> extends MyError {
   private _ability: T;
-  public action!: AbilityParameters<T>['action'];
-  public subject!: AbilityParameters<T>['subject'];
+  public action!: AbilityParameters<T>['abilities'][0];
+  public subject!: AbilityParameters<T>['abilities'][1];
   public field?: string;
-  public subjectName!: string;
+  public subjectType!: string;
 
   static setDefaultMessage(messageOrFn: string | GetErrorMessage) {
-    if (messageOrFn === null) {
-      defaultErrorMessage = getDefaultMessage;
-    } else {
-      defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
-    }
+    defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
   }
 
   static from<T extends AnyAbility>(ability: T) {
@@ -60,18 +55,18 @@ export class ForbiddenError<T extends AnyAbility> extends MyError {
   }
 
   throwUnlessCan(...args: Parameters<T['can']>) {
-    const [action, subject, field] = args;
-    const rule = this._ability.relevantRuleFor(action, subject, field);
+    const rule = this._ability.relevantRuleFor(...args);
 
     if (rule && !rule.inverted) {
       return;
     }
 
+    const subject = args[1] as Subject;
     setMeta(this, {
-      action,
+      action: args[0],
       subject,
-      field,
-      subjectName: this._ability.subjectName(subject)
+      field: args[2],
+      subjectType: this._ability.detectSubjectType(subject)
     });
 
     const reason = rule ? rule.reason : '';

@@ -1,4 +1,4 @@
-import { AnyObject, Subject, SubjectConstructor } from './types';
+import { AnyObject, Subject, SubjectClass } from './types';
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
@@ -48,7 +48,7 @@ export function detectSubjectType<T extends Subject>(subject?: T): string {
   }
 
   const Type = typeof subject === 'function' ? subject : subject.constructor;
-  return (Type as SubjectConstructor).modelName || Type.name;
+  return (Type as SubjectClass).modelName || Type.name;
 }
 
 export function isObject(value: unknown): value is object {

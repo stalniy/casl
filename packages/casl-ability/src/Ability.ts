@@ -1,22 +1,16 @@
 import { PureAbility, AbilityOptions } from './PureAbility';
-import { Subject, ExtractSubjectType as E } from './types';
+import { Abilities, Normalize } from './types';
 import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
 import { RawRule } from './RawRule';
 import { fieldPatternMatcher } from './matchers/field';
 
+export type AnyMongoAbility = PureAbility<any, MongoQuery>;
+
 export class Ability<
-  Actions extends string = string,
-  Subjects extends Subject = Subject,
+  A extends Abilities = Abilities,
   C extends MongoQuery = MongoQuery
-> extends PureAbility<
-  Actions,
-  Subjects,
-  C
-  > {
-  constructor(
-    rules?: RawRule<Actions, E<Subjects>, C>[],
-    options?: AbilityOptions<Subjects, C>
-  ) {
+> extends PureAbility<A, C> {
+  constructor(rules?: RawRule<A, C>[], options?: AbilityOptions<Normalize<A>[1], C>) {
     super(rules, {
       conditionsMatcher: mongoQueryMatcher,
       fieldMatcher: fieldPatternMatcher,

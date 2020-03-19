@@ -20,7 +20,7 @@
     "build.core": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl -g sift:sift",
     "build.extra": "rollup -c ../../tools/rollup.config.js -i src/extra.ts -n casl.extra",
     "build.types": "rm -rf ./dist/types/* && tsc",
-    "build": "npm run build.core && npm run build.extra && npm run build.types",
+    "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "eslint --ext .js,.ts src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
     "prerelease": "npm test && NODE_ENV=production npm run build",

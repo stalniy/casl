@@ -1,6 +1,5 @@
 export * from './Ability';
 export * from './PureAbility';
-export * from './Rule';
 export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';
