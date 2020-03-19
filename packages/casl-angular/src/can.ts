@@ -1,5 +1,5 @@
 import { Pipe, ChangeDetectorRef, Inject, PipeTransform } from '@angular/core';
-import { PureAbility, Unsubscribe, AnyAbility, AbilityParameters } from '@casl/ability';
+import { PureAbility, Unsubscribe, AnyAbility } from '@casl/ability';
 
 class AbilityPipe<T extends AnyAbility> {
   protected _unsubscribeFromAbility?: Unsubscribe;
@@ -35,8 +35,8 @@ export class CanPipe<T extends AnyAbility> implements PipeTransform {
   }
 
   transform(
-    subject: AbilityParameters<T>['subject'],
-    action: AbilityParameters<T>['action'],
+    subject: Parameters<T['can']>[1],
+    action: Parameters<T['can']>[0],
     field?: string
   ): boolean {
     return (this.pipe as any).transform(action, subject, field);
