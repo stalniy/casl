@@ -1,5 +1,5 @@
 import { signalBindings } from 'aurelia-framework';
-import { PureAbility, AnyAbility, AbilityParameters } from '@casl/ability';
+import { PureAbility, AnyAbility } from '@casl/ability';
 
 const ABILITY_CHANGED_SIGNAL = 'caslAbilityChanged';
 const HAS_AU_SUBSCRIPTION = new WeakMap<object, boolean>();
@@ -31,8 +31,8 @@ export class CanValueConverter<T extends AnyAbility> extends AbilityValueConvert
   };
 
   toView(
-    subject: AbilityParameters<T>['subject'],
-    action: AbilityParameters<T>['action'],
+    subject: Parameters<T['can']>[1],
+    action: Parameters<T['can']>[0],
     field?: string
   ): boolean {
     // eslint-disable-next-line
