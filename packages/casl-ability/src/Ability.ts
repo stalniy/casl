@@ -4,8 +4,6 @@ import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
 import { RawRule } from './RawRule';
 import { fieldPatternMatcher } from './matchers/field';
 
-export type AnyMongoAbility = PureAbility<any, MongoQuery>;
-
 export class Ability<
   A extends Abilities = Abilities,
   C extends MongoQuery = MongoQuery
@@ -18,3 +16,5 @@ export class Ability<
     });
   }
 }
+
+export type AnyMongoAbility = Ability<any>;

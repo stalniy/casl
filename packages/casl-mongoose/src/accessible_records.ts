@@ -1,7 +1,6 @@
-import { AbilityParameters } from '@casl/ability';
+import { Normalize, AnyMongoAbility } from '@casl/ability';
 import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
-import { toMongoQuery } from './mongo';
-import { AnyMongoAbility } from './types';
+import { toMongoQuery, AbilitiesOf } from './mongo';
 
 const DENY_CONDITION_NAME = '__forbiddenByCasl__';
 
@@ -35,15 +34,15 @@ function emptifyQuery(query: DocumentQuery<Document, Document>) {
 
 type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
   ability: U,
-  action?: AbilityParameters<U>['action']
+  action?: Normalize<AbilitiesOf<U>>[0]
 ) => DocumentQuery<T, T>;
 
 function accessibleBy<T extends AnyMongoAbility>(
   this: any,
   ability: T,
-  action?: AbilityParameters<T>['action']
+  action?: Normalize<AbilitiesOf<T>>[0]
 ): DocumentQuery<Document, Document> {
-  let modelName: string | null = this.modelName;
+  let modelName: string | undefined = this.modelName;
 
   if (!modelName) {
     modelName = 'model' in this ? this.model.modelName : null;
@@ -53,7 +52,8 @@ function accessibleBy<T extends AnyMongoAbility>(
     throw new TypeError('Cannot detect model name to return accessible records');
   }
 
-  const query = toMongoQuery(ability, modelName, action);
+  const toQuery = toMongoQuery as (...args: any[]) => ReturnType<typeof toMongoQuery>;
+  const query = toQuery(ability, modelName, action);
 
   if (query === null) {
     return emptifyQuery(this.where());

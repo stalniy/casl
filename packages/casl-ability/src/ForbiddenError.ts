@@ -1,5 +1,5 @@
-import { AnyAbility, AbilityParameters } from './PureAbility';
-import { Subject } from './types';
+import { AnyAbility, Generics } from './PureAbility';
+import { Subject, Normalize } from './types';
 
 export type GetErrorMessage = <T extends AnyAbility>(error: ForbiddenError<T>) => string;
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
@@ -25,8 +25,8 @@ let defaultErrorMessage = getDefaultErrorMessage;
 
 export class ForbiddenError<T extends AnyAbility> extends MyError {
   private _ability: T;
-  public action!: AbilityParameters<T>['abilities'][0];
-  public subject!: AbilityParameters<T>['abilities'][1];
+  public action!: Normalize<Generics<T>['abilities']>[0];
+  public subject!: Generics<T>['abilities'][1];
   public field?: string;
   public subjectType!: string;
 
@@ -61,12 +61,11 @@ export class ForbiddenError<T extends AnyAbility> extends MyError {
       return;
     }
 
-    const subject = args[1] as Subject;
     setMeta(this, {
       action: args[0],
-      subject,
+      subject: args[1],
       field: args[2],
-      subjectType: this._ability.detectSubjectType(subject)
+      subjectType: this._ability.detectSubjectType(args[1])
     });
 
     const reason = rule ? rule.reason : '';

@@ -1,7 +1,15 @@
-import { PureAbility, AnyAbility, RuleOf } from './PureAbility';
+import { PureAbility, AnyAbility, RuleOf, Generics } from './PureAbility';
 import { RawRule } from './RawRule';
+import { Rule } from './Rule';
 import { setByPath, wrapArray } from './utils';
-import { AnyObject, SubjectType } from './types';
+import {
+  AbilityParameters,
+  AnyObject,
+  SubjectType,
+  AbilityTuple,
+  CanParameters,
+  Abilities
+} from './types';
 
 export type RuleToQueryConverter<T extends AnyAbility> = (rule: RuleOf<T>) => object;
 export interface AbilityQuery {
@@ -9,12 +17,19 @@ export interface AbilityQuery {
   $and?: object[]
 }
 
+type RulesToQueryRestArgs<T extends Abilities, ConvertRule> = AbilityParameters<
+T,
+T extends AbilityTuple
+  ? (action: T[0], subject: T[1], convert: ConvertRule) => 0
+  : never,
+(action: T, subject: 'all' | undefined, convert: ConvertRule) => 0
+>;
+
 export function rulesToQuery<T extends AnyAbility>(
   ability: T,
-  action: Parameters<T['can']>[0],
-  subject: Parameters<T['can']>[1],
-  convert: RuleToQueryConverter<T>
+  ...args: RulesToQueryRestArgs<Generics<T>['abilities'], RuleToQueryConverter<T>>
 ): AbilityQuery | null {
+  const [action, subject, convert] = args;
   const query: AbilityQuery = {};
   const rules = ability.rulesFor(action, subject) as RuleOf<T>[];
 
@@ -40,8 +55,7 @@ export function rulesToQuery<T extends AnyAbility>(
 
 export function rulesToFields<T extends PureAbility<any, AnyObject>>(
   ability: T,
-  action: Parameters<T['can']>[0],
-  subject: Parameters<T['can']>[1]
+  ...[action, subject]: CanParameters<Generics<T>['abilities'], false>
 ): AnyObject {
   return ability.rulesFor(action, subject)
     .filter(rule => !rule.inverted && rule.conditions)
@@ -62,10 +76,10 @@ export function rulesToFields<T extends PureAbility<any, AnyObject>>(
 
 const getRuleFields = (rule: RuleOf<AnyAbility>) => rule.fields;
 
-export type GetRuleFields<T extends AnyAbility> = (rule: RuleOf<T>) => string[] | undefined;
+export type GetRuleFields<R extends Rule<any, any, any>> = (rule: R) => string[] | undefined;
 
 export interface PermittedFieldsOptions<T extends AnyAbility> {
-  fieldsFrom?: GetRuleFields<T>
+  fieldsFrom?: GetRuleFields<RuleOf<T>>
 }
 
 function deleteKey(this: Record<string, any>, key: string) {

@@ -1,3 +1,5 @@
+type Fn = (...args: any[]) => any;
+
 export type ValueOf<T> = T extends Record<string, infer U> ? U : never;
 type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
 export type AnyObject = Record<PropertyKey, unknown>;
@@ -9,17 +11,23 @@ export type Abilities = string | AbilityTuple;
 export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, 'all'?];
 export type DetectSubjectType<T extends Subject> = (subject?: T) => string;
 
-type CanParametersWithSubject<T extends Abilities, Else, IncludeField> =
-  T extends AbilityTuple<infer A, infer S>
+export type IfString<T, U> = T extends string ? U : never;
+export type AbilityParameters<
+  T extends Abilities,
+  TupleFunction extends Fn,
+  StringFunction extends Fn,
+  Else = IfString<T, Parameters<StringFunction>>
+> = T extends AbilityTuple ? Parameters<TupleFunction> : Else;
+export type CanParameters<T extends Abilities, IncludeField extends boolean = true> =
+  AbilityParameters<
+  T,
+  T extends AbilityTuple
     ? IncludeField extends true
-      ? Parameters<(action: A, subject: S, field?: string) => 0>
-      : Parameters<(action: A, subject: S) => 0>
-    : Else;
-export type CanParameters<T extends Abilities, IncludeField = true> = CanParametersWithSubject<
-T,
-[T] extends [string] ? Parameters<(action: T, subject?: 'all') => 0> : never,
-IncludeField
->;
+      ? (action: T[0], subject: T[1], field?: string) => 0
+      : (action: T[0], subject: T[1]) => 0
+    : never,
+  (action: T, subject?: 'all') => 0
+  >;
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType> | TagName<S>;
 export type CollectSubjects<T, IncludeTagName = true> =
   T |

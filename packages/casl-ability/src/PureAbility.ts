@@ -30,35 +30,23 @@ export interface AbilityOptions<Subjects extends Subject, Conditions> {
 }
 
 export type AnyAbility = PureAbility<any, any>;
-export type AbilityParameters<T extends AnyAbility, Normalized = true> =
-  T extends PureAbility<infer A, infer C>
-    ? Normalized extends true
-      ? { abilities: Normalize<A>, conditions: C }
-      : { abilities: A, conditions: C }
-    : never;
+export type Generics<T extends AnyAbility> = T extends PureAbility<infer A, infer C>
+  ? { abilities: A, conditions: C }
+  : never;
 
-type RuleFromTuple<T extends Abilities, C, Else> = T extends AbilityTuple<infer Action, infer S>
-  ? Rule<Action, S, C>
-  : Else;
+export type RuleFrom<
+  T extends Abilities,
+  C,
+  Else = [T] extends [string] ? Rule<T, Subject, C> : never
+> = T extends AbilityTuple ? Rule<T[0], T[1], C> : Else;
 
-export type RuleFrom<A extends Abilities, C> = RuleFromTuple<
-A,
-C,
-[A] extends [string] ? Rule<A, 'all' | undefined, C> : never
->;
-export type RuleOf<T extends AnyAbility> = RuleFrom<
-AbilityParameters<T, false>['abilities'],
-AbilityParameters<T, false>['conditions']
->;
-export type RawRuleOf<T extends AnyAbility> = RawRule<
-AbilityParameters<T, false>['abilities'],
-AbilityParameters<T, false>['conditions']
->;
+export type RuleOf<T extends AnyAbility> =
+  RuleFrom<Generics<T>['abilities'], Generics<T>['conditions']>;
+export type RawRuleOf<T extends AnyAbility> =
+  RawRule<Generics<T>['abilities'], Generics<T>['conditions']>;
 
-export type AbilityOptionsOf<T extends AnyAbility> = AbilityOptions<
-AbilityParameters<T>['abilities'][1],
-AbilityParameters<T>['conditions']
->;
+export type AbilityOptionsOf<T extends AnyAbility> =
+  AbilityOptions<Normalize<Generics<T>['abilities']>[1], Generics<T>['conditions']>;
 
 export interface AbilityEvent<T extends AnyAbility> {
   ability: T
@@ -208,6 +196,8 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     const rules = this.rulesFor(...args);
     const subject = args[1];
 
+    type M = this['rules'][number];
+
     for (let i = 0; i < rules.length; i++) {
       if (rules[i].matchesConditions(subject)) {
         return rules[i];
@@ -224,7 +214,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     const key = `${subjectName}_${action}`;
 
     if (!mergedRules[key]) {
-      mergedRules[key] = this._mergeRulesFor(action, subjectName);
+      mergedRules[key] = this._mergeRulesFor(action as string, subjectName);
     }
 
     return mergedRules[key];

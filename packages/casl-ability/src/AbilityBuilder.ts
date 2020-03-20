@@ -1,7 +1,13 @@
 import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, RawRuleOf, AbilityOptionsOf, AbilityParameters } from './PureAbility';
+import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics } from './PureAbility';
 import { isObject, isStringOrNonEmptyArray } from './utils';
-import { ExtractSubjectType as E, AbilityTuple, SubjectType, Abilities } from './types';
+import {
+  ExtractSubjectType as E,
+  AbilityTuple,
+  SubjectType,
+  Abilities,
+  AbilityParameters
+} from './types';
 import { RawRule } from './RawRule';
 
 class RuleBuilder<T extends RawRule<any, any>> {
@@ -17,40 +23,19 @@ class RuleBuilder<T extends RawRule<any, any>> {
   }
 }
 
-type BuilderCanParametersFrom<
-  T extends Abilities,
-  Conditions,
-  WithFields extends boolean,
-  Else
-> = T extends AbilityTuple<infer A, infer S>
+type CanFunction<T extends Abilities, C, WithFields = true> = T extends AbilityTuple
   ? WithFields extends true
-    ? Parameters<(
-      action: A | A[],
-      subject: E<S> | E<S>[],
-      fields?: string | string[],
-      conditions?: Conditions
-    ) => 0>
-    : Parameters<(
-      action: A | A[],
-      subject: E<S> | E<S>[],
-      conditions?: Conditions
-    ) => 0>
-  : Else;
-
-
-type ActionOnly<A> = [A] extends [string]
-  ? Parameters<(action: A | A[], subject?: 'all') => 0>
+    // eslint-disable-next-line max-len
+    ? (action: T[0] | T[0][], subject: E<T[1]> | E<T[1]>[], fields?: string | string[], conditions?: C) => 0
+    : (action: T[0] | T[0][], subject: E<T[1]> | E<T[1]>[], conditions?: C) => 0
   : never;
 
-export type BuilderCanParameters<
-  T extends AnyAbility,
-  WithFields extends boolean = false
-> = BuilderCanParametersFrom<
-AbilityParameters<T, false>['abilities'],
-AbilityParameters<T, false>['conditions'],
-WithFields,
-ActionOnly<AbilityParameters<T, false>['abilities']>
->;
+export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolean = false> =
+  AbilityParameters<
+  Generics<T>['abilities'],
+  CanFunction<Generics<T>['abilities'], Generics<T>['conditions'], WithFields>,
+  (action: Generics<T>['abilities'] | Generics<T>['abilities'][], subject?: 'all') => 0
+  >;
 
 export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
   public rules: RawRuleOf<T>[] = [];
@@ -66,8 +51,8 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
   can(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
-    conditionsOrFields?: string | string[] | AbilityParameters<T>['conditions'],
-    conditions?: AbilityParameters<T>['conditions'],
+    conditionsOrFields?: string | string[] | Generics<T>['conditions'],
+    conditions?: Generics<T>['conditions'],
   ): RuleBuilder<RawRuleOf<T>> {
     if (!isStringOrNonEmptyArray(action)) {
       throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
@@ -97,8 +82,8 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
   cannot(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
-    conditionsOrFields?: string | string[] | AbilityParameters<T>['conditions'],
-    conditions?: AbilityParameters<T>['conditions'],
+    conditionsOrFields?: string | string[] | Generics<T>['conditions'],
+    conditions?: Generics<T>['conditions'],
   ): RuleBuilder<RawRuleOf<T>> {
     const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
     builder.rule.inverted = true;
