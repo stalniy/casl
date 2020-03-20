@@ -1,11 +1,12 @@
 import React, { PureComponent, Fragment, createElement } from 'react';
 import {
-  IfExtends,
   Unsubscribe,
-  Subject,
+  AbilityTuple,
   SubjectType,
   AnyAbility,
-  AbilityParameters
+  Generics,
+  Abilities,
+  IfString
 } from '@casl/ability';
 
 const noop = () => {};
@@ -21,18 +22,18 @@ const renderChildren = Fragment
   }
   : React.Children.only;
 
-type AbilityCanProps<A extends string, S extends Subject> = IfExtends<
-S,
-'all',
-{ do: A } | { I: A },
-{ field?: string } & (
-  { do: A, on: S } |
-  { I: A, a: Extract<S, SubjectType> } |
-  { I: A, an: Extract<S, SubjectType> } |
-  { I: A, of: S } |
-  { I: A, this: Exclude<S, SubjectType> }
-)
->;
+type AbilityCanProps<
+  T extends Abilities,
+  Else = IfString<T, { do: T } | { I: T }>
+> = T extends AbilityTuple
+  ? { field?: string } & (
+    { do: T[0], on: T[1] } |
+    { I: T[0], a: Extract<T[1], SubjectType> } |
+    { I: T[0], an: Extract<T[1], SubjectType> } |
+    { I: T[0], of: T[1] } |
+    { I: T[0], this: Exclude<T[1], SubjectType> }
+  )
+  : Else;
 
 type CanExtraProps<T extends AnyAbility> = {
   not?: boolean,
@@ -41,12 +42,10 @@ type CanExtraProps<T extends AnyAbility> = {
 };
 
 export type CanProps<T extends AnyAbility> =
-  AbilityCanProps<AbilityParameters<T>['action'], AbilityParameters<T>['subject']> &
-  CanExtraProps<T>;
+  AbilityCanProps<Generics<T>['abilities']> & CanExtraProps<T>;
 export type BoundCanProps<T extends AnyAbility> =
-  AbilityCanProps<AbilityParameters<T>['action'], AbilityParameters<T>['subject']> &
-  Omit<CanExtraProps<T>, 'ability'> &
-  { ability?: T };
+  AbilityCanProps<Generics<T>['abilities']> &
+  Omit<CanExtraProps<T>, 'ability'> & { ability?: T };
 export class Can<T extends AnyAbility, IsBound extends boolean = false> extends PureComponent<
 true extends IsBound
   ? BoundCanProps<T>
@@ -80,11 +79,10 @@ true extends IsBound
 
   private _canRender(): boolean {
     const props: any = this.props;
-    const [action, field] = (props.I || props.do).split(/\s+/);
     const subject = props.of || props.a || props.an || props.this || props.on;
     const can = props.not ? 'cannot' : 'can';
 
-    return props.ability[can](action, subject, field);
+    return props.ability[can](props.I || props.do, subject, props.field);
   }
 
   render() {

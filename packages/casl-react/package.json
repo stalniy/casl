@@ -14,8 +14,8 @@
     "access": "public"
   },
   "scripts": {
+    "prebuild": "npm run build.types",
     "build": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
-    "postbuild": "npm run build.types",
     "build.types": "rm -rf dist/types/* && tsc",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
