@@ -6,7 +6,7 @@ import {
   AnyAbility,
   Generics,
   Abilities,
-  IfString
+  IfString,
 } from '@casl/ability';
 
 const noop = () => {};

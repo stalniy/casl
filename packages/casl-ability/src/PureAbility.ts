@@ -30,9 +30,8 @@ export interface AbilityOptions<Subjects extends Subject, Conditions> {
 }
 
 export type AnyAbility = PureAbility<any, any>;
-export type Generics<T extends AnyAbility> = T extends PureAbility<infer A, infer C>
-  ? { abilities: A, conditions: C }
-  : never;
+export type Generics<T extends AnyAbility> = T extends AnyAbility
+  ? { abilities: T['za'], conditions: T['zc'] } : never;
 
 export type RuleFrom<
   T extends Abilities,
@@ -281,4 +280,12 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
       handlers.slice(0).forEach(handler => handler(event));
     }
   }
+}
+
+// workaround for complex inference logic
+export interface PureAbility<A extends Abilities = Abilities, Conditions = unknown> {
+  /** holds Abilities generic parameter to simplify type inference */
+  readonly za: A;
+  /** holds Conditions generic parameter to simplify type inference */
+  readonly zc: Conditions;
 }

@@ -24,13 +24,13 @@ type ActionAndLegacyActions<A> = {
   actions: A | A[]
 };
 
-type DefineRawRule<A extends Abilities, Else, C> =
-  A extends AbilityTuple<infer Action, infer Subject>
-    ? SubjectRawRule<ExtractSubjectType<Subject>, C> & ActionAndLegacyActions<Action>
-    : Else;
+type DefineRawRule<
+  A extends Abilities,
+  C,
+  Else = [A] extends [string] ? ClaimRawRule & ActionAndLegacyActions<A> : never
+> = A extends AbilityTuple
+  ? SubjectRawRule<ExtractSubjectType<A[1]>, C> & ActionAndLegacyActions<A[0]>
+  : Else;
 
-export type RawRule<A extends Abilities, C = unknown> = DefineRawRule<
-A,
-[A] extends [string] ? ClaimRawRule & ActionAndLegacyActions<A> : never,
-C
->;
+export type RawRule<A extends Abilities = Abilities, C = unknown> =
+  DefineRawRule<A, C>;

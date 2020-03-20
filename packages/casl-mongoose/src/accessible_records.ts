@@ -1,6 +1,6 @@
-import { Normalize, AnyMongoAbility } from '@casl/ability';
+import { Normalize, AnyMongoAbility, Generics } from '@casl/ability';
 import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
-import { toMongoQuery, AbilitiesOf } from './mongo';
+import { toMongoQuery } from './mongo';
 
 const DENY_CONDITION_NAME = '__forbiddenByCasl__';
 
@@ -34,13 +34,13 @@ function emptifyQuery(query: DocumentQuery<Document, Document>) {
 
 type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
   ability: U,
-  action?: Normalize<AbilitiesOf<U>>[0]
+  action?: Normalize<Generics<U>['abilities']>[0]
 ) => DocumentQuery<T, T>;
 
 function accessibleBy<T extends AnyMongoAbility>(
   this: any,
   ability: T,
-  action?: Normalize<AbilitiesOf<T>>[0]
+  action?: Normalize<Generics<T>['abilities']>[0]
 ): DocumentQuery<Document, Document> {
   let modelName: string | undefined = this.modelName;
 

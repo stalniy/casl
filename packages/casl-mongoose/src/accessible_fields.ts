@@ -1,7 +1,6 @@
-import { wrapArray, Normalize, AnyMongoAbility } from '@casl/ability';
+import { wrapArray, Normalize, AnyMongoAbility, Generics } from '@casl/ability';
 import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
 import { Schema, Model, Document } from 'mongoose';
-import { AbilitiesOf } from './mongo';
 
 export type AccessibleFieldsOptions =
   { only: string | string[] } |
@@ -21,7 +20,7 @@ function fieldsOf(schema: Schema<AccessibleFieldsDocument>, options?: Accessible
 type GetAccessibleFields<T extends AccessibleFieldsDocument> = <U extends AnyMongoAbility>(
   this: Model<T> | T,
   ability: U,
-  action?: Normalize<AbilitiesOf<U>>[0]
+  action?: Normalize<Generics<U>['abilities']>[0]
 ) => string[];
 
 export interface AccessibleFieldsModel<T extends AccessibleFieldsDocument> extends Model<T> {
@@ -40,7 +39,7 @@ export function accessibleFieldsPlugin(
   function accessibleFieldsBy<T extends AnyMongoAbility>(
     this: Model<AccessibleFieldsDocument> | AccessibleFieldsDocument,
     ability: T,
-    action?: Normalize<AbilitiesOf<T>>[0]
+    action?: Normalize<Generics<T>['abilities']>[0]
   ) {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options

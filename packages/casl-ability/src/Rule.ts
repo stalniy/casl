@@ -6,7 +6,6 @@ import {
   ConditionsMatcher,
   MatchField,
   FieldMatcher,
-  AbilityTuple
 } from './types';
 import { RawRule } from './RawRule';
 
@@ -19,13 +18,13 @@ export class Rule<A extends string, S extends Subject, C = unknown> {
   private readonly _matchConditions?: MatchConditions;
   private readonly _matchField?: MatchField<string>;
   public readonly action: A | A[];
-  public readonly subject: ExtractSubjectType<S> | undefined | ExtractSubjectType<S>[] | 'all';
+  public readonly subject: ExtractSubjectType<S> | ExtractSubjectType<S>[];
   public readonly inverted: boolean;
   public readonly conditions?: C;
   public readonly fields?: string[];
   public readonly reason: string | undefined;
 
-  constructor(rule: RawRule<A, C> | RawRule<AbilityTuple<A, S>, C>, options: RuleOptions<C>) {
+  constructor(rule: RawRule<any, C>, options: RuleOptions<C>) {
     this.action = (rule as any).actions || (rule as any).action;
     this.subject = rule.subject;
     this.inverted = !!rule.inverted;
