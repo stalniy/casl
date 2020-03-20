@@ -1,5 +1,6 @@
 import { VueConstructor } from 'vue';
 import { VueAbility } from './types';
+import './extendVueTypes';
 
 const WATCHERS = new WeakMap();
 
@@ -9,11 +10,12 @@ export function abilitiesPlugin(Vue: VueConstructor, defaultAbility?: VueAbility
       return WATCHERS.get(ability);
     }
 
-    const data = { _touch: true };
+    const data = { _touch: true }; // eslint-disable-line no-underscore-dangle
     const watcher = typeof Vue.observable === 'function'
       ? Vue.observable(data)
       : new Vue({ data });
 
+    // eslint-disable-next-line no-underscore-dangle
     ability.on('updated', () => watcher._touch = !watcher._touch);
     WATCHERS.set(ability, watcher);
 
@@ -35,7 +37,7 @@ export function abilitiesPlugin(Vue: VueConstructor, defaultAbility?: VueAbility
     },
 
     methods: {
-      $can(...args: Parameters<VueAbility['can']>): boolean {
+      $can(...args: any): boolean {
         const dep = renderingDependencyFor(this.$ability);
         dep._touch = dep._touch; // eslint-disable-line
 

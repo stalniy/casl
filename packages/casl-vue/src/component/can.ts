@@ -1,24 +1,21 @@
 import { FunctionalComponentOptions, VNode } from 'vue';
-import { IfExtends, SubjectType, Subject, AnyAbility, AbilityParameters } from '@casl/ability';
+import { SubjectType, Generics, AnyAbility, Abilities, IfString, AbilityTuple } from '@casl/ability';
 import { VueAbility } from '../types';
 
-type AbilityCanProps<A extends string, S extends Subject> = IfExtends<
-S,
-'all',
-{ do: A } | { I: A },
-{ field?: string } & (
-  { do: A, on: S } |
-  { I: A, a: Extract<S, SubjectType> } |
-  { I: A, an: Extract<S, SubjectType> } |
-  { I: A, of: S } |
-  { I: A, this: Exclude<S, SubjectType> }
-)
->;
+type AbilityCanProps<
+  T extends Abilities,
+  Else = IfString<T, { do: T } | { I: T }>
+> = T extends AbilityTuple
+  ? { field?: string } & (
+    { do: T[0], on: T[1] } |
+    { I: T[0], a: Extract<T[1], SubjectType> } |
+    { I: T[0], an: Extract<T[1], SubjectType> } |
+    { I: T[0], of: T[1] } |
+    { I: T[0], this: Exclude<T[1], SubjectType> }
+  )
+  : Else;
 
-export type AllCanProps<T extends AnyAbility> = AbilityCanProps<
-AbilityParameters<T>['action'],
-AbilityParameters<T>['subject']
-> & {
+export type AllCanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
   not?: boolean,
   passThrough?: boolean
 };
