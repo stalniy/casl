@@ -22,7 +22,7 @@ T,
 T extends AbilityTuple
   ? (action: T[0], subject: T[1], convert: ConvertRule) => 0
   : never,
-(action: T, subject: 'all' | undefined, convert: ConvertRule) => 0
+(action: never, subject: never, convert: ConvertRule) => 0
 >;
 
 export function rulesToQuery<T extends AnyAbility>(
@@ -76,7 +76,7 @@ export function rulesToFields<T extends PureAbility<any, AnyObject>>(
 
 const getRuleFields = (rule: RuleOf<AnyAbility>) => rule.fields;
 
-export type GetRuleFields<R extends Rule<any, any, any>> = (rule: R) => string[] | undefined;
+export type GetRuleFields<R extends Rule<any, any>> = (rule: R) => string[] | undefined;
 
 export interface PermittedFieldsOptions<T extends AnyAbility> {
   fieldsFrom?: GetRuleFields<RuleOf<T>>
@@ -101,7 +101,7 @@ export function permittedFieldsOf<T extends AnyAbility>(
     .filter(rule => rule.matchesConditions(subject))
     .reverse()
     .reduce((fields, rule) => {
-      const names = fieldsFrom(rule as RuleOf<T>);
+      const names = fieldsFrom(rule);
 
       if (names) {
         const toggle = rule.inverted ? deleteKey : setKey;
@@ -125,19 +125,16 @@ export type PackRule<T extends RawRule<any, any>> =
 
 export type PackSubjectType<T extends SubjectType> = (type: T) => string;
 
-type SubjectOf<R extends RawRule<any, any>> = Extract<R['subject'], SubjectType>;
-
 export function packRules<T extends RawRule<any, any>>(
   rules: T[],
-  packSubject?: PackSubjectType<SubjectOf<T>>
+  packSubject?: PackSubjectType<T['subject']>
 ): PackRule<T>[] {
   return rules.map((rule) => { // eslint-disable-line
-    const rawRule = rule as any;
     const packedRule: PackRule<T> = [
-      joinIfArray(rawRule.action || rawRule.actions),
+      joinIfArray((rule as any).action || (rule as any).actions),
       typeof packSubject === 'function'
-        ? wrapArray(rule.subject as SubjectOf<T>).map(packSubject).join(',')
-        : joinIfArray(rule.subject as string),
+        ? wrapArray(rule.subject).map(packSubject).join(',')
+        : joinIfArray(rule.subject),
       rule.conditions || 0,
       rule.inverted ? 1 : 0,
       rule.fields ? joinIfArray(rule.fields) : 0,
@@ -154,13 +151,13 @@ export type UnpackSubjectType<T extends SubjectType> = (type: string) => T;
 
 export function unpackRules<T extends RawRule<any, any>>(
   rules: PackRule<T>[],
-  unpackSubject?: UnpackSubjectType<SubjectOf<T>>
+  unpackSubject?: UnpackSubjectType<T['subject']>
 ): T[] {
   return rules.map(([action, subject, conditions, inverted, fields, reason]) => {
     const subjects = subject.split(',');
     const rule = {
       inverted: !!inverted,
-      action: action.split(',') as Extract<T, { action: any }>['action'],
+      action: action.split(','),
       subject: typeof unpackSubject === 'function'
         ? subjects.map(unpackSubject)
         : subjects

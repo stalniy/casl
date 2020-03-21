@@ -1,11 +1,12 @@
 import { wrapArray } from './utils';
 import {
-  ExtractSubjectType,
-  Subject,
   MatchConditions,
   ConditionsMatcher,
   MatchField,
   FieldMatcher,
+  Abilities,
+  ToAbilityTypes,
+  Normalize
 } from './types';
 import { RawRule } from './RawRule';
 
@@ -14,17 +15,19 @@ interface RuleOptions<TConditions> {
   fieldMatcher?: FieldMatcher
 }
 
-export class Rule<A extends string, S extends Subject, C = unknown> {
+type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
+
+export class Rule<A extends Abilities, C> {
   private readonly _matchConditions?: MatchConditions;
   private readonly _matchField?: MatchField<string>;
-  public readonly action: A | A[];
-  public readonly subject: ExtractSubjectType<S> | ExtractSubjectType<S>[];
+  public readonly action: Tuple<A>[0] | Tuple<A>[0][];
+  public readonly subject: Tuple<A>[1] | Tuple<A>[1][];
   public readonly inverted: boolean;
   public readonly conditions?: C;
   public readonly fields?: string[];
   public readonly reason: string | undefined;
 
-  constructor(rule: RawRule<any, C>, options: RuleOptions<C>) {
+  constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<C>) {
     this.action = (rule as any).actions || (rule as any).action;
     this.subject = rule.subject;
     this.inverted = !!rule.inverted;
@@ -48,7 +51,7 @@ export class Rule<A extends string, S extends Subject, C = unknown> {
     }
   }
 
-  matchesConditions(object: S | undefined): boolean {
+  matchesConditions(object: Normalize<A>[1] | undefined): boolean {
     if (!this._matchConditions) {
       return true;
     }

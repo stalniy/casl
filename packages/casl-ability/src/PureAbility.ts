@@ -1,5 +1,5 @@
 import { Rule } from './Rule';
-import { RawRule } from './RawRule';
+import { RawRuleFrom } from './RawRule';
 import { wrapArray, detectSubjectType, expandActions, AliasesMap } from './utils';
 import {
   DetectSubjectType,
@@ -8,7 +8,6 @@ import {
   CanParameters,
   Abilities,
   Normalize,
-  AbilityTuple,
   ConditionsMatcher,
   FieldMatcher
 } from './types';
@@ -33,16 +32,11 @@ export type AnyAbility = PureAbility<any, any>;
 export type Generics<T extends AnyAbility> = T extends AnyAbility
   ? { abilities: T['za'], conditions: T['zc'] } : never;
 
-export type RuleFrom<
-  T extends Abilities,
-  C,
-  Else = [T] extends [string] ? Rule<T, Subject, C> : never
-> = T extends AbilityTuple ? Rule<T[0], T[1], C> : Else;
 
 export type RuleOf<T extends AnyAbility> =
-  RuleFrom<Generics<T>['abilities'], Generics<T>['conditions']>;
+  Rule<Generics<T>['abilities'], Generics<T>['conditions']>;
 export type RawRuleOf<T extends AnyAbility> =
-  RawRule<Generics<T>['abilities'], Generics<T>['conditions']>;
+  RawRuleFrom<Generics<T>['abilities'], Generics<T>['conditions']>;
 
 export type AbilityOptionsOf<T extends AnyAbility> =
   AbilityOptions<Normalize<Generics<T>['abilities']>[1], Generics<T>['conditions']>;
@@ -66,7 +60,7 @@ type EventsMap<T extends AnyAbility> = {
 type RuleIndex<A extends Abilities, C> = {
   [subject: string]: {
     [action: string]: {
-      [priority: number]: RuleFrom<A, C>
+      [priority: number]: Rule<A, C>
     }
   }
 };
@@ -80,7 +74,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   private readonly _conditionsMatcher?: ConditionsMatcher<Conditions>;
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
-  public readonly rules!: RuleFrom<Abilities, Conditions>[];
+  public readonly rules!: Rule<A, Conditions>[];
 
   static addAlias<T extends string, U extends string>(
     alias: T,
@@ -99,7 +93,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   }
 
   constructor(
-    rules: RawRule<A, Conditions>[] = [],
+    rules: RawRuleFrom<A, Conditions>[] = [],
     options: AbilityOptions<Normalize<A>[1], Conditions> = {}
   ) {
     this._conditionsMatcher = options.conditionsMatcher;
@@ -111,7 +105,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     this.update(rules);
   }
 
-  update(rules: RawRule<A, Conditions>[]): this {
+  update(rules: RawRuleFrom<A, Conditions>[]): this {
     if (!Array.isArray(rules)) {
       return this;
     }
@@ -136,7 +130,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     return this;
   }
 
-  private _buildIndexFor(rawRules: RawRule<A, Conditions>[]) {
+  private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
     const rules: this['rules'] = [];
     const indexedRules: RuleIndex<A, Conditions> = Object.create(null);
     const options = {
@@ -147,7 +141,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     let hasPerFieldRules = false;
 
     for (let i = 0; i < rawRules.length; i++) {
-      const rule = new Rule(rawRules[i], options) as RuleFrom<A, Conditions>;
+      const rule = new Rule(rawRules[i], options);
       const actions = expandActions(DEFAULT_ALIASES, rule.action);
       const priority = rawRules.length - i - 1;
       const subjects = wrapArray(rule.subject);
@@ -194,8 +188,6 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   relevantRuleFor(...args: CanParameters<A>) {
     const rules = this.rulesFor(...args);
     const subject = args[1];
-
-    type M = this['rules'][number];
 
     for (let i = 0; i < rules.length; i++) {
       if (rules[i].matchesConditions(subject)) {

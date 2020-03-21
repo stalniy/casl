@@ -1,4 +1,4 @@
-import { SubjectType, Abilities, ExtractSubjectType, AbilityTuple } from './types';
+import { SubjectType, AbilityTypes, AbilityTupleType, Abilities, ToAbilityTypes } from './types';
 
 interface BaseRawRule<Conditions> {
   fields?: string | string[]
@@ -9,28 +9,35 @@ interface BaseRawRule<Conditions> {
   reason?: string
 }
 
-interface ClaimRawRule extends BaseRawRule<undefined> {
-  subject?: 'all'
+interface ClaimRawRule<A extends string> extends BaseRawRule<undefined> {
+  action: A | A[]
+  subject?: undefined
 }
 
-interface SubjectRawRule<S extends SubjectType, C> extends BaseRawRule<C> {
+interface SubjectRawRule<A extends string, S extends SubjectType, C> extends BaseRawRule<C> {
+  action: A | A[]
   subject: S | S[]
 }
 
-type ActionAndLegacyActions<A> = {
-  action: A | A[]
-} | {
+interface LegacyClaimRawRule<A extends string> extends BaseRawRule<undefined> {
   /** @deprecated use "action" field instead */
   actions: A | A[]
-};
+  subject?: undefined
+}
 
-type DefineRawRule<
-  A extends Abilities,
-  C,
-  Else = [A] extends [string] ? ClaimRawRule & ActionAndLegacyActions<A> : never
-> = A extends AbilityTuple
-  ? SubjectRawRule<ExtractSubjectType<A[1]>, C> & ActionAndLegacyActions<A[0]>
+interface LegacySubjectRawRule<A extends string, S extends SubjectType, C> extends BaseRawRule<C> {
+  /** @deprecated use "action" field instead */
+  actions: A | A[]
+  subject: S | S[]
+}
+
+type DefineRule<
+  T extends AbilityTypes = AbilityTupleType,
+  C = unknown,
+  Else = ClaimRawRule<Extract<T, string>> | LegacyClaimRawRule<Extract<T, string>>
+> = T extends AbilityTupleType
+  ? SubjectRawRule<T[0], T[1], C> | LegacySubjectRawRule<T[0], T[1], C>
   : Else;
 
-export type RawRule<A extends Abilities = Abilities, C = unknown> =
-  DefineRawRule<A, C>;
+export type RawRule<T extends AbilityTypes = AbilityTupleType, C = unknown> = DefineRule<T, C>;
+export type RawRuleFrom<T extends Abilities, C> = RawRule<ToAbilityTypes<T>, C>;

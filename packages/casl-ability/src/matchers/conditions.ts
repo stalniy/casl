@@ -56,8 +56,8 @@ type QueryOperators = {
   $exists?: boolean
 };
 
+const siftOptions = { operations };
+
 export type MongoQuery = Record<PropertyKey, QueryOperators | AnyValue>;
-export const mongoQueryMatcher: Matcher<MongoQuery> = conditions => sift(conditions as Query, {
-  operations
-});
+export const mongoQueryMatcher: Matcher<MongoQuery> = _ => sift(_ as Query, siftOptions);
 export const lambdaMatcher: Matcher<MatchConditions> = conditions => conditions;

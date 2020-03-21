@@ -8,6 +8,17 @@ export type SubjectType = string | SubjectClass | undefined;
 export type Subject = object | SubjectType;
 export type AbilityTuple<X extends string = string, Y extends Subject = Subject> = [X, Y];
 export type Abilities = string | AbilityTuple;
+
+export type ToAbilityTypes<T extends Abilities> = T extends AbilityTuple
+  ? AbilityTupleType<T[0], ExtractSubjectType<T[1]>>
+  : Extract<T, string>;
+
+export type AbilityTupleType<
+  T extends string = string,
+  U extends SubjectType = SubjectType
+> = [T, U];
+export type AbilityTypes = string | AbilityTupleType;
+
 export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, 'all'?];
 export type DetectSubjectType<T extends Subject> = (subject?: T) => string;
 
@@ -15,7 +26,7 @@ export type IfString<T, U> = T extends string ? U : never;
 export type AbilityParameters<
   T extends Abilities,
   TupleFunction extends Fn,
-  StringFunction extends Fn,
+  StringFunction extends Fn = () => 0,
   Else = IfString<T, Parameters<StringFunction>>
 > = T extends AbilityTuple ? Parameters<TupleFunction> : Else;
 export type CanParameters<T extends Abilities, IncludeField extends boolean = true> =

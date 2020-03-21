@@ -5,7 +5,8 @@ import {
   ExtractSubjectType as E,
   AbilityTuple,
   SubjectType,
-  Abilities,
+  AbilityTypes,
+  ToAbilityTypes,
   AbilityParameters
 } from './types';
 import { RawRule } from './RawRule';
@@ -23,7 +24,7 @@ class RuleBuilder<T extends RawRule<any, any>> {
   }
 }
 
-type CanFunction<T extends Abilities, C, WithFields = true> = T extends AbilityTuple
+type CanFunction<T extends AbilityTypes, C, WithFields = true> = T extends AbilityTuple
   ? WithFields extends true
     // eslint-disable-next-line max-len
     ? (action: T[0] | T[0][], subject: E<T[1]> | E<T[1]>[], fields?: string | string[], conditions?: C) => 0
@@ -33,7 +34,7 @@ type CanFunction<T extends Abilities, C, WithFields = true> = T extends AbilityT
 export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolean = false> =
   AbilityParameters<
   Generics<T>['abilities'],
-  CanFunction<Generics<T>['abilities'], Generics<T>['conditions'], WithFields>,
+  CanFunction<ToAbilityTypes<Generics<T>['abilities']>, Generics<T>['conditions'], WithFields>,
   (action: Generics<T>['abilities'] | Generics<T>['abilities'][], subject?: 'all') => 0
   >;
 
