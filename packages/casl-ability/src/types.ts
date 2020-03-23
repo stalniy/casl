@@ -40,22 +40,22 @@ export type CanParameters<T extends Abilities, IncludeField extends boolean = tr
   (action: T, subject?: 'all') => 0
   >;
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType> | TagName<S>;
-export type CollectSubjects<T, IncludeTagName = true> =
-  T |
-  (
+
+type SubjectClassWithCustomName<T> = AnyClass & { modelName: T };
+export type InferSubjects<T, IncludeTagName extends boolean = false> =
+  T | (
     T extends AnyClass<infer I>
       ? I | (
         IncludeTagName extends true
-          ? (T extends SubjectClass<infer Name> ? Name : TagName<I>)
+          ? T extends SubjectClassWithCustomName<infer Name> ? Name : TagName<I>
           : never
       )
       : TagName<T>
   );
-type TaggedInterface<T extends string> =
-  { readonly __caslSubjectType__: T } |
-  { readonly type: T } |
-  { readonly kind: T } |
-  { readonly tag: T };
+
+export type ForcedSubject<T> = { readonly __caslSubjectType__: T };
+
+type TaggedInterface<T extends string> = ForcedSubject<T> | { readonly kind: T };
 type TagName<T> = T extends TaggedInterface<infer U> ? U : never;
 
 export type MatchConditions = (object: object) => boolean;

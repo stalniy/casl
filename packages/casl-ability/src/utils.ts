@@ -1,4 +1,4 @@
-import { AnyObject, Subject, SubjectClass } from './types';
+import { AnyObject, Subject, SubjectClass, ForcedSubject } from './types';
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
@@ -22,7 +22,10 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 }
 
 const TYPE_FIELD = '__caslSubjectType__';
-export function setSubjectType<T extends Record<string, any>>(type: string, object: T): T {
+export function setSubjectType<
+  T extends string,
+  U extends Record<PropertyKey, any>
+>(type: T, object: U): U & ForcedSubject<T> {
   if (object) {
     if (!object.hasOwnProperty(TYPE_FIELD)) {
       Object.defineProperty(object, TYPE_FIELD, { value: type });
@@ -31,7 +34,7 @@ export function setSubjectType<T extends Record<string, any>>(type: string, obje
     }
   }
 
-  return object;
+  return object as U & ForcedSubject<T>;
 }
 
 export function detectSubjectType<T extends Subject>(subject?: T): string {
