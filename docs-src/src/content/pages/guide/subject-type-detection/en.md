@@ -84,7 +84,7 @@ const article = {};
 ability.can('read', subject('Article', article)); // true
 ```
 
-It defines readonly non-configurable and non-enumerable property on the provided DTO, so it can be used in the subject's type detection algorithm.
+It defines readonly non-configurable and non-enumerable `__caslSubjectType__` property on the provided DTO, so it can be used in the subject's type detection algorithm.
 
 > CASL will throw an exception if you try to use `subject` helper with different subject type for an object processed by the helper previously
 
@@ -135,10 +135,23 @@ ability.can('read', article); // true
 And actual implementation:
 
 ```js @{data-filename="subjectTypeFromGraphql.js"}
-export default subject => subject ? subject.__typename : 'all';
+import { detectSubjectType } from '@casl/ability';
+
+export default (subject) => {
+  if (subject && typeof subject === 'object') {
+    return subject.__typename;
+  }
+
+  return detectSubjectType(subject);
+}
 ```
 
-> Custom detection algorithm must handle cases when `subject` is `undefined` and it must return a string!
+Custom detection function must return `string` and handle the next cases:
+* when `subject` is `undefined`
+* when `subject` is a `string` or a `function` (this should be perceived as a subject type)
+* when subject is an `object`
+
+If you don't want to handle all that cases, you can fallback to built-in `detectSubjectType` function which will do this for you.
 
 The same can be achieved using `defineAbility` function:
 

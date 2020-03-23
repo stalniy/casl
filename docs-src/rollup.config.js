@@ -108,22 +108,26 @@ export default {
     }),
     copy({
       copyOnce: true,
-      verbose: true,
       flatten: false,
       targets: [
         { src: 'public/**/*', dest: '../docs' },
-        { src: 'node_modules/highlight.js/styles/hybrid.css', dest: '../docs' },
+      ]
+    }),
+    copy({
+      targets: [
+        { src: 'src/content/**/*.{png,jpeg,svg}', dest: '../docs/images' }
       ]
     }),
     content({
-      matches: /\.i18n$/,
+      entry: /\.i18n$/,
       langs: SUPPORTED_LANGS,
       summarizer: false,
       pageSchema: false,
       parse: parsexYaml,
     }),
     content({
-      matches: /\.pages$/,
+      entry: /\.pages$/,
+      files: '**/*.md',
       langs: SUPPORTED_LANGS,
       pageSchema: false,
       summary: {
@@ -136,6 +140,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.ARTICLES_PER_PAGE': '10',
       'process.env.APP_LANGS': JSON.stringify(SUPPORTED_LANGS),
+      'process.env.APP_REPO_URL': JSON.stringify('https://github.com/stalniy/casl'),
     }),
     html({
       title: 'CASL',

@@ -16,6 +16,10 @@ function renderNavItem(item) {
     return html`<a href="${item.url}" target="_blank" rel="nofollow">${title}</a>`;
   }
 
+  if (item.page) {
+    return html`<app-link to="page" .params="${{ id: item.page }}">${title}</app-link>`;
+  }
+
   return html`<app-link to="${item.name}">${title}</app-link>`;
 }
 

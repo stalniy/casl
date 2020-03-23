@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import { t, ut } from '../directives/i18n';
 import { gridCss, btnCss, codeCss } from '../styles';
 import shieldURL from '../assets/casl-shield.png';
-import config from '../data/config.yml';
+import config from '../config/app';
 import features from '../partials/caslFeatures';
 
 export default class HomePage extends LitElement {

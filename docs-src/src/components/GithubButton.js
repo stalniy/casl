@@ -1,6 +1,6 @@
 import { LitElement } from 'lit-element';
 import { render } from 'github-buttons';
-import config from '../data/config.yml';
+import config from '../config/app';
 
 export default class GithubButton extends LitElement {
   static cName = 'github-button';

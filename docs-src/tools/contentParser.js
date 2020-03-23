@@ -17,6 +17,9 @@ export const markdownOptions = {
       local: {
         tagName: 'app-link'
       }
+    },
+    [`${__dirname}/tools/mdImage`]: {
+      size: 'auto'
     }
   }
 };

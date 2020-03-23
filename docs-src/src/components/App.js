@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import { cache } from 'lit-html/directives/cache';
-import menu from '../data/menu.yml';
+import menu from '../config/menu.yml';
 import router from '../services/router';
 import gridCss from '../styles/grid';
 
