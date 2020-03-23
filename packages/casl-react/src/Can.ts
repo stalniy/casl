@@ -26,31 +26,35 @@ type AbilityCanProps<
   T extends Abilities,
   Else = IfString<T, { do: T } | { I: T }>
 > = T extends AbilityTuple
-  ? { field?: string } & (
-    { do: T[0], on: T[1] } |
-    { I: T[0], a: Extract<T[1], SubjectType> } |
-    { I: T[0], an: Extract<T[1], SubjectType> } |
-    { I: T[0], of: T[1] } |
-    { I: T[0], this: Exclude<T[1], SubjectType> }
-  )
+  ? { do: T[0], on: T[1], field?: string } |
+  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], of: T[1], field?: string } |
+  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
   : Else;
 
-type CanExtraProps<T extends AnyAbility> = {
-  not?: boolean,
-  passThrough?: boolean,
+interface ExtraProps {
+  not?: boolean
+  passThrough?: boolean
+}
+
+interface CanExtraProps<T extends AnyAbility> extends ExtraProps {
   ability: T
-};
+}
+
+interface BoundCanExtraProps<T extends AnyAbility> extends ExtraProps {
+  ability?: T
+}
 
 export type CanProps<T extends AnyAbility> =
   AbilityCanProps<Generics<T>['abilities']> & CanExtraProps<T>;
 export type BoundCanProps<T extends AnyAbility> =
-  AbilityCanProps<Generics<T>['abilities']> &
-  Omit<CanExtraProps<T>, 'ability'> & { ability?: T };
-export class Can<T extends AnyAbility, IsBound extends boolean = false> extends PureComponent<
-true extends IsBound
-  ? BoundCanProps<T>
-  : CanProps<T>
-> {
+  AbilityCanProps<Generics<T>['abilities']> & BoundCanExtraProps<T>;
+
+export class Can<
+  T extends AnyAbility,
+  IsBound extends boolean = false
+> extends PureComponent<IsBound extends true ? BoundCanProps<T> : CanProps<T>> {
   private _isAllowed: boolean = false;
   private _ability: T | null = null;
   private _unsubscribeFromAbility: Unsubscribe = noop;
