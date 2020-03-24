@@ -1,4 +1,4 @@
-import { Rule } from './Rule';
+import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import { wrapArray, detectSubjectType, expandActions, AliasesMap } from './utils';
 import {
@@ -70,8 +70,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   private _mergedRules: Record<string, this['rules']> = {};
   private _events: Events<this> = Object.create(null);
   private _indexedRules: RuleIndex<A, Conditions> = {};
-  private readonly _fieldMatcher?: FieldMatcher;
-  private readonly _conditionsMatcher?: ConditionsMatcher<Conditions>;
+  private readonly _ruleOptions: RuleOptions<Conditions> = {};
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
   public readonly rules!: Rule<A, Conditions>[];
@@ -96,8 +95,10 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     rules: RawRuleFrom<A, Conditions>[] = [],
     options: AbilityOptions<Normalize<A>[1], Conditions> = {}
   ) {
-    this._conditionsMatcher = options.conditionsMatcher;
-    this._fieldMatcher = options.fieldMatcher;
+    this._ruleOptions = {
+      conditionsMatcher: options.conditionsMatcher,
+      fieldMatcher: options.fieldMatcher,
+    };
     Object.defineProperty(this, 'detectSubjectType', {
       value: options.detectSubjectType || options.subjectName || detectSubjectType
     });
@@ -133,15 +134,11 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
     const rules: this['rules'] = [];
     const indexedRules: RuleIndex<A, Conditions> = Object.create(null);
-    const options = {
-      fieldMatcher: this._fieldMatcher,
-      conditionsMatcher: this._conditionsMatcher
-    };
     let isAllInverted = true;
     let hasPerFieldRules = false;
 
     for (let i = 0; i < rawRules.length; i++) {
-      const rule = new Rule(rawRules[i], options);
+      const rule = new Rule(rawRules[i], this._ruleOptions);
       const actions = expandActions(DEFAULT_ALIASES, rule.action);
       const priority = rawRules.length - i - 1;
       const subjects = wrapArray(rule.subject);

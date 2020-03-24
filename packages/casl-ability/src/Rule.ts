@@ -10,7 +10,7 @@ import {
 } from './types';
 import { RawRule } from './RawRule';
 
-interface RuleOptions<TConditions> {
+export interface RuleOptions<TConditions> {
   conditionsMatcher?: ConditionsMatcher<TConditions>
   fieldMatcher?: FieldMatcher
 }
