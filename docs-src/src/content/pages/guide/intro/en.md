@@ -282,7 +282,7 @@ try {
   ForbiddenError.from(ability).throwUnlessCan('read', { private: true })
 } catch (error) {
   if (error instanceof ForbiddenError) {
-    console.log(error.message)
+    console.log(error.message);
   }
 }
 ```
