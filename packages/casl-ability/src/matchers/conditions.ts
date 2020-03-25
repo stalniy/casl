@@ -15,9 +15,9 @@ import {
   $elemMatch,
   $exists
 } from 'sift';
-import { ConditionsMatcher as Matcher, MatchConditions } from '../types';
+import { ConditionsMatcher as Matcher } from '../types';
 
-const operations = {
+const defaultOperations = {
   $eq,
   $ne,
   $lt,
@@ -34,8 +34,8 @@ const operations = {
 };
 
 type RegExpOptions<T> = { $regex: T, $options?: string };
-type AnyValue = string | number | null | boolean | undefined;
-type QueryOperators = {
+type Primitive = string | number | null | boolean | undefined;
+export type MongoQueryOperators = {
   $eq?: any,
   $ne?: any,
   $lt?: string | number | Date,
@@ -50,14 +50,18 @@ type QueryOperators = {
   $regex?: RegExp | RegExpOptions<string> | RegExpOptions<RegExp>,
   /** checks the shape of array item */
   $elemMatch?: {
-    [k in Exclude<keyof QueryOperators, '$elemMatch'>]?: QueryOperators[k]
+    [k in Exclude<keyof MongoQueryOperators, '$elemMatch'>]?: MongoQueryOperators[k]
   },
   /** checks that property exists */
   $exists?: boolean
 };
 
-const siftOptions = { operations };
-
-export type MongoQuery = Record<PropertyKey, QueryOperators | AnyValue>;
-export const mongoQueryMatcher: Matcher<MongoQuery> = _ => sift(_ as Query, siftOptions);
-export const lambdaMatcher: Matcher<MatchConditions> = conditions => conditions;
+export type MongoQuery<AdditionalOperators = never> =
+  Record<PropertyKey, MongoQueryOperators | Primitive | AdditionalOperators>;
+export function buildMongoQueryMatcher<T extends object>(
+  operations: Record<keyof T, any>
+): Matcher<MongoQuery | T> {
+  const options = { operations: { ...defaultOperations, ...operations } };
+  return conditions => sift(conditions as unknown as Query, options);
+}
+export const mongoQueryMatcher = buildMongoQueryMatcher({});

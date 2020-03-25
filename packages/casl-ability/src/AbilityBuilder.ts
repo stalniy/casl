@@ -1,6 +1,6 @@
 import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics } from './PureAbility';
-import { isObject, isStringOrNonEmptyArray } from './utils';
+import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics, AbilityClass } from './PureAbility';
+import { isStringOrNonEmptyArray } from './utils';
 import {
   ExtractSubjectType as E,
   AbilityTuple,
@@ -45,6 +45,7 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
     const self = this as any;
     self.can = self.can.bind(self);
     self.cannot = self.cannot.bind(self);
+    self.build = self.build.bind(self);
   }
 
   can(...args: BuilderCanParameters<T>): RuleBuilder<RawRuleOf<T>>
@@ -68,7 +69,7 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
         rule.fields = conditionsOrFields;
       }
 
-      if (isObject(conditions) || !rule.fields && isObject(conditionsOrFields)) {
+      if (typeof conditions !== 'undefined' || typeof conditionsOrFields !== 'undefined') {
         rule.conditions = conditions || conditionsOrFields;
       }
     }
@@ -89,6 +90,10 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
     const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
     builder.rule.inverted = true;
     return builder;
+  }
+
+  build(AbilityType: AbilityClass<AnyAbility>, options?: AbilityOptionsOf<T>): T {
+    return new AbilityType(this.rules as any, options) as T;
   }
 }
 
@@ -133,6 +138,6 @@ export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
   const result = define(builder.can, builder.cannot);
 
   return result && typeof result.then === 'function'
-    ? result.then(() => new Ability(builder.rules, options) as T)
-    : new Ability(builder.rules, options) as T;
+    ? result.then(() => builder.build(Ability, options))
+    : builder.build(Ability, options);
 }

@@ -1,11 +1,12 @@
 type Fn = (...args: any[]) => any;
+type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
+type AnyRecord = Record<PropertyKey, any>;
 
 export type ValueOf<T> = T extends Record<string, infer U> ? U : never;
-type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectClass<N extends string = string> = AnyClass & { modelName?: N };
 export type SubjectType = string | SubjectClass | undefined;
-export type Subject = object | SubjectType;
+export type Subject = AnyRecord | SubjectType;
 export type AbilityTuple<X extends string = string, Y extends Subject = Subject> = [X, Y];
 export type Abilities = string | AbilityTuple;
 
@@ -58,7 +59,7 @@ export type ForcedSubject<T> = { readonly __caslSubjectType__: T };
 type TaggedInterface<T extends string> = ForcedSubject<T> | { readonly kind: T };
 type TagName<T> = T extends TaggedInterface<infer U> ? U : never;
 
-export type MatchConditions = (object: object) => boolean;
+export type MatchConditions<T extends object = AnyRecord> = (object: T) => boolean;
 export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
 export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;

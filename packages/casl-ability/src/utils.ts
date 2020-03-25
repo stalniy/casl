@@ -54,10 +54,6 @@ export function detectSubjectType<T extends Subject>(subject?: T): string {
   return (Type as SubjectClass).modelName || Type.name;
 }
 
-export function isObject(value: unknown): value is object {
-  return value && typeof value === 'object';
-}
-
 export function isStringOrNonEmptyArray(value: string | string[]): boolean {
   if (!value || !value.length) {
     return false;

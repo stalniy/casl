@@ -65,6 +65,11 @@ type RuleIndex<A extends Abilities, C> = {
   }
 };
 
+export type AbilityClass<T extends AnyAbility> = new (
+  rules?: RawRuleOf<T>[],
+  options?: AbilityOptionsOf<T>
+) => T;
+
 export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> {
   private _hasPerFieldRules: boolean = false;
   private _mergedRules: Record<string, this['rules']> = {};

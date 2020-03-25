@@ -50,5 +50,3 @@ export const fieldPatternMatcher: FieldMatcher = (fields) => {
     return pattern.test(field);
   };
 };
-
-export const fieldMatcher: FieldMatcher = fields => field => fields.indexOf(field) !== -1;
