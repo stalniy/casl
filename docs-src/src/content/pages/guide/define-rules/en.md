@@ -84,15 +84,37 @@ This class implements `can` and `cannot` functions, that makes possible to write
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability'
 
-const { can, cannot, rules } = new AbilityBuilder();
+const { can, cannot, build } = new AbilityBuilder();
 
 can('read', 'Post');
 cannot('delete', 'Post', { published: true });
 
-export default new Ability(rules);
+export default build(Ability);
 ```
 
 But it allows to define rules without additional nesting, this is especially important when you build rules based on conditional logic:
+
+```js
+import { AbilityBuilder, Ability } from '@casl/ability'
+
+export default function defineAbilityFor(user) {
+  const { can, cannot, build } = new AbilityBuilder();
+
+  if (user.isAdmin) {
+    can('manage', 'all'); // read-write access to everything
+  } else {
+    can('read', 'all') // read-only access to everything
+  }
+
+  cannot('delete', 'Post', { published: true });
+
+  return build(Ability);
+}
+```
+
+> To learn more about `can` and `cannot` functions' parameters, read [AbilityBuilder API](../../api#abilitybuilder)
+
+For more advanced cases, it's possible to use `rules` directly:
 
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability'
@@ -111,8 +133,6 @@ export default function defineAbilityFor(user) {
   return new Ability(rules);
 }
 ```
-
-> To learn more about `can` and `cannot` functions' parameters, read [AbilityBuilder API](../../api#abilitybuilder)
 
 ### When to use AbilityBuilder
 
