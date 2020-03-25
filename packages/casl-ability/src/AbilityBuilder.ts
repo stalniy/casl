@@ -67,10 +67,12 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
 
       if (Array.isArray(conditionsOrFields) || typeof conditionsOrFields === 'string') {
         rule.fields = conditionsOrFields;
+      } else if (typeof conditionsOrFields !== 'undefined') {
+        rule.conditions = conditionsOrFields;
       }
 
-      if (typeof conditions !== 'undefined' || typeof conditionsOrFields !== 'undefined') {
-        rule.conditions = conditions || conditionsOrFields;
+      if (typeof conditions !== 'undefined') {
+        rule.conditions = conditions;
       }
     }
 
