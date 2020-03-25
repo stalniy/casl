@@ -135,9 +135,7 @@ ability.can('update', ownArticle) // true
 ability.can('update', anotherArticle) // false
 ```
 
-> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. In case it looks confusing, you may rename `can` and `cannot` functions in `defineAbility` to `allow` and `forbid` correspondingly. See [About `can` API][advanced-about-can-api] for explanation.
-
-[advanced-about-can-api]: ../../advanced/about-can-api
+> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. See [Make `can` API less confusing](../../cookbook/less-confusing-can-api) for explanation.
 
 **Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
 
@@ -312,6 +310,17 @@ const unsubscribe = ability.on('update', ({ rules, ability }) => {
 
 unsubscribe() // removes subscription
 ```
+
+## What else?
+
+CASL does not have a concept of "a role" and this makes it very powerful! As CASL allows to describe user abilities in your application, you can use it to:
+
+1. Implement [feature toggles](https://en.wikipedia.org/wiki/Feature_toggle)\
+   Hide unfinished feature or show it to beta testers only.
+2. Conduct [A/B testing](https://en.wikipedia.org/wiki/A/B_testing)\
+   Based on age, region, country or whatever hide features for some users and show for others
+3. Simple Business Logic\
+   Disallow users to watch video if their subscription has been expired
 
 ## Ready for More?
 

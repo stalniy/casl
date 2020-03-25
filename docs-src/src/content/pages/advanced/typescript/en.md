@@ -147,7 +147,7 @@ The same parameter allows to infer `modelName` static property from classes (in 
 
 Moreover, the same behavior also works in complementary packages! So, you will get hints for React's `Can` component, Vue's `$can` function, Mongoose's plugins and others.
 
-> To learn more, read about [CASL ecosystem](../../package/intro)
+> To learn more, read about the complementary package for your framework
 
 But even this is not the end and you can go even further!
 

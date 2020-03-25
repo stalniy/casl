@@ -1,5 +1,5 @@
 ---
-title: Hardware capabilities
+title: Ability inheritance
 categories: [cookbook]
 order: 260
 meta:

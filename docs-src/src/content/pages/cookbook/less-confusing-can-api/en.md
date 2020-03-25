@@ -1,7 +1,7 @@
 ---
-title: Feature flags
+title: Less confusing can API
 categories: [cookbook]
-order: 250
+order: 240
 meta:
   keywords: ~
   description: ~
