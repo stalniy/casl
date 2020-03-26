@@ -5,6 +5,7 @@ items:
     - heading: docs
     - name: guide
       page: guide/intro
+    - name: api
     - name: examples
     - name: cookbook
       page: cookbook/intro

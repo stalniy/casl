@@ -1,7 +1,7 @@
 ---
 title: CASL Vue
 categories: [package]
-order: 150
+order: 125
 meta:
   keywords: ~
   description: ~

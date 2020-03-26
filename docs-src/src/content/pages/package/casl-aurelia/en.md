@@ -1,7 +1,7 @@
 ---
 title: CASL Aurelia
 categories: [package]
-order: 110
+order: 130
 meta:
   keywords: ~
   description: ~

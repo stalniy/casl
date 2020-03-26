@@ -1,7 +1,7 @@
 ---
 title: CASL Angular
 categories: [package]
-order: 120
+order: 115
 meta:
   keywords: ~
   description: ~

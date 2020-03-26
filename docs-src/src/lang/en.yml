@@ -15,7 +15,7 @@ menu:
   cookbook: Cookbook
   ecosystem: Ecosystem
   packages: Official packages
-  pkg-mongoose: CASL mongoose
+  pkg-mongoose: CASL Mongoose
   pkg-angular: CASL Angular
   pkg-react: CASL React
   pkg-vue: CASL Vue
