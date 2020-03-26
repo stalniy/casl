@@ -16,7 +16,7 @@ pnpm add @casl/mongoose @casl/ability
 
 This package provides `accessibleRecordsPlugin` and `accessibleFieldsPlugin` for [mongoose] ODM. Also it exposes `toMongoQuery` helper that allows to construct MongoDB query from `Ability` instance and use it with any MongoDB library (e.g., [native mongodb adapter][mongo-adapter]).
 
-See [documentation](https://stalniy.github.io/casl/en/package/casl-mongoose) for more details.
+See [documentation](https://stalniy.github.io/casl/en/package/casl-mongoose) for details.
 
 ## Want to help?
 

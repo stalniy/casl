@@ -48,10 +48,14 @@ export default css`
   }
 
   /*color: fg_comment*/
-  .hljs-comment,
+  .hljs-comment {
+    color: #707880;
+  }
+
+
   .hljs-meta,
   .hljs-meta .hljs-keyword {
-    color: #707880;
+    color: #f0c674;
   }
 
   /*color: fg_red*/

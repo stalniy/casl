@@ -1,5 +1,5 @@
 ---
-title: CASL Angular
+title: CASL React
 categories: [package]
 order: 120
 meta:
