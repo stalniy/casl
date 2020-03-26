@@ -29,7 +29,6 @@ type AbilityCanProps<
   ? { do: T[0], on: T[1], field?: string } |
   { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
   { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], of: T[1], field?: string } |
   { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
   : Else;
 

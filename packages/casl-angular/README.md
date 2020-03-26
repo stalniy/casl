@@ -15,7 +15,7 @@ pnpm add @casl/angular @casl/ability
 
 ## Getting Started
 
-See [documentation](https://stalniy.github.io/casl/en/package/casl-angular) for details.
+See [documentation](https://stalniy.github.io/casl/en/package/casl-angular) and [CASL angular example](https://github.com/stalniy/casl-angular-example) for details.
 
 ## Want to help?
 

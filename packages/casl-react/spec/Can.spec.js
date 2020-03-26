@@ -1,7 +1,6 @@
 import { createElement as e } from 'react'
 import { defineAbility } from '@casl/ability'
 import renderer from 'react-test-renderer'
-import { assertPropTypes } from 'check-prop-types'
 import { Can } from '../src'
 
 describe('`Can` component', () => {
@@ -11,12 +10,6 @@ describe('`Can` component', () => {
   beforeEach(() => {
     children = spy(() => null)
     ability = defineAbility(can => can('read', 'Post'))
-  })
-
-  it('may accept children as a function', () => {
-    const props = { ability, I: 'read', a: 'subject', children: () => {} }
-
-    expect(() => validateProps(Can, props)).not.to.throw(Error)
   })
 
   it('passes ability check value and instance as arguments to "children" function', () => {
@@ -82,7 +75,7 @@ describe('`Can` component', () => {
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
 
-    it('rerenders when `a` or `this` or `of` prop is changed', () => {
+    it('rerenders when `a` or `an` or `this` prop is changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'User', ability }, child))
       component.update(e(Can, { I: 'read', a: 'Post', ability }, child))
 
@@ -125,8 +118,4 @@ describe('`Can` component', () => {
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
   })
-
-  function validateProps(Component, props) {
-    assertPropTypes(Component.propTypes, props, 'prop', Component.name)
-  }
 })

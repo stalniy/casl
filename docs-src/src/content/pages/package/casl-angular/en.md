@@ -58,7 +58,7 @@ Majority of applications that need permission checking support have something li
 Let's imagine that server returns user with a role on login:
 
 ```ts @{data-filename="session.ts"}
-import { Ability, AbilityBuilder } from '@casl/ability'
+import { Ability, AbilityBuilder } from '@casl/ability';
 
 export class Session {
   private token: string
@@ -66,12 +66,12 @@ export class Session {
   constructor(private ability: Ability) {}
 
   login(details) {
-    const params = { methods: 'POST', body: JSON.stringify(details) };
+    const params = { method: 'POST', body: JSON.stringify(details) };
     return fetch('path/to/api/login', params)
       .then(response => response.json())
       .then((session) => {
         this.updateAbility(session.user);
-        this.token = session.token
+        this.token = session.token;
       });
   }
 
