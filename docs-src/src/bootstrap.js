@@ -12,6 +12,7 @@ import GithubButton from './components/GithubButton';
 import PageSearch from './components/PageSearch';
 import QuickSearch from './components/QuickSearch';
 import LangPicker from './components/LangPicker';
+import OneTimeDonations from './components/OneTimeDonations';
 import Sidebar from './components/Sidebar';
 import { locale, setLocale, defaultLocale } from './services/i18n';
 import router from './services/router';
@@ -32,6 +33,7 @@ const components = [
   LangPicker,
   GithubButton,
   Sidebar,
+  OneTimeDonations,
 ];
 
 export default function bootstrap(selector) {

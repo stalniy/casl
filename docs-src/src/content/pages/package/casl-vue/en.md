@@ -239,7 +239,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support) for details
+> See [Support CASL](../../support-casljs) for details
 
 ## License
 
