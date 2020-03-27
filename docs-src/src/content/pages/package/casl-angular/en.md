@@ -106,6 +106,8 @@ To check permissions in any template you can use `AblePipe`:
 </div>
 ```
 
+> You can read the expression in `ngIf` as "if creatable Post"
+
 Or with **deprecated** `CanPipe`:
 
 ```html
@@ -123,6 +125,8 @@ Directive cannot be used to pass values into inputs of other components. For exa
 ```html
 <button [disabled]="!('create' | able: 'Post')">Add Post</button>
 ```
+
+To track status of directive implementation, check [#276](https://github.com/stalniy/casl/issues/276)
 
 ## Performance considerations
 
@@ -165,6 +169,58 @@ class PureAblePipe extends AblePipe {}
   // other configuration
   declarations: [
     PureAblePipe
+  ]
+})
+export class AppModule {}
+```
+
+## TypeScript support
+
+The package is written in TypeScript, so it will warn you about wrong usage.
+
+It may be a bit tedious to use application specific abilities in Angular app because everywhere you inject `Ability` instance you will need to import its generic parameters:
+
+```ts
+import { Ability } from '@casl/ability';
+import { Component } from '@angular/core';
+import { AppAbilities } from '../services/AppAbility';
+
+@Component({
+  selector: 'todo-item'
+})
+export class TodoItem {
+  constructor(
+    private ability: Ability<AppAbilities>
+  ) {}
+}
+```
+
+To make the life easier, instead of creating a separate type you can create a separate class:
+
+```ts @{data-filename="AppAbility.ts"}
+import { Ability } from '@casl/angular';
+
+type Actions = 'create' | 'read' | 'update' | 'delete';
+type Subjects = 'Article' | 'User'
+
+export type AppAbilities = [Actions, Subjects];
+
+export class AppAbility extends Ability<AppAbilities> {
+}
+```
+
+And provide this class instead in `AppModule` providers:
+
+```ts @{data-filename="AppModule.ts"}
+import { NgModule } from '@angular/core';
+import { Ability } from '@casl/ability';
+import { AppAbility } from './services/AppAbility';
+
+@NgModule({
+  // other configuration
+  providers: [
+    { provide: AppAbility, useValue: new AppAbility() },
+    { provide: PureAbility, useExisting: AppAbility },
   ]
 })
 export class AppModule {}

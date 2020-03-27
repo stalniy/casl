@@ -30,6 +30,13 @@ It accepts children and 5 properties:
 * `do` - name of the action (e.g., `read`, `update` or `read title`). Has an alias `I`
 * `on` - checked subject. Has `a`, `an`, `this` aliases
 * `field` - checked field
+
+  ```jsx
+  export default ({ post }) => <Can I="read" this={post} field="title">
+    Yes, you can do this! ;)
+  </Can>
+  ```
+
 * `not` - inverts ability check and show UI if user cannot do some action:
 
   ```jsx
@@ -229,7 +236,9 @@ There are several other property aliases which allow to construct a readable que
   export default () => <Can do="read" on={this.props.post} field="title">...</Can>
   ```
 
-`@casl/react` written in TypeScript, so don't worry that you need to keep all this in mind, if you use TypeScript it will suggest you the correct usage and will warn you if you make a mistake.
+## TypeScript support
+
+The package is written in TypeScript, so don't worry that you need to keep all the properties in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
 
 ## Update Ability instance
 

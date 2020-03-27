@@ -234,6 +234,10 @@ async function main() {
 }
 ```
 
+## TypeScript support
+
+The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE will hint you about you can pass inside arguments and TypeScript will warn you about wrong usage.
+
 [mongoose]: http://mongoosejs.com/
 [mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
 [CASL]: https://github.com/stalniy/casl
