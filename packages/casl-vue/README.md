@@ -1,87 +1,64 @@
-# CASL Vue [![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue) [![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# CASL Vue [![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue) [![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-This package allows integrating [@casl/ability][casl-ability] into a [Vue][vue] application. So, you can show or hide UI elements based on user ability to see them.
+This package allows to integrate `@casl/ability` with [Vue] application. So, you can show or hide UI elements based on user ability to see them. This package provides a Vue plugin which defines `$ability` object and `$can` method for all components. Also package provides functional `Can` component (not included in the plugin), both allow to hide or show UI elements based on the user ability to see them.
 
 ## Installation
 
 ```sh
 npm install @casl/vue @casl/ability
+# or
+yarn add @casl/vue @casl/ability
+# or
+pnpm add @casl/vue @casl/ability
 ```
 
-## Getting Started
+## Getting started
 
-### 1. Including plugin
+If you don't plan to use multiple `Ability` instances across your application (99.9% likelihood that you don't), you can pass `Ability` instance as a 2nd argument to `Vue.use`:
 
-This package provides a Vue plugin which defines `$ability` object and `$can` method for all components
+```js @{data-filename="main.js"}
+import Vue from 'vue';
+import { abilitiesPlugin } from '@casl/vue';
+import ability from './services/ability';
 
-```js
-import { abilitiesPlugin } from '@casl/vue'
-import Vue from 'vue'
-
-Vue.use(abilitiesPlugin)
+Vue.use(abilitiesPlugin, ability);
 ```
 
-### 2. Defining Abilities
+but if you one from that 0.1%, you need to pass it in `Vue` constructor:
 
-By default, the `$ability` object is an empty `Ability` instance. So you either need to update it or provide your own.
-In case you want to provide your own, just define it using `AbilityBuilder` or whatever way you prefer:
+```js @{data-filename="main.js"}
+import Vue from 'vue';
+import { abilitiesPlugin } from '@casl/vue';
+import ability from './services/ability';
 
-```js
-// ability.js
-import { AbilityBuilder } from '@casl/ability'
+Vue.use(abilitiesPlugin);
 
-export default AbilityBuilder.define(can => {
-  can('read', 'all')
+new Vue({
+  el: '#app',
+  ability
 })
 ```
 
-And just pass it as an argument to `abilitiesPlugin`:
+The difference is that the 1st approach defines `Ability` instance on `Vue.prototype` and 2nd one passes ability from parent to child in component tree.
+
+> The 2nd approach potentially may slowdown components creation but you will not notice this ;)
+
+The plugin doesn't register `Can` component, so you can decide whether to use it or not. In most cases, `$can` function is enough and it's more lightweight than `Can` component.
+
+To use `Can` functional component, you need to import it in a particular component or register it globally:
 
 ```js
-import { abilitiesPlugin } from '@casl/vue'
-import Vue from 'vue'
-import ability from './ability'
+import Vue from 'vue';
+import { Can } from '@casl/vue';
 
-Vue.use(abilitiesPlugin, ability)
+Vue.component('Can', Can);
 ```
 
-Alternatively, you can just update an existing instance, for example, in the `SignIn.vue` component when receiving a rules list from a server API (or other sources).
+> See [CASL guide](../../guide/intro) to learn how to define `Ability` instance.
 
-```html
-<template>
-  <form @submit.prevent="login">
-    <input type="email" v-model="email" />
-    <input type="password" v-model="password" />
-    <button type="submit">Login</button>
-  </form>
-</template>
+## Check permissions in templates
 
-<script>
-  export default {
-    name: 'SignIn',
-    data: () => ({
-      email: '',
-      password: ''
-    }),
-    methods: {
-      login() {
-        const { email, password } = this
-
-        return fetch('path/to/api/login', { method: 'POST', body: JSON.stringify({ email, password }) })
-          .then(response => response.json())
-          .then(session => this.$ability.update(session.rules))
-      }
-    }
-  }
-</script>
-```
-
-Obviously, in this case your server API should provide the list of user abilities in the `rules` field of the response.
-See the [@casl/ability][casl-ability] package for more information on how to define abilities.
-
-### 3. Check permissions in templates
-
-To check permissions in any component you can use the `$can` method:
+To check permissions, you can use `$can` method in any component, it accepts the same arguments as `Ability`'s `can`:
 
 ```html
 <template>
@@ -91,127 +68,171 @@ To check permissions in any component you can use the `$can` method:
 </template>
 ```
 
-See [casl-vue-example][casl-vue-example] and [casl-vuex-example][casl-vuex-example] for more examples.
+## Can component
 
-### 4. Provide ability for a components tree
-
-Another way to provide an `Ability` instance is to pass it as option into your root component:
-
-```js
-// main.js
-
-import App from './App'
-import ability from './ability'
-
-new Vue({
-  store,
-  router,
-  ability,
-  render: h => h(App)
-}).$mount('#app')
-```
-
-That instance will be available under the `$ability` property, and the `$can` method will use it to check permissions.
-That way, you can also provide a different ability for a component's subtree.
-
-```js
-// TodoList.vue
-
-<template>...</template>
-<script>
-  import { AbilityBuilder } from '@casl/ability'
-
-  export default {
-    name: 'TodoList',
-    ability: AbilityBuilder.define(can => {
-      ...
-    })
-  }
-</script>
-```
-
-**Note**: I don't recommend trying to manage more than one `Ability` instance in the app
-because this contradicts to the main goal of CASL: keep all permissions in a single place and manage them from the single location (`Ability` instance).
-
-### 5. `Can` component
-
-There is an alternative way you can check your permissions in the app by using the `Can` component. To enable this feature you need to register it globally:
-
-```js
-import Vue from 'vue'
-import { Can } from '@casl/vue'
-
-Vue.component('Can', Can)
-```
-
-Now, instead of using `v-if="$can(...)"`, we can do this:
+There is an alternative way you can check your permissions in the app by using the `Can` component. Instead of using `v-if="$can(...)"`, we can do this:
 
 ```html
 <template>
-  <can I="create" a="Post">
+  <Can I="create" a="Post">
     <a @click="createPost">Add Post</a>
-  </can>
+  </Can>
 </template>
 ```
 
-#### Property names and aliases
+It accepts default slot and 5 properties:
 
-As you can see from the code above, the component name and its property names and values create an English sentence, basically a question.
-For example, the code above reads as `Can I create a Post`.
+* `do` - name of the action (e.g., `read`, `update`). Has an alias `I`
+* `on` - checked subject. Has `a`, `an`, `this` aliases
+* `field` - checked field
+
+  ```html
+  <Can I="read" :this=post field="title">
+    Yes, you can do this! ;)
+  </Can>
+  ```
+
+* `not` - inverts ability check and show UI if user cannot do some action:
+
+  ```html
+  <Can not I="create" a="Post">
+    You are not allowed to create a post
+  </Can>
+  ```
+
+* `passThrough` - renders children in spite of what `ability.can` returns. This is useful for creating custom components based on `Can`. For example, if you need to disable button based on user permissions:
+
+  ```html
+  <template>
+    <div>
+      <Can I="delete" a="Post" passThrough v-slot="{ allowed }">
+        <button :disabled="!allowed">Delete post</button>
+      </Can>
+    </div>
+  </template>
+  ```
+
+`Can` component has several downsides in comparison to `$can` function.
+
+1. It's more expensive to use because Vue needs to spend some time creating it
+2. It adds additional nesting, that makes code harder to read
+
+### Property names and aliases
+
+As you can see from the code above, the component name and its property names and values create an English sentence, actually a question. The example above reads as "Can I create a Post?".
 
 There are several other property aliases which allow constructing a readable question:
 
-* use the `a` alias when you check by Type
+* use the `a` (or `an`) alias when you check by Type
 
-```html
-<Can I="read" a="Post">...</Can>
-```
+  ```html
+  <Can I="read" a="Post">...</Can>
+  ```
 
-* use the `of` alias instead of `a` when you check by subject field
+* use `this` alias instead of `a` when you check action on a particular instance. So, the question can be read as "Can I read this *particular* post?"
 
-```html
-<Can I="read title" of="Post">...</Can>
-
-<!-- or when checking on instance. `post` is an instance of `Post` class (i.e., model instance) -->
-
-<Can I="read title" :of="post">...</Can>
-```
-
-* use the `this` alias instead of `of` and `a` when you check action on instance
-
-```html
-<!-- `post` is an instance of `Post` class (i.e., model instance) -->
-
-<Can I="read" :this="post">...</Can>
-```
+  ```html
+  <Can I="read" :this="post">...</Can>
+  ```
 
 * use `do` and `on` if you are bored and don't want to make your code more readable :)
 
-```html
-<!-- `post` is an instance of `Post` class (i.e., model instance) -->
+  ```html
+  <Can do="read" :on="post">...</Can>
+  <Can do="read" :on="post" field="title">...</Can>
+  ```
 
-<Can do="read" :on="post">...</Can>
+## TypeScript support
 
-<!-- or per field check -->
-<Can do="read title" :on="post">...</Can>
+The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
+
+To customize `Ability` generic parameters, you to redeclare `Vue.$ability` property:
+
+```ts @{data-filename="appAbility.d.ts"}
+import { AppAbility } from './services/ability';
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $ability: AppAbility
+  }
+}
 ```
 
-* use `not` when you want to invert the render method (renders children only if user can't read a post)
+and in `./services/ability.ts`:
 
-```html
-<Can not I="read" a="Post">...</Can>
+```ts @{data-filename="ability.ts"}
+import { Ability } from '@casl/angular';
+
+type Actions = 'create' | 'read' | 'update' | 'delete';
+type Subjects = 'Article' | 'User'
+
+export type AppAbility = Ability<[Actions, Subjects]>;
 ```
+
+> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to understand why you need to redeclare `vue/types/vue` module.
+
+## Update Ability instance
+
+Majority of applications that need permission checking support have something like `AuthService` or `LoginService` or `Session` service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update `Ability` instance with new rules. Usually you will do this in your `LoginComponent`.
+
+Let's imagine that server returns user with a role on login:
+
+```html @{data-filename="Login.vue"}
+<template>
+  <form @submit.prevent="login">
+    <input type="email" v-model="email" />
+    <input type="password" v-model="password" />
+    <button type="submit">Login</button>
+  </form>
+</template>
+
+<script>
+import { AbilityBuilder } from '@casl/ability';
+
+export default {
+  name: 'LoginForm',
+  data: () => ({
+    email: '',
+    password: ''
+  }),
+  methods: {
+    login() {
+      const { email, password } = this;
+      const params = { method: 'POST', body: JSON.stringify({ email, password }) };
+
+      return fetch('path/to/api/login', params)
+        .then(response => response.json())
+        .then(({ user }) => this.updateAbility(user));
+    },
+    updateAbility(user) {
+      const { can, rules } = new AbilityBuilder();
+
+      if (user.role === 'admin') {
+        can('manage', 'all');
+      } else {
+        can('read', 'all');
+      }
+
+      this.$ability.update(rules);
+    }
+  }
+};
+</script>
+```
+
+> See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
 
 ## Want to help?
 
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
+
+If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
+
+> See [Support CASL](../../support) for details
 
 ## License
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
-[contributing]: /CONTRIBUTING.md
-[vue]: https://vuejs.org/
-[casl-vue-example]: https://github.com/stalniy/casl-vue-example
-[casl-vuex-example]: https://github.com/stalniy/casl-vue-api-example
-[casl-ability]: https://www.npmjs.com/package/@casl/ability
+[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
+[Vue]: https://vuejs.org/

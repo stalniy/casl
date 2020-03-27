@@ -25,9 +25,9 @@ pnpm add @casl/react @casl/ability
 
 ## Can component
 
-It accepts children and 5 properties:
+It accepts children and 6 properties:
 
-* `do` - name of the action (e.g., `read`, `update` or `read title`). Has an alias `I`
+* `do` - name of the action (e.g., `read`, `update`). Has an alias `I`
 * `on` - checked subject. Has `a`, `an`, `this` aliases
 * `field` - checked field
 
@@ -45,7 +45,7 @@ It accepts children and 5 properties:
   </Can>
   ```
 
-* `passThrough` - renders children in spite of what `ability.can` returns. This is useful for creating your components. For example, if you need to disable button based on user permissions:
+* `passThrough` - renders children in spite of what `ability.can` returns. This is useful for creating custom components based on `Can`. For example, if you need to disable button based on user permissions:
 
   ```jsx
   export default () => (
@@ -238,7 +238,7 @@ There are several other property aliases which allow to construct a readable que
 
 ## TypeScript support
 
-The package is written in TypeScript, so don't worry that you need to keep all the properties in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
+The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
 
 ## Update Ability instance
 
@@ -288,6 +288,18 @@ export default () => {
 
 > See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
 
+## Want to help?
 
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
+
+If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
+
+> See [Support CASL](../../support) for details
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
+[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [React]: https://reactjs.org/
 [react-ctx-api]: https://reactjs.org/docs/context.html

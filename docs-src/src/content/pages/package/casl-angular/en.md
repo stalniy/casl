@@ -226,4 +226,17 @@ import { AppAbility } from './services/AppAbility';
 export class AppModule {}
 ```
 
+## Want to help?
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
+
+If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
+
+> See [Support CASL](../../support) for details
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
+[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [Angular]: https://angular.io/
