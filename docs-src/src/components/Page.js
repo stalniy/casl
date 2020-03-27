@@ -57,7 +57,7 @@ export default class Page extends I18nElement {
 
     return html`
       <article itemscope itemtype="http://schema.org/Article">
-        <h1><i class="icon-idea"></i>${interpolate(this._page.title)}</h1>
+        <h1>${interpolate(this._page.title)}</h1>
         <div class="description md">${this.content(this._page, this.vars)}</div>
       </article>
       <app-page-nav fromPage="${this.name}"></app-page-nav>

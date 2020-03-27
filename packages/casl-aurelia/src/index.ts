@@ -4,15 +4,9 @@ import { CanValueConverter, AbleValueConverter } from './value-converter/can';
 
 export { CanValueConverter, AbleValueConverter } from './value-converter/can';
 
-export function configure<T extends AnyAbility>(
-  config: FrameworkConfiguration,
-  providedAbility?: T
-) {
-  if (providedAbility && providedAbility instanceof PureAbility) {
-    config.container.registerInstance(
-      PureAbility,
-      providedAbility
-    );
+export function configure(config: FrameworkConfiguration, defaultAbility?: AnyAbility) {
+  if (defaultAbility && defaultAbility instanceof PureAbility) {
+    config.container.registerInstance(PureAbility, defaultAbility);
   }
 
   config.globalResources([

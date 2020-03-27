@@ -1,6 +1,5 @@
 # CASL Angular [![@casl/angular NPM version](https://badge.fury.io/js/%40casl%2Fangular.svg)](https://badge.fury.io/js/%40casl%2Fangular) [![](https://img.shields.io/npm/dm/%40casl%2Fangular.svg)](https://www.npmjs.com/package/%40casl%2Fangular) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-
 This package allows to integrate `@casl/ability` with [Angular] application. It provides `AblePipe` and **deprecated** `CanPipe` to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.
 
 ## Installation
@@ -36,10 +35,9 @@ import { Ability, PureAbility } from '@casl/ability';
 export class AppModule {}
 ```
 
-The 2nd provider provides instance of `PureAbility`, so `CanPipe` and `AblePipe` can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need to conditions you can use `PureAbility` and get rid of `sift` library).
+The 2nd provider provides instance of `PureAbility`, so `CanPipe` and `AblePipe` can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need conditions you can use `PureAbility` and get rid of `sift` library).
 
 > Read [CASL and TypeScript](../../advanced/typescript) to get more details about `Ability` type configuration.
-
 
 ## Update Ability instance
 
@@ -47,9 +45,11 @@ Majority of applications that need permission checking support have something li
 
 Let's imagine that server returns user with a role on login:
 
-```ts @{data-filename="session.ts"}
+```ts @{data-filename="Session.ts"}
 import { Ability, AbilityBuilder } from '@casl/ability';
+import { Injectable } from '@angular/core';
 
+@Injectable({ provideIn: 'root' })
 export class Session {
   private token: string
 
@@ -86,6 +86,35 @@ export class Session {
 
 > See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
 
+Then use this `Session` service in `LoginComponent`:
+
+```ts
+import { Component } from '@angular/core';
+import { Session } from '../services/Session';
+
+@Component({
+  selector: 'login-form',
+  template: `
+    <form (ngSubmit)="login()">
+      <input type="email" [(ngModel)]="email" />
+      <input type="password" [(ngModel)]="password" />
+      <button type="submit">Login</button>
+    </form>
+  `
+})
+export class LoginForm {
+  email: string;
+  password: string;
+
+  constructor(private session: Session) {}
+
+  login() {
+    const { email, password } = this;
+    return this.session.login({ email, password });
+  }
+}
+```
+
 ## Check permissions in templates
 
 To check permissions in any template you can use `AblePipe`:
@@ -106,11 +135,11 @@ Or with **deprecated** `CanPipe`:
 </div>
 ```
 
-`CanPipe` was deprecated because it is less readable and it was harder to integrate it with all type definitions supported by `Ability`'s `can` method. So, `CanPipe` has weaker typings than `AblePipe`.
+`CanPipe` was deprecated because it is less readable and it was harder to integrate it with all type definitions supported by `Ability`'s `can` method. That's why `CanPipe` has weaker typings than `AblePipe`.
 
 ## Why pipe and not directive?
 
-Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:
+Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable a button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:
 
 ```html
 <button [disabled]="!('create' | able: 'Post')">Add Post</button>
@@ -188,7 +217,7 @@ export class TodoItem {
 To make the life easier, instead of creating a separate type you can create a separate class:
 
 ```ts @{data-filename="AppAbility.ts"}
-import { Ability } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'

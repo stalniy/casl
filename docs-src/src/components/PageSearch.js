@@ -46,7 +46,7 @@ export default class PageSearch extends LitElement {
 
   render() {
     return html`
-      <h1><i class="icon-idea"></i>${this._renderTitle()}</h1>
+      <h1>${this._renderTitle()}</h1>
       <app-search-block
         value="${this._searchQuery}"
         @update="${this._updateQuery}"
