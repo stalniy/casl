@@ -7,6 +7,10 @@ meta:
   description: ~
 ---
 
+[![@casl/aurelia NPM version](https://badge.fury.io/js/%40casl%2Faurelia.svg)](https://badge.fury.io/js/%40casl%2Faurelia)
+[![](https://img.shields.io/npm/dm/%40casl%2Faurelia.svg)](https://www.npmjs.com/package/%40casl%2Faurelia)
+[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+
 This package allows to integrate `@casl/ability` with [Aurelia] application. It provides `AbleValueConverter` and **deprecated** `CanValueConverter` to Aurelia templates, so you can show or hide components, buttons, etc based on user ability to see them.
 
 ## Installation
