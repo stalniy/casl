@@ -75,3 +75,6 @@ categories:
   package: Official Packages
   cookbook: Cookbook
   advanced: Advanced
+
+payment:
+  liqpay: Liqpay

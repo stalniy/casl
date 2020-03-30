@@ -79,4 +79,12 @@ export default css`
   .md tr {
     border-top: 1px solid #c6cbd1;
   }
+
+  .md .editor {
+    width: 100%;
+    height: 500px;
+    border: 0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
 `;

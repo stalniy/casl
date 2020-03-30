@@ -13,7 +13,7 @@ import PageSearch from './components/PageSearch';
 import QuickSearch from './components/QuickSearch';
 import LangPicker from './components/LangPicker';
 import OneTimeDonations from './components/OneTimeDonations';
-import Sidebar from './components/Sidebar';
+import PagesByCategories from './components/PagesByCategories';
 import { locale, setLocale, defaultLocale } from './services/i18n';
 import router from './services/router';
 import { setRouteMeta } from './services/meta';
@@ -32,7 +32,7 @@ const components = [
   QuickSearch,
   LangPicker,
   GithubButton,
-  Sidebar,
+  PagesByCategories,
   OneTimeDonations,
 ];
 

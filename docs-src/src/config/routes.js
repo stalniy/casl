@@ -1,18 +1,6 @@
 import { html } from 'lit-element';
 import { LOCALES, defaultLocale } from '../services/i18n';
-import { loadPage } from '../services/pages';
-
-function respond(success) {
-  return ({ match, error }) => {
-    if (error && error.code === 'NOT_FOUND') {
-      return {
-        body: html`<app-page name="notfound"></app-page>`
-      };
-    }
-
-    return success(match.params);
-  };
-}
+import { loadPages, renderPage } from '../services/pageController';
 
 export const routes = [
   {
@@ -25,18 +13,26 @@ export const routes = [
     }),
     children: [
       {
+        name: 'examples',
+        path: 'examples/:id?',
+        resolve: loadPages(params => ({
+          ...params,
+          id: `examples/${params.id}`,
+          categories: ['example']
+        })),
+        respond: renderPage,
+      },
+      {
         name: 'page',
         path: ':id([\\w/-]+)',
         pathOptions: {
           compile: { encode: x => x }
         },
-        resolve: ({ params }) => loadPage(params.lang, params.id),
-        respond: respond(params => ({
-          body: {
-            main: html`<app-page name="${params.id}"></app-page>`,
-            sidebar: html`<app-sidebar></app-sidebar>`,
-          }
-        }))
+        resolve: loadPages(params => ({
+          ...params,
+          categories: ['guide', 'advanced', 'package', 'cookbook']
+        })),
+        respond: renderPage
       },
       {
         name: 'search',

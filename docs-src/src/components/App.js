@@ -7,7 +7,7 @@ import gridCss from '../styles/grid';
 export default class App extends LitElement {
   static cName = 'casl-docs';
   static properties = {
-    ready: { type: Boolean }
+    ready: { type: Boolean },
   };
 
   constructor() {
@@ -29,11 +29,11 @@ export default class App extends LitElement {
       return html``;
     }
 
-    const body = this._route.body;
+    const { body } = this._route;
 
     return html`
       <app-header .menu="${menu}"></app-header>
-      <section class="${body.sidebar ? 'row' : ''} content" id="content">
+      <section class="${body.sidebar ? 'row' : ''} content">
         ${cache(body.sidebar ? html`<aside><div class="aside">${body.sidebar}</div></aside>` : '')}
         <main>${cache(body.main || body)}</main>
       </section>

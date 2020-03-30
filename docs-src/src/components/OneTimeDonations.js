@@ -1,11 +1,15 @@
 import { LitElement, html, css } from 'lit-element';
+import { t } from '../directives/i18n';
 import liqpayIcon from '../assets/payment-options/liqpay.svg';
+import liqpayQrCode from '../assets/payment-options/liqpay-qrcode.png';
 
 const PAYMENT_OPTIONS = {
   liqpay: {
-    qrcode: liqpayIcon
+    icon: liqpayIcon,
+    image: liqpayQrCode
   }
 };
+const PAYMENT_NAMES = Object.keys(PAYMENT_OPTIONS);
 
 function renderPaymentOption(name) {
   const option = PAYMENT_OPTIONS[name];
@@ -17,8 +21,8 @@ function renderPaymentOption(name) {
 
   let content;
 
-  if (option.qrcode) {
-    content = html`<img src="${option.qrcode}">`;
+  if (option.image) {
+    content = html`<img src="${option.image}">`;
   }
 
   return html`<div class="selected">${content}</div>`;
@@ -35,6 +39,14 @@ export default class OneTimeDonations extends LitElement {
     this.selected = '';
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    if (PAYMENT_NAMES.length === 1) {
+      this.selected = PAYMENT_NAMES[0];
+    }
+  }
+
   _setSelected({ target }) {
     if (target.tagName !== 'IMG') {
       this.selected = '';
@@ -47,7 +59,9 @@ export default class OneTimeDonations extends LitElement {
   render() {
     return html`
       <div class="options" @click=${this._setSelected}>
-        <img src="${liqpayIcon}" alt="Liqpay" data-name="liqpay">
+        ${PAYMENT_NAMES.map(name => html`
+          <img src="${PAYMENT_OPTIONS[name].icon}" alt="${t(`payment.${name}`)}" data-name="${name}">
+        `)}
       </div>
       ${this.selected ? renderPaymentOption(this.selected) : ''}
     `;

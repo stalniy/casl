@@ -1,43 +1,38 @@
-import { html, css } from 'lit-element';
-import { getNearestPagesFor } from '../services/pages';
-import { locale } from '../services/i18n';
-import I18nElement from './I18nElement';
+import { LitElement, html, css } from 'lit-element';
 
-function linkTo(page, cssClass) {
-  if (!page) {
-    return '';
-  }
-
-  return html`
-    <app-link to="page" .params="${page}" class="${cssClass}">${page.title}</app-link>
-  `;
-}
-
-export default class PageNav extends I18nElement {
+export default class PageNav extends LitElement {
   static cName = 'app-page-nav';
   static properties = {
-    fromPage: { type: String }
+    next: { type: Object },
+    prev: { type: Object },
+    pageType: { type: String }
   };
 
   constructor() {
     super();
-    this._nearestPages = [];
-    this.fromPage = '';
+    this.next = null;
+    this.prev = null;
+    this.pageType = 'page';
   }
 
-  async update(changed) {
-    await this.reload();
-    return super.update(changed);
-  }
+  _linkTo(type) {
+    const page = this[type];
 
-  async reload() {
-    this._nearestPages = await getNearestPagesFor(locale(), this.fromPage);
+    if (!page) {
+      return '';
+    }
+
+    return html`
+      <app-link to="${this.pageType}" .params="${page}" class="${type}">
+        ${page.title}
+      </app-link>
+    `;
   }
 
   render() {
     return html`
-      ${linkTo(this._nearestPages[0], 'prev')}
-      ${linkTo(this._nearestPages[1], 'next')}
+      ${this._linkTo('prev')}
+      ${this._linkTo('next')}
     `;
   }
 }
