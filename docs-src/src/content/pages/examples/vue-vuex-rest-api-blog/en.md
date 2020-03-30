@@ -1,6 +1,7 @@
 ---
 title: Permissions in Vue Blog + REST API
 categories: [example, vue]
+order: 25
 meta:
   keywords: ~
   description: ~

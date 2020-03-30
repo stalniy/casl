@@ -1,6 +1,7 @@
 ---
 title: Permissions in Aurelia Blog
 categories: [example, aurelia]
+order: 30
 meta:
   keywords: ~
   description: ~

@@ -1,6 +1,7 @@
 ---
 title: Permissions in Vue Todo list
 categories: [example, vue]
+order: 20
 meta:
   keywords: ~
   description: ~

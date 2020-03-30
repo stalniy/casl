@@ -1,6 +1,7 @@
 ---
 title: Permissions in React Todo list
 categories: [example, react]
+order: 15
 meta:
   keywords: ~
   description: ~

@@ -31,7 +31,7 @@
     "husky": "^4.0.0",
     "jest": "^25.0.0",
     "lerna": "^3.4.3",
-    "lint-staged": "^10.0.0",
+    "lint-staged": "^10.0.10",
     "rollup": "^2.0.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^5.0.0",

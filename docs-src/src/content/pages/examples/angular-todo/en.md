@@ -1,6 +1,7 @@
 ---
 title: Permissions in Angular Todo list
 categories: [example, angular]
+order: 10
 meta:
   keywords: ~
   description: ~
