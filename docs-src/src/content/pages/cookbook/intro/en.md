@@ -13,9 +13,9 @@ How is the cookbook different from the guide? Why is this necessary?
 
 * **Greater Focus**. In the guide, we're essentially telling a story. Each section builds on and assumes knowledge from each previous section. In the cookbook, each recipe stands on its own. This means recipes focus on one specific topic or use case, rather than having to give a general overview.
 * **Greater Depth**. To avoid making the guide too long, we try to include only the simplest possible examples to help you understand each feature. Then we move on. In the cookbook, we can include more complex examples, combining features in interesting ways. Each recipe can also be as long and detailed as it needs to be, in order to fully explore its niche.
-* **Greater Complexity**. In the guide, we assume at least intermediate familiarity with ES2015 JavaScript. In the cookbook however, you will see more TypeScript.
+* **Greater Complexity**. In the guide, we assume at least intermediate familiarity with ES2015 JavaScript. In the cookbook however, you will see more TypeScript code, frontend and backend frameworks and libraries and real-world examples.
 
-> For most of cookbook's content, you are expected to have a basic understanding of concepts like JavaScript, npm/yarn, file system layout. And depending on the recipe you are expected to know frontend or backend libraries and frameworks.
+> For most of cookbook's content, you are expected to have a basic understanding of concepts like JavaScript, npm/yarn, commonjs, ES import/export, Node.js module resolution algorithm. Depending on the recipe you are expected to know frontend or backend libraries and frameworks.
 
 ## Cookbook Contributions
 
@@ -59,15 +59,15 @@ We ask you to follow the template below. We understand, however, that there are 
 Demonstrate the code that would power a common or interesting use case, either by:
 
 1. Walking through a few terse examples of setup, or
-2. Embedding a codepen/jsfiddle example
+2. Embedding a codesandbox/scrimba/codepen/jsfiddle example
 
-### When To Avoid This Pattern
+### When To Avoid
 
 *optional*
 
-This section is not required, but heavily recommended.Here, we’ll take an honest look at when the pattern is useful and when it should be avoided, or when something else makes more sense.
+This section is not required, but heavily recommended. Here, we’ll take an honest look at when the pattern is useful and when it should be avoided, or when something else makes more sense.
 
-### Alternative Patterns
+### Alternative Ways
 
 *optional*
 
