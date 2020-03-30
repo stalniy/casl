@@ -1,7 +1,7 @@
 ---
 title: Less confusing can API
 categories: [cookbook]
-order: 240
+order: 15
 meta:
   keywords: ~
   description: ~

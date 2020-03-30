@@ -1,7 +1,7 @@
 ---
 title: Roles with permanent rules
 categories: [cookbook]
-order: 230
+order: 30
 meta:
   keywords: ~
   description: ~

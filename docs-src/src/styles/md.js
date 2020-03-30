@@ -87,4 +87,11 @@ export default css`
     border-radius: 4px;
     overflow: hidden;
   }
+
+  .md h3::before {
+    margin-left: -15px;
+    margin-right: 5px;
+    content: '#';
+    color: #81a2be;
+  }
 `;

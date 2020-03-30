@@ -1,7 +1,7 @@
 ---
 title: Store rules
 categories: [cookbook]
-order: 220
+order: 25
 meta:
   keywords: ~
   description: ~

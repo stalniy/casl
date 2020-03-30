@@ -1,7 +1,7 @@
 ---
 title: Cache rules
 categories: [cookbook]
-order: 210
+order: 20
 meta:
   keywords: ~
   description: ~

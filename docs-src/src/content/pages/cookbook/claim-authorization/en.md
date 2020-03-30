@@ -1,7 +1,7 @@
 ---
 title: Claim based Authorization
 categories: [cookbook]
-order: 200
+order: 16
 meta:
   keywords: ~
   description: ~

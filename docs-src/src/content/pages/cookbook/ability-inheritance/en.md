@@ -1,7 +1,7 @@
 ---
 title: Ability inheritance
 categories: [cookbook]
-order: 260
+order: 27
 meta:
   keywords: ~
   description: ~

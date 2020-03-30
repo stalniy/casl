@@ -1,7 +1,7 @@
 ---
 title: Roles with persisted rules
 categories: [cookbook]
-order: 240
+order: 35
 hidden: true
 meta:
   keywords: ~
