@@ -64,6 +64,8 @@ ability.can('read', 'Post');
 
 **The main advantage** is that everybody clearly sees that `allow` and `can` are different methods and potentially may have different signatures (because they different!).
 
+> See [Define rules](../../guide/define-rules) for other ways to define ability.
+
 ## When to avoid
 
 This approach really makes it easy to work with CASL for junior developers and those who prefers explicit code over conventions or context. If contextual code doesn't bother you, you can avoid this.

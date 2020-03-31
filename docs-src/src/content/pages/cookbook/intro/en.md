@@ -51,15 +51,13 @@ We ask you to follow the template below. We understand, however, that there are 
 1. Provide the suggested way to solve the issue
 2. Explain the **advantages** in comparison to the simplest solution described in the section above
 3. Discuss why this may be a compelling solution. Links for a reference are not required but encouraged
+4. Walk through a few terse examples
 
 ### Demo
 
-*required*
+*optional*
 
-Demonstrate the code that would power a common or interesting use case, either by:
-
-1. Walking through a few terse examples of setup, or
-2. Embedding a codesandbox/scrimba/codepen/jsfiddle example
+Demonstrate the code that would power a common or interesting use case by embedding a codesandbox/scrimba/codepen/jsfiddle example.
 
 ### When To Avoid
 

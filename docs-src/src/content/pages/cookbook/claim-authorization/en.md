@@ -70,10 +70,6 @@ function publishArticle(article: object, ability: AppAbility) {
 [rollup]: https://rollupjs.org/guide/en/
 [webpack]: https://webpack.js.org/
 
-## Demo
-
-TODO
-
 ## When To Avoid
 
 Sometimes applications use merged action and subject as a claim: `create_article`, `read_article`, `read_user`. In such cases, it'd better separate actions and subjects. This will allow you to add conditions and fields to your abilities later without refactoring the whole application.
