@@ -1,35 +1,34 @@
-import { defineAbility, Ability } from '../src'
+import { defineAbility, Ability, createAliasResolver } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
   let ability
 
   it('allows to add alias for actions', () => {
-    Ability.addAlias('modify', ['update', 'delete'])
-    ability = defineAbility(can => can('modify', 'Post'))
+    const resolveAction = createAliasResolver({ modify: ['update', 'delete'] })
+    ability = defineAbility({ resolveAction }, can => can('modify', 'Post'))
 
     expect(ability).to.allow('modify', 'Post')
   })
 
   it('allows deeply nested aliased actions', () => {
-    Ability.addAlias('sort', 'increment')
-    Ability.addAlias('modify', ['sort'])
-    ability = defineAbility(can => can('modify', 'all'))
+    const resolveAction = createAliasResolver({ sort: 'increment', modify: 'sort' })
+    ability = defineAbility({ resolveAction }, can => can('modify', 'all'))
 
     expect(ability).to.allow('increment', 123)
   })
 
   it('throws exception when trying to define `manage` alias', () => {
-    expect(() => Ability.addAlias('manage', 'crud')).to.throw(Error)
+    expect(() => createAliasResolver({ manage: 'crud' })).to.throw(Error)
   })
 
   it('throws exception when trying to make `manage` a part of aliased action', () => {
-    expect(() => Ability.addAlias('modify', ['crud', 'manage'])).to.throw(Error)
+    expect(() => createAliasResolver({ modify: ['crud', 'manage'] })).to.throw(Error)
   })
 
   it('throws exception when trying to alias action to itself', () => {
-    expect(() => Ability.addAlias('sort', 'sort')).to.throw(Error)
-    expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
+    expect(() => createAliasResolver({ sort: 'sort' })).to.throw(Error)
+    expect(() => createAliasResolver({ sort: ['sort', 'order'] })).to.throw(Error)
   })
 
   it('provides `can` and `cannot` methods to check abilities', () => {

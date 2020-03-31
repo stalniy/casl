@@ -62,13 +62,6 @@ describe('AbilityBuilder', () => {
       ])
     })
 
-    it('throws exception if the 1st argument to `can` or `cannot` is not a string or array of strings', () => {
-      expect(() => can({})).to.throw(/to be an action or array of actions/)
-      expect(() => can(['read', {}])).to.throw(/to be an action or array of actions/)
-      expect(() => cannot(['read', {}])).to.throw(/to be an action or array of actions/)
-      expect(() => cannot({})).to.throw(/to be an action or array of actions/)
-    })
-
     it('allows to define rules with conditions', () => {
       can('read', 'Post', { author: 'me' })
       cannot('read', 'Post', { private: true })

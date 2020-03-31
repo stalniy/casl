@@ -63,3 +63,5 @@ export type MatchConditions<T extends object = AnyRecord> = (object: T) => boole
 export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
 export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;
+export type AliasesMap = Record<string, string | string[]>;
+export type ResolveAction<T extends string> = (action: T | T[]) => T | T[];

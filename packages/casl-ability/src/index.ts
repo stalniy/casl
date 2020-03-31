@@ -4,7 +4,11 @@ export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';
 export * from './types';
-export { wrapArray } from './utils';
 export * from './matchers/conditions';
 export * from './matchers/field';
-export { setSubjectType as subject, detectSubjectType } from './utils';
+export {
+  setSubjectType as subject,
+  detectSubjectType,
+  createAliasResolver,
+  wrapArray
+} from './utils';

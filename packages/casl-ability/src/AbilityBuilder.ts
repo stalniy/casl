@@ -1,6 +1,5 @@
 import { Ability, AnyMongoAbility } from './Ability';
 import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics, AbilityClass } from './PureAbility';
-import { isStringOrNonEmptyArray } from './utils';
 import {
   ExtractSubjectType as E,
   AbilityTuple,
@@ -56,10 +55,6 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
     conditionsOrFields?: string | string[] | Generics<T>['conditions'],
     conditions?: Generics<T>['conditions'],
   ): RuleBuilder<RawRuleOf<T>> {
-    if (!isStringOrNonEmptyArray(action)) {
-      throw new TypeError('AbilityBuilder#can expects the first parameter to be an action or array of actions');
-    }
-
     const rule = { action } as RawRuleOf<T>;
 
     if (subject) {

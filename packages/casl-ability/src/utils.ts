@@ -1,4 +1,4 @@
-import { AnyObject, Subject, SubjectClass, ForcedSubject } from './types';
+import { AnyObject, Subject, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
@@ -54,30 +54,45 @@ export function detectSubjectType<T extends Subject>(subject?: T): string {
   return (Type as SubjectClass).modelName || Type.name;
 }
 
-export function isStringOrNonEmptyArray(value: string | string[]): boolean {
-  if (!value || !value.length) {
-    return false;
-  }
+type KeyOrValuesOf<T extends {}> = keyof T | T[keyof T] | Array<keyof T | T[keyof T]>;
 
-  if (Array.isArray(value)) {
-    return value.every(item => typeof item === 'string');
-  }
-
-  return typeof value === 'string';
-}
-
-export type AliasesMap = Record<string, string | string[]>;
-export function expandActions(aliases: AliasesMap, rawActions: string | string[]) {
+export function expandActions(aliasMap: AliasesMap, rawActions: KeyOrValuesOf<AliasesMap>) {
   let actions = wrapArray(rawActions);
   let i = 0;
 
   while (i < actions.length) {
-    const action = actions[i++];
+    const action = actions[i++] as string;
 
-    if (aliases.hasOwnProperty(action)) {
-      actions = actions.concat(aliases[action]);
+    if (aliasMap.hasOwnProperty(action)) {
+      actions = actions.concat(aliasMap[action]);
     }
   }
 
   return actions;
+}
+
+function assertAliasMap(aliasMap: AliasesMap) {
+  if (aliasMap.manage) {
+    throw new Error('Cannot add alias for "manage" action because it is reserved');
+  }
+
+  Object.keys(aliasMap).forEach((alias) => {
+    const hasError = alias === aliasMap[alias]
+      || Array.isArray(aliasMap[alias]) && (
+        aliasMap[alias].indexOf(alias) !== -1 || aliasMap[alias].indexOf('manage') !== -1
+      );
+
+    if (hasError) {
+      throw new Error(`Attempt to alias action to itself: ${alias} -> ${aliasMap[alias]}`);
+    }
+  });
+}
+
+export const identity = <T>(x: T) => x;
+export function createAliasResolver(aliasMap: AliasesMap) {
+  if (process.env.NODE_ENV !== 'production') {
+    assertAliasMap(aliasMap);
+  }
+
+  return (action: KeyOrValuesOf<AliasesMap>) => expandActions(aliasMap, action);
 }

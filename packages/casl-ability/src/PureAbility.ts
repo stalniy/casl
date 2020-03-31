@@ -1,9 +1,9 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
-import { wrapArray, detectSubjectType, expandActions, AliasesMap } from './utils';
+import { wrapArray, detectSubjectType, identity } from './utils';
 import {
   DetectSubjectType,
-  Subject,
+  ResolveAction,
   ValueOf,
   CanParameters,
   Abilities,
@@ -12,20 +12,15 @@ import {
   FieldMatcher
 } from './types';
 
-const DEFAULT_ALIASES: AliasesMap = {};
-
-function hasAction(action: string, actions: string | string[]): boolean {
-  return action === actions || Array.isArray(actions) && actions.indexOf(action) !== -1;
-}
-
 export type Unsubscribe = () => void;
 
-export interface AbilityOptions<Subjects extends Subject, Conditions> {
+export interface AbilityOptions<A extends Abilities, Conditions> {
   /** @deprecated use "detectSubjectType" option instead */
-  subjectName?: DetectSubjectType<Subjects>
-  detectSubjectType?: DetectSubjectType<Subjects>
+  subjectName?: this['detectSubjectType']
+  detectSubjectType?: DetectSubjectType<Normalize<A>[1]>
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
+  resolveAction?: ResolveAction<Normalize<A>[0]>
 }
 
 export type AnyAbility = PureAbility<any, any>;
@@ -39,7 +34,7 @@ export type RawRuleOf<T extends AnyAbility> =
   RawRuleFrom<Generics<T>['abilities'], Generics<T>['conditions']>;
 
 export type AbilityOptionsOf<T extends AnyAbility> =
-  AbilityOptions<Normalize<Generics<T>['abilities']>[1], Generics<T>['conditions']>;
+  AbilityOptions<Generics<T>['abilities'], Generics<T>['conditions']>;
 
 export interface AbilityEvent<T extends AnyAbility> {
   ability: T
@@ -75,34 +70,19 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   private _mergedRules: Record<string, this['rules']> = {};
   private _events: Events<this> = Object.create(null);
   private _indexedRules: RuleIndex<A, Conditions> = {};
-  private readonly _ruleOptions: RuleOptions<Conditions> = {};
+  private readonly _ruleOptions: RuleOptions<A, Conditions>;
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
   public readonly rules!: Rule<A, Conditions>[];
 
-  static addAlias<T extends string, U extends string>(
-    alias: T,
-    actions: Exclude<U, T> | Exclude<U, T>[]
-  ) {
-    if (alias === 'manage' || hasAction('manage', actions)) {
-      throw new Error('Cannot add alias for "manage" action because it represents any action');
-    }
-
-    if (hasAction(alias, actions)) {
-      throw new Error(`Attempt to alias action to itself: ${alias} -> ${actions.toString()}`);
-    }
-
-    DEFAULT_ALIASES[alias] = actions;
-    return this;
-  }
-
   constructor(
     rules: RawRuleFrom<A, Conditions>[] = [],
-    options: AbilityOptions<Normalize<A>[1], Conditions> = {}
+    options: AbilityOptions<A, Conditions> = {}
   ) {
     this._ruleOptions = {
       conditionsMatcher: options.conditionsMatcher,
       fieldMatcher: options.fieldMatcher,
+      resolveAction: options.resolveAction || identity,
     };
     Object.defineProperty(this, 'detectSubjectType', {
       value: options.detectSubjectType || options.subjectName || detectSubjectType
@@ -144,7 +124,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
 
     for (let i = 0; i < rawRules.length; i++) {
       const rule = new Rule(rawRules[i], this._ruleOptions);
-      const actions = expandActions(DEFAULT_ALIASES, rule.action);
+      const actions = wrapArray(rule.action);
       const priority = rawRules.length - i - 1;
       const subjects = wrapArray(rule.subject);
 
