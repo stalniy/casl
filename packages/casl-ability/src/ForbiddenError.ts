@@ -20,10 +20,9 @@ function setMeta(error: ForbiddenErrorMeta, meta?: ForbiddenErrorMeta) {
   }
 }
 
-const MyError = Error; // to prevent babel of doing it's magic around native classes
 let defaultErrorMessage = getDefaultErrorMessage;
 
-export class ForbiddenError<T extends AnyAbility> extends MyError {
+export class ForbiddenError<T extends AnyAbility> extends Error {
   private _ability: T;
   public action!: Normalize<Generics<T>['abilities']>[0];
   public subject!: Generics<T>['abilities'][1];
@@ -44,7 +43,7 @@ export class ForbiddenError<T extends AnyAbility> extends MyError {
     setMeta(this, options);
 
     if (typeof Error.captureStackTrace === 'function') {
-      this.name = this.constructor.name;
+      this.name = 'ForbiddenError';
       Error.captureStackTrace(this, this.constructor);
     }
   }

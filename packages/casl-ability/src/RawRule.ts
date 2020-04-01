@@ -9,23 +9,24 @@ interface BaseRawRule<Conditions> {
   reason?: string
 }
 
-interface ClaimRawRule<A extends string> extends BaseRawRule<undefined> {
+export interface ClaimRawRule<A extends string> extends BaseRawRule<undefined> {
   action: A | A[]
   subject?: undefined
 }
 
-interface SubjectRawRule<A extends string, S extends SubjectType, C> extends BaseRawRule<C> {
+export interface SubjectRawRule<A extends string, S extends SubjectType, C> extends BaseRawRule<C> {
   action: A | A[]
   subject: S | S[]
 }
 
-interface LegacyClaimRawRule<A extends string> extends BaseRawRule<undefined> {
+export interface LegacyClaimRawRule<A extends string> extends BaseRawRule<undefined> {
   /** @deprecated use "action" field instead */
   actions: A | A[]
   subject?: undefined
 }
 
-interface LegacySubjectRawRule<A extends string, S extends SubjectType, C> extends BaseRawRule<C> {
+export interface LegacySubjectRawRule<A extends string, S extends SubjectType, C>
+  extends BaseRawRule<C> {
   /** @deprecated use "action" field instead */
   actions: A | A[]
   subject: S | S[]
