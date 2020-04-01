@@ -1,7 +1,7 @@
 ---
-title: Roles with permanent rules
+title: Roles with static permissions
 categories: [cookbook]
-order: 30
+order: 20
 meta:
   keywords: ~
   description: ~

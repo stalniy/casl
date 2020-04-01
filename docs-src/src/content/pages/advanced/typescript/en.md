@@ -166,3 +166,69 @@ const ability = new Ability<Abilities>();
 ability.can('read', 'User');
 ability.can('create', 'User'); // build time error! because it's not allowed to create users
 ```
+
+## Useful type helpers
+
+### RawRule
+
+Sometimes you may need to create `RawRule`s manually (or fetch them from db). In that case, you will need to type them explicitly. Use `RawRuleOf<AppAbility>` in case if you have type for `AppAbility` or `RawRuleFrom<Abilities, Conditions>` otherwise.
+
+```ts
+import { Ability, RawRuleOf, RawRuleFrom, MongoQuery } from '@casl/ability';
+
+type AppAbilities = ['read' | 'update', 'Article'];
+type AppAbility = Ability<AppAbilities>;
+
+const rawRules: RawRuleOf<AppAbility>[] = [
+  { action: 'read', subject: 'Article' }
+];
+
+// or
+async function getRulesFromDb(): Promise<RawRuleFrom<AppAbilities, MongoQuery>[]> {
+  // implementation
+}
+```
+
+### RuleOf
+
+Similar to `RawRule` helpers, there is a helper `RawRuleOf<Ability>` for `Rule<Abilities, Conditions>`.
+
+### AbilityOptionsOf
+
+Similar to `RawRule`, if you don't want to explicitly `AbilityOptions<Abilities, Conditions>`, you can use `AbilityOptionsOf<Ability>`:
+
+```ts
+import { AbilityOptionsOf, Ability } from '@casl/ability';
+
+type AppAbilities = ['read' | 'update', 'Article'];
+type AppAbility = Ability<AppAbilities>;
+const options: AbilityOptionsOf<AppAbility> = {
+  detectSubjectType: (subject) => /* custom implementation */
+};
+
+const ability = new Ability<AppAbilities>([], options);
+```
+
+### AnyAbility and AnyMongoAbility
+
+These 2 types represents any `PureAbility` instance (including `AnyMongoAbility`) and any `Ability` instance. They are usually a good fit restrictions in generic types. For example, this is how `AnyAbility` is used in `AbilityBuilder`:
+
+```ts
+export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
+  // implementation details
+}
+```
+
+### MongoQuery
+
+There are 2 types that represents built-in mongo operators:
+
+* `MongoQuery` is an actual mongo query.\
+  Is used as a conditions restriction in `Ability` class. Actually `Ability` is a `PureAbility` with conditions to be restricted to `MongoQuery`.
+* `MongoQueryOperators` this is a type that contains supported MongoDB operators.
+
+### ForcedSubject
+
+Represents an object that has been casted to specific subject by using `subject` helper.
+
+> See [Subject type detection](../../guide/subject-type-detection#subject-helper) for details

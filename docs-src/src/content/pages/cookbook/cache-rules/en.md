@@ -39,11 +39,15 @@ export async function defineAbilityFor(user) {
 }
 ```
 
-> The underlying database is not important for this guide. Everything should work with any database system.
+> The underlying database is not important for this guide. The same principles works for any other database system.
 
 ## The solution
 
-To speed things up, you can cache creation of the ability instance. There are several ways to do this:
+To speed things up, you can cache creation of the ability instance.
+
+## Demo
+
+There are several ways to do this:
 
 > Make sure that you wrap all async express middlewares in try/catch as express 4.x doesn't support `Promise` rejections. We don't do this in the examples below for the sake of simplicity.
 
