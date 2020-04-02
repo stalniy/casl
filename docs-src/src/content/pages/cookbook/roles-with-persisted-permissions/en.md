@@ -13,32 +13,50 @@ meta:
 
 ## The issue
 
-The application should allow to configure permissions through API (e.g., REST API or User Interface) for different groups of users (i.e., roles). So, we don't need to change the code in order to change permissions.
+The application can be used by multiple users with different roles. Roles' permissions should be configurable through API (e.g., REST API or User Interface). So, we don't need to change or redeploy the app in order to change permissions.
+
+> This is also known as [RBAC (Role based access control)](https://searchsecurity.techtarget.com/definition/role-based-access-control-RBAC).
 
 ## The solution
 
 In order to achieve this, we need to store permissions in the database.
 
-There are several ways you can store rules depending on your business requirements. We will consider the most common way to deal with permissions, using roles and permissions.
+First of all, we need to gather all possible actions and subjects, in order to validate them before saving permission to the database.
 
-First of all, you need to gather all possible actions and subjects, so you can validate them before saving permission to the database. In more advanced cases, you will also need to allow users to configure conditions for permissions (e.g., to give a permission to manage own articles).
-
-When all combinations of actions and subjects are known, we can create a table for `roles`. It should have at least 2 columns: `id` and `name`. Then we need to connect roles and permissions. To do this, we have 2 options:
+When all combinations of actions and subjects are known, we can create a table for `roles`. It should have at least 2 columns: `id` and `name`. Then we need to choose one of 2 options to connect roles with permissions:
 
 1. Add `permissions` column of JSON (or TEXT) data type into `roles` and store all rules in that single column.\
    **The main advantage** is that it's very simple to manage and retrieve.
-   **The main disadvantage** is that most ORMs doesn't support partial updates of JSON (and especially TEXT) column, instead they update the whole value as a primitive value. This may lead to unexpected results if several users update permissions at the same time (the last one will overwrite changes of others). Usually permissions are not changed often so, this risk is acceptable. Otherwise, use SQL syntax of your RDBMS to partially update JSON column.
+   **The main disadvantage** is that most ORMs doesn't support partial updates of JSON (and especially TEXT) column, instead they update the whole value as a primitive value. This may lead to unexpected results if several users update permissions of the same role at the same time (the last one will reset changes of others).
 2. Create a separate table for `permissions` which has `action`, `subject`, `conditions` and `roleId` fields.\
    **The main advantage** is that you can do partial updates using regular SQL.
    **The main disadvantage** more complicated queries (you need to join `roles` and `permissions`) and bigger eventual database size.
 
-We will use the 1st option in this guide.
+We will use the 1st option in this guide because permissions are not changed often, so the risk of conflict is acceptable for us. Moreover this `permissions` field will contain an array that is acceptable by `Ability` instance (i.e., `RawRuleOf<AppAbility>[]`).
+
+> If it's not acceptable for your situation, use raw SQL syntax of your RDBMS to partially update JSON column or use 2nd option.
+
+We also need a table for `users`. Every user may have only 1 role, in other words every row in `users` table should have `roleId` field.
+
+Having users, roles and permissions, we can create `Ability` instance for every user request. The logic for the REST API is the following:
+
+1. User sends request to access some resources.
+2. If it's not authenticated, sends back an error that he needs to login.
+3. If it's authenticated, the app fetches it together with permissions from the database.
+4. The app creates an `Ability` instance based on user's permissions
+5. Using `Ability` instance, the app checks whether user can do a particular action on requested resource.
+6. If not, it's sends error back that user has no permission to do what he attempted to do.
+7. If user has permissions, then proceed with the actual action.
+
+Enough theory, let's see some examples!
+
+> In the next Demo, we are not going to implement REST API as the main intension of this recipe is to solve [The issue](#the-issue).
 
 ## Demo
 
 To make things simple, we will use SQLite database. This also allows to quickly setup the demo on local machine and even run it in a browser.
 
-As a domain, we will use blog application. This is the most known domain, so we won't spent time explaining domain details and instead will concentrate on the actual issue.
+As a domain, we will use blog application. This is the most known domain, so we won't spent time explaining its details and instead will concentrate on the actual issue.
 
 In our blog, we have 2 roles: `member` (any registered user) and `admin`. So, `admin` can do everything and `member`:
 
@@ -47,14 +65,14 @@ In our blog, we have 2 roles: `member` (any registered user) and `admin`. So, `a
 
 We will use [knex] SQL builder to work with the database.
 
-> We will not go through knex's API and usage, so if you are not familiar with it, take some time to look through its API and examples. Anyway, don't worry, it's quite expressive.
+> We are not going to walk through knex's API and usage, so if you are not familiar with it, take some time to look through its documentation. Anyway, don't worry, it's quite expressive.
 
-So, let's define the table structure for our database. It includes 3 tables: `users`, `roles` and `articles`. Every user may have only 1 role. Every article has 1 author. Also we will seed our database with default records:
+So, let's define the table structure for our database. It includes 3 tables: `users`, `roles` and `articles`. Also we will seed our database with default records:
 
 * 2 roles: admin and member
 * 2 users: 1 admin and 1 member
 
-You can find the migration and seed knex scripts below
+You can find the migration and seeds below:
 
 <details>
 <summary>Initial migration</summary>
@@ -63,17 +81,20 @@ You can find the migration and seed knex scripts below
 exports.up = function(knex) {
   return knex.schema
     .createTable('users', (table) => {
-       table.increments('id');
-       table.string('email', 255).notNullable();
-       table.string('password', 50).notNullable();
+      table.increments('id');
+      table.string('email', 255).notNullable();
+      table.string('password', 50).notNullable();
+      table.integer('roleId').unsigned().notNullable();
+
+      table.foreign('roleId').references('id').inTable('roles');
     })
     .createTable('articles', (table) => {
-       table.increments('id');
-       table.string('title', 255).notNullable();
-       table.string('description').notNullable();
-       table.integer('authorId').unsigned().notNullable();
+      table.increments('id');
+      table.string('title', 255).notNullable();
+      table.string('description').notNullable();
+      table.integer('authorId').unsigned().notNullable();
 
-       table.foreign('authorId').references('id').inTable('users');
+      table.foreign('authorId').references('id').inTable('users');
     })
     .createTable('roles', (table) => {
       table.increments('id');
@@ -98,7 +119,7 @@ exports.seed = async (knex) => {
   await Promise.all([
     knex('users').del(),
     knex('roles').del()
-  ])
+  ]);
 
   await knex('roles').insert([
     {
@@ -116,15 +137,15 @@ exports.seed = async (knex) => {
         { action: 'manage', subject: 'Article', conditions: { authorId: '${user.id}' } },
       ])
     }
-  ])
+  ]);
   await knex('users').insert([
     { id: 1, email: 'admin@casl.io', password: '123456', roleId: 1 },
-    { id: 2, email: 'author@casl.io', password: '123456', roleId: 2 },
+    { id: 2, email: 'member@casl.io', password: '123456', roleId: 2 },
   ]);
 };
 ```
 
-> We used `${user.id}` in `conditions` property of permissions. This is just a placeholder which we will replace later with the id of a particular user.
+> We used `${user.id}` in `conditions` property of permissions. This is just a placeholder which we will replace it later with the id of a particular user.
 
 Now, let's define all possible actions and subjects:
 
@@ -146,13 +167,13 @@ export const createAbility = (rules: RawRuleOf<AppAbility>[]) => new Ability<Abi
 
 `typeof actions[number]` converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope. We also export `createAbility` function to make it easier to create `Ability` instance with bound generic parameters.
 
-Now we can move to services creation
+In order to work with our database on higher level, we need to create services.
 
 ### Services
 
-We need to create 2 additional services: one to fetch `users` and another to manage `articles`.
+We need to create 2 services: one to fetch `users` and another to manage `articles`.
 
-Let's start from a service that will allow us to fetch a single user by some conditions from the database. This function also will prepare user's permissions, so we can directly pass them in `createAbility` function:
+Let's start from a function that will allow us to fetch a single user by some conditions from the database. This function also will prepare user's permissions, so we can directly pass them in `createAbility` function:
 
 ```ts @{data-filename="services/users.ts"}
 import db from '../db';
@@ -172,7 +193,7 @@ export async function findBy(where: Partial<Record<keyof User, any>>) {
 }
 ```
 
-Let's go line by line to understand what happens in this function:
+Let's go line by line to understand what happens in the function:
 
 * we import `db`, this is a knex connection instance
 * we import `User`, this is just an interface for users that has the next shape:
@@ -228,11 +249,9 @@ export interface Article {
 }
 ```
 
-Now, when everything is ready we can put it together!
+Now, when service layer is finished, we can put it together!
 
 ### Putting together
-
-> In this guide, we will not implement REST API as the main intension is to solve [The issue](#the-issue), that is to allow to modify permissions without changing the application's code.
 
 We need to start from connecting things together, to do so we need to fetch users and create `Ability` instances for each one:
 
@@ -243,7 +262,7 @@ import { createAbility } from './services/appAbility';
 export default async function main() {
   const [admin, author] = await Promise.all([
     findBy({ email: 'admin@casl.io' }),
-    findBy({ email: 'author@casl.io' }),
+    findBy({ email: 'member@casl.io' }),
   ]);
 
   const adminAbility = createAbility(admin!.permissions);
@@ -376,13 +395,15 @@ That's it! You now have a fully manageable CASL powered permissions logic in you
 
 You can find the source code of this solution on [Github](https://github.com/stalniy/casl-persisted-permissions-example).
 
-[knex]: http://knexjs.org/
-
 ## When to avoid
 
-1. If your permission system should not be dynamically configured by users.
+1. If you have a predefined set of permissions for every role which very unlikely to change.
 2. If you start a new project and not sure whether you need to dynamically configure permissions.
 
 ## Alternative patterns
 
-As an alternative you can use [hard-coded permissions with CASL](../roles-with-static-permissions). It will bring the same benefits but with less overhead.
+As an alternative you can implement [predefined permissions with CASL](../roles-with-static-permissions). It brings the same benefits but with less overhead.
+
+If you need to implement claim based permissions, check [Claim based Authorization](../claim-authorization) recipe.
+
+[knex]: http://knexjs.org/

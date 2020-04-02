@@ -55,7 +55,7 @@ We ask you to follow the template below. We understand, however, that there are 
 
 ### Demo
 
-*optional*
+*required*
 
 Demonstrate the code that would power a common or interesting use case by embedding a codesandbox/scrimba/codepen/jsfiddle example.
 
