@@ -84,12 +84,12 @@ This class implements `can` and `cannot` functions, that makes possible to write
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability'
 
-const { can, cannot, build } = new AbilityBuilder();
+const { can, cannot, build } = new AbilityBuilder(Ability);
 
 can('read', 'Post');
 cannot('delete', 'Post', { published: true });
 
-export default build(Ability);
+export default build();
 ```
 
 But it allows to define rules without additional nesting, this is especially important when you build rules based on conditional logic:
@@ -98,7 +98,7 @@ But it allows to define rules without additional nesting, this is especially imp
 import { AbilityBuilder, Ability } from '@casl/ability'
 
 export default function defineAbilityFor(user) {
-  const { can, cannot, build } = new AbilityBuilder();
+  const { can, cannot, build } = new AbilityBuilder(Ability);
 
   if (user.isAdmin) {
     can('manage', 'all'); // read-write access to everything
@@ -108,7 +108,7 @@ export default function defineAbilityFor(user) {
 
   cannot('delete', 'Post', { published: true });
 
-  return build(Ability);
+  return build();
 }
 ```
 

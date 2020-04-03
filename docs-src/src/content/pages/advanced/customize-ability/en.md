@@ -37,13 +37,13 @@ const conditionsMatcher = buildMongoQueryMatcher<QueryExtensions>({ $nor });
 type AppAbility = Ability<Abilities, CustomMongoQuery>;
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<AppAbility>();
+  const { can, build } = new AbilityBuilder<AppAbility>(Ability);
 
   can('read', 'Article', {
     $nor: [{ private: true }, { authorId: user.id }]
   });
 
-  return build(Ability, { conditionsMatcher });
+  return build({ conditionsMatcher });
 }
 ```
 
@@ -71,12 +71,12 @@ const conditionsMatcher: ConditionsMatcher<RestrictedMongoQuery> = (conditions) 
 type AppAbility = Ability<Abilities, RestrictedMongoQuery>;
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<AppAbility>();
+  const { can, build } = new AbilityBuilder<AppAbility>(Ability);
 
   can('read', 'Article', { authorId: user.id } });
   can('read', 'Article', { status: { $in: ['draft', 'published'] } });
 
-  return build(Ability, { conditionsMatcher });
+  return build({ conditionsMatcher });
 }
 ```
 
@@ -112,7 +112,7 @@ export default function defineAbilityFor(user: any) {
   can('read', 'Article', ({ authorId }) => authorId === user.id);
   can('read', 'Article', ({ status }) => ['draft', 'published'].includes(status));
 
-  return build(PureAbility, { conditionsMatcher: lambdaMatcher });
+  return build({ conditionsMatcher: lambdaMatcher });
 }
 ```
 
@@ -134,10 +134,10 @@ import { Ability, AbilityBuilder, FieldMatcher } from '@casl/ability';
 export const fieldMatcher: FieldMatcher = fields => field => fields.includes(field);
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder();
+  const { can, build } = new AbilityBuilder(Ability);
 
   can('read', 'Article', ['title', 'content']);
 
-  return build(Ability, { fieldMatcher });
+  return build({ fieldMatcher });
 }
 ```

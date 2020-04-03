@@ -161,7 +161,7 @@ import { User } from '../models/User';
 // roles definition from the example above
 
 export function defineAbilityFor(user: User): AppAbility {
-  const builder = new AbilityBuilder<AppAbility>();
+  const builder = new AbilityBuilder<AppAbility>(Ability);
 
   if (typeof rolePermissions[user.role] === 'function') {
     rolePermissions[user.role](user, builder);
@@ -169,7 +169,7 @@ export function defineAbilityFor(user: User): AppAbility {
     throw new Error(`Trying to use unknown role "${user.role}"`);
   }
 
-  return builder.build(Ability);
+  return builder.build();
 }
 ```
 
