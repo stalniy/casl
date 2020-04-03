@@ -12,18 +12,34 @@ function scrollToElement(root, id) {
   document.documentElement.scrollTop -= headerHeight;
 }
 
+function closest(startNode, tagName) {
+  let current = startNode;
+  const maxIterations = 3;
+  let i = 0;
+
+  while (current && i < maxIterations) {
+    if (current.tagName === tagName) {
+      return current;
+    }
+
+    current = current.parentNode;
+    i++;
+  }
+
+  return null;
+}
+
 export function tryToNavigateElement(root, target) {
   let hash;
 
-  if (target.className === 'h-link') {
-    hash = target.name;
-  } else if (target.tagName[0] === 'H' && target.id) {
+  if (target.tagName[0] === 'H' && target.id) {
     hash = target.id;
-  } else if (target.tagName === 'A') {
-    const index = target.href.indexOf('#');
+  } else {
+    const clickedTarget = closest(target, 'A');
+    const hashIndex = clickedTarget ? clickedTarget.href.indexOf('#') : -1;
 
-    if (index !== -1) {
-      scrollToElement(root, target.href.slice(index + 1));
+    if (hashIndex !== -1) {
+      scrollToElement(root, clickedTarget.href.slice(hashIndex + 1));
     }
   }
 

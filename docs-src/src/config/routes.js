@@ -13,6 +13,16 @@ export const routes = [
     }),
     children: [
       {
+        name: 'api',
+        path: 'api/:id?',
+        resolve: loadPages(params => ({
+          ...params,
+          id: `api/${params.id}`,
+          categories: ['api']
+        })),
+        respond: renderPage,
+      },
+      {
         name: 'examples',
         path: 'examples/:id?',
         resolve: loadPages(params => ({

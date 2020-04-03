@@ -1,5 +1,5 @@
 ---
-title: Cache rules
+title: Cache abilities
 categories: [cookbook]
 order: 20
 meta:
@@ -144,7 +144,7 @@ app.use(provideAbility);
 
 ### In JWT token payload
 
-If the app uses stateless JWT tokens, you can embed the rules into its payload:
+If the app uses stateless [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) tokens, you can embed the rules into its payload:
 
 ```ts @{data-filename="login.ts"}
 import jwt from 'jsonwebtoken';

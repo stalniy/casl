@@ -75,6 +75,7 @@ categories:
   package: Official Packages
   cookbook: Cookbook
   advanced: Advanced
+  api: API documentation
 
 payment:
   liqpay: Liqpay
