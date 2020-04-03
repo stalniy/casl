@@ -1,5 +1,5 @@
 import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics, AbilityClass } from './PureAbility';
+import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics, AbilityClass, PureAbility } from './PureAbility';
 import {
   ExtractSubjectType as E,
   AbilityTuple,
@@ -37,10 +37,12 @@ export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolea
   (action: Generics<T>['abilities'] | Generics<T>['abilities'][], subject?: 'all') => 0
   >;
 
-export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
+export class AbilityBuilder<T extends AnyAbility = PureAbility> {
   public rules: RawRuleOf<T>[] = [];
+  private _AbilityType: AbilityClass<T>;
 
-  constructor() {
+  constructor(AbilityType: AbilityClass<T> = PureAbility as AbilityClass<T>) {
+    this._AbilityType = AbilityType;
     const self = this as any;
     self.can = self.can.bind(self);
     self.cannot = self.cannot.bind(self);
@@ -89,8 +91,8 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
     return builder;
   }
 
-  build(AbilityType: AbilityClass<AnyAbility>, options?: AbilityOptionsOf<T>): T {
-    return new AbilityType(this.rules as any, options) as T;
+  build(options?: AbilityOptionsOf<T>): T {
+    return new this._AbilityType(this.rules, options);
   }
 }
 
@@ -100,21 +102,21 @@ type AsyncDSL<T extends AnyMongoAbility> = (
 ) => Promise<void>;
 type DSL<T extends AnyMongoAbility> = (...args: Parameters<AsyncDSL<T>>) => void;
 
-export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+export function defineAbility<T extends AnyMongoAbility = Ability>(
   dsl: AsyncDSL<T>
 ): Promise<T>;
-export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+export function defineAbility<T extends AnyMongoAbility = Ability>(
   params: AbilityOptionsOf<T>,
   dsl: AsyncDSL<T>
 ): Promise<T>;
-export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+export function defineAbility<T extends AnyMongoAbility = Ability>(
   dsl: DSL<T>
 ): T;
-export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+export function defineAbility<T extends AnyMongoAbility = Ability>(
   params: AbilityOptionsOf<T>,
   dsl: DSL<T>
 ): T;
-export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
+export function defineAbility<T extends AnyMongoAbility = Ability>(
   params: AbilityOptionsOf<T> | DSL<T> | AsyncDSL<T>,
   dsl?: DSL<T> | AsyncDSL<T>
 ): T | Promise<T> {
@@ -131,10 +133,10 @@ export function defineAbility<T extends AnyMongoAbility = AnyMongoAbility>(
     throw new Error('`defineAbility` expects to receive either options and dsl function or only dsl function');
   }
 
-  const builder = new AbilityBuilder<T>();
+  const builder = new AbilityBuilder<T>(Ability as AbilityClass<T>);
   const result = define(builder.can, builder.cannot);
 
   return result && typeof result.then === 'function'
-    ? result.then(() => builder.build(Ability, options))
-    : builder.build(Ability, options);
+    ? result.then(() => builder.build(options))
+    : builder.build(options);
 }

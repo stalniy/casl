@@ -27,7 +27,6 @@ export type AnyAbility = PureAbility<any, any>;
 export type Generics<T extends AnyAbility> = T extends AnyAbility
   ? { abilities: T['za'], conditions: T['zc'] } : never;
 
-
 export type RuleOf<T extends AnyAbility> =
   Rule<Generics<T>['abilities'], Generics<T>['conditions']>;
 export type RawRuleOf<T extends AnyAbility> =
@@ -92,10 +91,6 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   }
 
   update(rules: RawRuleFrom<A, Conditions>[]): this {
-    if (!Array.isArray(rules)) {
-      return this;
-    }
-
     const event = { rules, ability: this };
 
     this._emit('update', event);
