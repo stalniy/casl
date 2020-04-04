@@ -162,3 +162,127 @@ ability.can('read', new Article('review', tomorrow)) // (4), false
 `(3)` fails because article's status is not listed inside `$in` operator and `(4)` fails because article's `createdAt` is in future.
 
 The same logic is applicable to other operators in conditions.
+
+## Common conditions
+
+This section describes the way to construct conditions for common cases. All the examples below will use `Article` class instance as a subject but you are not forced to use classes only!
+
+> Read [Subject type detection](../subject-type-detection) to understand how CASL detects subject type.
+
+### Match one of few items in a scalar property
+
+Suppose we have an `Article` object which has a property `status`. We want to restrict the user to access only articles that are in few specific statuses.
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const ability = defineAbility((can) => {
+  can('read', 'Article', { status: { $in: ['published', 'inReview'] } });
+});
+
+class Article {
+  constructor(title, status) {
+    this.title = title;
+    this.status = status;
+  }
+}
+
+const article = new Article('CASL', 'published');
+console.log(ability.can('read', article)); // true
+```
+
+### Match specified item in an array property
+
+Suppose we have an `Article` object which has a property `categories`. We want to restrict the user to access only articles in one specified category.
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const ability = defineAbility((can) => {
+  can('read', 'Article', { categories: 'javascript' });
+});
+
+class Article {
+  constructor(title, categories) {
+    this.title = title;
+    this.categories = categories;
+  }
+}
+
+const article = new Article('CASL', ['javascript', 'acl']);
+console.log(ability.can('read', article)); // true
+```
+
+### Match one of few items in an array property
+
+Suppose we have an `Article` object which has a property `categories`. We want to restrict the user to access only articles in few specified categories.
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const ability = defineAbility((can) => {
+  can('read', 'Article', { categories: { $in: ['javascript', 'frontend'] } });
+});
+
+class Article {
+  constructor(title, categories) {
+    this.title = title;
+    this.categories = categories;
+  }
+}
+
+const article = new Article('CASL', ['javascript', 'acl']);
+console.log(ability.can('read', article)); // true
+```
+
+### Match nested property value
+
+Suppose we have an `Address` object which has property `country` which is an object of 2 fields: `isoCode` and `name`. We want to restrict user to access only those addresses that are located in the specified country.
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const ability = defineAbility((can) => {
+  can('read', 'Address', { 'country.isoCode': 'UA' });
+});
+
+class Address {
+  constructor(isoCode, name) {
+    this.isoCode = isoCode;
+    this.name = name;
+  }
+}
+
+const address = new Address('UA', 'Ukraine');
+console.log(ability.can('read', address)); // true
+```
+
+### Match several properties of a nested array property
+
+Suppose we have a wishlist of products in some e-shop and we want to share wishlist item to somebody else and give him `update` permission.
+
+```js
+import { defineAbility } from '@casl/ability';
+
+const user = { id: 1 };
+const ability = defineAbility((can) => {
+  can('update', 'WishlistItem', {
+    sharedWith: {
+      $elemMatch: { permission: 'update', userId: user.id }
+    }
+  });
+});
+
+class WishlistItem {
+  constructor(title, sharedWith) {
+    this.title = title;
+    this.sharedWith = sharedWith;
+  }
+}
+
+const wishlistItem = new WishlistItem('CASL in Action', [
+  { permission: 'read', userId: 2 },
+  { permission: 'update', userId: 1 },
+]);
+ability.can('update', wishlistItem); // true
+```
