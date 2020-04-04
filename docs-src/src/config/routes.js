@@ -1,6 +1,7 @@
 import { html } from 'lit-element';
 import { LOCALES, defaultLocale } from '../services/i18n';
 import { loadPages, renderPage } from '../services/pageController';
+import { mapOldToNewUrl } from '../services/oldUrls';
 
 export const routes = [
   {
@@ -61,15 +62,19 @@ export const routes = [
     path: '(.*)',
     respond({ match }) {
       const pathname = match.location.pathname;
+      const redirectToNewUrl = mapOldToNewUrl(pathname);
+
+      if (redirectToNewUrl) {
+        return { redirect: redirectToNewUrl };
+      }
+
       const index = pathname.indexOf('/', 1);
       const lang = index === -1 ? pathname.slice(1) : pathname.slice(1, index);
 
       if (!LOCALES.includes(lang)) {
         const { search: query, hash } = window.location;
         return {
-          redirect: {
-            url: `/${defaultLocale}${pathname}${query}${hash}`,
-          }
+          redirect: { url: `/${defaultLocale}${pathname}${query}${hash}` }
         };
       }
 
