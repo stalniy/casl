@@ -70,7 +70,7 @@ To access nested property value, you can use dot notation as in `(4)`.
 
 CASL uses only subset of MongoDB operators, usually you won't need others.
 
-> If you need to use more operators or define custom ones, read [Customize ability](../../advanced/custom-ability)
+> If you need to use more operators or define custom ones, read [Customize ability](../../advanced/customize-ability)
 
 The list of operators:
 
@@ -113,7 +113,7 @@ CASL doesn't import `$and`, `$or`, `$nor` and `$not` operators. This is because 
 
 `$nor` cannot be reproduced in any way, so if you are sure that you need it, I'd recommend to rethink your permission logic together with the client or product owner.
 
-> Read [Customize ability](../../advanced/custom-ability) to understand how to include `$nor` if you are 100% sure that you need it.
+> Read [Customize ability](../../advanced/customize-ability) to understand how to include `$nor` if you are 100% sure that you need it.
 
 ## Checking logic in CASL
 

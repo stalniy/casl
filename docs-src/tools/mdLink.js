@@ -1,4 +1,5 @@
 const { normalize: normalizePath, dirname } = require('path');
+const fs = require('fs');
 
 function isExternalUrl(url) {
   return url.startsWith('https://') || url.startsWith('http://');
@@ -35,6 +36,12 @@ function toCustomLink(token, hrefIndex, options, env) {
   if (page.startsWith('/')) {
     page = page.slice(1);
   } else {
+    const filePath = `${dirname(env.file.path)}/${page}`;
+
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Unable to locate file by path ${page} in ${env.relativePath}`);
+    }
+
     page = normalizePath(`${dirname(env.relativePath)}/${page}`);
   }
 

@@ -1,5 +1,5 @@
 import { prepareRoutes, createRouter } from '@curi/router';
-import { browser } from '@hickory/browser';
+import { browser, createBase } from '@hickory/browser';
 import { routes } from '../config/routes';
 import { locale } from './i18n';
 
@@ -24,6 +24,7 @@ function stringify(querystring) {
 
 const router = createRouter(browser, prepareRoutes(routes), {
   history: {
+    base: createBase(process.env.APP_BASE_PATH),
     query: { parse, stringify }
   }
 });
@@ -35,7 +36,7 @@ router.url = (options) => {
 };
 
 if ('scrollRestoration' in window.history) {
-  history.scrollRestoration = 'manual';
+  window.history.scrollRestoration = 'manual';
 }
 
 export default router;

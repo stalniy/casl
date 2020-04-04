@@ -141,6 +141,7 @@ export default {
       'process.env.ARTICLES_PER_PAGE': '10',
       'process.env.APP_LANGS': JSON.stringify(SUPPORTED_LANGS),
       'process.env.APP_REPO_URL': JSON.stringify('https://github.com/stalniy/casl'),
+      'process.env.APP_BASE_PATH': JSON.stringify('/casl/v4')
     }),
     html({
       title: 'CASL',

@@ -21,7 +21,7 @@ The easiest way to try out CASL.js is using the [Hello World example][example-he
 
 > The [Installation page][guide-install] provides more options of installing CASL.
 
-[example-hello-casl]: #
+[example-hello-casl]: https://codesandbox.io/s/github/stalniy/casl-examples/tree/master/packages/hello-world
 [guide-install]: ../install
 
 ## Basics
@@ -37,7 +37,7 @@ CASL operates on the abilities level, that is what a user can actually do in the
 4. **Conditions**\
    An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `Article`)
 
-> CASL doesn't have a concept of a role but it doesn't mean it can't be used in role based system. See [Roles with static rules CASL](../../cookbook/roles/with-static-rules) for details.
+> CASL doesn't have a concept of a role but it doesn't mean it can't be used in role based system. See [Roles with predefined permissions](../../cookbook/roles-with-static-permissions) for details.
 
 At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:
 

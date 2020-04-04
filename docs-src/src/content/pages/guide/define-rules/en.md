@@ -71,7 +71,7 @@ There is nothing extremely wrong with this function but there are several drawba
 1. In most cases, rules depends on user request, so using callback style to define permissions, adds additional nesting and increases cognitive complexity.
 2. It can create only `Ability` instance which works with [MongoDB conditions](../conditions-in-depth), so you won't be able to use another language to match conditions.
 
-> See [Customize Ability](../../advanced/custom-ability) to know more about different ability classes and possibilities to customize it.
+> See [Customize Ability](../../advanced/customize-ability) to know more about different ability classes and possibilities to customize it.
 
 ## AbilityBuilder class
 
@@ -139,7 +139,7 @@ export default function defineAbilityFor(user) {
 * in apps which have static permissions (i.e., permissions are not changed by user but defined inside system)
 * anywhere where you use custom subclasses of `PureAbility`
 
-> See [Customize Ability](../../advanced/custom-ability) to learn more about `PureAbility` class.
+> See [Customize Ability](../../advanced/customize-ability) to learn more about `PureAbility` class.
 
 ## JSON objects
 
