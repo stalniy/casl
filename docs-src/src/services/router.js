@@ -2,6 +2,7 @@ import { prepareRoutes, createRouter } from '@curi/router';
 import { browser, createBase } from '@hickory/browser';
 import { routes } from '../config/routes';
 import { locale } from './i18n';
+import config from '../config/app';
 
 function parse(querystring) {
   return querystring
@@ -22,9 +23,11 @@ function stringify(querystring) {
     .join('&');
 }
 
+// TODO: correctly manage docs versioning
+const baseUrl = `${config.baseUrl}/v4`;
 const router = createRouter(browser, prepareRoutes(routes), {
   history: {
-    base: createBase(process.env.APP_BASE_PATH),
+    base: createBase(baseUrl),
     query: { parse, stringify }
   }
 });

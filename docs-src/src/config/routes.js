@@ -2,6 +2,7 @@ import { html } from 'lit-element';
 import { LOCALES, defaultLocale } from '../services/i18n';
 import { loadPages, renderPage } from '../services/pageController';
 import { mapOldToNewUrl } from '../services/oldUrls';
+import config from './app';
 
 export const routes = [
   {
@@ -61,13 +62,13 @@ export const routes = [
     name: 'notFound',
     path: '(.*)',
     respond({ match }) {
-      const pathname = match.location.pathname;
-      const redirectToNewUrl = mapOldToNewUrl(pathname);
+      const redirectToNewUrl = mapOldToNewUrl(match.location.pathname);
 
       if (redirectToNewUrl) {
         return { redirect: redirectToNewUrl };
       }
 
+      const pathname = match.location.pathname.slice(config.baseUrl.length);
       const index = pathname.indexOf('/', 1);
       const lang = index === -1 ? pathname.slice(1) : pathname.slice(1, index);
 

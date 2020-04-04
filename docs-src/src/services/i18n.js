@@ -21,7 +21,7 @@ function lookup(path, config) {
 }
 
 function missingKey(path) {
-  console.warn(`missing i18n key: ${path}`);
+  console.warn(`missing i18n key: ${path}`); // eslint-disable-line no-console
   return path;
 }
 
@@ -32,7 +32,10 @@ export function interpolate(string, vars) {
 }
 
 const i18n = registerTranslateConfig({
-  loader: lang => fetch(langUrls[lang].default),
+  async loader(lang) {
+    const response = await fetch(langUrls[lang].default);
+    return response.body;
+  },
   lookup,
   interpolate,
   empty: missingKey,

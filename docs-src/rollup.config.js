@@ -10,6 +10,7 @@ import copy from 'rollup-plugin-copy';
 import { content } from 'rollup-plugin-content';
 import { legacyBundle } from 'rollup-plugin-legacy-bundle';
 import xyaml from 'xyaml-webpack-loader/rollup';
+import { generateSW } from 'rollup-plugin-workbox';
 import indexHTML from './tools/index.html';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser';
 
@@ -26,11 +27,14 @@ const minify = terser({
   }
 });
 
+const DEST = '../docs/casl';
+const PUBLIC_PATH = '/casl/';
+
 export default {
-  input: 'src/app.js',
+  input: 'src/bootstrap.js',
   output: {
     format: 'es',
-    dir: '../docs',
+    dir: DEST,
     sourcemap: true,
     assetFileNames: process.env.NODE_ENV === 'production'
       ? 'assets/[name].[hash].[ext]'
@@ -82,13 +86,13 @@ export default {
           copy({
             verbose: true,
             targets: [
-              { src: 'node_modules/@webcomponents/webcomponentsjs', dest: '../docs/legacy/' }
+              { src: 'node_modules/@webcomponents/webcomponentsjs', dest: `${DEST}/legacy/` }
             ]
           }),
         ]
       }),
     ]),
-    url({ publicPath: '/' }),
+    url({ publicPath: PUBLIC_PATH }),
     resolve(),
     babel({
       rootMode: 'upward',
@@ -110,12 +114,12 @@ export default {
       copyOnce: true,
       flatten: false,
       targets: [
-        { src: 'public/**/*', dest: '../docs' },
+        { src: 'public/**/*', dest: DEST },
       ]
     }),
     copy({
       targets: [
-        { src: 'src/content/**/*.{png,jpeg,svg}', dest: '../docs/images' }
+        { src: 'src/content/**/*.{png,jpeg,svg}', dest: `${DEST}/images` }
       ]
     }),
     content({
@@ -138,14 +142,13 @@ export default {
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.ARTICLES_PER_PAGE': '10',
       'process.env.APP_LANGS': JSON.stringify(SUPPORTED_LANGS),
       'process.env.APP_REPO_URL': JSON.stringify('https://github.com/stalniy/casl'),
-      'process.env.APP_BASE_PATH': JSON.stringify('/casl/v4')
+      'process.env.APP_BASE_URL': JSON.stringify(PUBLIC_PATH.replace(/\/$/, '')),
     }),
     html({
       title: 'CASL',
-      publicPath: '/',
+      publicPath: PUBLIC_PATH,
       template: indexHTML,
       attributes: {
         html: null,
@@ -153,5 +156,19 @@ export default {
         script: null,
       },
     }),
+    generateSW({
+      swDest: `${DEST}/sw.js`,
+      cleanupOutdatedCaches: true,
+      inlineWorkboxRuntime: process.env.NODE_ENV === 'production',
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+      globDirectory: DEST,
+      globPatterns: [
+        'assets/*.json',
+        'app-icons/*',
+        'manifest.json',
+        'index.html',
+        '*.js'
+      ]
+    })
   ]
 };

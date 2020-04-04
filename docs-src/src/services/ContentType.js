@@ -19,11 +19,13 @@ export default class Content {
       throw notFoundError(`Page with ${name} is not found`);
     }
 
-    return fetch(url);
+    const response = await fetch(url);
+    return response.body;
   }
 
-  _getSummary(locale) {
-    return fetch(this._summaries[locale]);
+  async _getSummary(locale) {
+    const response = await fetch(this._summaries[locale]);
+    return response.body;
   }
 
   async _getItems(locale, categories = null) {

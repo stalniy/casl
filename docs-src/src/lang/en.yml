@@ -1,4 +1,6 @@
 name: CASL
+updateAvailable: !md |
+  An update is available, **click here to refresh**.
 slogan: |
   Isomorphic Authorization
   JavaScript library

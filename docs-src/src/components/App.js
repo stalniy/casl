@@ -13,6 +13,7 @@ export default class App extends LitElement {
   constructor() {
     super();
     this._route = null;
+    this._notificationsRoot = null;
     this.ready = false;
   }
 
@@ -22,6 +23,20 @@ export default class App extends LitElement {
       this._route = route.response;
       this.requestUpdate();
     }, { initial: true });
+  }
+
+  notify(message, options = {}) {
+    const notification = document.createElement('app-notification');
+
+    notification.message = message;
+
+    if (typeof options.onClick === 'function') {
+      notification.addEventListener('click', options.onClick, false);
+    }
+
+    this._notificationsRoot = this._notificationsRoot
+      || this.shadowRoot.getElementById('notifications');
+    this._notificationsRoot.appendChild(notification);
   }
 
   render() {
@@ -38,6 +53,7 @@ export default class App extends LitElement {
         <main>${cache(body.main || body)}</main>
       </section>
       <app-footer></app-footer>
+      <div id="notifications"></div>
     `;
   }
 }
@@ -81,6 +97,12 @@ App.styles = [
       overflow-y: auto;
       padding-top: 2rem;
       padding-bottom: 50px;
+    }
+
+    #notifications {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
     }
   `
 ];
