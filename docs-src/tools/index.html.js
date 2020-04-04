@@ -30,6 +30,7 @@ export default ({ attributes, files, publicPath, title }) => `
   <script nomodule src="${publicPath}legacy/webcomponentsjs/webcomponents-loader.js"></script>
   <script nomodule src="${publicPath}legacy/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   ${generateJs(files.js, { publicPath, attrs: attributes.script })}
+  <script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script>
 </body>
 </html>
 `.trim();
