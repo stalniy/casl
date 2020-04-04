@@ -16,6 +16,8 @@ CASL is written in [TypeScript] and this brings several benefits:
 
 So, let's play around with them
 
+> Minimum supported Typescript version is **3.5.3**
+
 ## Permissions inference
 
 `Ability` class accepts 2 generic parameters:

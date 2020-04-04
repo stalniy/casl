@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs/assets/img/shield.png" alt="CASL logo"></a>
+  <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs-src/src/assets/shield.png" alt="CASL logo"></a>
 
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
