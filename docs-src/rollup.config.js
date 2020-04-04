@@ -29,6 +29,7 @@ const minify = terser({
 
 const DEST = '../docs/casl';
 const PUBLIC_PATH = '/casl/';
+const GA_ID = 'UA-19088556-6';
 
 export default {
   input: 'src/bootstrap.js',
@@ -149,7 +150,9 @@ export default {
     html({
       title: 'CASL',
       publicPath: PUBLIC_PATH,
-      template: indexHTML,
+      template: indexHTML({
+        analyticsId: process.env.NODE_ENV === 'production' ? GA_ID : null,
+      }),
       attributes: {
         html: null,
         link: null,
