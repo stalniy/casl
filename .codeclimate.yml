@@ -1,4 +1,4 @@
-version: "2" 
+version: "2"
 plugins:
   eslint:
     enabled: true
@@ -9,8 +9,9 @@ plugins:
         enabled: false
       no-console:
         enabled: false
-        
+
 exclude_patterns:
 - docs/**/*
+- docs-src/**/*
 - "**/spec/**/*"
 - "**/*.d.ts"
