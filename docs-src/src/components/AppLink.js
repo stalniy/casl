@@ -25,9 +25,15 @@ export default class Link extends LitElement {
     this._unwatchRouter = null;
   }
 
-  _isActive(response) {
-    return this.to === response.name
-      && this._getUrl().endsWith(response.location.pathname);
+  _isActive() {
+    const url = this._getUrl();
+    const { pathname } = window.location;
+
+    if (url.length > pathname.length) {
+      return false;
+    }
+
+    return url === pathname || pathname.startsWith(url);
   }
 
   connectedCallback() {
@@ -35,8 +41,8 @@ export default class Link extends LitElement {
     this.addEventListener('click', this._navigate.bind(this), false);
 
     if (this.nav) {
-      this._unwatchRouter = router.observe((route) => {
-        this.active = this._isActive(route.response);
+      this._unwatchRouter = router.observe(() => {
+        this.active = this._isActive();
       }, { initial: true });
     }
   }
