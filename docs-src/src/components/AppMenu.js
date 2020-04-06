@@ -17,16 +17,17 @@ function renderNavItem(item) {
   }
 
   if (item.page) {
-    return html`<app-link to="page" .params="${{ id: item.page }}">${title}</app-link>`;
+    return html`<app-link nav to="page" .params="${{ id: item.page }}">${title}</app-link>`;
   }
 
-  return html`<app-link to="${item.name}">${title}</app-link>`;
+  return html`<app-link nav to="${item.name}">${title}</app-link>`;
 }
 
 export default class Menu extends LitElement {
   static cName = 'app-menu';
   static properties = {
     items: { type: Array },
+    expanded: { type: Boolean },
   };
 
   constructor() {
@@ -50,11 +51,17 @@ export default class Menu extends LitElement {
     const children = items.map(item => html`
       <li class="dropdown-container">
         ${renderNavItem(item)}
-        ${item.children ? this._renderNav(item.children, 'dropdown') : ''}
+        ${this._renderItemNav(item)}
       </li>
     `);
 
     return html`<ul class="${navClass}">${children}</ul>`;
+  }
+
+  _renderItemNav({ children }) {
+    return children
+      ? this._renderNav(children, `dropdown ${this.expanded ? '' : 'expandable'}`)
+      : '';
   }
 }
 
@@ -78,20 +85,23 @@ Menu.styles = css`
     display: block;
   }
 
-  .dropdown {
+  .dropdown.expandable {
     display: none;
-    box-sizing: border-box;
     max-height: calc(100vh - 61px);
     overflow-y: auto;
     position: absolute;
     top: 100%;
     right: -15px;
     background-color: #fff;
-    padding: 10px 0;
     border: 1px solid #ddd;
     border-bottom-color: #ccc;
-    text-align: left;
     border-radius: 4px;
+  }
+
+  .dropdown {
+    box-sizing: border-box;
+    padding: 10px 0;
+    text-align: left;
     white-space: nowrap;
   }
 
@@ -138,6 +148,7 @@ Menu.styles = css`
   }
   .nav a:hover,
   .nav app-link:hover,
+  .nav app-link.active,
   .dropdown a:hover,
   .dropdown app-link:hover {
     color: #81a2be;

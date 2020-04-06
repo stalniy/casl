@@ -11,14 +11,10 @@ export default class HomePage extends LitElement {
   render() {
     return html`
       <div class="bg">
-        <header class="row container">
-          <div class="col row wrap align-start details">
-            <img
-              src="${shieldURL}"
-              width="250"
-              class="col col-fixed"
-            >
-            <div class="col">
+        <header class="row wrap container">
+          <div class="col row wrap align-start main">
+            <img src="${shieldURL}" width="250" class="col col-fixed">
+            <div class="col details">
               <h1>${t('slogan')}</h1>
               <div class="buttons">
                 <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
@@ -35,7 +31,7 @@ export default class HomePage extends LitElement {
               </div>
             </div>
           </div>
-          <div class="col col-fixed">
+          <div class="col col-fixed col-example">
             <div class="example">${ut('exampleCode')}</div>
           </div>
         </header>
@@ -65,12 +61,10 @@ HomePage.styles = [
       padding: 2rem 1rem;
     }
 
-    .details {
+    .main {
       padding-top: 22px;
-    }
-
-    .details > img {
-      margin-right: 30px;
+      text-align: center;
+      justify-content: center;
     }
 
     h1 {
@@ -87,6 +81,40 @@ HomePage.styles = [
     github-button {
       display: block;
       margin-top: 10px;
+    }
+
+    .details {
+      min-width: 300px;
+    }
+
+    .col-example {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .main > img {
+        margin-right: 30px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .main {
+        text-align: left;
+      }
+
+      .col-example {
+        display: block;
+      }
+
+      .example code {
+        font-size: .7rem;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .example code {
+        font-size: .8rem;
+      }
     }
   `
 ];

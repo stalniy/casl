@@ -24,7 +24,7 @@ export default class PagesByCategories extends LitElement {
           <h3>${t(`categories.${category}`)}</h3>
           <ul>
             ${this.items[category].map(page => html`
-              <li><app-link to="${this.type}" .params="${page}">${page.title}</app-link></li>
+              <li><app-link nav to="${this.type}" .params="${page}">${page.title}</app-link></li>
             `)}
           </ul>
         `)}

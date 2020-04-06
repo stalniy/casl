@@ -8,7 +8,8 @@ export default class Link extends LitElement {
     params: { type: Object },
     query: { type: Object },
     hash: { type: String },
-    active: { type: Boolean }
+    active: { type: Boolean },
+    nav: { type: Boolean }
   };
 
   constructor() {
@@ -19,12 +20,33 @@ export default class Link extends LitElement {
     this.query = null;
     this.params = null;
     this.hash = '';
+    this.nav = false;
     this._url = null;
+    this._unwatchRouter = null;
+  }
+
+  _isActive(response) {
+    return this.to === response.name
+      && this._getUrl().endsWith(response.location.pathname);
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this._navigate.bind(this), false);
+
+    if (this.nav) {
+      this._unwatchRouter = router.observe((route) => {
+        this.active = this._isActive(route.response);
+      }, { initial: true });
+    }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    if (this._unwatchRouter) {
+      this._unwatchRouter();
+    }
   }
 
   update(changed) {
@@ -34,7 +56,17 @@ export default class Link extends LitElement {
       this._url = this._generateUrl();
     }
 
+    if (this.nav && changed.has('active')) {
+      const toggle = this.active ? 'add' : 'remove';
+      this.classList[toggle]('active');
+    }
+
     return super.update(changed);
+  }
+
+  _getUrl() {
+    this._url = this._url || this._generateUrl();
+    return this._url;
   }
 
   _generateUrl() {
@@ -48,11 +80,7 @@ export default class Link extends LitElement {
 
   render() {
     return html`
-      <a
-        itemprop="url"
-        href="${this._url}"
-        class="${this.active ? 'active' : ''}"
-      >
+      <a itemprop="url" href="${this._url}">
         <slot></slot>
       </a>
     `;
@@ -75,7 +103,8 @@ Link.styles = css`
     border-bottom: 2px solid transparent;
   }
 
-  :host(:hover) {
+  :host(:hover),
+  :host(.active) {
     border-bottom-color: #81a2be;
   }
 

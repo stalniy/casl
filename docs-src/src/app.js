@@ -15,6 +15,7 @@ import LangPicker from './components/LangPicker';
 import OneTimeDonations from './components/OneTimeDonations';
 import PagesByCategories from './components/PagesByCategories';
 import AppNotification from './components/AppNotification';
+import MenuDrawer from './components/MenuDrawer';
 import { locale, setLocale, defaultLocale } from './services/i18n';
 import router from './services/router';
 import { setRouteMeta } from './services/meta';
@@ -36,6 +37,7 @@ const components = [
   PagesByCategories,
   OneTimeDonations,
   AppNotification,
+  MenuDrawer,
 ];
 
 export function bootstrap(selector) {

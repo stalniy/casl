@@ -8,6 +8,7 @@ copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Sergii Stotskyi](https://www.linkedin.com/in/sergii-stotskyi-b747ba23/)
 menu:
+  root: Menu
   api: API
 
   learn: Learn

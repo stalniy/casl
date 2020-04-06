@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html, css } from 'lit-element';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { mdCss, pageCss, codeCss } from '../styles';
 import I18nElement from './I18nElement';
@@ -79,4 +79,9 @@ Page.styles = [
   pageCss,
   mdCss,
   codeCss,
+  css`
+    app-page-nav {
+      margin-top: 20px;
+    }
+  `
 ];

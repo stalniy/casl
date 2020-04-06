@@ -1,11 +1,6 @@
 import { css } from 'lit-element';
 
 export default css`
-  .container {
-    margin: auto;
-    max-width: 1200px;
-  }
-
   .row {
     display: flex;
   }
@@ -30,5 +25,12 @@ export default css`
 
   .col-fixed {
     flex-grow: 0;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      margin: auto;
+      max-width: 1200px;
+    }
   }
 `;
