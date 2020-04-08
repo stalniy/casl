@@ -9,7 +9,6 @@ import Page from './components/Page';
 import PageNav from './components/PageNav';
 import HomePage from './components/HomePage';
 import GithubButton from './components/GithubButton';
-import PageSearch from './components/PageSearch';
 import QuickSearch from './components/QuickSearch';
 import LangPicker from './components/LangPicker';
 import OneTimeDonations from './components/OneTimeDonations';
@@ -30,7 +29,6 @@ const components = [
   Page,
   HomePage,
   PageNav,
-  PageSearch,
   QuickSearch,
   LangPicker,
   GithubButton,

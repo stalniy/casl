@@ -1,11 +1,44 @@
+import MiniSearch from 'minisearch';
 import { fetch } from './http';
 import { notFoundError } from './error';
 import { memoize } from './utils';
+import searchOptions from '../config/search';
+
+function markHints(result) {
+  const hints = {};
+
+  result.terms.forEach((term) => {
+    const regexp = new RegExp(`(${term})`, 'gi');
+
+    result.match[term].forEach((field) => {
+      const value = result.doc[field];
+
+      if (typeof value === 'string') {
+        hints[field] = value.replace(regexp, '<mark>$1</mark>');
+      } else if (field === 'headings') {
+        const markedValue = value.reduce((items, h) => {
+          if (h.title.toLowerCase().includes(term)) {
+            items.push({
+              id: h.id,
+              title: h.title.replace(regexp, '<mark>$1</mark>'),
+            });
+          }
+          return items;
+        }, []);
+        hints[field] = markedValue.length ? markedValue : null;
+      }
+    });
+  });
+
+  return hints;
+}
 
 export default class Content {
-  constructor({ pages, summaries }) {
+  constructor({ pages, summaries, searchIndexes }) {
     this._pages = pages;
     this._summaries = summaries;
+    this._searchIndexes = searchIndexes;
+    this._loadSearchIndex = memoize(this._loadSearchIndex);
     this._getSummary = memoize(this._getSummary);
     this._getItems = memoize(this._getItems);
     this.byCategories = memoize(this.byCategories);
@@ -75,5 +108,26 @@ export default class Content {
   async at(locale, index) {
     const { items } = await this._getSummary(locale);
     return items[index];
+  }
+
+  async _loadSearchIndex(locale) {
+    const indexUrl = this._searchIndexes[locale];
+    const response = await fetch(indexUrl);
+    return MiniSearch.loadJS(response.body, searchOptions);
+  }
+
+  async search(locale, query, options) {
+    const [searchIndex, summary] = await Promise.all([
+      this._loadSearchIndex(locale),
+      this._getSummary(locale)
+    ]);
+    return searchIndex.search(query, options)
+      .slice(0, 15)
+      .map((result) => {
+        const [index] = summary.byId[result.id];
+        result.doc = summary.items[index];
+        result.hints = markHints(result);
+        return result;
+      });
   }
 }

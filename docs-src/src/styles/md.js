@@ -68,6 +68,12 @@ export default css`
 
   .md table {
     border-collapse: collapse;
+    width: 100%;
+  }
+
+  .md .responsive {
+    width: 100%;
+    overflow-x: auto;
   }
 
   .md th,

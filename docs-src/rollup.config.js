@@ -7,12 +7,13 @@ import { terser } from 'rollup-plugin-terser';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import replace from 'rollup-plugin-replace';
 import copy from 'rollup-plugin-copy';
-import { content } from 'rollup-plugin-content';
+import { content, summary } from 'rollup-plugin-content';
 import { legacyBundle } from 'rollup-plugin-legacy-bundle';
 import xyaml from 'xyaml-webpack-loader/rollup';
 import { generateSW } from 'rollup-plugin-workbox';
 import indexHTML from './tools/index.html';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser';
+import { SearchIndex } from './tools/SearchIndex';
 
 const env = (name, plugins) => process.env.NODE_ENV === name ? plugins : [];
 const SUPPORTED_LANGS = ['en'];
@@ -27,8 +28,8 @@ const minify = terser({
   }
 });
 
-const DEST = '../docs/casl';
-const PUBLIC_PATH = '/casl/';
+const DEST = '../docs';
+const PUBLIC_PATH = '/';
 const GA_ID = 'UA-19088556-6';
 
 export default {
@@ -135,11 +136,15 @@ export default {
       files: '**/*.md',
       langs: SUPPORTED_LANGS,
       pageSchema: false,
-      summary: {
-        fields: ['id', 'title', 'categories'],
-        sortBy: ['order']
-      },
       parse: parseFrontMatter,
+      plugins: [
+        summary({
+          fields: ['id', 'title', 'categories', 'headings'],
+          sortBy: ['order'],
+          indexBy: ['id'],
+        }),
+        summary(SearchIndex.factory()),
+      ]
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

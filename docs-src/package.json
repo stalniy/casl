@@ -40,13 +40,13 @@
     "regenerator-runtime": "^0.13.3",
     "rollup": "^1.31.1",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-content": "0.4.0",
+    "rollup-plugin-content": "0.5.0",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-legacy-bundle": "0.1.0",
     "rollup-plugin-minify-html-literals": "^1.2.3",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-workbox": "^5.0.1",
-    "xyaml-webpack-loader": "0.5.1"
+    "xyaml-webpack-loader": "0.6.0"
   }
 }

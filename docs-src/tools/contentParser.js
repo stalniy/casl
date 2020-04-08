@@ -20,7 +20,8 @@ export const markdownOptions = {
     },
     [`${__dirname}/tools/mdImage`]: {
       size: 'auto'
-    }
+    },
+    [`${__dirname}/tools/mdTableContainer`]: {}
   }
 };
 
@@ -33,12 +34,23 @@ const grayMatterOptions = {
   engines: { xyaml: parsexYaml }
 };
 
-export function parseFrontMatter(content, context) {
-  const file = matter(content, grayMatterOptions);
+export function parseFrontMatter(source, context) {
+  const file = matter(source, grayMatterOptions);
   const parser = getOrCreateMdParser(markdownOptions);
+  const content = parser.render(file.content, context).trim();
+  const headings = content.match(/<h(\d)[^>]*>(?:.+?)<\/h\1>/g) || [];
 
   return {
     ...file.data,
-    content: parser.render(file.content, context).trim(),
+    content,
+    headings: headings.map((h) => {
+      const idIndex = h.indexOf(' id="');
+      const id = idIndex === -1 ? null : h.slice(idIndex + 5, h.indexOf('"', idIndex + 6));
+
+      return {
+        id,
+        title: h.replace(/<[^>]+>/g, ' ').trim(),
+      };
+    }),
   };
 }

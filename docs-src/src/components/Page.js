@@ -3,8 +3,8 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { mdCss, pageCss, codeCss } from '../styles';
 import I18nElement from './I18nElement';
 import { interpolate, locale } from '../services/i18n';
-import { setPageMeta } from '../services/articles';
 import content from '../services/content';
+import { setPageMeta } from '../services/meta';
 import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection';
 
 function renderContent(page, vars) {

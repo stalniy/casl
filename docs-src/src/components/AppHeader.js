@@ -7,32 +7,49 @@ export default class Header extends LitElement {
   static cName = 'app-header';
   static properties = {
     menu: { type: Object },
+    theme: { type: String },
+    _isCompactSearch: { type: Boolean },
   };
 
   constructor() {
     super();
+    this.theme = 'default';
     this.menu = { items: [] };
+    this._isCompactSearch = false;
   }
 
   _emitToggleMenu() {
     this.dispatchEvent(new CustomEvent('toggle-menu'));
   }
 
-  _renderMenu() {
-    if (!this.menu) {
-      return null;
+  _renderControls() {
+    if (this.theme === 'default') {
+      return html`
+        <div class="row align-center">
+          <app-quick-search></app-quick-search>
+          <app-menu .items="${this.menu.items}"></app-menu>
+        </div>
+      `;
     }
 
     return html`
-      <div class="row align-center">
-        <app-quick-search></app-quick-search>
-        <app-menu .items="${this.menu.items}"></app-menu>
-      </div>
+      <app-quick-search
+        class="full-width-search"
+        suggestionsType="page"
+        toggler
+        ?compact="${this._isCompactSearch}"
+        @reset="${this._toggleSearch}"
+        @click-icon="${this._toggleSearch}"
+      ></app-quick-search>
     `;
   }
 
+  _toggleSearch() {
+    this._isCompactSearch = !this._isCompactSearch;
+  }
+
   _renderMenuToggler() {
-    if (this.menu) {
+    if (this.theme !== 'mobile') {
       return null;
     }
 
@@ -43,12 +60,20 @@ export default class Header extends LitElement {
     `;
   }
 
+  update(changed) {
+    if (changed.has('theme')) {
+      this._isCompactSearch = this.theme === 'mobile';
+    }
+
+    return super.update(changed);
+  }
+
   render() {
     return html`
       <header class="container">
         ${this._renderMenuToggler()}
         <app-link to="home" class="logo">${t('name')}</app-link>
-        ${this._renderMenu()}
+        ${this._renderControls()}
       </header>
       <!-- <app-lang-picker></app-lang-picker> -->
     `;
@@ -68,6 +93,7 @@ Header.styles = [
     }
 
     header {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -94,8 +120,27 @@ Header.styles = [
       cursor: pointer;
     }
 
-    .meu-toggle:focus {
+    .menu-toggle:focus {
       outline: none;
+    }
+
+    app-menu {
+      margin-left: 10px;
+    }
+
+    .full-width-search {
+      position: absolute;
+      right: 0;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      transition: width .3s ease-in-out;
+    }
+
+    .full-width-search[compact] {
+      width: 35px;
+      padding: 0;
+      height: auto;
     }
 
     @media (min-width: 768px) {
@@ -105,6 +150,11 @@ Header.styles = [
 
       .logo {
         font-size: 3rem;
+      }
+
+      app-quick-search {
+        border-radius: 15px;
+        border: 1px solid #e3e3e3;
       }
     }
   `

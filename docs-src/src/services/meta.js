@@ -48,3 +48,11 @@ export function setRouteMeta({ response }) {
   setMeta('keywords', t(`${prefix}.keywords`));
   setMeta('description', t(`${prefix}.description`));
 }
+
+export function setPageMeta(page) {
+  const meta = page.meta || {};
+
+  setTitle(page.title);
+  setMeta('keywords', meta.keywords || '');
+  setMeta('description', meta.description || '');
+}

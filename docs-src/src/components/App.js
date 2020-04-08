@@ -74,7 +74,6 @@ export default class App extends LitElement {
     }
 
     return html`
-      <app-quick-search></app-quick-search>
       ${sidebar}
       <h3>${t('menu.root')}</h3>
       <app-menu .items="${menu.items}" expanded></app-menu>
@@ -96,7 +95,8 @@ export default class App extends LitElement {
         </div>
         <div class="main">
           <app-header
-            .menu="${this._isMobile ? null : menu}"
+            theme="${this._isMobile ? 'mobile' : 'default'}"
+            .menu="${menu}"
             @toggle-menu="${this._toggleMenu}"
           ></app-header>
           <section class="${sidebar ? 'row' : ''} content">

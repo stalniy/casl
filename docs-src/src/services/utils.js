@@ -15,3 +15,11 @@ export function memoize(fn, generateKey = json) {
 
   return memoized;
 }
+
+export function debounce(fn, timeout) {
+  let timerId;
+  return function (...args) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => fn.apply(this, args), timeout);
+  };
+}

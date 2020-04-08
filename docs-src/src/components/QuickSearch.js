@@ -1,33 +1,96 @@
-import { LitElement, html, css, unsafeCSS } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { t } from '../directives/i18n';
 import { locale } from '../services/i18n';
-import { autoSuggestArticles } from '../services/articles';
+import content from '../services/content';
 import router from '../services/router';
-import searchIcon from '../assets/icons/search.svg';
+import { debounce } from '../services/utils';
+import { gridCss } from '../styles';
 
-function debounce(fn, timeout) {
-  let timerId;
-  return function (...args) {
-    clearTimeout(timerId);
-    setTimeout(() => fn.apply(this, args), timeout);
-  };
+const SUGGESTION_TEMPLATES = {
+  dropdown(result) {
+    const title = result.hints.title || result.doc.title;
+    const headings = result.hints.headings || result.doc.headings || [];
+
+    return html`
+      <div class="row item">
+        <div class="col title">
+          <app-link to="page" .params="${result.doc}">${unsafeHTML(title)}</app-link>
+        </div>
+        <div class="col">
+          ${headings.map(heading => html`
+            <app-link to="page" .params="${result.doc}" hash="${heading.id}">
+              ${unsafeHTML(heading.title)}
+            </app-link>
+          `)}
+        </div>
+      </div>
+    `;
+  },
+  page(result) {
+    const title = result.hints.title || result.doc.title;
+    const headings = result.hints.headings || result.doc.headings || [];
+
+    return html`
+      ${headings.map(heading => html`
+        <app-link class="item" to="page" .params="${result.doc}" hash="${heading.id}">
+          ${unsafeHTML(`${title} › ${heading.title}`)}
+        </app-link>
+      `)}
+    `;
+  }
+};
+
+function renderSuggestions(suggestions, type) {
+  if (!suggestions) {
+    return '';
+  }
+
+  const renderSuggestion = SUGGESTION_TEMPLATES[type || 'dropdown'];
+
+  return html`
+    <div class="suggestions ${type}">
+      ${suggestions.map(([category, results]) => html`
+        <h5>${t(`categories.${category}`)}</h5>
+        ${results.map(renderSuggestion)}
+      `)}
+    </div>
+  `;
 }
+
+const ICON_SEARCH = html`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16px" width="16px">
+    <path d="M6.02945,10.20327a4.17382,4.17382,0,1,1,4.17382-4.17382A4.15609,4.15609,0,0,1,6.02945,10.20327Zm9.69195,4.2199L10.8989,9.59979A5.88021,5.88021,0,0,0,12.058,6.02856,6.00467,6.00467,0,1,0,9.59979,10.8989l4.82338,4.82338a.89729.89729,0,0,0,1.29912,0,.89749.89749,0,0,0-.00087-1.29909Z" />
+  </svg>
+`;
+const ICON_ARROW = html`
+  <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
+    <polyline points='268 112 412 256 268 400' style='fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+    <line x1='392' y1='256' x2='100' y2='256' style='fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+  </svg>
+`;
 
 export default class QuickSearch extends LitElement {
   static cName = 'app-quick-search';
   static properties = {
     value: { type: String },
-    resetAfterSearch: { type: Boolean },
+    suggestionsType: { type: String },
+    compact: { type: Boolean },
+    toggler: { type: Boolean },
+    _suggestions: { type: Array },
   };
 
   constructor() {
     super();
 
     this.value = '';
-    this.resetAfterSearch = false;
-    this._suggestions = [];
+    this.suggestionsType = 'dropdown';
+    this.compact = false;
+    this.toggler = false;
+    this._suggestions = null;
     this._clickOutside = this._clickOutside.bind(this);
     this._search = debounce(this._search, 500);
+    this._unwatchRouter = null;
   }
 
   _setValue(value) {
@@ -40,28 +103,50 @@ export default class QuickSearch extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener('click', this._clickOutside, false);
+    this._unwatchRouter = router.observe(() => this._reset());
   }
 
   disconnectedCallback() {
-    document.removeEventListener('click', this._clickOutside, false);
     super.disconnectedCallback();
+    document.removeEventListener('click', this._clickOutside, false);
+    this._unwatchRouter();
+  }
+
+  _reset() {
+    if (this.value) {
+      this._setValue('');
+      this._suggestions = null;
+      this.dispatchEvent(new CustomEvent('reset'));
+    }
   }
 
   _clickOutside(event) {
     if (!this.shadowRoot.contains(event.target)) {
-      this._suggestions = [];
-      this.requestUpdate();
+      this._suggestions = null;
     }
   }
 
   async _search() {
-    if (this.value) {
-      this._suggestions = await autoSuggestArticles(locale(), this.value);
-    } else {
-      this._suggestions = [];
+    if (!this.value) {
+      this._suggestions = null;
+      return;
     }
 
-    this.requestUpdate();
+    const results = await content('page').search(locale(), this.value, {
+      prefix: true
+    });
+    const suggestions = results.reduce((groups, result) => {
+      const category = result.doc.categories[0];
+
+      if (!groups.has(category)) {
+        groups.set(category, []);
+      }
+
+      groups.get(category).push(result);
+      return groups;
+    }, new Map());
+
+    this._suggestions = Array.from(suggestions);
   }
 
   _updateValue(event) {
@@ -69,130 +154,155 @@ export default class QuickSearch extends LitElement {
     this._search();
   }
 
-  _submit(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
-    const q = this.value;
-
-    if (!q) {
-      return;
-    }
-
-    if (this.resetAfterSearch) {
-      this._setValue('');
-    }
-
-    this._suggestions = [];
-    this.requestUpdate();
-    router.navigate({
-      url: router.url({
-        name: 'search',
-        query: { q }
-      })
-    });
+  _emitIconClick() {
+    this.dispatchEvent(new CustomEvent('click-icon'));
   }
 
   render() {
-    const styles = this._suggestions.length
-      ? `height: ${this.clientHeight}px; position: relative;`
-      : '';
     return html`
-      <form style="${styles}" @submit="${this._submit}">
-        <div class="form-group ${this._suggestions.length ? 'focused' : ''}">
+      <div class="search-form ${this.compact ? 'compact' : ''}">
+        <label class="input">
+          <div class="icon" @click="${this._emitIconClick}">
+            ${this.compact || !this.toggler ? ICON_SEARCH : ICON_ARROW}
+          </div>
+
           <input
+            autocomplete="off"
+            autocorrect="off"
             placeholder="${t('search.placeholder')}"
             .value="${this.value}"
             @input="${this._updateValue}"
           >
-          ${this._renderSuggestions()}
-        </div>
-      </form>
+        </label>
+        ${renderSuggestions(this._suggestions, this.suggestionsType)}
+      </div>
     `;
-  }
-
-  _renderSuggestions() {
-    if (!this._suggestions.length) {
-      return '';
-    }
-
-    return html`
-      <ul class="suggestions" @click="${this._pickSuggestion}">
-        ${this._suggestions.map(item => html`<li>${item.suggestion}</li>`)}
-      </ul>
-    `;
-  }
-
-  _pickSuggestion(event) {
-    this._suggestions = [];
-    this._setValue(event.target.textContent);
-    this._submit();
-  }
-
-  focus() {
-    this.updateComplete
-      .then(() => this.shadowRoot.querySelector('input').focus());
   }
 }
 
 QuickSearch.styles = [
+  gridCss,
   css`
     :host {
       display: block;
     }
 
-    input {
-      height: 30px;
-      line-height: 28px;
-      box-sizing: border-box;
-      padding: 0 15px 0 30px;
-      border: 1px solid #e3e3e3;
+    .search-form {
+      position: relative;
+      height: 100%;
+    }
+
+    .input {
+      display: block;
+      padding: 1px 6px;
       color: #273849;
+      transition: border-color 1s;
+      white-space: nowrap;
+      background: #fff;
+      height: 100%;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .icon {
+      line-height: 0.7;
+      cursor: pointer;
+    }
+
+    .icon,
+    input {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .input path {
+      fill: #e3e3e3;
+    }
+
+    input {
+      height: 100%;
+      line-height: 0.8;
+      box-sizing: border-box;
       outline: none;
-      border-radius: 15px;
-      margin-right: 10px;
-      background: #fff url(${unsafeCSS(searchIcon)}) 8px center no-repeat;
+      border: 0;
+      width: calc(100% - 20px);
     }
 
     .suggestions {
+      position: absolute;
+      z-index: 10000;
+      top: 120%;
       background: #fff;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border-radius: 0 0 4px 4px;
+      padding: 5px;
+      left: 8px;
     }
 
-    .suggestions:before {
-      display: block;
-      content: '';
-      width: 98%;
-      margin: 0 auto;
-      border-top: 1px solid #e8eaed;
+    .suggestions.dropdown {
+      border-radius: 4px;
+      border: 1px solid #e3e3e3;
+      width: 500px;
     }
 
-    li {
-      cursor: pointer;
-      padding: 5px 10px;
-    }
-
-    li:hover {
-      background: #eee;
+    .suggestions.page {
+      left: -10px;
+      width: 101%;
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+      border: 0;
+      border-radius: 0;
     }
 
     input:focus {
       outline: transparent;
     }
 
-    .form-group {
-      border-radius: 5px;
+    h5 {
+      margin: 0;
+      padding: 5px 10px;
+      background-color: #1b1f23;
+      color: #fff;
     }
 
-    .form-group.focused {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+    app-link {
+      display: block;
+      padding: 5px;
+      font-size: 0.9rem;
+      border-bottom: 0;
+    }
+
+    app-link:hover {
+      background: #eee;
+    }
+
+    .title {
+      flex-basis: 40%;
+      max-width: 40%;
+      border-right: 1px solid #e3e3e3;
+    }
+
+    .item {
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    mark {
+      font-weight: bold;
+      background: transparent;
+    }
+
+    .compact .input {
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .compact input {
+      display: none;
+    }
+
+    .compact .input path {
+      fill: #1b1f23;
     }
   `
 ];
