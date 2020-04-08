@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.3](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.2...@casl/mongoose@2.3.3) (2020-03-13)
+
+
+### Bug Fixes
+
+* **mongoose:** adds missing `index.js` file ([804c0dd](https://github.com/stalniy/casl/commit/804c0dd9aeaa5a0a2753cba0677c8150c362d671))
+* **mongoose:** makes sure abilityConditions does not override existing `$and` conditions ([#273](https://github.com/stalniy/casl/issues/273)) ([c13300f](https://github.com/stalniy/casl/commit/c13300f37d218d2c0754133557e3795887c6ef3b)), closes [#272](https://github.com/stalniy/casl/issues/272)
+
 # [@casl/mongoose-v2.3.2](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.1...@casl/mongoose@2.3.2) (2019-09-14)
 
 
