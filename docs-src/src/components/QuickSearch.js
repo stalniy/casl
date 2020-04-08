@@ -189,6 +189,7 @@ QuickSearch.styles = [
 
     .search-form {
       position: relative;
+      border-radius: inherit;
       height: 100%;
     }
 
@@ -200,6 +201,7 @@ QuickSearch.styles = [
       white-space: nowrap;
       background: #fff;
       height: 100%;
+      border-radius: inherit;
     }
 
     svg {
@@ -224,7 +226,7 @@ QuickSearch.styles = [
 
     input {
       height: 100%;
-      line-height: 0.8;
+      font-size: 0.9rem;
       box-sizing: border-box;
       outline: none;
       border: 0;
@@ -233,24 +235,25 @@ QuickSearch.styles = [
 
     .suggestions {
       position: absolute;
-      z-index: 10000;
+      left: 8px;
+      z-index: 1000;
       top: 120%;
       background: #fff;
       padding: 5px;
-      left: 8px;
+      overflow-y: auto;
     }
 
     .suggestions.dropdown {
       border-radius: 4px;
       border: 1px solid #e3e3e3;
       width: 500px;
+      max-height: 500px;
     }
 
     .suggestions.page {
       left: -10px;
       width: 101%;
       height: calc(100vh - 50px);
-      overflow-y: auto;
       border: 0;
       border-radius: 0;
     }

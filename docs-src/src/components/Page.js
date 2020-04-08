@@ -62,7 +62,7 @@ export default class Page extends I18nElement {
 
   render() {
     if (!this._page) {
-      return null;
+      return html``;
     }
 
     return html`
@@ -80,6 +80,10 @@ Page.styles = [
   mdCss,
   codeCss,
   css`
+    :host {
+      display: block;
+    }
+
     app-page-nav {
       margin-top: 20px;
     }

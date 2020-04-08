@@ -7,7 +7,7 @@ export default css`
   }
 
   h2 {
-    padding-bottom: .3rem;
+    padding-bottom: 0.3rem;
     border-bottom: 1px solid #ddd;
   }
 
@@ -24,5 +24,6 @@ export default css`
 
   .description img {
     max-width: 100%;
+    height: auto;
   }
 `;

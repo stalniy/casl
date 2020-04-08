@@ -13,6 +13,7 @@ export default class MenuDrawer extends LitElement {
     this._drawer = null;
     this.isOpen = false;
     this.disabled = false;
+    this._scrollTop = 0;
   }
 
   open() {
@@ -33,18 +34,24 @@ export default class MenuDrawer extends LitElement {
       menu,
       panel,
       eventsEmitter: this,
-      padding: 270
+      padding: 270,
+      touch: false,
     });
     const close = () => this._drawer.close();
     this._drawer.on('beforeopen', () => {
       this.isOpen = true;
+      this._scrollTop = window.pageYOffset;
       menu.classList.add('open');
+      panel.style.top = `${-this._scrollTop}px`;
       panel.addEventListener('mousedown', close, false);
       panel.addEventListener('touchstart', close, false);
+      window.scroll(0, 0);
     });
     this._drawer.on('close', () => {
       this.isOpen = false;
       menu.classList.remove('open');
+      panel.style.top = '';
+      window.scroll(0, this._scrollTop);
       panel.removeEventListener('mousedown', close, false);
       panel.removeEventListener('touchstart', close, false);
     });
@@ -90,14 +97,10 @@ MenuDrawer.styles = css`
   }
 
   .menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
+    display: none;
+    padding: 10px;
     width: 256px;
     min-height: 100vh;
-    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -106,6 +109,7 @@ MenuDrawer.styles = css`
     z-index: 10;
     will-change: transform;
     min-height: 100vh;
+    background: #fff;
   }
 
   .panel::before {
@@ -119,9 +123,14 @@ MenuDrawer.styles = css`
     transition: background-color .2s ease-in-out;
   }
 
+  .menu.open {
+    display: block;
+  }
+
   .menu.open + .panel {
     position: fixed;
     left: 0;
+    right: 0;
     top: 0;
     overflow: hidden;
     min-height: 100%;

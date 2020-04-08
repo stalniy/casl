@@ -85,12 +85,6 @@ export default {
             },
           }),
           minify,
-          copy({
-            verbose: true,
-            targets: [
-              { src: 'node_modules/@webcomponents/webcomponentsjs', dest: `${DEST}/legacy/` }
-            ]
-          }),
         ]
       }),
     ]),
@@ -117,6 +111,13 @@ export default {
       flatten: false,
       targets: [
         { src: 'public/**/*', dest: DEST },
+        {
+          src: [
+            'node_modules/@webcomponents/webcomponentsjs/**/*.js',
+            '!node_modules/@webcomponents/webcomponentsjs/src'
+          ],
+          dest: DEST
+        }
       ]
     }),
     copy({

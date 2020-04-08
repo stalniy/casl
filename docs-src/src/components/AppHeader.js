@@ -19,7 +19,10 @@ export default class Header extends LitElement {
   }
 
   _emitToggleMenu() {
-    this.dispatchEvent(new CustomEvent('toggle-menu'));
+    this.dispatchEvent(new CustomEvent('toggle-menu', {
+      bubbles: true,
+      composed: true,
+    }));
   }
 
   _renderControls() {

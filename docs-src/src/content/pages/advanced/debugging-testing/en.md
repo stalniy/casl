@@ -7,7 +7,7 @@ meta:
   description: ~
 ---
 
-Sometimes iy may be a bit complicated to understand why some action in the app is forbidden for a particular user. In this guide, you will learn common pitfalls and ways to investigate the underlying reasons. Let's start.
+Sometimes it may be a bit complicated to understand why some action in the app is forbidden for a particular user. In this guide, you will learn common pitfalls and ways to investigate the underlying reasons. Let's start.
 
 ## Debugging
 

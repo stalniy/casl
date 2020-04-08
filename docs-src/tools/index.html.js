@@ -28,7 +28,7 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>${title}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="${publicPath}app-icons/apple-touch-icon.png">
   <link rel="icon" href="${publicPath}app-icons/favicon.ico">
@@ -44,10 +44,10 @@ export default options => ({ attributes, files, publicPath, title }) => `
 <body>
   <casl-docs></casl-docs>
 
-  <script nomodule src="${publicPath}legacy/webcomponentsjs/webcomponents-loader.js"></script>
-  <script nomodule src="${publicPath}legacy/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script defer src="${publicPath}@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script defer src="${publicPath}@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   ${generateJs(files.js, { publicPath, attrs: attributes.script })}
-  <script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script>
+  <!--script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script-->
 </body>
 </html>
 `.trim();

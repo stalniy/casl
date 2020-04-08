@@ -1,5 +1,6 @@
 import 'core-js/modules/web.immediate';
 import App from './components/App';
+import AppRoot from './components/AppRoot';
 import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
 import AppLink from './components/AppLink';
@@ -21,6 +22,7 @@ import { setRouteMeta } from './services/meta';
 
 const components = [
   App,
+  AppRoot,
   AppFooter,
   AppHeader,
   AppLink,

@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit-element';
 import { cache } from 'lit-html/directives/cache';
 import menu from '../config/menu.yml';
 import router from '../services/router';
-import gridCss from '../styles/grid';
 import watchMedia from '../hooks/watchMedia';
 import { t } from '../directives/i18n';
 
@@ -86,25 +85,20 @@ export default class App extends LitElement {
     }
 
     const { body } = this._route;
-    const sidebar = body.sidebar ? cache(html`<aside><div class="aside">${body.sidebar}</div></aside>`) : '';
+    const sidebar = body.sidebar ? cache(body.sidebar) : '';
 
     return html`
       <menu-drawer ?disabled="${!this._isMobile}">
-        <div class="menu" slot="menu">
-          ${this._renderDrawerMenu(sidebar)}
-        </div>
-        <div class="main">
-          <app-header
-            theme="${this._isMobile ? 'mobile' : 'default'}"
-            .menu="${menu}"
-            @toggle-menu="${this._toggleMenu}"
-          ></app-header>
-          <section class="${sidebar ? 'row' : ''} content">
-            ${this._isMobile ? '' : sidebar}
-            <main>${cache(body.main || body)}</main>
-          </section>
-          <app-footer></app-footer>
-        </div>
+        <div slot="menu">${this._renderDrawerMenu(sidebar)}</div>
+        <app-root
+          theme="${this._isMobile ? 'mobile' : 'default'}"
+          layout="${sidebar ? '2columns' : '1column'}"
+          .menu="${menu}"
+          @toggle-menu="${this._toggleMenu}"
+        >
+          <div slot="aside">${sidebar}</div>
+          ${cache(body.main || body)}
+        </app-root>
       </menu-drawer>
       <div id="notifications"></div>
     `;
@@ -112,69 +106,15 @@ export default class App extends LitElement {
 }
 
 App.styles = [
-  gridCss,
   css`
     :host {
       display: block;
-    }
-
-    app-header {
-      position: relative;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    }
-
-    .row > main {
-      margin: 5px;
-      padding-bottom: 50px;
-      min-width: 0;
-    }
-
-    .menu {
-      padding: 10px;
-    }
-
-    .menu app-quick-search {
-      margin-bottom: 20px;
-    }
-
-    .main {
-      background: #fff;
     }
 
     #notifications {
       position: fixed;
       right: 10px;
       bottom: 10px;
-    }
-
-    @media (min-width: 768px) {
-      .aside {
-        position: sticky;
-        top: 54px;
-        height: calc(100vh - 132px);
-        overflow-y: auto;
-        padding-top: 2rem;
-        padding-bottom: 50px;
-      }
-
-      .row > aside {
-        flex-basis: 260px;
-        max-width: 260px;
-        min-width: 200px;
-        padding-left: 20px;
-        margin-right: 20px;
-        box-shadow: rgba(0, 0, 0, 0.1) 1px -1px 2px 0px;
-      }
-
-      .row > main {
-        flex-basis: 80%;
-        margin: 0 auto;
-        max-width: 800px;
-      }
     }
   `
 ];
