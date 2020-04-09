@@ -5,11 +5,10 @@ on:
     branches:
     - master
     paths:
-    - '**/*.js'
-    - '**/*.ts'
-    - '**/*.json'
-    paths-ignore:
-    - docs-src/**/*
+    - packages/**/*.{js,ts,json}
+    - '*.{json,js}'
+    - .eslintrc
+    - tools/**/*
   pull_request:
 
 jobs:
