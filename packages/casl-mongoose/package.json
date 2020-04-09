@@ -43,5 +43,10 @@
     "@casl/ability": "^3.0.0",
     "@types/mongoose": "^5.7.0",
     "mongoose": "^5.0.14"
-  }
+  },
+  "files": [
+    "dist",
+    "*.d.ts",
+    "index.js"
+  ]
 }
