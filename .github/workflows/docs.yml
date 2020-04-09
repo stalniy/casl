@@ -2,7 +2,7 @@ name: Docs
 
 on:
   push:
-    # branches: [test-workflow]
+    branches: [master]
     paths:
       - docs-src/**/*
 
