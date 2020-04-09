@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.1...@casl/aurelia@1.0.2) (2020-04-09)
+
+
+### Bug Fixes
+
+* **aurelia:** adds support for casl/ability@4 in package.json ([0d1b6db](https://github.com/stalniy/casl/commit/0d1b6db24c4bbe62d297b987bd0ed9bf8ea8db0d))
+
 ## [1.0.1](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.0...@casl/aurelia@1.0.1) (2020-04-09)
 
 ### Features
