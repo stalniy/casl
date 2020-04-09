@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.0.0](https://github.com/stalniy/casl/compare/@casl/vue@0.5.1...@casl/vue@1.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* **vue:** adds `an` alias, so types are compatible between React and Vue ([8276942](https://github.com/stalniy/casl/commit/8276942da1660ac3eb1cd928cc80db891ed7e275)), closes [#248](https://github.com/stalniy/casl/issues/248)
+
+
+### chore
+
+* **vue:** updates package to support @casl/ability 4.0 ([ff0b200](https://github.com/stalniy/casl/commit/ff0b200c4d96ec9e2946df6b09022b750bff7606))
+
+
+### Features
+
+* **ability:** updates typings for vue ([8ac4ca1](https://github.com/stalniy/casl/commit/8ac4ca14a59ed87bc0f84a853466418e6a74cd74)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **vue:** adds better generics typying for Vue ([5cc7b60](https://github.com/stalniy/casl/commit/5cc7b60d8a2a53db217f8ad1a4673a28f67aefce)), closes [#107](https://github.com/stalniy/casl/issues/107)
+* **vue:** migrates vue to typescript ([7bacadd](https://github.com/stalniy/casl/commit/7bacadd8878afe14898929ebeb7c3efd9af88d3c)), closes [#248](https://github.com/stalniy/casl/issues/248)
+* **vue:** throws exception if `Ability` is not provided ([aacd952](https://github.com/stalniy/casl/commit/aacd9520cfd3a35ea2dc3f44e8043734494f3c2a)), closes [#248](https://github.com/stalniy/casl/issues/248)
+
+
+### Performance Improvements
+
+* **vue:** use vue.observable if available ([#186](https://github.com/stalniy/casl/issues/186)) ([e4532b9](https://github.com/stalniy/casl/commit/e4532b9ee367b8f9d57670d8168711d94a60ab74))
+
+
+### BREAKING CHANGES
+
+* **vue:** a note on breaking changes
+
 # [@casl/vue-v0.5.1](https://github.com/stalniy/casl/compare/@casl/vue@0.5.0...@casl/vue@0.5.1) (2019-02-10)
 
 
