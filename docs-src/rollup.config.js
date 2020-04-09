@@ -28,8 +28,8 @@ const minify = terser({
   }
 });
 
-const DEST = '../docs';
-const PUBLIC_PATH = '/';
+const DEST = 'dist';
+const PUBLIC_PATH = '/casl/v4/';
 const GA_ID = 'UA-19088556-6';
 
 export default {

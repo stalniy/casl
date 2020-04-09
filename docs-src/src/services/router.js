@@ -23,11 +23,9 @@ function stringify(querystring) {
     .join('&');
 }
 
-// TODO: correctly manage docs versioning
-const baseUrl = `${config.baseUrl}/v4`;
 const router = createRouter(browser, prepareRoutes(routes), {
   history: {
-    base: createBase(baseUrl),
+    base: config.baseUrl ? createBase(baseUrl) : undefined,
     query: { parse, stringify }
   }
 });
