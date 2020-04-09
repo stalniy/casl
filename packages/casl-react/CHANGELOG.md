@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.0.0](https://github.com/stalniy/casl/compare/@casl/react@1.0.4...@casl/react@2.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* **react:** makes sure `Can` infers types for props from provided `Ability` ([5813b25](https://github.com/stalniy/casl/commit/5813b25d286af6ff76bec6c266fe21af817fe45b)), closes [#248](https://github.com/stalniy/casl/issues/248)
+
+
+### chore
+
+* **react:** replaces npmignore with `files` field in package.json ([967b2de](https://github.com/stalniy/casl/commit/967b2deac08387b7cf235a22dc47ea05c49f59eb))
+
+
+### Features
+
+* **react:** adds generics for Ability and related components [skip ci] ([3102b6e](https://github.com/stalniy/casl/commit/3102b6e639213553570cf97661b7b7f4c3640687)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **react:** adds support for action only components ([a2db577](https://github.com/stalniy/casl/commit/a2db577910763ecc0b5eca3196bdc22fc8ff3dba)), closes [#107](https://github.com/stalniy/casl/issues/107)
+* **vue:** adds better generics typying for Vue ([5cc7b60](https://github.com/stalniy/casl/commit/5cc7b60d8a2a53db217f8ad1a4673a28f67aefce)), closes [#107](https://github.com/stalniy/casl/issues/107)
+
+
+### BREAKING CHANGES
+
+* **react:** hint to note breaking changes
+
 # [@casl/react-v1.0.4](https://github.com/stalniy/casl/compare/@casl/react@1.0.3...@casl/react@1.0.4) (2019-07-28)
 
 
