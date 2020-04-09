@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1](https://github.com/stalniy/casl/compare/@casl/angular@4.0.0...@casl/angular@4.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **angular:** adds support for casl/ability@4 in package.json ([9d65071](https://github.com/stalniy/casl/commit/9d65071fb2cd14bfef34e2cff8f7e79c9d595bdb))
+
 # [4.0.0](https://github.com/stalniy/casl/compare/@casl/angular@3.0.6...@casl/angular@4.0.0) (2020-04-09)
 
 
