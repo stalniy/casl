@@ -1,4 +1,4 @@
-import { t } from './i18n';
+import { t, translationExists } from './i18n';
 
 export function setTitle(title) {
   const prefix = title ? `${title} - ` : '';
@@ -38,15 +38,13 @@ export function setRouteMeta({ response }) {
     html.lang = response.params.lang;
   }
 
-  if (!response.meta) {
-    return;
+  const prefix = `meta.${response.name}`;
+
+  if (translationExists(prefix)) {
+    setTitle(t(`${prefix}.title`));
+    setMeta('keywords', t(`${prefix}.keywords`));
+    setMeta('description', t(`${prefix}.description`));
   }
-
-  const prefix = `${response.meta.scope}.${response.name}`;
-
-  setTitle(t(`${prefix}.title`));
-  setMeta('keywords', t(`${prefix}.keywords`));
-  setMeta('description', t(`${prefix}.description`));
 }
 
 export function setPageMeta(page) {

@@ -38,6 +38,9 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <link rel="mask-icon" href="${publicPath}app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
   <style>${globalCSS.replace(/~@\//g, publicPath)}</style>
   ${generateCss(files.css, { publicPath, attrs: attributes.link })}
 </head>
@@ -46,7 +49,7 @@ export default options => ({ attributes, files, publicPath, title }) => `
 
   <script defer src="${publicPath}@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script defer src="${publicPath}@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-  ${generateJs(files.js, { publicPath, attrs: attributes.script })}
+  ${generateJs(files.js, { publicPath, attrs: attributes.script, includeSafariFix: true })}
   <!--script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script-->
 </body>
 </html>

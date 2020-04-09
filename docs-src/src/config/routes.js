@@ -46,16 +46,6 @@ export const routes = [
         })),
         respond: renderPage
       },
-      {
-        name: 'search',
-        path: 'search',
-        respond: () => ({
-          body: html`<app-page-search></app-page-search>`,
-          meta: {
-            scope: 'search'
-          }
-        })
-      },
     ]
   },
   {

@@ -25,7 +25,7 @@ function stringify(querystring) {
 
 const router = createRouter(browser, prepareRoutes(routes), {
   history: {
-    base: config.baseUrl ? createBase(baseUrl) : undefined,
+    base: config.baseUrl ? createBase(config.baseUrl) : undefined,
     query: { parse, stringify }
   }
 });

@@ -78,6 +78,10 @@ HomePage.styles = [
       text-align: center;
     }
 
+    .buttons app-link {
+      margin-right: 5px;
+    }
+
     github-button {
       display: block;
       margin-top: 10px;

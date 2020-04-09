@@ -19,7 +19,8 @@ export const markdownOptions = {
       }
     },
     [`${__dirname}/tools/mdImage`]: {
-      size: 'auto'
+      size: 'auto',
+      srcRoot: `${process.env.LIT_APP_PUBLIC_PATH || ''}/images`
     },
     [`${__dirname}/tools/mdTableContainer`]: {}
   }

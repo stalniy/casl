@@ -2,27 +2,28 @@ name: Docs
 
 on:
   push:
-    branches: [master]
+    # branches: [test-workflow]
     paths:
       - docs-src/**/*
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CASL_VERSION: 4
     steps:
     - uses: actions/checkout@v2
     - name: Build documentation
       run: |
         cd docs-src
         npm ci
-        NODE_ENV=production npm run build
+        LIT_APP_PUBLIC_PATH=/casl/v$CASL_VERSION/ NODE_ENV=production npm run build
     - name: Deploy
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         GITHUB_ACTOR: docs
       run: |
-        CASL_VERSION=$(npm view @casl/ability version)
-        CASL_DOCS_ROOT="v${CASL_VERSION/.*/}"
+        CASL_DOCS_ROOT="./v${CASL_VERSION/.*/}"
         cat <<- EOF > $HOME/.netrc
           machine github.com
           login $GITHUB_ACTOR
@@ -31,9 +32,10 @@ jobs:
           login $GITHUB_ACTOR
           password $GITHUB_TOKEN
         EOF
-        chmod 600 $HOME/.netr
+        chmod 600 $HOME/.netrc
         git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
         git config --global user.name "$GITHUB_ACTOR"
+        git fetch origin gh-pages
         git checkout gh-pages
         rm -rf $CASL_DOCS_ROOT
         mv docs-src/dist $CASL_DOCS_ROOT

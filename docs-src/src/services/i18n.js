@@ -43,13 +43,18 @@ const i18n = registerTranslateConfig({
 
 const dateTime = memoize((locale, format) => new Intl.DateTimeFormat(locale, get(`dateTimeFormats.${format}`)));
 
-export const LOCALES = process.env.APP_LANGS;
+export const LOCALES = process.env.SUPPORTED_LANGS;
 
 export const defaultLocale = LOCALES[0];
 
 export const locale = () => i18n.lang;
 
 export const t = get;
+
+const returnNull = () => null;
+export const translationExists = key => get(key, null, {
+  empty: returnNull,
+})
 
 export function setLocale(lang) {
   if (!LOCALES.includes(lang)) {

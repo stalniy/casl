@@ -1,3 +1,4 @@
+import dotenv from 'dotenv-flow';
 import babel from 'rollup-plugin-babel';
 import url from '@rollup/plugin-url';
 import resolve from '@rollup/plugin-node-resolve';
@@ -14,26 +15,33 @@ import { generateSW } from 'rollup-plugin-workbox';
 import indexHTML from './tools/index.html';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser';
 import { SearchIndex } from './tools/SearchIndex';
+import getAppEnvVars from './tools/appEnvVars';
+
+dotenv.config({
+  path: __dirname,
+  node_env: process.env.NODE_ENV || 'development',
+});
 
 const env = (name, plugins) => process.env.NODE_ENV === name ? plugins : [];
-const SUPPORTED_LANGS = ['en'];
+const SUPPORTED_LANGS = (process.env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
 const minify = terser({
   mangle: {
     properties: {
       reserved: [
-        '_classProperties'
+        '_classProperties',
+        '__isAppExecuted__',
       ],
       regex: /^_/
     }
   }
 });
 
-const DEST = 'dist';
-const PUBLIC_PATH = '/casl/v4/';
-const GA_ID = 'UA-19088556-6';
+const DEST = process.env.LIT_APP_DIST_FOLDER;
+const PUBLIC_PATH = process.env.LIT_APP_PUBLIC_PATH;
 
 export default {
   input: 'src/bootstrap.js',
+  treeshake: process.env.NODE_ENV === 'production',
   output: {
     format: 'es',
     dir: DEST,
@@ -148,16 +156,16 @@ export default {
       ]
     }),
     replace({
+      ...getAppEnvVars(process.env),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.APP_LANGS': JSON.stringify(SUPPORTED_LANGS),
-      'process.env.APP_REPO_URL': JSON.stringify('https://github.com/stalniy/casl'),
-      'process.env.APP_BASE_URL': JSON.stringify(PUBLIC_PATH.replace(/\/$/, '')),
+      'process.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
+      'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH.replace(/\/$/, '')),
     }),
     html({
       title: 'CASL',
       publicPath: PUBLIC_PATH,
       template: indexHTML({
-        analyticsId: process.env.NODE_ENV === 'production' ? GA_ID : null,
+        analyticsId: process.env.LIT_APP_GA_ID
       }),
       attributes: {
         html: null,
