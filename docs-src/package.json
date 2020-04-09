@@ -8,7 +8,7 @@
     "build": "rm -rf dist/* && rollup -c",
     "build.watch": "npm run build -- --watch",
     "lint": "../node_modules/.bin/eslint --fix --ext .js,.ts src",
-    "serve": "history-server ../docs"
+    "serve": "history-server dist"
   },
   "dependencies": {
     "@curi/router": "^2.1.0",

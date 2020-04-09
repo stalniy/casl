@@ -8,7 +8,7 @@ const isLocalhost = location.hostname === 'localhost'
   || location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/);
 const isSupportedServiceWorker = 'serviceWorker' in navigator;
 
-const log = (...args) => log(...args); // eslint-disable-line no-console
+const log = (...args) => console.log(...args); // eslint-disable-line no-console
 
 function notifyAboutNewWorker(worker, config) {
   if (!worker) {
@@ -86,7 +86,7 @@ export function register(config) {
   }
 
   window.addEventListener('load', () => {
-    const swUrl = `${process.env.BASE_URL}/sw.js?_=${Date.now()}`;
+    const swUrl = `${process.env.BASE_URL}/sw.js`;
 
     if (isLocalhost) {
       checkValidServiceWorker(swUrl, config);

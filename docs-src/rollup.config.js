@@ -30,6 +30,8 @@ const minify = terser({
       reserved: [
         '_classProperties',
         '__isAppExecuted__',
+        '_tree',
+        '_prefix',
       ],
       regex: /^_/
     }
@@ -97,7 +99,9 @@ export default {
       }),
     ]),
     url({ publicPath: PUBLIC_PATH }),
-    resolve(),
+    resolve({
+      mainFields: ['module', 'main']
+    }),
     babel({
       rootMode: 'upward',
       include: [
