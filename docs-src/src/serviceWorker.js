@@ -16,6 +16,8 @@ function notifyAboutNewWorker(worker, config) {
   }
 
   worker.onstatechange = () => {
+    log('new worker state', worker.state);
+
     if (worker.state !== 'installed') {
       return;
     }
@@ -49,6 +51,7 @@ function registerValidSW(swUrl, config) {
 
   return navigator.serviceWorker.register(swUrl)
     .then((registration) => {
+      log('service worker is registered');
       registration.onupdatefound = () => notifyAboutNewWorker(
         registration.installing,
         config
@@ -64,7 +67,6 @@ function checkValidServiceWorker(swUrl, config) {
   return fetch(swUrl, { headers, format: 'raw', absoluteUrl: true })
     .then((response) => {
       const contentType = response.headers['content-type'] || '';
-      log(response.headers);
 
       if (response.status === 404 || contentType.indexOf('javascript') === -1) {
         log('cannot detect service worker');

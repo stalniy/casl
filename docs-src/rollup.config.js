@@ -39,7 +39,7 @@ const minify = terser({
 });
 
 const DEST = process.env.LIT_APP_DIST_FOLDER;
-const PUBLIC_PATH = process.env.LIT_APP_PUBLIC_PATH;
+const PUBLIC_PATH = process.env.LIT_APP_PUBLIC_PATH.replace(/\/$/, '');
 
 export default {
   input: 'src/bootstrap.js',
@@ -98,7 +98,7 @@ export default {
         ]
       }),
     ]),
-    url({ publicPath: PUBLIC_PATH }),
+    url({ publicPath: `${PUBLIC_PATH}/` }),
     resolve({
       mainFields: ['es2015', 'module', 'main']
     }),
@@ -163,11 +163,11 @@ export default {
       ...getAppEnvVars(process.env),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
-      'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH.replace(/\/$/, '')),
+      'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH),
     }),
     html({
       title: process.env.LIT_APP_TITLE,
-      publicPath: PUBLIC_PATH,
+      publicPath: `${PUBLIC_PATH}/`,
       template: indexHTML({
         analyticsId: process.env.LIT_APP_GA_ID
       }),
@@ -189,6 +189,15 @@ export default {
         'manifest.json',
         'index.html',
         '*.js'
+      ],
+      manifestTransforms: [
+        async manifest => ({
+          warnings: [],
+          manifest: manifest.map((entry) => {
+            entry.url = `${PUBLIC_PATH}/${entry.url}`;
+            return entry;
+          })
+        })
       ]
     })
   ]
