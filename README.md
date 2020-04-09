@@ -4,8 +4,8 @@
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
 [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
-<!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
 [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+<!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
 </p>
 
 CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
