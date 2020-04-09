@@ -1,1 +1,1 @@
-export * from './extra/extra'
+export * from './extra/extra';
