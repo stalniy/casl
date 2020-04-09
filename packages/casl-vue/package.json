@@ -14,7 +14,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl.vue -g vue:Vue,@casl/ability:casl",
+    "build": "rollup -c ../../tools/rollup.config.js -n casl.vue -g vue:Vue,@casl/ability:casl",
     "build.types": "rm -rf dist/types/* && tsc",
     "prebuild": "npm run build.types",
     "lint": "eslint --ext .ts,.js src/ spec/",
@@ -42,7 +42,7 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^3.0.0",
+    "@casl/ability": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.25",
     "vue": "^2.5.13",
     "vue-template-compiler": "^2.5.13"

@@ -32,7 +32,7 @@ function aggregate(configs, optionsOverrides) {
     .filter(config => buildTypes[config.id])
     .map(config => ({
       external,
-      input: optionsOverrides.input || config.input || 'src/index.js',
+      input: optionsOverrides.input || config.input || 'src/index.ts',
       output: {
         sourcemap: true,
         ...config.output,

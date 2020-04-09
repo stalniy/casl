@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prebuild": "npm run build.types",
-    "build": "rollup -c ../../tools/rollup.config.js -i src/index.ts -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
+    "build": "rollup -c ../../tools/rollup.config.js -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
     "build.types": "rm -rf dist/types/* && tsc",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
@@ -42,7 +42,7 @@
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^3.0.0",
+    "@casl/ability": "^4.0.0",
     "@types/react": "^16.9.19",
     "react": "^16.3.0",
     "react-test-renderer": "^16.3.0"
