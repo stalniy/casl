@@ -51,10 +51,7 @@ export const locale = () => i18n.lang;
 
 export const t = get;
 
-const returnNull = () => null;
-export const translationExists = key => get(key, null, {
-  empty: returnNull,
-})
+export const translationExists = key => !!lookup(key, i18n);
 
 export function setLocale(lang) {
   if (!LOCALES.includes(lang)) {
