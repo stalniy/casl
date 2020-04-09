@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.0.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.5.0...@casl/aurelia@1.0.0) (2020-04-09)
+
+
+### chore
+
+* **aurelia:** special commit for breaking changes ([17bd30f](https://github.com/stalniy/casl/commit/17bd30f92c735f0b38eb48eaa66cc7088d50d4a0))
+
+
+### Features
+
+* **aurelia:** adds `able` value converter that allows to do checks only by action ([490434b](https://github.com/stalniy/casl/commit/490434bbd5296110d5874e67bc07cf7e7ed66a0e)), closes [#107](https://github.com/stalniy/casl/issues/107)
+* **aurelia:** adds generics to can converter and plugin ([4d634d7](https://github.com/stalniy/casl/commit/4d634d7694e7f29fd7c3b4188845c82d82f013da)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **package:** replaces `Ability` with `PureAbility` in order to improve tree shaking ([c6a01c8](https://github.com/stalniy/casl/commit/c6a01c8b51dc2d46928436f673dbb6a0e56a4764)), closes [#249](https://github.com/stalniy/casl/issues/249)
+* **vue:** adds better generics typying for Vue ([5cc7b60](https://github.com/stalniy/casl/commit/5cc7b60d8a2a53db217f8ad1a4673a28f67aefce)), closes [#107](https://github.com/stalniy/casl/issues/107)
+
+
+### BREAKING CHANGES
+
+* **aurelia:** `CanValueConverter` is deprecated in favor of `AbleValueConverter`
+
 # [@casl/aurelia-v0.5.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.4.1...@casl/aurelia@0.5.0) (2019-02-10)
 
 
