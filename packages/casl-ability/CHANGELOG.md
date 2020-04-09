@@ -11,9 +11,6 @@ All notable changes to this project will be documented in this file.
 * **ability:** extracts types to a separate file ([df1fec1](https://github.com/stalniy/casl/commit/df1fec1ea6b3af6fb5a0f1c5792ac990f4343abf)), closes [#248](https://github.com/stalniy/casl/issues/248)
 * **ability:** improves PackedRule type ([a781921](https://github.com/stalniy/casl/commit/a781921ca7330d9858d93cb15457602a857dcb96)), closes [#248](https://github.com/stalniy/casl/issues/248)
 * **ability:** makes sure `AbilityBuilder` correctly detects conditions ([1c35393](https://github.com/stalniy/casl/commit/1c353935dcf93ae506815828187867f69650edca)), closes [#248](https://github.com/stalniy/casl/issues/248)
-* **ability:** this is a special commit to trigger breaking changes in semantic release ([f48ad6f](https://github.com/stalniy/casl/commit/f48ad6fcb493252bf7a8299b2699819646d9b8ec))
-* **deps:** update dependency sift to v10 ([cc27014](https://github.com/stalniy/casl/commit/cc27014b673e304dcc2d978aabc6543a20963ab3))
-* **deps:** update dependency sift to v11 ([951cd2e](https://github.com/stalniy/casl/commit/951cd2e418511656677562019b47cfe6d48e0e4f))
 * **deps:** update dependency sift to v12 ([71593ca](https://github.com/stalniy/casl/commit/71593cad97c7611ae9dfe8f1dfeb5483173bff2a))
 * **mongoose:** ensures mongoose works with MongoQuery conditions ([f92b7df](https://github.com/stalniy/casl/commit/f92b7df532ecca24ee05d02cf9388b21f8d242fa)), closes [#249](https://github.com/stalniy/casl/issues/249)
 
@@ -23,21 +20,149 @@ All notable changes to this project will be documented in this file.
 * **ability:** adds `subject` helper which allows to define subject type for DTO ([834c24f](https://github.com/stalniy/casl/commit/834c24fa8014ee193caa260c97a29ed2edbb52df))
 * **ability:** adds generic types to Ability and related types [skip ci] ([4e56fda](https://github.com/stalniy/casl/commit/4e56fdaf92baabcdfece758e7a6ca369176e7fee)), closes [#256](https://github.com/stalniy/casl/issues/256)
 * **ability:** adds typescript support for checks only by action ([b652df1](https://github.com/stalniy/casl/commit/b652df1256bd66e1aa5d47f27b41fb0c527840d2)), closes [#107](https://github.com/stalniy/casl/issues/107)
-* **ability:** allows to do fine grained ([2b97c57](https://github.com/stalniy/casl/commit/2b97c579b5d0841b75ba28a0bf969247fdb54beb)), closes [#248](https://github.com/stalniy/casl/issues/248)
-* **ability:** allows to pass fieldMatcher and conditionsMatcher ([d23af56](https://github.com/stalniy/casl/commit/d23af562376fd6d2389a7bfcdeb3b5140b682ec8)), closes [#258](https://github.com/stalniy/casl/issues/258)
+* **ability:** allows to do fine grained config ([2b97c57](https://github.com/stalniy/casl/commit/2b97c579b5d0841b75ba28a0bf969247fdb54beb)), closes [#248](https://github.com/stalniy/casl/issues/248)
+* **ability:** allows to pass `fieldMatcher` and `conditionsMatcher` ([d23af56](https://github.com/stalniy/casl/commit/d23af562376fd6d2389a7bfcdeb3b5140b682ec8)), closes [#258](https://github.com/stalniy/casl/issues/258)
 * **ability:** allows to specify class as subject type ([9c6041a](https://github.com/stalniy/casl/commit/9c6041adbad9bcb2c5655ad9656b4a705ed88a79)), closes [#187](https://github.com/stalniy/casl/issues/187)
-* **ability:** improves typing for GetSubjectName and adds default values for generics ([c089293](https://github.com/stalniy/casl/commit/c08929301a1b06880c054cbb2f21cda3725028a4)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **ability:** improves typing for `GetSubjectName` and adds default values for generics ([c089293](https://github.com/stalniy/casl/commit/c08929301a1b06880c054cbb2f21cda3725028a4)), closes [#256](https://github.com/stalniy/casl/issues/256)
 * **ability:** makes aliasing to be tree-shakable and per `Ability` instance ([fc22d49](https://github.com/stalniy/casl/commit/fc22d49ae40c8fdd5606977bbd27d6a4325e9ef6)), closes [#248](https://github.com/stalniy/casl/issues/248)
 * **ability:** removes deprecated methods ([7d26f56](https://github.com/stalniy/casl/commit/7d26f569f37254c7a21b0ce0fd96601ed0c6d8f0)), closes [#257](https://github.com/stalniy/casl/issues/257)
 * **ability:** returns `all` for empty subjects ([f5d41e0](https://github.com/stalniy/casl/commit/f5d41e04dea9bf1baf1b9e1aac5b3264727296e7)), closes [#107](https://github.com/stalniy/casl/issues/107) [#256](https://github.com/stalniy/casl/issues/256)
 * **ability:** split `Ability` into `PureAbility` (base class) and `Ability` (preconfigured PureAbility) ([9536205](https://github.com/stalniy/casl/commit/953620523359f1c90b13a46a5314b9c034e28ec8)), closes [#249](https://github.com/stalniy/casl/issues/249)
-* **vue:** adds better generics typying for Vue ([5cc7b60](https://github.com/stalniy/casl/commit/5cc7b60d8a2a53db217f8ad1a4673a28f67aefce)), closes [#107](https://github.com/stalniy/casl/issues/107)
-* **vue:** migrates vue to typescript ([7bacadd](https://github.com/stalniy/casl/commit/7bacadd8878afe14898929ebeb7c3efd9af88d3c)), closes [#248](https://github.com/stalniy/casl/issues/248)
 
 
 ### BREAKING CHANGES
 
-* **ability:** there are several breaking changes
+* **subjectName:** subject name now returns `all` for subjects which type cannot be determined
+* **api:** removes deprecated methods:
+  * `ability.throwUnlessCan` in favor of `ForbiddenError.from(ability).throwUnlessCan`
+* **alias:** aliasing functionality was refactored to support tree-shaking and have per instance:
+
+  Before:
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  Ability.addAlias('modify', ['create', 'update']);
+  const ability = new Ability([]);
+
+  ability.can('modify', 'Post');
+  ```
+
+  After:
+
+  ```js
+  import { Ability, createAliasResolver } from '@casl/ability';
+
+  const resolveAction = createAliasResolver({
+    modify: ['create', 'update']
+  });
+
+  const ability = new Ability([], { resolveAction });
+
+  ability.can('modify', 'Post');
+  ```
+* **options**: no more possibility to pass custom `Rule` class (this was undocumented feature). Now you should use `conditionsMatcher` and `fieldMatcher` instead.
+
+  Before:
+
+  ```js
+  import { Ability, Rule } from '@casl/ability';
+  import sift from 'sift';
+
+  class MyCustomRule extends Rule {
+    constructor(...args) {
+      super(...args);
+      this._matches = sift(/* custom sift options */)
+    }
+  }
+
+  const ability = new Ability([], { RuleType: MySiftRule })
+  ```
+
+  After:
+
+  Depending on the usecase you should use either `mongoConditionsMatcher` (to restrict rules) or `buildMongoQueryMatcher` to extend them. See docs for details:
+
+  ```js
+  import {
+    Ability,
+    AbilityBuilder,
+    buildMongoQueryMatcher,
+  } from '@casl/ability';
+  import { $nor } from 'sift';
+
+  const conditionsMatcher = buildMongoQueryMatcher({ $nor });
+  export default function defineAbilityFor(user) {
+    const { can, build } = new AbilityBuilder(Ability);
+
+    can('read', 'Article', {
+      $nor: [{ private: true }, { authorId: user.id }]
+    });
+
+    return build({ conditionsMatcher });
+  }
+  ```
+* **builder**: removes `AbilityBuilder.define` in favor of `defineAbilityAbility` and `AbilityBuilder.extract` in favor of `new AbilityBuilder()`
+
+  Before:
+
+  ```js
+  import { AbilityBuilder, Ability } from '@casl/ability';
+
+  const ability = AbilityBuilder.define((can, cannot) => {
+    can('read', 'Post');
+    cannot('delete', 'Post', { private: true });
+  });
+
+  // or
+  const { can, cannot, rules } = AbilityBuilder.extract();
+
+  can('read', 'Post');
+  cannot('delete', 'Post', { private: true });
+
+  const ability = new Ability(rules);
+  ```
+
+  After:
+
+  ```js
+  import { defineAbility, AbilityBuilder, Ability } from '@casl/ability';
+
+  const ability = defineAbility((can, cannot) => {
+    can('read', 'Post');
+    cannot('delete', 'Post', { private: true });
+  });
+
+  // or
+  const { can, cannot, rules } = new AbilityBuilder();
+
+  can('read', 'Post');
+  cannot('delete', 'Post', { private: true });
+
+  const ability = new Ability(rules);
+  ```
+* **error**: `ForbiddenError` constructor now accepts `Ability` instance as a parameter. See API docs for details
+* **Ability**: `emit`, `buildIndexFor`, `mergeRulesFor` are now private methods
+* **rule**: deprecated use of `actions` in rules in favor of singular form `action`, however the 1st is still supported:
+
+  Before:
+
+  ```js
+  const rules = [
+    { actions: 'read', subject: 'Post' }
+  ];
+  ```
+
+  After:
+
+  ```js
+  const rules = [
+    { action: 'read', subject: 'Post' }
+  ]
+  ```
+* **options:** `subjectName` option is renamed to `detectSubjectType`, however the 1st name is still supported for backward compatibility.
+* **typescript:** weak hand written declaration files are removed as `@casl/ability` has been completely rewritten to TypeScript.
+
 
 # [@casl/ability-v3.4.0](https://github.com/stalniy/casl/compare/@casl/ability@3.3.0...@casl/ability@3.4.0) (2019-12-22)
 
