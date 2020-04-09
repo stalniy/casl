@@ -127,6 +127,7 @@ App.styles = [
       position: fixed;
       right: 10px;
       bottom: 10px;
+      z-index: 50;
     }
   `
 ];
