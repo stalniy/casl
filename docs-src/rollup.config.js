@@ -16,6 +16,7 @@ import indexHTML from './tools/index.html';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser';
 import { SearchIndex } from './tools/SearchIndex';
 import getAppEnvVars from './tools/appEnvVars';
+import createWorkboxConfig from './tools/workbox.config';
 
 dotenv.config({
   path: __dirname,
@@ -180,28 +181,6 @@ export default {
         script: null,
       },
     }),
-    generateSW({
-      swDest: `${DEST}/sw.js`,
-      cleanupOutdatedCaches: true,
-      inlineWorkboxRuntime: process.env.NODE_ENV === 'production',
-      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-      globDirectory: DEST,
-      globPatterns: [
-        'assets/*.json',
-        'app-icons/*',
-        'manifest.json',
-        'index.html',
-        '*.js'
-      ],
-      manifestTransforms: [
-        async manifest => ({
-          warnings: [],
-          manifest: manifest.map((entry) => {
-            entry.url = `${PUBLIC_PATH}/${entry.url}`;
-            return entry;
-          })
-        })
-      ]
-    })
+    generateSW(createWorkboxConfig(DEST, PUBLIC_PATH))
   ]
 };
