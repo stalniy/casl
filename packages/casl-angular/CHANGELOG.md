@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.0.0](https://github.com/stalniy/casl/compare/@casl/angular@3.0.6...@casl/angular@4.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* **angular:** makes sure reflect polyfill is added before angular imports ([2acbb35](https://github.com/stalniy/casl/commit/2acbb35cc179275e23f3d83dd27ef8d5a3ef1099)), closes [#248](https://github.com/stalniy/casl/issues/248)
+
+
+### chore
+
+* **angular:** special commit for breaking changes ([077bcab](https://github.com/stalniy/casl/commit/077bcab8e080102b727ca697a06a8731120634fc))
+
+
+### Features
+
+* **ability:** improves typing for GetSubjectName and adds default values for generics ([c089293](https://github.com/stalniy/casl/commit/c08929301a1b06880c054cbb2f21cda3725028a4)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **angular:** adds generics to CanPipe ([68bd287](https://github.com/stalniy/casl/commit/68bd287e7af165b82bbf8076ea88e83b51754a31)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **angular:** adds support for action only checks ([0462edb](https://github.com/stalniy/casl/commit/0462edb854ba4094e735287744404ea2d378defb)), closes [#107](https://github.com/stalniy/casl/issues/107)
+* **angular:** allows to use custom `Ability` instances and improves tree shaking support ([2e7a149](https://github.com/stalniy/casl/commit/2e7a1498c27d0c542e9f6507ba9b5195ae3a1da8)), closes [#249](https://github.com/stalniy/casl/issues/249)
+* **vue:** adds better generics typying for Vue ([5cc7b60](https://github.com/stalniy/casl/commit/5cc7b60d8a2a53db217f8ad1a4673a28f67aefce)), closes [#107](https://github.com/stalniy/casl/issues/107)
+
+
+### BREAKING CHANGES
+
+* **angular:** the module doesn't provide `Ability` instance anymore
+
 ## [3.0.6](https://github.com/stalniy/casl/compare/@casl/angular@3.0.5...@casl/angular@3.0.6) (2020-03-06)
 
 
