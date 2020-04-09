@@ -1,5 +1,5 @@
 import { createLocalVue } from '@vue/test-utils'
-import { defineAbility, Ability } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
 
 describe('Abilities plugin', () => {
@@ -67,9 +67,8 @@ describe('Abilities plugin', () => {
       vm = new Component()
     })
 
-    it('defines empty `$ability` instance for all components', () => {
-      expect(vm.$ability).to.be.instanceof(Ability)
-      expect(vm.$ability.rules).to.be.empty
+    it('throws exception', () => {
+      expect(() => vm.$ability).to.throw(Error)
     })
   })
 

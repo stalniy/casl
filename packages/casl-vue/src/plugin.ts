@@ -22,9 +22,14 @@ export function abilitiesPlugin(Vue: VueConstructor, defaultAbility?: VueAbility
     return watcher;
   }
 
-  if (defaultAbility) {
-    Object.defineProperty(Vue.prototype, '$ability', { value: defaultAbility });
-  }
+  const descriptor = defaultAbility
+    ? { value: defaultAbility }
+    : {
+      get() {
+        throw new Error('Please provide `Ability` instance either in `abilitiesPlugin` or in ComponentOptions');
+      }
+    };
+  Object.defineProperty(Vue.prototype, '$ability', descriptor);
 
   Vue.mixin({
     beforeCreate() {
