@@ -6,13 +6,10 @@ type AbilityCanProps<
   T extends Abilities,
   Else = IfString<T, { do: T } | { I: T }>
 > = T extends AbilityTuple
-  ? { field?: string } & (
-    { do: T[0], on: T[1] } |
-    { I: T[0], a: Extract<T[1], SubjectType> } |
-    { I: T[0], an: Extract<T[1], SubjectType> } |
-    { I: T[0], of: T[1] } |
-    { I: T[0], this: Exclude<T[1], SubjectType> }
-  )
+  ? { do: T[0], on: T[1], field?: string } |
+  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
   : Else;
 
 export type AllCanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
@@ -28,7 +25,6 @@ const Can: FunctionalComponentOptions<AllCanProps<VueAbility>> = {
     do: String,
     a: [String, Function],
     an: [String, Function],
-    of: [String, Function, Object],
     this: [String, Function, Object],
     on: [String, Function, Object],
     not: Boolean,

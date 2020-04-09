@@ -28,7 +28,7 @@ describe('`Can` component', () => {
 
   it('renders all children if `Ability` instance allows to do an action on field', () => {
     const wrapper = render(`
-      <Can I="update version" of="Plugin">
+      <Can I="update" a="Plugin" field="title">
         <h1></h1>
       </Can>
     `)

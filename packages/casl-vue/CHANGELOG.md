@@ -10,11 +10,6 @@ All notable changes to this project will be documented in this file.
 * **vue:** adds `an` alias, so types are compatible between React and Vue ([8276942](https://github.com/stalniy/casl/commit/8276942da1660ac3eb1cd928cc80db891ed7e275)), closes [#248](https://github.com/stalniy/casl/issues/248)
 
 
-### chore
-
-* **vue:** updates package to support @casl/ability 4.0 ([ff0b200](https://github.com/stalniy/casl/commit/ff0b200c4d96ec9e2946df6b09022b750bff7606))
-
-
 ### Features
 
 * **ability:** updates typings for vue ([8ac4ca1](https://github.com/stalniy/casl/commit/8ac4ca14a59ed87bc0f84a853466418e6a74cd74)), closes [#256](https://github.com/stalniy/casl/issues/256)
@@ -23,14 +18,22 @@ All notable changes to this project will be documented in this file.
 * **vue:** throws exception if `Ability` is not provided ([aacd952](https://github.com/stalniy/casl/commit/aacd9520cfd3a35ea2dc3f44e8043734494f3c2a)), closes [#248](https://github.com/stalniy/casl/issues/248)
 
 
-### Performance Improvements
-
-* **vue:** use vue.observable if available ([#186](https://github.com/stalniy/casl/issues/186)) ([e4532b9](https://github.com/stalniy/casl/commit/e4532b9ee367b8f9d57670d8168711d94a60ab74))
-
-
 ### BREAKING CHANGES
 
-* **vue:** a note on breaking changes
+* **typescript:** weak hand written declaration files are removed as `@casl/vue` has been completely rewritten to TypeScript. TypeScript now checks that you correctly use property aliases
+* **Can:** `of` alias is removed and field was extracted to a separate prop
+
+  **Before**
+
+  ```html
+  <can I="read title" of="Post">...</can>
+  ```
+
+  **After**
+
+  ```html
+  <can I="read" a="Post" field="title">...</can>
+  ```
 
 # [@casl/vue-v0.5.1](https://github.com/stalniy/casl/compare/@casl/vue@0.5.0...@casl/vue@0.5.1) (2019-02-10)
 
