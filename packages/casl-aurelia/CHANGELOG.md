@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.0...@casl/aurelia@1.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **aurelia:** special commit to trigger patch release in semver ([b8d9831](https://github.com/stalniy/casl/commit/b8d9831feb97c5c505a4ad8407988c7b17f1ec6d))
+
 # [1.0.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.5.0...@casl/aurelia@1.0.0) (2020-04-09)
 
 
