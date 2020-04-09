@@ -38,7 +38,7 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0 || ^3.0.0",
+    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0",
     "vue": "^2.0.0"
   },
   "devDependencies": {
@@ -46,5 +46,9 @@
     "@vue/test-utils": "^1.0.0-beta.25",
     "vue": "^2.5.13",
     "vue-template-compiler": "^2.5.13"
-  }
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ]
 }
