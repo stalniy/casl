@@ -11,11 +11,6 @@ All notable changes to this project will be documented in this file.
 * **mongoose:** fixes mongoose typings ([d320eba](https://github.com/stalniy/casl/commit/d320eba70c14c7fc6700aba3e38fee062fdd9c3a)), closes [#248](https://github.com/stalniy/casl/issues/248)
 
 
-### chore
-
-* **aurelia:** replaces .npmignore with package.json files ([812c6b7](https://github.com/stalniy/casl/commit/812c6b7719bafacff3f707b027a30f088e4fc270))
-
-
 ### Features
 
 * **mongoose:** adds generics to mongoose types ([6cdf82e](https://github.com/stalniy/casl/commit/6cdf82ee2f547fdb6c5dcd9cb51cef1c4b4c542d)), closes [#256](https://github.com/stalniy/casl/issues/256)
@@ -24,7 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### BREAKING CHANGES
 
-* **aurelia:** several breaking changes hint
+* **mongoose:** removes deprecated `permittedFieldsPlugin` use `accessibleFieldsPlugin` instead
+* **typescript:** weak hand written declaration files are removed as `@casl/mongoose` has been completely rewritten to TypeScript.
 
 ## [2.3.3](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.2...@casl/mongoose@2.3.3) (2020-03-13)
 
