@@ -31,16 +31,9 @@ export interface AccessibleFieldsDocument extends Document {
   accessibleFieldsBy: GetAccessibleFields<AccessibleFieldsDocument>
 }
 
-export function accessibleFieldsPlugin(
-  schema: Schema<AccessibleFieldsDocument>,
-  options?: AccessibleFieldsOptions
-) {
+function modelFieldsGetter() {
   let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
-  function accessibleFieldsBy<T extends AnyMongoAbility>(
-    this: Model<AccessibleFieldsDocument> | AccessibleFieldsDocument,
-    ability: T,
-    action?: Normalize<Generics<T>['abilities']>[0]
-  ) {
+  return (schema: Schema<AccessibleFieldsDocument>, options?: AccessibleFieldsOptions) => {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options
         ? wrapArray(options.only)
@@ -48,9 +41,22 @@ export function accessibleFieldsPlugin(
       fieldsFrom = rule => rule.fields || ALL_FIELDS;
     }
 
-    const subject = typeof this === 'function' ? this.modelName : this;
+    return fieldsFrom;
+  };
+}
 
-    return permittedFieldsOf(ability, action || 'read', subject, { fieldsFrom });
+export function accessibleFieldsPlugin(
+  schema: Schema<AccessibleFieldsDocument>,
+  options?: AccessibleFieldsOptions
+) {
+  const fieldsFrom = modelFieldsGetter();
+  type ModelOrDoc = Model<AccessibleFieldsDocument> | AccessibleFieldsDocument;
+
+  function accessibleFieldsBy(this: ModelOrDoc, ability: AnyMongoAbility, action?: string) {
+    const subject = typeof this === 'function' ? this.modelName : this;
+    return permittedFieldsOf(ability, action || 'read', subject, {
+      fieldsFrom: fieldsFrom(schema, options)
+    });
   }
 
   schema.statics.accessibleFieldsBy = accessibleFieldsBy;

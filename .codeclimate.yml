@@ -1,7 +1,9 @@
 version: "2"
 plugins:
   eslint:
-    enabled: true
+    enabled: false
+    config:
+      extensions: [.js, .ts]
     checks:
       import/extensions:
         enabled: false
@@ -9,9 +11,13 @@ plugins:
         enabled: false
       no-console:
         enabled: false
+      method-complexity:
+        config:
+          threshold: 8
 
 exclude_patterns:
 - docs/**/*
 - docs-src/**/*
 - "**/spec/**/*"
 - "**/*.d.ts"
+- tools/**/*
