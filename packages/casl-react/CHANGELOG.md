@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1](https://github.com/stalniy/casl/compare/@casl/react@2.0.0...@casl/react@2.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **react:** adds support for casl/ability@4 in package.json ([4367b43](https://github.com/stalniy/casl/commit/4367b430fcfd2076292607581df4aa0d247e011b))
+
 # [2.0.0](https://github.com/stalniy/casl/compare/@casl/react@1.0.4...@casl/react@2.0.0) (2020-04-09)
 
 
