@@ -19,7 +19,7 @@
       var pathname = l.pathname;
       var basePath = '/casl/v4';
       l.replace(
-        basePath + '/?p=/' +
+        basePath + '/?p=' +
         l.pathname.slice(basePath.length).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
