@@ -1,6 +1,11 @@
+const viewport = window.visualViewport || window;
+
 export default function watchMedia(query, onUpdate) {
   const ql = window.matchMedia(query);
-  ql.onchange = event => onUpdate(event.matches);
-  onUpdate(ql.matches);
-  return () => ql.onchange = null;
+  const handler = () => onUpdate(ql.matches);
+
+  viewport.addEventListener('resize', handler);
+  handler();
+
+  return () => viewport.removeEventListener('resize', handler);
 }
