@@ -25,7 +25,9 @@ dotenv.config({
 const env = (name, plugins) => process.env.NODE_ENV === name ? plugins() : [];
 const SUPPORTED_LANGS = (process.env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
 const minify = terser({
-  comments: false,
+  output: {
+    comments: false,
+  },
   mangle: {
     properties: {
       reserved: [
