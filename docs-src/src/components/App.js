@@ -29,7 +29,7 @@ export default class App extends LitElement {
       this._route = route.response;
       this._closeMenu();
     }, { initial: true }));
-    this._unwatch.push(watchMedia('(max-width: 768px)', v => this._isMobile = v));
+    this._unwatch.push(watchMedia('(min-width: 768px)', v => this._isMobile = !v));
   }
 
   disconnectedCallback() {
@@ -79,6 +79,18 @@ export default class App extends LitElement {
     `;
   }
 
+  _getLayout(sidebar) {
+    if (this._route.name === 'home') {
+      return '';
+    }
+
+    if (this._isMobile) {
+      return 'col-1';
+    }
+
+    return sidebar ? 'col-2' : 'col-1';
+  }
+
   render() {
     if (!this._route || !this.ready) {
       return null;
@@ -92,7 +104,7 @@ export default class App extends LitElement {
         <div slot="menu">${this._renderDrawerMenu(sidebar)}</div>
         <app-root
           theme="${this._isMobile ? 'mobile' : 'default'}"
-          layout="${sidebar ? '2columns' : '1column'}"
+          layout="${this._getLayout(!!sidebar)}"
           .menu="${menu}"
           @toggle-menu="${this._toggleMenu}"
         >

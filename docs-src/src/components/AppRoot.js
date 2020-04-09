@@ -19,8 +19,8 @@ export default class AppRoot extends LitElement {
   render() {
     return html`
       <app-header theme="${this.theme}" .menu="${this.menu}"></app-header>
-      <section class="content ${this.layout === '2columns' ? 'row' : ''}">
-        <aside ?hidden="${this.theme === 'mobile'}">
+      <section class="content ${this.layout === 'col-2' ? 'row' : this.layout}">
+        <aside>
           <div class="aside">
             <slot name="aside"></slot>
           </div>
@@ -39,10 +39,6 @@ AppRoot.styles = [
       display: block;
     }
 
-    main {
-      margin: 0 10px;
-    }
-
     app-header {
       position: relative;
       position: sticky;
@@ -52,9 +48,15 @@ AppRoot.styles = [
       box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     }
 
-    .row > main {
+    .row > main,
+    .col-1 > main {
       padding-bottom: 50px;
       min-width: 0;
+      padding: 0 10px;
+    }
+
+    aside {
+      display: none;
     }
 
     @media (min-width: 768px) {
@@ -68,11 +70,11 @@ AppRoot.styles = [
       }
 
       .row > aside {
+        display: block;
         flex-basis: 260px;
         max-width: 260px;
         min-width: 200px;
         padding-left: 20px;
-        margin-right: 20px;
         box-shadow: rgba(0, 0, 0, 0.1) 1px -1px 2px 0px;
       }
 
