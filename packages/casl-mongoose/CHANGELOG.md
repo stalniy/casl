@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.0...@casl/mongoose@3.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **mongoose:** adds support for casl/ability@4 in package.json ([ffb887c](https://github.com/stalniy/casl/commit/ffb887c57b7839e0239d59bbcb859b4469782fbd))
+
 # [3.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.3...@casl/mongoose@3.0.0) (2020-04-09)
 
 
