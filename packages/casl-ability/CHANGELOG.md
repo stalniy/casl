@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1](https://github.com/stalniy/casl/compare/@casl/ability@4.0.0...@casl/ability@4.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **ability:** makes sure extra submodule is published ([096e4f7](https://github.com/stalniy/casl/commit/096e4f7a7edee9ce659f0243cc8c399326f542fd)), closes [#284](https://github.com/stalniy/casl/issues/284)
+
 # [4.0.0](https://github.com/stalniy/casl/compare/@casl/ability@3.4.0...@casl/ability@4.0.0) (2020-04-09)
 
 
