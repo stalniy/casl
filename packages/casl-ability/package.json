@@ -44,6 +44,7 @@
   },
   "files": [
     "dist",
-    "*.d.ts"
+    "*.d.ts",
+    "extra"
   ]
 }
