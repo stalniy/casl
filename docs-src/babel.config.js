@@ -25,6 +25,7 @@ const CONFIG = {
   }
 };
 
+// comment
 function config(name) {
   if (name === 'default' || !CONFIG[name]) {
     return CONFIG.default;
