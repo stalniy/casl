@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1](https://github.com/stalniy/casl/compare/@casl/vue@1.0.0...@casl/vue@1.0.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **vue:** removes `of` alias from `<can>` component ([bd658e2](https://github.com/stalniy/casl/commit/bd658e21a34cbea8b6b70739f533453ebf95d20a))
+
 # [1.0.0](https://github.com/stalniy/casl/compare/@casl/vue@0.5.1...@casl/vue@1.0.0) (2020-04-09)
 
 
