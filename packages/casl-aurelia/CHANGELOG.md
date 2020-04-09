@@ -4,19 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.1](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.0...@casl/aurelia@1.0.1) (2020-04-09)
 
-
-### Bug Fixes
-
-* **aurelia:** special commit to trigger patch release in semver ([b8d9831](https://github.com/stalniy/casl/commit/b8d9831feb97c5c505a4ad8407988c7b17f1ec6d))
-
-# [1.0.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.5.0...@casl/aurelia@1.0.0) (2020-04-09)
-
-
-### chore
-
-* **aurelia:** special commit for breaking changes ([17bd30f](https://github.com/stalniy/casl/commit/17bd30f92c735f0b38eb48eaa66cc7088d50d4a0))
-
-
 ### Features
 
 * **aurelia:** adds `able` value converter that allows to do checks only by action ([490434b](https://github.com/stalniy/casl/commit/490434bbd5296110d5874e67bc07cf7e7ed66a0e)), closes [#107](https://github.com/stalniy/casl/issues/107)
@@ -27,7 +14,45 @@ All notable changes to this project will be documented in this file.
 
 ### BREAKING CHANGES
 
-* **aurelia:** `CanValueConverter` is deprecated in favor of `AbleValueConverter`
+* **valueConverter:** `CanValueConverter` is deprecated in favor of `AbleValueConverter`
+
+  **Before**
+
+  ```html
+  <div if.bind="'Post' | can: 'read'">hidden content</div>
+  ```
+
+  **After**
+
+  ```html
+  <div if.bind="'read' | able: 'Post'">hidden content</div>
+  ```
+
+* **di**: replaces `Ability` DI token with `PureAbility`
+
+  **Before**
+
+  ```js
+  import { Ability } from '@casl/ability'
+
+  export function configure(config) {
+    config.container.registerInstance(Ability, new Ability())
+  }
+  ```
+
+  **After**
+
+  ```js
+  import { PureAbility, Ability } from '@casl/ability'
+
+  export function configure(config) {
+    const ability = new Ability()
+    // the token below is used by value converters
+    config.container.registerInstance(PureAbility, ability)
+    config.container.registerInstance(Ability, ability)
+  }
+  ```
+* **typescript:** weak hand written declaration files are removed as `@casl/aurelia` has been completely rewritten to TypeScript.
 
 # [@casl/aurelia-v0.5.0](https://github.com/stalniy/casl/compare/@casl/aurelia@0.4.1...@casl/aurelia@0.5.0) (2019-02-10)
 
