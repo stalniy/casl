@@ -1,6 +1,6 @@
 import { createElement as e, createContext } from 'react'
 import renderer from 'react-test-renderer'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { Can, createCanBoundTo, createContextualCan } from '../src'
 
 describe('Factory methods which create `Can` component', () => {
@@ -8,8 +8,8 @@ describe('Factory methods which create `Can` component', () => {
   let child
 
   beforeEach(() => {
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
-    child = spy(returns => e('p', null, 'children'))
+    ability = defineAbility(can => can('read', 'Post'))
+    child = spy(() => e('p', null, 'children'))
   })
 
   describe('`createCanBoundTo`', () => {
@@ -34,7 +34,7 @@ describe('Factory methods which create `Can` component', () => {
     })
 
     it('allows to override ability by passing "ability" property', () => {
-      const anotherAbility = AbilityBuilder.define(can => can('update', 'Post'))
+      const anotherAbility = defineAbility(can => can('update', 'Post'))
       const component = renderer.create(e(BoundCan, { I: 'read', a: 'Post', ability: anotherAbility }, child))
 
       expect(component.toJSON()).to.be.null
@@ -52,16 +52,18 @@ describe('Factory methods which create `Can` component', () => {
 
     it('allows to override `Ability` instance by passing it in props', () => {
       const element = e(ContextualCan, { I: 'read', a: 'Post', ability }, child)
-      const component = renderer.create(element)
+      renderer.create(element)
 
       expect(child).to.have.been.called.with(ability)
     })
 
     it('expects `Ability` instance to be provided by context Provider', () => {
-      const App = e(AbilityContext.Provider, { value: ability },
+      const App = e(
+        AbilityContext.Provider,
+        { value: ability },
         e(ContextualCan, { I: 'read', a: 'Post' }, child)
       )
-      const component = renderer.create(App)
+      renderer.create(App)
 
       expect(child).to.have.been.called.with(ability)
     })

@@ -1,9 +1,9 @@
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { toMongoQuery } from '../src'
 
 describe('toMongoQuery', () => {
   it('accepts ability action as third argument', () => {
-    const ability = AbilityBuilder.define((can, cannot) => {
+    const ability = defineAbility((can) => {
       can('update', 'Post', { _id: 'mega' })
     })
     const query = toMongoQuery(ability, 'Post', 'update')
@@ -14,7 +14,7 @@ describe('toMongoQuery', () => {
   })
 
   it('OR-es conditions for regular rules and AND-es for inverted ones', () => {
-    const ability = AbilityBuilder.define((can, cannot) => {
+    const ability = defineAbility((can, cannot) => {
       can('read', 'Post', { _id: 'mega' })
       can('read', 'Post', { state: 'draft' })
       cannot('read', 'Post', { private: true })
@@ -36,7 +36,7 @@ describe('toMongoQuery', () => {
 
   describe('can find records where property', () => {
     it('is present', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { isPublished: { $exists: true, $ne: null } })
       })
       const query = toMongoQuery(ability, 'Post')
@@ -45,17 +45,22 @@ describe('toMongoQuery', () => {
     })
 
     it('is blank', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { isPublished: { $exists: false } })
         can('read', 'Post', { isPublished: null })
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ isPublished: null }, { isPublished: { $exists: false } }] })
+      expect(query).to.deep.equal({
+        $or: [
+          { isPublished: null },
+          { isPublished: { $exists: false } }
+        ]
+      })
     })
 
     it('is defined by `$in` criteria', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { state: { $in: ['draft', 'archived'] } })
       })
       const query = toMongoQuery(ability, 'Post')
@@ -64,7 +69,7 @@ describe('toMongoQuery', () => {
     })
 
     it('is defined by `$all` criteria', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { state: { $all: ['draft', 'archived'] } })
       })
       const query = toMongoQuery(ability, 'Post')
@@ -72,7 +77,7 @@ describe('toMongoQuery', () => {
       expect(query).to.deep.equal({ $or: [{ state: { $all: ['draft', 'archived'] } }] })
     })
     it('is defined by `$lt` and `$lte` criteria', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { views: { $lt: 10 } })
         can('read', 'Post', { views: { $lt: 5 } })
       })
@@ -82,7 +87,7 @@ describe('toMongoQuery', () => {
     })
 
     it('is defined by `$gt` and `$gte` criteria', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { views: { $gt: 10 } })
         can('read', 'Post', { views: { $gte: 100 } })
       })
@@ -92,7 +97,7 @@ describe('toMongoQuery', () => {
     })
 
     it('is defined by `$ne` criteria', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { creator: { $ne: 'me' } })
       })
       const query = toMongoQuery(ability, 'Post')
@@ -101,7 +106,7 @@ describe('toMongoQuery', () => {
     })
 
     it('is defined by dot notation fields', () => {
-      const ability = AbilityBuilder.define(can => {
+      const ability = defineAbility((can) => {
         can('read', 'Post', { 'comments.author': 'Ted' })
       })
       const query = toMongoQuery(ability, 'Post')

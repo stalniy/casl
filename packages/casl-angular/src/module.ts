@@ -1,26 +1,15 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { Ability } from '@casl/ability';
-import { CanPipe } from './can';
-
-export function createAbility() {
-  return new Ability([]);
-}
+import { NgModule } from '@angular/core';
+import { CanPipe, AblePipe } from './can';
 
 @NgModule({
   declarations: [
-    CanPipe
+    CanPipe,
+    AblePipe,
   ],
   exports: [
-    CanPipe
+    CanPipe,
+    AblePipe
   ],
 })
 export class AbilityModule {
-  static forRoot(): ModuleWithProviders<AbilityModule> {
-    return {
-      ngModule: AbilityModule,
-      providers: [
-        { provide: Ability, useFactory: createAbility },
-      ]
-    };
-  }
 }

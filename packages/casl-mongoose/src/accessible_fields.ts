@@ -1,0 +1,64 @@
+import { wrapArray, Normalize, AnyMongoAbility, Generics } from '@casl/ability';
+import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
+import { Schema, Model, Document } from 'mongoose';
+
+export type AccessibleFieldsOptions =
+  { only: string | string[] } |
+  { except: string | string[] };
+
+function fieldsOf(schema: Schema<AccessibleFieldsDocument>, options?: AccessibleFieldsOptions) {
+  const fields = Object.keys((schema as any).paths);
+
+  if (!options || !('except' in options)) {
+    return fields;
+  }
+
+  const excludedFields = wrapArray(options.except);
+  return fields.filter(field => excludedFields.indexOf(field) === -1);
+}
+
+type GetAccessibleFields<T extends AccessibleFieldsDocument> = <U extends AnyMongoAbility>(
+  this: Model<T> | T,
+  ability: U,
+  action?: Normalize<Generics<U>['abilities']>[0]
+) => string[];
+
+export interface AccessibleFieldsModel<T extends AccessibleFieldsDocument> extends Model<T> {
+  accessibleFieldsBy: GetAccessibleFields<T>
+}
+
+export interface AccessibleFieldsDocument extends Document {
+  accessibleFieldsBy: GetAccessibleFields<AccessibleFieldsDocument>
+}
+
+function modelFieldsGetter() {
+  let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
+  return (schema: Schema<AccessibleFieldsDocument>, options?: AccessibleFieldsOptions) => {
+    if (!fieldsFrom) {
+      const ALL_FIELDS = options && 'only' in options
+        ? wrapArray(options.only)
+        : fieldsOf(schema, options);
+      fieldsFrom = rule => rule.fields || ALL_FIELDS;
+    }
+
+    return fieldsFrom;
+  };
+}
+
+export function accessibleFieldsPlugin(
+  schema: Schema<AccessibleFieldsDocument>,
+  options?: AccessibleFieldsOptions
+) {
+  const fieldsFrom = modelFieldsGetter();
+  type ModelOrDoc = Model<AccessibleFieldsDocument> | AccessibleFieldsDocument;
+
+  function accessibleFieldsBy(this: ModelOrDoc, ability: AnyMongoAbility, action?: string) {
+    const subject = typeof this === 'function' ? this.modelName : this;
+    return permittedFieldsOf(ability, action || 'read', subject, {
+      fieldsFrom: fieldsFrom(schema, options)
+    });
+  }
+
+  schema.statics.accessibleFieldsBy = accessibleFieldsBy;
+  schema.method('accessibleFieldsBy', accessibleFieldsBy);
+}

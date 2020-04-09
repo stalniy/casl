@@ -1,29 +1,65 @@
-import { Pipe, ChangeDetectorRef, PipeTransform } from '@angular/core';
-import { Ability } from '@casl/ability';
+import { Pipe, ChangeDetectorRef, Inject, PipeTransform } from '@angular/core';
+import { PureAbility, Unsubscribe, AnyAbility } from '@casl/ability';
 
-const noop = () => {};
+class AbilityPipe<T extends AnyAbility> {
+  protected _unsubscribeFromAbility?: Unsubscribe;
+  private _ability: T;
+  private _cd: ChangeDetectorRef;
 
-// TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
-@Pipe({ name: 'can', pure: false })
-export class CanPipe implements PipeTransform {
-  protected unsubscribeFromAbility: Function = noop;
-
-  constructor(protected ability: Ability, protected cd: ChangeDetectorRef) {
+  constructor(ability: T, cd: ChangeDetectorRef) {
+    this._ability = ability;
+    this._cd = cd;
   }
 
-  transform(resource: any, action: string, field?: string) {
-    if (this.unsubscribeFromAbility === noop) {
-      this.unsubscribeFromAbility = this.ability.on('updated', () => this.cd.markForCheck());
+  transform(...args: Parameters<T['can']>): boolean {
+    if (!this._unsubscribeFromAbility) {
+      this._unsubscribeFromAbility = this._ability.on('updated', () => this._cd.markForCheck());
     }
-
-    return this.can(action, resource, field);
-  }
-
-  can(action: string, subject: any, field?: string) {
-    return this.ability.can(action, subject, field);
+    return this._ability.can(...args);
   }
 
   ngOnDestroy() {
-    this.unsubscribeFromAbility();
+    if (this._unsubscribeFromAbility) {
+      this._unsubscribeFromAbility();
+    }
+  }
+}
+
+// TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
+@Pipe({ name: 'can', pure: false })
+export class CanPipe<T extends AnyAbility> implements PipeTransform {
+  protected pipe: AbilityPipe<T>;
+
+  constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {
+    this.pipe = new AbilityPipe(ability, cd);
+  }
+
+  transform(
+    subject: Parameters<T['can']>[1],
+    action: Parameters<T['can']>[0],
+    field?: string
+  ): boolean {
+    return (this.pipe as any).transform(action, subject, field);
+  }
+
+  ngOnDestroy() {
+    this.pipe.ngOnDestroy();
+  }
+}
+
+@Pipe({ name: 'able', pure: false })
+export class AblePipe<T extends AnyAbility> implements PipeTransform {
+  protected pipe: AbilityPipe<T>;
+
+  constructor(@Inject(PureAbility) ability: T, cd: ChangeDetectorRef) {
+    this.pipe = new AbilityPipe(ability, cd);
+  }
+
+  transform(...args: Parameters<T['can']>): boolean {
+    return this.pipe.transform(...args);
+  }
+
+  ngOnDestroy() {
+    this.pipe.ngOnDestroy();
   }
 }

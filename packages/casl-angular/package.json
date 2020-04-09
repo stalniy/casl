@@ -22,8 +22,8 @@
     "build.types": "ngc -p tsconfig.types.json",
     "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib",
     "postrollup": "rm -rf dist/$BUILD/tmp",
-    "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
-    "lint": "node -p -e '`Skip linting for typescript`'",
+    "test": "NODE_ENV=test jest --config ./jest.config.js",
+    "lint": "eslint --ext .ts,.js src/ spec/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
     "release": "semantic-release -e ../../tools/semantic-release"
   },
@@ -44,6 +44,7 @@
   },
   "peerDependencies": {
     "@angular/core": "^9.0.0",
+    "tslib": "^1.9.0",
     "@casl/ability": "^2.0.0 || ^3.0.0"
   },
   "devDependencies": {

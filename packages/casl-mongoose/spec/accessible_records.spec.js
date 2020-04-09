@@ -1,4 +1,4 @@
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleRecordsPlugin, toMongoQuery } from '../src'
 
@@ -33,7 +33,7 @@ describe('Accessible Records Plugin', () => {
 
   describe('`accessibleBy` method', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { state: 'draft' })
         can('update', 'Post', { state: 'published' })
       })

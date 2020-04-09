@@ -1,4 +1,4 @@
-import { Ability, ForbiddenError } from '../src'
+import { Ability, ForbiddenError, getDefaultErrorMessage } from '../src'
 
 describe('`ForbiddenError` class', () => {
   let ability
@@ -31,7 +31,7 @@ describe('`ForbiddenError` class', () => {
 
       expect(thrownError).to.have.property('action').that.equal('archive')
       expect(thrownError).to.have.property('subject').that.equal('Post')
-      expect(thrownError).to.have.property('subjectName').that.equal('Post')
+      expect(thrownError).to.have.property('subjectType').that.equal('Post')
     })
 
     it('raises error with message provided in `reason` field of forbidden rule', () => {
@@ -54,11 +54,11 @@ describe('`ForbiddenError` class', () => {
 
   describe('`setDefaultMessage` method', () => {
     afterEach(() => {
-      ForbiddenError.setDefaultMessage(null)
+      ForbiddenError.setDefaultMessage(getDefaultErrorMessage)
     })
 
     it('sets default message from function', () => {
-      ForbiddenError.setDefaultMessage(err => `${err.action}-${err.subjectName}`)
+      ForbiddenError.setDefaultMessage(err => `${err.action}-${err.subjectType}`)
       expect(() => error.throwUnlessCan('update', 'Post')).to.throw('update-Post')
     })
   })

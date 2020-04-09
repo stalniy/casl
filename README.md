@@ -1,137 +1,204 @@
-# [CASL](https://stalniy.github.io/casl/) [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs) ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg) [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl) [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<p align="center">
+  <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs-src/src/assets/shield.png" alt="CASL logo"></a>
 
-CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. All permissions are defined in a single location (the `Ability` class) and not duplicated across UI components, API services, and database queries.
+[![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
+![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
+[![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
+[![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl)
+[![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+</p>
+
+CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
 
 Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 ## Features
 
-* supports MongoDB like conditions (`$eq`, `$ne`, `$in`, `$all`, `$gt`, `$lt`, `$gte`, `$lte`, `$exists`, `$regex`, `$elemMatch`, field dot notation)
-* supports direct and inverted rules (i.e., `can` & `cannot`)
-* provides ES6 build, so you are able to shake out unused functionality
-* provides easy integration with [popular frontend frameworks](#4-ui-integration)
-* provides easy [integration with mongoose and MongoDB](#3-mongodb-integration)
-* serializable rules which can be [stored][store-rules] or [cached][cache-rules] in JWT token or any other storage
+* [Versatile][feature-versatile]\
+  An incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization.
+* [Isomorphic][feature-isomorphic]\
+  Can be used on frontend and backend and complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
+* [TypeSafe][feature-typesafe]\
+  Written in TypeScript, what makes your apps safer and developer experience more enjoyable
+* [Tree shakable][feature-treeshaking]\
+  The core is only 4KB mingzipped and can be even smaller!
+* [Declarative][feature-declarative]\
+  Thanks to declarative rules, you can serialize and share permissions between UI and API or microservices
 
-## Getting started
+[feature-versatile]: #
+[feature-isomorphic]: #
+[feature-typesafe]: #
+[feature-treeshaking]: #
+[feature-declarative]: #
 
-CASL can be used together with any data layer, any HTTP framework and even any frontend framework because of its isomorphic nature. Also, it doesn't force you to choose a database (however currently is the best integrated with MongoDB). [See the examples for details](#examples).
+## Ecosystem
 
-CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
+| Project           | Status                               | Description | Supported envinronemnts |
+|-------------------|--------------------------------------|-------------|-------------------------|
+| [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | nodejs 8+ and ES5 compatible browsers (IE 9+) |
+| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with  [Mongoose][mongoose] | nodejs 8+ |
+| [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | IE 9+ |
+| [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | IE 9+ |
+| [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | IE 11+ (uses `WeakMap`) |
+| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | IE 11+ (uses `WeakMap`) |
+
+[@casl/ability]: packages/casl-ability
+[@casl/mongoose]: packages/casl-vue
+[@casl/angular]: packages/casl-angular
+[@casl/react]: packages/casl-react
+[@casl/vue]: packages/casl-vue
+[@casl/aurelia]: packages/casl-aurelia
+
+[@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
+[@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
+[@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
+[@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
+[@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
+[@casl/aurelia-status]: https://img.shields.io/npm/v/@casl/aurelia.svg
+
+[@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
+[@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
+[@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
+[@casl/react-package]: https://www.npmjs.com/package/@casl/react
+[@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
+[@casl/aurelia-package]: https://www.npmjs.com/package/@casl/aurelia
+
+## Documentation
+
+A lot of detailed information about CASL, integrations and examples can be found in [documentation].
+
+## Have a question?
+
+Ask it in [chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl). Please don't ask questions in issues, the issue list of this repo is **exclusively** for bug reports and feature requests. Questions in the issue list may be closed immediately without answers.
+
+## CASL crash course
+
+CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
+
+1. User Action\
+   Describes what user can actually do in the app. User action is a word (usually a verb) which depdends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
+2. Subject\
+   The subject or subject type which you want to check user action on. Ussually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
+3. Conditions\
+   An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
+4. Fields\
+   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `desription` or `title`)
+
+Using CASL you can describe abilities using regular and inverted rules. Let's see how
+
+**Note:** all the examples below will be written in TypeScript but CASL can be used in similar way in ES6+ and Nodejs environments.
 
 ### 1. Define Abilities
 
 Lets define `Ability` for a blog website where visitors:
-* can read everything.
-* can manage (i.e., create, update, delete, read) posts which were created by them
-* cannot delete post if it has at least 1 comment
+* can read blog posts
+* can manage (i.e., do anything) own posts
+* cannot delete a post if it was created more than a day ago
 
-```js
-import { AbilityBuilder } from '@casl/ability'
+```ts
+import { AbilityBuilder, Ability } from '@casl/ability'
+import { User } from '../models'; // application specific interfaces
 
-const ability = AbilityBuilder.define((can, cannot) => {
-  can('read', 'all')
-  can('manage', 'Post', { author: loggedInUser.id })
-  cannot('delete', 'Post', { 'comments.0': { $exists: true } })
-})
+/**
+ * @param user contains details about logged in user: its id, name, email, etc
+ */
+function defineAbilitiesFor(user: User) {
+  const { can, cannot, rules } = new AbilityBuilder();
+
+  // can read blog posts
+  can('read', 'BlogPost');
+  // can manage (i.e., do anything) own posts
+  can('manage', 'BlogPost', { author: user.id });
+  // cannot delete a post if it was created more than a day ago
+  cannot('delete', 'BlogPost', {
+    createdAt: { $lt: Date.now() - 24 * 60 * 60 * 1000 }
+  });
+
+  return new Ability(rules);
+});
 ```
 
-Yes, you can use some operators from MongoDB query language to define conditions for your abilities. See [Defining Abilities][define-abilities] for details.
-It's also possible to [store CASL abilities in a database][store-rules].
+Do you see how easily business requirements were translated into CASL's rules?
+
+**Note**: you can use class instead of string as a subject type (e.g., `can('read', BlogPost)`)
+
+And yes, `Ability` class allow you to use some MongoDB operators to define conditions. Don't worry if you don't know MongoDB, it's not required and explained in details in [Defining Abilities][define-abilities]
 
 ### 2. Check Abilities
 
-Later on you can check abilities by using `can` and `cannot`.
+Later on you can check abilities by using `can` and `cannot` methods of `Ability` instance.
 
-```js
-class Post {
-  constructor(props) {
-    Object.assign(this, props)
-  }
-}
+```ts
+import { BlogPost, ForbiddenError } from '../models';
+
+const user = getLoggedInUser(); // app specific function
+const ability = defineAbilitiesFor(user)
 
 // true if ability allows to read at least one Post
-ability.can('read', 'Post')
+ability.can('read', 'BlogPost');
 
-// true if ability does not allow to read a post
-const post = new Post({ title: 'What is CASL?' })
-ability.cannot('read', post)
+// true if there is no ability to read this particular blog post
+const post = new BlogPost({ title: 'What is CASL?' });
+ability.cannot('read', post);
+
+// you can even throw an error if there is a missed ability
+ForbiddenError.from(ability).throwUnlessCan('read', post);
 ```
 
-See [Check Abilities][check-abilities] for details.
+**Note**: you can use class instead of string as a subject type (e.g., `ability.can('read', BlogPost)`)
 
-### 3. MongoDB integration
+Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Check Abilities][check-abilities] for the detailed explanation.
 
-CASL has a complementary package [@casl/mongoose](packages/casl-mongoose) which provides easy integration with MongoDB database.
-That package provides [mongoose](https://github.com/Automattic/mongoose) middleware which hides all boilerplate under convenient `accessibleBy` method.
+### 3. Database integration
 
-```js
-const { AbilityBuilder } = require('@casl/ability')
-const { accessibleRecordsPlugin } = require('@casl/mongoose')
-const mongoose = require('mongoose')
+CASL has a complementary package [@casl/mongoose] which provides easy integration with MongoDB and [mongoose].
 
-mongoose.plugin(accessibleRecordsPlugin)
+```ts
+import { AbilityBuilder } from '@casl/ability';
+import { accessibleRecordsPlugin } from '@casl/mongoose';
+import mongoose from 'mongoose';
 
-const ability = AbilityBuilder.define(can => {
-  can('read', 'Post', { author: 'me' })
-})
+mongoose.plugin(accessibleRecordsPlugin);
 
-const Post = mongoose.model('Post', mongoose.Schema({
+const user = getUserLoggedInUser(); // app specific function
+
+const ability = defineAbilitiesFor(user);
+const BlogPost = mongoose.model('BlogPost', mongoose.Schema({
   title: String,
-  author: String,
+  author: mongoose.Types.ObjectId,
   content: String,
-  createdAt: Date
+  createdAt: Date,
+  hidden: { type: Boolean, default: false }
 }))
 
-// by default it asks for `read` rules
 // returns mongoose Query, so you can chain it with other conditions
-Post.accessibleBy(ability).where({ createdAt: { $gt: Date.now() - 24 * 3600 } })
+const posts = await Post.accessibleBy(ability).where({ hidden: false });
 
-// also you can call it on existing query to enforce visibility.
-// In this case it returns empty array because rules does not allow to read Posts of `someoneelse` author
-Post.find({ author: 'someoneelse' }).accessibleBy(ability).exec()
+// you can also call it on existing query to enforce permissions
+const hiddenPosts = await Post.find({ hidden: true }).accessibleBy(ability);
+
+// you can even pass the action as a 2nd parameter. By default action is "read"
+const updatablePosts = await Post.accessibleBy(ability, 'update');
 ```
 
 See [Database integration][database-integration] for details.
 
-### 4. UI integration
+### 4. Advanced usage
 
-CASL is written in pure ES6 and has no dependencies on Node.js or other environments. That means you can use it on UI side. It may be useful if you need to show/hide some UI functionality based on what user can do in the application.
+**CASL is incrementaly adoptable**, that means you can start your project with simple claim (or action) based authorization and evolve it later, when your app functionality evolves.
 
-There are also complementary libraries for major frontend frameworks which makes integration of CASL super easy in your application. Pick the package for your application and protect it with the power of CASL:
-* [@casl/vue](packages/casl-vue) for [Vue][vuejs]
-* [@casl/react](packages/casl-react) for [React][react]
-* [@casl/angular](packages/casl-angular) for [Angular 2+][angular]
-* [@casl/aurelia](packages/casl-aurelia) for [Aurelia][aurelia]
+**CASL is composable**, that means you can implement alternative conditions matching (e.g., based on [joi], [ajv] or pure functions) and field matching (e.g., to support alternative syntax in fields like `addresses.*.street` or `addresses[0].street`) logic.
 
-## Documentation
+See [Advanced usage][advanced-usage] for details.
 
-A lot of useful information about CASL can be found in [documentation][documentation] (check sidebar on the right hand ;)!
-
-Documentation for complementary packages can be found in respective README files:
-* [@casl/ability](packages/casl-ability/README.md), here you can find docs about `@casl/ability/extra` helpers package.
-* [@casl/vue](packages/casl-vue/README.md)
-* [@casl/react](packages/casl-react/README.md)
-* [@casl/angular](packages/casl-angular/README.md)
-* [@casl/aurelia](packages/casl-aurelia/README.md)
-* [@casl/mongoose](packages/casl-mongoose/README.md)
-
-**Have a question?**: ask it in [gitter chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl)
-
-
-## Examples
-
-There are several repositories which show how to integrate CASL in popular frontend and backend frameworks:
-* [CASL and Vue](https://github.com/stalniy/casl-vue-example), [CASL and Vuex](https://github.com/stalniy/casl-vue-api-example)
-* [CASL and React](https://github.com/stalniy/casl-react-example)
-* [CASL and Aurelia](https://github.com/stalniy/casl-aurelia-example)
-* [CASL and Angular](https://github.com/stalniy/casl-angular-example)
-* [CASL and Expressjs](https://github.com/stalniy/casl-express-example)
-* [CASL and Feathersjs](https://github.com/stalniy/casl-feathersjs-example)
+[joi]: https://www.npmjs.com/package/@hapi/joi
+[ajv]: https://www.npmjs.com/package/ajv
 
 ## Want to help?
 
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
+
+If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
 ## Contributors
 
@@ -167,6 +234,8 @@ Support this project with your organization. Your logo will show up here with a 
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
+Copyright (c) 2017-present, Sergii Stotskyi
+
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
@@ -175,14 +244,10 @@ Support this project with your organization. Your logo will show up here with a 
 [documentation]: https://stalniy.github.io/casl/
 [store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
 [cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
+[advanced-usage]: #
+
 [mongoose]: http://mongoosejs.com/
-[mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
-[sequelize]: http://docs.sequelizejs.com/
-[koa]: http://koajs.com/
-[feathersjs]: https://feathersjs.com/
-[expressjs]: https://expressjs.com/
-[vuejs]: https://vuejs.org
+[vue]: https://vuejs.org
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
-[ionic]: https://ionicframework.com
 [aurelia]: http://aurelia.io

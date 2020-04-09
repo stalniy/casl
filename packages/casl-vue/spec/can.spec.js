@@ -1,12 +1,11 @@
-import Vue from 'vue'
 import { createLocalVue, mount } from '@vue/test-utils'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { abilitiesPlugin } from '../src'
 import Can from '../src/component/can'
 
 describe('`Can` component', () => {
   const LocalVue = createLocalVue()
-  const ability = AbilityBuilder.define(can => {
+  const ability = defineAbility((can) => {
     can('read', 'Plugin')
     can('update', 'Plugin', 'version')
   })
@@ -62,7 +61,7 @@ describe('`Can` component', () => {
 
     beforeEach(() => {
       scopedSlot = spy()
-      render((h) => h('div', [
+      render(h => h('div', [
         h(Can, {
           props: { I: 'delete', a: 'Plugin', passThrough: true },
           scopedSlots: { default: scopedSlot }
@@ -93,15 +92,7 @@ describe('`Can` component', () => {
         <Can a="Plugin">
           <h1></h1>
         </Can>
-      `)).to.throw(/`I` nor `do` property exist/)
-    })
-
-    it('throws error if subject (i.e., `a`, `of`, `this` or `on`) is not specified', () => {
-      expect(() => render(`
-        <Can I="read">
-          <h1></h1>
-        </Can>
-      `)).to.throw(/`of` nor `a` nor `this` nor `on` property exist/)
+      `)).to.throw(/`I` nor `do` prop was passed/)
     })
 
     it('throws error if `passThrough` is passed without scoped slot', () => {

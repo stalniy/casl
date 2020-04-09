@@ -1,5 +1,5 @@
-import './spec_helper'
-import { AbilityBuilder, Ability } from '@casl/ability'
+import './spec_helper' // eslint-disable-line
+import { defineAbility, PureAbility as Ability } from '@casl/ability'
 import { ComponentTester } from 'aurelia-testing'
 import { BindingEngine } from 'aurelia-binding'
 import { bootstrap } from 'aurelia-bootstrapper'
@@ -7,12 +7,11 @@ import { configure } from '../src'
 
 describe('CASL Aurelia plugin', () => {
   let component
-  let container
   let ability
 
   beforeEach(() => {
     component = new ComponentTester()
-      .inView('${post | can: "read"}')
+      .inView('${"read" | able: post}') // eslint-disable-line
       .boundTo({ post: new Post() })
   })
 
@@ -20,9 +19,9 @@ describe('CASL Aurelia plugin', () => {
     component.dispose()
   })
 
-  describe('when `Ability` instance is passed as a plugin parameter', () => {
+  describe('when `PureAbility` instance is passed as a plugin parameter', () => {
     beforeEach(async () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
       await configureApp(component, aurelia => configure(aurelia.use, ability))
     })
 
@@ -42,7 +41,7 @@ describe('CASL Aurelia plugin', () => {
     })
   })
 
-  describe('when `Ability` instance is not passed as a plugin parameter', () => {
+  describe('when `PureAbility` instance is not passed as a plugin parameter', () => {
     beforeEach(async () => {
       await configureApp(component, aurelia => configure(aurelia.use))
     })
@@ -59,17 +58,17 @@ describe('CASL Aurelia plugin', () => {
     })
 
     it('re-calls `can` value converter when that instance is updated', async () => {
-      component.container.get(Ability).update([{ subject: 'Post', actions: 'read' }])
+      component.container.get(Ability).update([{ subject: 'Post', action: 'read' }])
       await new Promise(resolve => setTimeout(resolve, 0))
 
       expect(document.body.textContent).to.equal('true')
     })
   })
 
-  describe('when `Ability` instance is not passed as a plugin parameter but was registered in DI container', () => {
+  describe('when `PureAbility` instance is not passed as a plugin parameter but was registered in DI container', () => {
     beforeEach(async () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
-      await configureApp(component, aurelia => {
+      ability = defineAbility(can => can('read', 'Post'))
+      await configureApp(component, (aurelia) => {
         aurelia.container.registerInstance(Ability, ability)
         configure(aurelia.use)
       })
@@ -93,14 +92,14 @@ describe('CASL Aurelia plugin', () => {
     }
   }
 
-  function configureApp(component, callback) {
-    component.bootstrap(aurelia => {
-      component.container = aurelia.container
+  function configureApp(cmp, callback) {
+    cmp.bootstrap((aurelia) => {
+      cmp.container = aurelia.container
       aurelia.use.standardConfiguration()
       aurelia.container.get(BindingEngine).observerLocator.dirtyChecker.checkDelay = 20
       callback(aurelia)
     })
 
-    return component.create(bootstrap)
+    return cmp.create(bootstrap)
   }
 })

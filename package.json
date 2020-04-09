@@ -13,27 +13,29 @@
     "release": "lerna run release"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
     "@semantic-release/changelog": "^3.0.0",
     "@semantic-release/git": "^7.0.0",
-    "babel-eslint": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
     "babel-jest": "^25.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
     "codecov": "^3.0.0",
     "eslint": "^6.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^6.3.1",
     "eslint-plugin-import": "^2.9.0",
     "husky": "^4.0.0",
     "jest": "^25.0.0",
     "lerna": "^3.4.3",
-    "lint-staged": "^10.0.0",
+    "lint-staged": "^10.0.10",
     "rollup": "^2.0.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-terser": "^5.2.0",
     "semantic-release": "15.9.17",
     "tslib": "^1.9.3",
     "typescript": "~3.7.0"
@@ -48,9 +50,8 @@
     }
   },
   "lint-staged": {
-    "**/*.js": [
-      "eslint --fix",
-      "git add"
+    "**/*.{js,ts}": [
+      "eslint --fix --ext .js,.ts"
     ]
   }
 }

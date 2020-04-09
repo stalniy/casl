@@ -1,4 +1,4 @@
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import { CanPipe } from '../dist/es6'
 
 describe('Can pipe', () => {
@@ -7,7 +7,7 @@ describe('Can pipe', () => {
   let changeDetectorRef
 
   beforeEach(() => {
-    ability = AbilityBuilder.define(can => can('read', 'all'))
+    ability = defineAbility(can => can('read', 'all'))
     changeDetectorRef = spy.interface('ChangeDetector', ['markForCheck'])
     pipe = new CanPipe(ability, changeDetectorRef)
   })

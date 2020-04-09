@@ -1,57 +1,45 @@
-import { AbilityBuilder, Ability } from '../src'
-import { Post } from './spec_helper'
+import { defineAbility, Ability, createAliasResolver } from '../src'
+import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
   let ability
 
   it('allows to add alias for actions', () => {
-    Ability.addAlias('modify', ['update', 'delete'])
-    ability = AbilityBuilder.define(can => can('modify', 'Post'))
+    const resolveAction = createAliasResolver({ modify: ['update', 'delete'] })
+    ability = defineAbility({ resolveAction }, can => can('modify', 'Post'))
 
     expect(ability).to.allow('modify', 'Post')
   })
 
   it('allows deeply nested aliased actions', () => {
-    Ability.addAlias('sort', 'increment')
-    Ability.addAlias('modify', ['sort'])
-    ability = AbilityBuilder.define(can => can('modify', 'all'))
+    const resolveAction = createAliasResolver({ sort: 'increment', modify: 'sort' })
+    ability = defineAbility({ resolveAction }, can => can('modify', 'all'))
 
     expect(ability).to.allow('increment', 123)
   })
 
   it('throws exception when trying to define `manage` alias', () => {
-    expect(() => Ability.addAlias('manage', 'crud')).to.throw(Error)
+    expect(() => createAliasResolver({ manage: 'crud' })).to.throw(Error)
   })
 
   it('throws exception when trying to make `manage` a part of aliased action', () => {
-    expect(() => Ability.addAlias('modify', ['crud', 'manage'])).to.throw(Error)
+    expect(() => createAliasResolver({ modify: ['crud', 'manage'] })).to.throw(Error)
   })
 
   it('throws exception when trying to alias action to itself', () => {
-    expect(() => Ability.addAlias('sort', 'sort')).to.throw(Error)
-    expect(() => Ability.addAlias('sort', ['order', 'sort'])).to.throw(Error)
-  })
-
-  it('provides predefined `crud` alias for `create`, `read`, `update` and `delete` actions', () => {
-    ability = AbilityBuilder.define(can => can('crud', 'Post'))
-
-    expect(ability).to.allow('crud', 'Post')
-    expect(ability).to.allow('create', 'Post')
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('update', 'Post')
-    expect(ability).to.allow('delete', 'Post')
-    expect(ability).not.to.allow('any other action', 'Post')
+    expect(() => createAliasResolver({ sort: 'sort' })).to.throw(Error)
+    expect(() => createAliasResolver({ sort: ['sort', 'order'] })).to.throw(Error)
   })
 
   it('provides `can` and `cannot` methods to check abilities', () => {
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
+    ability = defineAbility(can => can('read', 'Post'))
 
     expect(ability.can('read', 'Post')).to.be.true
     expect(ability.cannot('read', 'Post')).to.be.false
   })
 
   it('lists all rules', () => {
-    ability = AbilityBuilder.define((can, cannot) => {
+    ability = defineAbility((can, cannot) => {
       can('crud', 'all')
       can('learn', 'Range')
       cannot('read', 'String')
@@ -59,31 +47,17 @@ describe('Ability', () => {
       cannot('preview', 'Array')
     })
 
-    expect(ability.rules).to.deep.equal([
-      { actions: 'crud', subject: ['all'] },
-      { actions: 'learn', subject: ['Range'] },
-      { actions: 'read', subject: ['String'], inverted: true },
-      { actions: 'read', subject: ['Hash'], inverted: true },
-      { actions: 'preview', subject: ['Array'], inverted: true },
+    expect(ability.rules.map(ruleToObject)).to.deep.equal([
+      { action: 'crud', subject: 'all' },
+      { action: 'learn', subject: 'Range' },
+      { action: 'read', subject: 'String', inverted: true },
+      { action: 'read', subject: 'Hash', inverted: true },
+      { action: 'preview', subject: 'Array', inverted: true },
     ])
   })
 
-  it('allows to specify multiple actions and match any', () => {
-    ability = AbilityBuilder.define(can => can(['read', 'update'], 'Post'))
-
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('update', 'Post')
-  })
-
-  it('allows to specify multiple subjects and match any', () => {
-    ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
-
-    expect(ability).to.allow('read', 'Post')
-    expect(ability).to.allow('read', 'User')
-  })
-
   it('allows to update rules', () => {
-    ability = AbilityBuilder.define(can => can('read', ['Post', 'User']))
+    ability = defineAbility(can => can('read', ['Post', 'User']))
 
     expect(ability).to.allow('read', 'Post')
 
@@ -94,9 +68,16 @@ describe('Ability', () => {
     expect(ability).not.to.allow('read', 'User')
   })
 
+  it('allows to check abilities only by action', () => {
+    ability = new Ability([{ action: 'read' }])
+
+    expect(ability).to.allow('read')
+  })
+
   describe('by default', () => {
     beforeEach(() => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
+        can('test', 'all')
         can(['read', 'update'], 'Post')
         can('delete', 'Post', { creator: 'admin' })
         cannot('publish', 'Post')
@@ -108,9 +89,14 @@ describe('Ability', () => {
       expect(ability).to.allow('update', new Post())
     })
 
-    it('allows to perform specified actions on target type', () => {
+    it('allows to perform specified actions on target type (string)', () => {
       expect(ability).to.allow('read', 'Post')
       expect(ability).to.allow('update', 'Post')
+    })
+
+    it('allows to perform specified actions on target type (class)', () => {
+      expect(ability).to.allow('read', Post)
+      expect(ability).to.allow('update', Post)
     })
 
     it('disallows to perform unspecified action on target', () => {
@@ -118,9 +104,12 @@ describe('Ability', () => {
       expect(ability).not.to.allow('archive', new Post())
     })
 
-    it('disallows to perform action if action or/and target is falsy', () => {
+    it('disallows to perform action if action parameter is falsy', () => {
       expect(ability).not.to.allow(null, 'Post')
-      expect(ability).not.to.allow('read', null)
+    })
+
+    it('checks by `all` subject if subject parameter is falsy', () => {
+      expect(ability).to.allow('test', null)
     })
 
     it('disallows to perform action on unspecified target type', () => {
@@ -198,9 +187,10 @@ describe('Ability', () => {
       })
 
       it('warns if ability contains only inverted rules', () => {
-        spy.on(console, 'warn')
+        spy.on(console, 'warn', () => {})
         ability.update([{ inverted: true, action: 'read', subject: 'Post' }])
 
+        // eslint-disable-next-line
         expect(console.warn).to.have.been.called()
 
         spy.restore(console, 'warn')
@@ -219,7 +209,7 @@ describe('Ability', () => {
 
   describe('rule precedence', () => {
     it('checks every rule using logical OR operator (the order matters!)', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('delete', 'Post', { creator: 'me' })
         can('delete', 'Post', { sharedWith: { $in: ['me'] } })
       })
@@ -229,7 +219,7 @@ describe('Ability', () => {
     })
 
     it('checks rules in inverse order', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('delete', 'Post', { creator: 'me' })
         cannot('delete', 'Post', { archived: true })
       })
@@ -239,8 +229,8 @@ describe('Ability', () => {
     })
 
     it('shadows rule with conditions by the same rule without conditions', () => {
-      ability = AbilityBuilder.define((can) => {
-        can('crud', 'Post')
+      ability = defineAbility((can) => {
+        can('delete', 'Post')
         can('delete', 'Post', { creator: 'me' })
       })
 
@@ -249,7 +239,7 @@ describe('Ability', () => {
     })
 
     it('does not shadow rule with conditions by the same rule if the last one is disallowed by `cannot`', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('crud', 'Post')
         cannot('delete', 'Post')
         can('delete', 'Post', { creator: 'me' })
@@ -260,16 +250,16 @@ describe('Ability', () => {
     })
 
     it('shadows inverted rule by regular one', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         cannot('delete', 'Post', { creator: 'me' })
-        can('crud', 'Post', { creator: 'me' })
+        can('delete', 'Post', { creator: 'me' })
       })
 
       expect(ability).to.allow('delete', new Post({ creator: 'me' }))
     })
 
     it('shadows `all` subject rule by specific one', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('delete', 'all')
         cannot('delete', 'Post')
       })
@@ -281,7 +271,7 @@ describe('Ability', () => {
 
   describe('rule conditions', () => {
     it('allows to use equality conditions', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { creator: 'me' })
       })
 
@@ -290,7 +280,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$ne` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { creator: { $ne: 'me' } })
       })
 
@@ -299,7 +289,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$in` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { state: { $in: ['shared', 'draft'] } })
       })
 
@@ -309,7 +299,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$all` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { state: { $all: ['shared', 'draft'] } })
       })
 
@@ -319,7 +309,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$gt` and `$gte` condition', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('update', 'Post', { views: { $gt: 10 } })
         cannot('update', 'Post', { views: { $gte: 1000 } })
       })
@@ -330,7 +320,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$lt` and `$lte` condition', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('update', 'Post', { views: { $lt: 5 } })
         cannot('update', 'Post', { views: { $lte: 2 } })
       })
@@ -340,7 +330,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$exists` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('read', 'Post', { views: { $exists: true } })
       })
 
@@ -349,7 +339,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like dot notation conditions', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('delete', 'Post', { 'authors.0': { $exists: false } })
         can('update', 'Post', { 'comments.author': 'Ted' })
       })
@@ -362,7 +352,7 @@ describe('Ability', () => {
 
     it('properly compares object-primitives like `ObjectId` that have `toJSON` method', () => {
       const complexValue = value => ({ value, toJSON: () => value, toString: () => value })
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('delete', 'Post', { creator: complexValue(321) })
         can('update', 'Post', { state: { $in: [complexValue('draft'), complexValue('shared')] } })
       })
@@ -374,7 +364,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$regex` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('delete', 'Post', { title: { $regex: '\\[DELETED\\]' } })
       })
 
@@ -384,7 +374,7 @@ describe('Ability', () => {
     })
 
     it('allows to use mongo like `$elemMatch` condition', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('delete', 'Post', { authors: { $elemMatch: { id: 'me-id' } } })
       })
 
@@ -394,7 +384,7 @@ describe('Ability', () => {
     })
 
     it('returns true for `Ability` which contains inverted rule and subject specified as string', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post')
         cannot('read', 'Post', { private: true })
       })
@@ -405,7 +395,7 @@ describe('Ability', () => {
 
   describe('per field abilities', () => {
     it('allows to define per field rules', () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post', 'title'))
+      ability = defineAbility(can => can('read', 'Post', 'title'))
 
       expect(ability).to.allow('read', 'Post')
       expect(ability).to.allow('read', 'Post', 'title')
@@ -413,7 +403,7 @@ describe('Ability', () => {
     })
 
     it('allows to define rules for several fields', () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post', ['title', 'id']))
+      ability = defineAbility(can => can('read', 'Post', ['title', 'id']))
 
       expect(ability).to.allow('read', 'Post')
       expect(ability).to.allow('read', 'Post', 'title')
@@ -422,7 +412,7 @@ describe('Ability', () => {
     })
 
     it('allows to define inverted rules for a field', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post')
         cannot('read', 'Post', 'description')
       })
@@ -433,21 +423,21 @@ describe('Ability', () => {
     })
 
     it('allows to perform actions on all attributes if none is specified', () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post'))
+      ability = defineAbility(can => can('read', 'Post'))
 
       expect(ability).to.allow('read', 'Post', 'title')
       expect(ability).to.allow('read', 'Post', 'description')
     })
 
     it('throws exception if 3rd argument is not a string', () => {
-      ability = AbilityBuilder.define(can => can('read', 'Post', 'title'))
+      ability = defineAbility(can => can('read', 'Post', 'title'))
 
       expect(() => ability.can('read', 'Post', { title: 'test' })).to.throw(/expects 3rd parameter to be a string/)
     })
 
     describe('when field patterns', () => {
       it('allows to act on any 1st level field (e.g., author.*)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author.*'))
+        ability = defineAbility(can => can('read', 'Post', 'author.*'))
 
         expect(ability).to.allow('read', 'Post', 'author')
         expect(ability).to.allow('read', 'Post', 'author.*')
@@ -457,7 +447,7 @@ describe('Ability', () => {
       })
 
       it('allows to act on field at any depth (e.g., author.**)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author.**'))
+        ability = defineAbility(can => can('read', 'Post', 'author.**'))
 
         expect(ability).to.allow('read', 'Post', 'author')
         expect(ability).to.allow('read', 'Post', 'author.**')
@@ -467,7 +457,7 @@ describe('Ability', () => {
       })
 
       it('allows to act on fields defined by star in the middle of path (e.g., author.*.name)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author.*.name'))
+        ability = defineAbility(can => can('read', 'Post', 'author.*.name'))
 
         expect(ability).not.to.allow('read', 'Post', 'author')
         expect(ability).to.allow('read', 'Post', 'author.*.name')
@@ -477,7 +467,7 @@ describe('Ability', () => {
       })
 
       it('allows to act on fields defined by 2 stars in the middle of path (e.g., author.**.name)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author.**.name'))
+        ability = defineAbility(can => can('read', 'Post', 'author.**.name'))
 
         expect(ability).not.to.allow('read', 'Post', 'author')
         expect(ability).to.allow('read', 'Post', 'author.**.name')
@@ -486,16 +476,16 @@ describe('Ability', () => {
         expect(ability).to.allow('read', 'Post', 'author.publication.country.name')
       })
 
-      it('allows to act on fields defined by star at the begining (e.g., *.name)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', '*.name'))
+      it('allows to act on fields defined by star at the beginning (e.g., *.name)', () => {
+        ability = defineAbility(can => can('read', 'Post', '*.name'))
 
         expect(ability).to.allow('read', 'Post', 'author.name')
         expect(ability).to.allow('read', 'Post', '*.name')
         expect(ability).not.to.allow('read', 'Post', 'author.publication.name')
       })
 
-      it('allows to act on fields defined by 2 stars at the begining (e.g., **.name)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', '**.name'))
+      it('allows to act on fields defined by 2 stars at the beginning (e.g., **.name)', () => {
+        ability = defineAbility(can => can('read', 'Post', '**.name'))
 
         expect(ability).to.allow('read', 'Post', 'author.name')
         expect(ability).to.allow('read', 'Post', '**.name')
@@ -503,7 +493,7 @@ describe('Ability', () => {
       })
 
       it('allows to act on fields defined by stars (e.g., author.address.street*)', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author.address.street*'))
+        ability = defineAbility(can => can('read', 'Post', 'author.address.street*'))
 
         expect(ability).to.allow('read', 'Post', 'author.address.street')
         expect(ability).to.allow('read', 'Post', 'author.address.street1')
@@ -512,7 +502,7 @@ describe('Ability', () => {
       })
 
       it('correctly works with special regexp symbols', () => {
-        ability = AbilityBuilder.define(can => can('read', 'Post', 'author?.address+.street*'))
+        ability = defineAbility(can => can('read', 'Post', 'author?.address+.street*'))
 
         expect(ability).to.allow('read', 'Post', 'author?.address+.street')
         expect(ability).to.allow('read', 'Post', 'author?.address+.street1')
@@ -525,7 +515,7 @@ describe('Ability', () => {
       const myPost = new Post({ author: 'me' })
 
       beforeEach(() => {
-        ability = AbilityBuilder.define((can) => {
+        ability = defineAbility((can) => {
           can('read', 'Post', ['title', 'description'], { author: myPost.author })
         })
       })
@@ -560,7 +550,7 @@ describe('Ability', () => {
 
   describe('`manage` action', () => {
     it('is an alias for any action', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('manage', 'all')
       })
 
@@ -569,7 +559,7 @@ describe('Ability', () => {
     })
 
     it('honours `cannot` rules', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('manage', 'all')
         cannot('read', 'post')
       })
@@ -579,7 +569,7 @@ describe('Ability', () => {
     })
 
     it('can be used with `cannot`', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'post')
         cannot('manage', 'all')
       })
@@ -589,7 +579,7 @@ describe('Ability', () => {
     })
 
     it('honours field specific rules', () => {
-      ability = AbilityBuilder.define((can) => {
+      ability = defineAbility((can) => {
         can('manage', 'all', 'subject')
       })
 
@@ -599,7 +589,7 @@ describe('Ability', () => {
 
   describe('`rulesFor`', () => {
     it('returns rules for specific subject and action', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post')
         can('update', 'Post')
         cannot('read', 'Post', { private: true })
@@ -608,13 +598,13 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: true, conditions: { private: true } },
-        { actions: 'read', subject: ['Post'], inverted: false },
+        { action: 'read', subject: 'Post', inverted: true, conditions: { private: true } },
+        { action: 'read', subject: 'Post' },
       ])
     })
 
     it('does not return inverted rules with fields when invoked for specific subject and action', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post')
         cannot('read', 'Post', 'title')
       })
@@ -622,12 +612,12 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: false },
+        { action: 'read', subject: 'Post' },
       ])
     })
 
     it('returns rules for specific subject, action and field', () => {
-      ability = AbilityBuilder.define((can, cannot) => {
+      ability = defineAbility((can, cannot) => {
         can('read', 'Post')
         cannot('read', 'Post', 'title')
       })
@@ -635,18 +625,9 @@ describe('Ability', () => {
       const rules = ability.rulesFor('read', 'Post', 'title').map(ruleToObject)
 
       expect(rules).to.deep.equal([
-        { actions: 'read', subject: ['Post'], inverted: true, fields: ['title'] },
-        { actions: 'read', subject: ['Post'], inverted: false }
+        { action: 'read', subject: 'Post', inverted: true, fields: ['title'] },
+        { action: 'read', subject: 'Post' }
       ])
     })
-
-    function ruleToObject(rule) {
-      return ['actions', 'subject', 'conditions', 'fields', 'inverted'].reduce((object, field) => {
-        if (typeof rule[field] !== 'undefined') {
-          object[field] = rule[field]
-        }
-        return object
-      }, {})
-    }
   })
 })

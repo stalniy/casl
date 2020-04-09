@@ -1,0 +1,84 @@
+name: CASL
+updateAvailable: !md |
+  An update is available, **click here to refresh**.
+slogan: |
+  Isomorphic Authorization
+  JavaScript library
+copyright: !md |
+  Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
+  Copyright © 2017-%{year} [Sergii Stotskyi](https://www.linkedin.com/in/sergii-stotskyi-b747ba23/)
+menu:
+  root: Menu
+  api: API
+
+  learn: Learn
+  docs: Documentation
+  guide: Guide
+  examples: Examples
+  cookbook: Cookbook
+  ecosystem: Ecosystem
+  packages: Official packages
+  pkg-mongoose: CASL Mongoose
+  pkg-angular: CASL Angular
+  pkg-react: CASL React
+  pkg-vue: CASL Vue
+  pkg-aurelia: CASL Aurelia
+  help: Help
+
+  questions: Ask a question
+  chat: Chat
+  news: News
+  blog: Blog
+  support: Support CASL
+
+buttons:
+  start: Get Started
+  source: Source code
+
+exampleCode: !md |
+  ```js
+  import { Ability, AbilityBuilder } from '@casl/ability';
+
+  // define abilities
+  const { can, cannot, rules } = new AbilityBuilder();
+
+  can('read', ['Post', 'Comment']);
+  can('manage', 'Post', { author: 'me' });
+  can('create', 'Comment');
+
+  // check abilities
+  const ability = new Ability(rules);
+
+  ability.can('read', 'Post') // true
+  ```
+
+features:
+  isomorphic:
+    title: Isomorphic
+    description: Complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
+  versatile:
+    title: Versatile
+    description: Easily scales between a claim based and subject/attribute based authorization.
+  typesafe:
+    title: TypeSafe
+    description: Written in TypeScript, that makes your apps safer and developer experience more enjoyable
+  treeshakable:
+    title: Tree shakable
+    description: The core is only 4KB mingzipped and can be even smaller!
+  declarative:
+    title: Declarative
+    description: Allows to serialize and share permissions between UI, API and microservices
+
+search:
+  placeholder: Search
+
+categories:
+  guide: Guide
+  example: Examples
+  package: Official Packages
+  cookbook: Cookbook
+  advanced: Advanced
+  api: API documentation
+
+payment:
+  liqpay: Liqpay

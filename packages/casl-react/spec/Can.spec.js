@@ -1,7 +1,6 @@
 import { createElement as e } from 'react'
-import { AbilityBuilder } from '@casl/ability'
+import { defineAbility } from '@casl/ability'
 import renderer from 'react-test-renderer'
-import { assertPropTypes } from 'check-prop-types'
 import { Can } from '../src'
 
 describe('`Can` component', () => {
@@ -9,65 +8,19 @@ describe('`Can` component', () => {
   let children
 
   beforeEach(() => {
-    children = spy(returns => null)
-    ability = AbilityBuilder.define(can => can('read', 'Post'))
-  })
-
-  it('requires to pass children', () => {
-    const props = { ability, I: 'read', a: 'subject' }
-
-    expect(() => validateProps(Can, props)).to.throw(/`children` is marked as required/)
-  })
-
-  it('may accept children as a function', () => {
-    const props = { ability, I: 'read', a: 'subject', children: () => {} }
-
-    expect(() => validateProps(Can, props)).not.to.throw(Error)
+    children = spy(() => null)
+    ability = defineAbility(can => can('read', 'Post'))
   })
 
   it('passes ability check value and instance as arguments to "children" function', () => {
-    const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
+    renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
     expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability)
   })
 
-  it('requires to pass "a", "an", "this" or "of" as string or object', () => {
-    const props = { ability, children, I: 'test' }
-
-    expect(() => validateProps(Can, props)).to.throw(/`a` is marked as required/)
-    expect(() => validateProps(Can, { a: 123, ...props })).to.throw(/Invalid prop `a`/)
-    expect(() => validateProps(Can, { a: {}, ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { a: 'subject', ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { an: 'subject', ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { an: 123, ...props })).to.throw(/Invalid prop `an`/)
-  })
-
-  it('requires to pass "I" as string', () => {
-    const props = { ability, children, a: 'subject' }
-
-    expect(() => validateProps(Can, props)).to.throw(/`I` is marked as required/)
-    expect(() => validateProps(Can, { I: {}, ...props })).to.throw(/expected `string`/)
-    expect(() => validateProps(Can, { I: 'read', ...props })).not.to.throw(Error)
-  })
-
-  it('only accepts "not" as boolean', () => {
-    const props = { ability, children, I: 'test', a: 'subject' }
-
-    expect(() => validateProps(Can, { not: true, ...props })).not.to.throw(Error)
-    expect(() => validateProps(Can, { not: 'string', ...props })).to.throw(/expected `boolean`/)
-  })
-
-  it('requires "ability" prop to be an instance of `Ability`', () => {
-    const props = { children, I: 'test', a: 'subject' }
-
-    expect(() => validateProps(Can, props)).to.throw(/`ability` is marked as required/)
-    expect(() => validateProps(Can, { ability: {}, ...props })).to.throw(/Invalid prop `ability`/)
-    expect(() => validateProps(Can, { ability, ...props })).not.to.throw(Error)
-  })
-
   it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
     const canComponent = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
-    const cannotComponent = renderer.create(e(Can, {not: true, I: 'run', a: 'Marathon', ability }, children))
+    renderer.create(e(Can, { not: true, I: 'run', a: 'Marathon', ability }, children))
 
     expect(canComponent.getInstance().allowed).to.equal(ability.can('read', 'Post'))
     expect(canComponent.getInstance().allowed).to.equal(ability.cannot('run', 'Marathon'))
@@ -75,13 +28,12 @@ describe('`Can` component', () => {
 
   it('unsubscribes from ability updates when unmounted', () => {
     const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
-    const instance = component.getInstance()
 
+    spy.on(ability, 'can')
     component.unmount()
-    spy.on(instance, 'recheck')
     ability.update([])
 
-    expect(instance.recheck).not.to.have.been.called()
+    expect(ability.can).not.to.have.been.called()
   })
 
   describe('#render', () => {
@@ -123,7 +75,7 @@ describe('`Can` component', () => {
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
 
-    it('rerenders when `a` or `this` or `of` prop is changed', () => {
+    it('rerenders when `a` or `an` or `this` prop is changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'User', ability }, child))
       component.update(e(Can, { I: 'read', a: 'Post', ability }, child))
 
@@ -139,7 +91,7 @@ describe('`Can` component', () => {
 
     it('does not rerender itself when previous ability rules are changed', () => {
       const component = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, child))
-      const anotherAbility = AbilityBuilder.define(can => can('manage', 'Post'))
+      const anotherAbility = defineAbility(can => can('manage', 'Post'))
 
       component.update(e(Can, { I: 'read', a: 'Post', ability: anotherAbility }, child))
       ability.update([])
@@ -148,11 +100,11 @@ describe('`Can` component', () => {
     })
 
     it('can render multiple children if `React.Fragment` is available', () => {
-      const children = [child, e('h1', null, 'another children')]
+      const localChildren = [child, e('h1', null, 'another children')]
       const component = renderer.create(
-        e(Can, { I: 'read', a: 'Post', ability }, ...children)
+        e(Can, { I: 'read', a: 'Post', ability }, ...localChildren)
       )
-      const renderedChildren = children.map(element => renderer.create(element).toJSON())
+      const renderedChildren = localChildren.map(element => renderer.create(element).toJSON())
 
       expect(component.toJSON()).to.deep.equal(renderedChildren)
     })
@@ -166,8 +118,4 @@ describe('`Can` component', () => {
       expect(component.toJSON().children).to.deep.equal([child.props.children])
     })
   })
-
-  function validateProps(Component, props, propName) {
-    assertPropTypes(Component.propTypes, props, 'prop', Component.name)
-  }
 })

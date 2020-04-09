@@ -1,0 +1,35 @@
+items:
+- name: learn
+  route: false
+  children:
+    - heading: docs
+    - name: guide
+      page: guide/intro
+    - name: api
+    - name: examples
+    - name: cookbook
+      page: cookbook/intro
+- name: ecosystem
+  route: false
+  children:
+    - heading: packages
+    - name: pkg-mongoose
+      page: package/casl-mongoose
+    - name: pkg-angular
+      page: package/casl-angular
+    - name: pkg-react
+      page: package/casl-react
+    - name: pkg-vue
+      page: package/casl-vue
+    - name: pkg-aurelia
+      page: package/casl-aurelia
+    - heading: help
+    - name: questions
+      url: https://stackoverflow.com/questions/tagged/casl
+    - name: chat
+      url: https://gitter.im/stalniy-casl/casl
+    - heading: news
+    - name: blog
+      url: https://medium.com/@sergiy.stotskiy
+- name: support
+  page: support-casljs
