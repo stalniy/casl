@@ -162,7 +162,7 @@ export default {
       'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH.replace(/\/$/, '')),
     }),
     html({
-      title: 'CASL',
+      title: process.env.LIT_APP_TITLE,
       publicPath: PUBLIC_PATH,
       template: indexHTML({
         analyticsId: process.env.LIT_APP_GA_ID
