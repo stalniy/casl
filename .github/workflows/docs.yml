@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - docs-src/**/*
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build documentation
+      run: npm run build.docs
+    - name: Deploy
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_ACTOR: docs
+      run: |
+        CASL_VERSION=$(npm view @casl/ability version)
+        CASL_DOCS_ROOT="v${CASL_VERSION/.*/}"
+        cat <<- EOF > $HOME/.netrc
+          machine github.com
+          login $GITHUB_ACTOR
+          password $GITHUB_TOKEN
+          machine api.github.com
+          login $GITHUB_ACTOR
+          password $GITHUB_TOKEN
+        EOF
+        chmod 600 $HOME/.netr        
+        git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        git config --global user.name "$GITHUB_ACTOR"
+        git checkout gh-pages
+        rm -rf $CASL_DOCS_ROOT
+        mv docs-src/dist $CASL_DOCS_ROOT
+        git add .
+        git commit -m "chore(release): deploy ${CASL_DOCS_ROOT}"
+        git push --set-upstream origin gh-pages
