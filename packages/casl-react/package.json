@@ -38,7 +38,7 @@
     "npm": "^6.0.0"
   },
   "peerDependencies": {
-    "@casl/ability": "^2.0.0 || ^3.0.0",
+    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0",
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
