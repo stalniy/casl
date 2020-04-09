@@ -45,7 +45,7 @@
   "peerDependencies": {
     "@angular/core": "^9.0.0",
     "tslib": "^1.9.0",
-    "@casl/ability": "^2.0.0 || ^3.0.0"
+    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
     "@abraham/reflection": "^0.7.0",
