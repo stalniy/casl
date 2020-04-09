@@ -8,6 +8,8 @@ on:
     - '**/*.js'
     - '**/*.ts'
     - '**/*.json'
+    paths-ignore:
+    - docs-src/**/*
   pull_request:
 
 jobs:
