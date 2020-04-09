@@ -2,8 +2,7 @@ name: CI
 
 on:
   push:
-    branches:
-    - master
+    branches: [master]
     paths:
     - packages/**/*.{js,ts,json}
     - '*.{json,js}'
