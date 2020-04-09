@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.3...@casl/mongoose@3.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* **mongoose:** ensures mongoose works with MongoQuery conditions ([f92b7df](https://github.com/stalniy/casl/commit/f92b7df532ecca24ee05d02cf9388b21f8d242fa)), closes [#249](https://github.com/stalniy/casl/issues/249)
+* **mongoose:** fixes mongoose typings ([d320eba](https://github.com/stalniy/casl/commit/d320eba70c14c7fc6700aba3e38fee062fdd9c3a)), closes [#248](https://github.com/stalniy/casl/issues/248)
+
+
+### chore
+
+* **aurelia:** replaces .npmignore with package.json files ([812c6b7](https://github.com/stalniy/casl/commit/812c6b7719bafacff3f707b027a30f088e4fc270))
+
+
+### Features
+
+* **mongoose:** adds generics to mongoose types ([6cdf82e](https://github.com/stalniy/casl/commit/6cdf82ee2f547fdb6c5dcd9cb51cef1c4b4c542d)), closes [#256](https://github.com/stalniy/casl/issues/256)
+* **mongoose:** simplifies generics for mongoose ([7ff65f7](https://github.com/stalniy/casl/commit/7ff65f75cf715ca9428dda2fe6e0c91715646979)), closes [#107](https://github.com/stalniy/casl/issues/107)
+
+
+### BREAKING CHANGES
+
+* **aurelia:** several breaking changes hint
+
 ## [2.3.3](https://github.com/stalniy/casl/compare/@casl/mongoose@2.3.2...@casl/mongoose@2.3.3) (2020-03-13)
 
 
