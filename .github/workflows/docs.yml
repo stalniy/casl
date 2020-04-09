@@ -17,10 +17,7 @@ jobs:
       run: |
         cd docs-src
         npm ci
-        LIT_APP_PUBLIC_PATH=/casl/v$CASL_VERSION/ \
-        LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-        NODE_ENV=production \
-        npm run build
+        LIT_APP_PUBLIC_PATH="/casl/v${CASL_VERSION}/" LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") NODE_ENV=production npm run build
     - name: Deploy
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
