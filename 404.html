@@ -28,12 +28,13 @@
       var l = window.location;
       var url = oldUrls[l.pathname] || l.pathname;
       var basePath = '/casl/v4';
-      l.replace(
-        basePath + '/?p=' +
+      var redirectUrl = basePath + '/?p=' +
         url.slice(basePath.length).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+        l.hash;
+      console.log('matches ', l.pathname, ' as ', url, '. Uses base path ', basePath);
+      console.log('going to redirect to ', redirectUrl);
+      l.replace(redirectUrl);
     </script>
   </head>
   <body>
