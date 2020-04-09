@@ -16,8 +16,7 @@
       // Note: this 404.html file must be at least 512 bytes for it to work
       // with Internet Explorer (it is currently > 512 bytes)
       var l = window.location;
-      var pathname = l.pathname;
-      var basePath = '/casl/v4';
+      var basePath = l.pathname.indexOf('.html') === -1 ? '/casl/v4' : '/casl';
       l.replace(
         basePath + '/?p=' +
         l.pathname.slice(basePath.length).replace(/&/g, '~and~') +
