@@ -22,7 +22,7 @@ dotenv.config({
   node_env: process.env.NODE_ENV || 'development',
 });
 
-const env = (name, plugins) => process.env.NODE_ENV === name ? plugins : [];
+const env = (name, plugins) => process.env.NODE_ENV === name ? plugins() : [];
 const SUPPORTED_LANGS = (process.env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
 const minify = terser({
   mangle: {
@@ -55,13 +55,13 @@ export default {
       ? '[name].[hash].js'
       : '[name].js',
     plugins: [
-      ...env('production', [
+      ...env('production', () => [
         minify,
       ]),
     ]
   },
   plugins: [
-    ...env('production', [
+    ...env('production', () => [
       minifyHTML(),
       legacyBundle({
         format: 'iife',
@@ -100,7 +100,7 @@ export default {
     ]),
     url({ publicPath: PUBLIC_PATH }),
     resolve({
-      mainFields: ['module', 'main']
+      mainFields: ['es2015', 'module', 'main']
     }),
     babel({
       rootMode: 'upward',

@@ -2,6 +2,7 @@ const CONFIG = {
   default: {
     plugins: [
       '@babel/plugin-proposal-class-properties',
+      ['@babel/plugin-proposal-unicode-property-regex', { useUnicodeFlag: false }],
     ],
   },
   es5: {
