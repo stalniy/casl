@@ -15,11 +15,22 @@
       // http://www.foo.tld/?p=/one/two&q=a=b~and~c=d#qwe
       // Note: this 404.html file must be at least 512 bytes for it to work
       // with Internet Explorer (it is currently > 512 bytes)
+      var oldUrls = {
+        '/casl/abilities/2017/07/20/define-abilities.html': '/casl/v4/en/guide/define-rules',
+        '/casl/abilities/2017/07/21/check-abilities.html': '/casl/v4/en/guide/intro',
+        '/casl/abilities/errors/2017/07/21/error-handling.html': '/casl/v4/en/api/casl-ability#forbidden-error',
+        '/casl/abilities/roles/2017/07/21/roles.html': '/casl/v4/en/cookbook/roles-with-static-permissions',
+        '/casl/abilities/storage/2017/07/22/storing-abilities.html': '/casl/v4/en/cookbook/cache-rules',
+        '/casl/abilities/database/integration/2017/07/22/database-integration.html': '/casl/v4/en/package/casl-mongoose',
+        '/casl/abilities/2017/07/23/use-cases.html': '/casl/v4/en/cookbook/intro',
+        '/casl/abilities/2017/12/18/dialect-support.html': '/casl/v4/en/guide/install#explanation-of-different-builds'
+      };
       var l = window.location;
-      var basePath = l.pathname.indexOf('.html') === -1 ? '/casl/v4' : '/casl';
+      var url = oldUrls[l.pathname] || l.pathname;
+      var basePath = '/casl/v4';
       l.replace(
         basePath + '/?p=' +
-        l.pathname.slice(basePath.length).replace(/&/g, '~and~') +
+        url.slice(basePath.length).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       );
