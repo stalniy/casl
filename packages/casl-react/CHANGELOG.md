@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2](https://github.com/stalniy/casl/compare/@casl/react@2.0.1...@casl/react@2.0.2) (2020-04-10)
+
+
+### Bug Fixes
+
+* **react:** ensure that terser doesn't mangle reserved required props ([08eb4f4](https://github.com/stalniy/casl/commit/08eb4f4f730f1b453b3a026d5e0e0ca4ff24be10))
+
 ## [2.0.1](https://github.com/stalniy/casl/compare/@casl/react@2.0.0...@casl/react@2.0.1) (2020-04-09)
 
 
