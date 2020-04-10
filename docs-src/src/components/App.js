@@ -135,6 +135,8 @@ App.styles = [
       right: 10px;
       bottom: 10px;
       z-index: 50;
+      max-width: 50%;
+      width: 320px;
     }
   `
 ];

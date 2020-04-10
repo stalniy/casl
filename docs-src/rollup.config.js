@@ -71,17 +71,15 @@ export default {
         format: 'iife',
         polyfills: [
           'core-js/modules/es.array.find',
+          'core-js/modules/es.array.find-index',
           'core-js/modules/es.array.from',
           'core-js/modules/es.array.includes',
           'core-js/modules/es.object.assign',
           'core-js/modules/es.object.entries',
-          'core-js/modules/es.promise',
           'core-js/modules/es.string.includes',
           'core-js/modules/es.string.starts-with',
           'core-js/modules/es.string.ends-with',
-          'core-js/modules/es.weak-set',
           'core-js/modules/es.reflect.construct',
-          'ie11-custom-properties',
           'regenerator-runtime/runtime',
         ],
         plugins: [

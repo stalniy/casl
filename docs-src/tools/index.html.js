@@ -57,8 +57,8 @@ export default options => ({ attributes, files, publicPath, title }) => `
 <body>
   <casl-docs></casl-docs>
 
-  <script defer src="${publicPath}@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-  <script defer src="${publicPath}@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script src="${publicPath}@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="${publicPath}@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   ${generateJs(files.js, { publicPath, attrs: attributes.script, includeSafariFix: true })}
   ${options.sharethis ? `<script async src="${options.sharethis}"></script>` : ''}
 </body>
