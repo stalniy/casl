@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.2...@casl/aurelia@1.0.3) (2020-04-10)
+
+
+### Bug Fixes
+
+* **aurelia:** ensure that terser doesn't mangle reserved required props ([a82dfd5](https://github.com/stalniy/casl/commit/a82dfd55b6acd3912f2668776388c1af5f936e32))
+* **packages:** makes eventual lib size to be smaller ([93a3bec](https://github.com/stalniy/casl/commit/93a3becdde7672bc1362ce11dac0d8247e583b9d)), closes [#287](https://github.com/stalniy/casl/issues/287)
+
 ## [1.0.2](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.1...@casl/aurelia@1.0.2) (2020-04-09)
 
 
