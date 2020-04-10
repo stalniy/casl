@@ -67,13 +67,13 @@ export type AbilityClass<T extends AnyAbility> = new (
 
 export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> {
   private _hasPerFieldRules: boolean = false;
-  private _mergedRules: Record<string, this['rules']> = {};
+  private _mergedRules: Record<string, Rule<A, Conditions>[]> = {};
   private _events: Events<this> = Object.create(null);
   private _indexedRules: RuleIndex<A, Conditions> = {};
   private readonly _ruleOptions!: RuleOptions<A, Conditions>;
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
-  public readonly rules!: Rule<A, Conditions>[];
+  public readonly rules!: RawRuleFrom<A, Conditions>[];
   /** hack property type to improve inference */
   public readonly _za!: A;
   /** hack property type to improve inference */
@@ -109,7 +109,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     }
 
     this._indexedRules = index.indexedRules;
-    this._rules = index.rules;
+    this._rules = rules;
     this._hasPerFieldRules = index.hasPerFieldRules;
     this._emit('updated', event);
 
@@ -117,7 +117,6 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   }
 
   private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
-    const rules: this['rules'] = [];
     const indexedRules: RuleIndex<A, Conditions> = Object.create(null);
     let isAllInverted = true;
     let hasPerFieldRules = false;
@@ -128,7 +127,6 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
       const priority = rawRules.length - i - 1;
       const subjects = wrapArray(rule.subject);
 
-      rules.push(rule);
       isAllInverted = !!(isAllInverted && rule.inverted);
 
       if (!hasPerFieldRules && rule.fields) {
@@ -148,10 +146,9 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     }
 
     return {
-      isAllInverted: isAllInverted && rules.length > 0,
+      isAllInverted: isAllInverted && rawRules.length > 0,
       hasPerFieldRules,
       indexedRules,
-      rules,
     };
   }
 
@@ -212,7 +209,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
 
   rulesFor(...args: CanParameters<A>) {
     const [action, subject, field] = args;
-    const rules: this['rules'] = (this as any).possibleRulesFor(action, subject);
+    const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subject);
 
     if (!this._hasPerFieldRules) {
       return rules;
