@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.1...@casl/mongoose@3.0.2) (2020-04-10)
+
+
+### Bug Fixes
+
+* **mongoose:** ensure that terser doesn't mangle reserved required props ([83f1d32](https://github.com/stalniy/casl/commit/83f1d32d47cb99335c26fb2ba4aa4e6920cb761c))
+
 ## [3.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.0...@casl/mongoose@3.0.1) (2020-04-09)
 
 
