@@ -25,6 +25,7 @@ export default css`
 
   .col-fixed {
     flex-grow: 0;
+    flex-basis: auto;
   }
 
   @media (min-width: 768px) {

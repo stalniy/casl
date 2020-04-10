@@ -229,8 +229,9 @@ QuickSearch.styles = [
       font-size: 0.9rem;
       box-sizing: border-box;
       outline: none;
+      width: calc(100% - 25px);
       border: 0;
-      width: calc(100% - 20px);
+      background-color: transparent;
     }
 
     .suggestions {

@@ -131,6 +131,7 @@ App.styles = [
 
     #notifications {
       position: fixed;
+      position: sticky;
       right: 10px;
       bottom: 10px;
       z-index: 50;
