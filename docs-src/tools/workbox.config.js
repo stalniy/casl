@@ -2,9 +2,6 @@ const prependBaseUrl = baseUrl => async manifest => ({
   warnings: [],
   manifest: manifest.map((entry) => {
     entry.url = `${baseUrl}/${entry.url}`;
-    if (process.env.NODE_ENV === 'production') {
-      entry.revision = null;
-    }
     return entry;
   })
 });
