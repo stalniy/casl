@@ -34,7 +34,7 @@ export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolea
   AbilityParameters<
   Generics<T>['abilities'],
   CanFunction<ToAbilityTypes<Generics<T>['abilities']>, Generics<T>['conditions'], WithFields>,
-  (action: Generics<T>['abilities'] | Generics<T>['abilities'][], subject?: 'all') => 0
+  (action: Generics<T>['abilities'] | Generics<T>['abilities'][]) => 0
   >;
 
 export class AbilityBuilder<T extends AnyAbility = PureAbility> {

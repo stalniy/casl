@@ -24,8 +24,8 @@ export interface AbilityOptions<A extends Abilities, Conditions> {
 }
 
 export type AnyAbility = PureAbility<any, any>;
-export type Generics<T extends AnyAbility> = T extends PureAbility<infer A, infer C>
-  ? { abilities: A, conditions: C }
+export type Generics<T extends AnyAbility> = T extends AnyAbility
+  ? { abilities: T['_za'], conditions: T['_zc'] }
   : never;
 
 export type RuleOf<T extends AnyAbility> =
@@ -74,6 +74,10 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
   public readonly rules!: Rule<A, Conditions>[];
+  /** hack property type to improve inference */
+  public readonly _za!: A;
+  /** hack property type to improve inference */
+  public readonly _zc!: Conditions;
 
   constructor(
     rules: RawRuleFrom<A, Conditions>[] = [],

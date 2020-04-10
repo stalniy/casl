@@ -20,7 +20,7 @@ export type AbilityTupleType<
 > = [T, U];
 export type AbilityTypes = string | AbilityTupleType;
 
-export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, 'all'?];
+export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, undefined?];
 export type DetectSubjectType<T extends Subject> = (subject?: T) => string;
 
 export type IfString<T, U> = T extends string ? U : never;
@@ -38,7 +38,7 @@ export type CanParameters<T extends Abilities, IncludeField extends boolean = tr
       ? (action: T[0], subject: T[1], field?: string) => 0
       : (action: T[0], subject: T[1]) => 0
     : never,
-  (action: T, subject?: 'all') => 0
+  (action: T) => 0
   >;
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType> | TagName<S>;
 

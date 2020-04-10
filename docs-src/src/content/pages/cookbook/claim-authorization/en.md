@@ -43,8 +43,8 @@ Fortunately, CASL supports claim based authorization. The example above can be r
 ```ts
 import { defineAbility, PureAbility } from '@casl/ability';
 
-type Actions = 'review' | 'publish' | 'read';
 type AppAbility = PureAbility<Actions>;
+type Actions = 'review' | 'publish' | 'read';
 
 const ability = defineAbility<AppAbility>((can) => {
   can('review');
