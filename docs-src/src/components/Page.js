@@ -18,7 +18,8 @@ export default class Page extends I18nElement {
     name: { type: String },
     vars: { type: Object, attribute: false },
     content: { type: Function, attribute: false },
-    nav: { type: Array }
+    nav: { type: Array },
+    _page: { type: Object },
   };
 
   constructor() {
@@ -48,7 +49,6 @@ export default class Page extends I18nElement {
   async reload() {
     this._page = await content(this.type).load(locale(), this.name);
     setPageMeta(this._page);
-    this.requestUpdate();
     await this.updateComplete;
     scrollToSectionIn(this.shadowRoot);
   }

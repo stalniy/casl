@@ -59,6 +59,7 @@ PageNav.styles = css`
 
   .next {
     float: right;
+    margin-left: 30px;
   }
 
   .next:after,

@@ -173,7 +173,8 @@ export default {
       title: process.env.LIT_APP_TITLE,
       publicPath: `${PUBLIC_PATH}/`,
       template: indexHTML({
-        analyticsId: process.env.LIT_APP_GA_ID
+        analyticsId: process.env.LIT_APP_GA_ID,
+        sharethis: process.env.SHARETHIS_SRC,
       }),
       attributes: {
         html: null,

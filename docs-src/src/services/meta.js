@@ -44,6 +44,10 @@ export function setRouteMeta({ response }) {
     setTitle(t(`${prefix}.title`));
     setMeta('keywords', t(`${prefix}.keywords`));
     setMeta('description', t(`${prefix}.description`));
+  } else {
+    setTitle();
+    setMeta('keywords');
+    setMeta('description');
   }
 }
 

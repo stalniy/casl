@@ -24,6 +24,9 @@ export default options => ({ attributes, files, publicPath, title }) => `
 <!DOCTYPE html>
 <html${makeHtmlAttributes(attributes.html)}>
 <head>
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
   ${includeGA(options.analyticsId)}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,10 +41,17 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <link rel="mask-icon" href="${publicPath}app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <!-- Start Single Page Apps for GitHub Pages -->
-  <script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
-  <!-- End Single Page Apps for GitHub Pages -->
-  <style>${globalCSS.replace(/~@\//g, publicPath)}</style>
+  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript" />
+  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
+  <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library" />
+  <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
+  <meta property="og:image" content="${publicPath}app-icons/android-chrome-256x256.png" />
+  <style>${
+  globalCSS
+    .replace(/~@\//g, publicPath)
+    .replace(/[\n\r]+ */g, '')
+    .replace(/([:;,]) +/, '$1')
+}</style>
   ${generateCss(files.css, { publicPath, attrs: attributes.link })}
 </head>
 <body>
@@ -50,7 +60,7 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <script defer src="${publicPath}@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script defer src="${publicPath}@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   ${generateJs(files.js, { publicPath, attrs: attributes.script, includeSafariFix: true })}
-  <!--script src="//platform-api.sharethis.com/js/sharethis.js#property=5a853806225fbd0013ea3f16&product=sop" async></script-->
+  ${options.sharethis ? `<script async src="${options.sharethis}"></script>` : ''}
 </body>
 </html>
 `.trim();

@@ -50,9 +50,14 @@ AppRoot.styles = [
 
     .row > main,
     .col-1 > main {
-      padding-bottom: 50px;
       min-width: 0;
-      padding: 0 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .aside,
+    main {
+      padding-bottom: 30px;
     }
 
     aside {
@@ -66,7 +71,6 @@ AppRoot.styles = [
         height: calc(100vh - 132px);
         overflow-y: auto;
         padding-top: 2rem;
-        padding-bottom: 50px;
       }
 
       .row > aside {
