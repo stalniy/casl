@@ -2,7 +2,7 @@ import { Normalize, AnyMongoAbility, Generics } from '@casl/ability';
 import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
-const DENY_CONDITION_NAME = '__forbiddenByCasl__';
+const DENY_CONDITION_NAME = '__forbiddenByCasl__'; // eslint-disable-line
 
 function returnQueryResult(this: any, methodName: string, returnValue: any, ...args: any[]) {
   const [conditions, , callback] = args;

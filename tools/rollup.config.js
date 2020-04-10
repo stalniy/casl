@@ -44,7 +44,8 @@ function aggregate(configs, optionsOverrides) {
               properties: {
                 reserved: [
                   '_collection',
-                  '__esModule'
+                  '__esModule',
+                  '__forbiddenByCasl__'
                 ],
                 regex: /^_/
               }
