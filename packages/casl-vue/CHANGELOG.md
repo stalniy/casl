@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2](https://github.com/stalniy/casl/compare/@casl/vue@1.0.1...@casl/vue@1.0.2) (2020-04-10)
+
+
+### Bug Fixes
+
+* **vue:** ensure that terser doesn't mangle reserved required props ([7fa234c](https://github.com/stalniy/casl/commit/7fa234c06cc133bdffe485bfcb972dc595167899))
+
 ## [1.0.1](https://github.com/stalniy/casl/compare/@casl/vue@1.0.0...@casl/vue@1.0.1) (2020-04-09)
 
 
