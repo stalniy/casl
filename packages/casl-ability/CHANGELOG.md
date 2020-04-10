@@ -109,7 +109,7 @@ All notable changes to this project will be documented in this file.
     return build({ conditionsMatcher });
   }
   ```
-* **builder**: removes `AbilityBuilder.define` in favor of `defineAbilityAbility` and `AbilityBuilder.extract` in favor of `new AbilityBuilder()`
+* **builder**: removes `AbilityBuilder.define` in favor of `defineAbility` and `AbilityBuilder.extract` in favor of `new AbilityBuilder()`
 
   Before:
 
