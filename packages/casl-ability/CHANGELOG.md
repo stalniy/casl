@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.2](https://github.com/stalniy/casl/compare/@casl/ability@4.0.1...@casl/ability@4.0.2) (2020-04-10)
+
+
+### Bug Fixes
+
+* **ability:** improves inference of `abilities` by using virtual ts properties ([c134642](https://github.com/stalniy/casl/commit/c1346420235e7e76a2e3a1e5c8256ed253d78768))
+* **packages:** makes eventual lib size to be smaller ([93a3bec](https://github.com/stalniy/casl/commit/93a3becdde7672bc1362ce11dac0d8247e583b9d)), closes [#287](https://github.com/stalniy/casl/issues/287)
+
 ## [4.0.1](https://github.com/stalniy/casl/compare/@casl/ability@4.0.0...@casl/ability@4.0.1) (2020-04-09)
 
 
