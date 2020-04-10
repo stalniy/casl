@@ -141,13 +141,14 @@ All notable changes to this project will be documented in this file.
   });
 
   // or
-  const { can, cannot, rules } = new AbilityBuilder();
+  const { can, cannot, rules } = new AbilityBuilder(Ability);
 
   can('read', 'Post');
   cannot('delete', 'Post', { private: true });
 
   const ability = new Ability(rules);
   ```
+
 * **error**: `ForbiddenError` constructor now accepts `Ability` instance as a parameter. See API docs for details
 * **Ability**: `emit`, `buildIndexFor`, `mergeRulesFor` are now private methods
 * **rule**: deprecated use of `actions` in rules in favor of singular form `action`, however the 1st is still supported:
