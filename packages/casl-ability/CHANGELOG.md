@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.3](https://github.com/stalniy/casl/compare/@casl/ability@4.0.2...@casl/ability@4.0.3) (2020-04-10)
+
+
+### Bug Fixes
+
+* **ability:** reverts back `ability.rules` types to RawRule ([6d6b85f](https://github.com/stalniy/casl/commit/6d6b85f65527ca1543b856b68e12239be84ee3d3))
+
 ## [4.0.2](https://github.com/stalniy/casl/compare/@casl/ability@4.0.1...@casl/ability@4.0.2) (2020-04-10)
 
 
