@@ -70,7 +70,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
   private _mergedRules: Record<string, this['rules']> = {};
   private _events: Events<this> = Object.create(null);
   private _indexedRules: RuleIndex<A, Conditions> = {};
-  private readonly _ruleOptions: RuleOptions<A, Conditions>;
+  private readonly _ruleOptions!: RuleOptions<A, Conditions>;
   public readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   private _rules: this['rules'] = [];
   public readonly rules!: Rule<A, Conditions>[];

@@ -8,7 +8,7 @@ class AbilityValueConverter<T extends AnyAbility> {
   static inject = [PureAbility];
 
   public readonly signals = [ABILITY_CHANGED_SIGNAL];
-  protected readonly _ability: T;
+  protected readonly _ability!: T;
 
   constructor(ability: T) {
     this._ability = ability;

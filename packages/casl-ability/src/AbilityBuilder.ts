@@ -11,7 +11,7 @@ import {
 import { RawRule } from './RawRule';
 
 class RuleBuilder<T extends RawRule<any, any>> {
-  public rule: T;
+  public rule!: T;
 
   constructor(rule: T) {
     this.rule = rule;
@@ -39,7 +39,7 @@ export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolea
 
 export class AbilityBuilder<T extends AnyAbility = PureAbility> {
   public rules: RawRuleOf<T>[] = [];
-  private _AbilityType: AbilityClass<T>;
+  private _AbilityType!: AbilityClass<T>;
 
   constructor(AbilityType: AbilityClass<T> = PureAbility as AbilityClass<T>) {
     this._AbilityType = AbilityType;

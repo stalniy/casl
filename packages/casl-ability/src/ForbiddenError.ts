@@ -4,8 +4,14 @@ import { Normalize } from './types';
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
 
-export class ForbiddenError<T extends AnyAbility> extends Error {
-  private _ability: T;
+const NativeError = function (this: Error, message: string) {
+  this.message = message;
+} as unknown as new (message: string) => Error;
+
+NativeError.prototype = Object.create(Error.prototype);
+
+export class ForbiddenError<T extends AnyAbility> extends NativeError {
+  private _ability!: T;
   public action!: Normalize<Generics<T>['abilities']>[0];
   public subject!: Generics<T>['abilities'][1];
   public field?: string;

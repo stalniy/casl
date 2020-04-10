@@ -22,12 +22,12 @@ type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
 export class Rule<A extends Abilities, C> {
   private readonly _matchConditions: MatchConditions | undefined;
   private readonly _matchField: MatchField<string> | undefined;
-  public readonly action: Tuple<A>[0] | Tuple<A>[0][];
-  public readonly subject: Tuple<A>[1] | Tuple<A>[1][];
-  public readonly inverted: boolean;
-  public readonly conditions: C | undefined;
-  public readonly fields: string[] | undefined;
-  public readonly reason: string | undefined;
+  public readonly action!: Tuple<A>[0] | Tuple<A>[0][];
+  public readonly subject!: Tuple<A>[1] | Tuple<A>[1][];
+  public readonly inverted!: boolean;
+  public readonly conditions!: C | undefined;
+  public readonly fields!: string[] | undefined;
+  public readonly reason!: string | undefined;
 
   constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<A, C>) {
     this.action = options.resolveAction((rule as any).actions || (rule as any).action);

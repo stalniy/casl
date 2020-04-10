@@ -42,6 +42,10 @@ function aggregate(configs, optionsOverrides) {
           ? [terser({
             mangle: {
               properties: {
+                reserved: [
+                  '_collection',
+                  '__esModule'
+                ],
                 regex: /^_/
               }
             }

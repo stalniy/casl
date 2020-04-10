@@ -1,9 +1,9 @@
 const CONFIG = {
   default: {
-    presets: [
-      '@babel/preset-typescript',
-    ],
     plugins: [
+      ['@babel/plugin-transform-typescript', {
+        allowDeclareFields: true
+      }],
       ['@babel/plugin-proposal-class-properties', {
         loose: true
       }]
