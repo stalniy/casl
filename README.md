@@ -76,13 +76,13 @@ Ask it in [chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](http
 CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
 
 1. User Action\
-   Describes what user can actually do in the app. User action is a word (usually a verb) which depdends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
+   Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
 2. Subject\
-   The subject or subject type which you want to check user action on. Ussually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
+   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
 3. Conditions\
    An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
 4. Fields\
-   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `desription` or `title`)
+   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `description` or `title`)
 
 Using CASL you can describe abilities using regular and inverted rules. Let's see how
 
@@ -147,7 +147,7 @@ ForbiddenError.from(ability).throwUnlessCan('read', post);
 
 **Note**: you can use class instead of string as a subject type (e.g., `ability.can('read', BlogPost)`)
 
-Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Check Abilities][check-abilities] for the detailed explanation.
+Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Introduction][intro] for the detailed explanation.
 
 ### 3. Database integration
 
@@ -185,7 +185,7 @@ See [Database integration][database-integration] for details.
 
 ### 4. Advanced usage
 
-**CASL is incrementaly adoptable**, that means you can start your project with simple claim (or action) based authorization and evolve it later, when your app functionality evolves.
+**CASL is incrementally adoptable**, that means you can start your project with simple claim (or action) based authorization and evolve it later, when your app functionality evolves.
 
 **CASL is composable**, that means you can implement alternative conditions matching (e.g., based on [joi], [ajv] or pure functions) and field matching (e.g., to support alternative syntax in fields like `addresses.*.street` or `addresses[0].street`) logic.
 
@@ -237,14 +237,11 @@ Support this project with your organization. Your logo will show up here with a 
 Copyright (c) 2017-present, Sergii Stotskyi
 
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
-[define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
-[check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
-[database-integration]: https://stalniy.github.io/casl/abilities/database/integration/2017/07/22/database-integration.html
-[casl-vue-example]: https://medium.com/@sergiy.stotskiy/vue-acl-with-casl-781a374b987a
+[define-abilities]: https://stalniy.github.io/casl/en/guide/define-rules
+[intro]: https://stalniy.github.io/casl/en/guide/intro
+[database-integration]: https://stalniy.github.io/casl/en/package/casl-mongoose
 [documentation]: https://stalniy.github.io/casl/
-[store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
-[cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
-[advanced-usage]: #
+[advanced-usage]: https://stalniy.github.io/casl/en/advanced/customize-ability
 
 [mongoose]: http://mongoosejs.com/
 [vue]: https://vuejs.org

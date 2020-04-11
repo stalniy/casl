@@ -1,6 +1,6 @@
 # [CASL Ability](https://stalniy.github.io/casl/) [![@casl/ability NPM version](https://badge.fury.io/js/%40casl%2Fability.svg)](https://badge.fury.io/js/%40casl%2Fability)  [![](https://img.shields.io/npm/dm/%40casl%2Fability.svg)](https://www.npmjs.com/package/%40casl%2Fability) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-This package is the core of CASL. It includes logic responsible for [checking][check-abilities] and [defining][define-abilities] permissions.
+This package is the core of CASL. It includes logic responsible for [checking and defining][intro] permissions.
 
 ## Installation
 
@@ -10,224 +10,127 @@ npm install @casl/ability
 
 ## Getting Started
 
-CASL concentrates all attention at what a user can actually do and allows to create abilities in DSL style. Lets see how
 
-### 1. Defining Abilities
+CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
 
-`AbilityBuilder` allows to define abilities using DSL:
+1. User Action\
+   Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
+2. Subject\
+   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
+3. Conditions\
+   An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
+4. Fields\
+   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `description` or `title`)
 
-```js
+Using CASL you can describe abilities using regular and inverted rules. Let's see how
+
+**Note:** all the examples below will be written in TypeScript but CASL can be used in similar way in ES6+ and Nodejs environments.
+
+### 1. Define Abilities
+
+Lets define `Ability` for a blog website where visitors:
+* can read blog posts
+* can manage (i.e., do anything) own posts
+* cannot delete a post if it was created more than a day ago
+
+```ts
 import { AbilityBuilder, Ability } from '@casl/ability'
+import { User } from '../models'; // application specific interfaces
 
-class Website {}
+/**
+ * @param user contains details about logged in user: its id, name, email, etc
+ */
+function defineAbilitiesFor(user: User) {
+  const { can, cannot, rules } = new AbilityBuilder();
 
-function defineRules() {
-  const { can, cannot, rules } = AbilityBuilder.extract()
+  // can read blog posts
+  can('read', 'BlogPost');
+  // can manage (i.e., do anything) own posts
+  can('manage', 'BlogPost', { author: user.id });
+  // cannot delete a post if it was created more than a day ago
+  cannot('delete', 'BlogPost', {
+    createdAt: { $lt: Date.now() - 24 * 60 * 60 * 1000 }
+  });
 
-  can('protect', 'Website') // you can use name of the class
-  cannot('delete', Website) // or class reference
-
-  return new Ability(rules)
-}
-
-const ability = defineRules()
-
-console.log(ability.can('delete', new Website())) // false
+  return new Ability(rules);
+});
 ```
 
-If you would like to define abilities in own function, it'd better to use its `extract` method:
+Do you see how easily business requirements were translated into CASL's rules?
 
-```js
-import { AbilityBuilder, Ability } from '@casl/ability'
+**Note**: you can use class instead of string as a subject type (e.g., `can('read', BlogPost)`)
 
-function defineAbilityFor(user) {
-  const { rules, can, cannot } = AbilityBuilder.extract()
+And yes, `Ability` class allow you to use some MongoDB operators to define conditions. Don't worry if you don't know MongoDB, it's not required and explained in details in [Defining Abilities][define-abilities]
 
-  if (user.isAdmin) {
-    can('manage', 'all')
-  } else {
-    can('read', 'all')
-    can('manage', 'Post', { author: 'me' })
-    cannot('delete', 'Post')
-  }
+### 2. Check Abilities
 
-  return new Ability(rules)
-}
+Later on you can check abilities by using `can` and `cannot` methods of `Ability` instance.
+
+```ts
+import { BlogPost, ForbiddenError } from '../models';
+
+const user = getLoggedInUser(); // app specific function
+const ability = defineAbilitiesFor(user)
+
+// true if ability allows to read at least one Post
+ability.can('read', 'BlogPost');
+
+// true if there is no ability to read this particular blog post
+const post = new BlogPost({ title: 'What is CASL?' });
+ability.cannot('read', post);
+
+// you can even throw an error if there is a missed ability
+ForbiddenError.from(ability).throwUnlessCan('read', post);
 ```
 
-Also you can combine similar rules together:
+**Note**: you can use class instead of string as a subject type (e.g., `ability.can('read', BlogPost)`)
 
-```js
-const { can, rules } = AbilityBuilder.extract()
+Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Introduction][intro] for the detailed explanation.
 
-can(['read', 'update'], 'User', { id: 'me' })
-can(['read', 'update'], ['Post', 'Comment'], { authorId: 'me' })
+### 3. Database integration
 
-console.log(rules)
+CASL has a complementary package [@casl/mongoose] which provides easy integration with MongoDB and [mongoose].
+
+```ts
+import { AbilityBuilder } from '@casl/ability';
+import { accessibleRecordsPlugin } from '@casl/mongoose';
+import mongoose from 'mongoose';
+
+mongoose.plugin(accessibleRecordsPlugin);
+
+const user = getUserLoggedInUser(); // app specific function
+
+const ability = defineAbilitiesFor(user);
+const BlogPost = mongoose.model('BlogPost', mongoose.Schema({
+  title: String,
+  author: mongoose.Types.ObjectId,
+  content: String,
+  createdAt: Date,
+  hidden: { type: Boolean, default: false }
+}))
+
+// returns mongoose Query, so you can chain it with other conditions
+const posts = await Post.accessibleBy(ability).where({ hidden: false });
+
+// you can also call it on existing query to enforce permissions
+const hiddenPosts = await Post.find({ hidden: true }).accessibleBy(ability);
+
+// you can even pass the action as a 2nd parameter. By default action is "read"
+const updatablePosts = await Post.accessibleBy(ability, 'update');
 ```
 
-Sometimes you may need to define permissions per field. For example, you can let moderator update only post status field
+See [Database integration][database-integration] for details.
 
-```js
-const { can, rules } = AbilityBuilder.extract()
+### 4. Advanced usage
 
-can('read', 'all')
+**CASL is incrementally adoptable**, that means you can start your project with simple claim (or action) based authorization and evolve it later, when your app functionality evolves.
 
-if (user.is('moderator')) {
-  can('update', 'Post', 'status')
-} else if (user.is('editor')) {
-  can('update', 'Post', ['title', 'description'], { authorId: user.id })
-}
+**CASL is composable**, that means you can implement alternative conditions matching (e.g., based on [joi], [ajv] or pure functions) and field matching (e.g., to support alternative syntax in fields like `addresses.*.street` or `addresses[0].street`) logic.
 
-const ability = new Ability(rules)
-```
+See [Advanced usage][advanced-usage] for details.
 
-See [Defining Abilities][define-abilities] for details.
-
-### 2. Checking rules
-
-Later on you can check abilities by using `can` and `cannot`.
-
-```js
-// true if user can read at least one Post
-ability.can('read', 'Post')
-
-// true if user cannot update a post
-const post = new Post({ title: 'What is CASL?', authorId: 'not_me' })
-ability.cannot('update', post)
-```
-
-Regular rules are logically OR-ed, so if you have permissions like:
-
-```js
-const { can } = AbilityBuilder.extract()
-
-can('read', 'Post', { author: user.id })
-can('read', 'Post', { public: true })
-
-// Note: `user` is a variable which contains information about user for whom these permissions are defined
-```
-
-Then a user is able to read posts which are created by him or they are public:
-
-```js
-class Post {
-  ....
-}
-
-ability.can('read', new Post({ public: true })) // true
-ability.can('read', new Post({ author: user.id })) // true
-```
-
-**Note**: pay attention that all conditions, specified in `can` & `cannot` DSL functions of `AbilityBuilder`, are compared to properties of object passed as 2nd argument to `ability.can`.
-
-See [Check Abilities][check-abilities] for details.
-
-### 3. Serializing rules
-
-As rules are plain objects, they can be easily serialized and cached in session or JWT token or even [saved to any database][store-rules] and added dynamically later in admin panel.
-
-```js
-const jwt = require('jsonwebtoken')
-const payload = {
-  rules: ability.rules
-}
-
-jwt.sign(payload, secret, (error, token) => {
-  if (error) {
-    return next(error)
-  }
-
-  // later you can send this token to client
-  // and restore Ability on the client using `jwt.verify`
-  console.log(token)
-})
-```
-
-See [Caching Abilities][cache-rules] for details.
-
-### 4. Extra
-
-This package also provides `@casl/ability/extra` submodule which contains helper functions that can construct a database query based on permissions or extract some information from them.
-
-#### rulesToQuery
-
-```js
-import { rulesToQuery } from '@casl/ability/extra'
-
-function ruleToMongoQuery(rule) {
-  return rule.inverted ? { $nor: [rule.conditions] } : rule.conditions
-}
-
-function toMongoQuery(ability, subject, action = 'read') {
-  return rulesToQuery(ability, action, subject, ruleToMongoQuery)
-}
-
-// now you can construct query based on Ability
-const query = toMongoQuery(ability, 'Post')
-```
-
-[@casl/mongoose][casl-mongoose] uses `rulesToQuery` function to construct queries to MongoDB database.
-
-See [Storing Abilities][storing-abilities] for details.
-
-#### permittedFieldsOf
-
-This function allows to find all permitted fields for a specific subject and action.
-You can use this method together with [lodash.pick](https://lodash.com/docs/4.17.5#pick) to extract only allowed fields from request body
-
-```js
-import { permittedFieldsOf } from '@casl/ability/extra'
-
-const { can, rules } = AbilityBuilder.extract()
-
-can('update', 'Post', ['title', 'description'])
-
-const ability = new Ability(rules)
-
-// later in request middleware
-const fields = permittedFieldsOf(ability, 'update', 'Post')
-const attributesToUpdate = _.pick(req.body, fields)
-```
-
-#### rulesToFields
-
-This function allows to extract an object of field-value pairs from rule conditions.
-That object later can be passed in a constructor of a class, to provide initial values:
-
-```js
-import { AbilityBuilder, Ability } from '@casl/ability'
-import { rulesToFields } from '@casl/ability/extra'
-
-const { can, rules } = AbilityBuilder.extract()
-
-can('read', 'Post', { user: 5 })
-can('read', 'Post', { public: true })
-
-// { user: 5, public: true }
-const initialValues = rulesToFields(new Ability(rules), 'read', 'Post')
-
-// `Post` may be a mongoose or sequelize record
-// or any other class which accepts fields as the 1st argument
-const newPost = new Post(initialValues)
-
-console.log(newPost.user) // 5
-console.log(newPost.public) // true
-```
-
-This method completely ignores inverted rules (so, **do check abilities on created instance!**)
-and collects only those fields which values are non plain objects (i.e., skips mongo query conditions).
-For example:
-
-```js
-const { can, rules } = AbilityBuilder.extract()
-
-can('read', 'Post', { createdAt: { $gte: new Date() } })
-can('read', 'Post', { userId: ObjectId(...) })
-can('read', 'Post', { public: true })
-
-rulesToFields(new Ability(rules), 'read', 'Post') // { userId: ObjectId(...), public: true }
-```
+[joi]: https://www.npmjs.com/package/@hapi/joi
+[ajv]: https://www.npmjs.com/package/ajv
 
 ## Want to help?
 
@@ -237,10 +140,9 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
-[check-abilities]: https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html
-[define-abilities]: https://stalniy.github.io/casl/abilities/2017/07/20/define-abilities.html
 [contributing]: /CONTRIBUTING.md
-[storing-abilities]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html
-[store-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#storing-abilities
-[cache-rules]: https://stalniy.github.io/casl/abilities/storage/2017/07/22/storing-abilities.html#caching-abilities
-[casl-mongoose]: http://npmjs.com/package/@casl/mongoose
+[define-abilities]: https://stalniy.github.io/casl/en/guide/define-rules
+[intro]: https://stalniy.github.io/casl/en/guide/intro
+[database-integration]: https://stalniy.github.io/casl/en/package/casl-mongoose
+[documentation]: https://stalniy.github.io/casl/
+[advanced-usage]: https://stalniy.github.io/casl/en/advanced/customize-ability
