@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.4](https://github.com/stalniy/casl/compare/@casl/angular@4.0.3...@casl/angular@4.0.4) (2020-04-14)
+
+
+### Bug Fixes
+
+* **angular:** removes ngcc `publishOnly` hook ([6e5c570](https://github.com/stalniy/casl/commit/6e5c570b92150e23e4e5c463ed4b497a4860db03))
+
 ## [4.0.3](https://github.com/stalniy/casl/compare/@casl/angular@4.0.2...@casl/angular@4.0.3) (2020-04-14)
 
 
