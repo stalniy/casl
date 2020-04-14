@@ -25,8 +25,7 @@
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
-    "release": "semantic-release -e ../../tools/semantic-release",
-    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+    "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [
     "casl",
