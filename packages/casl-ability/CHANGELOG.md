@@ -90,6 +90,36 @@ All notable changes to this project will be documented in this file.
 
   ability.can('modify', 'Post');
   ```
+
+* **alias**: no more default aliases are shipped with `@casl/ability`. So, if you used `crud`, you need to add it yourself.
+
+  Before:
+
+  ```js
+  import { AbilityBuilder } from '@casl/ability';
+
+  const ability = AbilityBuilder.define((can) => {
+    can("crud", "Post");
+  });
+
+  ability.can("crud", "Post"); // true
+  ```
+
+  After:
+
+  ```js
+  import { defineAbility, createAliasResolver } from '@casl/ability';
+
+  const resolveAction = createAliasResolver({
+    crud: ['create', 'read', 'update', 'delete']
+  });
+  const ability = defineAbility({ resolveAction }, (can) => {
+    can("crud", "Post"); 
+  });
+
+  ability.can("crud", "Post"); // true
+  ```
+
 * **options**: no more possibility to pass custom `Rule` class (this was undocumented feature). Now you should use `conditionsMatcher` and `fieldMatcher` instead.
 
   Before:
