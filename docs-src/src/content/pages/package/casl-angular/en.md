@@ -225,25 +225,22 @@ export class TodoItem {
 }
 ```
 
-To make the life easier, instead of creating a separate type you can create a separate class:
+To make the life easier, you can use `AbilityClass<TAbility>` class to utilize Companion object pattern:
 
 ```ts @{data-filename="AppAbility.ts"}
-import { Ability } from '@casl/ability';
+import { Ability, AbilityClass } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
 
-export type AppAbilities = [Actions, Subjects];
-
-export class AppAbility extends Ability<AppAbilities> {
-}
+export type AppAbility = Ability<[Actions, Subjects]>;
+export const AppAbility = Ability as AbilityClass<AppAbility>;
 ```
 
-And provide this class instead in `AppModule` providers:
+And use `AppAbility` everywhere in your app:
 
 ```ts @{data-filename="AppModule.ts"}
 import { NgModule } from '@angular/core';
-import { Ability } from '@casl/ability';
 import { AppAbility } from './services/AppAbility';
 
 @NgModule({

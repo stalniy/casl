@@ -169,6 +169,22 @@ ability.can('read', 'User');
 ability.can('create', 'User'); // build time error! because it's not allowed to create users
 ```
 
+## Application Ability
+
+From the first sight, it looks like that in order to use safer generic parameters, your app's code will become more complicated and this is true. But there is an escape hatch - Companion object pattern:
+
+```ts
+import { Ability, AbilityClass } from '@casl/ability';
+
+type CRUD = 'create' | 'read' | 'update' | 'delete';
+type Abilities = ['read', 'User'] | [CRUD, 'Article'];
+
+export type AppAbility = Ability<Abilities>;
+export const AppAbility = Ability as AbilityClass<AppAbility>;
+```
+
+This simple pattern comes to TypeScript from Scala, and it's a way to pair together types and objects. In TypeScript, values and types live in a separate namespaces, this allows to use the same name for a type and a class. TypeScript understands which one to use from the usage.
+
 ## Useful type helpers
 
 ### RawRule
