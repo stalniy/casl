@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "sourceMap": true,
+    "inlineSourceMap": true,
     "declaration": false,
     "module": "es2015",
     "target": "es2015",

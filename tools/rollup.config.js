@@ -38,7 +38,7 @@ function aggregate(configs, optionsOverrides) {
         ...config.output,
         globals,
         format: buildTypes[config.id].format || config.output.format,
-        plugins: process.env.NODE_ENV === 'production'
+        plugins: process.env.NODE_ENV === 'production' && process.env.LIB_MINIFY !== 'false'
           ? [terser({
             mangle: {
               properties: {
@@ -47,7 +47,7 @@ function aggregate(configs, optionsOverrides) {
                   '__esModule',
                   '__forbiddenByCasl__'
                 ],
-                regex: /^_/
+                regex: /^_[a-z]/i
               }
             }
           })]

@@ -20,12 +20,13 @@
     "build.es6": "TARGET=es2015 BUILD=es6 npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
-    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib",
+    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "prerelease": "NODE_ENV=production npm run build && npm test",
-    "release": "semantic-release -e ../../tools/semantic-release"
+    "release": "semantic-release -e ../../tools/semantic-release",
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
   },
   "keywords": [
     "casl",
