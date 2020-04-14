@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.3](https://github.com/stalniy/casl/compare/@casl/angular@4.0.2...@casl/angular@4.0.3) (2020-04-14)
+
+
+### Bug Fixes
+
+* **package:** allows to disable minification through `LIB_MINIFY` env var ([de70838](https://github.com/stalniy/casl/commit/de70838a7a6e52ee4af52635f6dd91f3b767bdca))
+
 ## [4.0.2](https://github.com/stalniy/casl/compare/@casl/angular@4.0.1...@casl/angular@4.0.2) (2020-04-10)
 
 
