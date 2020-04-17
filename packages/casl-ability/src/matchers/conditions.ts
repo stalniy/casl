@@ -34,7 +34,7 @@ const defaultOperations = {
 };
 
 type RegExpOptions<T> = { $regex: T, $options?: string };
-type Primitive = string | number | null | boolean | undefined;
+type Primitive = Record<PropertyKey, any> | string | number | null | boolean | undefined;
 export type MongoQueryOperators = {
   $eq?: any,
   $ne?: any,
@@ -42,9 +42,9 @@ export type MongoQueryOperators = {
   $lte?: string | number | Date,
   $gt?: string | number | Date,
   $gte?: string | number | Date,
-  $in?: [any, ...any[]],
-  $nin?: [any, ...any[]],
-  $all?: [any, ...any[]],
+  $in?: any[],
+  $nin?: any[],
+  $all?: any[],
   /** checks by array length */
   $size?: number,
   $regex?: RegExp | RegExpOptions<string> | RegExpOptions<RegExp>,
