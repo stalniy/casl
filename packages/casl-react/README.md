@@ -131,6 +131,8 @@ export class TodoApp extends Component {
 }
 ```
 
+### Imperative access to Ability instance
+
 Sometimes the logic in a component may be a bit complicated, so you can't use `<Can>` component. In such cases, you can use [React's `contextType` component property](https://reactjs.org/docs/context.html#classcontexttype):
 
 ```jsx
@@ -158,7 +160,8 @@ TodoApp.contextType = AbilityContext;
 or `useContext` hook:
 
 ```jsx
-import React from 'react';
+import React, { useContext } from 'react';
+import { AbilityContext } from './Can'
 
 export default () => {
   const createTodo = () => { /* logic to show new todo form */ };
@@ -171,10 +174,28 @@ export default () => {
     </div>
   );
 }
-
 ```
 
-In this case, you need to create a new `Ability` instance when you want to update user permissions (don't use `update`, it won't trigger re-rendering in this case) or you need to force re-render the whole app.
+In that case, you need to create a new `Ability` instance when you want to update user permissions (don't use `update` method, it won't trigger re-rendering in this case) or you need to force re-render the whole app.
+
+To make things easier, `@casl/react` provides `useAbility` hook that accepts `React.Context` as the only argument (the same as `useContext`), but triggers re-render in the component where you use this hook when you update `Ability` rules. The example above can be rewritten to:
+
+```jsx
+import { useAbility } from '@casl/react';
+import { AbilityContext } from './Can'
+
+export default () => {
+  const createTodo = () => { /* logic to show new todo form */ };
+  const ability = useAbility(AbilityContext);
+
+  return (
+    <div>
+      {ability.can('create', 'Todo') &&
+        <button onClick={createTodo}>Create Todo</button>}
+    </div>
+  );
+}
+```
 
 ### Usage note on React < 16.4 with TypeScript
 
@@ -283,7 +304,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support) for details.
+> See [Support CASL](../../support-casljs) for details
 
 ## License
 
