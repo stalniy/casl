@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.5](https://github.com/stalniy/casl/compare/@casl/ability@4.0.4...@casl/ability@4.0.5) (2020-04-17)
+
+
+### Bug Fixes
+
+* **ability:** relax types for MongoQueryOperators ([2960064](https://github.com/stalniy/casl/commit/296006458c11fdc75a72e7a2e0e074ff0e26eefa))
+
 ## [4.0.4](https://github.com/stalniy/casl/compare/@casl/ability@4.0.3...@casl/ability@4.0.4) (2020-04-11)
 
 
