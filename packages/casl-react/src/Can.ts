@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, createElement } from 'react';
+import { Children, ReactNodeArray, PureComponent, Fragment, createElement } from 'react';
 import {
   Unsubscribe,
   AbilityTuple,
@@ -11,16 +11,16 @@ import {
 
 const noop = () => {};
 const renderChildren = Fragment
-  ? (children?: React.ReactNodeArray) => {
+  ? (children?: ReactNodeArray) => {
     if (!children) {
       return null;
     }
 
     return children.length > 1
       ? createElement(Fragment, null, ...children)
-      : React.Children.only(children);
+      : Children.only(children);
   }
-  : React.Children.only;
+  : Children.only;
 
 type AbilityCanProps<
   T extends Abilities,
