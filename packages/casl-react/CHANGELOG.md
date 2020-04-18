@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.1.0](https://github.com/stalniy/casl/compare/@casl/react@2.0.2...@casl/react@2.1.0) (2020-04-18)
+
+
+### Features
+
+* **react:** adds `useAbility` hook ([#292](https://github.com/stalniy/casl/issues/292)) ([cd81a22](https://github.com/stalniy/casl/commit/cd81a224b4d44b036ecf5e53601e34d7a51e7be3)), closes [#291](https://github.com/stalniy/casl/issues/291)
+
 ## [2.0.2](https://github.com/stalniy/casl/compare/@casl/react@2.0.1...@casl/react@2.0.2) (2020-04-10)
 
 
