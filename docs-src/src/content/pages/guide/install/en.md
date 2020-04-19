@@ -78,7 +78,7 @@ For prototyping or learning purposes, you can use the latest version with:
 For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@casl/ability@3.4.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@casl/ability"></script>
 ```
 
 ## Download and use &lt;script&gt; tag
@@ -106,7 +106,7 @@ All official packages has the same directory layout (except of `@casl/mongoose` 
 
 ## CSP environments
 
-Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of `new Function()` for evaluating expressions. [sift] is a package which is CASL uses internally depends on this feature to evaluate `$where` operator.
+Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of `new Function()` for evaluating expressions. [sift](https://github.com/crcn/sift.js) is a package which is CASL uses internally depends on this feature to evaluate `$where` operator.
 
 CASL doesn't imports this operator, so if you use bundlers such as [webpack] or [rollup], they will shake out this operator and it will not appear in the eventual bundle.
 
