@@ -43,7 +43,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 | [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | IE 11+ (uses `WeakMap`) |
 
 [@casl/ability]: packages/casl-ability
-[@casl/mongoose]: packages/casl-vue
+[@casl/mongoose]: packages/casl-mongoose
 [@casl/angular]: packages/casl-angular
 [@casl/react]: packages/casl-react
 [@casl/vue]: packages/casl-vue
