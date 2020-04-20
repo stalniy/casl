@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.6](https://github.com/stalniy/casl/compare/@casl/ability@4.0.5...@casl/ability@4.0.6) (2020-04-20)
+
+
+### Bug Fixes
+
+* **can:** changes link in exception to new documentation ([c133d4e](https://github.com/stalniy/casl/commit/c133d4ebc7aaa6d63192cd9adc19a18d55d50713))
+
 ## [4.0.5](https://github.com/stalniy/casl/compare/@casl/ability@4.0.4...@casl/ability@4.0.5) (2020-04-17)
 
 
