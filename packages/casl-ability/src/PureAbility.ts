@@ -156,7 +156,7 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     const field = args[2];
 
     if (field && typeof field !== 'string') {
-      throw new Error('`can` expects 3rd parameter to be a string. See https://stalniy.github.io/casl/abilities/2017/07/21/check-abilities.html#checking-fields for details');
+      throw new Error('`can` expects 3rd parameter to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
     }
 
     const rule = this.relevantRuleFor(...args);
