@@ -54,14 +54,12 @@ export function detectSubjectType<T extends Subject>(subject?: T): string {
   return (Type as SubjectClass).modelName || Type.name;
 }
 
-type KeyOrValuesOf<T extends {}> = keyof T | T[keyof T] | Array<keyof T | T[keyof T]>;
-
-export function expandActions(aliasMap: AliasesMap, rawActions: KeyOrValuesOf<AliasesMap>) {
+export function expandActions(aliasMap: AliasesMap, rawActions: string | string[]) {
   let actions = wrapArray(rawActions);
   let i = 0;
 
   while (i < actions.length) {
-    const action = actions[i++] as string;
+    const action = actions[i++];
 
     if (aliasMap.hasOwnProperty(action)) {
       actions = actions.concat(aliasMap[action]);
@@ -94,5 +92,5 @@ export function createAliasResolver(aliasMap: AliasesMap) {
     assertAliasMap(aliasMap);
   }
 
-  return (action: KeyOrValuesOf<AliasesMap>) => expandActions(aliasMap, action);
+  return (action: string | string[]) => expandActions(aliasMap, action);
 }
