@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.7](https://github.com/stalniy/casl/compare/@casl/ability@4.0.6...@casl/ability@4.0.7) (2020-04-22)
+
+
+### Bug Fixes
+
+* **alias:** simplifies types for expandActions ([395dde7](https://github.com/stalniy/casl/commit/395dde714bcce1522b9c706ed0941e21395d6673))
+
 ## [4.0.6](https://github.com/stalniy/casl/compare/@casl/ability@4.0.5...@casl/ability@4.0.6) (2020-04-20)
 
 
