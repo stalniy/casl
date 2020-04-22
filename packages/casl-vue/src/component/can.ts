@@ -1,4 +1,4 @@
-import { FunctionalComponentOptions, VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 import { SubjectType, Generics, AnyAbility, Abilities, IfString, AbilityTuple } from '@casl/ability';
 import { VueAbility } from '../types';
 
@@ -17,7 +17,7 @@ export type AllCanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abi
   passThrough?: boolean
 };
 
-const Can: FunctionalComponentOptions<AllCanProps<VueAbility>> = {
+export default Vue.extend<AllCanProps<VueAbility>>({
   name: 'Can',
   functional: true,
   props: {
@@ -44,7 +44,7 @@ const Can: FunctionalComponentOptions<AllCanProps<VueAbility>> = {
     const canRender = props.not ? !isAllowed : isAllowed;
 
     if (!props.passThrough) {
-      return canRender ? children : (null as unknown as VNode);
+      return canRender ? children : [];
     }
 
     if (!data.scopedSlots || !data.scopedSlots.default) {
@@ -54,8 +54,6 @@ const Can: FunctionalComponentOptions<AllCanProps<VueAbility>> = {
     return data.scopedSlots.default({
       allowed: canRender,
       ability: parent.$ability,
-    }) as unknown as VNode[];
+    }) as VNode;
   }
-};
-
-export default Can;
+});

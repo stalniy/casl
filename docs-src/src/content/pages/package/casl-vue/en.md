@@ -98,7 +98,7 @@ It accepts default slot and 5 properties:
 * `field` - checked field
 
   ```html
-  <Can I="read" :this=post field="title">
+  <Can I="read" :this="post" field="title">
     Yes, you can do this! ;)
   </Can>
   ```
@@ -157,21 +157,44 @@ There are several other property aliases which allow constructing a readable que
 
 The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
 
-To customize `Ability` generic parameters, you to redeclare `Vue.$ability` property:
+To customize `Ability` generic parameters, you need to redeclare `Vue.$ability` property but TypeScript doesn't allow for property to have a different type. That's why the only option is to use application specific vue type:
 
-```ts @{data-filename="appAbility.d.ts"}
-import { AppAbility } from './services/ability';
+```ts @{data-filename="AppVue.ts"}
+import Vue, { VueConstructor } from 'vue';
+import { AppAbility } from './services/AppAbility';
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $ability: AppAbility
-  }
+export interface AppVue extends Vue {
+  $ability: AppAbility
 }
+
+export default Vue as VueConstructor<AppVue>;
+export * from 'vue';
 ```
 
-and in `./services/ability.ts`:
+and use `AppVue` to create components, for example:
 
-```ts @{data-filename="ability.ts"}
+```html
+<template>
+  <div>hello world</div>
+</template>
+
+<script lang="ts">
+import AppVue from '../AppVue';
+
+export default Vue.extend({
+  name: 'HelloWorld'
+  props: {
+    name: String
+  }
+});
+</script>
+```
+
+Only in this case, you will get proper hints for `$can` method. Otherwise TypeScript infers types from `AnyAbility` for `$can` method which are not quite useful (i.e., `[any] | [any, any, string?]`)
+
+So, after fixing vue types we can get back to `AppAbility` in `./services/AppAbility.ts`:
+
+```ts @{data-filename="AppAbility.ts"}
 import { Ability } from '@casl/angular';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
@@ -180,7 +203,7 @@ type Subjects = 'Article' | 'User'
 export type AppAbility = Ability<[Actions, Subjects]>;
 ```
 
-> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to understand why you need to redeclare `vue/types/vue` module.
+> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to get more information.
 
 ## Update Ability instance
 
