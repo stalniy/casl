@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3](https://github.com/stalniy/casl/compare/@casl/vue@1.0.2...@casl/vue@1.0.3) (2020-04-22)
+
+
+### Bug Fixes
+
+* **types:** use `AnyAbility` in ComponentOptions and in Vue augmentation modules ([7f9be6f](https://github.com/stalniy/casl/commit/7f9be6f13248c1df6df1b41a6d7e2edb62928bca))
+
 ## [1.0.2](https://github.com/stalniy/casl/compare/@casl/vue@1.0.1...@casl/vue@1.0.2) (2020-04-10)
 
 
