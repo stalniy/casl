@@ -194,6 +194,10 @@ See [Advanced usage][advanced-usage] for details.
 [joi]: https://www.npmjs.com/package/@hapi/joi
 [ajv]: https://www.npmjs.com/package/ajv
 
+### 5. Examples
+
+Looking for examples? Check [CASL examples](https://github.com/stalniy/casl-examples) repository.
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
