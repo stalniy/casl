@@ -6,8 +6,16 @@ const CONFIG = {
       }],
       ['@babel/plugin-proposal-class-properties', {
         loose: true
-      }]
+      }],
     ],
+  },
+  es6: {
+    plugins: [
+      ['@babel/plugin-proposal-object-rest-spread', {
+        loose: true,
+        useBuiltIns: true
+      }]
+    ]
   },
   es5: {
     presets: [
@@ -17,7 +25,7 @@ const CONFIG = {
         targets: {
           browsers: ['last 3 versions']
         }
-      }]
+      }],
     ],
   },
   test: {
