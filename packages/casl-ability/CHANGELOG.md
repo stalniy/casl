@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.8](https://github.com/stalniy/casl/compare/@casl/ability@4.0.7...@casl/ability@4.0.8) (2020-04-29)
+
+
+### Bug Fixes
+
+* **dist:** removes redundant gitignore ([9aab6bf](https://github.com/stalniy/casl/commit/9aab6bf80ead50f745e732e51d72716d6d68c756))
+
 ## [4.0.7](https://github.com/stalniy/casl/compare/@casl/ability@4.0.6...@casl/ability@4.0.7) (2020-04-22)
 
 
