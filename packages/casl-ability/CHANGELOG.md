@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
-* **dist:** removes redundant gitignore ([9aab6bf](https://github.com/stalniy/casl/commit/9aab6bf80ead50f745e732e51d72716d6d68c756))
+* **dist:** ensure object spread operator is converted to `Object.assign` in ES6 build ([fefc955](https://github.com/stalniy/casl/commit/fefc95544f739f7f9d0c7ba0f8a295160cd5fc9d))
 
 ## [4.0.7](https://github.com/stalniy/casl/compare/@casl/ability@4.0.6...@casl/ability@4.0.7) (2020-04-22)
 
@@ -142,7 +142,7 @@ All notable changes to this project will be documented in this file.
     crud: ['create', 'read', 'update', 'delete']
   });
   const ability = defineAbility({ resolveAction }, (can) => {
-    can("crud", "Post"); 
+    can("crud", "Post");
   });
 
   ability.can("crud", "Post"); // true
