@@ -180,6 +180,8 @@ export async function provideAbility(req, res, next) {
 }
 ```
 
+> You can use `packRules` and `unpackRules` to minimize rules payload size in 2 times. Check the [API docs of @casl/ability/extra](../../api/casl-ability-extra#pack-rules) for details
+
 ## When to avoid
 
 There are few cases when you should avoid caching:
