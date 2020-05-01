@@ -17,7 +17,7 @@ export default defineAbility((can) => {
 });
 ```
 
-We allowed everyone to read articles, not let's test it:
+We allowed everyone to read articles, now let's test it:
 
 ```js
 import ability from './defineAbility';
@@ -108,6 +108,19 @@ export async function getArticles() {
 
 Now we can safely check permissions on articles using `ability.can` without worrying about subject's type as it was defined previously.
 
+To make a code a bit more verbose, you can alias `subject` to `a` or `an` depending on the context, so the example above may look like this:
+
+```js
+import { subject as an } from '@casl/ability';
+
+export async function getArticles() {
+  const response = await fetch('/api/articles');
+  const body = await response.json();
+
+  return body.articles.map(object => an('Article', object));
+}
+```
+
 ## Custom subject type detection
 
 Sometimes you will need to define your own type detection algorithm (e.g., [GraphQL] provides metadata field `__typename` which returns the type of the object)
@@ -152,6 +165,8 @@ Custom detection function must return `string` and handle the next cases:
 * when subject is an `object`
 
 If you don't want to handle all that cases, you can fallback to built-in `detectSubjectType` function which will do this for you.
+
+> CASL supports classes and functions as subject types, to detect subject type which class or function represents, it calls `detectSubjectType` during `Ability` creation for each rule's `subject` field. So, it's important to handle string or classes if you plan to use it as subject types
 
 The same can be achieved using `defineAbility` function:
 
