@@ -27,7 +27,7 @@
     "@babel/plugin-proposal-unicode-property-regex": "^7.8.8",
     "@babel/preset-env": "^7.8.4",
     "@rollup/plugin-commonjs": "^11.0.2",
-    "@rollup/plugin-html": "^0.1.1",
+    "@rollup/plugin-html": "^0.2.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-url": "^4.0.2",
     "@sindresorhus/slugify": "^0.11.0",
