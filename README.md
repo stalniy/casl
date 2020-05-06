@@ -172,13 +172,13 @@ const BlogPost = mongoose.model('BlogPost', mongoose.Schema({
 }))
 
 // returns mongoose Query, so you can chain it with other conditions
-const posts = await Post.accessibleBy(ability).where({ hidden: false });
+const posts = await BlogPost.accessibleBy(ability).where({ hidden: false });
 
 // you can also call it on existing query to enforce permissions
-const hiddenPosts = await Post.find({ hidden: true }).accessibleBy(ability);
+const hiddenPosts = await BlogPost.find({ hidden: true }).accessibleBy(ability);
 
 // you can even pass the action as a 2nd parameter. By default action is "read"
-const updatablePosts = await Post.accessibleBy(ability, 'update');
+const updatablePosts = await BlogPost.accessibleBy(ability, 'update');
 ```
 
 See [Database integration][database-integration] for details.
