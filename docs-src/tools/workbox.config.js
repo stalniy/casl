@@ -23,7 +23,8 @@ export default (DEST, PUBLIC_PATH) => ({
     'fonts/*',
     'manifest.json',
     'index.html',
-    '*.js'
+    '*.js',
+    '*.{png,jpeg}'
   ],
   navigateFallback: `${PUBLIC_PATH}/index.html`,
   runtimeCaching: [

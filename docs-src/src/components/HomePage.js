@@ -13,7 +13,7 @@ export default class HomePage extends LitElement {
       <div class="bg">
         <header class="row wrap container">
           <div class="col row wrap align-start main">
-            <img src="${shieldURL}" width="250" class="col col-fixed">
+            <img src="${shieldURL}" width="250" height="302" class="col col-fixed">
             <div class="col details">
               <h1>${t('slogan')}</h1>
               <div class="buttons">
