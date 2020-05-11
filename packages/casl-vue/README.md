@@ -161,7 +161,7 @@ declare module 'vue/types/vue' {
 and in `./services/ability.ts`:
 
 ```ts @{data-filename="ability.ts"}
-import { Ability } from '@casl/angular';
+import { Ability } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
