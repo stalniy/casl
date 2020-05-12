@@ -87,7 +87,7 @@ It accepts default slot and 5 properties:
 * `field` - checked field
 
   ```html
-  <Can I="read" :this=post field="title">
+  <Can I="read" :this="post" field="title">
     Yes, you can do this! ;)
   </Can>
   ```
@@ -146,30 +146,57 @@ There are several other property aliases which allow constructing a readable que
 
 The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.
 
-To customize `Ability` generic parameters, you to redeclare `Vue.$ability` property:
+To define application specific `Ability` type, create a separate file, for example:
 
-```ts @{data-filename="appAbility.d.ts"}
-import { AppAbility } from './services/ability';
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $ability: AppAbility
-  }
-}
-```
-
-and in `./services/ability.ts`:
-
-```ts @{data-filename="ability.ts"}
-import { Ability } from '@casl/ability';
+```ts @{data-filename="AppAbility.ts"}
+import { Ability, AbilityClass } from '@casl/angular';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
 
 export type AppAbility = Ability<[Actions, Subjects]>;
+export const AppAbility = Ability as AbilityClass<AppAbility>;
 ```
 
-> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to understand why you need to redeclare `vue/types/vue` module.
+By default, `Vue['$ability']` is declared as `AnyAbility` type. So, to make it more useful for our app, we need to redeclare `Vue['$ability']` type. To do so, create `src/shims-ability.d.ts` file:
+
+```ts @{data-filename="shims-ability.d.ts"}
+import { AppAbility } from './AppAbility'
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $ability: AppAbility;
+    $can(this: this, ...args: Parameters<this['$ability']['can']>): boolean;
+  }
+}
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    ability?: AppAbility;
+  }
+}
+```
+
+And update `tsconfig.json` to replace default vue modules augmentation with application specific:
+
+```json
+{
+  "compilerOptions": {
+    // other options
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@casl/vue/patch": [
+        "src/shims-ability.d.ts"
+      ]
+    }
+  },
+  // other options
+}
+```
+
+> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to understand why it's so hard to properly type Vue plugins.
 
 ## Update Ability instance
 
@@ -228,7 +255,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support) for details.
+> See [Support CASL](../../support-casljs) for details
 
 ## License
 
