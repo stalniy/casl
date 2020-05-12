@@ -1,6 +1,5 @@
 import { VueConstructor } from 'vue';
 import { VueAbility } from './types';
-import './extendVueTypes';
 
 const WATCHERS = new WeakMap();
 

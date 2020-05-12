@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { AnyAbility } from '@casl/ability';
 
 declare module 'vue/types/vue' {

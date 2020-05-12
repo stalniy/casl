@@ -4,6 +4,10 @@
     "src/*"
   ],
   "compilerOptions": {
-    "outDir": "dist/types"
+    "outDir": "dist/types",
+    "baseUrl": ".",
+    "paths": {
+      "@casl/vue/patch": ["./patch.d.ts"]
+    }
   }
 }
