@@ -5,6 +5,20 @@ import router from '../services/router';
 import watchMedia from '../hooks/watchMedia';
 import { t } from '../directives/i18n';
 
+function createNotificationsRoot() {
+  const root = document.createElement('div');
+
+  Object.assign(root.style, {
+    position: 'fixed',
+    right: '10px',
+    bottom: '10px',
+    zIndex: 50,
+    width: '320px'
+  });
+  document.body.appendChild(root);
+  return root;
+}
+
 export default class App extends LitElement {
   static cName = 'casl-docs';
   static properties = {
@@ -68,8 +82,7 @@ export default class App extends LitElement {
       notification.addEventListener('click', options.onClick, false);
     }
 
-    this._notificationsRoot = this._notificationsRoot
-      || this.shadowRoot.getElementById('notifications');
+    this._notificationsRoot = this._notificationsRoot || createNotificationsRoot();
     this._notificationsRoot.appendChild(notification);
   }
 
@@ -118,7 +131,6 @@ export default class App extends LitElement {
           ${cache(body.main || body)}
         </app-root>
       </menu-drawer>
-      <div id="notifications"></div>
     `;
   }
 }
@@ -127,16 +139,6 @@ App.styles = [
   css`
     :host {
       display: block;
-    }
-
-    #notifications {
-      position: fixed;
-      position: sticky;
-      right: 10px;
-      bottom: 10px;
-      z-index: 50;
-      max-width: 50%;
-      width: 320px;
     }
   `
 ];
