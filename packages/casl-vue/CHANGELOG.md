@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.1.0](https://github.com/stalniy/casl/compare/@casl/vue@1.0.3...@casl/vue@1.1.0) (2020-05-12)
+
+
+### Features
+
+* **types:** extract vue augmentation modules into pseudo submodule ([a75296c](https://github.com/stalniy/casl/commit/a75296c3f73af432f500eb8e153cf0e7cde67796)), closes [#312](https://github.com/stalniy/casl/issues/312)
+
 ## [1.0.3](https://github.com/stalniy/casl/compare/@casl/vue@1.0.2...@casl/vue@1.0.3) (2020-04-22)
 
 
