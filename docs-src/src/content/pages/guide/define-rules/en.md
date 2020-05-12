@@ -272,12 +272,14 @@ import { AbilityBuilder, Ability } from '@casl/ability';
 
 async function defineAbility(user) {
   const hasPaidSubscription = await user.hasPaidSubscription();
-  const { can, cannot, build } = new AbilityBuilder();
+  const { can, cannot, build } = new AbilityBuilder(Ability);
 
   if (hasPaidSubscription) {
     can('create', 'BlogPost');
   } else {
     cannot('create', 'BlogPost').because('You have not paid for monthly subscription');
   }
+
+  return build()
 }
 ```

@@ -160,7 +160,7 @@ The package is written in TypeScript, so don't worry that you need to keep all t
 To define application specific `Ability` type, create a separate file, for example:
 
 ```ts @{data-filename="AppAbility.ts"}
-import { Ability, AbilityClass } from '@casl/angular';
+import { Ability, AbilityClass } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
