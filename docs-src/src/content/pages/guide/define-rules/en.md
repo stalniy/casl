@@ -258,3 +258,26 @@ It is important that in the example above `cannot read article unpublished` line
 It was done so in order to be able to override inverted rules by regular ones. However it adds more complexity than benefits, so very likely this logic will be changed in v5 and the order won't matter.
 
 > Use direct rules whenever possible. Direct logic is much easier to track and understand
+
+### Best practice
+
+Direct logic is easier to reason about for human mind, so use direct rules as much as possible! Moreover, this allows to keep permissions clean, more readable and reduces the risk of giving wrong permissions to the wrong users.
+
+> You can remember this rule as: **Give permissions, don't take them away**
+
+So, are there a valid usecases for inverted rules? **Yes**! They work very well when are not combined with regular rules and defined explicitly to express why particular action on particular subject was forbidden, for example:
+
+```js
+import { AbilityBuilder, Ability } from '@casl/ability';
+
+async function defineAbility(user) {
+  const hasPaidSubscription = await user.hasPaidSubscription();
+  const { can, cannot, build } = new AbilityBuilder();
+
+  if (hasPaidSubscription) {
+    can('create', 'BlogPost');
+  } else {
+    cannot('create', 'BlogPost').because('You have not paid for monthly subscription');
+  }
+}
+```
