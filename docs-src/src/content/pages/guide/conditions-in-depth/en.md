@@ -248,8 +248,10 @@ const ability = defineAbility((can) => {
 
 class Address {
   constructor(isoCode, name) {
-    this.isoCode = isoCode;
-    this.name = name;
+    this.country = {
+      isoCode: isoCode,
+      name: name,
+    }
   }
 }
 
