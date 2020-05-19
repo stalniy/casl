@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.1.0](https://github.com/stalniy/casl/compare/@casl/ability@4.0.8...@casl/ability@4.1.0) (2020-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sift to v13 ([fa3eecc](https://github.com/stalniy/casl/commit/fa3eecc7bc01d3bcce4e99fc35bfc27a6cec2bcf))
+
+
+### Features
+
+* **error:** makes `ForbiddenError.ability` to be a readonly public prop ([3a0342d](https://github.com/stalniy/casl/commit/3a0342dbeae1a5719197acf5351bb11fda1789f1)), closes [#264](https://github.com/stalniy/casl/issues/264)
+
 ## [4.0.8](https://github.com/stalniy/casl/compare/@casl/ability@4.0.7...@casl/ability@4.0.8) (2020-04-29)
 
 
