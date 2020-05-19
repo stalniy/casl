@@ -1,5 +1,6 @@
 import { Pipe, ChangeDetectorRef, Inject, PipeTransform } from '@angular/core';
 import { PureAbility, Unsubscribe, AnyAbility } from '@casl/ability';
+import { Observable } from 'rxjs';
 
 class AbilityPipe<T extends AnyAbility> {
   protected _unsubscribeFromAbility?: Unsubscribe;
@@ -25,7 +26,6 @@ class AbilityPipe<T extends AnyAbility> {
   }
 }
 
-// TODO: `pure` can be removed after https://github.com/angular/angular/issues/15041
 @Pipe({ name: 'can', pure: false })
 export class CanPipe<T extends AnyAbility> implements PipeTransform {
   protected pipe: AbilityPipe<T>;
@@ -61,5 +61,23 @@ export class AblePipe<T extends AnyAbility> implements PipeTransform {
 
   ngOnDestroy() {
     this.pipe.ngOnDestroy();
+  }
+}
+
+@Pipe({ name: 'ablePure' })
+export class AblePurePipe<T extends AnyAbility> implements PipeTransform {
+  private _ability: T;
+
+  constructor(@Inject(PureAbility) ability: T) {
+    this._ability = ability;
+  }
+
+  // TODO: `Observable` can be removed after https://github.com/angular/angular/issues/15041
+  transform(...args: Parameters<T['can']>): Observable<boolean> {
+    return new Observable((s) => {
+      const emit = () => s.next(this._ability.can(...args));
+      emit();
+      return this._ability.on('updated', emit);
+    });
   }
 }

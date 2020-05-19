@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CanPipe, AblePipe } from './can';
+import { CanPipe, AblePipe, AblePurePipe } from './pipes';
 
 @NgModule({
   declarations: [
     CanPipe,
     AblePipe,
+    AblePurePipe,
   ],
   exports: [
     CanPipe,
-    AblePipe
+    AblePipe,
+    AblePurePipe,
   ],
 })
 export class AbilityModule {

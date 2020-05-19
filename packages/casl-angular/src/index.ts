@@ -1,2 +1,2 @@
-export * from './can';
-export * from './module';
+export * from './pipes';
+export * from './AbilityModule';

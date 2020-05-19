@@ -20,7 +20,7 @@
     "build.es6": "TARGET=es2015 BUILD=es6 npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
-    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib",
+    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
@@ -45,7 +45,8 @@
   "peerDependencies": {
     "@angular/core": "^9.0.0",
     "tslib": "^1.9.0 || ^2.0.0",
-    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0"
+    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "rxjs": "^6.0.0"
   },
   "devDependencies": {
     "@abraham/reflection": "^0.7.0",

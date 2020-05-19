@@ -156,53 +156,34 @@ Directive cannot be used to pass values into inputs of other components. For exa
 <button [disabled]="!('create' | able: 'Post')">Add Post</button>
 ```
 
-To track status of directive implementation, check [#276](https://github.com/stalniy/casl/issues/276)
-
 ## Performance considerations
 
-Due to [open feature in Angular](https://github.com/angular/angular/issues/15041), pipes were designed to be [impure](https://angular.io/guide/pipes#impure-pipes). This should work pretty fine for majority of cases but may become a bottleneck if you have more than 50 rules (depending on application size and computer characteristics).
+There are 2 pipes in `@casl/angular`:
 
-Don't worry, there are several strategies which you can pick to make things fast when they become slower:
+* `able` - impure pipe
+* `ablePure` - pure pipe
 
-* use memoization, either on `Ability#can` or on `AblePipe#transform` method
-* if you use immutable objects, you can extend existing pipe and make it pure
-* use `ChangeDectionStrategy.OnPush` on your components whenever possible
+So, when should we use which?
 
-To memoize results of `AblePipe`, you will need to create your own one and change its `transform` method to cache results. Also you will need to clear all memoized results when corresponding `Ability` instance is updated.
+> If you are in doubt, then use `ablePure` for action and subject type checks, and `able` for all others
 
-The similar strategy can be applied to `Ability` class. Don't forget to provide new pipe or `Ability` class in `AppModule`! For example
+According to Angular documentation pure pipes are called only if their arguments are changed. This means that you **can't use mutable objects with pure pipes** because changes in that objects don't trigger pure pipe re-evaluation. But a good thing is that Angular creates only single instance of a pure pipe for the whole app and reuses it across components, this way it safes component instantiation time and memory footprint.
 
-```ts
-import { NgModule } from '@angular/core';
-import { Ability } from '@casl/ability';
-import { MemoizedAbility } from './ability';
+Due to [open feature in Angular](https://github.com/angular/angular/issues/15041), we need to pass the result of `ablePure` pipe to `async` pipe. So, instead of
 
-@NgModule({
-  // other configuration
-  providers: [
-    { provide: Ability, useValue: new MemoizedAbility() },
-    { provide: PureAbility, useExisting: Ability },
-  ]
-})
-export class AppModule {}
+```html
+<div *ngIf="'create' | ablePure: 'Todo'">...</div>
 ```
 
-or if you want to provide custom pipe:
+we need to write:
 
-```ts
-import { AblePipe } from '@casl/angular'
-
-@Pipe({ name: 'able', pure: true })
-class PureAblePipe extends AblePipe {}
-
-@NgModule({
-  // other configuration
-  declarations: [
-    PureAblePipe
-  ]
-})
-export class AppModule {}
+```html
+<div *ngIf="'create' | ablePure: 'Todo' | async">...</div>
 ```
+
+> `ablePure` pipe returns an `Observable<boolean>`, so `async` pipe can effectively unwrap it
+
+For apps that mutate application state, we need to use impure `able` pipe as it can detect changes in object properties. Don't worry, checks by action and subject type are very fast and are done in O(1) time. The performance of checks by action and subject object are a bit slower and depend on the amount of rules for a particular subject type and used conditions but usually this won't become a bottle neck for the app.
 
 ## TypeScript support
 
