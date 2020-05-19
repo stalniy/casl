@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.1](https://github.com/stalniy/casl/compare/@casl/angular@4.1.0...@casl/angular@4.1.1) (2020-05-19)
+
+
+### Bug Fixes
+
+* **angular:** updates README for the latest release ([1103dec](https://github.com/stalniy/casl/commit/1103dec36b331a67944a5a9b9554daaeabc2b5bf)), closes [#276](https://github.com/stalniy/casl/issues/276)
+
 # [4.1.0](https://github.com/stalniy/casl/compare/@casl/angular@4.0.4...@casl/angular@4.1.0) (2020-05-19)
 
 
