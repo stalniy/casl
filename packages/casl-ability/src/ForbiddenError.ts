@@ -11,7 +11,7 @@ const NativeError = function (this: Error, message: string) {
 NativeError.prototype = Object.create(Error.prototype);
 
 export class ForbiddenError<T extends AnyAbility> extends NativeError {
-  private _ability!: T;
+  public readonly ability: T;
   public action!: Normalize<Generics<T>['abilities']>[0];
   public subject!: Generics<T>['abilities'][1];
   public field?: string;
@@ -29,7 +29,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
 
   private constructor(ability: T) {
     super('');
-    this._ability = ability;
+    this.ability = ability;
 
     if (typeof Error.captureStackTrace === 'function') {
       this.name = 'ForbiddenError';
@@ -43,7 +43,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
   }
 
   throwUnlessCan(...args: Parameters<T['can']>) {
-    const rule = this._ability.relevantRuleFor(...args);
+    const rule = this.ability.relevantRuleFor(...args);
 
     if (rule && !rule.inverted) {
       return;
@@ -51,7 +51,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
 
     this.action = args[0];
     this.subject = args[1];
-    this.subjectType = this._ability.detectSubjectType(args[1]);
+    this.subjectType = this.ability.detectSubjectType(args[1]);
     this.field = args[2];
 
     const reason = rule ? rule.reason : '';
