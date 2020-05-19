@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [4.1.0](https://github.com/stalniy/casl/compare/@casl/angular@4.0.4...@casl/angular@4.1.0) (2020-05-19)
+
+
+### Features
+
+* **pipe:** adds pure `ablePure` pipe in `@casl/angular` ([23c851c](https://github.com/stalniy/casl/commit/23c851cb0fc4a9cb523a651308f8ad65e137b379)), closes [#276](https://github.com/stalniy/casl/issues/276)
+
 ## [4.0.4](https://github.com/stalniy/casl/compare/@casl/angular@4.0.3...@casl/angular@4.0.4) (2020-04-14)
 
 
