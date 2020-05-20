@@ -132,6 +132,17 @@ See [Advanced usage][advanced-usage] for details.
 [joi]: https://www.npmjs.com/package/@hapi/joi
 [ajv]: https://www.npmjs.com/package/ajv
 
+### 5. Performance and computational complexity
+
+CASL checks are quite fast, thanks to underlying rule index structure. The estimated complexity of different operations can be found below:
+
+| Operation                        | Complexity | Notes         |
+|----------------------------------|------------|---------------|
+| `Ability` creation time          | O(n)       | n - amount of rules |
+| Check by action and subject type (e.g., `ability.can('read', 'Todo')`) | O(1) | |
+| Check by action and subject object (e.g., `ability.can('read', todo)`) | O(m + k) + O(p) | m - amount of rules for the same pair of action and subject; k - amount of operators in conditions; O(p) - complexity of used operators (e.g., `$in` implementation is more complex than `$lt`) |
+
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
