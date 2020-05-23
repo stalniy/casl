@@ -36,7 +36,7 @@
     "rollup": "^2.0.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-terser": "^6.0.0",
     "semantic-release": "15.9.17",
     "tslib": "^2.0.0",
     "typescript": "~3.7.0"
