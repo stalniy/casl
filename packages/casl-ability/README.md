@@ -10,6 +10,7 @@ npm install @casl/ability
 
 ## Getting Started
 
+**Note**: the best way to get started is to read [Guide][intro] in the official documentation. In this README file, you will find just basic information.
 
 CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
 
@@ -24,7 +25,7 @@ CASL operates on the abilities level, that is what a user can actually do in the
 
 Using CASL you can describe abilities using regular and inverted rules. Let's see how
 
-**Note:** all the examples below will be written in TypeScript but CASL can be used in similar way in ES6+ and Nodejs environments.
+**Note**: all the examples below are written in ES6 using ES modules but CASL also has a sophisticated support for TypeScript, read [CASL TypeScript support][typescript-support] for details.
 
 ### 1. Define Abilities
 
@@ -33,14 +34,14 @@ Lets define `Ability` for a blog website where visitors:
 * can manage (i.e., do anything) own posts
 * cannot delete a post if it was created more than a day ago
 
-```ts
+```js
 import { AbilityBuilder, Ability } from '@casl/ability'
 import { User } from '../models'; // application specific interfaces
 
 /**
  * @param user contains details about logged in user: its id, name, email, etc
  */
-function defineAbilitiesFor(user: User) {
+function defineAbilitiesFor(user) {
   const { can, cannot, rules } = new AbilityBuilder();
 
   // can read blog posts
@@ -66,7 +67,7 @@ And yes, `Ability` class allow you to use some MongoDB operators to define condi
 
 Later on you can check abilities by using `can` and `cannot` methods of `Ability` instance.
 
-```ts
+```js
 import { BlogPost, ForbiddenError } from '../models';
 
 const user = getLoggedInUser(); // app specific function
@@ -91,7 +92,7 @@ Of course, you are not restricted to use only class instances in order to check 
 
 CASL has a complementary package [@casl/mongoose] which provides easy integration with MongoDB and [mongoose].
 
-```ts
+```js
 import { AbilityBuilder } from '@casl/ability';
 import { accessibleRecordsPlugin } from '@casl/mongoose';
 import mongoose from 'mongoose';
@@ -142,18 +143,17 @@ CASL checks are quite fast, thanks to underlying rule index structure. The estim
 | Check by action and subject type (e.g., `ability.can('read', 'Todo')`) | O(1) | |
 | Check by action and subject object (e.g., `ability.can('read', todo)`) | O(m + k) + O(p) | m - amount of rules for the same pair of action and subject; k - amount of operators in conditions; O(p) - complexity of used operators (e.g., `$in` implementation is more complex than `$lt`) |
 
-
 ## Want to help?
 
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing][contributing]
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing]
 
 ## License
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
-[contributing]: /CONTRIBUTING.md
+[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/en/guide/define-rules
 [intro]: https://stalniy.github.io/casl/en/guide/intro
 [database-integration]: https://stalniy.github.io/casl/en/package/casl-mongoose
-[documentation]: https://stalniy.github.io/casl/
 [advanced-usage]: https://stalniy.github.io/casl/en/advanced/customize-ability
+[typescript-support]: https://stalniy.github.io/casl/en/advanced/typescript
