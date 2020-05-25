@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.1](https://github.com/stalniy/casl/compare/@casl/ability@4.1.0...@casl/ability@4.1.1) (2020-05-25)
+
+
+### Bug Fixes
+
+* **README:** adds a note about js examples and link to TypeScript support ([bd9dc59](https://github.com/stalniy/casl/commit/bd9dc590536148611571cb1e0bbe5c06ff6d96fd)), closes [#305](https://github.com/stalniy/casl/issues/305)
+
 # [4.1.0](https://github.com/stalniy/casl/compare/@casl/ability@4.0.8...@casl/ability@4.1.0) (2020-05-19)
 
 
