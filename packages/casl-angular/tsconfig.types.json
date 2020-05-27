@@ -7,5 +7,9 @@
   },
   "angularCompilerOptions": {
     "skipMetadataEmit": false
-  }
+  },
+  "include": [
+    "src/*",
+    "spec/*"
+  ]
 }
