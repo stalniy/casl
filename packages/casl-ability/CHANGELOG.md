@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.3](https://github.com/stalniy/casl/compare/@casl/ability@4.1.2...@casl/ability@4.1.3) (2020-05-27)
+
+
+### Bug Fixes
+
+* **ability:** makes sure Ability notifies about edge cases: empty fields array and field level checks without fieldMatcher ([48a49ed](https://github.com/stalniy/casl/commit/48a49eddec46e3a9b56e06039762e18136e39ca4)), closes [#329](https://github.com/stalniy/casl/issues/329) [#330](https://github.com/stalniy/casl/issues/330) [#328](https://github.com/stalniy/casl/issues/328)
+
 ## [4.1.2](https://github.com/stalniy/casl/compare/@casl/ability@4.1.1...@casl/ability@4.1.2) (2020-05-27)
 
 
