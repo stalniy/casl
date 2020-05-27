@@ -1,12 +1,12 @@
 import dotenv from 'dotenv-flow';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import url from '@rollup/plugin-url';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
 import { terser } from 'rollup-plugin-terser';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 import copy from 'rollup-plugin-copy';
 import { content, summary } from 'rollup-plugin-content';
 import { legacyBundle } from 'rollup-plugin-legacy-bundle';
@@ -87,6 +87,7 @@ export default {
           commonjs(),
           babel({
             rootMode: 'upward',
+            babelHelpers: 'bundled',
             inputSourceMap: true,
             exclude: [
               'node_modules/core-js/**/*.js',
@@ -106,6 +107,7 @@ export default {
     }),
     babel({
       rootMode: 'upward',
+      babelHelpers: 'bundled',
       include: [
         'src/**/*.js',
         'node_modules/lit-element/**/*.js'

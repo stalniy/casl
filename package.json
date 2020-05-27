@@ -12,6 +12,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.10.0",
     "@babel/plugin-transform-typescript": "^7.10.0",
     "@babel/preset-env": "^7.8.4",
+    "@rollup/plugin-babel": "^5.0.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "2.24.0",
     "codecov": "^3.0.0",
     "eslint": "^7.1.0",
@@ -19,7 +21,10 @@
     "eslint-config-airbnb-typescript": "^7.2.1",
     "eslint-plugin-import": "^2.20.2",
     "husky": "^4.0.0",
-    "lint-staged": "^10.0.10"
+    "lint-staged": "^10.0.10",
+    "rollup": "^2.10.9",
+    "rollup-plugin-terser": "^6.1.0",
+    "typescript": "~3.8.0"
   },
   "repository": {
     "type": "git",
