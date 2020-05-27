@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.2](https://github.com/stalniy/casl/compare/@casl/ability@4.1.1...@casl/ability@4.1.2) (2020-05-27)
+
+
+### Bug Fixes
+
+* **ability:** throws error when trying to check permissions on field with unconfigured fieldMatcher option ([e5f2add](https://github.com/stalniy/casl/commit/e5f2add3358964bf8884489109c307eb13bfdfc4)), closes [#330](https://github.com/stalniy/casl/issues/330)
+
 ## [4.1.1](https://github.com/stalniy/casl/compare/@casl/ability@4.1.0...@casl/ability@4.1.1) (2020-05-25)
 
 
