@@ -21,8 +21,7 @@ jobs:
           - latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install pnpm
-      run: npx pnpm add -g pnpm
+    - uses: pnpm/action-setup@v1.2.0
     - name: Install dependencies
       run: pnpm install
     - name: Build
