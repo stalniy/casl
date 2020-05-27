@@ -4,11 +4,11 @@ on:
   push:
     branches: [master]
     paths:
-    - .github/workflows/main.yml
-    - packages/**/*.{js,ts,json}
-    - '*.{json,js}'
-    - .eslintrc
-    - tools/**/*
+      - .github/workflows/main.yml
+      - packages/**/*.{js,ts,json}
+      - '*.{json,js}'
+      - .eslintrc
+      - tools/**/*
   pull_request:
 
 jobs:
