@@ -4,6 +4,7 @@ on:
   push:
     branches: [master]
     paths:
+    - .github/**/*
     - packages/**/*.{js,ts,json}
     - '*.{json,js}'
     - .eslintrc
