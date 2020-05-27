@@ -13,10 +13,8 @@ parser.parse = (parse => (config, options) => {
   return parse(config, options);
 })(parser.parse);
 
-const PACKAGE_NAME = process.env.LERNA_PACKAGE_NAME || process.env.npm_package_name;
-
 module.exports = {
-  tagFormat: `${PACKAGE_NAME}@\${version}`,
+  tagFormat: `${process.env.npm_package_name}@\${version}`,
   verifyConditions: [
     '@semantic-release/changelog',
     '@semantic-release/npm',
@@ -31,7 +29,7 @@ module.exports = {
     '@semantic-release/npm',
     {
       path: '@semantic-release/git',
-      message: `chore(release): ${PACKAGE_NAME}@\${nextRelease.version} [skip ci]`
+      message: `chore(release): ${process.env.npm_package_name}@\${nextRelease.version} [skip ci]`
     }
   ],
   success: []

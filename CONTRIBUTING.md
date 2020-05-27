@@ -1,7 +1,6 @@
 # Contributing to CASL
 
-I would love for you to contribute to CASL and help make it even better than it is
-today! As a contributor, here are the guidelines I would like you to follow:
+I would love for you to contribute to CASL and help make it even better than it is today! As a contributor, here are the guidelines I would like you to follow:
 
  - [Question or Problem?](#question)
  - [Issues and Bugs](#issue)
@@ -12,12 +11,14 @@ today! As a contributor, here are the guidelines I would like you to follow:
 
 ## <a name="question"></a> Got a Question or Problem?
 
-Do not open issues for general support questions as I want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [gitter chat][gitter].
+Do not open issues for general support questions as I want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [gitter chat][gitter] or [stackoverflow](https://stackoverflow.com/questions/tagged/casl).
 
 ## <a name="issue"></a> Found a Bug?
+
 If you find a bug in the source code, you can help by [submitting an issue](#submit-issue) or even better, you can [submit a Pull Request](#submit-pr) with a fix.
 
 ## <a name="feature"></a> Missing a Feature?
+
 You can *request* a new feature by [submitting an issue](#submit-issue) to this GitHub Repository. If you would like to *implement* a new feature, please submit an issue with a proposal for your work first, to be sure that somebody else hasn't started to do the same.
 
 ## <a name="submit"></a> Submission Guidelines
@@ -26,38 +27,42 @@ You can *request* a new feature by [submitting an issue](#submit-issue) to this 
 
 Before you submit an issue, please search the issue tracker, maybe an issue for your problem already exists and the discussion might inform you of workarounds readily available.
 
-Please provide steps to reproduce for found bug (using http://plnkr.co or similar), this will help to understand and fix the issue faster.
+Please provide steps to reproduce for found bug (using http://plnkr.co, https://codesandbox.io/, https://repl.it/ or similar), this will help to understand and fix the issue faster.
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
+
 Before you submit your Pull Request (PR) consider the following guidelines:
 
 * Search [GitHub](https://github.com/stalniy/casl/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
 
-* Fork the project and setup it (CASL uses [lerna](https://lernajs.io/) monorepo structure):
+* Fork the project and setup it (CASL uses [pnpm](https://pnpm.js.org/) for monorepo management):
 
-     ```shell
-     git clone git@github.com:${YOUR_GITHUB_USER_NAME}/casl.git # replace ${YOUR_GITHUB_USER_NAME} with your github username
-     cd casl
-     npm ci # requires npm v6+
-     npm run bootstrap # installs external and links internal dependencies
-     ```
+  ```sh
+  # replace ${YOUR_GITHUB_USER_NAME} with your github username
+  git clone git@github.com:${YOUR_GITHUB_USER_NAME}/casl.git
+  # install pnpm, other ways at https://pnpm.js.org/en/installation
+  npx pnpm add -g pnpm
+  cd casl
+  pnpm recursive i
+  ```
 
-* Make your changes in a new git branch:
+* Make your changes in a new git branch (fork master branch):
 
-     ```sh
-     git checkout -b my-fix-branch master
-     ```
+  ```sh
+  git checkout -b my-fix-branch master
+  ```
 
 * **include appropriate test cases**.
 * Follow defined [Coding Rules](#rules).
-* Run all test suites `npm test`
-* Commit your changes using a descriptive commit message that follows defined [commit message conventions](#commit). Adherence to these conventions is necessary because release notes are automatically generated from these messages.
+* Run all test suites `pnpm test`
+* Commit your changes using a descriptive commit message that follows defined [commit message conventions](#commit). Adherence to these conventions is necessary because release notes are automatically generated from these messages using [semantic-release](https://semantic-release.gitbook.io/semantic-release/).
 * Push your branch to GitHub:
 
-    ```shell
-    git push origin my-fix-branch
-    ```
+  ```sh
+  git push origin my-fix-branch
+  ```
+
 * In GitHub, send a pull request to `casl:master`.
 * If somebody from project contributors suggest changes then:
   * Make the required updates.
@@ -67,11 +72,12 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 That's it! Thank you for your contribution!
 
 ## <a name="rules"></a> Coding Rules
+
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
-* All public API methods **must be documented**.
-* Project follows [Airbnb's JavaScript Style Guide][js-style-guide] with [some exceptions](.eslintrc). All these will be checked by Travis ci when you submit your PR
+* All public API methods **must be documented** in docs-src/src/content/pages.
+* Project follows [Airbnb's TypeScript Style Guide][js-style-guide] with [some exceptions](.eslintrc). All these will be checked by CI when you submit your PR
 
 ## <a name="commit"></a> Commit Message Guidelines
 

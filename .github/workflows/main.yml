@@ -21,15 +21,17 @@ jobs:
           - latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install dev dependencies
-      run: npm ci
-    - name: Install dependencies and cross link packages
-      run: npm run bootstrap
+    - name: Install pnpm
+      run: npx pnpm add -g pnpm
+    - name: Install dependencies
+      run: pnpm install
     - name: Build
-      run: npm run build
+      run: pnpm recursive run build
     - name: lint & test
-      run: WITH_COVERAGE=1 npm test
+      run: |
+        pnpm recursive run lint
+        WITH_COVERAGE=1 pnpm recursive run test
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: npm run coverage.submit
+      run: pnpm run coverage.submit

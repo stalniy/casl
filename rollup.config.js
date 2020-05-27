@@ -1,6 +1,6 @@
-import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import babel from 'rollup-plugin-babel'; // eslint-disable-line
+import resolve from 'rollup-plugin-node-resolve'; // eslint-disable-line
+import { terser } from 'rollup-plugin-terser'; // eslint-disable-line
 
 function aggregate(configs, optionsOverrides) {
   let external = [];

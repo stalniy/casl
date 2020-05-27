@@ -4,7 +4,7 @@ import { Normalize } from './types';
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
 
-const NativeError = function (this: Error, message: string) {
+const NativeError = function NError(this: Error, message: string) {
   this.message = message;
 } as unknown as new (message: string) => Error;
 

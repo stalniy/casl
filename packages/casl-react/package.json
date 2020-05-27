@@ -15,11 +15,11 @@
   },
   "scripts": {
     "prebuild": "npm run build.types",
-    "build": "rollup -c ../../tools/rollup.config.js -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
+    "build": "rollup -c ../../rollup.config.js -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
     "build.types": "rm -rf dist/types/* && tsc",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
-    "prerelease": "npm test && NODE_ENV=production npm run build",
+    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [
@@ -43,10 +43,28 @@
   },
   "devDependencies": {
     "@casl/ability": "^4.0.0",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.0",
     "@testing-library/react-hooks": "^3.2.1",
+    "@types/node": "^14.0.5",
     "@types/react": "^16.9.19",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "babel-jest": "^26.0.0",
+    "chai": "^4.1.0",
+    "chai-spies": "^1.0.0",
+    "eslint": "^6.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^6.3.1",
+    "eslint-plugin-import": "^2.9.0",
+    "jest": "^26.0.0",
     "react": "^16.3.0",
-    "react-test-renderer": "^16.3.0"
+    "react-test-renderer": "^16.3.0",
+    "rollup": "^2.0.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-terser": "^6.0.0",
+    "semantic-release": "15.9.17",
+    "typescript": "~3.8.0"
   },
   "files": [
     "dist",

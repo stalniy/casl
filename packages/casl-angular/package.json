@@ -20,11 +20,11 @@
     "build.es6": "TARGET=es2015 BUILD=es6 npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
-    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../tools/rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
+    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
-    "prerelease": "NODE_ENV=production npm run build && npm test",
+    "prerelease": "npm run lint && NODE_ENV=production npm run build && npm test",
     "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [
@@ -44,9 +44,9 @@
   },
   "peerDependencies": {
     "@angular/core": "^9.0.0",
-    "tslib": "^1.9.0 || ^2.0.0",
     "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0",
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.0.0",
+    "tslib": "^1.9.0 || ^2.0.0"
   },
   "devDependencies": {
     "@abraham/reflection": "^0.7.0",
@@ -57,8 +57,26 @@
     "@angular/platform-browser": "^9.0.0",
     "@angular/platform-browser-dynamic": "^9.0.0",
     "@casl/ability": "^4.0.0",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "babel-jest": "^26.0.0",
+    "chai": "^4.1.0",
+    "chai-spies": "^1.0.0",
+    "eslint": "^6.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^6.3.1",
+    "eslint-plugin-import": "^2.9.0",
+    "jest": "^26.0.0",
     "jest-zone-patch": "0.0.10",
+    "rollup": "^2.0.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-terser": "^6.0.0",
     "rxjs": "^6.0.0",
+    "semantic-release": "15.9.17",
+    "tslib": "^2.0.0",
+    "typescript": "~3.8.0",
     "zone.js": "^0.10.2"
   },
   "files": [
