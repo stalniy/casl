@@ -14,16 +14,13 @@ jobs:
       CASL_VERSION: 4
     steps:
     - uses: actions/checkout@v2
-    - uses: pnpm/action-setup@v1.2.0
-      with:
-        version: 4.14.4
     - name: Cache dependencies
       uses: actions/cache@v2
       env:
-        cache-name: casl-deps
+        cache-name: casl-docs-deps
       with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docs-src/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
@@ -31,7 +28,7 @@ jobs:
     - name: Build documentation
       run: |
         cd docs-src
-        pnpm i
+        npm install
         LIT_APP_PUBLIC_PATH="/casl/v${CASL_VERSION}" LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") NODE_ENV=production npm run build
     - name: Deploy
       env:
