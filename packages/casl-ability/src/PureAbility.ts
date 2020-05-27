@@ -159,6 +159,10 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
       throw new Error('`can` expects 3rd parameter to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
     }
 
+    if (field && !this._ruleOptions.fieldMatcher) {
+      throw new Error('Cannot check by field without specified "fieldMatcher" option. Did you unintentionally used PureAbility instead of Ability? Check the API docs of AbilityBuilder: https://stalniy.github.io/casl/v4/en/api/casl-ability#ability-builder');
+    }
+
     const rule = this.relevantRuleFor(...args);
 
     return !!rule && !rule.inverted;

@@ -1,4 +1,4 @@
-import { defineAbility, Ability, createAliasResolver } from '../src'
+import { defineAbility, Ability, PureAbility, createAliasResolver } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
@@ -433,6 +433,11 @@ describe('Ability', () => {
       ability = defineAbility(can => can('read', 'Post', 'title'))
 
       expect(() => ability.can('read', 'Post', { title: 'test' })).to.throw(/expects 3rd parameter to be a string/)
+    })
+
+    it('throws exception if 3rd argument is passed but "fieldMatchher" options was not provided', () => {
+      ability = new PureAbility([{ action: 'read', subject: 'Post', fields: ['title'] }])
+      expect(() => ability.can('read', 'Post', 'title')).to.throw(/Cannot check by field without specified "fieldMatcher" option/)
     })
 
     describe('when field patterns', () => {
