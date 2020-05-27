@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
     paths:
-    - .github/**/*
+    - .github/workflows/main.yml
     - packages/**/*.{js,ts,json}
     - '*.{json,js}'
     - .eslintrc
