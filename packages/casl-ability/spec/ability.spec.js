@@ -432,12 +432,22 @@ describe('Ability', () => {
     it('throws exception if 3rd argument is not a string', () => {
       ability = defineAbility(can => can('read', 'Post', 'title'))
 
-      expect(() => ability.can('read', 'Post', { title: 'test' })).to.throw(/expects 3rd parameter to be a string/)
+      expect(() => ability.can('read', 'Post', { title: 'test' })).to.throw(/`field` parameter is expected to be a string/)
     })
 
     it('throws exception if 3rd argument is passed but "fieldMatchher" options was not provided', () => {
-      ability = new PureAbility([{ action: 'read', subject: 'Post', fields: ['title'] }])
-      expect(() => ability.can('read', 'Post', 'title')).to.throw(/Cannot check by field without specified "fieldMatcher" option/)
+      const rules = [{ action: 'read', subject: 'Post', fields: ['title'] }]
+      expect(() => new PureAbility(rules)).to.throw(/"fieldMatcher" option/)
+    })
+
+    it('warns if there is a rule with "fields" property to be an empty array', () => {
+      spy.on(console, 'warn', () => {})
+      ability = defineAbility(can => can('read', 'Post', []))
+
+      // eslint-disable-next-line
+      expect(console.warn).to.have.been.called()
+
+      spy.restore(console, 'warn')
     })
 
     describe('when field patterns', () => {

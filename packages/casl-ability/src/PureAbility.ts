@@ -1,4 +1,4 @@
-import { Rule, RuleOptions } from './Rule';
+import { Rule } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import { wrapArray, detectSubjectType, identity } from './utils';
 import {
@@ -9,8 +9,10 @@ import {
   Abilities,
   Normalize,
   ConditionsMatcher,
-  FieldMatcher
+  FieldMatcher,
+  RuleOptions
 } from './types';
+import RulesAnalyzer from './RulesAnalyzer';
 
 export type Unsubscribe = () => void;
 
@@ -60,6 +62,8 @@ type RuleIndex<A extends Abilities, C> = {
   }
 };
 
+type RuleIterator<A extends Abilities, C> = (rule: RawRuleFrom<A, C>, index: number) => void;
+
 export type AbilityClass<T extends AnyAbility> = new (
   rules?: RawRuleOf<T>[],
   options?: AbilityOptionsOf<T>
@@ -101,37 +105,30 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     this._emit('update', event);
     this._mergedRules = Object.create(null);
 
-    const index = this._buildIndexFor(rules);
+    const analyser = new RulesAnalyzer<A, Conditions>(rules.length > 0);
+    const indexedRules = this._buildIndexFor(rules, analyser._analyze);
 
-    if (index.isAllInverted) {
-      // eslint-disable-next-line
-      console.warn('Make sure your ability has allowable rules, not only inverted ones. Otherwise `ability.can` will always return `false`.');
-    }
-
-    this._indexedRules = index.indexedRules;
+    analyser._validate(this._ruleOptions);
+    this._indexedRules = indexedRules;
     this._rules = rules;
-    this._hasPerFieldRules = index.hasPerFieldRules;
+    this._hasPerFieldRules = analyser._hasPerFieldRules;
     this._emit('updated', event);
 
     return this;
   }
 
-  private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
+  private _buildIndexFor(
+    rawRules: RawRuleFrom<A, Conditions>[],
+    iterator: RuleIterator<A, Conditions> = identity
+  ) {
     const indexedRules: RuleIndex<A, Conditions> = Object.create(null);
-    let isAllInverted = true;
-    let hasPerFieldRules = false;
 
     for (let i = 0; i < rawRules.length; i++) {
+      iterator(rawRules[i], i);
       const rule = new Rule(rawRules[i], this._ruleOptions);
-      const actions = wrapArray(rule.action);
       const priority = rawRules.length - i - 1;
+      const actions = wrapArray(rule.action);
       const subjects = wrapArray(rule.subject);
-
-      isAllInverted = !!(isAllInverted && rule.inverted);
-
-      if (!hasPerFieldRules && rule.fields) {
-        hasPerFieldRules = true;
-      }
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = this.detectSubjectType(subjects[k]);
@@ -145,26 +142,11 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
       }
     }
 
-    return {
-      isAllInverted: isAllInverted && rawRules.length > 0,
-      hasPerFieldRules,
-      indexedRules,
-    };
+    return indexedRules;
   }
 
   can(...args: CanParameters<A>): boolean {
-    const field = args[2];
-
-    if (field && typeof field !== 'string') {
-      throw new Error('`can` expects 3rd parameter to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
-    }
-
-    if (field && !this._ruleOptions.fieldMatcher) {
-      throw new Error('Cannot check by field without specified "fieldMatcher" option. Did you unintentionally used PureAbility instead of Ability? Check the API docs of AbilityBuilder: https://stalniy.github.io/casl/v4/en/api/casl-ability#ability-builder');
-    }
-
     const rule = this.relevantRuleFor(...args);
-
     return !!rule && !rule.inverted;
   }
 
@@ -217,6 +199,10 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
 
     if (!this._hasPerFieldRules) {
       return rules;
+    }
+
+    if (field && typeof field !== 'string') {
+      throw new Error('3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
     }
 
     return rules.filter(rule => rule.matchesField(field));

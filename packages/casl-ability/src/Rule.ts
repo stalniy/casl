@@ -1,21 +1,13 @@
 import { wrapArray } from './utils';
 import {
   MatchConditions,
-  ConditionsMatcher,
+  RuleOptions,
   MatchField,
-  FieldMatcher,
-  ResolveAction,
   Abilities,
   ToAbilityTypes,
   Normalize
 } from './types';
 import { RawRule } from './RawRule';
-
-export interface RuleOptions<A extends Abilities, Conditions> {
-  conditionsMatcher?: ConditionsMatcher<Conditions>
-  fieldMatcher?: FieldMatcher
-  resolveAction: ResolveAction<Normalize<A>[0]>
-}
 
 type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
 

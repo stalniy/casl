@@ -22,7 +22,7 @@
     "import/prefer-default-export": "off",
     "no-plusplus": "off",
     "comma-dangle": "off",
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "no-underscore-dangle": "off",
     "no-param-reassign": ["error", { "props": false }],
     "no-mixed-operators": "off",
     "no-prototype-builtins": "off",
