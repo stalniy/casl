@@ -45,11 +45,20 @@ type AppAbility = PureAbility<[string, string]>;
 
 **See also**: [TypeScript Support](../../advanced/typescript)
 
-### constructor
+### PureAbility constructor
 
 * **Parameters** (`A` is shortened from `Abilities`):
   * `rules: RawRuleFrom<A, Conditions>[] = []`
   * `options: AbilityOptions<A, Conditions> = {}`
+    * `detectSubjectType?: (subject?: Subject) => string`
+      allows to check [subject type detection](../../guide/subject-type-detection) logic
+    * `conditionsMatcher?: ConditionsMatcher<Conditions>`
+      allows to change the language to match conditions. See [Customize Ability](../../advanced/customize-ability) for details
+    * `fieldMatcher?: FieldMatcher`
+      allows to change the logic how fields are matched. See [Custom field matcher](../../advanced/customize-ability#custom-field-matcher) for details
+    * `resolveAction?: ResolveAction<Normalize<A>[0]>`
+      allows to pass a function that resolves aliases to actions. See [Define action aliases](../../guide/define-aliases) for details
+
 * **Usage**:
 
   ```ts
@@ -156,7 +165,7 @@ Returns an array of all registered rules.
 
 This class allows to define `Ability` or `PureAbility` instance in declarative way. This class accepts a single generic parameter `TAbility extends AnyAbility` type to construct.
 
-### constructor
+### AbilityBuilder constructor
 
 * **Parameters**:
   * `AbilityType: AbilityClass<TAbility> = PureAbility`
