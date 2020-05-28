@@ -9,6 +9,8 @@ describe('Ability', () => {
     ability = defineAbility({ resolveAction }, can => can('modify', 'Post'))
 
     expect(ability).to.allow('modify', 'Post')
+    expect(ability).to.allow('update', 'Post')
+    expect(ability).to.allow('delete', 'Post')
   })
 
   it('allows deeply nested aliased actions', () => {
