@@ -45,11 +45,11 @@ export default class App extends LitElement {
     }, { initial: true }));
     this._unwatch.push(watchMedia('(min-width: 768px)', v => this._isMobile = !v));
     document.addEventListener('keypress', (event) => {
-      // ctrl + alt + shift + V
-      if (event.ctrlKey && event.altKey && event.shiftKey && event.keyCode === 86) {
-        console.log(process.env.COMMIT_HASH || 'unknown');
+      // ctrl + shift + v
+      if (event.ctrlKey && event.shiftKey && event.keyCode === 22) {
+        console.log(process.env.REACT_APP_COMMIT_HASH || 'unknown');
       }
-    });
+    }, false);
   }
 
   disconnectedCallback() {
