@@ -47,7 +47,7 @@ export default class App extends LitElement {
     document.addEventListener('keypress', (event) => {
       // ctrl + shift + v
       if (event.ctrlKey && event.shiftKey && event.keyCode === 22) {
-        console.log(process.env.REACT_APP_COMMIT_HASH || 'unknown');
+        console.log(process.env.COMMIT_HASH || 'unknown');
       }
     }, false);
   }
