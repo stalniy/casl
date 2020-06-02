@@ -197,12 +197,12 @@ export class PureAbility<A extends Abilities = Abilities, Conditions = unknown> 
     const [action, subject, field] = args;
     const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subject);
 
-    if (!this._hasPerFieldRules) {
-      return rules;
+    if (field && typeof field !== 'string') {
+      throw new Error('The 3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
     }
 
-    if (field && typeof field !== 'string') {
-      throw new Error('3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
+    if (!this._hasPerFieldRules) {
+      return rules;
     }
 
     return rules.filter(rule => rule.matchesField(field));
