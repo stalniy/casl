@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.2](https://github.com/stalniy/casl/compare/@casl/angular@4.1.1...@casl/angular@4.1.2) (2020-06-02)
+
+
+### Bug Fixes
+
+* **angular:** widen peer dependency for @angular/core ([aa2c3c4](https://github.com/stalniy/casl/commit/aa2c3c4e5a1e3cf14cebc83125571d3ab15c1451))
+
 ## [4.1.1](https://github.com/stalniy/casl/compare/@casl/angular@4.1.0...@casl/angular@4.1.1) (2020-05-19)
 
 
