@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.4](https://github.com/stalniy/casl/compare/@casl/ability@4.1.3...@casl/ability@4.1.4) (2020-06-02)
+
+
+### Bug Fixes
+
+* **ability:** makes sure error for wrong `Ability` usage is thrown ([db62daf](https://github.com/stalniy/casl/commit/db62dafee3b9d1db08ab49edbcfe0209a34584ae)), closes [#334](https://github.com/stalniy/casl/issues/334)
+
 ## [4.1.3](https://github.com/stalniy/casl/compare/@casl/ability@4.1.2...@casl/ability@4.1.3) (2020-05-27)
 
 
