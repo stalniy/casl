@@ -23,6 +23,8 @@
     "enableIvy": false,
     "skipMetadataEmit": true,
     "skipTemplateCodegen": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "flatModuleOutFile": "public_api.js",
+    "flatModuleId": "@casl/angular"
   }
 }

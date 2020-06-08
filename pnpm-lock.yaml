@@ -93,12 +93,12 @@ importers:
   packages/casl-angular:
     devDependencies:
       '@abraham/reflection': 0.7.0
-      '@angular/common': 9.1.9_c9dffab61c199154bc0103438647d0ef
-      '@angular/compiler': 9.1.9_tslib@2.0.0
-      '@angular/compiler-cli': 9.1.9_4a48cfa4a3a4542040a2164ae54fd13c
-      '@angular/core': 9.1.9_b536f6edd9881d795c15106eeda975eb
-      '@angular/platform-browser': 9.1.9_a6762c297b1978200324a11207ccfb21
-      '@angular/platform-browser-dynamic': 9.1.9_deec6888d3d0a962972477b281013e33
+      '@angular/common': 9.1.9_@angular+core@9.1.9
+      '@angular/compiler': 9.1.9
+      '@angular/compiler-cli': 9.1.9_872f89db962b026a0c88015ff841413c
+      '@angular/core': 9.1.9_zone.js@0.10.3
+      '@angular/platform-browser': 9.1.9_8afd4b0a404262bf48944066a6888698
+      '@angular/platform-browser-dynamic': 9.1.9_7c5a4fec7926dd97cb09d29a15efb856
       '@babel/core': 7.10.0
       '@babel/plugin-proposal-class-properties': 7.8.3_@babel+core@7.10.0
       '@babel/plugin-proposal-object-rest-spread': 7.10.0_@babel+core@7.10.0
@@ -395,11 +395,9 @@ packages:
     dev: true
     resolution:
       integrity: sha512-W4V4I0PzxeWCiMKnS4n4x3Fzb8cQp2qlmBO7RACS/00YsvIgijjcBz5Mp3P1PPP9vSzpbmi0qwuVYZ4twXKwxg==
-  /@angular/common/9.1.9_c9dffab61c199154bc0103438647d0ef:
+  /@angular/common/9.1.9_@angular+core@9.1.9:
     dependencies:
-      '@angular/core': 9.1.9_b536f6edd9881d795c15106eeda975eb
-      rxjs: 6.5.5
-      tslib: 2.0.0
+      '@angular/core': 9.1.9_zone.js@0.10.3
     dev: true
     peerDependencies:
       '@angular/core': 9.1.9
@@ -407,9 +405,9 @@ packages:
       tslib: ^1.10.0
     resolution:
       integrity: sha512-y/tJtkuOJhV2kcaXZyrLZH84i4uQ1r+vaaEHvXj+JZYfYfcMMd/TDqMiPcIkUb3RxqghtZ+q0ZNW5D1Nlru3Pw==
-  /@angular/compiler-cli/9.1.9_4a48cfa4a3a4542040a2164ae54fd13c:
+  /@angular/compiler-cli/9.1.9_872f89db962b026a0c88015ff841413c:
     dependencies:
-      '@angular/compiler': 9.1.9_tslib@2.0.0
+      '@angular/compiler': 9.1.9
       canonical-path: 1.0.0
       chokidar: 3.4.0
       convert-source-map: 1.7.0
@@ -421,7 +419,6 @@ packages:
       semver: 6.3.0
       source-map: 0.6.1
       sourcemap-codec: 1.4.8
-      tslib: 2.0.0
       typescript: 3.8.3
       yargs: 15.3.0
     dev: true
@@ -434,18 +431,14 @@ packages:
       typescript: '>=3.6 <3.9'
     resolution:
       integrity: sha512-aLr2eaDlREN8XybgTbelvjtSZ8eAkxBPilnkddc700BgiC6ImyUSKaItOwa8bnjQwq4Wlz5eVG0ibsrX+5MXwg==
-  /@angular/compiler/9.1.9_tslib@2.0.0:
-    dependencies:
-      tslib: 2.0.0
+  /@angular/compiler/9.1.9:
     dev: true
     peerDependencies:
       tslib: ^1.10.0
     resolution:
       integrity: sha512-kjFgaTB2ckr9lgmkS1dOGRT7kmzpQueydxsxXSHWgICNVE6F/u1PHyeSOyJRpxW0GnrkLq3QM2EUFnQGGga5bg==
-  /@angular/core/9.1.9_b536f6edd9881d795c15106eeda975eb:
+  /@angular/core/9.1.9_zone.js@0.10.3:
     dependencies:
-      rxjs: 6.5.5
-      tslib: 2.0.0
       zone.js: 0.10.3
     dev: true
     peerDependencies:
@@ -454,13 +447,12 @@ packages:
       zone.js: ~0.10.3
     resolution:
       integrity: sha512-q/DERgVU6vK2LtTcdVCGGBcoO424WsEfImh3Vcuy+P/ZVmthlDUC/+q+tSKt8MMf4hLpxFDQJE8vUSkktj7QEw==
-  /@angular/platform-browser-dynamic/9.1.9_deec6888d3d0a962972477b281013e33:
+  /@angular/platform-browser-dynamic/9.1.9_7c5a4fec7926dd97cb09d29a15efb856:
     dependencies:
-      '@angular/common': 9.1.9_c9dffab61c199154bc0103438647d0ef
-      '@angular/compiler': 9.1.9_tslib@2.0.0
-      '@angular/core': 9.1.9_b536f6edd9881d795c15106eeda975eb
-      '@angular/platform-browser': 9.1.9_a6762c297b1978200324a11207ccfb21
-      tslib: 2.0.0
+      '@angular/common': 9.1.9_@angular+core@9.1.9
+      '@angular/compiler': 9.1.9
+      '@angular/core': 9.1.9_zone.js@0.10.3
+      '@angular/platform-browser': 9.1.9_8afd4b0a404262bf48944066a6888698
     dev: true
     peerDependencies:
       '@angular/common': 9.1.9
@@ -470,11 +462,10 @@ packages:
       tslib: ^1.10.0
     resolution:
       integrity: sha512-b9MG5MWne+IuL3uLm8jwPhlJzqYaGBGk/qibOqb17T24j1iyrlO7T5bZ8zO6pUy5iT/TahVfHPnPJC1qTK5OmA==
-  /@angular/platform-browser/9.1.9_a6762c297b1978200324a11207ccfb21:
+  /@angular/platform-browser/9.1.9_8afd4b0a404262bf48944066a6888698:
     dependencies:
-      '@angular/common': 9.1.9_c9dffab61c199154bc0103438647d0ef
-      '@angular/core': 9.1.9_b536f6edd9881d795c15106eeda975eb
-      tslib: 2.0.0
+      '@angular/common': 9.1.9_@angular+core@9.1.9
+      '@angular/core': 9.1.9_zone.js@0.10.3
     dev: true
     peerDependencies:
       '@angular/animations': 9.1.9
