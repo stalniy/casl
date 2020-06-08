@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.3](https://github.com/stalniy/casl/compare/@casl/angular@4.1.2...@casl/angular@4.1.3) (2020-06-08)
+
+
+### Bug Fixes
+
+* **package:** makes sure the latest casl works with Angular 8.x ([91ee505](https://github.com/stalniy/casl/commit/91ee505f25b77c7ddf13a066d9d0c22f6d8d2f99)), closes [#337](https://github.com/stalniy/casl/issues/337)
+
 ## [4.1.2](https://github.com/stalniy/casl/compare/@casl/angular@4.1.1...@casl/angular@4.1.2) (2020-06-02)
 
 
