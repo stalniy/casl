@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.3](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.2...@casl/mongoose@3.0.3) (2020-06-09)
+
+
+### Bug Fixes
+
+* **docs:** ensure README and docs for all packages are in sync ([8df3684](https://github.com/stalniy/casl/commit/8df3684b139de0af60c9c37f284a5028ffbf2224)), closes [#338](https://github.com/stalniy/casl/issues/338)
+
 ## [3.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.1...@casl/mongoose@3.0.2) (2020-04-10)
 
 
