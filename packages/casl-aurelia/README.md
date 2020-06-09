@@ -1,4 +1,8 @@
-# CASL Aurelia [![@casl/aurelia NPM version](https://badge.fury.io/js/%40casl%2Faurelia.svg)](https://badge.fury.io/js/%40casl%2Faurelia) [![](https://img.shields.io/npm/dm/%40casl%2Faurelia.svg)](https://www.npmjs.com/package/%40casl%2Faurelia) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+# CASL Aurelia
+
+[![@casl/aurelia NPM version](https://badge.fury.io/js/%40casl%2Faurelia.svg)](https://badge.fury.io/js/%40casl%2Faurelia)
+[![](https://img.shields.io/npm/dm/%40casl%2Faurelia.svg)](https://www.npmjs.com/package/%40casl%2Faurelia)
+[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
 This package allows to integrate `@casl/ability` with [Aurelia] application. It provides `AbleValueConverter` and **deprecated** `CanValueConverter` to Aurelia templates, so you can show or hide components, buttons, etc based on user ability to see them.
 
@@ -47,7 +51,7 @@ export function configure(aurelia) {
 }
 ```
 
-> Read [CASL and TypeScript](../../advanced/typescript) to get more details about `Ability` type configuration.
+> Read [CASL and TypeScript](https://stalniy.github.io/casl/v4/en/advanced/typescript) to get more details about `Ability` type configuration.
 
 ## Update Ability instance
 
@@ -94,7 +98,7 @@ export class Session {
 }
 ```
 
-> See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://stalniy.github.io/casl/v4/en/guide/define-rules) to get more information of how to define `Ability`
 
 Then use this `Session` service in `LoginComponent`:
 
@@ -203,7 +207,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support) for details.
+> See [Support CASL](https://stalniy.github.io/casl/v4/en/support-casljs) for details
 
 ## License
 

@@ -26,4 +26,8 @@ export default css`
     max-width: 100%;
     height: auto;
   }
+
+  .description > h1 {
+    display: none;
+  }
 `;

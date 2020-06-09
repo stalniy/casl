@@ -9,6 +9,10 @@ export const markdownOptions = {
       anchorClass: 'h-link',
       slugify,
     },
+    'markdown-it-include': {
+      root: `${__dirname}/..`,
+      includeRe: /@include:\s*([\w._/-]+)/
+    },
     [`${__dirname}/tools/mdLink`]: {
       external: {
         target: '_blank',

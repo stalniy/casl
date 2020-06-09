@@ -1,4 +1,8 @@
-# CASL React [![@casl/react NPM version](https://badge.fury.io/js/%40casl%2Freact.svg)](https://badge.fury.io/js/%40casl%2Freact) [![](https://img.shields.io/npm/dm/%40casl%2Freact.svg)](https://www.npmjs.com/package/%40casl%2Freact) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+# CASL React
+
+[![@casl/react NPM version](https://badge.fury.io/js/%40casl%2Freact.svg)](https://badge.fury.io/js/%40casl%2Freact)
+[![](https://img.shields.io/npm/dm/%40casl%2Freact.svg)](https://www.npmjs.com/package/%40casl%2Freact)
+[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
 This package allows to integrate `@casl/ability` with [React] application. It provides `Can` component that allow to hide or show UI elements based on user ability to see them.
 
@@ -108,7 +112,7 @@ export default function App({ props }) {
 }
 ```
 
-> See [CASL guide](../../guide/intro) to learn how to define `Ability` instance.
+> See [CASL guide](https://stalniy.github.io/casl/v4/en/guide/intro) to learn how to define `Ability` instance.
 
 and use our `Can` component:
 
@@ -296,7 +300,7 @@ export default () => {
 };
 ```
 
-> See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://stalniy.github.io/casl/v4/en/guide/define-rules) to get more information of how to define `Ability`
 
 ## Want to help?
 
@@ -304,7 +308,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support-casljs) for details
+> See [Support CASL](https://stalniy.github.io/casl/v4/en/support-casljs) for details
 
 ## License
 

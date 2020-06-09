@@ -1,4 +1,8 @@
-# CASL Vue [![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue) [![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue) [![CASL Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://stalniy.github.io/casl/) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+# CASL Vue
+
+[![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue)
+[![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue)
+[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
 This package allows to integrate `@casl/ability` with [Vue] application. So, you can show or hide UI elements based on user ability to see them. This package provides a Vue plugin which defines `$ability` object and `$can` method for all components. Also package provides functional `Can` component (not included in the plugin), both allow to hide or show UI elements based on the user ability to see them.
 
@@ -54,7 +58,7 @@ import { Can } from '@casl/vue';
 Vue.component('Can', Can);
 ```
 
-> See [CASL guide](../../guide/intro) to learn how to define `Ability` instance.
+> See [CASL guide](https://stalniy.github.io/casl/v4/en/guide/intro) to learn how to define `Ability` instance.
 
 ## Check permissions in templates
 
@@ -149,7 +153,7 @@ The package is written in TypeScript, so don't worry that you need to keep all t
 To define application specific `Ability` type, create a separate file, for example:
 
 ```ts @{data-filename="AppAbility.ts"}
-import { Ability, AbilityClass } from '@casl/angular';
+import { Ability, AbilityClass } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
@@ -176,7 +180,7 @@ declare module 'vue/types/options' {
 }
 ```
 
-And update `tsconfig.json` to replace default vue modules augmentation with application specific:
+And update `tsconfig.json` to replace default vue modules augmentation (i.e., `@casl/vue/patch`) with application specific:
 
 ```json
 {
@@ -184,9 +188,7 @@ And update `tsconfig.json` to replace default vue modules augmentation with appl
     // other options
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
+      // other mappings
       "@casl/vue/patch": [
         "src/shims-ability.d.ts"
       ]
@@ -247,7 +249,7 @@ export default {
 </script>
 ```
 
-> See [Define rules](../../guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://stalniy.github.io/casl/v4/en/guide/define-rules) to get more information of how to define `Ability`
 
 ## Want to help?
 
@@ -255,7 +257,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support-casljs) for details
+> See [Support CASL](https://stalniy.github.io/casl/v4/en/support-casljs) for details
 
 ## License
 

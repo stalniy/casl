@@ -1,4 +1,8 @@
-# [CASL Mongoose](https://stalniy.github.io/casl/) [![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose) [![](https://img.shields.io/npm/dm/%40casl%2Fmongoose.svg)](https://www.npmjs.com/package/%40casl%2Fmongoose) [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+# CASL Mongoose
+
+[![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose)
+[![](https://img.shields.io/npm/dm/%40casl%2Fmongoose.svg)](https://www.npmjs.com/package/%40casl%2Fmongoose)
+[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
 This package integrates [CASL] and [MongoDB]. In other words, it allows to fetch records based on CASL rules from MongoDB and answer questions like: "Which records can be read?" or "Which records can be updated?".
 
@@ -57,7 +61,7 @@ async function main() {
 }
 ```
 
-> See [CASL guide](../../guide/intro) to learn how to define abilities
+> See [CASL guide](https://stalniy.github.io/casl/v4/en/guide/intro) to learn how to define abilities
 
 or on existing query instance:
 
@@ -85,7 +89,7 @@ async function main() {
 }
 ```
 
-> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](../../advanced/ability-to-database-query) to get insights of how it works.
+> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://stalniy.github.io/casl/v4/en/advanced/ability-to-database-query) to get insights of how it works.
 
 In case when user doesn’t have permission to do a particular action, CASL will not even send request to MongoDB and instead will force Query to return empty result set. CASL patches native mongodb collection's methods in such case to return predefine value (empty array for `find`, `null` for `findOne` and `0` for `count`). It also adds `__forbiddenByCasl__: 1` condition which will enforce mongodb to return empty set in case if you use one of methods that are not patched, so users who is not allowed to get particular records won't get them!
 
@@ -176,7 +180,7 @@ app.get('/api/posts/:id', async (req, res) => {
 });
 ```
 
-Method with the same name exists on Model's class. But **it's important** to understand the difference between them. Static method does not take into account conditions! It follows the same [checking logic](../../guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
+Method with the same name exists on Model's class. But **it's important** to understand the difference between them. Static method does not take into account conditions! It follows the same [checking logic](https://stalniy.github.io/casl/v4/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
 
 ```js
 const { defineAbility } = require('@casl/ability');
@@ -233,7 +237,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](../../support) for details
+> See [Support CASL](https://stalniy.github.io/casl/v4/en/support-casljs) for details
 
 ## License
 
