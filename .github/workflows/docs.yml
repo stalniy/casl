@@ -20,7 +20,7 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v2
       env:
-        cache-name: casl-deps
+        cache-name: casl-docs-deps
       with:
         path: ~/.pnpm-store
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
