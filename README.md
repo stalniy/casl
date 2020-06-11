@@ -128,24 +128,39 @@ And yes, `Ability` class allow you to use some MongoDB operators to define condi
 
 Later on you can check abilities by using `can` and `cannot` methods of `Ability` instance.
 
-```ts
-import { BlogPost, ForbiddenError } from '../models';
+```js
+// in the same file as above
+import { ForbiddenError } from '@casl/ability';
 
 const user = getLoggedInUser(); // app specific function
-const ability = defineAbilitiesFor(user)
+const ability = defineAbilitiesFor(user);
+
+class BlogPost { // business entity
+  constructor(props) {
+    Object.assign(this, props);
+  }
+}
 
 // true if ability allows to read at least one Post
 ability.can('read', 'BlogPost');
+// the same as
+ability.can('read', BlogPost);
+
+// true, if user is the author of the blog post
+ability.can('manage', new BlogPost({ author: user.id }));
 
 // true if there is no ability to read this particular blog post
-const post = new BlogPost({ title: 'What is CASL?' });
-ability.cannot('read', post);
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const postCreatedNow = new BlogPost({ createdAt: new Date() });
+const postCreatedAWeekAgo = new BlogPost({ createdAt: new Date(Date.now() - 7 * ONE_DAY) });
+
+// can delete if it's created less than a day ago
+ability.can('delete', postCreatedNow); // true
+ability.can('delete', postCreatedAWeekAgo); // false
 
 // you can even throw an error if there is a missed ability
-ForbiddenError.from(ability).throwUnlessCan('read', post);
+ForbiddenError.from(ability).throwUnlessCan('delete', postCreatedAWeekAgo);
 ```
-
-**Note**: you can use class instead of string as a subject type (e.g., `ability.can('read', BlogPost)`)
 
 Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Introduction][intro] for the detailed explanation.
 
