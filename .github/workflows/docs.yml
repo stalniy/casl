@@ -30,7 +30,10 @@ jobs:
       run: npm install
     - name: Build documentation
       working-directory: docs-src
-      run: LIT_APP_PUBLIC_PATH="/casl/v${CASL_VERSION}" LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") NODE_ENV=production npm run build
+      env:
+        LIT_APP_PUBLIC_PATH: "/v${{ env.CASL_VERSION }}"
+        NODE_ENV: production
+      run: LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") npm run build
     - name: Deploy
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
