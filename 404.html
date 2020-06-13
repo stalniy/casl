@@ -27,7 +27,7 @@
       };
       var l = window.location;
       var url = oldUrls[l.pathname] || l.pathname;
-      var basePath = '/casl/v4';
+      var basePath = '/v4';
       var redirectUrl = basePath + '/?p=' +
         url.slice(basePath.length).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
