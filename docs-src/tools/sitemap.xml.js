@@ -6,14 +6,29 @@ const fs = require('fs');
 const exec = promisify(childProcess.exec);
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
+const readdir = promisify(fs.readdir);
 const WEBSITE = (process.env.SITEMAP_WEBSITE || 'http://localhost:8080') + (process.env.LIT_APP_PUBLIC_PATH || '');
 const CONTENT_PATH = `${__dirname}/../src/content`;
 const DIST_PATH = `${__dirname}/../dist`;
 
+async function findFileByPrefix(dir, prefix) {
+  const files = await readdir(dir);
+  const file = files.find(f => f.startsWith(prefix));
+
+  if (!file) {
+    throw new Error(`Unable to find file by prefix "${prefix}" in "${dir}"`);
+  }
+
+  return `${dir}/${file}`;
+}
+
 const jsonCache = {};
-async function parseJSON(pathToFile) {
+async function parseJSON(directory, prefix) {
+  const pathToFile = `${directory}/${prefix}`;
+
   if (!jsonCache[pathToFile]) {
-    const rawContent = await readFile(pathToFile, 'utf8');
+    const realPath = await findFileByPrefix(directory, prefix);
+    const rawContent = await readFile(realPath, 'utf8');
     jsonCache[pathToFile] = JSON.parse(rawContent);
   }
 
@@ -22,7 +37,7 @@ async function parseJSON(pathToFile) {
 
 const sitemapEntriesProviders = {
   async pages({ route, parentItem }) {
-    const content = await parseJSON(`${DIST_PATH}/assets/content_pages_summaries.${parentItem.lang}.json`);
+    const content = await parseJSON(`${DIST_PATH}/assets`, `content_pages_summaries.${parentItem.lang}`);
     const categories = route.meta ? route.meta.categories : null;
     let items = content.items;
 
@@ -159,4 +174,7 @@ async function generate() {
 
 generate()
   .then(() => console.log(`sitemap.xml has been successfully generated for ${WEBSITE}`)) // eslint-disable-line no-console
-  .catch((error) => console.error(error)) // eslint-disable-line no-console
+  .catch((error) => {
+    console.error(error); // eslint-disable-line no-console
+    process.exit(1);
+  });

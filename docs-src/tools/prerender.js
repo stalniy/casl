@@ -91,4 +91,7 @@ async function run() {
 
 run()
   .then(() => console.log('successfully finished prerendering'))
-  .catch(console.error);
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
