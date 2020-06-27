@@ -13,6 +13,7 @@ jobs:
     env:
       CASL_VERSION: 4
       LIT_APP_PUBLIC_PATH: /v4
+      SITEMAP_WEBSITE: https://casl.js.org
     steps:
     - uses: actions/checkout@v2
     - name: Cache dependencies
