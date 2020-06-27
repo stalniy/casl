@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CASL_VERSION: 4
-      LIT_APP_PUBLIC_PATH: "/v${{ env.CASL_VERSION }}"
+      LIT_APP_PUBLIC_PATH: /v4
     steps:
     - uses: actions/checkout@v2
     - name: Cache dependencies
