@@ -47,12 +47,15 @@ function buildRoutes(rawRoutes, controllers) {
 }
 
 function interpolate(template, object) {
-  return template.replace(/:([\w_-]+)\??/g, (_, name) => {
+  let hasMissing = false;
+  const result = template.replace(/:([\w_-]+)\??/g, (_, name) => {
     if (!object[name] || object[name] === 'undefined') {
-      throw new Error(`Undefined template parameter "${name}"`);
+      hasMissing = true;
     }
     return object[name];
   });
+
+  return hasMissing ? null : result;
 }
 
 const routes = buildRoutes(routesConfig.routes, {
@@ -69,8 +72,8 @@ const routes = buildRoutes(routesConfig.routes, {
     return {
       resolve: loadPages(({ params }) => ({
         ...params,
-        id: interpolate(route.path, params),
         categories,
+        id: interpolate(route.path, params),
       })),
       respond: renderPage,
     };

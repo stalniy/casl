@@ -24,18 +24,10 @@ async function loadFirstPage(loader, params) {
 
 const identity = x => x;
 export const loadPages = (transformParams = identity) => async (match) => {
-  let vars = {};
-  let hasEmptyPlaceholders = false;
-
-  try {
-    vars = transformParams(match);
-  } catch (error) {
-    hasEmptyPlaceholders = true;
-  }
-
+  const vars = transformParams(match);
   const loader = content('page');
 
-  if (hasEmptyPlaceholders) {
+  if (!vars.id) {
     const firstPage = await loadFirstPage(loader, vars);
     vars.redirectTo = firstPage.id;
   } else {
