@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CASL_VERSION: 4
+      LIT_APP_PUBLIC_PATH: "/v${{ env.CASL_VERSION }}"
     steps:
     - uses: actions/checkout@v2
     - name: Cache dependencies
@@ -31,15 +32,20 @@ jobs:
     - name: Build documentation
       working-directory: docs-src
       env:
-        LIT_APP_PUBLIC_PATH: "/v${{ env.CASL_VERSION }}"
         NODE_ENV: production
       run: LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") npm run build
+    - name: Build sitemap
+      working-directory: docs-src
+      run: npm run build.sitemap
+    - name: Prerender
+      working-directory: docs-src
+      run: npm run prerender
     - name: Deploy
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         GITHUB_ACTOR: docs
       run: |
-        CASL_DOCS_ROOT="./v${CASL_VERSION/.*/}"
+        CASL_DOCS_ROOT=".${LIT_APP_PUBLIC_PATH/.*/}"
         cat <<- EOF > $HOME/.netrc
           machine github.com
           login $GITHUB_ACTOR

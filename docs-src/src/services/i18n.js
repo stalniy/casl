@@ -1,7 +1,7 @@
 import { registerTranslateConfig, use, get, listenForLangChanged } from 'lit-translate';
 import { memoize } from './utils';
 import { fetch } from './http';
-import { pages as langUrls } from '../lang.i18n';
+import { pages as langUrls } from '../content/app.i18n';
 
 function lookup(path, config) {
   const keys = path.split('.');

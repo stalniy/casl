@@ -1,0 +1,54 @@
+routes:
+  - name: home
+    path: :lang
+    restrictions:
+      lang: en
+    controller: Home
+    sitemap:
+      priority: 1
+      changefreq: yearly
+      provider: langs
+    children:
+      - name: api
+        path: api/:id?
+        restrictions:
+          id: '[\w/-]+'
+        controller: Page
+        meta:
+          categories: [api]
+          ignoreIdPrefix: true
+        sitemap:
+          priority: 0.7
+          changefreq: monthly
+          provider: pages
+      - name: examples
+        path: examples/:id?
+        restrictions:
+          id: '[\w/-]+'
+        controller: Page
+        meta:
+          categories: [example]
+          ignoreIdPrefix: true
+        sitemap:
+          priority: 0.8
+          changefreq: monthly
+          provider: pages
+      - name: support
+        path: support-casljs
+        controller: Page
+        sitemap:
+          priority: 1
+          changefreq: yearly
+          provider: route
+      - name: page
+        path: :id
+        restrictions:
+          id: '[\w/-]+'
+        controller: Page
+        meta:
+          encode: false
+          categories: [guide, advanced, package, cookbook]
+        sitemap:
+          priority: 1
+          changefreq: monthly
+          provider: pages

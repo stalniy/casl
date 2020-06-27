@@ -71,6 +71,7 @@ features:
 
 search:
   placeholder: Search
+  noMatch: No information found for your query
 
 categories:
   guide: Guide

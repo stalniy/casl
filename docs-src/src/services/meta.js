@@ -28,7 +28,7 @@ export function setMeta(name, content) {
     ? content.concat(defaultValue).join(', ')
     : content || defaultValue;
 
-  getMetaTag(name).setAttribute('content', value);
+  getMetaTag(name).setAttribute('content', value.replace(/[\n\r]+/g, ' '));
 }
 
 export function setRouteMeta({ response }) {

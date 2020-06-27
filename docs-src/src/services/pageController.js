@@ -24,18 +24,25 @@ async function loadFirstPage(loader, params) {
 
 const identity = x => x;
 export const loadPages = (transformParams = identity) => async (match) => {
-  const params = transformParams(match.params);
-  const vars = { ...params };
+  let vars = {};
+  let hasEmptyPlaceholders = false;
+
+  try {
+    vars = transformParams(match);
+  } catch (error) {
+    hasEmptyPlaceholders = true;
+  }
+
   const loader = content('page');
 
-  if (!match.params.id || match.params.id === 'undefined') {
-    const firstPage = await loadFirstPage(loader, params);
+  if (hasEmptyPlaceholders) {
+    const firstPage = await loadFirstPage(loader, vars);
     vars.redirectTo = firstPage.id;
   } else {
     [vars.page, vars.byCategories, vars.nav] = await Promise.all([
-      loader.load(params.lang, vars.id),
-      loader.byCategories(params.lang, params.categories),
-      loader.getNearestFor(params.lang, vars.id, vars.categories)
+      loader.load(vars.lang, vars.id),
+      vars.categories.length ? loader.byCategories(vars.lang, vars.categories) : null,
+      loader.getNearestFor(vars.lang, vars.id, vars.categories)
     ]);
   }
 
@@ -64,7 +71,7 @@ export const renderPage = respondWithPage(vars => ({
   main: html`
     <app-page name="${vars.id}" .nav="${vars.nav}"></app-page>
   `,
-  sidebar: html`
-    <pages-by-categories .items="${vars.byCategories}"></pages-by-categories>
-  `
+  sidebar: vars.byCategories
+    ? html`<pages-by-categories .items="${vars.byCategories}"></pages-by-categories>`
+    : null
 }));

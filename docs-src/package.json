@@ -7,6 +7,8 @@
   "scripts": {
     "build": "rm -rf dist/* && rollup -c",
     "build.watch": "npm run build -- --watch",
+    "build.sitemap": "node tools/sitemap.xml.js",
+    "prerender": "node tools/prerender.js",
     "lint": "../node_modules/.bin/eslint --fix --ext .js,.ts src",
     "serve": "history-server dist"
   },
@@ -41,8 +43,10 @@
     "highlight.js": "^10.0.0",
     "history-server": "^1.3.1",
     "image-size": "^0.8.3",
+    "js-yaml": "^3.14.0",
     "markdown-it-highlightjs": "^3.1.0",
     "markdown-it-include": "^1.1.1",
+    "puppeteer": "^4.0.1",
     "regenerator-runtime": "^0.13.3",
     "rollup": "^2.0.0",
     "rollup-plugin-content": "0.6.1",

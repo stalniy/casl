@@ -46,6 +46,14 @@ function renderSuggestions(suggestions, type) {
     return '';
   }
 
+  if (!suggestions.length) {
+    return html`
+      <div class="suggestions ${type}">
+        ${t(`search.noMatch`)}
+      </div>
+    `;
+  }
+
   const renderSuggestion = SUGGESTION_TEMPLATES[type || 'dropdown'];
 
   return html`
