@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="en"><head>
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script async="" src="https://count-server.sharethis.com/v2.0/get_counts?cb=window.__sharethis__.cb3&amp;url=http%3A%2F%2Flocalhost%3A40155%2Fv4%2Fen%2Fguide%2Fsubject-type-detection"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="https://buttons-config.sharethis.com/js/5a81a42dd4d59e0012e89863.js"></script><script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-19088556-6');
+    </script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Subject type detection - CASL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/v4/app-icons/apple-touch-icon.png">
+  <link rel="icon" href="/v4/app-icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/v4/app-icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/v4/app-icons/favicon-16x16.png">
+  <link rel="manifest" href="/v4/manifest.json">
+  <link rel="mask-icon" href="/v4/app-icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="keywords" content="roles, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
+  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries. ">
+  <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
+  <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta property="og:image" content="/v4/app-icons/android-chrome-256x256.png">
+  <style>html,body {margin: 0;padding: 0;line-height: 1.5;color: #202428;min-width: 320px;}body,a,button,input  {font-size: 16px;font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;}/* latin */@font-face {font-family: 'Stardos Stencil';font-style: normal;font-weight: 400;font-display: swap;src: local('Stardos Stencil Regular'), local('StardosStencil-Regular'), url("/v4/fonts/StardosStencil-Regular.woff2") format('woff2');unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}/* latin */@font-face {font-family: 'Stardos Stencil';font-style: normal;font-weight: 700;font-display: swap;src: local('Stardos Stencil Bold'), local('StardosStencil-Bold'), url("/v4/fonts/StardosStencil-Bold.woff2") format('woff2');unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}</style>
+  
+<style type="text/css">#st-2 {
+  font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;;
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  backface-visibility: hidden;
+  display: block;
+  position: fixed;
+  opacity: 1;
+  text-align: left;
+  top: 160px;
+  z-index: 94034;
+}
+#st-2.st-right {
+  right: 0px;
+}
+#st-2.st-hidden.st-right {
+  right: -48px;
+}
+#st-2.st-hidden {
+  width: 96px;
+}
+#st-2 > div {
+  clear: right;
+  float: right;
+}
+#st-2 .st-btn {
+  -moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: NaNpx;
+  height: 48px;
+  line-height: 24px;
+  margin-bottom: 0;
+  opacity: 1;
+  overflow: hidden;
+  padding: 12px;
+  position: relative;
+  text-align: left;
+  top: 0;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 48px;
+}
+#st-2 .st-btn.st-first {
+  border-top: none;
+  border-top-left-radius: 2px;
+}
+#st-2 .st-btn.st-last {
+  border-bottom: none;
+  border-bottom-left-radius: 2px;
+}
+#st-2 .st-btn > svg {
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  height: 24px;
+  margin-left: 0;
+  vertical-align: top;
+  width: 24px;
+}
+#st-2 .st-btn > img {
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  height: 24px;
+  margin-left: 0;
+  vertical-align: top;
+  width: 24px;
+}
+#st-2 .st-btn > span {
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  color: #fff;
+  display: inline-block;
+  font-weight: 500;
+  left: -35px;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  padding: 0 6px;
+  position: relative;
+  vertical-align: top;
+  filter: alpha(opacity=0);
+}
+#st-2 .st-btn.st-hide-label > span {
+  display: none !important;
+}
+#st-2 .st-total {
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  background: #fff;
+  color: #555;
+  display: inline-block;
+  font-weight: 500;
+  line-height: 18px;
+  margin-right: 0;
+  min-height: 34px;
+  max-width: 80px;
+  opacity: 1;
+  padding: 4px 0;
+  text-align: center;
+  width: 48px;
+}
+#st-2 .st-total.st-hidden {
+  display: none;
+}
+#st-2 .st-total > span {
+  display: block;
+  font-size: 18px;
+  line-height: 21px;
+  padding: 0;
+}
+#st-2 .st-total > span.st-shares {
+  font-size: 11px;
+  line-height: 11px;
+}
+#st-2 .st-toggle {
+  right: -48px;
+  -moz-transition: all 0.2s ease-in; -ms-transition: all 0.2s ease-in; -o-transition: all 0.2s ease-in; -webkit-transition: all 0.2s ease-in; transition: all 0.2s ease-in;
+  background: #ccc;
+  border-bottom-left-radius: 2px;
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 24px;
+  position: relative;
+  text-align: center;
+  width: 48px;
+}
+#st-2.st-hidden .st-toggle {
+  border-top-left-radius: 2px;
+}
+#st-2.st-right .st-toggle .st-right {
+  display: inline-block;
+}
+#st-2.st-right.st-hidden .st-toggle .st-right {
+  display: none;
+}
+#st-2.st-right .st-toggle .st-left {
+  display: none;
+}
+#st-2.st-right.st-hidden .st-toggle .st-left {
+  display: inline-block;
+}#st-2:hover .st-toggle {
+  right: 0;
+}
+#st-2.st-hidden:hover .st-toggle {
+  right: 48px;
+}
+#st-2.st-toggleable:hover .st-btn.st-last {
+  border-bottom-left-radius: 0;
+}
+#st-2.st-toggleable:hover .st-btn.st-last:hover {
+  border-bottom-left-radius: 2px;
+}
+#st-2 .st-btn:hover {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+#st-2.st-has-labels .st-btn:hover {
+  width: 120px;
+}
+#st-2:not(.st-has-labels) .st-btn:hover {
+  width: 62px;
+}
+#st-2 .st-btn.st-hide-label:hover {
+  width: 62px;
+}
+#st-2 .st-btn:hover > svg {
+  margin-left: 5px;
+}
+#st-2 .st-btn:hover > img {
+  margin-left: 5px;
+}
+#st-2 .st-btn:hover > span {
+  opacity: 1;
+  display: inline-block;
+  left: 0;
+  filter: alpha(opacity=100);
+}
+@media (max-width: 768px) {
+  #st-2 .st-btn:hover > svg {
+    margin-left: 0;
+  }
+  #st-2 .st-btn:hover > span {
+    display: none;
+  }
+}@media (max-width: 768px) {
+  #st-2 {
+  bottom: 0;
+  display: flex;
+  left: 0;
+  right: 0;
+  top: auto;
+  width: 100%;
+}
+#st-2.st-hidden {
+  bottom: -48px;
+  width: 100%;
+}
+#st-2.st-hidden.st-left {
+  left: 0;
+}
+#st-2.st-hidden.st-right {
+  right: 0;
+}
+#st-2 > div {
+  -moz-flex: 1;
+  -ms-flex: 1;
+  -webkit-flex: 1;
+  clear: none;
+  flex: 1;
+  float: none;
+}
+#st-2 .st-total {
+  background: #fff;
+  padding: 6px 8px;
+}
+#st-2 .st-btn {
+  -moz-border-radius: 0 !important;
+-webkit-border-radius: 0 !important;
+border-radius: 0 !important;
+  text-align: center;
+  width: auto;
+}
+#st-2 .st-btn > span {
+  display: none;
+}
+#st-2 .st-toggle {
+  display: none;
+}body { padding-bottom: 48px; }
+}#st-2 .st-btn[data-network='twitter'] {
+  background-color: #55acee;
+}
+#st-2 .st-btn[data-network='twitter'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='twitter'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='facebook'] {
+  background-color: #4267B2;
+}
+#st-2 .st-btn[data-network='facebook'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='facebook'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='googleplus'] {
+  background-color: undefined;
+}
+#st-2 .st-btn[data-network='googleplus'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='googleplus'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='linkedin'] {
+  background-color: #0077b5;
+}
+#st-2 .st-btn[data-network='linkedin'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='linkedin'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='reddit'] {
+  background-color: #ff4500;
+}
+#st-2 .st-btn[data-network='reddit'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='reddit'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='hackernews'] {
+  background-color: #ff4000;
+}
+#st-2 .st-btn[data-network='hackernews'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='hackernews'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='telegram'] {
+  background-color: #0088cc;
+}
+#st-2 .st-btn[data-network='telegram'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='telegram'] > span {
+  color: #fff;
+}
+#st-2 .st-btn[data-network='vk'] {
+  background-color: #4c6c91;
+}
+#st-2 .st-btn[data-network='vk'] svg {
+  fill: #fff;
+}
+#st-2 .st-btn[data-network='vk'] > span {
+  color: #fff;
+}</style></head>
+<body>
+  <casl-docs></casl-docs>
+
+  <script src="/v4/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="/v4/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()},!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script><script type="module" src="/v4/bootstrap.59d46208.js"></script><script nomodule="" defer="" src="/v4/legacy/bootstrap.59d46208.js"></script>
+  <script async="" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>
+
+<iframe src="https://c.sharethis.mgr.consensu.org/portal-v2.html" id="st_gdpr_iframe" title="GDPR Consent Management" style="width: 0px; height: 0px; position: absolute; left: -5000px;"></iframe><div id="st-2" class=" st-sticky-share-buttons st-right st-toggleable st-has-labels st-show-total "><div class="st-total st-hidden">
+  <span class="st-label"></span>
+  <span class="st-shares">
+    Shares
+  </span>
+</div><div class="st-btn st-first st-hide-label" data-network="twitter" style="display: inline-block;">
+  <img alt="twitter sharing button" src="https://platform-cdn.sharethis.com/img/twitter.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-hide-label" data-network="facebook" style="display: inline-block;">
+  <img alt="facebook sharing button" src="https://platform-cdn.sharethis.com/img/facebook.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-hide-label" data-network="linkedin" style="display: inline-block;">
+  <img alt="linkedin sharing button" src="https://platform-cdn.sharethis.com/img/linkedin.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-hide-label" data-network="reddit" style="display: inline-block;">
+  <img alt="reddit sharing button" src="https://platform-cdn.sharethis.com/img/reddit.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-hide-label" data-network="hackernews" style="display: inline-block;">
+  <img alt="hackernews sharing button" src="https://platform-cdn.sharethis.com/img/hackernews.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-hide-label" data-network="telegram" style="display: inline-block;">
+  <img alt="telegram sharing button" src="https://platform-cdn.sharethis.com/img/telegram.svg">
+  <span class="st-label"></span>
+</div><div class="st-btn st-last st-hide-label" data-network="vk" style="display: inline-block;">
+  <img alt="vk sharing button" src="https://platform-cdn.sharethis.com/img/vk.svg">
+  <span class="st-label"></span>
+</div><div class="st-toggle">
+  <div class="st-left">
+    <img alt="arrow_left sharing button" src="https://platform-cdn.sharethis.com/img/arrow_left.svg">
+  </div>
+  <div class="st-right">
+    <img alt="arrow_right sharing button" src="https://platform-cdn.sharethis.com/img/arrow_right.svg">
+  </div>
+</div></div></body></html>
