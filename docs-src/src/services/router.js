@@ -85,9 +85,9 @@ const routes = buildRoutes(routesConfig.routes, {
     const { pathname } = match.location;
     const index = pathname.indexOf('/', 1);
     const lang = index === -1 ? pathname.slice(1) : pathname.slice(1, index);
+    const { search: query, hash } = window.location;
 
     if (!LOCALES.includes(lang)) {
-      const { search: query, hash } = window.location;
       return {
         redirect: { url: `/${defaultLocale}${pathname}${query}${hash}` }
       };

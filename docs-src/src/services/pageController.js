@@ -30,6 +30,8 @@ export const loadPages = (transformParams = identity) => async (match) => {
   if (!vars.id) {
     const firstPage = await loadFirstPage(loader, vars);
     vars.redirectTo = firstPage.id;
+  } if (vars.id.endsWith('/')) {
+    vars.redirectTo = vars.id.slice(0, -1);
   } else {
     [vars.page, vars.byCategories, vars.nav] = await Promise.all([
       loader.load(vars.lang, vars.id),
