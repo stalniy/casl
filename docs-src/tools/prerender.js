@@ -28,6 +28,20 @@ async function readSitemapUrls(browser) {
 }
 
 async function renderPage({ page, iterator }, options) {
+  await page.setRequestInterception(true);
+  page.on('request', (req) => {
+    const isAbortedRequest = req.resourceType() === 'stylesheet' ||
+      req.resourceType() === 'font' ||
+      req.resourceType() === 'image' ||
+      req.resourceType() === 'script' && !req.url().startsWith('http://localhost');
+
+    if (isAbortedRequest) {
+      req.abort()
+    } else {
+      req.continue()
+    }
+  });
+
   for (const url of iterator) {
     console.log(`[fetching]: ${url}`);
     await page.goto(LOCAL_APP + url, { waitUntil: 'networkidle2' });
