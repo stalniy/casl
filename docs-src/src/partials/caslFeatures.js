@@ -1,6 +1,5 @@
-import { html, css } from 'lit-element';
+import { html, css, unsafeCSS } from 'lit-element';
 import { t, ut } from '../directives/i18n';
-import { gridCss } from '../styles';
 
 const features = [
   'isomorphic',
@@ -12,7 +11,7 @@ const features = [
 
 function renderFeature(feature) {
   return html`
-    <section class="feature col">
+    <section class="feature">
       <h3>${t(`features.${feature}.title`)}</h3>
       <p>${ut(`features.${feature}.description`)}</p>
     </section>
@@ -20,26 +19,30 @@ function renderFeature(feature) {
 }
 
 const template = () => html`
-  <section class="row features">${features.map(renderFeature)}</section>
+  <section class="features container">${features.map(renderFeature)}</section>
 `;
 
 template.styles = [
-  gridCss,
   css`
     .features {
-      flex-wrap: wrap;
+      padding: 1rem 0;
+      display: -ms-grid;
+      display: grid;
       justify-content: center;
-      padding: 2rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      -ms-grid-columns: ${unsafeCSS(features.map(() => 'minmax(200px, 1fr)').join(' '))};
     }
 
     .feature {
       padding: 1rem;
-      max-width: 200px;
-      flex-basis: 200px;
     }
 
     .feature h3 {
       font-size: 1.4rem;
+    }
+
+    .feature p:last-child {
+      margin-bottom: 0;
     }
   `
 ];
