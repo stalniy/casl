@@ -14,22 +14,16 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 ## Features
 
-* [Versatile][feature-versatile]\
+* **Versatile**\
   An incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization.
-* [Isomorphic][feature-isomorphic]\
+* **Isomorphic**\
   Can be used on frontend and backend and complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
-* [TypeSafe][feature-typesafe]\
+* **TypeSafe**\
   Written in TypeScript, what makes your apps safer and developer experience more enjoyable
-* [Tree shakable][feature-treeshaking]\
+* **Tree shakable**\
   The core is only 4KB mingzipped and can be even smaller!
-* [Declarative][feature-declarative]\
+* **Declarative**\
   Thanks to declarative rules, you can serialize and share permissions between UI and API or microservices
-
-[feature-versatile]: #
-[feature-isomorphic]: #
-[feature-typesafe]: #
-[feature-treeshaking]: #
-[feature-declarative]: #
 
 ## Ecosystem
 
