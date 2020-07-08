@@ -206,7 +206,7 @@ Now we can implement `updateUserDetails` function:
 ```ts @{data-filename="updateUserDetails.ts"}
 import { ForbiddenError, subject } from '@casl/ability';
 import { defineAbilityFor } from './services/appAbility';
-import { findUserByEmail, updateUser, UserChanges } from './services/users';
+import { findUserByEmail, updateUserById, UserChanges } from './services/users';
 
 export async function updateUserDetails(
   /** email of a user who initiates the request (i.e., logged in user) */
@@ -223,7 +223,7 @@ export async function updateUserDetails(
     : await findUserByEmail(userToBeUpdatedEmail)
 
   ForbiddenError.from(ability).throwUnlessCan('update', subject('User', userToBeUpdated));
-  await updateUser(userToBeUpdated.id, changes);
+  await updateUserById(userToBeUpdated.id, changes);
 }
 ```
 
@@ -235,7 +235,7 @@ Let's go line by line in order to understand the code:
 2. Inside the function, we find initiator user in order to create `Ability` instance for it.
 3. We also find user whose details needs to be updated, so we have his id.
 4. Using `ForbiddenError` class, we ensure that user can update own details. If not, a `ForbiddenError` will be thrown. Also pay attention that we call `subject` function. It assigns a particular subject type to a plain JavaScript object (see [subject helper](../../guide/subject-type-detection#subject-helper) for details).
-5. We call `updateUser` function to update user details by id in the database.
+5. We call `updateUserById` function to update user details by id in the database.
 
 To test this function, let's create a simple script:
 
