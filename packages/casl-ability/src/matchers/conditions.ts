@@ -1,5 +1,4 @@
 import {
-  Query,
   createQueryTester as sift,
   $eq,
   $ne,
@@ -62,6 +61,6 @@ export function buildMongoQueryMatcher<T extends object>(
   operations: Record<keyof T, any>
 ): Matcher<MongoQuery | T> {
   const options = { operations: { ...defaultOperations, ...operations } };
-  return conditions => sift(conditions as unknown as Query, options);
+  return conditions => sift(conditions as any, options);
 }
 export const mongoQueryMatcher = buildMongoQueryMatcher({});
