@@ -81,7 +81,7 @@
     "rxjs": "^6.0.0",
     "semantic-release": "15.9.17",
     "tslib": "^2.0.0",
-    "typescript": "~3.8.0",
+    "typescript": "~3.9.0",
     "zone.js": "^0.10.2"
   },
   "files": [
