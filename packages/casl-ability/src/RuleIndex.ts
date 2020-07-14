@@ -24,8 +24,8 @@ export interface RuleIndexOptions<A extends Abilities, Conditions> {
   resolveAction?: ResolveAction<Normalize<A>[0]>
 }
 
-export type Generics<T extends AnyRuleIndex> = T extends RuleIndex<infer A, infer C, any>
-  ? { abilities: A, conditions: C }
+export type Generics<T extends AnyRuleIndex> = T extends AnyRuleIndex
+  ? { abilities: T['za'], conditions: T['zc'] }
   : never;
 
 export type RuleOf<T extends AnyRuleIndex> =
@@ -63,14 +63,18 @@ type RuleIterator<A extends Abilities, C> = (rule: RawRuleFrom<A, C>, index: num
 export type Unsubscribe = () => void;
 
 export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
-  _hasPerFieldRules: boolean = false;
-  _mergedRules: Record<string, Rule<A, Conditions>[]> = Object.create(null);
-  _events: Events<this, BaseEvent> = Object.create(null);
-  _indexedRules: IndexTree<A, Conditions> = Object.create(null);
-  _rules: this['rules'] = [];
+  private _hasPerFieldRules: boolean = false;
+  private _mergedRules: Record<string, Rule<A, Conditions>[]> = Object.create(null);
+  private _events: Events<this, BaseEvent> = Object.create(null);
+  private _indexedRules: IndexTree<A, Conditions> = Object.create(null);
+  private _rules: this['rules'] = [];
   readonly rules!: RawRuleFrom<A, Conditions>[];
   readonly _ruleOptions!: RuleOptions<A, Conditions>;
   readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
+  /** @private hacky property to track Abilities type */
+  readonly za!: A;
+  /** @private hacky property to track Conditions type */
+  readonly zc!: Conditions;
 
   constructor(
     rules: RawRuleFrom<A, Conditions>[] = [],
@@ -145,13 +149,13 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     const key = `${subjectName}_${action}`;
 
     if (!mergedRules[key]) {
-      mergedRules[key] = this._mergeRulesFor(action as string, subjectName);
+      mergedRules[key] = this._mergeRulesFor(action, subjectName);
     }
 
     return mergedRules[key];
   }
 
-  private _mergeRulesFor(action: Normalize<A>[0], subjectName: string) {
+  private _mergeRulesFor(action: string, subjectName: string) {
     const subjects = subjectName === 'all' ? [subjectName] : [subjectName, 'all'];
     const mergedRules = subjects.reduce((rules, subjectType) => {
       const subjectRules = this._indexedRules[subjectType];

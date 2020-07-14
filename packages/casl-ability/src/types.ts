@@ -37,7 +37,7 @@ export type CanParameters<T extends Abilities, IncludeField extends boolean = tr
       ? (action: T[0], subject: T[1], field?: string) => 0
       : (action: T[0], subject: T[1]) => 0
     : never,
-  (action: T) => 0
+  (action: Extract<T, string>) => 0
   >;
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType> | TagName<S>;
 
