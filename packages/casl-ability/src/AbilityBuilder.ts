@@ -1,5 +1,6 @@
 import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, RawRuleOf, AbilityOptionsOf, Generics, AbilityClass, PureAbility } from './PureAbility';
+import { AnyAbility, AbilityOptionsOf, AbilityClass, PureAbility } from './PureAbility';
+import { RawRuleOf, Generics } from './RuleIndex';
 import {
   ExtractSubjectType as E,
   AbilityTuple,

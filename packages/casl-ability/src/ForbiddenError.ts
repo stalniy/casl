@@ -1,5 +1,6 @@
-import { AnyAbility, Generics } from './PureAbility';
+import { AnyAbility } from './PureAbility';
 import { Normalize } from './types';
+import { Generics } from './RuleIndex';
 
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;

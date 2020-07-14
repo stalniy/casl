@@ -1,4 +1,5 @@
-import { PureAbility, AnyAbility, RuleOf, Generics } from './PureAbility';
+import { PureAbility, AnyAbility } from './PureAbility';
+import { RuleOf, Generics } from './RuleIndex';
 import { RawRule } from './RawRule';
 import { Rule } from './Rule';
 import { setByPath, wrapArray } from './utils';

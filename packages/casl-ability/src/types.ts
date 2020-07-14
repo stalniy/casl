@@ -2,13 +2,12 @@ type Fn = (...args: any[]) => any;
 type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
 type AnyRecord = Record<PropertyKey, any>;
 
-export type ValueOf<T> = T extends Record<string, infer U> ? U : never;
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectClass<N extends string = string> = AnyClass & { modelName?: N };
 export type SubjectType = string | SubjectClass | undefined;
 export type Subject = AnyRecord | SubjectType;
 export type AbilityTuple<X extends string = string, Y extends Subject = Subject> = [X, Y];
-export type Abilities = string | AbilityTuple;
+export type Abilities = AbilityTuple | string;
 
 export type ToAbilityTypes<T extends Abilities> = T extends AbilityTuple
   ? AbilityTupleType<T[0], ExtractSubjectType<T[1]>>
