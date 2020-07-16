@@ -7,9 +7,23 @@ import {
   ToAbilityTypes,
   Normalize
 } from './types';
-import { RawRule } from './RawRule';
+import { RawRule, RawRuleFrom } from './RawRule';
 
 type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
+
+function validate<A extends Abilities, C>(rule: RawRuleFrom<A, C>, options: RuleOptions<A, C>) {
+  if (Array.isArray(rule.fields) && !rule.fields.length) {
+    throw new Error('`rawRule.fields` cannot be an empty array. https://bit.ly/390miLa');
+  }
+
+  if (rule.fields && !options.fieldMatcher) {
+    throw new Error('You need to pass "fieldMatcher" option in order to restrict access by fields');
+  }
+
+  if (rule.conditions && !options.conditionsMatcher) {
+    throw new Error('You need to pass "conditionsMatcher" option in order to restrict access by conditions');
+  }
+}
 
 export class Rule<A extends Abilities, C> {
   private readonly _matchConditions: MatchConditions | undefined;
@@ -22,26 +36,21 @@ export class Rule<A extends Abilities, C> {
   public readonly reason!: string | undefined;
 
   constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<A, C>) {
-    this.action = options.resolveAction((rule as any).actions || (rule as any).action);
+    validate(rule, options);
+
+    this.action = options.resolveAction(rule.action);
     this.subject = rule.subject;
     this.inverted = !!rule.inverted;
     this.conditions = rule.conditions;
     this.reason = rule.reason;
-    this.fields = !rule.fields || rule.fields.length === 0
-      ? undefined
-      : wrapArray(rule.fields);
+    this.fields = rule.fields ? wrapArray(rule.fields) : undefined;
 
-    if ('actions' in rule) {
-      // eslint-disable-next-line
-      console.warn('Rule `actions` field is deprecated. Use `action` field instead');
+    if (this.conditions) {
+      this._matchConditions = options.conditionsMatcher!(this.conditions);
     }
 
-    if (this.conditions && options.conditionsMatcher) {
-      this._matchConditions = options.conditionsMatcher(this.conditions);
-    }
-
-    if (this.fields && options.fieldMatcher) {
-      this._matchField = options.fieldMatcher(this.fields);
+    if (this.fields) {
+      this._matchField = options.fieldMatcher!(this.fields);
     }
   }
 

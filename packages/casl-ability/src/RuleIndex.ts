@@ -11,13 +11,10 @@ import {
   RuleOptions,
 } from './types';
 import { wrapArray, detectSubjectType, identity } from './utils';
-import RulesAnalyzer from './RulesAnalyzer';
 
 type AnyRuleIndex = RuleIndex<any, any, any>;
 
 export interface RuleIndexOptions<A extends Abilities, Conditions> {
-  /** @deprecated use "detectSubjectType" option instead */
-  subjectName?: this['detectSubjectType']
   detectSubjectType?: DetectSubjectType<Normalize<A>[1]>
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
@@ -86,7 +83,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       resolveAction: options.resolveAction || identity,
     };
     Object.defineProperty(this, 'detectSubjectType', {
-      value: options.detectSubjectType || options.subjectName || detectSubjectType
+      value: options.detectSubjectType || detectSubjectType
     });
     Object.defineProperty(this, 'rules', { get: () => this._rules });
     this.update(rules);
@@ -101,31 +98,22 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
 
     this._emit('update', event);
     this._mergedRules = Object.create(null);
-
-    const analyser = new RulesAnalyzer<A, Conditions>(rules.length > 0);
-    const indexedRules = this._buildIndexFor(rules, analyser._analyze);
-
-    analyser._validate(this._ruleOptions);
-    this._indexedRules = indexedRules;
+    this._indexedRules = this._buildIndexFor(rules);
     this._rules = rules;
-    this._hasPerFieldRules = analyser._hasPerFieldRules;
     this._emit('updated', event);
 
     return this;
   }
 
-  private _buildIndexFor(
-    rawRules: RawRuleFrom<A, Conditions>[],
-    iterator: RuleIterator<A, Conditions> = identity
-  ) {
+  private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
     const indexedRules: IndexTree<A, Conditions> = Object.create(null);
 
     for (let i = 0; i < rawRules.length; i++) {
-      iterator(rawRules[i], i);
       const rule = new Rule(rawRules[i], this._ruleOptions);
       const priority = rawRules.length - i - 1;
       const actions = wrapArray(rule.action);
       const subjects = wrapArray(rule.subject);
+      this._analyze(rule);
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = this.detectSubjectType(subjects[k]);
@@ -140,6 +128,12 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     }
 
     return indexedRules;
+  }
+
+  private _analyze(rule: Rule<A, Conditions>) {
+    if (!this._hasPerFieldRules && rule.fields) {
+      this._hasPerFieldRules = true;
+    }
   }
 
   possibleRulesFor(...args: CanParameters<A, false>) {

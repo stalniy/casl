@@ -137,8 +137,8 @@ describe('AbilityBuilder', () => {
     })
 
     it('accepts options for `Ability` instance as the 1st parameter', () => {
-      const subjectName = subject => typeof subject === 'string' ? subject : subject.ModelName
-      const ability = defineAbility({ subjectName }, (can) => {
+      const detectSubjectType = subject => typeof subject === 'string' ? subject : subject.ModelName
+      const ability = defineAbility({ detectSubjectType }, (can) => {
         can('read', 'Book')
       })
 

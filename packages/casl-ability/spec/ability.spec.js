@@ -188,16 +188,6 @@ describe('Ability', () => {
         expect(secondSubscription).to.have.been.called()
       })
 
-      it('warns if ability contains only inverted rules', () => {
-        spy.on(console, 'warn', () => {})
-        ability.update([{ inverted: true, action: 'read', subject: 'Post' }])
-
-        // eslint-disable-next-line
-        expect(console.warn).to.have.been.called()
-
-        spy.restore(console, 'warn')
-      })
-
       function setupListenerChangesInListener() {
         const unsubscribe = spy(ability.on('update', function listen() {
           unsubscribe()
@@ -442,14 +432,8 @@ describe('Ability', () => {
       expect(() => new PureAbility(rules)).to.throw(/"fieldMatcher" option/)
     })
 
-    it('warns if there is a rule with "fields" property to be an empty array', () => {
-      spy.on(console, 'warn', () => {})
-      ability = defineAbility(can => can('read', 'Post', []))
-
-      // eslint-disable-next-line
-      expect(console.warn).to.have.been.called()
-
-      spy.restore(console, 'warn')
+    it('throws if there is a rule with "fields" property to be an empty array', () => {
+      expect(() => defineAbility(can => can('read', 'Post', []))).to.throw(/`rawRule.fields` cannot be an empty array/)
     })
 
     describe('when field patterns', () => {

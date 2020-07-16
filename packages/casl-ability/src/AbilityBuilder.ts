@@ -12,14 +12,14 @@ import {
 import { RawRule } from './RawRule';
 
 class RuleBuilder<T extends RawRule<any, any>> {
-  public rule!: T;
+  public _rule!: T;
 
   constructor(rule: T) {
-    this.rule = rule;
+    this._rule = rule;
   }
 
   because(reason: string): this {
-    this.rule.reason = reason;
+    this._rule.reason = reason;
     return this;
   }
 }
@@ -88,7 +88,7 @@ export class AbilityBuilder<T extends AnyAbility = PureAbility> {
     conditions?: Generics<T>['conditions'],
   ): RuleBuilder<RawRuleOf<T>> {
     const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
-    builder.rule.inverted = true;
+    builder._rule.inverted = true;
     return builder;
   }
 
