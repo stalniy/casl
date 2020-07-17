@@ -8,6 +8,10 @@ This package is the core of CASL. It includes logic responsible for [checking an
 npm install @casl/ability
 ```
 
+## Documentation
+
+This README file contains only basic information about the package. If you need an in depth introduction, please visit [CASL's documentation](https://casl.js.org/).
+
 ## Getting Started
 
 **Note**: the best way to get started is to read [Guide][intro] in the official documentation. In this README file, you will find just basic information.
