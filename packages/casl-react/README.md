@@ -6,6 +6,8 @@
 
 This package allows to integrate `@casl/ability` with [React] application. It provides `Can` component that allow to hide or show UI elements based on user ability to see them.
 
+> `@casl/react` perfectly works with [React Native](https://reactnative.dev/)
+
 ## Installation
 
 ```sh
