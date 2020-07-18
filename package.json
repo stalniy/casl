@@ -18,7 +18,7 @@
     "codecov": "^3.0.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-airbnb-typescript": "^8.0.2",
+    "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-plugin-import": "^2.20.2",
     "husky": "^4.0.0",
     "lint-staged": "^10.0.10",
