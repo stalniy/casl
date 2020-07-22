@@ -1,5 +1,5 @@
 ---
-title: Typescript Support
+title: TypeScript Support
 categories: [advanced]
 order: 60
 meta:
@@ -16,7 +16,7 @@ CASL is written in [TypeScript] and this brings several benefits:
 
 So, let's play around with them
 
-> Minimum supported Typescript version is **3.5.3**
+> Minimum supported TypeScript version is **3.5.3**
 
 ## Permissions inference
 
@@ -61,15 +61,15 @@ If you try to type `ability.can(` in [VSCode] (it should work in other IDEs that
 
 [VSCode]: https://code.visualstudio.com/
 
-![CASL Typescript action hints](./casl-action-hints.png)
+![CASL TypeScript action hints](./casl-action-hints.png)
 
 The same happens when you try to specify the 2nd argument:
 
-![CASL Typescript subject hints](./casl-subject-hints.png)
+![CASL TypeScript subject hints](./casl-subject-hints.png)
 
 The same behavior works for `AbilityBuilder` and `defineAbility` functions as well:
 
-![CASL Typescript AbilityBuilder hints](./casl-abilitybuilder.png)
+![CASL TypeScript AbilityBuilder hints](./casl-abilitybuilder.png)
 
 ## Infer subject types from interfaces and classes
 
@@ -133,19 +133,19 @@ This may be a bit routine to specify all possible subject types, especially if y
 
 > `__caslSubjectType__` is set by `subject` helper, to learn more check [Subject type detection](../../guide/subject-type-detection)
 
-![CASL Typescript infer tagged union subject](./casl-tagged-union-subject.png)
+![CASL TypeScript infer tagged union subject](./casl-tagged-union-subject.png)
 
 classes
 
-![CASL Typescript infer class subject](./casl-class-subject.png)
+![CASL TypeScript infer class subject](./casl-class-subject.png)
 
 and even discriminated classes (you need to pass `true` to the 2nd generic parameter of `InferSubjects`).
 
-![CASL Typescript infer discriminated class subject](./casl-discriminated-class-subject.png)
+![CASL TypeScript infer discriminated class subject](./casl-discriminated-class-subject.png)
 
 The same parameter allows to infer `modelName` static property from classes (in case you want to use strings and not classes to check on subject type)
 
-![CASL Typescript infer class modelName](./casl-class-subject-with-name.png)
+![CASL TypeScript infer class modelName](./casl-class-subject-with-name.png)
 
 Moreover, the same behavior also works in complementary packages! So, you will get hints for React's `Can` component, Vue's `$can` function, Mongoose's plugins and others.
 

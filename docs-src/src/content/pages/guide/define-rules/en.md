@@ -145,7 +145,7 @@ export default function defineAbilityFor(user) {
 
 It's not required to use `AbilityBuilder` to define rules in the app, especially if your rules are dynamic (i.e., stored in database or managed by admin users). In such cases, the preferred way is to use `JSON` objects. You can directly pass array of `JSON` rules into `Ability` constructor. Such rules are called raw rules
 
-> you can read more about typescript types and their shapes in [Typescript Support](../../advanced/typescript)
+> you can read more about TypeScript types and their shapes in [TypeScript Support](../../advanced/typescript)
 
 ### JSON objects example
 
@@ -172,7 +172,7 @@ Pay attention to the `inverted` field, it indicates that a rule is an inverted o
 
 ### The shape of raw rule
 
-The simplified version (without generics) of raw rule shape in [Typescript](http://www.typescriptlang.org/) looks like this:
+The simplified version (without generics) of raw rule shape in [TypeScript](http://www.typescriptlang.org/) looks like this:
 
 ```ts
 interface RawRule {
@@ -191,7 +191,7 @@ interface RawRule {
 
 Don't worry if you are not familiar with TypeScript, you still have time to learn it ;) Kidding, or not?
 
-In the example above, `?` after field name means optional field, so everything is optional except `action`. `string[]` means an array of strings and `string | string[]` means either regular `string` or an array of strings. Now you know almost everything about Typescript, do not thank :)
+In the example above, `?` after field name means optional field, so everything is optional except `action`. `string[]` means an array of strings and `string | string[]` means either regular `string` or an array of strings. Now you know almost everything about TypeScript, do not thank :)
 
 ### When to use JSON objects
 
