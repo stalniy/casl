@@ -198,7 +198,7 @@ And update `tsconfig.json` to replace default vue modules augmentation (i.e., `@
 }
 ```
 
-> Read [Vue Typescript](https://vuejs.org/v2/guide/typescript.html) to understand why it's so hard to properly type Vue plugins.
+> Read [Vue TypeScript](https://vuejs.org/v2/guide/typescript.html) to understand why it's so hard to properly type Vue plugins.
 
 ## Update Ability instance
 
