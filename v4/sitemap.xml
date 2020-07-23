@@ -16,41 +16,6 @@
   </url>
 
   <url>
-    <loc>https://casl.js.org/v4/en/examples/angular-todo</loc>
-    <lastmod>2020-07-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://casl.js.org/v4/en/examples/react-todo</loc>
-    <lastmod>2020-07-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://casl.js.org/v4/en/examples/vue-todo</loc>
-    <lastmod>2020-07-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://casl.js.org/v4/en/examples/vue-vuex-rest-api-blog</loc>
-    <lastmod>2020-07-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://casl.js.org/v4/en/examples/aurelia-blog</loc>
-    <lastmod>2020-07-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://casl.js.org/v4/en/support-casljs</loc>
     <lastmod>2020-07-23</lastmod>
     <changefreq>yearly</changefreq>
