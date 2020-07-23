@@ -229,7 +229,97 @@ async function main() {
 
 ## TypeScript support
 
-The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE will hint you about you can pass inside arguments and TypeScript will warn you about wrong usage.
+The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE will hint you about you can pass inside arguments and TypeScript will warn you about wrong usage. Let's see it in action!
+
+Suppose we have `Post` entity which can be described as:
+
+```ts
+import * as mongoose from 'mongoose';
+
+export interface Post {
+  title: string
+  content: string
+  published: boolean
+}
+
+const PostSchema = new mongoose.Schema<Post>({
+  title: String,
+  content: String,
+  published: Boolean
+});
+
+export const Post = mongoose.model('Post', PostSchema);
+```
+
+To extend `Post` model with `accessibleBy` method it's enough to include the corresponding plugin (either globally or locally in `Post`) and use corresponding `Model` type. So, let's change the example, so it includes `accessibleRecordsPlugin`:
+
+```ts
+import { accessibleRecordsPlugin, AccessibleRecordModel } from '@casl/mongoose';
+
+// all previous code, except last line
+
+PostSchema.plugin(accessibleRecordsPlugin);
+
+export const Post = mongoose.model<Post, AccessibleRecordModel<Post>>('Post', PostSchema);
+
+// Now we can safely use `Post.accessibleBy` method.
+Post.accessibleBy(/* parameters */)
+Post.where(/* parameters */).accessibleBy(/* parameters */);
+```
+
+In the similar manner, we can include `accessibleFieldsPlugin`, using `AccessibleFieldsModel` and `AccessibleFieldsDocument` types:
+
+```ts
+import {
+  accessibleFieldsPlugin,
+  AccessibleFieldsModel,
+  AccessibleFieldsDocument
+} from '@casl/mongoose';
+import * as mongoose from 'mongoose';
+
+export interface Post extends AccessibleFieldsDocument {
+  // the same Post definition from previous example
+}
+
+const PostSchema = new mongoose.Schema<Post>({
+  // the same Post schema definition from previous example
+})
+
+PostSchema.plugin(accessibleFieldsPlugin);
+
+export const Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema);
+
+// Now we can safely use `Post.accessibleFieldsBy` method and `post.accessibleFieldsBy`
+Post.accessibleFieldsBy(/* parameters */);
+const post = new Post();
+post.accessibleFieldsBy(/* parameters */);
+```
+
+And we want to include both plugins, we can use `AccessibleModel` type that includes methods from both plugins:
+
+```ts
+import {
+  accessibleFieldsPlugin,
+  accessibleRecordsPlugin,
+  AccessibleModel,
+  AccessibleFieldsDocument
+} from '@casl/mongoose';
+import * as mongoose from 'mongoose';
+
+export interface Post extends AccessibleFieldsDocument {
+  // the same Post definition from previous example
+}
+
+const PostSchema = new mongoose.Schema<Post>({
+  // the same Post schema definition from previous example
+});
+PostSchema.plugin(accessibleFieldsPlugin);
+PostSchema.plugin(accessibleRecordsPlugin);
+
+export const Post = mongoose.model<Post, AccessibleModel<Post>>('Post', PostSchema);
+```
+
+This allows us to use the both `accessibleBy` and `accessibleFieldsBy` methods safely.
 
 ## Want to help?
 
