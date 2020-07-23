@@ -21,18 +21,6 @@ routes:
           priority: 0.7
           changefreq: monthly
           provider: pages
-      - name: examples
-        path: examples/:id?
-        restrictions:
-          id: '[\w/-]+'
-        controller: Page
-        meta:
-          categories: [example]
-          ignoreIdPrefix: true
-        sitemap:
-          priority: 0.8
-          changefreq: monthly
-          provider: pages
       - name: support
         path: support-casljs
         controller: Page

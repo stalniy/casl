@@ -7,6 +7,7 @@ items:
       page: guide/intro
     - name: api
     - name: examples
+      url: https://github.com/stalniy/casl-examples
     - name: cookbook
       page: cookbook/intro
 - name: ecosystem
