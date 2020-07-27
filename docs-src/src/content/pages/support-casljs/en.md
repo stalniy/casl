@@ -17,9 +17,11 @@ We accept donations through these channels:
 
 ## Recurring Pledges
 
-Recurring pledges come with exclusive perks, e.g. having your name listed in the CASL GitHub repository, have your company logo placed on this website or your project support.
+Recurring pledges come with exclusive perks, e.g. having your name listed in the CASL GitHub repository, have your company logo placed on this website, personal consultation or project support through live chat or screen-sharing.
 
-Get more details about different options to [become a backer or sponsor via OpenCollective](https://opencollective.com/casljs).
+Get more details about different options to
+* [become a backer or sponsor via OpenCollective](https://opencollective.com/casljs)
+* [become a backer or sponsor via Patreon](https://patreon.com/sstotskyi)
 
 ## Why is it important for you?
 
