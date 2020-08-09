@@ -17,7 +17,7 @@ importers:
       husky: 4.2.5
       lint-staged: 10.2.11
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       typescript: 3.8.3
     specifiers:
       '@babel/core': ^7.8.4
@@ -36,7 +36,7 @@ importers:
       husky: ^4.0.0
       lint-staged: ^10.0.10
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       typescript: ~3.8.0
   packages/casl-ability:
     dependencies:
@@ -64,7 +64,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
     specifiers:
@@ -90,7 +90,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       sift: ^13.0.0
       typescript: ~3.8.0
@@ -126,7 +126,7 @@ importers:
       jest: 26.1.0
       jest-zone-patch: 0.0.10_zone.js@0.10.3
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       rxjs: 6.6.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       tslib: 2.0.0
@@ -163,7 +163,7 @@ importers:
       jest: ^26.0.0
       jest-zone-patch: 0.0.10
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       rxjs: ^6.0.0
       semantic-release: 17.1.1
       tslib: ^2.0.0
@@ -199,7 +199,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
     specifiers:
@@ -231,7 +231,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
   packages/casl-mongoose:
@@ -260,7 +260,7 @@ importers:
       jest: 26.1.0
       mongoose: 5.9.22_mongoose@5.9.22
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
     specifiers:
@@ -288,7 +288,7 @@ importers:
       jest: ^26.0.0
       mongoose: ^5.0.14
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
   packages/casl-react:
@@ -320,7 +320,7 @@ importers:
       react: 16.13.1
       react-test-renderer: 16.13.1_react@16.13.1
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
     specifiers:
@@ -351,7 +351,7 @@ importers:
       react: ^16.3.0
       react-test-renderer: ^16.3.0
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
   packages/casl-vue:
@@ -379,7 +379,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
-      rollup-plugin-terser: 6.1.0_rollup@2.21.0
+      rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
       vue: 2.6.11
@@ -408,7 +408,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
-      rollup-plugin-terser: ^6.1.0
+      rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
       vue: ^2.5.13
@@ -5450,6 +5450,16 @@ packages:
       node: '>= 10.14.2'
     resolution:
       integrity: sha512-Z9P5pZ6UC+kakMbNJn+tA2RdVdNX5WH1x+5UCBZ9MxIK24pjYtFt96fK+UwBTrjLYm232g1xz0L3eTh51OW+yQ==
+  /jest-worker/26.2.1:
+    dependencies:
+      '@types/node': 14.0.27
+      merge-stream: 2.0.0
+      supports-color: 7.1.0
+    dev: true
+    engines:
+      node: '>= 10.14.2'
+    resolution:
+      integrity: sha512-+XcGMMJDTeEGncRb5M5Zq9P7K4sQ1sirhjdOxsN1462h6lFo9w59bl2LVQmdGEEeU3m+maZCkS2Tcc9SfCHO4A==
   /jest-zone-patch/0.0.10_zone.js@0.10.3:
     dependencies:
       zone.js: 0.10.3
@@ -7303,18 +7313,18 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
-  /rollup-plugin-terser/6.1.0_rollup@2.21.0:
+  /rollup-plugin-terser/7.0.0_rollup@2.21.0:
     dependencies:
       '@babel/code-frame': 7.10.4
-      jest-worker: 26.1.0
+      jest-worker: 26.2.1
       rollup: 2.21.0
-      serialize-javascript: 3.1.0
-      terser: 4.8.0
+      serialize-javascript: 4.0.0
+      terser: 5.0.0
     dev: true
     peerDependencies:
       rollup: ^2.0.0
     resolution:
-      integrity: sha512-4fB3M9nuoWxrwm39habpd4hvrbrde2W2GG4zEGPQg1YITNkM3Tqur5jSuXlWNzbv/2aMLJ+dZJaySc3GCD8oDw==
+      integrity: sha512-p/N3lLiFusCjYTLfVkoaiRTOGr5AESEaljMPH12MhOtoMkmTBhIAfuadrcWy4am1U0vU4WTxO9fi0K09O4CboQ==
   /rollup/2.21.0:
     dev: true
     engines:
@@ -7479,12 +7489,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
-  /serialize-javascript/3.1.0:
+  /serialize-javascript/4.0.0:
     dependencies:
       randombytes: 2.1.0
     dev: true
     resolution:
-      integrity: sha512-JIJT1DGiWmIKhzRsG91aS6Ze4sFUrYbltlkg2onR5OrnNM02Kl/hnY/T4FN2omvyeBbQmMJv+K4cPOpGzOTFBg==
+      integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==
   /set-blocking/2.0.0:
     dev: true
     resolution:
@@ -8006,7 +8016,7 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==
-  /terser/4.8.0:
+  /terser/5.0.0:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -8016,7 +8026,7 @@ packages:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
+      integrity: sha512-olH2DwGINoSuEpSGd+BsPuAQaA3OrHnHnFL/rDB2TVNc3srUbz/rq/j2BlF4zDXI+JqAvGr86bIm1R2cJgZ3FA==
   /test-exclude/6.0.0:
     dependencies:
       '@istanbuljs/schema': 0.1.2
