@@ -1,3 +1,5 @@
+import type { Condition } from '@ucast/mongo2js';
+
 type Fn = (...args: any[]) => any;
 type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
 type AnyRecord = Record<PropertyKey, any>;
@@ -58,7 +60,10 @@ export type ForcedSubject<T> = { readonly __caslSubjectType__: T };
 type TaggedInterface<T extends string> = ForcedSubject<T> | { readonly kind: T };
 type TagName<T> = T extends TaggedInterface<infer U> ? U : never;
 
-export type MatchConditions<T extends object = AnyRecord> = (object: T) => boolean;
+export type MatchConditions<T extends object = AnyRecord> = {
+  (object: T): boolean
+  ast?: Condition
+};
 export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
 export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;

@@ -1,3 +1,4 @@
+import type { Condition } from '@ucast/mongo2js';
 import { wrapArray } from './utils';
 import {
   MatchConditions,
@@ -34,6 +35,7 @@ export class Rule<A extends Abilities, C> {
   public readonly conditions!: C | undefined;
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
+  public readonly ast?: Condition
 
   constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<A, C>) {
     validate(rule, options);
@@ -47,6 +49,7 @@ export class Rule<A extends Abilities, C> {
 
     if (this.conditions) {
       this._matchConditions = options.conditionsMatcher!(this.conditions);
+      this.ast = this._matchConditions.ast;
     }
 
     if (this.fields) {

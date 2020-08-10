@@ -546,6 +546,17 @@ describe('Ability', () => {
       it('does not allow to perform action on instance field if that instance matches conditions but field is not in specified list', () => {
         expect(ability).not.to.allow('read', myPost, 'id')
       })
+
+      it('has rules with `ast` property', () => {
+        const rule = ability.relevantRuleFor('read', 'Post');
+
+        expect(rule).to.have.property('ast').that.is.an('object');
+        expect(rule.ast).to.deep.equal({
+          field: 'author',
+          operator: 'eq',
+          value: rule.conditions.author
+        });
+      })
     })
   })
 
