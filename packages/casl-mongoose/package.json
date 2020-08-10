@@ -2,9 +2,9 @@
   "name": "@casl/mongoose",
   "version": "3.0.3",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
-  "main": "index.js",
-  "es2015": "dist/es6/index.js",
-  "typings": "./index.d.ts",
+  "main": "dist/es6c/index.js",
+  "es2015": "dist/es6m/index.js",
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"
@@ -15,7 +15,7 @@
   "homepage": "https://stalniy.github.io/casl/",
   "scripts": {
     "prebuild": "npm run build.types",
-    "build": "BUILD_TYPES=es6,umd:cjs rollup -c ../../rollup.config.js -e @casl/ability/extra,@casl/ability,mongoose",
+    "build": "BUILD_TYPES=es6m,es6c rollup -c ../../rollup.config.js -e @casl/ability/extra,@casl/ability,mongoose",
     "build.types": "rm -rf dist/types/* && tsc",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",

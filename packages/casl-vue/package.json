@@ -4,7 +4,7 @@
   "description": "Vue plugin for CASL which makes it easy to add permissions in any Vue application",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6/index.js",
+  "es2015": "dist/es6m/index.js",
   "typings": "./index.d.ts",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c ../../rollup.config.js -n casl.vue -g vue:Vue,@casl/ability:casl",
+    "build": "BUILD_TYPES=es5m,es6m,umd rollup -c ../../rollup.config.js -n casl.vue -g vue:Vue,@casl/ability:casl",
     "build.types": "rm -rf dist/types/* && tsc",
     "prebuild": "npm run build.types",
     "lint": "eslint --ext .ts,.js src/ spec/",

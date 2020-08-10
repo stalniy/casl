@@ -4,7 +4,7 @@
   "description": "Aurelia plugin for CASL which makes it easy to add permissions in any Aurelia apps",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6/index.js",
+  "es2015": "dist/es6m/index.js",
   "typings": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prebuild": "npm run build.types",
-    "build": "rollup -c ../../rollup.config.js -n casl.au -g aurelia-framework:au,@casl/ability:casl",
+    "build": "BUILD_TYPES=es5m,es6m,umd rollup -c ../../rollup.config.js -n casl.au -g aurelia-framework:au,@casl/ability:casl",
     "build.types": "rm -rf dist/types/* && tsc",
     "lint": "eslint --ext .js,.ts src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",

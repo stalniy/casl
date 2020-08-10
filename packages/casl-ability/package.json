@@ -3,9 +3,10 @@
   "version": "4.1.5",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "funding": "https://github.com/stalniy/casl/blob/master/BACKERS.md",
-  "main": "dist/umd/index.js",
+  "main": "dist/es6c/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6/index.js",
+  "es2015": "dist/es6m/index.js",
+  "legacy": "dist/umd/index.js",
   "typings": "./index.d.ts",
   "sideEffects": false,
   "repository": {
@@ -17,7 +18,7 @@
     "access": "public"
   },
   "scripts": {
-    "build.core": "rollup -c ../../rollup.config.js -n casl -g sift:sift",
+    "build.core": "rollup -c ../../rollup.config.js -n casl -g @ucast/mongo2js:ucast.mongo2js",
     "build.extra": "rollup -c ../../rollup.config.js -i src/extra.ts -n casl.extra",
     "build.types": "rm -rf dist/types/* && tsc && cp index.metadata.json dist/types",
     "build": "npm run build.types && npm run build.core && npm run build.extra",

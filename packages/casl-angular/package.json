@@ -4,7 +4,7 @@
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6/index.js",
+  "es2015": "dist/es6m/index.js",
   "typings": "dist/types/public_api.d.ts",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "prebuild": "rm -rf dist/*",
     "build": "npm run build.types && npm run build.es5m && npm run build.es6 && npm run build.umd",
     "build.es5m": "TARGET=es5 BUILD=es5m npm run rollup",
-    "build.es6": "TARGET=es2015 BUILD=es6 npm run rollup",
+    "build.es6": "TARGET=es2015 BUILD=es6m npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
     "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
