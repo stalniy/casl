@@ -2291,17 +2291,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-uya1wTU8WWWA3+rQ+VPuuClAFJeL9KPwkhv59j+pb7Nqf7SJ8xJqa6G69PZ5ID/YixkYjIupYB1ztttEij4J3Q==
-  /@ucast/mongo/2.0.0:
+  /@ucast/mongo/2.1.0:
     dependencies:
       '@ucast/core': 1.2.0
     dev: false
     resolution:
-      integrity: sha512-LRLyNOrbC09pmcjZ9AeYZSI5D2rnPCacEsXigdGH5a2ic+SW++2wg8Q7gBAPq8CgJ0icYx7hQnTY8AS0Th0BXw==
+      integrity: sha512-F8wEHPWAwOeGvGNfchS6ZBVfuq8lEluZR8Gjsq4ggT/sXUHizUodUe8km3mRTQ+8ODCx3JlFRn0Tj1V+w9jHhw==
   /@ucast/mongo2js/1.0.0:
     dependencies:
       '@ucast/core': 1.2.0
       '@ucast/js': 2.0.1
-      '@ucast/mongo': 2.0.0
+      '@ucast/mongo': 2.1.0
     dev: false
     resolution:
       integrity: sha512-xzWZ1kS4L6vaUUxxt7IwvuM3CZo/ReFaMqju2qSiu04pO1uBMsuvSCapDDb+eSkP5IhIeRw3Fj4O5WCWZFmGxA==
