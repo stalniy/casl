@@ -35,7 +35,7 @@ export class Rule<A extends Abilities, C> {
   public readonly conditions!: C | undefined;
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
-  public readonly ast?: Condition
+  public readonly ast?: Condition;
 
   constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<A, C>) {
     validate(rule, options);

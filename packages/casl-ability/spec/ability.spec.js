@@ -548,14 +548,14 @@ describe('Ability', () => {
       })
 
       it('has rules with `ast` property', () => {
-        const rule = ability.relevantRuleFor('read', 'Post');
+        const rule = ability.relevantRuleFor('read', 'Post')
 
-        expect(rule).to.have.property('ast').that.is.an('object');
+        expect(rule).to.have.property('ast').that.is.an('object')
         expect(rule.ast).to.deep.equal({
           field: 'author',
           operator: 'eq',
           value: rule.conditions.author
-        });
+        })
       })
     })
   })
