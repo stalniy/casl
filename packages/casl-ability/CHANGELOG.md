@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.0](https://github.com/stalniy/casl/compare/@casl/ability@4.1.5...@casl/ability@5.0.0) (2020-08-10)
+
+
+### Bug Fixes
+
+* **ability:** removes sift specific types from casl ([9f18b31](https://github.com/stalniy/casl/commit/9f18b31cfaf09d8b6471abcb5dea14873d184eb6))
+
+
+### Code Refactoring
+
+* **ability:** removes deprecated types and fields ([bf5ef73](https://github.com/stalniy/casl/commit/bf5ef736a0add07c15ce1360ef21f45bff777973)), closes [#355](https://github.com/stalniy/casl/issues/355)
+* **package:** replaces siftjs with @ucast/mongo2js ([41e53aa](https://github.com/stalniy/casl/commit/41e53aa12814e5a397ecb0b94fe33f182c55240e)), closes [#350](https://github.com/stalniy/casl/issues/350)
+
+
+### Features
+
+* **ability:** stores `ast` property in `Rule` if `conditionsMatcher` has `ast` ([53e5e28](https://github.com/stalniy/casl/commit/53e5e288b6a69690e344421749d434b77fa10a4d)), closes [#350](https://github.com/stalniy/casl/issues/350)
+
+
+### BREAKING CHANGES
+
+* **package:** replaces siftjs with @ucast/mongo2js. This changed `MongoQuery` type and `buildMongoQueryMatcher` function parameters. Influences users who implemented custom sift operators:
+
+  * `MongoQuery` accepted a generic type of AdditionalOperators, now it accepts an object interface and custom operators
+  * `MongoQueryOperators` is renamed to `MongoQueryFieldOperators` and now accepts `Value` generic parameter
+  * `buildMongoQuery` now accepts 3 optional parameters: [custom parsing instruction](https://www.npmjs.com/package/@ucast/mongo#custom-operator), [custom operator interpreters](https://www.npmjs.com/package/@ucast/js#custom-operator-interpreter) and [options for JavaScript interpreters](https://www.npmjs.com/package/@ucast/js#custom-interpreter)
+  * `Ability` does not compare objects anymore, so if you rely on value to equal specific object, then you need to either change your conditions or implement custom `equal` function
+
+  **Before**
+
+  ```ts
+  import { MongoQuery, MongoQueryOperators, buildMongoQueryMatcher } from '@casl/ability';
+  import { $nor } from 'sift';
+
+  type CustomMongoQuery = MongoQuery<{
+    $customOperator: Function
+  }>;
+  type $eq = MongoQueryOperators['$eq'];
+
+  const matcher = buildMongoQueryMatcher({ $nor })
+  ```
+
+  **After**
+
+  ```ts
+  import { MongoQuery, MongoQueryFieldOperators, buildMongoQueryMatcher } from '@casl/
+  ability';
+  import { $nor, nor } from '@ucast/mongo2js'
+
+  type CustomMongoQuery<T> = MongoQuery<T, {
+    toplevel: {
+      // can be used only on document level
+      $customOperator: Function
+    },
+    field: {
+      // can be used only on field level
+      $my: boolean
+    }
+  }>
+  type $eq = MongoQueryFieldOperators['$eq']; // accepts optional `Value` generic parameter
+
+  const matcher = buildMongoQueryMatcher({ $nor }, { nor });
+        ```
+* **ability:** removes deprecated options and types:
+
+* `AbilityOptions['subjectName']` has been removed, use `detectSubjectType` instead
+* `LegacyClaimRawRule` and `LegacySubjectRawRule` are both removed, so you are no longer allowed to use `actions` in rule definition, use `action` property instead
+* `Ability` throws an error if you specify a rule with property `field` to be an empty array
+* `Ability` no longer warns about using only inverted rules. This may be done by intention, so now it's left up to developer to decide whether it's fine or not
+
 ## [4.1.5](https://github.com/stalniy/casl/compare/@casl/ability@4.1.4...@casl/ability@4.1.5) (2020-06-08)
 
 
