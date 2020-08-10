@@ -15,7 +15,7 @@ parser.parse = ((parse) => (config, options) => {
 
 module.exports = {
   tagFormat: `${process.env.npm_package_name}@\${version}`,
-  branches: ['master', { name: 'next', prerelease: true }],
+  branches: ['master', { name: 'next', channel: 'next' }],
   verifyConditions: [
     '@semantic-release/changelog',
     '@semantic-release/npm',
