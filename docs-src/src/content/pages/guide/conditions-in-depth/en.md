@@ -7,9 +7,9 @@ meta:
   description: ~
 ---
 
-Thanks to [sift.js](https://github.com/crcn/sift.js) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
+Thanks to [ucast](https://github.com/stalniy/ucast), we can define permissions using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
 
-If you are not familiar with MongoDB query language, don't worry, it's not required. We will go through some of its operators in this guide. But before we start, let's see how useful it may be by creating simple article scheduling logic, that is allow to read articles only if its `createdAt` is in the past:
+Don't worry, if you are not familiar with MongoDB query language. We will go through some of its operators in this guide. But before we start, let's see how useful it may be by creating simple article scheduling logic, that allows to read articles only if their `createdAt` is in the past:
 
 ```js
 import { defineAbility } from '@casl/ability';
@@ -31,7 +31,7 @@ export default defineAbility((can) => {
 });
 ```
 
-Do you feel the power it brings?
+Do you see the power it brings?
 
 ## MongoDB and its query language
 
@@ -43,7 +43,7 @@ JavaScript is a superset of `JSON`, that's why we decided to use MongoDB query l
 
 **You don't need to know anything about MongoDB** in order to use CASL, you need to know only subset of its query language operators.
 
-Query is what you pass in conditions to `can` and `cannot` functions (3rd or 4th argument if you define fields). So, it's an object which defines some restrictions on a javascript object and if that restrictions are matched then the object is returned.
+Query is what you pass in conditions to `can` and `cannot` functions (3rd or 4th argument if you define fields). So, it's an object which defines restrictions on a JavaScript object and if that restrictions are matched then the object is returned.
 
 These are some examples of a query:
 
@@ -56,7 +56,7 @@ const queries = [
   { price: { $gte: 10, $lte: 50 } }, // (3)
   { tags: { $all: ['permission', 'casl'] } },
   { email: { $regex: /@gmail.com$/i } },
-  { 'city.address': { $elemMatch: { postalCode: { $regex: /^AB/ } } } } // (4)
+  { 'cities.address': { $elemMatch: { postalCode: { $regex: /^AB/ } } } } // (4)
 ]
 ```
 

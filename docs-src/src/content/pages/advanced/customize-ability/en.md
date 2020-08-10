@@ -13,9 +13,9 @@ CASL was built with extensibility in mind and this allows you to extend conditio
 
 ## Extend conditions with custom operators
 
-Thanks to [sift.js](https://github.com/crcn/sift.js), it's possible to [define conditions in CASL](../../guide/conditions-in-depth) using MongoDB query language. Usually this is enough but sometimes you may want to add non-standard operator or one of those that are not included in CASL by default (e.g., [$nor]) or you may want to restrict possible operators.
+Thanks to [ucast](https://github.com/stalniy/ucast), it's possible to [define conditions in CASL](../../guide/conditions-in-depth) using MongoDB query language. Usually this is enough but sometimes you may want to restrict possible operators, add non-standard operator or one of those that is not included in CASL by default (e.g., [$nor]).
 
-Let's see an example how to add `$nor` operator. To do this, we will use `buildMongoQueryMatcher` helper function from `@casl/ability` package. It allows to add or override existing operators:
+Let's see an example of how to add `$nor` operator. To do this, we will use `buildMongoQueryMatcher` helper function from `@casl/ability` package. It allows to add or override existing operators:
 
 [$nor]: https://docs.mongodb.com/manual/reference/operator/query/nor/
 
@@ -27,17 +27,12 @@ import {
   MongoQuery,
   buildMongoQueryMatcher,
 } from '@casl/ability';
-import { $nor } from 'sift';
+import { $nor, nor } from '@ucast/mongo2js';
 
-interface QueryExtensions {
-  $nor?: [MongoQuery, ...MongoQuery[]]
-};
-type CustomMongoQuery = MongoQuery | QueryExtensions;
-const conditionsMatcher = buildMongoQueryMatcher<QueryExtensions>({ $nor });
-type AppAbility = Ability<Abilities, CustomMongoQuery>;
+const conditionsMatcher = buildMongoQueryMatcher({ $nor }, { nor });
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<AppAbility>(Ability);
+  const { can, build } = new AbilityBuilder<Ability>(Ability);
 
   can('read', 'Article', {
     $nor: [{ private: true }, { authorId: user.id }]
@@ -49,25 +44,20 @@ export default function defineAbilityFor(user: any) {
 
 > We use `user: any` for the purpose of ease, you should avoid this in real apps
 
-To restrict operators you shouldn't use `buildMongoQueryMatcher`. For example, let's allow to use only `$eq` and `$in` operators:
+To restrict operators, you don't need `buildMongoQueryMatcher`. For example, let's allow to use only `$eq` and `$in` operators:
 
 ```ts
 import {
   Ability,
   AbilityBuilder,
   Abilities,
-  MongoQueryOperators,
+  MongoQueryFieldOperators,
   ConditionsMatcher,
 } from '@casl/ability';
-import { $in, $eq, Query, createQueryTester as sift } from 'sift';
+import { $in, within, $eq, eq, createFactory, BuildMongoQuery } from '@ucast/mongo2js';
 
-type RestrictedMongoQuery = Record<PropertyKey, number | string | {
-  $eq?: MongoQueryOperators['$eq'],
-  $in?: MongoQueryOperators['$in'],
-}>;
-const conditionsMatcher: ConditionsMatcher<RestrictedMongoQuery> = (conditions) => {
-  return sift(conditions as Query, { operations: { $in, $eq } });
-};
+type RestrictedMongoQuery<T> = BuildMongoQuery<T, Pick<MongoQueryFieldOperators, '$eq' | '$in'>>;
+const conditionsMatcher: ConditionsMatcher<RestrictedMongoQuery> = createFactory({ $in, $eq }, { in: within, eq });
 type AppAbility = Ability<Abilities, RestrictedMongoQuery>;
 
 export default function defineAbilityFor(user: any) {
@@ -80,7 +70,7 @@ export default function defineAbilityFor(user: any) {
 }
 ```
 
-> Read [sift docs](https://github.com/crcn/sift.js#custom-operations) page to learn how to create custom operators.
+> Read [@ucast/mongo2js docs](https://github.com/stalniy/ucast/tree/master/packages/mongo2js#custom-operator) page to learn how to create custom operators.
 
 By restricting operators, you not only disallow other developers to use more complex conditions but also make your frontend bundle size smaller (thanks to bundlers with tree-shaking support).
 

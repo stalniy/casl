@@ -78,8 +78,23 @@ For prototyping or learning purposes, you can use the latest version with:
 For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions:
 
 ```html
+<script src="https://cdn.jsdelivr.net/npm/@casl/ability@4.0.0"></script>
+```
+
+Remember that CASL depends on [@ucast/mongo2js] which depends on [@ucast/core], [@ucast/js] and [@ucast/mongo], that's why you need to specify all these libraries before `@casl/ability`:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@ucast/core"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ucast/mongo"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ucast/js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ucast/mongo2js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@casl/ability"></script>
 ```
+
+[@ucast/core]: https://www.npmjs.com/package/@ucast/core
+[@ucast/js]: https://www.npmjs.com/package/@ucast/js
+[@ucast/mongo]: https://www.npmjs.com/package/@ucast/mongo
+[@ucast/mongo2js]: https://www.npmjs.com/package/@ucast/mongo
 
 ## Download and use &lt;script&gt; tag
 
@@ -106,14 +121,9 @@ All official packages has the same directory layout (except of `@casl/mongoose` 
 
 ## CSP environments
 
-Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of `new Function()` for evaluating expressions. [sift](https://github.com/crcn/sift.js) is a package which is CASL uses internally depends on this feature to evaluate `$where` operator.
+Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of `new Function()` for evaluating expressions.
 
-CASL doesn't imports this operator, so if you use bundlers such as [webpack] or [rollup], they will shake out this operator and it will not appear in the eventual bundle.
-
-If you use bundler which does not support tree shaking, you have 2 options:
-
-1. Set `CSP_ENABLED=1` environment variable, this will replace `process.env.CSP_ENABLED` with `1`. Eventually uglifier will remove this code as unreachable
-2. Depending of the module system you use, replace `from 'sift'` or `require('sift')` with `from 'sift/sift.csp.min'` or `require('sift/sift.csp.min')` in the eventual bundle (e.g., using shell `sed`)
+CASL doesn't use any of the prohibited functions.
 
 ## Dev build
 

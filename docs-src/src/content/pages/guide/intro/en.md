@@ -143,7 +143,7 @@ ability.can('update', anotherArticle) // false
 
 **Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
 
-Thanks to [sift.js](https://github.com/crcn/sift.js) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
+Thanks to [ucast](https://github.com/stalniy/ucast) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
 
 > If you are not familiar with MongoDB query language, see [CASL conditions in depth](../conditions-in-depth) for details
 

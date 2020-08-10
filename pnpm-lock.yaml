@@ -40,7 +40,7 @@ importers:
       typescript: ~3.8.0
   packages/casl-ability:
     dependencies:
-      sift: 13.1.10
+      '@ucast/mongo2js': 1.0.0
     devDependencies:
       '@babel/core': 7.10.4
       '@babel/plugin-proposal-class-properties': 7.10.4_@babel+core@7.10.4
@@ -81,6 +81,7 @@ importers:
       '@semantic-release/npm': ^7.0.5
       '@types/node': ^14.0.5
       '@typescript-eslint/eslint-plugin': 3.8.0
+      '@ucast/mongo2js': ^1.0.0
       babel-jest: ^26.0.0
       chai: ^4.1.0
       chai-spies: ^1.0.0
@@ -92,7 +93,6 @@ importers:
       rollup: ^2.10.9
       rollup-plugin-terser: ^6.1.0
       semantic-release: 17.1.1
-      sift: ^13.0.0
       typescript: ~3.8.0
   packages/casl-angular:
     devDependencies:
@@ -2281,6 +2281,30 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-gfqQWyVPpT9NpLREXNR820AYwgz+Kr1GuF3nf1wxpHD6hdxI62tq03ToomFnDxY0m3pUB39IF7sil7D5TQexLA==
+  /@ucast/core/1.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-dYQtifhNLbfBUcuTsmpzlp9CRhv/jkoIkcYFZVKoEE/XpkChxl63GmO5/PBrF6SF+9DEMNRfDvWzTmxUgtXOvg==
+  /@ucast/js/2.0.1:
+    dependencies:
+      '@ucast/core': 1.2.0
+    dev: false
+    resolution:
+      integrity: sha512-uya1wTU8WWWA3+rQ+VPuuClAFJeL9KPwkhv59j+pb7Nqf7SJ8xJqa6G69PZ5ID/YixkYjIupYB1ztttEij4J3Q==
+  /@ucast/mongo/2.0.0:
+    dependencies:
+      '@ucast/core': 1.2.0
+    dev: false
+    resolution:
+      integrity: sha512-LRLyNOrbC09pmcjZ9AeYZSI5D2rnPCacEsXigdGH5a2ic+SW++2wg8Q7gBAPq8CgJ0icYx7hQnTY8AS0Th0BXw==
+  /@ucast/mongo2js/1.0.0:
+    dependencies:
+      '@ucast/core': 1.2.0
+      '@ucast/js': 2.0.1
+      '@ucast/mongo': 2.0.0
+    dev: false
+    resolution:
+      integrity: sha512-xzWZ1kS4L6vaUUxxt7IwvuM3CZo/ReFaMqju2qSiu04pO1uBMsuvSCapDDb+eSkP5IhIeRw3Fj4O5WCWZFmGxA==
   /@vue/test-utils/1.0.3_d81dac297579cfd5597855dabf60f13b:
     dependencies:
       dom-event-types: 1.0.0
@@ -7533,10 +7557,6 @@ packages:
     optional: true
     resolution:
       integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
-  /sift/13.1.10:
-    dev: false
-    resolution:
-      integrity: sha512-Z+7ZMTbnmbuVCwER+8jNerXpuJNYsxFSZf1er8VUqF/qYdgTrG5o5TQ7C6nWDycQY/TA1pczVCj58y5RvrUtrA==
   /sift/7.0.1:
     dev: true
     resolution:

@@ -6,7 +6,7 @@ import { fieldPatternMatcher } from './matchers/field';
 
 export class Ability<
   A extends AbilityTuple = AbilityTuple,
-  C extends MongoQuery<any> = MongoQuery
+  C extends MongoQuery = MongoQuery
 > extends PureAbility<A, C> {
   constructor(rules?: RawRuleFrom<A, C>[], options?: AbilityOptions<A, C>) {
     super(rules, {

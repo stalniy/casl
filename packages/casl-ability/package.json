@@ -42,9 +42,6 @@
   "engines": {
     "npm": "^6.0.0"
   },
-  "dependencies": {
-    "sift": "^13.0.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
@@ -76,5 +73,8 @@
     "dist",
     "*.d.ts",
     "extra"
-  ]
+  ],
+  "dependencies": {
+    "@ucast/mongo2js": "^1.0.0"
+  }
 }
