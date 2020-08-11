@@ -2,7 +2,7 @@ const parser = require('git-log-parser'); // eslint-disable-line
 
 // this is hack which allows to use semantic-release for monorepo
 // https://github.com/semantic-release/semantic-release/issues/193#issuecomment-578436666
-parser.parse = ((parse) => (config, options) => {
+parser.parse = (parse => (config, options) => {
   if (Array.isArray(config._)) {
     config._.push(options.cwd);
   } else if (config._) {
@@ -15,7 +15,7 @@ parser.parse = ((parse) => (config, options) => {
 
 module.exports = {
   tagFormat: `${process.env.npm_package_name}@\${version}`,
-  branches: ['master', { name: 'next', channel: 'next' }],
+  branches: ['master', { name: 'next', channel: 'next', prerelease: true }],
   verifyConditions: [
     '@semantic-release/changelog',
     '@semantic-release/npm',
