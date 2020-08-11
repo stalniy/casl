@@ -26,8 +26,6 @@ import {
   $exists,
   exists,
   createFactory,
-  equal,
-  createGetter
 } from '@ucast/mongo2js';
 import type { MongoQuery } from '@ucast/mongo2js';
 import { ConditionsMatcher } from '../types';
@@ -63,32 +61,13 @@ const defaultInterpreters = {
   exists,
 };
 
-interface HasToJSON {
-  toJSON(): unknown
-}
-
-function toPrimitive(value: unknown) {
-  if (value instanceof Date) {
-    return value.getTime();
-  }
-
-  if (value && typeof (value as HasToJSON).toJSON === 'function') {
-    return (value as HasToJSON).toJSON();
-  }
-
-  return value;
-}
-
-const isEqual: typeof equal = (a, b) => equal(toPrimitive(a), toPrimitive(b));
-const getField = createGetter((object, field) => toPrimitive(object[field]));
-
 type MongoQueryMatcher =
   (...args: Partial<Parameters<typeof createFactory>>) => ConditionsMatcher<MongoQuery>;
 export const buildMongoQueryMatcher: MongoQueryMatcher = (instructions, interpreters, options) => {
   return createFactory(
     { ...defaultInstructions, ...instructions },
     { ...defaultInterpreters, ...interpreters },
-    { equal: isEqual, get: getField, ...options }
+    options
   );
 };
 
