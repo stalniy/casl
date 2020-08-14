@@ -35,7 +35,7 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.2",
     "@rollup/plugin-url": "^5.0.0",
-    "@rollup/pluginutils": "^3.0.10",
+    "@rollup/pluginutils": "^4.0.0",
     "@sindresorhus/slugify": "^1.0.0",
     "core-js": "^3.6.4",
     "dotenv-flow": "^3.1.0",
