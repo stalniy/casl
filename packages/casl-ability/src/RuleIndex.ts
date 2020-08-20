@@ -55,8 +55,6 @@ interface IndexTree<A extends Abilities, C> {
   }
 }
 
-type RuleIterator<A extends Abilities, C> = (rule: RawRuleFrom<A, C>, index: number) => void;
-
 export type Unsubscribe = () => void;
 
 export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
@@ -64,8 +62,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   private _mergedRules: Record<string, Rule<A, Conditions>[]> = Object.create(null);
   private _events: Events<this, BaseEvent> = Object.create(null);
   private _indexedRules: IndexTree<A, Conditions> = Object.create(null);
-  private _rules: this['rules'] = [];
-  readonly rules!: RawRuleFrom<A, Conditions>[];
+  private _rules: RawRuleFrom<A, Conditions>[] = [];
   readonly _ruleOptions!: RuleOptions<A, Conditions>;
   readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
   /** @private hacky property to track Abilities type */
@@ -82,11 +79,12 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       fieldMatcher: options.fieldMatcher,
       resolveAction: options.resolveAction || identity,
     };
-    Object.defineProperty(this, 'detectSubjectType', {
-      value: options.detectSubjectType || detectSubjectType
-    });
-    Object.defineProperty(this, 'rules', { get: () => this._rules });
+    this.detectSubjectType = options.detectSubjectType || detectSubjectType;
     this.update(rules);
+  }
+
+  get rules() {
+    return this._rules;
   }
 
   update(rules: RawRuleFrom<A, Conditions>[]): this {

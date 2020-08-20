@@ -40,7 +40,7 @@ importers:
       typescript: ~3.8.0
   packages/casl-ability:
     dependencies:
-      '@ucast/mongo2js': 1.1.1
+      '@ucast/mongo2js': 1.2.0
     devDependencies:
       '@babel/core': 7.10.4
       '@babel/plugin-proposal-class-properties': 7.10.4_@babel+core@7.10.4
@@ -81,7 +81,7 @@ importers:
       '@semantic-release/npm': ^7.0.5
       '@types/node': ^14.0.5
       '@typescript-eslint/eslint-plugin': 3.8.0
-      '@ucast/mongo2js': ^1.1.1
+      '@ucast/mongo2js': ^1.2.0
       babel-jest: ^26.0.0
       chai: ^4.1.0
       chai-spies: ^1.0.0
@@ -2289,30 +2289,30 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-gfqQWyVPpT9NpLREXNR820AYwgz+Kr1GuF3nf1wxpHD6hdxI62tq03ToomFnDxY0m3pUB39IF7sil7D5TQexLA==
-  /@ucast/core/1.3.0:
+  /@ucast/core/1.4.1:
     dev: false
     resolution:
-      integrity: sha512-YGdRleQGBzjauDk4aW0le2Pt66bKm1Rg/5wU/eB3pKFLTkwBFEkLLLoheb4bEw56dUCZ+37/gNpFDUq1Rf1/Ig==
-  /@ucast/js/2.1.0:
+      integrity: sha512-oMFXSKiFED7qaFn/dgrfIEOy0ZEK0wCtDfB8yKP0utHg/j4eS5LIa6tifqDZuRObepcnTKyXmEl2MRneznHRFg==
+  /@ucast/js/2.1.3:
     dependencies:
-      '@ucast/core': 1.3.0
+      '@ucast/core': 1.4.1
     dev: false
     resolution:
-      integrity: sha512-LusUKeXIOuHWvqkc1dhQmkZF+x5goe5n1mzA+iZtwJb/BgbmEUNydikUMZr5HKuG8QIdvzLJ4eNPVzaWnzzM0Q==
-  /@ucast/mongo/2.1.0:
+      integrity: sha512-6pEMyyCyaAChFYhiJXCo3zz/rIf43P4rXITnufs42muvz7bi4/dWLZvM8xwpvLm2s8XQw2gVzUXvb/6FvT/iKQ==
+  /@ucast/mongo/2.2.0:
     dependencies:
-      '@ucast/core': 1.3.0
+      '@ucast/core': 1.4.1
     dev: false
     resolution:
-      integrity: sha512-F8wEHPWAwOeGvGNfchS6ZBVfuq8lEluZR8Gjsq4ggT/sXUHizUodUe8km3mRTQ+8ODCx3JlFRn0Tj1V+w9jHhw==
-  /@ucast/mongo2js/1.1.1:
+      integrity: sha512-lA8GL2qI9UTZJvd1+59AholoFskgMhMVZfWII8CgNFEWvpd0GX69GSblRV9SDXQi57J4qtrp5a99R8XmaTzjBQ==
+  /@ucast/mongo2js/1.2.0:
     dependencies:
-      '@ucast/core': 1.3.0
-      '@ucast/js': 2.1.0
-      '@ucast/mongo': 2.1.0
+      '@ucast/core': 1.4.1
+      '@ucast/js': 2.1.3
+      '@ucast/mongo': 2.2.0
     dev: false
     resolution:
-      integrity: sha512-nuPArkqfs0bU72ndH4EtV5W3QTzJCdCZLCS3E9fCYy+KbtNx/LIkz/Z9puAuBE1nXeY5ojB3nVFj4IbPKvSxaA==
+      integrity: sha512-1lnrTiiBnpUg2qwFr+vDAa99pTdrnoytUiJDx/LBRb0TiKTyZRZ2OJbcbwRQ1X1jVeTtJn9X5m9WsBuLEQoqYA==
   /@vue/test-utils/1.0.3_d81dac297579cfd5597855dabf60f13b:
     dependencies:
       dom-event-types: 1.0.0

@@ -1,38 +1,25 @@
+import { Condition, buildAnd, buildOr } from '@ucast/mongo2js';
 import { PureAbility, AnyAbility } from './PureAbility';
 import { RuleOf, Generics } from './RuleIndex';
 import { RawRule } from './RawRule';
 import { Rule } from './Rule';
 import { setByPath, wrapArray } from './utils';
-import {
-  AbilityParameters,
-  AnyObject,
-  SubjectType,
-  AbilityTuple,
-  CanParameters,
-  Abilities
-} from './types';
+import { AnyObject, SubjectType, Normalize } from './types';
 
 export type RuleToQueryConverter<T extends AnyAbility> = (rule: RuleOf<T>) => object;
-export interface AbilityQuery {
-  $or?: object[]
-  $and?: object[]
+export interface AbilityQuery<T = object> {
+  $or?: T[]
+  $and?: T[]
 }
-
-type RulesToQueryRestArgs<T extends Abilities, ConvertRule> = AbilityParameters<
-T,
-T extends AbilityTuple
-  ? (action: T[0], subject: T[1], convert: ConvertRule) => 0
-  : never,
-(action: never, subject: never, convert: ConvertRule) => 0
->;
 
 export function rulesToQuery<T extends AnyAbility>(
   ability: T,
-  ...args: RulesToQueryRestArgs<Generics<T>['abilities'], RuleToQueryConverter<T>>
+  action: Normalize<Generics<T>['abilities']>[0],
+  subject: Normalize<Generics<T>['abilities']>[1],
+  convert: RuleToQueryConverter<T>
 ): AbilityQuery | null {
-  const [action, subject, convert] = args;
-  const query: AbilityQuery = {};
-  const rules = ability.rulesFor(action, subject) as RuleOf<T>[];
+  const query: AbilityQuery = Object.create(null);
+  const rules = ability.rulesFor(action, subject);
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
@@ -54,9 +41,39 @@ export function rulesToQuery<T extends AnyAbility>(
   return query.$or ? query : null;
 }
 
+function ruleToAST(rule: RuleOf<AnyAbility>): Condition {
+  if (!rule.ast) {
+    throw new Error(`Ability rule "${JSON.stringify(rule)}" does not have "ast" property. So, cannot be used to generate AST`);
+  }
+  return rule.ast;
+}
+
+export function rulesToAST<T extends AnyAbility>(
+  ability: T,
+  action: Normalize<Generics<T>['abilities']>[0],
+  subject: Normalize<Generics<T>['abilities']>[1]
+): Condition | null {
+  const query = rulesToQuery(ability, action, subject, ruleToAST) as AbilityQuery<Condition>;
+
+  if (query === null) {
+    return null;
+  }
+
+  if (!query.$and) {
+    return query.$or ? buildOr(query.$or) : buildAnd([]);
+  }
+
+  if (query.$or) {
+    query.$and.push(buildOr(query.$or));
+  }
+
+  return buildAnd(query.$and);
+}
+
 export function rulesToFields<T extends PureAbility<any, AnyObject>>(
   ability: T,
-  ...[action, subject]: CanParameters<Generics<T>['abilities'], false>
+  action: Normalize<Generics<T>['abilities']>[0],
+  subject: Normalize<Generics<T>['abilities']>[1]
 ): AnyObject {
   return ability.rulesFor(action, subject)
     .filter(rule => !rule.inverted && rule.conditions)

@@ -76,6 +76,6 @@
     "extra"
   ],
   "dependencies": {
-    "@ucast/mongo2js": "^1.1.1"
+    "@ucast/mongo2js": "^1.2.0"
   }
 }
