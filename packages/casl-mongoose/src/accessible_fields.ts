@@ -3,11 +3,15 @@ import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
 import { Schema, Model, Document } from 'mongoose';
 
 export type AccessibleFieldsOptions =
-  { only: string | string[] } |
-  { except: string | string[] };
+  {
+    getFields(schema: Schema<Document>): string[]
+  } &
+  ({ only: string | string[] } | { except: string | string[] });
 
-function fieldsOf(schema: Schema<AccessibleFieldsDocument>, options?: AccessibleFieldsOptions) {
-  const fields = Object.keys((schema as any).paths);
+export const getSchemaPaths: AccessibleFieldsOptions['getFields'] = schema => Object.keys((schema as { paths: object }).paths);
+
+function fieldsOf(schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) {
+  const fields = options.getFields!(schema);
 
   if (!options || !('except' in options)) {
     return fields;
@@ -33,10 +37,10 @@ export interface AccessibleFieldsDocument extends Document {
 
 function modelFieldsGetter() {
   let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
-  return (schema: Schema<AccessibleFieldsDocument>, options?: AccessibleFieldsOptions) => {
+  return (schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) => {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options
-        ? wrapArray(options.only)
+        ? wrapArray(options.only as string[])
         : fieldsOf(schema, options);
       fieldsFrom = rule => rule.fields || ALL_FIELDS;
     }
@@ -47,8 +51,9 @@ function modelFieldsGetter() {
 
 export function accessibleFieldsPlugin(
   schema: Schema<AccessibleFieldsDocument>,
-  options?: AccessibleFieldsOptions
+  rawOptions?: Partial<AccessibleFieldsOptions>
 ) {
+  const options = { getFields: getSchemaPaths, ...rawOptions };
   const fieldsFrom = modelFieldsGetter();
   type ModelOrDoc = Model<AccessibleFieldsDocument> | AccessibleFieldsDocument;
 
