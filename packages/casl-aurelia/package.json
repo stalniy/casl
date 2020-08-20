@@ -4,8 +4,14 @@
   "description": "Aurelia plugin for CASL which makes it easy to add permissions in any Aurelia apps",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.js",
+  "es2015": "dist/es6m/index.mjs",
   "typings": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es6m/index.mjs",
+      "require": "./dist/umd/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"

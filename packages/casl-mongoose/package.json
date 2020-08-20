@@ -3,8 +3,14 @@
   "version": "3.0.3",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "dist/es6c/index.js",
-  "es2015": "dist/es6m/index.js",
+  "es2015": "dist/es6m/index.mjs",
   "typings": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es6m/index.mjs",
+      "require": "./dist/es6c/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"

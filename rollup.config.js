@@ -1,14 +1,31 @@
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+import { dirname, basename, extname } from 'path';
+
+const output = (config) => {
+  let prop = 'dir';
+  let path = `dist/${config.id}${config.subpath}`;
+
+  if (config.ext) {
+    prop = 'file';
+    path += `/${basename(config.input, extname(config.input))}${config.ext}`;
+  }
+
+  return {
+    [prop]: path,
+    format: config.format,
+    name: config.name,
+    globals: config.globals,
+  };
+};
 
 const build = config => ({
-  input: config.input || 'src/index.ts',
+  input: config.input,
+  external: config.external,
   output: {
     sourcemap: true,
-    format: config.format,
-    dir: `dist/${config.id}`,
-    name: config.name,
+    ...output(config),
     plugins: [
       config.minify
         ? terser({
@@ -38,16 +55,29 @@ const build = config => ({
 function parseOptions(overrideOptions) {
   const options = {
     external: [],
+    input: 'src/index.ts',
+    subpath: '',
     useInputSourceMaps: !!process.env.USE_SRC_MAPS,
     minify: process.env.NODE_ENV === 'production' && process.env.LIB_MINIFY !== 'false'
   };
 
-  if (overrideOptions.external) {
-    options.external = overrideOptions.external.split(',');
+  if (overrideOptions.input) {
+    options.input = overrideOptions.input[0];
+    options.subpath = dirname(options.input).replace(/^src/, '');
   }
 
-  if (overrideOptions.globals) {
-    options.globals = overrideOptions.globals.split(',').reduce((map, chunk) => {
+  if (typeof overrideOptions.external === 'string') {
+    options.external = overrideOptions.external.split(',');
+  } else if (overrideOptions.external) {
+    options.external = options.external.concat(overrideOptions.external);
+  }
+
+  if (typeof overrideOptions.globals === 'string') {
+    options.globals = overrideOptions.globals.split(',');
+  }
+
+  if (options.globals) {
+    options.globals = options.globals.reduce((map, chunk) => {
       const [moduleId, globalName] = chunk.split(':');
       map[moduleId] = globalName;
       return map;
@@ -60,7 +90,7 @@ function parseOptions(overrideOptions) {
 
 export default (overrideOptions) => {
   const builds = [
-    { id: 'es6m', type: 'es6', format: 'es' },
+    { id: 'es6m', type: 'es6', format: 'es', ext: '.mjs' },
     { id: 'es6c', type: 'es6', format: 'cjs' },
     { id: 'es5m', type: 'es5', format: 'es' },
     { id: 'umd', type: 'es5', format: 'umd', name: overrideOptions.name },
