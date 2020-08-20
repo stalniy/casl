@@ -67,7 +67,7 @@ It accepts children and 6 properties:
   </Can>
   ```
 
-> it's better to pass children as a render function because it will not create additional React elements if user doesn't have ability to do some action (in the case above `read Post`)
+> it's better to pass children as a render function because it will not create additional React elements if user doesn't have ability to do some action (in the case above `create Post`)
 
 Don't be scared by the amount of properties component takes, we will talk about how to bind some of them.
 
