@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.1](https://github.com/stalniy/casl/compare/@casl/ability@5.0.1-next.1...@casl/ability@5.1.0-next.1) (2020-08-20)
+
+
+### Features
+
+* **esm:** adds ESM support for latest Node.js through `exports` prop in package.json ([cac2506](https://github.com/stalniy/casl/commit/cac2506a80c18f194210c2d89108d1d094751fa4)), closes [#331](https://github.com/stalniy/casl/issues/331)
+* **extra:** adds `rulesToAST` that converts rules into [@ucast](https://github.com/ucast) AST ([55fd6ee](https://github.com/stalniy/casl/commit/55fd6eeb9e0b71bb38f1db8cfb87ba7fad391988)), closes [#350](https://github.com/stalniy/casl/issues/350)
+
 ## [5.0.1-next.1](https://github.com/stalniy/casl/compare/@casl/ability@5.0.0...@casl/ability@5.0.1-next.1) (2020-08-11)
 
 
