@@ -5,16 +5,16 @@ import {
   ExtractSubjectType as E,
   AbilityTuple,
   SubjectType,
-  AbilityTypes,
-  ToAbilityTypes,
-  AbilityParameters
+  TaggedInterface,
+  Normalize,
+  SubjectClass,
 } from './types';
-import { RawRule } from './RawRule';
+import { ProduceGeneric } from './hkt';
 
-class RuleBuilder<T extends RawRule<any, any>> {
-  public _rule!: T;
+class RuleBuilder<T extends AnyAbility> {
+  public _rule!: RawRuleOf<T>;
 
-  constructor(rule: T) {
+  constructor(rule: RawRuleOf<T>) {
     this._rule = rule;
   }
 
@@ -24,19 +24,46 @@ class RuleBuilder<T extends RawRule<any, any>> {
   }
 }
 
-type CanFunction<T extends AbilityTypes, C, WithFields = true> = T extends AbilityTuple
-  ? WithFields extends true
-    // eslint-disable-next-line max-len
-    ? (action: T[0] | T[0][], subject: E<T[1]> | E<T[1]>[], fields?: string | string[], conditions?: C) => 0
-    : (action: T[0] | T[0][], subject: E<T[1]> | E<T[1]>[], conditions?: C) => 0
+type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends SubjectClass
+  ? InstanceType<S>
+  : Extract<Generics<T>['abilities'][1], TaggedInterface<Extract<S, string>>>;
+type ConditionsOf<T extends AnyAbility, I extends {}> =
+  ProduceGeneric<Generics<T>['conditions'], I>;
+type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
+  ? S extends T[1] ? T[0] : never
   : never;
+type ActionOf<T extends AnyAbility, S extends SubjectType> = ActionFrom<Generics<T>['abilities'], S>;
+type SubjectTypeOf<T extends AnyAbility> = E<Normalize<Generics<T>['abilities']>[1]>;
 
-export type BuilderCanParameters<T extends AnyAbility, WithFields extends boolean = false> =
-  AbilityParameters<
-  Generics<T>['abilities'],
-  CanFunction<ToAbilityTypes<Generics<T>['abilities']>, Generics<T>['conditions'], WithFields>,
-  (action: Generics<T>['abilities'] | Generics<T>['abilities'][]) => 0
-  >;
+type SimpleCanParams<T extends AnyAbility> = Parameters<(
+  action: Generics<T>['abilities'] | Generics<T>['abilities'][]
+) => 0>;
+type BuilderCanParameters<
+  S extends SubjectType,
+  I extends InstanceOf<T, S>,
+  T extends AnyAbility
+> = Generics<T>['abilities'] extends AbilityTuple
+  ? Parameters<(
+    action: ActionOf<T, S> | ActionOf<T, S>[],
+    subject: S | S[],
+    conditions?: ConditionsOf<T, I>
+  ) => 0>
+  : SimpleCanParams<T>;
+
+type BuilderCanParametersWithFields<
+  S extends SubjectType,
+  I extends InstanceOf<T, S>,
+  F extends string,
+  T extends AnyAbility
+> = Generics<T>['abilities'] extends AbilityTuple
+  ? Parameters<(
+    action: ActionOf<T, S> | ActionOf<T, S>[],
+    subject: S | S[],
+    fields?: F | F[],
+    conditions?: ConditionsOf<T, I>
+  ) => 0>
+  : SimpleCanParams<T>;
+type Keys<T> = string & keyof T;
 
 export class AbilityBuilder<T extends AnyAbility = PureAbility> {
   public rules: RawRuleOf<T>[] = [];
@@ -50,14 +77,21 @@ export class AbilityBuilder<T extends AnyAbility = PureAbility> {
     self.build = self.build.bind(self);
   }
 
-  can(...args: BuilderCanParameters<T>): RuleBuilder<RawRuleOf<T>>
-  can(...args: BuilderCanParameters<T, true>): RuleBuilder<RawRuleOf<T>>
+  can<
+    I extends InstanceOf<T, S>,
+    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
+  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>
+  can<
+    I extends InstanceOf<T, S>,
+    F extends string = Keys<I>,
+    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
+  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>
   can(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
     conditionsOrFields?: string | string[] | Generics<T>['conditions'],
-    conditions?: Generics<T>['conditions'],
-  ): RuleBuilder<RawRuleOf<T>> {
+    conditions?: Generics<T>['conditions']
+  ): RuleBuilder<T> {
     const rule = { action } as RawRuleOf<T>;
 
     if (subject) {
@@ -79,14 +113,21 @@ export class AbilityBuilder<T extends AnyAbility = PureAbility> {
     return new RuleBuilder(rule);
   }
 
-  cannot(...args: BuilderCanParameters<T>): RuleBuilder<RawRuleOf<T>>
-  cannot(...args: BuilderCanParameters<T, true>): RuleBuilder<RawRuleOf<T>>
+  cannot<
+    I extends InstanceOf<T, S>,
+    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
+  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>
+  cannot<
+    I extends InstanceOf<T, S>,
+    F extends string = Keys<I>,
+    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
+  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>
   cannot(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
     conditionsOrFields?: string | string[] | Generics<T>['conditions'],
     conditions?: Generics<T>['conditions'],
-  ): RuleBuilder<RawRuleOf<T>> {
+  ): RuleBuilder<T> {
     const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
     builder._rule.inverted = true;
     return builder;

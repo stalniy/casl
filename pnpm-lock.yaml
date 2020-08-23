@@ -2293,23 +2293,23 @@ packages:
     dev: false
     resolution:
       integrity: sha512-u/3pcIWBdTjDOCZtuwHC+MbL/G/5+RxwZoBlfgMiQHKqFm6I9r1toU1u3nmHxHzGQF0aprXrtn8dqdxHZwbJgg==
-  /@ucast/js/2.2.0:
+  /@ucast/js/2.2.1:
     dependencies:
       '@ucast/core': 1.5.0
     dev: false
     resolution:
-      integrity: sha512-SSe+gltRHQajEnHdO6lC+j6koaI8EWM9+taaTRxCce/DkKiN2YBFaR0W/I3nnDnV0jaCTT8hjkOHrOBV9B+fJw==
-  /@ucast/mongo/2.3.0:
+      integrity: sha512-QnICpAoE0YLnjxXS04t+6Hweyyo3+jSOeg0LOKZTlrIgqtq28aWcDwIgRFykNITYKEYdWzFWho0/WzaY5nUQ/g==
+  /@ucast/mongo/2.3.1:
     dependencies:
       '@ucast/core': 1.5.0
     dev: false
     resolution:
-      integrity: sha512-Vd3zTDYWjQtVg8w/ieRB4tHbthPNI/PTkxGGKJxfNVZjxOOm7eA95eMpKdeRKeAaFSZkcQJLhTgHoLK1H3Bfsg==
+      integrity: sha512-zm9hW/3/7Iyw9Oh61pYvmvg9OOvF8385HElaLNyX+E17SoDALRSesGUkUoUQh4P/iB9ZjCvymBYWMbciMfkRQw==
   /@ucast/mongo2js/1.3.0:
     dependencies:
       '@ucast/core': 1.5.0
-      '@ucast/js': 2.2.0
-      '@ucast/mongo': 2.3.0
+      '@ucast/js': 2.2.1
+      '@ucast/mongo': 2.3.1
     dev: false
     resolution:
       integrity: sha512-xJ6bAy8NQSzSKs1eusRvAejTp4qIQ0/gC1LsUzAw+LMWEaNsRYGnhsTPT4M8aMcAzpSNwb2vIRnxiuG/er8QCA==

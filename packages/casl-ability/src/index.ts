@@ -4,6 +4,7 @@ export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';
 export * from './types';
+export * from './hkt';
 export * from './matchers/conditions';
 export * from './matchers/field';
 export type {

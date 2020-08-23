@@ -1,57 +1,56 @@
-import { Rule } from './Rule';
+import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import {
-  DetectSubjectType,
-  ResolveAction,
   CanParameters,
   Abilities,
   Normalize,
-  ConditionsMatcher,
-  FieldMatcher,
-  RuleOptions,
 } from './types';
+
 import { wrapArray, detectSubjectType, identity } from './utils';
 
-type AnyRuleIndex = RuleIndex<any, any, any>;
-
-export interface RuleIndexOptions<A extends Abilities, Conditions> {
-  detectSubjectType?: DetectSubjectType<Normalize<A>[1]>
-  conditionsMatcher?: ConditionsMatcher<Conditions>
-  fieldMatcher?: FieldMatcher
-  resolveAction?: ResolveAction<Normalize<A>[0]>
+export interface RuleIndexOptions<
+  A extends Abilities,
+  Conditions
+> extends Partial<RuleOptions<A, Conditions>> {
+  detectSubjectType?(subject?: Normalize<A>[1]): string
 }
 
-export type Generics<T extends AnyRuleIndex> = T extends AnyRuleIndex
-  ? { abilities: T['za'], conditions: T['zc'] }
-  : never;
+declare const $abilities: unique symbol;
+declare const $conditions: unique symbol;
+interface WithGenerics {
+  [$abilities]: any
+  [$conditions]: any
+}
+export type Generics<T extends WithGenerics> = {
+  abilities: T[typeof $abilities],
+  conditions: T[typeof $conditions]
+};
 
-export type RuleOf<T extends AnyRuleIndex> =
+export type RuleOf<T extends WithGenerics> =
   Rule<Generics<T>['abilities'], Generics<T>['conditions']>;
-export type RawRuleOf<T extends AnyRuleIndex> =
+export type RawRuleOf<T extends WithGenerics> =
   RawRuleFrom<Generics<T>['abilities'], Generics<T>['conditions']>;
 
-export type RuleIndexOptionsOf<T extends AnyRuleIndex> =
+export type RuleIndexOptionsOf<T extends WithGenerics> =
   RuleIndexOptions<Generics<T>['abilities'], Generics<T>['conditions']>;
 
-export interface UpdateEvent<T extends AnyRuleIndex> {
+export interface UpdateEvent<T extends WithGenerics> {
   rules: RawRuleOf<T>[]
 }
 export type EventHandler<Event> = (event: Event) => void;
 
-export type Events<T extends AnyRuleIndex, Event extends {} = {}> = {
+export type Events<T extends WithGenerics, Event extends {} = {}> = {
   [K in keyof EventsMap<T, Event>]: EventHandler<EventsMap<T, Event>[K]>[]
 };
 
-interface EventsMap<T extends AnyRuleIndex, Event extends {} = {}> {
+interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
   update: UpdateEvent<T> & Event
   updated: UpdateEvent<T> & Event
 }
 
 interface IndexTree<A extends Abilities, C> {
-  [subject: string]: {
-    [action: string]: {
-      [priority: number]: Rule<A, C>
-    }
+  [key: string]: {
+    [priority: number]: Rule<A, C>
   }
 }
 
@@ -63,12 +62,10 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   private _events: Events<this, BaseEvent> = Object.create(null);
   private _indexedRules: IndexTree<A, Conditions> = Object.create(null);
   private _rules: RawRuleFrom<A, Conditions>[] = [];
-  readonly _ruleOptions!: RuleOptions<A, Conditions>;
-  readonly detectSubjectType!: DetectSubjectType<Normalize<A>[1]>;
-  /** @private hacky property to track Abilities type */
-  readonly za!: A;
-  /** @private hacky property to track Conditions type */
-  readonly zc!: Conditions;
+  private readonly _ruleOptions!: RuleOptions<A, Conditions>;
+  readonly detectSubjectType!: Exclude<RuleIndexOptions<A, Conditions>['detectSubjectType'], undefined>;
+  readonly [$abilities]!: A;
+  readonly [$conditions]!: Conditions;
 
   constructor(
     rules: RawRuleFrom<A, Conditions>[] = [],
@@ -87,7 +84,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     return this._rules;
   }
 
-  update(rules: RawRuleFrom<A, Conditions>[]): this {
+  update(rules: RawRuleFrom<A, Conditions>[]) {
     const event = {
       rules,
       ability: this,
@@ -115,12 +112,11 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
 
       for (let k = 0; k < subjects.length; k++) {
         const subject = this.detectSubjectType(subjects[k]);
-        indexedRules[subject] = indexedRules[subject] || Object.create(null);
 
         for (let j = 0; j < actions.length; j++) {
-          const action = actions[j];
-          indexedRules[subject][action] = indexedRules[subject][action] || Object.create(null);
-          indexedRules[subject][action][priority] = rule;
+          const key = `${actions[j]}_${subject}`;
+          indexedRules[key] = indexedRules[key] || Object.create(null);
+          indexedRules[key][priority] = rule;
         }
       }
     }
@@ -150,13 +146,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   private _mergeRulesFor(action: string, subjectName: string) {
     const subjects = subjectName === 'all' ? [subjectName] : [subjectName, 'all'];
     const mergedRules = subjects.reduce((rules, subjectType) => {
-      const subjectRules = this._indexedRules[subjectType];
-
-      if (!subjectRules) {
-        return rules;
-      }
-
-      return Object.assign(rules, subjectRules[action], subjectRules.manage);
+      const subjectRules = this._indexedRules[`${action}_${subjectType}`];
+      return Object.assign(rules, subjectRules, this._indexedRules[`manage_${subjectType}`]);
     }, []);
 
     // TODO: think whether there is a better way to prioritize rules

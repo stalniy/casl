@@ -2,11 +2,12 @@ import type { Condition } from '@ucast/mongo2js';
 import { wrapArray } from './utils';
 import {
   MatchConditions,
-  RuleOptions,
   MatchField,
   Abilities,
   ToAbilityTypes,
-  Normalize
+  Normalize,
+  ConditionsMatcher,
+  FieldMatcher,
 } from './types';
 import { RawRule, RawRuleFrom } from './RawRule';
 
@@ -26,6 +27,13 @@ function validate<A extends Abilities, C>(rule: RawRuleFrom<A, C>, options: Rule
   }
 }
 
+type ResolveAction<T> = (action: T | T[]) => T[];
+export interface RuleOptions<A extends Abilities, Conditions> {
+  conditionsMatcher?: ConditionsMatcher<Conditions>
+  fieldMatcher?: FieldMatcher
+  resolveAction: ResolveAction<Normalize<A>[0]>
+}
+
 export class Rule<A extends Abilities, C> {
   private readonly _matchConditions: MatchConditions | undefined;
   private readonly _matchField: MatchField<string> | undefined;
@@ -41,7 +49,7 @@ export class Rule<A extends Abilities, C> {
     validate(rule, options);
 
     this.action = options.resolveAction(rule.action);
-    this.subject = rule.subject;
+    this.subject = rule.subject!;
     this.inverted = !!rule.inverted;
     this.conditions = rule.conditions;
     this.reason = rule.reason;
@@ -49,7 +57,7 @@ export class Rule<A extends Abilities, C> {
 
     if (this.conditions) {
       this._matchConditions = options.conditionsMatcher!(this.conditions);
-      this.ast = this._matchConditions.ast;
+      this.ast = this._matchConditions!.ast;
     }
 
     if (this.fields) {
