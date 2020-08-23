@@ -1,4 +1,5 @@
 import type { Condition } from '@ucast/mongo2js';
+import { Container, GenericFactory } from './hkt';
 
 type Fn = (...args: any[]) => any;
 type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
@@ -6,7 +7,7 @@ type AnyRecord = Record<PropertyKey, any>;
 
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectClass<N extends string = string> = AnyClass & { modelName?: N };
-export type SubjectType = string | SubjectClass | undefined;
+export type SubjectType = string | SubjectClass;
 export type Subject = AnyRecord | SubjectType;
 export type AbilityTuple<X extends string = string, Y extends Subject = Subject> = [X, Y];
 export type Abilities = AbilityTuple | string;
@@ -20,9 +21,7 @@ export type AbilityTupleType<
   U extends SubjectType = SubjectType
 > = [T, U];
 export type AbilityTypes = string | AbilityTupleType;
-
-export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, undefined?];
-export type DetectSubjectType<T extends Subject> = (subject?: T) => string;
+export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, 'all'];
 
 export type IfString<T, U> = T extends string ? U : never;
 export type AbilityParameters<
@@ -57,10 +56,16 @@ export type InferSubjects<T, IncludeTagName extends boolean = false> =
 
 export type ForcedSubject<T> = { readonly __caslSubjectType__: T };
 
-type TaggedInterface<T extends string> = ForcedSubject<T> | { readonly kind: T };
+export type TaggedInterface<T extends string> = ForcedSubject<T> |
+{ readonly kind: T } |
+{ readonly __typename: T };
 type TagName<T> = T extends TaggedInterface<infer U> ? U : never;
 
-export type MatchConditions<T extends object = AnyRecord> = {
+interface MatchConditionsFactory extends GenericFactory<{}> {
+  produce: MatchConditions<this[0]>
+}
+
+export type MatchConditions<T extends {} = AnyRecord> = Container<MatchConditionsFactory> & {
   (object: T): boolean
   ast?: Condition
 };
@@ -68,9 +73,3 @@ export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
 export type FieldMatcher = <T extends string>(fields: T[]) => MatchField<T>;
 export type AliasesMap = Record<string, string | string[]>;
-export type ResolveAction<T extends string> = (action: T | T[]) => T | T[];
-export interface RuleOptions<A extends Abilities, Conditions> {
-  conditionsMatcher?: ConditionsMatcher<Conditions>
-  fieldMatcher?: FieldMatcher
-  resolveAction: ResolveAction<Normalize<A>[0]>
-}

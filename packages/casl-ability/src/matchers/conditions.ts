@@ -20,15 +20,18 @@ import {
   $size,
   size,
   $regex,
+  $options,
   regex,
   $elemMatch,
   elemMatch,
   $exists,
   exists,
   createFactory,
+  BuildMongoQuery,
+  DefaultOperators,
 } from '@ucast/mongo2js';
-import type { MongoQuery } from '@ucast/mongo2js';
-import { ConditionsMatcher } from '../types';
+import { ConditionsMatcher, AnyObject } from '../types';
+import { Container, GenericFactory } from '../hkt';
 
 const defaultInstructions = {
   $eq,
@@ -42,6 +45,7 @@ const defaultInstructions = {
   $all,
   $size,
   $regex,
+  $options,
   $elemMatch,
   $exists,
 };
@@ -61,19 +65,26 @@ const defaultInterpreters = {
   exists,
 };
 
-type MongoQueryMatcher =
-  (...args: Partial<Parameters<typeof createFactory>>) => ConditionsMatcher<MongoQuery>;
-export const buildMongoQueryMatcher: MongoQueryMatcher = (instructions, interpreters, options) => {
-  return createFactory(
-    { ...defaultInstructions, ...instructions },
-    { ...defaultInterpreters, ...interpreters },
-    options
-  );
-};
+interface MongoQueryFactory extends GenericFactory {
+  produce: MongoQuery<this[0]>
+}
 
-export const mongoQueryMatcher = buildMongoQueryMatcher();
+type MergeUnion<T extends {}, Keys extends keyof T = keyof T> = { [K in Keys]: T[K] };
+export type MongoQuery<T = AnyObject> = BuildMongoQuery<MergeUnion<T>, {
+  toplevel: {},
+  field: Pick<DefaultOperators<MergeUnion<T>>['field'], keyof typeof defaultInstructions>
+}> & Container<MongoQueryFactory>;
+
+type MongoQueryMatcherFactory =
+  (...args: Partial<Parameters<typeof createFactory>>) => ConditionsMatcher<MongoQuery>;
+export const buildMongoQueryMatcher = ((instructions, interpreters, options) => createFactory(
+  { ...defaultInstructions, ...instructions },
+  { ...defaultInterpreters, ...interpreters },
+  options
+)) as MongoQueryMatcherFactory;
+
+export const mongoQueryMatcher = createFactory(defaultInstructions, defaultInterpreters);
 export type {
-  MongoQuery,
   MongoQueryFieldOperators,
   MongoQueryTopLevelOperators,
   MongoQueryOperators,

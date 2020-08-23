@@ -28,8 +28,8 @@
     "no-mixed-operators": "off",
     "no-prototype-builtins": "off",
     "no-confusing-arrow": "off",
-    "no-return-assign": 1,
-    "arrow-body-style": 1,
+    "no-return-assign": "off",
+    "arrow-body-style": "off",
     "prefer-spread": "off",
     "max-classes-per-file": "off",
     "arrow-parens": ["error", "as-needed", {
