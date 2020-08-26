@@ -263,12 +263,12 @@ Majority of applications that need permission checking support have something li
 Let's imagine that server returns user with a role on login:
 
 ```ts @{data-filename="Login.jsx"}
-import { AbilityBuilder } from '@casl/ability';
+import { AbilityBuilder, Ability } from '@casl/ability';
 import React, { useState, useContext } from 'react';
 import { AbilityContext } from './Can';
 
 function updateAbility(ability, user) {
-  const { can, rules } = new AbilityBuilder();
+  const { can, rules } = new AbilityBuilder(Ability);
 
   if (user.role === 'admin') {
     can('manage', 'all');

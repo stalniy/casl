@@ -1,4 +1,5 @@
 import { PureAbility, AbilityOptions } from './PureAbility';
+import { Public } from './RuleIndex';
 import { AbilityTuple } from './types';
 import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
 import { RawRuleFrom } from './RawRule';
@@ -17,4 +18,4 @@ export class Ability<
   }
 }
 
-export type AnyMongoAbility = Ability<any, MongoQuery>;
+export type AnyMongoAbility = Public<Ability<any, MongoQuery>>;

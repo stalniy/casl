@@ -3,59 +3,54 @@ import { Post, ruleToObject } from './spec_helper'
 
 describe('AbilityBuilder', () => {
   describe('by default', () => {
-    let can
-    let cannot
-    let rules
+    let b
 
     beforeEach(() => {
-      const builder = new AbilityBuilder()
-      can = builder.can
-      cannot = builder.cannot
-      rules = builder.rules
+      b = new AbilityBuilder()
     })
 
     it('allows to construct rules using helper `can` and `cannot` functions', () => {
-      can('read', 'Post')
-      cannot('read', 'User')
+      b.can('read', 'Post')
+      b.cannot('read', 'User')
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: 'Post' },
         { action: 'read', subject: 'User', inverted: true },
       ])
     })
 
     it('allows to specify multiple actions', () => {
-      can(['read', 'update'], 'Post')
+      b.can(['read', 'update'], 'Post')
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: ['read', 'update'], subject: 'Post' }
       ])
     })
 
     it('allows to specify multiple subjects', () => {
-      can('read', ['Post', 'User'])
+      b.can('read', ['Post', 'User'])
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: ['Post', 'User'] }
       ])
     })
 
     it('allows to pass class or constructor function as a subject parameter to `can` and `cannot`', () => {
-      can('read', Post)
-      cannot('read', Post, { private: true })
+      b.can('read', Post)
+      b.cannot('read', Post, { private: true })
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: Post },
         { inverted: true, action: 'read', subject: Post, conditions: { private: true } }
       ])
     })
 
     it('allows to build claim based rules (without subjects)', () => {
-      can('read')
-      can('write')
-      cannot('delete')
+      b.can('read')
+      b.can('write')
+      b.cannot('delete')
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read' },
         { action: 'write' },
         { action: 'delete', inverted: true }
@@ -63,37 +58,37 @@ describe('AbilityBuilder', () => {
     })
 
     it('allows to define rules with conditions', () => {
-      can('read', 'Post', { author: 'me' })
-      cannot('read', 'Post', { private: true })
+      b.can('read', 'Post', { author: 'me' })
+      b.cannot('read', 'Post', { private: true })
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: 'Post', conditions: { author: 'me' } },
         { action: 'read', subject: 'Post', conditions: { private: true }, inverted: true },
       ])
     })
 
     it('allows to define rules with fields', () => {
-      can('read', 'Post', ['title', 'id'])
+      b.can('read', 'Post', ['title', 'id'])
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: 'Post', fields: ['title', 'id'] }
       ])
     })
 
     it('allows to define rules with fields and conditions', () => {
-      can('read', 'Post', ['title'], { private: true })
+      b.can('read', 'Post', ['title'], { private: true })
 
-      expect(rules).to.deep.equal([
+      expect(b.rules).to.deep.equal([
         { action: 'read', subject: 'Post', fields: ['title'], conditions: { private: true } }
       ])
     })
 
     it('allows to define forbidden rule with the reason', () => {
       const reason = 'is private'
-      can('read', 'Book')
-      cannot('read', 'Book', { private: true }).because(reason)
+      b.can('read', 'Book')
+      b.cannot('read', 'Book', { private: true }).because(reason)
 
-      expect(rules).to.deep.eql([
+      expect(b.rules).to.deep.eql([
         {
           action: 'read',
           subject: 'Book'
@@ -123,7 +118,7 @@ describe('AbilityBuilder', () => {
       ])
     })
 
-    it('can define `Ability` instance using async DSL', async () => {
+    it('returns `Promise<Ability>` when used async DSL', async () => {
       const ability = await defineAbility(async (can, cannot) => {
         can('read', 'Book')
         cannot('read', 'Book', { private: true })
@@ -136,11 +131,11 @@ describe('AbilityBuilder', () => {
       ])
     })
 
-    it('accepts options for `Ability` instance as the 1st parameter', () => {
+    it('accepts options for `Ability` instance as the 2nd parameter', () => {
       const detectSubjectType = subject => typeof subject === 'string' ? subject : subject.ModelName
-      const ability = defineAbility({ detectSubjectType }, (can) => {
+      const ability = defineAbility((can) => {
         can('read', 'Book')
-      })
+      }, { detectSubjectType })
 
       expect(ability.can('read', { ModelName: 'Book' })).to.be.true
     })

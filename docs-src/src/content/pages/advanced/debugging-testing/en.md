@@ -98,7 +98,7 @@ export const article = subject.bind(null, 'Article');
  * And we need to test it, not ability checks!
  */
 export function defineRulesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder();
+  const { can, cannot, rules } = new AbilityBuilder(Ability);
 
   if (user.isAdmin) {
     can('manage', 'all');
@@ -156,7 +156,7 @@ Rules logic is very expressive and you can achieve the same results using a diff
 import { AbilityBuilder } from '@casl/ability';
 
 export function defineRulesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder();
+  const { can, cannot, rules } = new AbilityBuilder(Ability);
 
   if (user.isAdmin) {
     can('manage', 'all');

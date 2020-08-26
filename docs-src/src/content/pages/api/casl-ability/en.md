@@ -163,18 +163,18 @@ Returns an array of all registered rules.
 
 ## AbilityBuilder
 
-This class allows to define `Ability` or `PureAbility` instance in declarative way. This class accepts a single generic parameter `TAbility extends AnyAbility` type to construct.
+This class allows to define `Ability` or `PureAbility` instance in declarative way. This class accepts a single generic parameter `U extends AbilityClass<AnyAbility>`. You don't need to provide it, as TypeScript will always infer it for you.
 
 ### AbilityBuilder constructor
 
 * **Parameters**:
-  * `AbilityType: AbilityClass<TAbility> = PureAbility`
+  * `AbilityType: AbilityClass<TAbility>`
 * **Usage**:
 
   ```ts
   import { AbilityBuilder, Ability } from '@casl/ability';
 
-  const { can, build } = new AbilityBuilder<Ability>(Ability);
+  const { can, build } = new AbilityBuilder(Ability);
   ```
 * **See also**: [Define rules](../../guide/define-rules)
 
@@ -195,17 +195,18 @@ Registers a `RawRule` instance in `rules` property. Depending on the passed in `
 * **Usage**:
 
   ```ts
-  import { AbilityBuilder, PureAbility, Ability } from '@casl/ability';
+  import { AbilityBuilder, PureAbility, Ability, AbilityClass } from '@casl/ability';
 
   // action only Ability type
   type ClaimAbility = PureAbility<'read' | 'update'>;
-  const { can, build } = new AbilityBuilder<ClaimAbility>();
+  const ClaimAbility = PureAbility as AbilityClass<ClaimAbility>;
+  const { can, build } = new AbilityBuilder(ClaimAbility);
 
   can('read');
   can('update');
 
   // or action and subject Ability type
-  const { can, build } = new AbilityBuilder<Ability>(Ability);
+  const { can, build } = new AbilityBuilder(Ability);
 
   can('read', 'Article', { private: true });
   can('read', 'User', ['firstName', 'lastName']);
@@ -235,10 +236,8 @@ Contains an array of `RawRule`s registered by [`can`](#can-of-ability-builder) a
 This function allows to define [`Ability`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation. Has 4 overloaded signatures.
 
 * **Signature** (`T` is `TAbility`):
-  * `(dsl: DSL<T>) => T`
-  * `(opts: AbilityOptionsOf<T>, dsl: DSL<T>) => T`
-  * `(dsl: AsyncDSL<T>) => Promise<T>`
-  * `(opts: AbilityOptionsOf<T>, dsl: AsyncDSL<T>) => Promise<T>`
+  * `<T extends AnyAbility>(define: DSL<T, void>, options?: AbilityOptionsOf<T>) => T`
+  * `<T extends AnyAbility>(define: DSL<T, Promise<void>>, options?: AbilityOptionsOf<T>) => Promise<T>`
 * **See also**: [Define rules](../../guide/define-rules)
 
 ## ForbiddenError

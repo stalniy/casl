@@ -51,7 +51,7 @@ The same example using pure `AbilityBuilder` can be written in similar way using
 import { AbilityBuilder, Ability } from '@casl/ability';
 
 // define abilities
-const { can: allow, cannot: forbid, build } = new AbilityBuilder<Ability>(Ability);
+const { can: allow, cannot: forbid, build } = new AbilityBuilder(Ability);
 
 allow('read', 'Post');
 forbid('read', 'Post', { private: true });

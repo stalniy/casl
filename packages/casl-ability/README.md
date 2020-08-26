@@ -46,7 +46,7 @@ import { User } from '../models'; // application specific interfaces
  * @param user contains details about logged in user: its id, name, email, etc
  */
 function defineAbilitiesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder();
+  const { can, cannot, rules } = new AbilityBuilder(Ability);
 
   // can read blog posts
   can('read', 'BlogPost');

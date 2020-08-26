@@ -16,13 +16,14 @@ It takes considerable amount of time or requires additional roundtrip to the dat
 Let's consider an example where user can manage own devices but **devices doesn't have** a reference to the owner. In such cases, we need to fetch all device ids in order to create an `Ability`:
 
 ```ts @{data-filename="defineAbility.ts"}
-import { AbilityBuilder, Ability, Abilities } from '@casl/ability';
+import { AbilityBuilder, Ability, Abilities, AbilityClass } from '@casl/ability';
 import { getDevicesOf } from '../services/device';
 
 export type AppAbility = Ability<Abilities>;
+const AppAbility = Ability as AbilityClass<AppAbility>;
 
 export async function defineRulesFor(user) {
-  const { can, rules } = new AbilityBuilder<AppAbility>();
+  const { can, rules } = new AbilityBuilder(AppAbility);
 
   const devices = await getDevicesOf(user);
   const ids = devices.map(device => device.id);
@@ -35,7 +36,7 @@ export async function defineRulesFor(user) {
 
 export async function defineAbilityFor(user) {
   const rules = await defineRulesFor(user);
-  return new Ability<Abilities>(rules);
+  return new AppAbility(rules);
 }
 ```
 

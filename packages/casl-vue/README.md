@@ -216,7 +216,7 @@ Let's imagine that server returns user with a role on login:
 </template>
 
 <script>
-import { AbilityBuilder } from '@casl/ability';
+import { AbilityBuilder, Ability } from '@casl/ability';
 
 export default {
   name: 'LoginForm',
@@ -234,7 +234,7 @@ export default {
         .then(({ user }) => this.updateAbility(user));
     },
     updateAbility(user) {
-      const { can, rules } = new AbilityBuilder();
+      const { can, rules } = new AbilityBuilder(Ability);
 
       if (user.role === 'admin') {
         can('manage', 'all');

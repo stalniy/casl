@@ -99,7 +99,7 @@ Now, let's define all possible actions and subjects.
 This app has only `User` subject, users can only `update` himself and invite other users, so:
 
 ```ts @{data-filename="appAbility.ts"}
-import { Ability, ForcedSubject } from '@casl/ability';
+import { Ability, ForcedSubject, AbilityClass } from '@casl/ability';
 
 const actions = ['manage', 'invite'] as const;
 const subjects = ['User', 'all'] as const;
@@ -108,6 +108,7 @@ type AppAbilities = [
   typeof subjects[number] | ForcedSubject<Exclude<typeof subjects[number], 'all'>>
 ];
 export type AppAbility = Ability<AppAbilities>;
+export const AppAbility = Ability as AbilityClass<AppAbility>;
 ```
 
 > See [TypeScript support](../../advanced/typescript#useful-type-helpers) to get details about type helpers.
@@ -117,12 +118,12 @@ export type AppAbility = Ability<AppAbilities>;
 Having all possible subjects and actions, we can define roles' permissions in the same file:
 
 ```ts @{data-filename="appAbility.ts"}
-import { Ability, ForcedSubject, AbilityBuilder } from '@casl/ability';
+import { Ability, ForcedSubject, AbilityBuilder, AbilityClass } from '@casl/ability';
 import { User } from '../models/User';
 
 // abilities definition from previous example
 
-type DefinePermissions = (user: User, builder: AbilityBuilder<AppAbility>) => void;
+type DefinePermissions = (user: User, builder: AbilityBuilder<typeof AppAbility>) => void;
 type Roles = 'member' | 'admin';
 
 const rolePermissions: Record<Roles, DefinePermissions> = {
@@ -161,7 +162,7 @@ import { User } from '../models/User';
 // roles definition from the example above
 
 export function defineAbilityFor(user: User): AppAbility {
-  const builder = new AbilityBuilder<AppAbility>(Ability);
+  const builder = new AbilityBuilder(Ability);
 
   if (typeof rolePermissions[user.role] === 'function') {
     rolePermissions[user.role](user, builder);
