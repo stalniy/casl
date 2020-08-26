@@ -1,13 +1,10 @@
-import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, RawRuleOf } from './RuleIndex';
+import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public } from './RuleIndex';
 import { Abilities, CanParameters } from './types';
 
 export type AbilityOptions<A extends Abilities, Conditions> = RuleIndexOptions<A, Conditions>;
-export type AnyAbility = PureAbility<any, any>;
+export type AnyAbility = Public<PureAbility<any, any>>;
 export type AbilityOptionsOf<T extends AnyAbility> = RuleIndexOptionsOf<T>;
-export type AbilityClass<T extends AnyAbility> = new (
-  rules?: RawRuleOf<T>[],
-  options?: AbilityOptionsOf<T>
-) => T;
+export type AbilityClass<T extends AnyAbility> = new (...args: any[]) => T;
 
 interface AbilityEvent<A extends Abilities = Abilities, Conditions = unknown> {
   /** @deprecated use "target" property instead */

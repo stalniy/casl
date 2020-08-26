@@ -27,7 +27,7 @@ function validate<A extends Abilities, C>(rule: RawRuleFrom<A, C>, options: Rule
   }
 }
 
-type ResolveAction<T> = (action: T | T[]) => T[];
+type ResolveAction<T> = (action: T | T[]) => T | T[];
 export interface RuleOptions<A extends Abilities, Conditions> {
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher

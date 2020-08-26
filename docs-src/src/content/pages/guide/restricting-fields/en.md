@@ -13,7 +13,7 @@ Sometimes you may need to restrict which fields a user can access. For example, 
 import { AbilityBuilder, Ability } from '@casl/ability';
 
 export default function defineAbilityFor(user) {
-  const { can, rules } = new AbilityBuilder();
+  const { can, rules } = new AbilityBuilder(Ability);
 
   can('read', 'Article');
   can('update', 'Article', ['title', 'description'], { authorId: user.id });

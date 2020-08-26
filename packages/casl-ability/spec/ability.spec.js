@@ -6,7 +6,7 @@ describe('Ability', () => {
 
   it('allows to add alias for actions', () => {
     const resolveAction = createAliasResolver({ modify: ['update', 'delete'] })
-    ability = defineAbility({ resolveAction }, can => can('modify', 'Post'))
+    ability = defineAbility(can => can('modify', 'Post'), { resolveAction })
 
     expect(ability).to.allow('modify', 'Post')
     expect(ability).to.allow('update', 'Post')
@@ -15,7 +15,7 @@ describe('Ability', () => {
 
   it('allows deeply nested aliased actions', () => {
     const resolveAction = createAliasResolver({ sort: 'increment', modify: 'sort' })
-    ability = defineAbility({ resolveAction }, can => can('modify', 'all'))
+    ability = defineAbility(can => can('modify', 'all'), { resolveAction })
 
     expect(ability).to.allow('increment', 123)
   })

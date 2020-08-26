@@ -1,5 +1,5 @@
 import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, AbilityOptionsOf, AbilityClass, PureAbility } from './PureAbility';
+import { AnyAbility, AbilityOptionsOf, AbilityClass } from './PureAbility';
 import { RawRuleOf, Generics } from './RuleIndex';
 import {
   ExtractSubjectType as E,
@@ -8,6 +8,7 @@ import {
   TaggedInterface,
   Normalize,
   SubjectClass,
+  AnyObject,
 } from './types';
 import { ProduceGeneric } from './hkt';
 
@@ -24,9 +25,10 @@ class RuleBuilder<T extends AnyAbility> {
   }
 }
 
+type ExtractWithDefault<T, U, D = never> = T extends U ? T : D;
 type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends SubjectClass
   ? InstanceType<S>
-  : Extract<Generics<T>['abilities'][1], TaggedInterface<Extract<S, string>>>;
+  : ExtractWithDefault<Normalize<Generics<T>['abilities']>[1], TaggedInterface<Extract<S, string>>, AnyObject>;
 type ConditionsOf<T extends AnyAbility, I extends {}> =
   ProduceGeneric<Generics<T>['conditions'], I>;
 type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
@@ -65,11 +67,14 @@ type BuilderCanParametersWithFields<
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 
-export class AbilityBuilder<T extends AnyAbility = PureAbility> {
+export class AbilityBuilder<
+  U extends AbilityClass<AnyAbility>,
+  T extends InstanceType<U> = InstanceType<U>
+> {
   public rules: RawRuleOf<T>[] = [];
-  private _AbilityType!: AbilityClass<T>;
+  private _AbilityType!: U;
 
-  constructor(AbilityType: AbilityClass<T> = PureAbility as AbilityClass<T>) {
+  constructor(AbilityType: U) {
     this._AbilityType = AbilityType;
     const self = this as any;
     self.can = self.can.bind(self);
@@ -133,52 +138,31 @@ export class AbilityBuilder<T extends AnyAbility = PureAbility> {
     return builder;
   }
 
-  build(options?: AbilityOptionsOf<T>): T {
-    return new this._AbilityType(this.rules, options);
+  build(options?: AbilityOptionsOf<T>) {
+    return new this._AbilityType(this.rules, options) as T;
   }
 }
 
-type AsyncDSL<T extends AnyMongoAbility> = (
-  can: AbilityBuilder<T>['can'],
-  cannot: AbilityBuilder<T>['cannot']
-) => Promise<void>;
-type DSL<T extends AnyMongoAbility> = (...args: Parameters<AsyncDSL<T>>) => void;
+type DSL<T extends AnyAbility, R> = (
+  can: AbilityBuilder<AbilityClass<T>>['can'],
+  cannot: AbilityBuilder<AbilityClass<T>>['cannot']
+) => R;
 
-export function defineAbility<T extends AnyMongoAbility = Ability>(
-  dsl: AsyncDSL<T>
-): Promise<T>;
-export function defineAbility<T extends AnyMongoAbility = Ability>(
-  params: AbilityOptionsOf<T>,
-  dsl: AsyncDSL<T>
-): Promise<T>;
-export function defineAbility<T extends AnyMongoAbility = Ability>(
-  dsl: DSL<T>
-): T;
-export function defineAbility<T extends AnyMongoAbility = Ability>(
-  params: AbilityOptionsOf<T>,
-  dsl: DSL<T>
-): T;
-export function defineAbility<T extends AnyMongoAbility = Ability>(
-  params: AbilityOptionsOf<T> | DSL<T> | AsyncDSL<T>,
-  dsl?: DSL<T> | AsyncDSL<T>
-): T | Promise<T> {
-  let options: AbilityOptionsOf<T>;
-  let define: DSL<T> | AsyncDSL<T>;
-
-  if (typeof params === 'function') {
-    define = params;
-    options = {};
-  } else if (typeof dsl === 'function') {
-    options = params;
-    define = dsl;
-  } else {
-    throw new Error('`defineAbility` expects to receive either options and dsl function or only dsl function');
-  }
-
-  const builder = new AbilityBuilder<T>(Ability as AbilityClass<T>);
+export function defineAbility<
+  T extends AnyMongoAbility
+>(define: DSL<T, Promise<void>>, options?: AbilityOptionsOf<T>): Promise<T>;
+export function defineAbility<
+  T extends AnyMongoAbility
+>(define: DSL<T, void>, options?: AbilityOptionsOf<T>): T;
+export function defineAbility<
+  T extends AnyMongoAbility
+>(define: DSL<T, void | Promise<void>>, options?: AbilityOptionsOf<T>): T | Promise<T> {
+  const builder = new AbilityBuilder(Ability as unknown as AbilityClass<T>);
   const result = define(builder.can, builder.cannot);
 
-  return result && typeof result.then === 'function'
-    ? result.then(() => builder.build(options))
-    : builder.build(options);
+  if (result && typeof result.then === 'function') {
+    return result.then(() => builder.build(options));
+  }
+
+  return builder.build(options);
 }

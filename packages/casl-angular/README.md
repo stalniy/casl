@@ -70,7 +70,7 @@ export class Session {
   }
 
   private updateAbility(user) {
-    const { can, rules } = new AbilityBuilder();
+    const { can, rules } = new AbilityBuilder(Ability);
 
     if (user.role === 'admin') {
       can('manage', 'all');

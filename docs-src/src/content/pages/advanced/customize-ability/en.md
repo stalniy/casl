@@ -32,7 +32,7 @@ import { $nor, nor } from '@ucast/mongo2js';
 const conditionsMatcher = buildMongoQueryMatcher({ $nor }, { nor });
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<Ability>(Ability);
+  const { can, build } = new AbilityBuilder(Ability);
 
   can('read', 'Article', {
     $nor: [{ private: true }, { authorId: user.id }]
@@ -53,15 +53,17 @@ import {
   Abilities,
   MongoQueryFieldOperators,
   ConditionsMatcher,
+  AbilityClass
 } from '@casl/ability';
 import { $in, within, $eq, eq, createFactory, BuildMongoQuery } from '@ucast/mongo2js';
 
 type RestrictedMongoQuery<T> = BuildMongoQuery<T, Pick<MongoQueryFieldOperators, '$eq' | '$in'>>;
 const conditionsMatcher: ConditionsMatcher<RestrictedMongoQuery> = createFactory({ $in, $eq }, { in: within, eq });
 type AppAbility = Ability<Abilities, RestrictedMongoQuery>;
+const AppAbility = Ability as AbilityClass<AppAbility>;
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<AppAbility>(Ability);
+  const { can, build } = new AbilityBuilder(AppAbility);
 
   can('read', 'Article', { authorId: user.id } });
   can('read', 'Article', { status: { $in: ['draft', 'published'] } });
@@ -90,14 +92,16 @@ import {
   AbilityBuilder,
   Abilities,
   MatchConditions,
-  ConditionsMatcher
+  ConditionsMatcher,
+  AbilityClass
 } from '@casl/ability';
 
 type AppAbility = PureAbility<Abilities, MatchConditions>;
+const AppAbility = PureAbility as AbilityClass<AppAbility>;
 const lambdaMatcher: ConditionsMatcher<MatchConditions> = matchConditions => matchConditions;
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder<AppAbility>();
+  const { can, build } = new AbilityBuilder(AppAbility);
 
   can('read', 'Article', ({ authorId }) => authorId === user.id);
   can('read', 'Article', ({ status }) => ['draft', 'published'].includes(status));

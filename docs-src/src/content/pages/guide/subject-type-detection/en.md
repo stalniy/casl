@@ -133,7 +133,7 @@ For such cases, CASL provides `detectSubjectType` option to override built-in al
 import { AbilityBuilder, Ability } from '@casl/ability';
 import subjectTypeFromGraphql from './subjectTypeFromGraphql';
 
-const { can, rules } = new AbilityBuilder();
+const { can, rules } = new AbilityBuilder(Ability);
 
 can('read', 'Article');
 
@@ -174,9 +174,10 @@ The same can be achieved using `defineAbility` function:
 import { defineAbility } from '@casl/ability';
 import subjectTypeFromGraphql from './subjectTypeFromGraphql';
 
-const options = { detectSubjectType: subjectTypeFromGraphql };
-const ability = defineAbility(options, (can) => {
+const ability = defineAbility((can) => {
   can('read', 'Article');
+}, {
+  detectSubjectType: subjectTypeFromGraphql
 });
 
 const article = { __typename: 'Article' };

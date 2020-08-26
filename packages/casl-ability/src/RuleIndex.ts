@@ -1,17 +1,9 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
-import {
-  CanParameters,
-  Abilities,
-  Normalize,
-} from './types';
-
+import { CanParameters, Abilities, Normalize } from './types';
 import { wrapArray, detectSubjectType, identity } from './utils';
 
-export interface RuleIndexOptions<
-  A extends Abilities,
-  Conditions
-> extends Partial<RuleOptions<A, Conditions>> {
+export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
   detectSubjectType?(subject?: Normalize<A>[1]): string
 }
 
@@ -21,6 +13,7 @@ interface WithGenerics {
   [$abilities]: any
   [$conditions]: any
 }
+export type Public<T extends WithGenerics> = { [K in keyof T]: T[K] };
 export type Generics<T extends WithGenerics> = {
   abilities: T[typeof $abilities],
   conditions: T[typeof $conditions]
@@ -84,7 +77,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     return this._rules;
   }
 
-  update(rules: RawRuleFrom<A, Conditions>[]) {
+  update(rules: RawRuleFrom<A, Conditions>[]): Public<this> {
     const event = {
       rules,
       ability: this,

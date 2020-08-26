@@ -17,9 +17,9 @@ import { defineAbility, createAliasResolver } from '@casl/ability'
 const resolveAction = createAliasResolver({
   modify: ['update', 'delete']
 });
-const ability = defineAbility({ resolveAction }, (can) => {
+const ability = defineAbility((can) => {
   can('modify', 'Post');
-});
+}, { resolveAction });
 
 ability.can('modify', 'Post'); // true
 ability.can('update', 'Post'); // true
@@ -40,9 +40,9 @@ import { defineAbility, createAliasResolver } from '@casl/ability'
 const resolveAction = createAliasResolver({
   modify: ['update', 'delete']
 });
-const ability = defineAbility({ resolveAction }, (can) => {
+const ability = defineAbility((can) => {
   can(['update', 'delete'], 'Post');
-});
+}, { resolveAction });
 
 ability.can('modify', 'Post'); // false <---
 ability.can('update', 'Post'); // true
@@ -60,9 +60,9 @@ const resolveAction = createAliasResolver({
   modify: ['update', 'delete'],
   access: ['read', 'modify']
 });
-const ability = defineAbility({ resolveAction }, (can) => {
+const ability = defineAbility((can) => {
   can('access', 'Post');
-});
+}, { resolveAction });
 
 ability.can('access', 'Post'); // true
 ability.can('modify', 'Post'); // true
