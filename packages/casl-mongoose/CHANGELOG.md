@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.0](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.3...@casl/mongoose@3.1.0) (2020-08-20)
+
+
+### Features
+
+* **mongoose:** adds `getFields` option to `accessibleFieldsPlugin` ([a93037c](https://github.com/stalniy/casl/commit/a93037cc423649b6ea45347166adc8ea7eeffe9e))
+
 ## [3.0.3](https://github.com/stalniy/casl/compare/@casl/mongoose@3.0.2...@casl/mongoose@3.0.3) (2020-06-09)
 
 
