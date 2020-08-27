@@ -1,7 +1,7 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
-import { CanParameters, Abilities, Normalize } from './types';
-import { wrapArray, detectSubjectType, identity } from './utils';
+import { CanParameters, Abilities, Normalize, Subject } from './types';
+import { wrapArray, detectSubjectType, identity, LinkedItem } from './utils';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
   detectSubjectType?(subject?: Normalize<A>[1]): string
@@ -33,7 +33,11 @@ export interface UpdateEvent<T extends WithGenerics> {
 export type EventHandler<Event> = (event: Event) => void;
 
 export type Events<T extends WithGenerics, Event extends {} = {}> = {
-  [K in keyof EventsMap<T, Event>]: EventHandler<EventsMap<T, Event>[K]>[]
+  [K in keyof EventsMap<T, Event>]: {
+    last: LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null,
+    destroy: Array<Unsubscribe> | null,
+    emits: boolean
+  }
 };
 
 interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
@@ -47,14 +51,16 @@ interface IndexTree<A extends Abilities, C> {
   }
 }
 
+const indexTreeId = (action: string, subject: string) => `${action}_${subject}`;
+
 export type Unsubscribe = () => void;
 
 export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
   private _hasPerFieldRules: boolean = false;
-  private _mergedRules: Record<string, Rule<A, Conditions>[]> = Object.create(null);
   private _events: Events<this, BaseEvent> = Object.create(null);
-  private _indexedRules: IndexTree<A, Conditions> = Object.create(null);
-  private _rules: RawRuleFrom<A, Conditions>[] = [];
+  private _mergedRules!: Record<string, Rule<A, Conditions>[]>;
+  private _indexedRules!: IndexTree<A, Conditions>;
+  private _rules!: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions!: RuleOptions<A, Conditions>;
   readonly detectSubjectType!: Exclude<RuleIndexOptions<A, Conditions>['detectSubjectType'], undefined>;
   readonly [$abilities]!: A;
@@ -70,7 +76,13 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       resolveAction: options.resolveAction || identity,
     };
     this.detectSubjectType = options.detectSubjectType || detectSubjectType;
-    this.update(rules);
+    this._setRules(rules);
+  }
+
+  _setRules(rules: RawRuleFrom<A, Conditions>[]) {
+    this._rules = rules;
+    this._indexedRules = this._buildIndexFor(rules);
+    this._mergedRules = Object.create(null);
   }
 
   get rules() {
@@ -85,9 +97,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     } as unknown as UpdateEvent<this> & BaseEvent;
 
     this._emit('update', event);
-    this._mergedRules = Object.create(null);
-    this._indexedRules = this._buildIndexFor(rules);
-    this._rules = rules;
+    this._setRules(rules);
     this._emit('updated', event);
 
     return this;
@@ -107,7 +117,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
         const subject = this.detectSubjectType(subjects[k]);
 
         for (let j = 0; j < actions.length; j++) {
-          const key = `${actions[j]}_${subject}`;
+          const key = indexTreeId(actions[j], subject);
           indexedRules[key] = indexedRules[key] || Object.create(null);
           indexedRules[key][priority] = rule;
         }
@@ -123,11 +133,10 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     }
   }
 
-  possibleRulesFor(...args: CanParameters<A, false>) {
-    const [action, subject] = args;
+  possibleRulesFor(...[action, subject]: CanParameters<A, false>) {
     const subjectName = this.detectSubjectType(subject);
     const mergedRules = this._mergedRules;
-    const key = `${subjectName}_${action}`;
+    const key = indexTreeId(action, subjectName);
 
     if (!mergedRules[key]) {
       mergedRules[key] = this._mergeRulesFor(action, subjectName);
@@ -139,8 +148,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   private _mergeRulesFor(action: string, subjectName: string) {
     const subjects = subjectName === 'all' ? [subjectName] : [subjectName, 'all'];
     const mergedRules = subjects.reduce((rules, subjectType) => {
-      const subjectRules = this._indexedRules[`${action}_${subjectType}`];
-      return Object.assign(rules, subjectRules, this._indexedRules[`manage_${subjectType}`]);
+      const subjectRules = this._indexedRules[indexTreeId(action, subjectType)];
+      return Object.assign(rules, subjectRules, this._indexedRules[indexTreeId('manage', subjectType)]);
     }, []);
 
     // TODO: think whether there is a better way to prioritize rules
@@ -148,8 +157,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     return mergedRules.filter(Boolean);
   }
 
-  rulesFor(...args: CanParameters<A>) {
-    const [action, subject, field] = args;
+  rulesFor(...args: CanParameters<A>): Rule<A, Conditions>[]
+  rulesFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions>[] {
     const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subject);
 
     if (field && typeof field !== 'string') {
@@ -167,32 +176,50 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     event: T,
     handler: EventHandler<EventsMap<this, BaseEvent>[T]>
   ): Unsubscribe {
-    const events = this._events;
-    let isAttached = true;
+    this._events[event] = this._events[event] || { emits: false, last: null, destroy: null };
+    const details = this._events[event];
+    const item = new LinkedItem(handler, details.last);
+    this._events[event].last = item;
+    const destroy = () => {
+      if (details.emits) {
+        details.destroy = details.destroy || [];
+        details.destroy.push(destroy);
+        return;
+      }
 
-    if (!events[event]) {
-      events[event] = [];
-    }
-
-    events[event].push(handler);
-
-    return () => {
-      if (isAttached) {
-        const index = events[event].indexOf(handler);
-        events[event].splice(index, 1);
-        isAttached = false;
+      if (!item.next && !item.prev && this._events[event].last === item) {
+        this._events[event].last = null;
+      } else {
+        item.destroy();
       }
     };
+
+    return destroy;
   }
 
   private _emit<T extends keyof EventsMap<this, BaseEvent>>(
-    eventName: T,
-    event: EventsMap<this, BaseEvent>[T]
+    name: T,
+    payload: EventsMap<this, BaseEvent>[T]
   ) {
-    const handlers = this._events[eventName];
+    const details = this._events[name];
 
-    if (handlers) {
-      handlers.slice(0).forEach(handler => handler(event));
+    if (!details) {
+      return;
+    }
+
+    try {
+      details.emits = true;
+      let item = details.last;
+      while (item !== null) {
+        item.value(payload);
+        item = item.prev;
+      }
+    } finally {
+      details.emits = false;
+      if (details.destroy) {
+        details.destroy.forEach(destroy => destroy());
+        details.destroy = [];
+      }
     }
   }
 }
