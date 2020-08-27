@@ -2,6 +2,121 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.2](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.1...@casl/ability@5.1.0-next.2) (2020-08-27)
+
+
+### Features
+
+* **builder:** improves typings for AbilityBuilder [skip release] ([ebd4d17](https://github.com/stalniy/casl/commit/ebd4d17a355a2646467033118a3d6efee4321d27)), closes [#379](https://github.com/stalniy/casl/issues/379)
+* **builder:** improves typings of `AbilityBuilder['can']` and `AbilityBuilder['cannot']` methods [skip release] ([98ffbfc](https://github.com/stalniy/casl/commit/98ffbfc58fbfa810020e9b79d22d27d67563e5b7)), closes [#333](https://github.com/stalniy/casl/issues/333)
+
+
+### Performance Improvements
+
+* **events:** utilizes LinkedList for storing event handlers ([e2fd265](https://github.com/stalniy/casl/commit/e2fd2656e06af1883ac3f428b97add1ce14727fb))
+* **rules:** improves merging logic of rules of subject and `manage all` ([6f8a13a](https://github.com/stalniy/casl/commit/6f8a13a507a2caafe7d6877c9a6f28cdd56c59bc))
+
+
+### BREAKING CHANGES
+
+* **builder:** changes main generic parameter to be a class instead of instance and makes `defineAbility` to accept options as the 2nd argument.
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility({ resolveAction }, (can) => can('read', 'Item'));
+  const builder = new AbilityBuilder<Ability>(Ability);
+  ```
+
+  **After**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility((can) => can('read', 'Item'), { resolveAction });
+  const builder = new AbilityBuilder(Ability); // first argument is now mandatory!
+  ```
+
+  The 1st parameter to `AbilityBuilder` is now madatory. This allows to infer generic parameters from it and makes AbilityType that is built to be explicit.
+* **builder:** `can` and `cannot` methods of `AbilityBuilder` now restricts what fields and operators can be used inside conditions (i.e., `MongoQuery`). Also these methods now suggests object fields based on passed instance
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, Ability, AbilityClass } from '@casl/ability';
+
+  interface Person {
+    kind: 'Person'
+    firstName: string
+    lastName: string
+    age: number
+    address: {
+      street: string
+      city: string
+    }
+  }
+
+  type AppAbility = Ability<['read', Person | Person['kind']]>;
+  cons AppAbility = Ability as AbilityClass<AppAbility>;
+  cons { can } = new AbilityBuilder(AppAbility);
+
+  can('read', 'Person', {
+    'address.street': 'Somewhere in the world',
+    fistName: 'John' // unintentional typo
+  });
+  can('read', 'Person', ['fistName', 'lastName'], { // no intellisense for fields
+    age: { $gt: 18 }
+  })
+  ```
+
+  **After**
+
+  Because provided keys in the example above doesn't exist on `Person` interface, TypeScript throws an error. So, we are safe from typos! But what about dot notation? It's also supported but in more typesafe way:
+
+  ```ts
+  import { AbilityBuilder, Ability, AbilityClass } from '@casl/ability';
+
+  interface Person {
+    kind: 'Person'
+    firstName: string
+    lastName: string
+    age: number
+    address: {
+      street: string
+      city: string
+    }
+  }
+
+  type AppAbility = Ability<['read', Person | Person['kind']]>;
+  cons AppAbility = Ability as AbilityClass<AppAbility>;
+  cons { can } = new AbilityBuilder(AppAbility);
+
+  interface PersonQuery extends Person {
+    'address.street': Person['address']['street']
+    'address.city': Person['address']['city']
+  }
+
+  can<PersonQuery>('read', 'Person', {
+    'address.street': 'Somewhere in the world',
+    fistName: 'John' // unintentional typo
+  });
+  can<PersonQuery>('read', 'Person', ['firstName', 'lastName'], {
+    age: { $gt: 18 }
+  })
+  ```
+
+  Intellisense and type checking for fields is also implemented! To be able to use wildcards in fields just add additional generic parameter:
+
+  ```ts
+  can<PersonQuery, 'address.*'>('read', 'Person', ['firstName', 'address.*'], {
+    age: { $gt: 18 }
+  })
+  ```
+
 # [5.1.0-next.1](https://github.com/stalniy/casl/compare/@casl/ability@5.0.1-next.1...@casl/ability@5.1.0-next.1) (2020-08-20)
 
 
