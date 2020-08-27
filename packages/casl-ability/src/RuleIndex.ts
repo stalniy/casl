@@ -1,7 +1,7 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import { CanParameters, Abilities, Normalize, Subject } from './types';
-import { wrapArray, detectSubjectType, identity, LinkedItem } from './utils';
+import { wrapArray, detectSubjectType, identity, LinkedItem, mergePrioritized } from './utils';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
   detectSubjectType?(subject?: Normalize<A>[1]): string
@@ -46,9 +46,7 @@ interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
 }
 
 interface IndexTree<A extends Abilities, C> {
-  [key: string]: {
-    [priority: number]: Rule<A, C>
-  }
+  [key: string]: Rule<A, C>[]
 }
 
 const indexTreeId = (action: string, subject: string) => `${action}_${subject}`;
@@ -79,7 +77,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     this._setRules(rules);
   }
 
-  _setRules(rules: RawRuleFrom<A, Conditions>[]) {
+  private _setRules(rules: RawRuleFrom<A, Conditions>[]) {
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
     this._mergedRules = Object.create(null);
@@ -107,8 +105,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     const indexedRules: IndexTree<A, Conditions> = Object.create(null);
 
     for (let i = 0; i < rawRules.length; i++) {
-      const rule = new Rule(rawRules[i], this._ruleOptions);
       const priority = rawRules.length - i - 1;
+      const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
       const subjects = wrapArray(rule.subject);
       this._analyze(rule);
@@ -118,8 +116,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
 
         for (let j = 0; j < actions.length; j++) {
           const key = indexTreeId(actions[j], subject);
-          indexedRules[key] = indexedRules[key] || Object.create(null);
-          indexedRules[key][priority] = rule;
+          indexedRules[key] = indexedRules[key] || [];
+          indexedRules[key].unshift(rule);
         }
       }
     }
@@ -135,26 +133,22 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
 
   possibleRulesFor(...[action, subject]: CanParameters<A, false>) {
     const subjectName = this.detectSubjectType(subject);
-    const mergedRules = this._mergedRules;
     const key = indexTreeId(action, subjectName);
 
-    if (!mergedRules[key]) {
-      mergedRules[key] = this._mergeRulesFor(action, subjectName);
+    if (!this._mergedRules[key]) {
+      let rules = mergePrioritized(
+        this._indexedRules[key],
+        this._indexedRules[indexTreeId('manage', subjectName)]
+      );
+
+      if (subjectName !== 'all') {
+        rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, 'all'));
+      }
+
+      this._mergedRules[key] = rules;
     }
 
-    return mergedRules[key];
-  }
-
-  private _mergeRulesFor(action: string, subjectName: string) {
-    const subjects = subjectName === 'all' ? [subjectName] : [subjectName, 'all'];
-    const mergedRules = subjects.reduce((rules, subjectType) => {
-      const subjectRules = this._indexedRules[indexTreeId(action, subjectType)];
-      return Object.assign(rules, subjectRules, this._indexedRules[indexTreeId('manage', subjectType)]);
-    }, []);
-
-    // TODO: think whether there is a better way to prioritize rules
-    // or convert sparse array to regular one
-    return mergedRules.filter(Boolean);
+    return this._mergedRules[key];
   }
 
   rulesFor(...args: CanParameters<A>): Rule<A, Conditions>[]
