@@ -121,3 +121,41 @@ export class LinkedItem<T> {
     this.next = this.prev = null; // eslint-disable-line
   }
 }
+
+function copyArrayTo<T>(dest: T[], target: T[], start: number) {
+  for (let i = start; i < target.length; i++) {
+    dest.push(target[i]);
+  }
+}
+
+export function mergePrioritized<T extends { priority: number }>(
+  array?: T[],
+  anotherArray?: T[]
+): T[] {
+  if (!array || !array.length) {
+    return anotherArray || [];
+  }
+
+  if (!anotherArray || !anotherArray.length) {
+    return array || [];
+  }
+
+  let i = 0;
+  let j = 0;
+  const merged: T[] = [];
+
+  while (i < array.length && j < anotherArray.length) {
+    if (array[i].priority < anotherArray[j].priority) {
+      merged.push(array[i]);
+      i++;
+    } else {
+      merged.push(anotherArray[j]);
+      j++;
+    }
+  }
+
+  copyArrayTo(merged, array, i);
+  copyArrayTo(merged, anotherArray, j);
+
+  return merged;
+}

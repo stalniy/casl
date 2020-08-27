@@ -44,8 +44,13 @@ export class Rule<A extends Abilities, C> {
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
   public readonly ast?: Condition;
+  public readonly priority!: number;
 
-  constructor(rule: RawRule<ToAbilityTypes<A>, C>, options: RuleOptions<A, C>) {
+  constructor(
+    rule: RawRule<ToAbilityTypes<A>, C>,
+    options: RuleOptions<A, C>,
+    priority: number = 0
+  ) {
     validate(rule, options);
 
     this.action = options.resolveAction(rule.action);
@@ -54,6 +59,7 @@ export class Rule<A extends Abilities, C> {
     this.conditions = rule.conditions;
     this.reason = rule.reason;
     this.fields = rule.fields ? wrapArray(rule.fields) : undefined;
+    this.priority = priority;
 
     if (this.conditions) {
       this._matchConditions = options.conditionsMatcher!(this.conditions);
