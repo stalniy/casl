@@ -1,4 +1,3 @@
-import type { Condition } from '@ucast/mongo2js';
 import { wrapArray } from './utils';
 import {
   MatchConditions,
@@ -35,15 +34,15 @@ export interface RuleOptions<A extends Abilities, Conditions> {
 }
 
 export class Rule<A extends Abilities, C> {
-  private readonly _matchConditions: MatchConditions | undefined;
-  private readonly _matchField: MatchField<string> | undefined;
+  private __matchConditions: MatchConditions | undefined;
+  private __matchField: MatchField<string> | undefined;
+  private readonly _options!: RuleOptions<A, C>;
   public readonly action!: Tuple<A>[0] | Tuple<A>[0][];
   public readonly subject!: Tuple<A>[1] | Tuple<A>[1][];
   public readonly inverted!: boolean;
   public readonly conditions!: C | undefined;
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
-  public readonly ast?: Condition;
   public readonly priority!: number;
 
   constructor(
@@ -60,15 +59,27 @@ export class Rule<A extends Abilities, C> {
     this.reason = rule.reason;
     this.fields = rule.fields ? wrapArray(rule.fields) : undefined;
     this.priority = priority;
+    this._options = options;
+  }
 
-    if (this.conditions) {
-      this._matchConditions = options.conditionsMatcher!(this.conditions);
-      this.ast = this._matchConditions!.ast;
+  private get _matchConditions() {
+    if (this.conditions && !this.__matchConditions) {
+      this.__matchConditions = this._options.conditionsMatcher!(this.conditions);
     }
 
-    if (this.fields) {
-      this._matchField = options.fieldMatcher!(this.fields);
+    return this.__matchConditions;
+  }
+
+  private get _matchField() {
+    if (this.fields && !this.__matchField) {
+      this.__matchField = this._options.fieldMatcher!(this.fields);
     }
+
+    return this.__matchField;
+  }
+
+  get ast() {
+    return this._matchConditions ? this._matchConditions.ast : undefined;
   }
 
   matchesConditions(object: Normalize<A>[1] | undefined): boolean {

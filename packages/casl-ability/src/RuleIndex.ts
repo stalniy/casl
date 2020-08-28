@@ -104,7 +104,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
     const indexedRules: IndexTree<A, Conditions> = Object.create(null);
 
-    for (let i = 0; i < rawRules.length; i++) {
+    for (let i = rawRules.length - 1; i >= 0; i--) {
       const priority = rawRules.length - i - 1;
       const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
@@ -117,7 +117,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
         for (let j = 0; j < actions.length; j++) {
           const key = indexTreeId(actions[j], subject);
           indexedRules[key] = indexedRules[key] || [];
-          indexedRules[key].unshift(rule);
+          indexedRules[key].push(rule);
         }
       }
     }
@@ -212,7 +212,6 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       details.emits = false;
       if (details.destroy) {
         details.destroy.forEach(destroy => destroy());
-        details.destroy = [];
       }
     }
   }

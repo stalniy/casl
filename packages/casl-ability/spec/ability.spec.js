@@ -232,7 +232,7 @@ describe('Ability', () => {
 
     it('does not shadow rule with conditions by the same rule if the last one is disallowed by `cannot`', () => {
       ability = defineAbility((can, cannot) => {
-        can('crud', 'Post')
+        can('manage', 'Post')
         cannot('delete', 'Post')
         can('delete', 'Post', { creator: 'me' })
       })
