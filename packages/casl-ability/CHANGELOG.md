@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.3](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.2...@casl/ability@5.1.0-next.3) (2020-08-28)
+
+
+### Performance Improvements
+
+* **ability:** creates conditions and field matcher lazily ([4ae7799](https://github.com/stalniy/casl/commit/4ae779902c0a59c6dea6f3535ba2fd80cac691da))
+
 # [5.1.0-next.2](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.1...@casl/ability@5.1.0-next.2) (2020-08-27)
 
 
