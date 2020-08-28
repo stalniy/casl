@@ -1,7 +1,8 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
-import { CanParameters, Abilities, Normalize, Subject } from './types';
-import { wrapArray, detectSubjectType, identity, LinkedItem, mergePrioritized } from './utils';
+import { CanParameters, Abilities, Normalize, Subject, SubjectType } from './types';
+import { wrapArray, detectSubjectType, identity, mergePrioritized, getOrDefault } from './utils';
+import { LinkedItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
   detectSubjectType?(subject?: Normalize<A>[1]): string
@@ -32,31 +33,38 @@ export interface UpdateEvent<T extends WithGenerics> {
 }
 export type EventHandler<Event> = (event: Event) => void;
 
-export type Events<T extends WithGenerics, Event extends {} = {}> = {
-  [K in keyof EventsMap<T, Event>]: {
-    last: LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null,
-    destroy: Array<Unsubscribe> | null,
-    emits: boolean
-  }
-};
+export type Events<
+  T extends WithGenerics,
+  Event extends {} = {},
+  K extends keyof EventsMap<T, Event> = keyof EventsMap<T, Event>
+> = Map<K, {
+  last: LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null,
+  destroy: Array<Unsubscribe> | null,
+  emits: boolean
+}>;
 
 interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
   update: UpdateEvent<T> & Event
   updated: UpdateEvent<T> & Event
 }
 
-interface IndexTree<A extends Abilities, C> {
-  [key: string]: Rule<A, C>[]
-}
-
-const indexTreeId = (action: string, subject: string) => `${action}_${subject}`;
+type IndexTree<A extends Abilities, C> = Map<SubjectType, Map<string, {
+  rules: Rule<A, C>[],
+  merged: boolean
+}>>;
 
 export type Unsubscribe = () => void;
 
+const defaultActionEntry = () => ({
+  rules: [] as unknown as Rule<any, any>[],
+  merged: false
+});
+const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActionEntry>>();
+const defaultEventEntry = () => ({ emits: false, last: null, destroy: null });
+
 export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
   private _hasPerFieldRules: boolean = false;
-  private _events: Events<this, BaseEvent> = Object.create(null);
-  private _mergedRules!: Record<string, Rule<A, Conditions>[]>;
+  private _events: Events<this, BaseEvent> = new Map();
   private _indexedRules!: IndexTree<A, Conditions>;
   private _rules!: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions!: RuleOptions<A, Conditions>;
@@ -74,13 +82,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       resolveAction: options.resolveAction || identity,
     };
     this.detectSubjectType = options.detectSubjectType || detectSubjectType;
-    this._setRules(rules);
-  }
-
-  private _setRules(rules: RawRuleFrom<A, Conditions>[]) {
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
-    this._mergedRules = Object.create(null);
   }
 
   get rules() {
@@ -95,14 +98,15 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     } as unknown as UpdateEvent<this> & BaseEvent;
 
     this._emit('update', event);
-    this._setRules(rules);
+    this._rules = rules;
+    this._indexedRules = this._buildIndexFor(rules);
     this._emit('updated', event);
 
     return this;
   }
 
   private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
-    const indexedRules: IndexTree<A, Conditions> = Object.create(null);
+    const indexedRules: IndexTree<A, Conditions> = new Map();
 
     for (let i = rawRules.length - 1; i >= 0; i--) {
       const priority = rawRules.length - i - 1;
@@ -112,12 +116,11 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       this._analyze(rule);
 
       for (let k = 0; k < subjects.length; k++) {
-        const subject = this.detectSubjectType(subjects[k]);
+        const subjectType = this.detectSubjectType(subjects[k]);
+        const subjectRules = getOrDefault(indexedRules, subjectType, defaultSubjectEntry);
 
         for (let j = 0; j < actions.length; j++) {
-          const key = indexTreeId(actions[j], subject);
-          indexedRules[key] = indexedRules[key] || [];
-          indexedRules[key].push(rule);
+          getOrDefault(subjectRules, actions[j], defaultActionEntry).rules.push(rule);
         }
       }
     }
@@ -132,23 +135,27 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
   }
 
   possibleRulesFor(...[action, subject]: CanParameters<A, false>) {
-    const subjectName = this.detectSubjectType(subject);
-    const key = indexTreeId(action, subjectName);
+    const subjectType = this.detectSubjectType(subject);
+    const subjectRules = getOrDefault(this._indexedRules, subjectType, defaultSubjectEntry);
+    const actionRules = getOrDefault(subjectRules, action, defaultActionEntry);
 
-    if (!this._mergedRules[key]) {
-      let rules = mergePrioritized(
-        this._indexedRules[key],
-        this._indexedRules[indexTreeId('manage', subjectName)]
-      );
-
-      if (subjectName !== 'all') {
-        rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, 'all'));
-      }
-
-      this._mergedRules[key] = rules;
+    if (actionRules.merged) {
+      return actionRules.rules;
     }
 
-    return this._mergedRules[key];
+    const manageRules = action !== 'manage' && subjectRules.has('manage')
+      ? subjectRules.get('manage')!.rules
+      : undefined;
+    let rules = mergePrioritized(actionRules.rules, manageRules);
+
+    if (subjectType !== 'all') {
+      rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, 'all'));
+    }
+
+    actionRules.rules = rules;
+    actionRules.merged = true;
+
+    return rules;
   }
 
   rulesFor(...args: CanParameters<A>): Rule<A, Conditions>[]
@@ -170,10 +177,9 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     event: T,
     handler: EventHandler<EventsMap<this, BaseEvent>[T]>
   ): Unsubscribe {
-    this._events[event] = this._events[event] || { emits: false, last: null, destroy: null };
-    const details = this._events[event];
+    const details = getOrDefault(this._events, event, defaultEventEntry);
     const item = new LinkedItem(handler, details.last);
-    this._events[event].last = item;
+    details.last = item;
     const destroy = () => {
       if (details.emits) {
         details.destroy = details.destroy || [];
@@ -181,8 +187,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
         return;
       }
 
-      if (!item.next && !item.prev && this._events[event].last === item) {
-        this._events[event].last = null;
+      if (!item.next && !item.prev && details.last === item) {
+        details.last = null;
       } else {
         item.destroy();
       }
@@ -195,7 +201,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     name: T,
     payload: EventsMap<this, BaseEvent>[T]
   ) {
-    const details = this._events[name];
+    const details = this._events.get(name);
 
     if (!details) {
       return;

@@ -12,7 +12,7 @@ const NativeError = function NError(this: Error, message: string) {
 NativeError.prototype = Object.create(Error.prototype);
 
 export class ForbiddenError<T extends AnyAbility> extends NativeError {
-  public readonly ability: T;
+  public readonly ability!: T;
   public action!: Normalize<Generics<T>['abilities']>[0];
   public subject!: Generics<T>['abilities'][1];
   public field?: string;

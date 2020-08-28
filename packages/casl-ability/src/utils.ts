@@ -95,33 +95,6 @@ export function createAliasResolver(aliasMap: AliasesMap) {
   return (action: string | string[]) => expandActions(aliasMap, action);
 }
 
-export class LinkedItem<T> {
-  public next: LinkedItem<T> | null = null;
-
-  constructor(
-    public readonly value: T,
-    public prev: LinkedItem<T> | null = null
-  ) {
-    if (prev) {
-      prev.next = this;
-    }
-  }
-
-  destroy() {
-    const { next, prev } = this;
-
-    if (next) {
-      next.prev = prev;
-    }
-
-    if (prev) {
-      prev.next = next;
-    }
-
-    this.next = this.prev = null; // eslint-disable-line
-  }
-}
-
 function copyArrayTo<T>(dest: T[], target: T[], start: number) {
   for (let i = start; i < target.length; i++) {
     dest.push(target[i]);
@@ -158,4 +131,15 @@ export function mergePrioritized<T extends { priority: number }>(
   copyArrayTo(merged, anotherArray, j);
 
   return merged;
+}
+
+export function getOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: () => V) {
+  let value = map.get(key);
+
+  if (!value) {
+    value = defaultValue();
+    map.set(key, value);
+  }
+
+  return value;
 }
