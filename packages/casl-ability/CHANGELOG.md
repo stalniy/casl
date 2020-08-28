@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.4](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.3...@casl/ability@5.1.0-next.4) (2020-08-28)
+
+
+### Performance Improvements
+
+* **ability:** replaces object for storing index with ES6 Map ([d1fa117](https://github.com/stalniy/casl/commit/d1fa117c090e41c2b5f176f467e7561456961c78))
+
 # [5.1.0-next.3](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.2...@casl/ability@5.1.0-next.3) (2020-08-28)
 
 
