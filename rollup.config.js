@@ -1,6 +1,7 @@
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 function aggregate(configs, optionsOverrides) {
   let external = [];
@@ -58,15 +59,16 @@ function aggregate(configs, optionsOverrides) {
           mainFields: ['module', 'main', 'browser'],
           extensions: ['.js', '.mjs', '.ts'],
         }),
-        babel({
-          rootMode: 'upward',
-          extensions: ['.js', '.mjs', '.ts'],
-          inputSourceMap: !!process.env.USE_SRC_MAPS,
-          babelHelpers: 'bundled',
-          caller: {
-            output: config.type,
-          }
-        }),
+        process.env.ES_TRANSFORM === 'false'
+          ? sourcemaps()
+          : babel({
+              rootMode: 'upward',
+              extensions: ['.js', '.mjs', '.ts'],
+              babelHelpers: 'bundled',
+              caller: {
+                output: config.type,
+              }
+            }),
         ...(config.plugins || [])
       ]
     }));

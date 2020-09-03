@@ -17,6 +17,7 @@ importers:
       husky: 4.2.5
       lint-staged: 10.2.11
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_rollup@2.21.0
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       typescript: 3.8.3
     specifiers:
@@ -36,6 +37,7 @@ importers:
       husky: ^4.0.0
       lint-staged: ^10.0.10
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       typescript: ~3.8.0
   packages/casl-ability:
@@ -64,6 +66,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_932c157e325696b26a64383052646e97
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
@@ -90,6 +93,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       sift: ^13.0.0
@@ -126,6 +130,7 @@ importers:
       jest: 26.1.0
       jest-zone-patch: 0.0.10_zone.js@0.10.3
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_rollup@2.21.0
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       rxjs: 6.6.0
       semantic-release: 17.1.1_semantic-release@17.1.1
@@ -163,6 +168,7 @@ importers:
       jest: ^26.0.0
       jest-zone-patch: 0.0.10
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       rxjs: ^6.0.0
       semantic-release: 17.1.1
@@ -199,6 +205,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_rollup@2.21.0
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
@@ -231,6 +238,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
@@ -260,6 +268,7 @@ importers:
       jest: 26.1.0
       mongoose: 5.9.22_mongoose@5.9.22
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_rollup@2.21.0
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
@@ -288,6 +297,7 @@ importers:
       jest: ^26.0.0
       mongoose: ^5.0.14
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
@@ -320,6 +330,7 @@ importers:
       react: 16.13.1
       react-test-renderer: 16.13.1_react@16.13.1
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_932c157e325696b26a64383052646e97
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
@@ -351,6 +362,7 @@ importers:
       react: ^16.3.0
       react-test-renderer: ^16.3.0
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
@@ -379,6 +391,7 @@ importers:
       eslint-plugin-import: 2.22.0_eslint@7.4.0
       jest: 26.1.0
       rollup: 2.21.0
+      rollup-plugin-sourcemaps: 0.6.2_rollup@2.21.0
       rollup-plugin-terser: 7.0.0_rollup@2.21.0
       semantic-release: 17.1.1_semantic-release@17.1.1
       typescript: 3.8.3
@@ -408,6 +421,7 @@ importers:
       eslint-plugin-import: ^2.20.2
       jest: ^26.0.0
       rollup: ^2.10.9
+      rollup-plugin-sourcemaps: ^0.6.2
       rollup-plugin-terser: ^7.0.0
       semantic-release: 17.1.1
       typescript: ~3.8.0
@@ -7308,6 +7322,33 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
+  /rollup-plugin-sourcemaps/0.6.2_932c157e325696b26a64383052646e97:
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.21.0
+      '@types/node': 14.0.19
+      rollup: 2.21.0
+      source-map-resolve: 0.6.0
+    dev: true
+    engines:
+      node: '>=10.0.0'
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    resolution:
+      integrity: sha512-9AwTKg3yRykwzemfLt71ySe0LvrAci+bpsOL1LaTYFk5BX4HF6X7DQfpHa74ANfSja3hyjiQkXCR8goSOnW//Q==
+  /rollup-plugin-sourcemaps/0.6.2_rollup@2.21.0:
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.21.0
+      rollup: 2.21.0
+      source-map-resolve: 0.6.0
+    dev: true
+    engines:
+      node: '>=10.0.0'
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    resolution:
+      integrity: sha512-9AwTKg3yRykwzemfLt71ySe0LvrAci+bpsOL1LaTYFk5BX4HF6X7DQfpHa74ANfSja3hyjiQkXCR8goSOnW//Q==
   /rollup-plugin-terser/7.0.0_rollup@2.21.0:
     dependencies:
       '@babel/code-frame': 7.10.4
@@ -7651,6 +7692,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==
+  /source-map-resolve/0.6.0:
+    dependencies:
+      atob: 2.1.2
+      decode-uri-component: 0.2.0
+    dev: true
+    resolution:
+      integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==
   /source-map-support/0.5.19:
     dependencies:
       buffer-from: 1.1.1
