@@ -38,15 +38,13 @@ export const fieldPatternMatcher: FieldMatcher = (fields) => {
 
   return (field) => {
     if (typeof pattern === 'undefined') {
-      pattern = fields.join('').indexOf('*') === -1
+      pattern = fields.every(f => f.indexOf('*') === -1)
         ? null
         : createPattern(fields);
     }
 
-    if (pattern === null || field.indexOf('*') !== -1) {
-      return fields.indexOf(field) !== -1;
-    }
-
-    return pattern.test(field);
+    return pattern === null
+      ? fields.indexOf(field) !== -1
+      : pattern.test(field);
   };
 };

@@ -452,7 +452,7 @@ describe('Ability', () => {
       spy.restore(console, 'warn')
     })
 
-    describe('when field patterns', () => {
+    describe('when field patterns defined', () => {
       it('allows to act on any 1st level field (e.g., author.*)', () => {
         ability = defineAbility(can => can('read', 'Post', 'author.*'))
 
@@ -525,6 +525,15 @@ describe('Ability', () => {
         expect(ability).to.allow('read', 'Post', 'author?.address+.street1')
         expect(ability).to.allow('read', 'Post', 'author?.address+.street2')
         expect(ability).not.to.allow('read', 'Post', 'author?.address+')
+      })
+
+      it('can match field patterns', () => {
+        ability = defineAbility(can => can('read', 'Post', 'vehicle.*.generic.*'))
+
+        expect(ability).to.allow('read', 'Post', 'vehicle.profile.generic.item')
+        expect(ability).to.allow('read', 'Post', 'vehicle.*.generic.signal')
+        expect(ability).to.allow('read', 'Post', 'vehicle.profile.generic.*')
+        expect(ability).not.to.allow('read', 'Post', 'vehicle.*.user.*')
       })
     })
 
