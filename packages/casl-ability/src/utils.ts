@@ -86,7 +86,6 @@ function assertAliasMap(aliasMap: AliasesMap) {
   });
 }
 
-export const identity = <T>(x: T) => x;
 export function createAliasResolver(aliasMap: AliasesMap) {
   if (process.env.NODE_ENV !== 'production') {
     assertAliasMap(aliasMap);

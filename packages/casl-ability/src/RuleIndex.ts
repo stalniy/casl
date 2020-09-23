@@ -1,7 +1,7 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import { CanParameters, Abilities, Normalize, Subject, SubjectType } from './types';
-import { wrapArray, detectSubjectType, identity, mergePrioritized, getOrDefault } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault } from './utils';
 import { LinkedItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
@@ -79,7 +79,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     this._ruleOptions = {
       conditionsMatcher: options.conditionsMatcher,
       fieldMatcher: options.fieldMatcher,
-      resolveAction: options.resolveAction || identity,
+      resolveAction: options.resolveAction,
     };
     this.detectSubjectType = options.detectSubjectType || detectSubjectType;
     this._rules = rules;
