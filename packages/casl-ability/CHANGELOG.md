@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.5](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.4...@casl/ability@5.1.0-next.5) (2020-09-23)
+
+
+### Bug Fixes
+
+* **ability:** ensure default field matcher can match fields with partial patterns inside ([362f49f](https://github.com/stalniy/casl/commit/362f49fce07ceb08725f129ee4c7251d20fee9f2)), closes [#388](https://github.com/stalniy/casl/issues/388)
+* **angular:** fixes sourcemap generation for the code built by ngc ([7715263](https://github.com/stalniy/casl/commit/771526379ff8203170a433d71b68644a48ff44eb)), closes [#387](https://github.com/stalniy/casl/issues/387) [#382](https://github.com/stalniy/casl/issues/382)
+* **condtions:** adds interpreter for `$and` parsing instruction ([3166a32](https://github.com/stalniy/casl/commit/3166a32a4803b06ceb7a682007b503b2185a7240))
+
 # [5.1.0-next.4](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.3...@casl/ability@5.1.0-next.4) (2020-08-28)
 
 
