@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "inlineSources": true,
     "inlineSourceMap": true,
     "declaration": false,
     "module": "es2015",
@@ -16,15 +17,16 @@
       "dom"
     ]
   },
-  "files": [
-    "src/index.ts"
+  "include": [
+    "src/*",
+    "spec/*"
   ],
   "angularCompilerOptions": {
     "enableIvy": false,
     "skipMetadataEmit": true,
     "skipTemplateCodegen": true,
     "strictInjectionParameters": true,
-    "flatModuleOutFile": "public_api.js",
+    "flatModuleOutFile": "index.js",
     "flatModuleId": "@casl/angular"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.lib.json",
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "declaration": true,
@@ -7,9 +7,5 @@
   },
   "angularCompilerOptions": {
     "skipMetadataEmit": false
-  },
-  "include": [
-    "src/*",
-    "spec/*"
-  ]
+  }
 }

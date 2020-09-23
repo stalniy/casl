@@ -1,11 +1,11 @@
 {
   "name": "@casl/angular",
-  "version": "4.1.4",
+  "version": "4.1.5",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
   "es2015": "dist/es6m/index.mjs",
-  "typings": "dist/types/public_api.d.ts",
+  "typings": "dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/es6m/index.mjs",
@@ -26,7 +26,7 @@
     "build.es6": "TARGET=es2015 BUILD=es6m npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
-    "rollup": "ngc --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD USE_SRC_MAPS=1 rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
+    "rollup": "ngc -p tsconfig.lib.json --target $TARGET --outDir dist/$BUILD/tmp && LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
@@ -85,6 +85,7 @@
     "jest": "^26.0.0",
     "jest-zone-patch": "0.0.10",
     "rollup": "^2.10.9",
+    "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-terser": "^7.0.0",
     "rxjs": "^6.0.0",
     "semantic-release": "17.1.1",

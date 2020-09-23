@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.5](https://github.com/stalniy/casl/compare/@casl/angular@4.1.4...@casl/angular@4.1.5) (2020-09-03)
+
+
+### Bug Fixes
+
+* **angular:** fixes sourcemap generation for the code built by ngc ([7715263](https://github.com/stalniy/casl/commit/771526379ff8203170a433d71b68644a48ff44eb)), closes [#387](https://github.com/stalniy/casl/issues/387) [#382](https://github.com/stalniy/casl/issues/382)
+
 ## [4.1.4](https://github.com/stalniy/casl/compare/@casl/angular@4.1.3...@casl/angular@4.1.4) (2020-06-09)
 
 

@@ -1,6 +1,7 @@
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 import { dirname, basename, extname } from 'path';
 
 const output = (config) => {
@@ -39,16 +40,18 @@ const build = config => ({
       mainFields: ['es2015', 'module', 'main', 'browser'],
       extensions: ['.js', '.mjs', '.ts'],
     }),
-    babel({
-      rootMode: 'upward',
-      extensions: ['.js', '.mjs', '.ts'],
-      inputSourceMap: config.useInputSourceMaps,
-      babelHelpers: 'bundled',
-      caller: {
-        output: config.type,
-      }
-    }),
-    ...(config.plugins || [])
+    config.transformJS
+      ? babel({
+        rootMode: 'upward',
+        extensions: ['.js', '.mjs', '.ts'],
+        inputSourceMap: config.useInputSourceMaps,
+        babelHelpers: 'bundled',
+        caller: {
+          output: config.type,
+        }
+      })
+      : sourcemaps(),
+    ...config.plugins
   ]
 });
 
@@ -58,7 +61,9 @@ function parseOptions(overrideOptions) {
     input: 'src/index.ts',
     subpath: '',
     useInputSourceMaps: !!process.env.USE_SRC_MAPS,
-    minify: process.env.NODE_ENV === 'production' && process.env.LIB_MINIFY !== 'false'
+    minify: process.env.NODE_ENV === 'production' && process.env.LIB_MINIFY !== 'false',
+    transformJS: process.env.ES_TRANSFORM !== 'false',
+    plugins: []
   };
 
   if (overrideOptions.input) {

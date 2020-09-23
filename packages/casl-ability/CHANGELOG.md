@@ -216,6 +216,14 @@ All notable changes to this project will be documented in this file.
 * `Ability` throws an error if you specify a rule with property `field` to be an empty array
 * `Ability` no longer warns about using only inverted rules. This may be done by intention, so now it's left up to developer to decide whether it's fine or not
 
+## [4.1.6](https://github.com/stalniy/casl/compare/@casl/ability@4.1.5...@casl/ability@4.1.6) (2020-09-06)
+
+### Bug Fixes
+
+* **ability:** ensure default field matcher can match fields with partial patterns inside ([362f49f](https://github.com/stalniy/casl/commit/362f49fce07ceb08725f129ee4c7251d20fee9f2)), closes [#388](https://github.com/stalniy/casl/issues/388)
+* **ability:** removes sift specific types from casl ([9f18b31](https://github.com/stalniy/casl/commit/9f18b31cfaf09d8b6471abcb5dea14873d184eb6))
+* **angular:** fixes sourcemap generation for the code built by ngc ([7715263](https://github.com/stalniy/casl/commit/771526379ff8203170a433d71b68644a48ff44eb)), closes [#387](https://github.com/stalniy/casl/issues/387) [#382](https://github.com/stalniy/casl/issues/382)
+
 ## [4.1.5](https://github.com/stalniy/casl/compare/@casl/ability@4.1.4...@casl/ability@4.1.5) (2020-06-08)
 
 
