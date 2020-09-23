@@ -26,6 +26,7 @@ import {
   elemMatch,
   $exists,
   exists,
+  and,
   createFactory,
   BuildMongoQuery,
   DefaultOperators,
@@ -63,6 +64,7 @@ const defaultInterpreters = {
   regex,
   elemMatch,
   exists,
+  and,
 };
 
 interface MongoQueryFactory extends GenericFactory {
