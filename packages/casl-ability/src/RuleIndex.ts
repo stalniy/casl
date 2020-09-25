@@ -37,11 +37,7 @@ export type Events<
   T extends WithGenerics,
   Event extends {} = {},
   K extends keyof EventsMap<T, Event> = keyof EventsMap<T, Event>
-> = Map<K, {
-  last: LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null,
-  destroy: Array<Unsubscribe> | null,
-  emits: boolean
-}>;
+> = Map<K, LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null>;
 
 interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
   update: UpdateEvent<T> & Event
@@ -60,7 +56,6 @@ const defaultActionEntry = () => ({
   merged: false
 });
 const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActionEntry>>();
-const defaultEventEntry = () => ({ emits: false, last: null, destroy: null });
 
 export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
   private _hasPerFieldRules: boolean = false;
@@ -134,7 +129,8 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     }
   }
 
-  possibleRulesFor(...[action, subject]: CanParameters<A, false>) {
+  possibleRulesFor(...args: CanParameters<A, false>): Rule<A, Conditions>[]
+  possibleRulesFor(action: string, subject?: Subject): Rule<A, Conditions>[] {
     const subjectType = this.detectSubjectType(subject);
     const subjectRules = getOrDefault(this._indexedRules, subjectType, defaultSubjectEntry);
     const actionRules = getOrDefault(subjectRules, action, defaultActionEntry);
@@ -177,48 +173,28 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     event: T,
     handler: EventHandler<EventsMap<this, BaseEvent>[T]>
   ): Unsubscribe {
-    const details = getOrDefault(this._events, event, defaultEventEntry);
-    const item = new LinkedItem(handler, details.last);
-    details.last = item;
-    const destroy = () => {
-      if (details.emits) {
-        details.destroy = details.destroy || [];
-        details.destroy.push(destroy);
-        return;
-      }
+    const head = this._events.get(event) || null;
+    const item = new LinkedItem(handler, head);
+    this._events.set(event, item);
 
-      if (!item.next && !item.prev && details.last === item) {
-        details.last = null;
+    return () => {
+      if (!item.next && !item.prev && this._events.get(event) === item) {
+        this._events.delete(event);
       } else {
         item.destroy();
       }
     };
-
-    return destroy;
   }
 
   private _emit<T extends keyof EventsMap<this, BaseEvent>>(
     name: T,
     payload: EventsMap<this, BaseEvent>[T]
   ) {
-    const details = this._events.get(name);
-
-    if (!details) {
-      return;
-    }
-
-    try {
-      details.emits = true;
-      let item = details.last;
-      while (item !== null) {
-        item.value(payload);
-        item = item.prev;
-      }
-    } finally {
-      details.emits = false;
-      if (details.destroy) {
-        details.destroy.forEach(destroy => destroy());
-      }
+    let current = this._events.get(name) || null;
+    while (current !== null) {
+      const prev = current.prev;
+      current.value(payload);
+      current = prev;
     }
   }
 }
