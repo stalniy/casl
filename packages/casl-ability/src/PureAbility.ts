@@ -6,16 +6,10 @@ export type AnyAbility = Public<PureAbility<any, any>>;
 export type AbilityOptionsOf<T extends AnyAbility> = RuleIndexOptionsOf<T>;
 export type AbilityClass<T extends AnyAbility> = new (...args: any[]) => T;
 
-interface AbilityEvent<A extends Abilities = Abilities, Conditions = unknown> {
-  /** @deprecated use "target" property instead */
-  ability: this['target']
-  target: PureAbility<A, Conditions>
-}
-
 export class PureAbility<
   A extends Abilities = Abilities,
   Conditions = unknown
-> extends RuleIndex<A, Conditions, AbilityEvent<A, Conditions>> {
+> extends RuleIndex<A, Conditions> {
   can(...args: CanParameters<A>): boolean {
     const rule = this.relevantRuleFor(...args);
     return !!rule && !rule.inverted;

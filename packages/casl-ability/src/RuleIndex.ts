@@ -28,20 +28,25 @@ export type RawRuleOf<T extends WithGenerics> =
 export type RuleIndexOptionsOf<T extends WithGenerics> =
   RuleIndexOptions<Generics<T>['abilities'], Generics<T>['conditions']>;
 
-export interface UpdateEvent<T extends WithGenerics> {
+interface AbilityEvent<T extends WithGenerics> {
+  target: T
+  /** @deprecated use "target" property instead */
+  ability: T
+}
+
+export interface UpdateEvent<T extends WithGenerics> extends AbilityEvent<T> {
   rules: RawRuleOf<T>[]
 }
 export type EventHandler<Event> = (event: Event) => void;
 
 export type Events<
   T extends WithGenerics,
-  Event extends {} = {},
-  K extends keyof EventsMap<T, Event> = keyof EventsMap<T, Event>
-> = Map<K, LinkedItem<EventHandler<EventsMap<T, Event>[K]>> | null>;
+  K extends keyof EventsMap<T> = keyof EventsMap<T>
+> = Map<K, LinkedItem<EventHandler<EventsMap<T>[K]>> | null>;
 
-interface EventsMap<T extends WithGenerics, Event extends {} = {}> {
-  update: UpdateEvent<T> & Event
-  updated: UpdateEvent<T> & Event
+interface EventsMap<T extends WithGenerics> {
+  update: UpdateEvent<T>
+  updated: UpdateEvent<T>
 }
 
 type IndexTree<A extends Abilities, C> = Map<SubjectType, Map<string, {
@@ -57,9 +62,9 @@ const defaultActionEntry = () => ({
 });
 const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActionEntry>>();
 
-export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {}> {
+export class RuleIndex<A extends Abilities, Conditions> {
   private _hasPerFieldRules: boolean = false;
-  private _events: Events<this, BaseEvent> = new Map();
+  private _events: Events<this> = new Map();
   private _indexedRules!: IndexTree<A, Conditions>;
   private _rules!: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions!: RuleOptions<A, Conditions>;
@@ -90,7 +95,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
       rules,
       ability: this,
       target: this
-    } as unknown as UpdateEvent<this> & BaseEvent;
+    } as unknown as UpdateEvent<this>;
 
     this._emit('update', event);
     this._rules = rules;
@@ -169,9 +174,9 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     return rules.filter(rule => rule.matchesField(field));
   }
 
-  on<T extends keyof EventsMap<this, BaseEvent>>(
+  on<T extends keyof EventsMap<this>>(
     event: T,
-    handler: EventHandler<EventsMap<this, BaseEvent>[T]>
+    handler: EventHandler<EventsMap<Public<this>>[T]>
   ): Unsubscribe {
     const head = this._events.get(event) || null;
     const item = new LinkedItem(handler, head);
@@ -186,10 +191,7 @@ export class RuleIndex<A extends Abilities, Conditions, BaseEvent extends {} = {
     };
   }
 
-  private _emit<T extends keyof EventsMap<this, BaseEvent>>(
-    name: T,
-    payload: EventsMap<this, BaseEvent>[T]
-  ) {
+  private _emit<T extends keyof EventsMap<this>>(name: T, payload: EventsMap<this>[T]) {
     let current = this._events.get(name) || null;
     while (current !== null) {
       const prev = current.prev;

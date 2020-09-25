@@ -1,10 +1,13 @@
 import { PureAbility, AbilityOptions } from './PureAbility';
 import { Public } from './RuleIndex';
+import { RawRuleFrom } from './RawRule';
 import { AbilityTuple } from './types';
 import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
-import { RawRuleFrom } from './RawRule';
 import { fieldPatternMatcher } from './matchers/field';
 
+/**
+ * @deprecated use `createMongoAbility` function instead
+ */
 export class Ability<
   A extends AbilityTuple = AbilityTuple,
   C extends MongoQuery = MongoQuery
