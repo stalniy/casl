@@ -34,8 +34,8 @@ export interface RuleOptions<A extends Abilities, Conditions> {
 }
 
 export class Rule<A extends Abilities, C> {
-  private __matchConditions: MatchConditions | undefined;
-  private __matchField: MatchField<string> | undefined;
+  private _matchConditions: MatchConditions | undefined;
+  private _matchField: MatchField<string> | undefined;
   private readonly _options!: RuleOptions<A, C>;
   public readonly action!: Tuple<A>[0] | Tuple<A>[0][];
   public readonly subject!: Tuple<A>[1] | Tuple<A>[1][];
@@ -62,28 +62,28 @@ export class Rule<A extends Abilities, C> {
     this._options = options;
   }
 
-  private get _matchConditions() {
-    if (this.conditions && !this.__matchConditions) {
-      this.__matchConditions = this._options.conditionsMatcher!(this.conditions);
+  private get _lazyMatchConditions() {
+    if (this.conditions && !this._matchConditions) {
+      this._matchConditions = this._options.conditionsMatcher!(this.conditions);
     }
 
-    return this.__matchConditions;
+    return this._matchConditions;
   }
 
-  private get _matchField() {
-    if (this.fields && !this.__matchField) {
-      this.__matchField = this._options.fieldMatcher!(this.fields);
+  private get _lazyMatchField() {
+    if (this.fields && !this._matchField) {
+      this._matchField = this._options.fieldMatcher!(this.fields);
     }
 
-    return this.__matchField;
+    return this._matchField;
   }
 
   get ast() {
-    return this._matchConditions ? this._matchConditions.ast : undefined;
+    return this._lazyMatchConditions ? this._lazyMatchConditions.ast : undefined;
   }
 
   matchesConditions(object: Normalize<A>[1] | undefined): boolean {
-    if (!this._matchConditions) {
+    if (!this._lazyMatchConditions) {
       return true;
     }
 
@@ -91,11 +91,11 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._matchConditions(object as object);
+    return this._lazyMatchConditions(object as object);
   }
 
   matchesField(field: string | undefined): boolean {
-    if (!this._matchField) {
+    if (!this._lazyMatchField) {
       return true;
     }
 
@@ -103,6 +103,6 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._matchField(field);
+    return this._lazyMatchField(field);
   }
 }
