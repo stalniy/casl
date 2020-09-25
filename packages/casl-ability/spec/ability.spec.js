@@ -522,11 +522,11 @@ describe('Ability', () => {
     })
 
     describe('when `conditions` defined', () => {
-      const myPost = new Post({ author: 'me' })
+      const myPost = new Post({ author: 'me', published: true })
 
       beforeEach(() => {
         ability = defineAbility((can) => {
-          can('read', 'Post', ['title', 'description'], { author: myPost.author })
+          can('read', 'Post', ['title', 'description'], { author: myPost.author, published: true })
         })
       })
 
@@ -556,14 +556,29 @@ describe('Ability', () => {
         expect(ability).not.to.allow('read', myPost, 'id')
       })
 
+      it('ensures that both conditions are met', () => {
+        expect(ability).to.allow('read', myPost)
+        expect(ability).not.to.allow('read', new Post({ author: 'me', active: false }))
+      })
+
       it('has rules with `ast` property', () => {
         const rule = ability.relevantRuleFor('read', 'Post')
 
         expect(rule).to.have.property('ast').that.is.an('object')
         expect(rule.ast).to.deep.equal({
-          field: 'author',
-          operator: 'eq',
-          value: rule.conditions.author
+          operator: 'and',
+          value: [
+            {
+              field: 'author',
+              operator: 'eq',
+              value: rule.conditions.author
+            },
+            {
+              field: 'published',
+              operator: 'eq',
+              value: rule.conditions.published
+            }
+          ]
         })
       })
     })
