@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.7](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.6...@casl/ability@5.1.0-next.7) (2020-09-25)
+
+
+### Performance Improvements
+
+* **events:** moves out side-effect from `LinkedItem` constructor ([3657c7f](https://github.com/stalniy/casl/commit/3657c7f6d1e24ef2f4a73d1fadee12a529b8148b))
+
 # [5.1.0-next.6](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.5...@casl/ability@5.1.0-next.6) (2020-09-25)
 
 
