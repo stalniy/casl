@@ -19,7 +19,7 @@ export class PureAbility<
     const rules = this.rulesFor(...args);
     const subject = args[1];
 
-    for (let i = 0; i < rules.length; i++) {
+    for (let i = 0, length = rules.length; i < length; i++) {
       if (rules[i].matchesConditions(subject)) {
         return rules[i];
       }

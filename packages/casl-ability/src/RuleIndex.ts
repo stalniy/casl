@@ -178,7 +178,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     event: T,
     handler: EventHandler<EventsMap<Public<this>>[T]>
   ): Unsubscribe {
-    const head = this._events.get(event) || null;
+    const head = this._events.has(event) ? this._events.get(event) : null;
     const item = new LinkedItem(handler, head);
     this._events.set(event, item);
 
