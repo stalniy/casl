@@ -83,7 +83,7 @@ export class Rule<A extends Abilities, C> {
   }
 
   matchesConditions(object: Normalize<A>[1] | undefined): boolean {
-    if (!this._lazyMatchConditions) {
+    if (!this.conditions) {
       return true;
     }
 
@@ -91,11 +91,11 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._lazyMatchConditions(object as object);
+    return this._lazyMatchConditions!(object as object);
   }
 
   matchesField(field: string | undefined): boolean {
-    if (!this._lazyMatchField) {
+    if (!this.fields) {
       return true;
     }
 
@@ -103,6 +103,6 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._lazyMatchField(field);
+    return this._lazyMatchField!(field);
   }
 }
