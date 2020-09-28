@@ -30,7 +30,13 @@ const build = config => ({
     plugins: [
       config.minify
         ? terser({
-          mangle: { properties: { regex: /^_[a-z]/i } }
+          mangle: {
+            properties: { regex: /^_[a-z]/i },
+          },
+          compress: {
+            inline: 0,
+            defaults: false,
+          }
         })
         : null
     ]
