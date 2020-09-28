@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.9](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.8...@casl/ability@5.1.0-next.9) (2020-09-28)
+
+
+### Performance Improvements
+
+* **events:** converts LinkedItem into POJO and regular functions ([6f2de73](https://github.com/stalniy/casl/commit/6f2de73550d7304bc22487d93ea9e5b9dc6a3b64))
+* **extra:** replaces object with `Set` in `permittedFieldsOf` ([a9260d1](https://github.com/stalniy/casl/commit/a9260d17c71bfe1c497f058c2b080b102cb28ed6))
+
 # [5.1.0-next.8](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.7...@casl/ability@5.1.0-next.8) (2020-09-26)
 
 
