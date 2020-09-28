@@ -30,7 +30,7 @@ type ResolveAction<T> = (action: T | T[]) => T | T[];
 export interface RuleOptions<A extends Abilities, Conditions> {
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
-  resolveAction?: ResolveAction<Normalize<A>[0]>
+  resolveAction: ResolveAction<Normalize<A>[0]>
 }
 
 export class Rule<A extends Abilities, C> {
@@ -52,7 +52,7 @@ export class Rule<A extends Abilities, C> {
   ) {
     validate(rule, options);
 
-    this.action = options.resolveAction ? options.resolveAction(rule.action) : rule.action;
+    this.action = options.resolveAction(rule.action);
     this.subject = rule.subject!;
     this.inverted = !!rule.inverted;
     this.conditions = rule.conditions;

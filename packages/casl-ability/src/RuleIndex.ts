@@ -1,8 +1,8 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
 import { CanParameters, Abilities, Normalize, Subject, SubjectType } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault } from './utils';
-import { LinkedItem } from './structures/LinkedItem';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity } from './utils';
+import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
   detectSubjectType?(subject?: Normalize<A>[1]): string
@@ -61,6 +61,11 @@ const defaultActionEntry = () => ({
   merged: false
 });
 const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActionEntry>>();
+const analyze = (index: any, rule: Rule<any, any>) => {
+  if (!index._hasPerFieldRules && rule.fields) {
+    index._hasPerFieldRules = true;
+  }
+};
 
 export class RuleIndex<A extends Abilities, Conditions> {
   private _hasPerFieldRules: boolean = false;
@@ -79,7 +84,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     this._ruleOptions = {
       conditionsMatcher: options.conditionsMatcher,
       fieldMatcher: options.fieldMatcher,
-      resolveAction: options.resolveAction,
+      resolveAction: options.resolveAction || identity,
     };
     this.detectSubjectType = options.detectSubjectType || detectSubjectType;
     this._rules = rules;
@@ -113,7 +118,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
       const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
       const subjects = wrapArray(rule.subject);
-      this._analyze(rule);
+      analyze(this, rule);
 
       for (let k = 0; k < subjects.length; k++) {
         const subjectType = this.detectSubjectType(subjects[k]);
@@ -126,12 +131,6 @@ export class RuleIndex<A extends Abilities, Conditions> {
     }
 
     return indexedRules;
-  }
-
-  private _analyze(rule: Rule<A, Conditions>) {
-    if (!this._hasPerFieldRules && rule.fields) {
-      this._hasPerFieldRules = true;
-    }
   }
 
   possibleRulesFor(...args: CanParameters<A, false>): Rule<A, Conditions>[]
@@ -178,15 +177,15 @@ export class RuleIndex<A extends Abilities, Conditions> {
     event: T,
     handler: EventHandler<EventsMap<Public<this>>[T]>
   ): Unsubscribe {
-    const head = this._events.has(event) ? this._events.get(event) : null;
-    const item = new LinkedItem(handler, head);
+    const head = this._events.get(event) || null;
+    const item = linkedItem(handler, head);
     this._events.set(event, item);
 
     return () => {
       if (!item.next && !item.prev && this._events.get(event) === item) {
         this._events.delete(event);
       } else {
-        item.destroy();
+        unlinkItem(item);
       }
     };
   }

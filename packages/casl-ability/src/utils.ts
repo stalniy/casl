@@ -142,3 +142,5 @@ export function getOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: () => V
 
   return value;
 }
+
+export const identity = <T>(x: T) => x;

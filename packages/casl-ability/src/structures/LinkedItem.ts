@@ -1,26 +1,27 @@
-export class LinkedItem<T> {
-  public next: LinkedItem<T> | null = null;
-
-  constructor(
-    public readonly value: T,
-    public prev: LinkedItem<T> | null = null
-  ) {
-    if (prev) {
-      prev.next = this;
-    }
-  }
-
-  destroy() {
-    const { next, prev } = this;
-
-    if (next) {
-      next.prev = prev;
-    }
-
-    if (prev) {
-      prev.next = next;
-    }
-
-    this.next = this.prev = null; // eslint-disable-line
-  }
+export interface LinkedItem<T> {
+  next: LinkedItem<T> | null
+  prev: LinkedItem<T> | null
+  readonly value: T
 }
+
+export const linkedItem = <T>(value: T, prev: LinkedItem<T>['prev']) => {
+  const item = { value, prev, next: null };
+
+  if (prev) {
+    prev.next = item;
+  }
+
+  return item;
+};
+
+export const unlinkItem = (item: LinkedItem<any>) => {
+  if (item.next) {
+    item.next.prev = item.prev;
+  }
+
+  if (item.prev) {
+    item.prev.next = item.next;
+  }
+
+  item.next = item.prev = null; // eslint-disable-line
+};

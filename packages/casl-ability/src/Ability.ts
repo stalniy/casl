@@ -12,7 +12,7 @@ export class Ability<
   A extends AbilityTuple = AbilityTuple,
   C extends MongoQuery = MongoQuery
 > extends PureAbility<A, C> {
-  constructor(rules?: RawRuleFrom<A, C>[], options?: AbilityOptions<A, C>) {
+  constructor(rules: RawRuleFrom<A, C>[] = [], options: AbilityOptions<A, C> = {}) {
     super(rules, {
       conditionsMatcher: mongoQueryMatcher,
       fieldMatcher: fieldPatternMatcher,
