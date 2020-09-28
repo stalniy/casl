@@ -100,12 +100,12 @@ export interface PermittedFieldsOptions<T extends AnyAbility> {
   fieldsFrom?: GetRuleFields<RuleOf<T>>
 }
 
-function deleteKey(this: Record<string, any>, key: string) {
-  delete this[key];
+function deleteItem(this: Set<string>, item: string) {
+  this.delete(item);
 }
 
-function setKey(this: Record<string, any>, key: string) {
-  this[key] = true;
+function addItem(this: Set<string>, item: string) {
+  this.add(item);
 }
 
 export function permittedFieldsOf<T extends AnyAbility>(
@@ -122,14 +122,14 @@ export function permittedFieldsOf<T extends AnyAbility>(
       const names = fieldsFrom(rule);
 
       if (names) {
-        const toggle = rule.inverted ? deleteKey : setKey;
+        const toggle = rule.inverted ? deleteItem : addItem;
         names.forEach(toggle, fields);
       }
 
       return fields;
-    }, {} as Record<string, true>);
+    }, new Set<string>());
 
-  return Object.keys(uniqueFields);
+  return Array.from(uniqueFields);
 }
 
 const joinIfArray = (value: string | string[]) => Array.isArray(value) ? value.join(',') : value;
