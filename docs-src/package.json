@@ -55,6 +55,6 @@
     "rollup-plugin-minify-html-literals": "^1.2.3",
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-workbox": "^5.0.1",
-    "xyaml-webpack-loader": "0.6.0"
+    "xyaml-webpack-loader": "0.7.1"
   }
 }
