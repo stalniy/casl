@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.10](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.9...@casl/ability@5.1.0-next.10) (2020-10-17)
+
+
+### Code Refactoring
+
+* **ruleIndex:** removes possibility to pass subject to `rulesFor` and `possibleRulesFor` [skip release] ([b8c324d](https://github.com/stalniy/casl/commit/b8c324d747f0a4fb8554931a85f1af211fe3c268))
+
+
+### Performance Improvements
+
+* **ruleIndex:** removes subject type detection from `_buildIndexFor` ([13fe934](https://github.com/stalniy/casl/commit/13fe93437fa3f9f5604a962eecaac02c663b39cb))
+
+
+### BREAKING CHANGES
+
+* **ruleIndex:** `rulesFor`, `possibleRulesFor`, `rulesToQuery`, `ruleToAST`, `rulesToFields` accepts only subject type now!
+
+  **Before**
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([
+    { action: 'read', subject: 'Post' }
+  ]);
+
+  class Post {}
+
+  console.log(ability.rulesFor('read', new Post())); // [Rule]
+  console.log(ability.rulesFor('read', 'Post')); // [Rule]
+  ```
+
+  **After**
+
+  ```js
+    import { Ability } from '@casl/ability';
+
+  const ability = new Ability([
+    { action: 'read', subject: 'Post' }
+  ]);
+
+  class Post {}
+
+  console.log(ability.rulesFor('read', new Post())); // throws exception
+  console.log(ability.rulesFor('read', 'Post')); // [Rule]
+  ```
+
+  Other functions and methods have the same behavior
+
 # [5.1.0-next.9](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.8...@casl/ability@5.1.0-next.9) (2020-09-28)
 
 
