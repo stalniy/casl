@@ -16,19 +16,6 @@ This README file contains only basic information about the package. If you need 
 
 **Note**: the best way to get started is to read [Guide][intro] in the official documentation. In this README file, you will find just basic information.
 
-CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):
-
-1. User Action\
-   Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
-2. Subject\
-   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
-3. Conditions\
-   An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
-4. Fields\
-   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `description` or `title`)
-
-Using CASL you can describe abilities using regular and inverted rules. Let's see how
-
 **Note**: all the examples below are written in ES6 using ES modules but CASL also has a sophisticated support for TypeScript, read [CASL TypeScript support][typescript-support] for details.
 
 ### 1. Define Abilities
@@ -63,8 +50,6 @@ function defineAbilitiesFor(user) {
 
 Do you see how easily business requirements were translated into CASL's rules?
 
-**Note**: you can use class instead of string as a subject type (e.g., `can('read', BlogPost)`)
-
 And yes, `Ability` class allow you to use some MongoDB operators to define conditions. Don't worry if you don't know MongoDB, it's not required and explained in details in [Defining Abilities][define-abilities]
 
 ### 2. Check Abilities
@@ -87,8 +72,6 @@ ability.cannot('read', post);
 // you can even throw an error if there is a missed ability
 ForbiddenError.from(ability).throwUnlessCan('read', post);
 ```
-
-**Note**: you can use class instead of string as a subject type (e.g., `ability.can('read', BlogPost)`)
 
 Of course, you are not restricted to use only class instances in order to check permissions on objects. See [Introduction][intro] for the detailed explanation.
 
