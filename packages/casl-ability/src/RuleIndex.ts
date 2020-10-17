@@ -1,6 +1,13 @@
 import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
-import { CanParameters, Abilities, Normalize, Subject, SubjectType } from './types';
+import {
+  Abilities,
+  Normalize,
+  SubjectType,
+  AbilityParameters,
+  AbilityTuple,
+  ExtractSubjectType
+} from './types';
 import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity } from './utils';
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
@@ -67,6 +74,17 @@ const analyze = (index: any, rule: Rule<any, any>) => {
   }
 };
 
+type AbilitySubjectTypeParameters<T extends Abilities, IncludeField extends boolean = true> =
+  AbilityParameters<
+  T,
+  T extends AbilityTuple
+    ? IncludeField extends true
+      ? (action: T[0], subject: ExtractSubjectType<T[1]>, field?: string) => 0
+      : (action: T[0], subject: ExtractSubjectType<T[1]>) => 0
+    : never,
+  (action: Extract<T, string>) => 0
+  >;
+
 export class RuleIndex<A extends Abilities, Conditions> {
   private _hasPerFieldRules: boolean = false;
   private _events: Events<this> = new Map();
@@ -121,8 +139,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
       analyze(this, rule);
 
       for (let k = 0; k < subjects.length; k++) {
-        const subjectType = this.detectSubjectType(subjects[k]);
-        const subjectRules = getOrDefault(indexedRules, subjectType, defaultSubjectEntry);
+        const type = this.detectSubjectType(subjects[k]);
+        const subjectRules = getOrDefault(indexedRules, type, defaultSubjectEntry);
 
         for (let j = 0; j < actions.length; j++) {
           getOrDefault(subjectRules, actions[j], defaultActionEntry).rules.push(rule);
@@ -133,9 +151,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return indexedRules;
   }
 
-  possibleRulesFor(...args: CanParameters<A, false>): Rule<A, Conditions>[]
-  possibleRulesFor(action: string, subject?: Subject): Rule<A, Conditions>[] {
-    const subjectType = this.detectSubjectType(subject);
+  possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[]
+  possibleRulesFor(action: string, subjectType?: SubjectType): Rule<A, Conditions>[] {
     const subjectRules = getOrDefault(this._indexedRules, subjectType, defaultSubjectEntry);
     const actionRules = getOrDefault(subjectRules, action, defaultActionEntry);
 
@@ -158,9 +175,9 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return rules;
   }
 
-  rulesFor(...args: CanParameters<A>): Rule<A, Conditions>[]
-  rulesFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions>[] {
-    const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subject);
+  rulesFor(...args: AbilitySubjectTypeParameters<A>): Rule<A, Conditions>[]
+  rulesFor(action: string, subjectType?: SubjectType, field?: string): Rule<A, Conditions>[] {
+    const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subjectType);
 
     if (field && typeof field !== 'string') {
       throw new Error('The 3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');

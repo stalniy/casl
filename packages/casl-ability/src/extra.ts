@@ -1,10 +1,10 @@
 import { Condition, buildAnd, buildOr } from '@ucast/mongo2js';
 import { PureAbility, AnyAbility } from './PureAbility';
-import { RuleOf, Generics } from './RuleIndex';
+import { RuleOf } from './RuleIndex';
 import { RawRule } from './RawRule';
 import { Rule } from './Rule';
 import { setByPath, wrapArray } from './utils';
-import { AnyObject, SubjectType, Normalize } from './types';
+import { AnyObject, SubjectType, ExtractSubjectType } from './types';
 
 export type RuleToQueryConverter<T extends AnyAbility> = (rule: RuleOf<T>) => object;
 export interface AbilityQuery<T = object> {
@@ -14,12 +14,12 @@ export interface AbilityQuery<T = object> {
 
 export function rulesToQuery<T extends AnyAbility>(
   ability: T,
-  action: Normalize<Generics<T>['abilities']>[0],
-  subject: Normalize<Generics<T>['abilities']>[1],
+  action: Parameters<T['rulesFor']>[0],
+  subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
   convert: RuleToQueryConverter<T>
 ): AbilityQuery | null {
   const query: AbilityQuery = Object.create(null);
-  const rules = ability.rulesFor(action, subject);
+  const rules = ability.rulesFor(action, subjectType);
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
@@ -50,10 +50,10 @@ function ruleToAST(rule: RuleOf<AnyAbility>): Condition {
 
 export function rulesToAST<T extends AnyAbility>(
   ability: T,
-  action: Normalize<Generics<T>['abilities']>[0],
-  subject: Normalize<Generics<T>['abilities']>[1]
+  action: Parameters<T['rulesFor']>[0],
+  subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
 ): Condition | null {
-  const query = rulesToQuery(ability, action, subject, ruleToAST) as AbilityQuery<Condition>;
+  const query = rulesToQuery(ability, action, subjectType, ruleToAST) as AbilityQuery<Condition>;
 
   if (query === null) {
     return null;
@@ -72,16 +72,17 @@ export function rulesToAST<T extends AnyAbility>(
 
 export function rulesToFields<T extends PureAbility<any, AnyObject>>(
   ability: T,
-  action: Normalize<Generics<T>['abilities']>[0],
-  subject: Normalize<Generics<T>['abilities']>[1]
+  action: Parameters<T['rulesFor']>[0],
+  subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
 ): AnyObject {
-  return ability.rulesFor(action, subject)
-    .filter(rule => !rule.inverted && rule.conditions)
+  return ability.rulesFor(action, subjectType)
     .reduce((values, rule) => {
-      const conditions = rule.conditions!;
+      if (rule.inverted || !rule.conditions) {
+        return values;
+      }
 
-      return Object.keys(conditions).reduce((fields, fieldName) => {
-        const value = conditions[fieldName];
+      return Object.keys(rule.conditions).reduce((fields, fieldName) => {
+        const value = rule.conditions![fieldName];
 
         if (!value || (value as any).constructor !== Object) {
           setByPath(fields, fieldName, value);
@@ -115,10 +116,13 @@ export function permittedFieldsOf<T extends AnyAbility>(
   options: PermittedFieldsOptions<T> = {}
 ): string[] {
   const fieldsFrom = options.fieldsFrom || getRuleFields;
-  const uniqueFields = ability.possibleRulesFor(action, subject)
-    .filter(rule => rule.matchesConditions(subject))
-    .reverse()
-    .reduce((fields, rule) => {
+  const subjectType = ability.detectSubjectType(subject);
+  const uniqueFields = ability.possibleRulesFor(action, subjectType)
+    .reduceRight((fields, rule) => {
+      if (!rule.matchesConditions(subject)) {
+        return fields;
+      }
+
       const names = fieldsFrom(rule);
 
       if (names) {

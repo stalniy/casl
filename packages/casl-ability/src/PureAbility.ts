@@ -1,5 +1,6 @@
 import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public } from './RuleIndex';
-import { Abilities, CanParameters } from './types';
+import { Abilities, CanParameters, Subject } from './types';
+import { Rule } from './Rule';
 
 export type AbilityOptions<A extends Abilities, Conditions> = RuleIndexOptions<A, Conditions>;
 export type AnyAbility = Public<PureAbility<any, any>>;
@@ -15,9 +16,9 @@ export class PureAbility<
     return !!rule && !rule.inverted;
   }
 
-  relevantRuleFor(...args: CanParameters<A>) {
-    const rules = this.rulesFor(...args);
-    const subject = args[1];
+  relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null
+  relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null {
+    const rules = (this as any).rulesFor(action, this.detectSubjectType(subject), field);
 
     for (let i = 0, length = rules.length; i < length; i++) {
       if (rules[i].matchesConditions(subject)) {

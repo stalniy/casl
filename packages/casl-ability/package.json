@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build.core": "rollup -c ../../rollup.config.js -n casl -g @ucast/mongo2js:ucast.mongo2js",
-    "build.extra": "rollup -c ../../rollup.config.js -i src/extra.ts -n casl.extra",
+    "build.extra": "rollup -c ../../rollup.config.js -i src/extra.ts -n casl.extra -g @ucast/mongo2js:ucast.mongo2js",
     "build.types": "rm -rf dist/types/* && tsc && cp index.metadata.json dist/types",
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "eslint --ext .js,.ts src/ spec/",
