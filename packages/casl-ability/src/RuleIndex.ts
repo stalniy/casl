@@ -135,12 +135,11 @@ export class RuleIndex<A extends Abilities, Conditions> {
       const priority = rawRules.length - i - 1;
       const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
-      const subjects = wrapArray(rule.subject);
+      const subjects = wrapArray(rule.subject || 'all');
       analyze(this, rule);
 
       for (let k = 0; k < subjects.length; k++) {
-        const type = this.detectSubjectType(subjects[k]);
-        const subjectRules = getOrDefault(indexedRules, type, defaultSubjectEntry);
+        const subjectRules = getOrDefault(indexedRules, subjects[k], defaultSubjectEntry);
 
         for (let j = 0; j < actions.length; j++) {
           getOrDefault(subjectRules, actions[j], defaultActionEntry).rules.push(rule);
