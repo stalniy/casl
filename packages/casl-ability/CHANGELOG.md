@@ -2,6 +2,86 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.11](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.10...@casl/ability@5.1.0-next.11) (2020-10-17)
+
+
+### Bug Fixes
+
+* **README:** removes explanation duplicated from intro guide ([6315aa7](https://github.com/stalniy/casl/commit/6315aa7eea681d76bda947a7d5353da39c48e005))
+
+
+### Code Refactoring
+
+* **ruleIndex:** `detectSubjectType` option is now responsible only for detecting subject type from objects [skip release] ([ebeaadc](https://github.com/stalniy/casl/commit/ebeaadc0974a3e1697b34b3d85d2510d65b73dbb))
+
+
+### BREAKING CHANGES
+
+* **ruleIndex:** string and class (or function constructor) are the only possible subject types for now. `detectSubjectType` is now responsible only for detecting subject type from object
+
+  **Before**
+
+  When providing subject type it was important to handle cases when passed in argument is a string or function. As an alternative it was possible to call built-in `detectSubjectType` which could catch this cases:
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([], {
+    detectSubjectType(object) {
+      if (object && typeof object === 'object') {
+        return object.__typename;
+      }
+
+      return detectSubjectType(object);
+  });
+  ```
+
+  **After**
+
+  There is no need to handle subject type values in `detectSubjectType` function anymore. It's now handled internally:
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([], {
+    detectSubjectType: object => object.__typename
+  });
+  ```
+
+  Also it's important to note that if you want it's no longer possible to use classes and strings as subject types interchangably together as it was before. Now, if you want to use classes, you should use them everywhere:
+
+  **Before**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+
+  class Post {}
+  const ability = defineAbility((can) => {
+    can('read', Post);
+    can('update', 'Post');
+  });
+
+  ability.can('read', 'Post') // true
+  ability.can('read', Post) // true
+  ability.can('update', Post) // true
+  ```
+
+  **After**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+
+  class Post {}
+  const ability = defineAbility((can) => {
+    can('read', Post);
+    can('update', 'Post');
+  });
+
+  ability.can('read', 'Post') // false, 'Post' and Post are considered different now
+  ability.can('read', Post) // true
+  ability.can('update', Post) // false
+  ```
+
 # [5.1.0-next.10](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.9...@casl/ability@5.1.0-next.10) (2020-10-17)
 
 
