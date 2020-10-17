@@ -18,7 +18,8 @@ export class PureAbility<
 
   relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null
   relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null {
-    const rules = (this as any).rulesFor(action, this.detectSubjectType(subject), field);
+    const subjectType = this.detectSubjectType(subject);
+    const rules = (this as any).rulesFor(action, subjectType, field);
 
     for (let i = 0, length = rules.length; i < length; i++) {
       if (rules[i].matchesConditions(subject)) {

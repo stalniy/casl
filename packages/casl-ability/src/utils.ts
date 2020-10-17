@@ -1,4 +1,4 @@
-import { AnyObject, Subject, SubjectClass, ForcedSubject, AliasesMap } from './types';
+import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
@@ -37,21 +37,26 @@ export function setSubjectType<
   return object as U & ForcedSubject<T>;
 }
 
-export function detectSubjectType<T extends Subject>(subject?: T): string {
+export const isSubjectType = (value: unknown): value is SubjectType => {
+  const type = typeof value;
+  return type === 'string' || type === 'function';
+};
+
+const getSubjectClassName = (value: SubjectClass) => value.modelName || value.name;
+export const getSubjectTypeName = (value: SubjectType) => {
+  return typeof value === 'string' ? value : getSubjectClassName(value);
+};
+
+export function detectSubjectType(subject?: Exclude<Subject, SubjectType>): string {
   if (!subject) {
     return 'all';
-  }
-
-  if (typeof subject === 'string') {
-    return subject;
   }
 
   if (subject.hasOwnProperty(TYPE_FIELD)) {
     return (subject as any)[TYPE_FIELD];
   }
 
-  const Type = typeof subject === 'function' ? subject : subject.constructor;
-  return (Type as SubjectClass).modelName || Type.name;
+  return getSubjectClassName(subject.constructor as SubjectClass);
 }
 
 export function expandActions(aliasMap: AliasesMap, rawActions: string | string[]) {

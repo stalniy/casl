@@ -97,6 +97,10 @@ describe('Ability', () => {
     })
 
     it('allows to perform specified actions on target type (class)', () => {
+      ability = defineAbility((can) => {
+        can('read', Post)
+        can('update', Post)
+      })
       expect(ability).to.allow('read', Post)
       expect(ability).to.allow('update', Post)
     })

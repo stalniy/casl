@@ -1,6 +1,7 @@
 import { AnyAbility } from './PureAbility';
 import { Normalize } from './types';
 import { Generics } from './RuleIndex';
+import { getSubjectTypeName } from './utils';
 
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
@@ -52,7 +53,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
 
     this.action = args[0];
     this.subject = args[1];
-    this.subjectType = this.ability.detectSubjectType(args[1]);
+    this.subjectType = getSubjectTypeName(this.ability.detectSubjectType(args[1]));
     this.field = args[2];
 
     const reason = rule ? rule.reason : '';

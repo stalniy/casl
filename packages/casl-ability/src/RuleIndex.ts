@@ -8,11 +8,11 @@ import {
   AbilityTuple,
   ExtractSubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType } from './utils';
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
-  detectSubjectType?(subject?: Normalize<A>[1]): string
+  detectSubjectType?(subject?: Exclude<Normalize<A>[1], SubjectType>): string
 }
 
 declare const $abilities: unique symbol;
@@ -91,7 +91,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
   private _indexedRules!: IndexTree<A, Conditions>;
   private _rules!: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions!: RuleOptions<A, Conditions>;
-  readonly detectSubjectType!: Exclude<RuleIndexOptions<A, Conditions>['detectSubjectType'], undefined>;
+  private readonly _detectSubjectType!: Required<RuleIndexOptions<A, Conditions>>['detectSubjectType'];
   readonly [$abilities]!: A;
   readonly [$conditions]!: Conditions;
 
@@ -104,13 +104,19 @@ export class RuleIndex<A extends Abilities, Conditions> {
       fieldMatcher: options.fieldMatcher,
       resolveAction: options.resolveAction || identity,
     };
-    this.detectSubjectType = options.detectSubjectType || detectSubjectType;
+    this._detectSubjectType = options.detectSubjectType || detectSubjectType;
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
   }
 
   get rules() {
     return this._rules;
+  }
+
+  detectSubjectType(object?: Normalize<A>[1]) {
+    return isSubjectType(object)
+      ? object
+      : this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
   }
 
   update(rules: RawRuleFrom<A, Conditions>[]): Public<this> {
@@ -151,7 +157,11 @@ export class RuleIndex<A extends Abilities, Conditions> {
   }
 
   possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[]
-  possibleRulesFor(action: string, subjectType?: SubjectType): Rule<A, Conditions>[] {
+  possibleRulesFor(action: string, subjectType: SubjectType = 'all'): Rule<A, Conditions>[] {
+    if (!isSubjectType(subjectType)) {
+      throw new Error('"possibleRulesFor" accepts only subject types (i.e., string or class) as the 2nd parameter');
+    }
+
     const subjectRules = getOrDefault(this._indexedRules, subjectType, defaultSubjectEntry);
     const actionRules = getOrDefault(subjectRules, action, defaultActionEntry);
 

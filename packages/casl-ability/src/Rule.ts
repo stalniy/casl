@@ -1,4 +1,4 @@
-import { wrapArray } from './utils';
+import { wrapArray, isSubjectType } from './utils';
 import {
   MatchConditions,
   MatchField,
@@ -87,7 +87,7 @@ export class Rule<A extends Abilities, C> {
       return true;
     }
 
-    if (!object || typeof object === 'string' || typeof object === 'function') {
+    if (!object || isSubjectType(object)) {
       return !this.inverted;
     }
 
