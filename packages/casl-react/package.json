@@ -63,7 +63,7 @@
     "chai-spies": "^1.0.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-plugin-import": "^2.20.2",
     "jest": "^26.0.0",
     "react": "^16.3.0",
