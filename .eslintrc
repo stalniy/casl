@@ -23,6 +23,7 @@
     "import/prefer-default-export": "off",
     "no-plusplus": "off",
     "comma-dangle": "off",
+    "@typescript-eslint/comma-dangle": "off",
     "no-underscore-dangle": "off",
     "no-param-reassign": ["error", { "props": false }],
     "no-mixed-operators": "off",
