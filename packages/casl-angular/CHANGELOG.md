@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.6](https://github.com/stalniy/casl/compare/@casl/angular@4.1.5...@casl/angular@4.1.6) (2020-10-21)
+
+
+### Bug Fixes
+
+* **README:** adds semi-colon ([cad1daa](https://github.com/stalniy/casl/commit/cad1daaabf8a7ad45d5736394d3ba3dc42207614))
+
 ## [4.1.5](https://github.com/stalniy/casl/compare/@casl/angular@4.1.4...@casl/angular@4.1.5) (2020-09-03)
 
 
