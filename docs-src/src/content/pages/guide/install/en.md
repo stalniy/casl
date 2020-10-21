@@ -9,9 +9,9 @@ meta:
 
 ## Requirements
 
-CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires ES5 compatible environment, that means the lowest supported version of Internet Explorer is IE9 and the lowest Nodejs version is 4.x.
+CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires ES5 compatible environment and  `Map` class from ES6, that means the lowest supported version of Internet Explorer is IE11 and the lowest Nodejs version is 8.x. But we strongly recommend to use the latest Node.js environment and browsers because their JS VM works much faster.
 
-`@casl/vue` and `@casl/aurelia` use [ES6 WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap), so it requires either polyfill or newer versions of browsers (`WeakMap` is supported staring from IE 11).
+Additionally, `@casl/vue` and `@casl/aurelia` use [ES6 WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap), so it requires either polyfill or newer versions of browsers.
 
 ## Semantic Versioning
 
@@ -19,14 +19,14 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 ## Official packages and its versions
 
-| Project           | Status                               | Description | Supported envinronemnts |
-|-------------------|--------------------------------------|-------------|-------------------------|
-| [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | nodejs 4+ and ES5 compatible browsers (IE 9+) |
-| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with  [Mongoose][mongoose] | nodejs 4+ |
-| [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | ES5 compatible browsers (IE 9+) |
-| [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | ES5 compatible browsers (IE 9+) |
-| [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | IE 11+ (uses `WeakMap`) |
-| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | IE 11+ (uses `WeakMap`) |
+| Project           | Status                               | Description |
+|-------------------|--------------------------------------|-------------|
+| [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package |
+| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with  [Mongoose][mongoose] |
+| [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] |
+| [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] |
+| [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] |
+| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] |
 
 [@casl/ability]: ../intro
 [@casl/mongoose]: ../../package/casl-mongoose
@@ -57,7 +57,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 ## NPM, YARN, PNPM
 
-Installation through package is the recommended way to install CASL. To install the latest stable version run:
+Installation through package manager is the recommended way to install CASL. To install the latest stable version run:
 
 ```sh
 npm install @casl/ability
@@ -75,10 +75,10 @@ For prototyping or learning purposes, you can use the latest version with:
 <script src="https://cdn.jsdelivr.net/npm/@casl/ability"></script>
 ```
 
-For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions:
+For production, we recommend linking to a specific version number to avoid unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@casl/ability@4.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@casl/ability@5.1.0"></script>
 ```
 
 Remember that CASL depends on [@ucast/mongo2js] which depends on [@ucast/core], [@ucast/js] and [@ucast/mongo], that's why you need to specify all these libraries before `@casl/ability`:
@@ -108,22 +108,56 @@ In the `dist/` [directory of the NPM package](https://cdn.jsdelivr.net/npm/@casl
 
 | Build           | Description                          |
 |-----------------|--------------------------------------|
-| es6/index.js    | minified ES6 code with ES modules support. Intended for bundlers (e.g., [rollup], [webpack]) to create bundle for modern browsers |
+| es6m/index.mjs    | minified ES6 code with ES modules support. Intended for bundlers (e.g., [rollup], [webpack]) to create bundle for modern browsers or modern Nodejs version that support ES modules |
+| es6c/index.js    | minified ES6 code with Commonjs modules support. Intended for modern nodejs environments that support ES6 but doesn't support ES modules |
 | es5m/index.js   | minified ES5 code with ES modules support. Should be used by bundlers (e.g., [rollup], [webpack]) to tree shake the module and skip babel's transpile process |
-| umd/index.js    | minified ES5 code with UMD. Intended for Nodejs environments, AMD apps and simple prototypes in browser |
+| umd/index.js    | **deprecated**, minified ES5 code with UMD. Intended for AMD apps and simple prototypes in a browser |
 | types           | contains [typescript] type declaration files |
 
 [rollup]: https://rollupjs.org/guide/en/
 [webpack]: https://webpack.js.org/
 [typescript]: http://www.typescriptlang.org/
 
-All official packages has the same directory layout (except of `@casl/mongoose` which does not have es5m version).
+All official packages has the same directory layout (except of `@casl/mongoose` which does not have es5m version and packages that integrate CASL with UI frameworks which don't have es6c version).
+
+## Webpack
+
+If you faced with the next issue during build of your app:
+
+> ERROR in ./node_modules/@casl/ability/dist/es6m/index.mjs
+> Can't import the named export 'xxx' from non EcmaScript module (only default export is available)
+
+It means that for some reason, webpack chose the wrong version of the library. Make sure, [module.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) contains `es2015` and `module` entries:
+
+```js
+module.exports = {
+  // other configs
+  module: {
+    mainFields: ['es2015', 'module', 'main']
+  }
+}
+```
+
+Alternatively, you may relax webpack strictness regarding `.mjs` files by adding a special rule:
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+		    type: 'javascript/auto',
+		    test: /\.mjs$/,
+      }
+    ]
+  }
+}
+```
 
 ## CSP environments
 
 Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of `new Function()` for evaluating expressions.
 
-CASL doesn't use any of the prohibited functions.
+CASL doesn't use any of the prohibited functions, so feel free to use it in any environments.
 
 ## Dev build
 
@@ -132,10 +166,7 @@ CASL doesn't use any of the prohibited functions.
 ```sh
 git clone git@github.com:stalniy/casl.git
 cd casl
-npm ci
-npm run bootstrap
+pnpm i -r
 cd packages/casl-ability
 npm run build
 ```
-
-Then copy `dist/` folder where you need.

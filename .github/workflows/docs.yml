@@ -2,7 +2,7 @@ name: Docs
 
 on:
   push:
-    branches: [master]
+    branches: [master, next]
     paths:
       - docs-src/**/*
       - .github/workflows/docs.yml
@@ -11,8 +11,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CASL_VERSION: 4
-      LIT_APP_PUBLIC_PATH: /v4
+      CASL_VERSION: 5
+      LIT_APP_PUBLIC_PATH: /v5
       SITEMAP_WEBSITE: https://casl.js.org
     steps:
     - uses: actions/checkout@v2
