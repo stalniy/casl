@@ -30,6 +30,8 @@ const build = config => ({
     plugins: [
       config.minify
         ? terser({
+          keep_fnames: /Ability|ForbiddenError/,
+          keep_classnames: /Ability|ForbiddenError/,
           mangle: {
             properties: { regex: /^_[a-z]/i },
           },

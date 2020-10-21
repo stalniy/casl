@@ -1,11 +1,14 @@
-import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public } from './RuleIndex';
+import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public, RawRuleOf } from './RuleIndex';
 import { Abilities, CanParameters, Subject } from './types';
 import { Rule } from './Rule';
 
 export type AbilityOptions<A extends Abilities, Conditions> = RuleIndexOptions<A, Conditions>;
 export type AnyAbility = Public<PureAbility<any, any>>;
 export type AbilityOptionsOf<T extends AnyAbility> = RuleIndexOptionsOf<T>;
-export type AbilityClass<T extends AnyAbility> = new (...args: any[]) => T;
+export type AbilityClass<T extends AnyAbility> = new (
+  rules: RawRuleOf<T>[],
+  options: AbilityOptionsOf<T>
+) => T;
 
 export class PureAbility<
   A extends Abilities = Abilities,

@@ -62,24 +62,17 @@ export class Rule<A extends Abilities, C> {
     this._options = options;
   }
 
-  private get _lazyMatchConditions() {
+  private _conditionsMatcher() {
     if (this.conditions && !this._matchConditions) {
       this._matchConditions = this._options.conditionsMatcher!(this.conditions);
     }
 
-    return this._matchConditions;
-  }
-
-  private get _lazyMatchField() {
-    if (this.fields && !this._matchField) {
-      this._matchField = this._options.fieldMatcher!(this.fields);
-    }
-
-    return this._matchField;
+    return this._matchConditions!;
   }
 
   get ast() {
-    return this._lazyMatchConditions ? this._lazyMatchConditions.ast : undefined;
+    const matches = this._conditionsMatcher();
+    return matches ? matches.ast : undefined;
   }
 
   matchesConditions(object: Normalize<A>[1] | undefined): boolean {
@@ -91,7 +84,8 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._lazyMatchConditions!(object as object);
+    const matches = this._conditionsMatcher();
+    return matches(object as object);
   }
 
   matchesField(field: string | undefined): boolean {
@@ -103,6 +97,10 @@ export class Rule<A extends Abilities, C> {
       return !this.inverted;
     }
 
-    return this._lazyMatchField!(field);
+    if (this.fields && !this._matchField) {
+      this._matchField = this._options.fieldMatcher!(this.fields);
+    }
+
+    return this._matchField!(field);
   }
 }
