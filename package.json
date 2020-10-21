@@ -14,18 +14,18 @@
     "@babel/preset-env": "^7.8.4",
     "@rollup/plugin-babel": "^5.0.2",
     "@rollup/plugin-node-resolve": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "3.10.1",
+    "@typescript-eslint/eslint-plugin": "4.5.0",
     "codecov": "^3.0.0",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-plugin-import": "^2.20.2",
     "husky": "^4.0.0",
     "lint-staged": "^10.0.10",
     "rollup": "^2.10.9",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-terser": "^7.0.0",
-    "typescript": "~3.8.0"
+    "typescript": "~4.0.3"
   },
   "repository": {
     "type": "git",

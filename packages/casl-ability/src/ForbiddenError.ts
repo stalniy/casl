@@ -25,8 +25,8 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     this._defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
   }
 
-  static from<T extends AnyAbility>(ability: T) {
-    return new this(ability);
+  static from<U extends AnyAbility>(ability: U) {
+    return new this<U>(ability);
   }
 
   private constructor(ability: T) {
