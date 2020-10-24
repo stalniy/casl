@@ -100,22 +100,25 @@ export default {
           minify,
         ]
       }),
+      generateSW(createWorkboxConfig(DEST, PUBLIC_PATH)),
     ]),
     url({ publicPath: `${PUBLIC_PATH}/` }),
     resolve({
       mainFields: ['es2015', 'module', 'main']
     }),
-    babel({
-      rootMode: 'upward',
-      babelHelpers: 'bundled',
-      include: [
-        'src/**/*.js',
-        'node_modules/lit-element/**/*.js'
-      ],
-      caller: {
-        output: 'es'
-      },
-    }),
+    ...env('production', [
+      babel({
+        rootMode: 'upward',
+        babelHelpers: 'bundled',
+        include: [
+          'src/**/*.js',
+          'node_modules/lit-element/**/*.js'
+        ],
+        caller: {
+          output: 'es'
+        },
+      }),
+    ]),
     commonjs(),
     xyaml({
       markdown: markdownOptions,
@@ -182,6 +185,5 @@ export default {
         script: null,
       },
     }),
-    generateSW(createWorkboxConfig(DEST, PUBLIC_PATH))
   ]
 };

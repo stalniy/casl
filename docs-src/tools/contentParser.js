@@ -11,7 +11,8 @@ export const markdownOptions = {
     },
     'markdown-it-include': {
       root: `${__dirname}/..`,
-      includeRe: /@include:\s*([\w._/-]+)/
+      bracesAreOptional: true,
+      includeRe: /@include:(\s+[\w._/-]+)/
     },
     [`${__dirname}/tools/mdLink`]: {
       external: {
