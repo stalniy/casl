@@ -24,7 +24,6 @@ import {
   Ability,
   AbilityBuilder,
   Abilities,
-  MongoQuery,
   buildMongoQueryMatcher,
 } from '@casl/ability';
 import { $nor, nor } from '@ucast/mongo2js';
@@ -44,7 +43,7 @@ export default function defineAbilityFor(user: any) {
 
 > We use `user: any` for the purpose of ease, you should avoid this in real apps
 
-To restrict operators, you don't need `buildMongoQueryMatcher`. For example, let's allow to use only `$eq` and `$in` operators:
+`buildMongoQueryMatcher` extends existing set of operators, so if you want to restrict available operators, you should not use it. For example, let's allow to use only `$eq` and `$in` operators:
 
 ```ts
 import {

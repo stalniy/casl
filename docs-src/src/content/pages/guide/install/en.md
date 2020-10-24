@@ -145,8 +145,8 @@ module.exports = {
   module: {
     rules: [
       {
-		    type: 'javascript/auto',
-		    test: /\.mjs$/,
+        type: 'javascript/auto',
+        test: /\.mjs$/,
       }
     ]
   }
