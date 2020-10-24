@@ -15,6 +15,8 @@ meta:
 
 CASL (pronounced /ˈkæsəl/, like **castle**) is an isomorphic authorization JavaScript library which restricts what resources a given client is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
 
+> CASL implements [Attribute Based Access Control](https://en.wikipedia.org/wiki/Attribute-based_access_control)
+
 ## Getting Started
 
 The easiest way to try out CASL.js is using the [Hello World example][example-hello-casl]. Feel free to open it in another tab and follow along as we go through some basic examples. Alternatively you can create Nodejs project and install `@casl/ability` as a dependency.
@@ -31,17 +33,13 @@ CASL operates on the abilities level, that is what a user can actually do in the
 1. **User Action**\
    Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
 2. **Subject**\
-   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity (e.g., `Subscription`, `Article`, `User`).
+   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity (e.g., `Subscription`, `Article`, `User`). The relation between subject and subject type is the same as relation between an object instance and its class.
 3. **Fields**\
-   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `Article` but not update `description` or `title`)
+   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `status` field of an `Article` and disallow to update `description` or `title`)
 4. **Conditions**\
-   An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `Article`)
-
-> CASL doesn't have a concept of a role but it doesn't mean it can't be used in role based system. See [Roles with predefined permissions](../../cookbook/roles-with-static-permissions) for details.
+   Criteria which restricts user action only to matched subjects. This is useful when you need to give a permission on specific subjects (e.g., to allow user to manage own `Article`)
 
 At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:
-
-> CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript](../../advanced/typescript) for details
 
 ```js @{data-filename="defineAbility.js"}
 import { defineAbility } from '@casl/ability';
@@ -52,7 +50,7 @@ export default defineAbility((can, cannot) => {
 });
 ```
 
-> `defineAbility` function is useful for simple declarations thus good for guides and tests but for most applications direct usage of `AbilityBuilder` instance should fit better. See [Define Rules](../define-rules) for in depth details.
+> CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript](../../advanced/typescript) for details
 
 In the example above, we have just defined `Ability` instance which allows to do anything in the app but not delete users. As you probably guessed, `can` and `cannot` accept the same arguments but has different meanings, `can` allows to do an action on the specified subject and `cannot` forbids. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions, `all` and `User` are subjects
 
@@ -70,19 +68,17 @@ ability.can('delete', 'User') // false
 ability.cannot('delete', 'User') // true
 ```
 
-> CASL is perfectly OK to work without specifying subjects. Just don't pass the 2nd argument to functions and that's it. See [Claim based authorization](../../cookbook/claim-authorization) for more details.
-
-In the example above, `Ability` instance allows us to check permissions in pretty readable way. You may think: "there is nothing extraordinary, we got results according to how permissions were defined". And you are right! CASL really shines when you need to restrict resources based on their attributes
+In the example above, `Ability` instance allows us to check permissions in pretty readable way. By the way, all that examples shows check on a subject type (i.e.,an object type or class) but CASL really shines when you need to restrict objects based on their attributes (i.e., properties).
 
 ## Conditions
 
 The most common requirement to mid size apps is an ability to restrict action on own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to `can` and `cannot` methods on the definition step.
 
-So, let's consider requirements for permissions for a blog website similar to medium but simpler. In such blog user
+Before diving into details, let's first consider requirements for permissions of a blog website. In such blog, user
 
 * can `read` any `Article`
 * can `update` own `Article`'s
-* can `leave` a `Comment` for any Article
+* can `create` a `Comment` for any Article
 * can `update` own `Comment`
 
 Let's translate this to CASL:
@@ -90,26 +86,36 @@ Let's translate this to CASL:
 ```js @{data-filename="defineAbility.js"}
 import { defineAbility } from '@casl/ability';
 
-export default function defineAbilityFor(user) {
-  return defineAbility((can) => {
-    can('read', 'Article');
+export default (user) => defineAbility((can) => {
+  can('read', 'Article');
 
-    if (user.isLoggedIn) {
-      can('update', 'Article', { authorId: user.id });
-      can('leave', 'Comment');
-      can('update', 'Comment', { authorId: user.id });
-    }
-  });
-}
+  if (user.isLoggedIn) {
+    can('update', 'Article', { authorId: user.id });
+    can('create', 'Comment');
+    can('update', 'Comment', { authorId: user.id });
+  }
+});
 ```
 
 Do you see how real business requirements are easily translated to code? Now let's check them!
 
-But how can we check conditions? The simplest way to do this is to use classes for your models
+```js
+import defineAbilityFor from './defineAbility';
 
-> Classes are natural in backend development but not always makes sense in frontend. CASL supports another way to check conditions on objects, see [Subject type detection](../subject-type-detection) for details.
+const user = { id: 1 };
+const ability = defineAbilityFor(user);
+const article = /* intentionally not defined */;
 
-So, let's define a simple classes for `Article` and `Comment` entities:
+ability.can('read', article);
+```
+
+As you see, you can do checks on subject the same way you do it on subject's type! But what does `article` variable hold inside? How does CASL know what subject type has this variable?
+
+Do you remember, that a subject and its type belongs to each other the same way as an object instance and it's class? CASL remembers this as well, and retrieves `article.constructor.name` as its subject type.
+
+> Classes are natural in backend but not always makes sense in frontend development. CASL supports other ways to detect subject type, see [Subject type detection](../subject-type-detection) for details.
+
+Let's get back to our example and define classes for `Article` and `Comment` entities:
 
 ```js @{data-filename="entities.js"}
 class Entity {
@@ -119,10 +125,22 @@ class Entity {
 }
 
 export class Article extends Entity {}
-export class Comment extends Entity {}
 ```
 
-Now we can check permissions:
+And this is how the example with missed `article` variable looks eventually:
+
+```js
+import defineAbilityFor from './defineAbility';
+import { Article } from './entities';
+
+const user = { id: 1 };
+const ability = defineAbilityFor(user);
+const article = new Article();
+
+ability.can('read', article); // user can read any article
+```
+
+And few more examples just to get familiar with:
 
 ```js @{data-filename="app.js"}
 import defineAbilityFor from './defineAbility';
@@ -136,14 +154,14 @@ const ability = defineAbilityFor(user);
 ability.can('read', 'Article') // true
 ability.can('update', 'Article') // true
 ability.can('update', ownArticle) // true
-ability.can('update', anotherArticle) // false
+ability.can('update', anotherArticle) // false, we can't update articles which were not written by us
 ```
 
-> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to  `Ability` instance `can` and `cannot` methods, they have different purposes and accept different arguments. See [Make `can` API less confusing](../../cookbook/less-confusing-can-api) for explanation.
+> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to `can` and `cannot` methods of `Ability` class, they have completely different purposes and accept different arguments. See [Make `can` API less confusing](../../cookbook/less-confusing-can-api) if it confuses you.
 
 **Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
 
-Thanks to [ucast](https://github.com/stalniy/ucast) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
+But conditions are not restricted to simple equality checks! Thanks to [ucast](https://github.com/stalniy/ucast) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
 
 > If you are not familiar with MongoDB query language, see [CASL conditions in depth](../conditions-in-depth) for details
 
@@ -160,9 +178,9 @@ export default function defineAbilityFor(user) {
 }
 ```
 
-In such case, the pair of action/subject rules are combined by logical `OR`. More formally this can be translated as "users can read Article if it's published OR users can read Article if it's not published AND shared with them".
+In such case, the pair of action/subject rules are combined by logical `OR`. More formally, this can be translated as "users can read Article if it's published OR users can read Article if it's not published AND shared with them".
 
-If it's not enough you can also define permissions for subject fields!
+But that's not all, if you need more granular permission checks, you can define them on subject's attributes (i.e., fields)!
 
 ## Fields
 
@@ -171,16 +189,14 @@ Sometimes you may need to restrict which fields a user can access. For example, 
 ```js @{data-filename="defineAbility.js"}
 import { defineAbility } from '@casl/ability';
 
-export default function defineAbilityFor(user) {
-  return defineAbility((can) => {
-    can('read', 'Article');
-    can('update', 'Article', ['title', 'description'], { authorId: user.id })
+export default (user) => defineAbility((can) => {
+  can('read', 'Article');
+  can('update', 'Article', ['title', 'description'], { authorId: user.id })
 
-    if (user.isModerator) {
-      can('update', 'Article', ['published'])
-    }
-  });
-}
+  if (user.isModerator) {
+    can('update', 'Article', ['published'])
+  }
+});
 ```
 
 Here we defined that any user can update `title` and `description` fields of their own `Article`s and only moderators can update `published` field.
@@ -220,27 +236,35 @@ const ability = defineAbility((can) => {
 const article = new Article({ published: true });
 
 ability.can('read', article); // (1)
-ability.can('read', 'Article'); // (2)
-ability.can('do', 'SomethingUndeclared'); // (3)
+ability.can('do', 'SomethingUndeclared'); // (2)
+ability.can('read', 'Article'); // (3)
 ```
 
-Line `(1)` returns `true` as we expected but what would you expect line `(2)` to return? The answer may be unexpected for some of you, it returns `true` as well. Why?
+Line `(1)` returns `true` as we expected. Line `(2)` return `false` because for any unknown subject or action CASL returns `false`, by default everything is forbidden (if `manage` and `all` keywords are not used). But what would you expect line `(3)` to return? The answer may be unexpected for some of you, it returns `true` as well. **Why?!**
 
-This happens because these checks ask different questions:
-* the 1st asks "can I read this article?"
-* the 2nd asks "can I read at least one article?". Our user can read published articles, so it can read at least one published article, that's why we got `true`.
+Let's get back to our experience for a while. Historically, majority of permissions management libs were built on top of roles or flags. So, a user either has permission or not. This can be expressed in pseudo code:
 
-It make sense when you don't have an instance to check on but know its type (for example, during creation), so this allows your app to fail fast.
+```js
+allow('read_article');
+allow('update_article');
+```
 
-> If you do checks on subject type, you need to check permissions one more time, right before sending request to API or database.
+This is interpreted as "user can read ALL articles and user can update ALL articles". So, this is "all or nothing" mindset.
 
-Also it's important to note that for any non-declared subject or action CASL returns `false` (if you do not use `manage` and `all` keywords), that's why the `(3)` line returns `false`.
+**But CASL is different!** It allows us to ask different questions to our permissions. So, when you check on a
+
+* subject, you ask "can I read THIS article?"
+* subject type, you ask "can I read SOME article?" (i.e., at least one article)
+
+It's very useful when you don't have an instance to check but know its type (for example, during creation), so this allows your app to fail fast.
+
+> If you do checks on a subject type, you need to check permissions one more time on the final subject, right before sending request to API or database.
 
 ## Inverted rules
 
-This guide talk a lot about direct permissions but nothing about inverted one. This is for the reason. The direct logic is much simpler to understand, and we recommend to use it whenever possible.
+This guide talk a lot about allowable permissions but nothing about disallowable ones. This is for the reason. The direct logic is much simpler to understand, and we recommend to use it whenever possible.
 
-To define an inverted rule, you need to use the 2nd argument in callback of `defineAbility`. Let's give user a permission to do anything but not delete:
+To define an inverted rule, you need to use the 2nd argument in the callback of `defineAbility`. Let's give a user a permission to do anything but not delete:
 
 ```js
 import { defineAbility } from '@casl/ability';
@@ -259,7 +283,21 @@ As you should know direct rules are checked by logical `OR` on the other hand in
 * can do anything on all entities
 * and cannot delete any entity
 
-When action and subject of direct and inverted rules are intersects, its order matters: `cannot` declarations should follow after `can`, otherwise they will be overridden by `can`.
+When defining direct and inverted rules for the same pair of action and subject the order of rules matters: `cannot` declarations should follow after `can`, otherwise they will be overridden by `can`. For example, let's disallow to read all private objects (those that have property `private = true`):
+
+```js
+const user = { id: 1 };
+const ability = defineAbility((can, cannot) => {
+  cannot('read', 'all', { private: true });
+  can('read', 'all', { authorId: user.id });
+});
+
+ability.can('read', { private: true }); // false
+ability.can('read', { authorId: user.id }); // true
+ability.can('read', { authorId: user.id, private: true }); // true!
+```
+
+Here we got an unexpected result because direct rule is the last one. To fix the result just revert those rules and **always remember to put inverted rules after the direct one!**
 
 ### Forbidden reasons
 
@@ -270,11 +308,12 @@ import { defineAbility } from '@casl/ability';
 
 export default defineAbility((can, cannot) => {
   can('read', 'all');
-  cannot('read', 'all', { private: true }).because('You are not allowed to read private information');
+  cannot('read', 'all', { private: true })
+    .because('You are not allowed to read private information');
 });
 ```
 
-So then, we can check permissions using `ForbiddenError`:
+We can get this message back by checking permissions using `ForbiddenError`:
 
 ```js
 import { ForbiddenError } from '@casl/ability';
@@ -284,8 +323,10 @@ try {
   ForbiddenError.from(ability).throwUnlessCan('read', { private: true })
 } catch (error) {
   if (error instanceof ForbiddenError) {
-    console.log(error.message);
+    console.log(error.message); // You are not allowed to read private information
   }
+
+  throw error
 }
 ```
 
@@ -293,7 +334,7 @@ try {
 
 ## Update rules
 
-Sometimes, especially in frontend application development, you will need to update `Ability` instance's rules (e.g., on login or logout). To do this, you need to call `update` method:
+Sometimes, especially in frontend application development, we need to update `Ability` instance's rules (e.g., on login or logout). To do this, we can use `update` method:
 
 ```js
 import ability from './defineAbility';
@@ -304,12 +345,25 @@ ability.update([ // switch to readonly mode
 ]);
 ```
 
-To track when rules are update, you can subscribe to `update` or `updated` events of `Ability` instance:
+Also we can use `AbilityBuilder` to create rules:
 
 ```js
-const unsubscribe = ability.on('update', ({ rules, ability }) => {
+import { Ability, AbilityBuilder } from '@casl/ability';
+
+const ability = new Ability();
+
+const { can, rules } = new AbilityBuilder();
+can('read', 'all');
+
+ability.update(rules);
+```
+
+To track when rules are updated, we can subscribe to `update` (before ability is updated) or `updated` (after ability is updated) events of `Ability` instance:
+
+```js
+const unsubscribe = ability.on('update', ({ rules, target }) => {
   // `rules` is an array passed to `update` method
-  // `ability` is an Ability instance that triggered event
+  // `target` is an Ability instance that triggered event
 })
 
 unsubscribe() // removes subscription
@@ -325,6 +379,8 @@ CASL does not have a concept of "a role" and this makes it very powerful! As CAS
    Based on age, region, country or whatever hide features for some users and show for others
 3. Simple Business Logic\
    Disallow users to watch video if their subscription has been expired
+
+> See [Roles with predefined permissions](../../cookbook/roles-with-static-permissions) for details.
 
 ## Ready for More?
 
