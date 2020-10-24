@@ -106,7 +106,7 @@ export default {
     resolve({
       mainFields: ['es2015', 'module', 'main']
     }),
-    ...env('production', [
+    ...env('production', () => [
       babel({
         rootMode: 'upward',
         babelHelpers: 'bundled',
