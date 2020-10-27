@@ -114,7 +114,7 @@ export default function defineAbilityFor(user) {
 
 > To learn more about `can` and `cannot` functions' parameters, read [AbilityBuilder API](../../api#abilitybuilder)
 
-For more advanced cases, it's possible to use `rules` directly:
+For more advanced cases, it's possible to use `rules` property of `AbilityBuilder` and create `Ability` instance manually:
 
 ```js
 import { AbilityBuilder, Ability } from '@casl/ability'
@@ -122,13 +122,7 @@ import { AbilityBuilder, Ability } from '@casl/ability'
 export default function defineAbilityFor(user) {
   const { can, cannot, rules } = new AbilityBuilder(Ability);
 
-  if (user.isAdmin) {
-    can('manage', 'all'); // read-write access to everything
-  } else {
-    can('read', 'all') // read-only access to everything
-  }
-
-  cannot('delete', 'Post', { published: true });
+  // defined permissions
 
   return new Ability(rules);
 }
@@ -136,7 +130,7 @@ export default function defineAbilityFor(user) {
 
 ### When to use AbilityBuilder
 
-* in apps which have static permissions (i.e., permissions are not changed by user but defined inside system)
+* in apps which have static permissions (i.e., permissions are not changed by admin user but defined inside system)
 * anywhere where you use custom subclasses of `PureAbility`
 
 > See [Customize Ability](../../advanced/customize-ability) to learn more about `PureAbility` class.
@@ -160,10 +154,10 @@ export default new Ability([
     subject: 'Post'
   },
   {
+    inverted: true,
     action: 'delete',
     subject: 'Post',
-    conditions: { published: true },
-    inverted: true
+    conditions: { published: true }
   }
 ])
 ```
@@ -195,9 +189,9 @@ In the example above, `?` after field name means optional field, so everything i
 
 ### When to use JSON objects
 
-* in apps, that have dynamic permissions (i.e., permissions are changed by user in admin panel)
+* in apps, that have dynamic permissions (i.e., permissions are changed by admin user)
 * in apps, that receive permissions via network layer (e.g., single page applications or microservices)
-* you want to make your app's bundle smaller (if you don't use `AbilityBuilder` or `defineAbility`, they can be shook out by bundlers such as [rollup] or [webpack])
+* to make the app's bundle size smaller (if you don't use `AbilityBuilder` or `defineAbility`, they can be shook out by bundlers such as [rollup] or [webpack])
 
 [rollup]: https://rollupjs.org/guide/en/
 [webpack]: https://webpack.js.org/
@@ -255,9 +249,7 @@ It is important that in the example above `cannot read article unpublished` line
 
 > The rule of thumb is to define general rules first and more specific after general ones.
 
-It was done so in order to be able to override inverted rules by regular ones. However it adds more complexity than benefits, so very likely this logic will be changed in v5 and the order won't matter.
-
-> Use direct rules whenever possible. Direct logic is much easier to track and understand
+It was done so in order to be able to override inverted rules by regular ones.
 
 ### Best practice
 
