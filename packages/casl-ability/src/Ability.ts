@@ -5,9 +5,6 @@ import { AbilityTuple } from './types';
 import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
 import { fieldPatternMatcher } from './matchers/field';
 
-/**
- * @deprecated use `createMongoAbility` function instead
- */
 export class Ability<
   A extends AbilityTuple = AbilityTuple,
   C extends MongoQuery = MongoQuery

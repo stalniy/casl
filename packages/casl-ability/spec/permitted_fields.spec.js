@@ -3,15 +3,20 @@ import { permittedFieldsOf } from '../src/extra'
 import { Post } from './spec_helper'
 
 describe('permittedFieldsOf', () => {
+  const defaultOptions = {
+    fieldsFrom: rule => rule.fields || ['title', 'description']
+  }
+
   it('returns an empty array for `Ability` with empty rules', () => {
     const ability = new Ability()
-    expect(permittedFieldsOf(ability, 'read', 'Post')).to.be.empty
+    expect(permittedFieldsOf(ability, 'read', 'Post', defaultOptions)).to.be.empty
   })
 
-  it('returns an empty array if none of rules contain fields', () => {
+  it('returns all fields if none of rules specify fields', () => {
     const ability = defineAbility(can => can('read', 'Post'))
+    const fields = permittedFieldsOf(ability, 'read', 'Post', defaultOptions)
 
-    expect(permittedFieldsOf(ability, 'read', 'Post')).to.be.empty
+    expect(fields).to.deep.equal(['title', 'description'])
   })
 
   it('returns a unique array of fields if there are duplicated fields across fields', () => {
@@ -19,7 +24,7 @@ describe('permittedFieldsOf', () => {
       can('read', 'Post', ['title'])
       can('read', 'Post', ['title', 'description'], { id: 1 })
     })
-    const fields = permittedFieldsOf(ability, 'read', 'Post')
+    const fields = permittedFieldsOf(ability, 'read', 'Post', defaultOptions)
 
     expect(fields).to.have.length(2)
     expect(fields).to.have.all.members(['title', 'description'])
@@ -30,7 +35,7 @@ describe('permittedFieldsOf', () => {
       can('read', 'Post', ['title', 'description'])
       cannot('read', 'Post', ['description'])
     })
-    const fields = permittedFieldsOf(ability, 'read', 'Post')
+    const fields = permittedFieldsOf(ability, 'read', 'Post', defaultOptions)
 
     expect(fields).to.have.length(1)
     expect(fields).to.have.all.members(['title'])
@@ -58,14 +63,14 @@ describe('permittedFieldsOf', () => {
 
     it('allows to return fields for specific instance', () => {
       const post = new Post({ title: 'does not match conditions' })
-      const fields = permittedFieldsOf(ability, 'read', post)
+      const fields = permittedFieldsOf(ability, 'read', post, defaultOptions)
 
       expect(fields).to.deep.equal(['title'])
     })
 
     it('allows to return fields for subject instance which matches specified rule conditions', () => {
       const post = new Post({ id: 1, title: 'matches conditions' })
-      const fields = permittedFieldsOf(ability, 'read', post)
+      const fields = permittedFieldsOf(ability, 'read', post, defaultOptions)
 
       expect(fields).to.deep.equal(['title', 'description'])
     })

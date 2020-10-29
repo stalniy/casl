@@ -93,45 +93,31 @@ export function rulesToFields<T extends PureAbility<any, AnyObject>>(
     }, {} as AnyObject);
 }
 
-const getRuleFields = (rule: RuleOf<AnyAbility>) => rule.fields;
-
-export type GetRuleFields<R extends Rule<any, any>> = (rule: R) => string[] | undefined;
+export type GetRuleFields<R extends Rule<any, any>> = (rule: R) => string[];
 
 export interface PermittedFieldsOptions<T extends AnyAbility> {
-  fieldsFrom?: GetRuleFields<RuleOf<T>>
-}
-
-function deleteItem(this: Set<string>, item: string) {
-  this.delete(item);
-}
-
-function addItem(this: Set<string>, item: string) {
-  this.add(item);
+  fieldsFrom: GetRuleFields<RuleOf<T>>
 }
 
 export function permittedFieldsOf<T extends AnyAbility>(
   ability: T,
   action: Parameters<T['can']>[0],
   subject: Parameters<T['can']>[1],
-  options: PermittedFieldsOptions<T> = {}
+  options: PermittedFieldsOptions<T>
 ): string[] {
-  const fieldsFrom = options.fieldsFrom || getRuleFields;
   const subjectType = ability.detectSubjectType(subject);
-  const uniqueFields = ability.possibleRulesFor(action, subjectType)
-    .reduceRight((fields, rule) => {
-      if (!rule.matchesConditions(subject)) {
-        return fields;
-      }
+  const uniqueFields = new Set<string>();
+  const deleteItem = uniqueFields.delete.bind(uniqueFields);
+  const addItem = uniqueFields.add.bind(uniqueFields);
+  const rules = ability.possibleRulesFor(action, subjectType);
 
-      const names = fieldsFrom(rule);
-
-      if (names) {
-        const toggle = rule.inverted ? deleteItem : addItem;
-        names.forEach(toggle, fields);
-      }
-
-      return fields;
-    }, new Set<string>());
+  for (let i = 0; i < rules.length; i++) {
+    const rule = rules[i];
+    if (rule.matchesConditions(subject)) {
+      const toggle = rule.inverted ? deleteItem : addItem;
+      options.fieldsFrom(rule).forEach(toggle);
+    }
+  }
 
   return Array.from(uniqueFields);
 }

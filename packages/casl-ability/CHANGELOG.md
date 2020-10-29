@@ -48,7 +48,7 @@ All notable changes to this project will be documented in this file.
   });
   ```
 
-  Also it's important to note that if you want it's no longer possible to use classes and strings as subject types interchangably together as it was before. Now, if you want to use classes, you should use them everywhere:
+  Also it's important to note that it's no longer possible to use classes and strings as subject types interchangeably together as it was before. Now, if you want to use classes, you should use them everywhere:
 
   **Before**
 
