@@ -9,6 +9,7 @@ import {
   Normalize,
   SubjectClass,
   AnyObject,
+  AnyClass,
 } from './types';
 import { ProduceGeneric } from './hkt';
 
@@ -67,19 +68,15 @@ type BuilderCanParametersWithFields<
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 
-export class AbilityBuilder<
-  U extends AbilityClass<AnyAbility>,
-  T extends InstanceType<U> = InstanceType<U>
-> {
+export class AbilityBuilder<T extends AnyAbility> {
   public rules: RawRuleOf<T>[] = [];
-  private _AbilityType!: U;
+  private _AbilityType!: AnyClass<T>;
 
-  constructor(AbilityType: U) {
+  constructor(AbilityType: AnyClass<T>) {
     this._AbilityType = AbilityType;
-    const self = this as any;
-    self.can = self.can.bind(self);
-    self.cannot = self.cannot.bind(self);
-    self.build = self.build.bind(self);
+    this.can = this.can.bind(this as any);
+    this.cannot = this.cannot.bind(this as any);
+    this.build = this.build.bind(this as any);
   }
 
   can<
@@ -139,13 +136,13 @@ export class AbilityBuilder<
   }
 
   build(options?: AbilityOptionsOf<T>) {
-    return new this._AbilityType(this.rules, options) as T;
+    return new this._AbilityType(this.rules, options);
   }
 }
 
 type DSL<T extends AnyAbility, R> = (
-  can: AbilityBuilder<AbilityClass<T>>['can'],
-  cannot: AbilityBuilder<AbilityClass<T>>['cannot']
+  can: AbilityBuilder<T>['can'],
+  cannot: AbilityBuilder<T>['cannot']
 ) => R;
 
 export function defineAbility<

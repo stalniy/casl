@@ -200,7 +200,7 @@ All notable changes to this project will be documented in this file.
 
 ### BREAKING CHANGES
 
-* **builder:** changes main generic parameter to be a class instead of instance and makes `defineAbility` to accept options as the 2nd argument.
+* **builder:** changes main generic parameter restriction to accept any class and makes `defineAbility` to accept options as the 2nd argument.
 
   **Before**
 
