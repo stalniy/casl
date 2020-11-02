@@ -106,12 +106,13 @@ export function permittedFieldsOf<T extends AnyAbility>(
   options: PermittedFieldsOptions<T>
 ): string[] {
   const subjectType = ability.detectSubjectType(subject);
+  const rules = ability.possibleRulesFor(action, subjectType);
   const uniqueFields = new Set<string>();
   const deleteItem = uniqueFields.delete.bind(uniqueFields);
   const addItem = uniqueFields.add.bind(uniqueFields);
-  const rules = ability.possibleRulesFor(action, subjectType);
+  let i = rules.length;
 
-  for (let i = 0; i < rules.length; i++) {
+  while (i--) {
     const rule = rules[i];
     if (rule.matchesConditions(subject)) {
       const toggle = rule.inverted ? deleteItem : addItem;
