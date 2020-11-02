@@ -3,10 +3,27 @@ export * from './PureAbility';
 export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';
-export * from './types';
 export * from './hkt';
 export * from './matchers/conditions';
 export * from './matchers/field';
+export type {
+  SubjectClass,
+  SubjectType,
+  Subject,
+  AbilityTuple,
+  Abilities,
+  Normalize,
+  IfString,
+  AbilityParameters,
+  CanParameters,
+  ExtractSubjectType,
+  InferSubjects,
+  ForcedSubject,
+  MatchConditions,
+  ConditionsMatcher,
+  MatchField,
+  FieldMatcher,
+} from './types';
 export type {
   Generics,
   RuleOf,
