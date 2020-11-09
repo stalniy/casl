@@ -69,7 +69,7 @@ This function returns fields of `subject` which specified `action` may be applie
   * `ability: T`
   * `action: string`
   * `subject: SubjectType`
-  * `options?: PermittedFieldsOptions<T>`
+  * `options: PermittedFieldsOptions<T>`
 * **Returns** an array of fields
 * **Usage**\
   This function is especially useful for backend API because it allows to filter out from request only permittedFields (e.g., in [expressjs](https://expressjs.com/) middleware)
