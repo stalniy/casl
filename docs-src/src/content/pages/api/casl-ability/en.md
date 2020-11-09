@@ -31,7 +31,7 @@ This page describes API documentation for core package only. Check [@casl/abilit
 
 It is a generic class that accepts 2 parameters:
 
-1. `Abilities` is either a string (or a union of literal string types) that represents possible actions or a tuple of 2 elements (or a union of tuples) that represents all possible actions on all possible subjects. By default, equals `Abilities` which is a tuple of `[string, Subject]`
+1. `Abilities` is either a string literal type that represents possible actions or a tuple of 2 elements that represents all possible actions on all possible subjects. By default, equals to `[string, Subject]`
 2. `Conditions` is a shape of conditions. There is no restriction on this parameter, so it can be anything.
 
 For example:
@@ -62,7 +62,7 @@ type AppAbility = PureAbility<[string, string]>;
 * **Usage**:
 
   ```ts
-  const ability = new PureAbility([
+  const ability = new PureAbility<['read' | 'update', 'Article']>([
     { action: 'read', subject: 'Article' },
     { action: 'update', subject: 'Article' },
   ]);
@@ -92,7 +92,7 @@ Updates rules of `PureAbility` instance. This method completely replaces all pre
 
 ### can of PureAbility
 
-Checks that the provided action and subject satisfy permissions. Depending on `Abilities` generic parameter this function accepts either single `action` argument (when `Abilities` is a string or a union of strings) or 3 arguments (when `Abilities` is a tuple).
+Checks that the provided action and subject satisfy permissions. Depending on `Abilities` generic parameter this function accepts either single `action` argument (when `Abilities` is a string) or 3 arguments (when `Abilities` is a tuple).
 
 * **Parameters**
   * `action: string` - an action to check
@@ -128,9 +128,12 @@ This method returns a rule that matches provided action, subject and field. If r
 
 ### rulesFor
 
-This method returns all registered rules for provided action, subject and field. Useful for debugging and for extensions.
+This method returns all registered rules for provided action, subject and field. Useful for debugging and for extensions. Contrary to `relevantRuleFor` accepts subject type as the 2nd argument or:
 
-* **Parameters**: accepts the same parameters as [can](#can-of-pure-ability)
+* **Parameters**:
+  * `action: string` - an action to check
+  * `subjectType: SubjectType` - a subject type to check (this one is optional if `Abilities` is a string literal type)
+  * `field?: string` - a field to check
 * **Returns**: `Rule<Abilities, Conditions>[]`
 
 ### possibleRulesFor
@@ -139,15 +142,18 @@ Similar to [rulesFor](#rules-for) but it accepts only up to 2 parameters (depend
 
 * **Parameters**:
   * `action: string`
-  * `subject: Subject`
+  * `subjectType: SubjectType`
 * **Returns**: `Rule<Abilities, Conditions>[]`
 
 ### on
 
-Allows to register event handler on specific event.
+Allows to register event handler on specific event. Currently, only 2 events are supported:
+
+* `update`, triggered before an instance is updated
+* `updated`, triggered after an instance is updated
 
 * **Parameters**:
-  * `event: string`
+  * `event: 'update' | 'updated'`
   * `handler: (event: Event) => void`
 * **Returns**: a function that removes event handler
 * **Usage**\
@@ -155,15 +161,28 @@ Allows to register event handler on specific event.
 
 ### rules property of PureAbility
 
-Returns an array of all registered rules.
+Returns an array of `RawRule`s passed in `PureAbility` constructor.
+
+### detectSubjectType
+
+Can be used to detect subject type of object. Works for both subject types and subject instances.
+
+* **Parameters**:
+  * `subject: Subject`
+* **Returns**: `string`
 
 ## Ability
 
-`Ability` extends [`PureAbility`](#pure-ability). It sets default values for 2 options: `conditionsMatcher` into [`mongoQueryMatcher`](#mongo-query-matcher) and `fieldMatcher` into [`fieldPatternMatcher`](#field-pattern-matcher). It also enforces `MongoQuery` restriction on the `Conditions` class generic parameter. By default is `Ability<Abilities, MongoQuery>`.
+`Ability` extends [`PureAbility`](#pure-ability). It sets default values for 2 options:
+
+* `conditionsMatcher` into [`mongoQueryMatcher`](#mongo-query-matcher)
+* `fieldMatcher` into [`fieldPatternMatcher`](#field-pattern-matcher).
+
+It also enforces `MongoQuery` restriction on the `Conditions` generic parameter. By default, it is `Ability<Abilities, MongoQuery>`.
 
 ## AbilityBuilder
 
-This class allows to define `Ability` or `PureAbility` instance in declarative way. This class accepts a single generic parameter `U extends AbilityClass<AnyAbility>`. You don't need to provide it, as TypeScript will always infer it for you.
+This class allows to define `Ability` or `PureAbility` instance in declarative way. It accepts a single generic parameter `T extends AnyAbility`. You don't need to provide it, as TypeScript will always infer it for you (just don't forget to pass class of `Ability` in constructor).
 
 ### AbilityBuilder constructor
 
@@ -180,16 +199,16 @@ This class allows to define `Ability` or `PureAbility` instance in declarative w
 
 ### can of AbilityBuilder
 
-Registers a `RawRule` instance in `rules` property. Depending on the passed in `Ability` generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `Ability` is a string or a union of strings) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
+Registers a `RawRule` instance in `rules` array. Depending on the passed in `Ability` generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `Ability` is a string) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
 
 * **Parameters**: this method has 2 overloads
   * `action: string | string[]`
-  * `subject: string | Function`
+  * `subjectType: string | Function`
   * `fields: string[]`
   * `conditions: Conditions`
   * **and**
   * `action: string | string[]`
-  * `subject: string | Function`
+  * `subjectType: string | Function`
   * `conditions: Conditions`
 * **Returns** `RuleBuilder`, a class that allows to further change constructed `RawRule` (e.g., add forbidden reason).
 * **Usage**:
@@ -233,7 +252,7 @@ Contains an array of `RawRule`s registered by [`can`](#can-of-ability-builder) a
 
 ## defineAbility
 
-This function allows to define [`Ability`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation. Has 4 overloaded signatures.
+This function allows to define [`Ability`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation.
 
 * **Signature** (`T` is `TAbility`):
   * `<T extends AnyAbility>(define: DSL<T, void>, options?: AbilityOptionsOf<T>) => T`
@@ -308,7 +327,7 @@ A function that returns default error message for `ForbiddenError`. Is useful to
 
 ## fieldPatternMatcher
 
-This factory function that accepts an array of fields and creates a matcher that matches fields by patterns using wildcards (i.e., `*`). It's used as a default field matcher option in `Ability` class.
+This factory function accepts an array of fields and creates a function that matches fields by patterns using wildcards (i.e., `*`). It's used as a default field matcher option in `Ability` class.
 
 * **Factory Parameters**:
   * `fields: string[]`
@@ -353,10 +372,11 @@ This factory function creates a matcher that matches subjects based on [MongoDB 
 
 ## buildMongoQueryMatcher
 
-This is a factory of factory. It allows to extend `mongoQueryMatcher` with custom mongo operators.
+This is a factory of factory. It allows to extend `mongoQueryMatcher` with custom mongo operators. See [ucast](https://github.com/stalniy/ucast) for details
 
 * **Factory Parameters**:
-  * `operations: Record<keyof CustomOperators, any>`
+  * `parsingInstructions: Record<string, ParsingInstruction>`
+  * `interpreters: Record<string, JsOperator>`
 * **Factory Returns** extended `mongoQueryMatcher`
 * **Usage**\
   The result of this function can be passed as `conditionsMatcher` option to `Ability` and `PureAbility` classes.
@@ -377,12 +397,10 @@ The default subject type detection logic. Can be passed as `detectSubjectType` o
 
 * if `subject` is `undefined`, returns `all`
 * if `subject` is a `ForcedSubject`, returns its forced type
-* if `subject` is a string, returns `subject`
-* if `subject` is a function, returns `subject.modelName || subject.name`
 * if `subject` is an object, returns `constructor.modelName || constructor.name`
 
 * **Parameters**:
-  * `subject: Subject`
+  * `subject?: {}`
 * **Returns** a string (i.e., subject type)
 * **See also**: [Subject type detection](../../guide/subject-type-detection)
 

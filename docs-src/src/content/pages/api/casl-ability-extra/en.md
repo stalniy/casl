@@ -9,27 +9,37 @@ meta:
 
 ## rulesToQuery
 
-This is a helper iterator function that allows to convert permissions into database query. Handles common scenarios like trying to get rules for an action that is not defined. The function adjust the amount of parameters depending on passed in `TAbility` generic parameters.
+This is a helper iterator function that allows to convert permissions into database query.
 
 * **Parameters**:
   * `ability: TAbility`
   * `action: string`
-  * `subject: Subject`
+  * `subjectType: SubjectType`
   * `convert: (rule: RuleOf<TAbility>) => object`
-* **Returns** `null` if user is not allowed to specified `action` on specified `subject`, otherwise returns an object of optional `$and` and `$or` fields. `$and` contains results of transformation from inverted rules and `$or` contains results of direct rules.
+* **Returns** `null` if user is not allowed to run specified `action` on specified `subject`, otherwise returns an object of optional `$and` and `$or` fields. `$and` contains results of transformation from inverted rules and `$or` contains results of direct rules.
 * **See also**: [Ability to database query](../../advanced/ability-to-database-query), [@casl/mongoose](../../package/casl-mongoose#accessible-records-plugin)
+
+## rulesToAST
+
+This function converts rules into [ucast](github.com/stalniy/ucast) AST.
+
+* **Parameters**:
+  * `ability: TAbility`
+  * `action: string`
+  * `subjectType: SubjectType`
+* **Returns** `null` if user is not allowed to run specified `action` on specified `subject`, otherwise returns optimized AST.
 
 ## rulesToFields
 
-This is a helper function that allows to extract field values from `Ability` conditions. This may be useful to get default values for a new object based on permissions. The function adjust the amount of parameters depending on passed in `TAbility` generic parameters.
+This is a helper function that allows to extract field values from `Ability` conditions. This may be useful to get default values for a new object based on permissions.
 
 * **Parameters**:
   * `ability: TAbility`
   * `action: string`
-  * `subject: Subject`
+  * `subjectType: SubjectType`
 * **Returns** an object with values from conditions.
 * **Usage**\
-  This function only processes values of conditions that are not objects:
+  This function only processes values of conditions that are not objects. Makes sure to call `ability.can` on resulting object:
 
   ```ts
   import { defineAbility } from '@casl/ability';
