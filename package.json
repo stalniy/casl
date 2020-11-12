@@ -25,6 +25,7 @@
     "rollup": "^2.10.9",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-terser": "^7.0.0",
+    "ts-jest": "^26.4.4",
     "typescript": "~4.0.3"
   },
   "repository": {

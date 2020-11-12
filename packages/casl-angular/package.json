@@ -75,7 +75,6 @@
     "@semantic-release/github": "^7.0.7",
     "@semantic-release/npm": "^7.0.5",
     "@typescript-eslint/eslint-plugin": "4.5.0",
-    "babel-jest": "^26.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
     "eslint": "^7.1.0",
@@ -89,6 +88,7 @@
     "rollup-plugin-terser": "^7.0.0",
     "rxjs": "^6.0.0",
     "semantic-release": "17.1.1",
+    "ts-jest": "^26.4.4",
     "tslib": "^2.0.0",
     "typescript": "~4.0.3",
     "zone.js": "^0.10.2"

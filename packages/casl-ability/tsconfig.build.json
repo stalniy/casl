@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig",
-  "include": [
-    "src/*"
+  "exclude": [
+    "spec/**/*"
   ],
   "compilerOptions": {
     "outDir": "dist/types"
