@@ -2,9 +2,6 @@
   "extends": "../../tsconfig",
   "include": [
     "src/*",
-    "spec/*"
+    "spec/**/*"
   ],
-  "compilerOptions": {
-    "outDir": "dist/types"
-  }
 }

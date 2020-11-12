@@ -7,7 +7,6 @@ import {
   SubjectType,
   TaggedInterface,
   Normalize,
-  SubjectClass,
   AnyObject,
   AnyClass,
 } from './types';
@@ -26,10 +25,13 @@ class RuleBuilder<T extends AnyAbility> {
   }
 }
 
-type ExtractWithDefault<T, U, D = never> = T extends U ? T : D;
-type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends SubjectClass
-  ? InstanceType<S>
-  : ExtractWithDefault<Normalize<Generics<T>['abilities']>[1], TaggedInterface<Extract<S, string>>, AnyObject>;
+type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClass<infer R>
+  ? R
+  : S extends string
+    ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends { kind: string }
+      ? Extract<Normalize<Generics<T>['abilities']>[1], TaggedInterface<S>>
+      : AnyObject
+    : never;
 type ConditionsOf<T extends AnyAbility, I extends {}> =
   ProduceGeneric<Generics<T>['conditions'], I>;
 type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any

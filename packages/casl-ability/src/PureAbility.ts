@@ -1,5 +1,5 @@
 import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public, RawRuleOf } from './RuleIndex';
-import { Abilities, CanParameters, Subject } from './types';
+import { Abilities, AbilityTuple, CanParameters, Subject } from './types';
 import { Rule } from './Rule';
 
 export type AbilityOptions<A extends Abilities, Conditions> = RuleIndexOptions<A, Conditions>;
@@ -11,7 +11,7 @@ export type AbilityClass<T extends AnyAbility> = new (
 ) => T;
 
 export class PureAbility<
-  A extends Abilities = Abilities,
+  A extends Abilities = AbilityTuple,
   Conditions = unknown
 > extends RuleIndex<A, Conditions> {
   can(...args: CanParameters<A>): boolean {
