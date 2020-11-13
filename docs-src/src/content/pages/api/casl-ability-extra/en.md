@@ -9,14 +9,14 @@ meta:
 
 ## rulesToQuery
 
-This is a helper iterator function that allows to convert permissions into database query.
+This is a helper iterator function that allows to aggregate conditions from permissions into a database query.
 
 * **Parameters**:
   * `ability: TAbility`
   * `action: string`
   * `subjectType: SubjectType`
   * `convert: (rule: RuleOf<TAbility>) => object`
-* **Returns** `null` if user is not allowed to run specified `action` on specified `subject`, otherwise returns an object of optional `$and` and `$or` fields. `$and` contains results of transformation from inverted rules and `$or` contains results of direct rules.
+* **Returns** `null` if user is not allowed to run specified `action` on specified `subjectType`, otherwise returns an object of optional `$and` and `$or` fields. `$and` contains results of transformation from inverted rules and `$or` contains results of direct rules.
 * **See also**: [Ability to database query](../../advanced/ability-to-database-query), [@casl/mongoose](../../package/casl-mongoose#accessible-records-plugin)
 
 ## rulesToAST
@@ -27,11 +27,11 @@ This function converts rules into [ucast](github.com/stalniy/ucast) AST.
   * `ability: TAbility`
   * `action: string`
   * `subjectType: SubjectType`
-* **Returns** `null` if user is not allowed to run specified `action` on specified `subject`, otherwise returns optimized AST.
+* **Returns** `null` if user is not allowed to run specified `action` on specified `subjectType`, otherwise returns AST.
 
 ## rulesToFields
 
-This is a helper function that allows to extract field values from `Ability` conditions. This may be useful to get default values for a new object based on permissions.
+This is a helper function that allows to extract field values from `Ability` conditions. This may be useful to extract default values from permissions for a new object.
 
 * **Parameters**:
   * `ability: TAbility`
@@ -39,7 +39,7 @@ This is a helper function that allows to extract field values from `Ability` con
   * `subjectType: SubjectType`
 * **Returns** an object with values from conditions.
 * **Usage**\
-  This function only processes values of conditions that are not objects. Makes sure to call `ability.can` on resulting object:
+  This function processes values of conditions that are not objects. Makes sure to call `ability.can` on resulting object:
 
   ```ts
   import { defineAbility } from '@casl/ability';
@@ -68,11 +68,11 @@ This function returns fields of `subject` which specified `action` may be applie
 * **Parameters**
   * `ability: T`
   * `action: string`
-  * `subject: SubjectType`
+  * `subject: Subject`
   * `options: PermittedFieldsOptions<T>`
 * **Returns** an array of fields
 * **Usage**\
-  This function is especially useful for backend API because it allows to filter out from request only permittedFields (e.g., in [expressjs](https://expressjs.com/) middleware)
+  This function is especially useful for backend API because it allows to filter out disallowed properties from request body (e.g., in [expressjs](https://expressjs.com/) middleware)
 
   ```ts
   import { defineAbility } from '@casl/ability';
@@ -85,7 +85,9 @@ This function returns fields of `subject` which specified `action` may be applie
   });
 
   app.patch('/api/articles/:id', async (req, res) => {
-    const updatableFields = permittedFieldsOf(ability, 'update', 'Article');
+    const updatableFields = permittedFieldsOf(ability, 'update', 'Article', {
+      fieldsFrom: rule => rule.fields || [/* list of all fields for Article */]
+    });
     const changes = pick(req.body, updatableFields);
 
     if (isEmpty(changes)) {
@@ -105,7 +107,7 @@ This function returns fields of `subject` which specified `action` may be applie
 
 This function **reduces serialized rules size in 2 times** (in comparison to its raw representation), by converting objects to arrays. This is useful if you plan to cache rules in [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) token.
 
-> Don’t use directly result returned by packRules, its format is not public and may change in future versions.
+> Don’t use result returned by packRules directly, its format is not public and may change in future versions.
 
 * **Parameters**:
   * `rules: TRawRule[]`
@@ -131,14 +133,14 @@ This function **reduces serialized rules size in 2 times** (in comparison to its
 
 ## unpackRules
 
-This function is unpacks rules previously packed by [`packRules`](#pack-rules), so they can be consumed by `Ability` instance.
+This function unpacks rules previously packed by [`packRules`](#pack-rules), so they can be consumed by `Ability` instance.
 
 * **Parameters**:
   * `rules: PackRule<TRawRule>[]`
   * `unpackSubject?: (type: string) => SubjectType` - we need to pass this parameter only if we use classes as subject types. It should return subject type out of its string representation.
 * **Returns** `TRawRule[]`
 * **Usage**\
-  If backend sends use packed rules, we need to use `unpackRules` before passing them into `Ability` instance:
+  If backend sends packed rules, we need to use `unpackRules` before passing them into `Ability` instance:
 
   ```ts
   import { unpackRules } from '@casl/ability/extra'
