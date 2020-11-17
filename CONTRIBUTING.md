@@ -44,7 +44,8 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   # install pnpm, other ways at https://pnpm.js.org/en/installation
   npx pnpm add -g pnpm
   cd casl
-  pnpm recursive i
+  pnpm i -r
+  pnpm run -r build # build all packages so local deps can be linked
   ```
 
 * Make your changes in a new git branch (fork master branch):
@@ -55,7 +56,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 * **include appropriate test cases**.
 * Follow defined [Coding Rules](#rules).
-* Run all test suites `pnpm test`
+* Run all test suites `pnpm run -r test`
 * Commit your changes using a descriptive commit message that follows defined [commit message conventions](#commit). Adherence to these conventions is necessary because release notes are automatically generated from these messages using [semantic-release](https://semantic-release.gitbook.io/semantic-release/).
 * Push your branch to GitHub:
 
