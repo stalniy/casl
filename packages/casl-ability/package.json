@@ -1,6 +1,6 @@
 {
   "name": "@casl/ability",
-  "version": "5.1.0-next.11",
+  "version": "5.1.0-next.12",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "funding": "https://github.com/stalniy/casl/blob/master/BACKERS.md",
   "main": "dist/es6c/index.js",
@@ -34,7 +34,7 @@
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "eslint --ext .js,.ts src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "prerelease2": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [

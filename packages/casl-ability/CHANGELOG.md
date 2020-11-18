@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.12](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.11...@casl/ability@5.1.0-next.12) (2020-11-18)
+
+
+### Bug Fixes
+
+* **ability:** replaces getters with functions to ensure terser properly minifies them ([386ecb6](https://github.com/stalniy/casl/commit/386ecb6df79aa466f10e3e2eccea4d3771c97ad4))
+* **extra:** makes `permittedFieldsOf` to iterate from the end of array ([81e6409](https://github.com/stalniy/casl/commit/81e64096eb780762e117dae05cfa7cafad801aa3))
+
+
+### Code Refactoring
+
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsOf` [skip release] ([df29b0d](https://github.com/stalniy/casl/commit/df29b0d7364ab1964d4d7b3b98212615beaa4952))
+* **types:** restricts which utility types are exported by library ([e98618f](https://github.com/stalniy/casl/commit/e98618f34d0a29358644b6c11ce87398ffeb2437))
+
+
+### Reverts
+
+* **builder:** reverts back `AbilityBuilder` generic parameter ([aa7b45f](https://github.com/stalniy/casl/commit/aa7b45f69c4fc7b603b8b5be3e9982d370d3398a))
+
+
+### BREAKING CHANGES
+
+* **types:** types `AliasesMap`, `TaggedInterface`, `AbilityTupleType`, `ToAbilityTypes`, `AnyObject` are no longer exported by the library
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsO
+f`. This reduces confusion around why `permittedFieldsOf` returns empty array when user can manage entity fields. So, now this logic is just explicit and clear
+
+  **Before**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+  import { permittedFieldsOf } from '@casl/ability/extra';
+
+  const ability = defineAbility((can) => {
+    can('read', 'Article');
+  });
+
+  const fields = permittedFieldsOf(ability, 'read', 'Article'); // []
+  ```
+
+  **After**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+  import { permittedFieldsOf } from '@casl/ability/extra';
+
+  const ability = defineAbility((can) => {
+    can('read', 'Article');
+  });
+
+  const ARTICLE_FIELDS = ['id', 'title', 'description'];
+  const fields = permittedFieldsOf(ability, 'read', 'Article', {
+    fieldsFrom: rule => rule.fields || ARTICLE_FIELDS
+  }); // ['id', 'title', 'description']
+  ```
+
 # [5.1.0-next.11](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.10...@casl/ability@5.1.0-next.11) (2020-10-17)
 
 
