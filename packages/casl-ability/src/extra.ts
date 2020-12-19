@@ -18,7 +18,7 @@ export function rulesToQuery<T extends AnyAbility>(
   subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
   convert: RuleToQueryConverter<T>
 ): AbilityQuery | null {
-  const query: AbilityQuery = Object.create(null);
+  const query: AbilityQuery = {};
   const rules = ability.rulesFor(action, subjectType);
 
   for (let i = 0; i < rules.length; i++) {
