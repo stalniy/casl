@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.13](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.12...@casl/ability@5.1.0-next.13) (2020-12-19)
+
+
+### Bug Fixes
+
+* **types:** ensure `ForceSubject` generic parameter is preserved in resulting d.ts files ([e97e5fe](https://github.com/stalniy/casl/commit/e97e5fe012e48553ae61a42f8c8240506056afed))
+
+
+### Reverts
+
+* **extra:** makes `rulesToQuery` return an object with `Object` prototype ([dcb7254](https://github.com/stalniy/casl/commit/dcb725471f125d4f7989f116ebf729dee7f53bef))
+
 # [5.1.0-next.12](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.11...@casl/ability@5.1.0-next.12) (2020-11-18)
 
 
