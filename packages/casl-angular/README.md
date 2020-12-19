@@ -41,7 +41,7 @@ export class AppModule {}
 
 The 2nd provider provides instance of `PureAbility`, so `CanPipe` and `AblePipe` can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need conditions you can use `PureAbility` and get rid of `sift` library).
 
-> Read [CASL and TypeScript](https://stalniy.github.io/casl/v4/en/advanced/typescript) to get more details about `Ability` type configuration.
+> Read [CASL and TypeScript](https://casl.js.org/v5/en/advanced/typescript) to get more details about `Ability` type configuration.
 
 ## Update Ability instance
 
@@ -88,7 +88,7 @@ export class Session {
 }
 ```
 
-> See [Define rules](https://stalniy.github.io/casl/v4/en/guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`
 
 Then use this `Session` service in `LoginComponent`:
 
@@ -233,7 +233,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](https://stalniy.github.io/casl/v4/en/support-casljs) for details
+> See [Support CASL](https://casl.js.org/v5/en/support-casljs) for details
 
 ## License
 
