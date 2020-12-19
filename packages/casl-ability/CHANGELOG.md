@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.14](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.13...@casl/ability@5.1.0-next.14) (2020-12-19)
+
+
+### Bug Fixes
+
+* **build:** ensure dist is updated before ([0a879f7](https://github.com/stalniy/casl/commit/0a879f7162b8e5010a78ddff0f858f00b3537aa5))
+
 # [5.1.0-next.13](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.12...@casl/ability@5.1.0-next.13) (2020-12-19)
 
 
