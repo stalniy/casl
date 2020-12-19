@@ -34,7 +34,7 @@
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "eslint --ext .js,.ts src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js --env node",
-    "prerelease2": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "semantic-release -e ../../tools/semantic-release"
   },
   "keywords": [
