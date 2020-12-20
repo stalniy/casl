@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0-next.15](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.14...@casl/ability@5.1.0-next.15) (2020-12-20)
+
+
+### Bug Fixes
+
+* **package:** removes `engine` section that points to npm@6 ([eecd12a](https://github.com/stalniy/casl/commit/eecd12ac49f56d6a0f57d1a57fb37487335b5f03)), closes [#417](https://github.com/stalniy/casl/issues/417)
+* **types:** makes parameters of `AbilityClass` optional ([e7d0815](https://github.com/stalniy/casl/commit/e7d0815bfc2e18f4158bf5464b844fd55be92680))
+
 # [5.1.0-next.14](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.13...@casl/ability@5.1.0-next.14) (2020-12-19)
 
 
