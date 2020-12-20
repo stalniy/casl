@@ -6,8 +6,8 @@ export type AbilityOptions<A extends Abilities, Conditions> = RuleIndexOptions<A
 export type AnyAbility = Public<PureAbility<any, any>>;
 export type AbilityOptionsOf<T extends AnyAbility> = RuleIndexOptionsOf<T>;
 export type AbilityClass<T extends AnyAbility> = new (
-  rules: RawRuleOf<T>[],
-  options: AbilityOptionsOf<T>
+  rules?: RawRuleOf<T>[],
+  options?: AbilityOptionsOf<T>
 ) => T;
 
 export class PureAbility<
