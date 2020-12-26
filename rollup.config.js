@@ -76,7 +76,9 @@ function parseOptions(overrideOptions) {
 
   if (overrideOptions.input) {
     options.input = overrideOptions.input[0];
-    options.subpath = dirname(options.input).replace(/^src/, '');
+    options.subpath = process.env.IGNORE_SUBPATH
+      ? ''
+      : dirname(options.input).replace(/^src/, '');
   }
 
   if (typeof overrideOptions.external === 'string') {

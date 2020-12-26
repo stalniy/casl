@@ -13,7 +13,8 @@ module.exports = {
     '<rootDir>/spec/**/*.spec.{ts,js}'
   ],
   transform: {
-    '^.+\\.[t|j]sx?$': 'ts-jest'
+    '^.+\\.[t|j]sx?$': 'ts-jest',
+    '^.+\\.mjs$': 'ts-jest',
   },
   setupFilesAfterEnv: [
     `${__dirname}/spec_helper.js`

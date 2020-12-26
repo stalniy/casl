@@ -21,8 +21,8 @@
   },
   "scripts": {
     "build": "BUILD_TYPES=es5m,es6m,umd rollup -c ../../rollup.config.js -n casl.vue -g vue:Vue,@casl/ability:casl",
-    "build.types": "rm -rf dist/types/* && tsc",
-    "prebuild": "npm run build.types",
+    "build.types": "tsc",
+    "prebuild": "rm -rf dist/* && npm run build.types",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",

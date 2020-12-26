@@ -11,7 +11,7 @@ import {
 import { TestBed } from '@angular/core/testing'
 import { Component } from '@angular/core'
 import { Ability, PureAbility } from '@casl/ability'
-import { AbilityModule } from '../dist/es6'
+import { AbilityModule } from '../dist/umd'
 
 TestBed.initTestEnvironment(
   BrowserDynamicTestingModule,

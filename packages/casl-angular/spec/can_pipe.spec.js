@@ -1,5 +1,5 @@
 import { defineAbility } from '@casl/ability'
-import { CanPipe } from '../dist/es6'
+import { CanPipe } from '../dist/umd'
 
 describe('Can pipe', () => {
   let ability
