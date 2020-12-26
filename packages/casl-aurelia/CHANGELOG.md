@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.1.0](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.4...@casl/aurelia@1.1.0) (2020-12-26)
+
+
+### Bug Fixes
+
+* **angular:** fixes sourcemap generation for the code built by ngc ([7715263](https://github.com/stalniy/casl/commit/771526379ff8203170a433d71b68644a48ff44eb)), closes [#387](https://github.com/stalniy/casl/issues/387) [#382](https://github.com/stalniy/casl/issues/382)
+* **package:** removes `engine` section that points to npm@6 ([eecd12a](https://github.com/stalniy/casl/commit/eecd12ac49f56d6a0f57d1a57fb37487335b5f03)), closes [#417](https://github.com/stalniy/casl/issues/417)
+
+
+### Features
+
+* **builder:** improves typings for AbilityBuilder [skip release] ([ebd4d17](https://github.com/stalniy/casl/commit/ebd4d17a355a2646467033118a3d6efee4321d27)), closes [#379](https://github.com/stalniy/casl/issues/379)
+* **esm:** adds ESM support for latest Node.js through `exports` prop in package.json ([cac2506](https://github.com/stalniy/casl/commit/cac2506a80c18f194210c2d89108d1d094751fa4)), closes [#331](https://github.com/stalniy/casl/issues/331)
+
+
+### BREAKING CHANGES
+
+* **builder:** changes main generic parameter to be a class instead of instance and makes `defineAbility` to accept options as the 2nd argument.
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility({ resolveAction }, (can) => can('read', 'Item'));
+  const builder = new AbilityBuilder<Ability>(Ability);
+  ```
+
+  **After**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility((can) => can('read', 'Item'), { resolveAction });
+  const builder = new AbilityBuilder(Ability); // first argument is now mandatory!
+  ```
+
+  The 1st parameter to `AbilityBuilder` is now madatory. This allows to infer generic parameters from it and makes AbilityType that is built to be explicit.
+
 ## [1.0.4](https://github.com/stalniy/casl/compare/@casl/aurelia@1.0.3...@casl/aurelia@1.0.4) (2020-06-09)
 
 
