@@ -22,7 +22,7 @@ jobs:
           - latest
     steps:
     - uses: actions/checkout@v2
-    - uses: pnpm/action-setup@v1.2.0
+    - uses: pnpm/action-setup@v1.2.1
       with:
         version: 4.14.4
     - name: Cache dependencies
