@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.0](https://github.com/stalniy/casl/compare/@casl/angular@4.1.6...@casl/angular@5.0.0) (2020-12-26)
+
+
+### Bug Fixes
+
+* **package:** removes `engine` section that points to npm@6 ([eecd12a](https://github.com/stalniy/casl/commit/eecd12ac49f56d6a0f57d1a57fb37487335b5f03)), closes [#417](https://github.com/stalniy/casl/issues/417)
+
+
+### Code Refactoring
+
+* **angular:** removes support for Angular < 9.x and casl < 3.x ([3530cdf](https://github.com/stalniy/casl/commit/3530cdf5b73d19b9a6da9be675f292f67e44db32))
+
+
+### Features
+
+* **builder:** improves typings for AbilityBuilder [skip release] ([ebd4d17](https://github.com/stalniy/casl/commit/ebd4d17a355a2646467033118a3d6efee4321d27)), closes [#379](https://github.com/stalniy/casl/issues/379)
+* **esm:** adds ESM support for latest Node.js through `exports` prop in package.json ([cac2506](https://github.com/stalniy/casl/commit/cac2506a80c18f194210c2d89108d1d094751fa4)), closes [#331](https://github.com/stalniy/casl/issues/331)
+
+
+### BREAKING CHANGES
+
+* **angular:** removes support for Angular < 9.x and casl < 3.x
+* **builder:** changes main generic parameter to be a class instead of instance and makes `defineAbility` to accept options as the 2nd argument.
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility({ resolveAction }, (can) => can('read', 'Item'));
+  const builder = new AbilityBuilder<Ability>(Ability);
+  ```
+
+  **After**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility((can) => can('read', 'Item'), { resolveAction });
+  const builder = new AbilityBuilder(Ability); // first argument is now mandatory!
+  ```
+
+  The 1st parameter to `AbilityBuilder` is now madatory. This allows to infer generic parameters from it and makes AbilityType that is built to be explicit.
+
 ## [4.1.6](https://github.com/stalniy/casl/compare/@casl/angular@4.1.5...@casl/angular@4.1.6) (2020-10-21)
 
 
