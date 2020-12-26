@@ -3,182 +3,182 @@
       
   <url>
     <loc>https://casl.js.org/v5/en/api/casl-ability</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/api/casl-ability-extra</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/support-casljs</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/install</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/intro</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/intro</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/less-confusing-can-api</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/claim-authorization</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/cache-rules</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/roles-with-static-permissions</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/define-rules</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/cookbook/roles-with-persisted-permissions</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/conditions-in-depth</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/restricting-fields</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/subject-type-detection</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/guide/define-aliases</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/advanced/typescript</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/advanced/customize-ability</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/advanced/debugging-testing</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/advanced/ability-to-database-query</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/package/casl-mongoose</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/package/casl-angular</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/package/casl-react</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/package/casl-vue</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en/package/casl-aurelia</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/v5/en</loc>
-    <lastmod>2020-11-13</lastmod>
+    <lastmod>2020-12-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>1</priority>
   </url>
