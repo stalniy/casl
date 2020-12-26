@@ -1,0 +1,9 @@
+{
+  "current": { 
+    "value": 5,
+    "releasedAt": "2020-12-26"
+  },
+  "previous": [
+    { "value": 4 }
+  ]
+}
