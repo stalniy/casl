@@ -18,7 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://stalniy.github.io/casl/",
+  "homepage": "https://casl.js.org",
   "scripts": {
     "prebuild": "rm -rf dist/* && npm run build.types",
     "build": "BUILD_TYPES=es6m,es6c rollup -c ../../rollup.config.js -e @casl/ability/extra,@casl/ability,mongoose",

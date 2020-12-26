@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"
   },
+  "homepage": "https://casl.js.org",
   "publishConfig": {
     "access": "public"
   },
