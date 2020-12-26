@@ -15,19 +15,20 @@
       // http://www.foo.tld/?p=/one/two&q=a=b~and~c=d#qwe
       // Note: this 404.html file must be at least 512 bytes for it to work
       // with Internet Explorer (it is currently > 512 bytes)
+      var currentVersion = '/v5';
       var oldUrls = {
-        '/casl/abilities/2017/07/20/define-abilities.html': '/v4/en/guide/define-rules',
-        '/casl/abilities/2017/07/21/check-abilities.html': '/v4/en/guide/intro',
-        '/casl/abilities/errors/2017/07/21/error-handling.html': '/v4/en/api/casl-ability#forbidden-error',
-        '/casl/abilities/roles/2017/07/21/roles.html': '/v4/en/cookbook/roles-with-static-permissions',
-        '/casl/abilities/storage/2017/07/22/storing-abilities.html': '/v4/en/cookbook/cache-rules',
-        '/casl/abilities/database/integration/2017/07/22/database-integration.html': '/v4/en/package/casl-mongoose',
-        '/casl/abilities/2017/07/23/use-cases.html': '/v4/en/cookbook/intro',
-        '/casl/abilities/2017/12/18/dialect-support.html': '/v4/en/guide/install#explanation-of-different-builds'
+        '/casl/abilities/2017/07/20/define-abilities.html': '/en/guide/define-rules',
+        '/casl/abilities/2017/07/21/check-abilities.html': '/en/guide/intro',
+        '/casl/abilities/errors/2017/07/21/error-handling.html': '/en/api/casl-ability#forbidden-error',
+        '/casl/abilities/roles/2017/07/21/roles.html': '/en/cookbook/roles-with-static-permissions',
+        '/casl/abilities/storage/2017/07/22/storing-abilities.html': '/en/cookbook/cache-rules',
+        '/casl/abilities/database/integration/2017/07/22/database-integration.html': '/en/package/casl-mongoose',
+        '/casl/abilities/2017/07/23/use-cases.html': '/en/cookbook/intro',
+        '/casl/abilities/2017/12/18/dialect-support.html': '/en/guide/install#explanation-of-different-builds'
       };
       var l = window.location;
-      var url = oldUrls[l.pathname] || l.pathname;
-      var basePath = '/v4';
+      var url = oldUrls[l.pathname] ? currentVersion + oldUrls[l.pathname] : l.pathname;
+      var basePath = currentVersion;
       var redirectUrl = basePath + '/?p=' +
         url.slice(basePath.length).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
