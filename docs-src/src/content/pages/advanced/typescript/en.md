@@ -10,7 +10,7 @@ meta:
 CASL is written in [TypeScript] and this brings several benefits:
 * better safety as you can control what actions and subjects can be used
 * better IDE integration as you can get hints on what classes you can use and arguments you need to pass inside
-* easier library support, we can forgot about synchronization issues between `.d.ts` and `.js` files
+* easier library support, we can forget about synchronization issues between `.d.ts` and `.js` files
 
 [TypeScript]: https://typescriptlang.org/
 
