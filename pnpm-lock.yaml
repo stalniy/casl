@@ -156,7 +156,7 @@ importers:
       '@babel/plugin-proposal-object-rest-spread': ^7.10.0
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
-      '@casl/ability': ^5.1.0-next.15
+      '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
       '@rollup/plugin-node-resolve': ^9.0.0
       '@semantic-release/changelog': ^5.0.1
@@ -221,7 +221,7 @@ importers:
       '@babel/plugin-proposal-object-rest-spread': ^7.10.0
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
-      '@casl/ability': ^5.1.0-next.15
+      '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
       '@rollup/plugin-node-resolve': ^9.0.0
       '@semantic-release/changelog': ^5.0.1
@@ -284,7 +284,7 @@ importers:
       '@babel/plugin-proposal-object-rest-spread': ^7.10.0
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
-      '@casl/ability': ^5.1.0-next.15
+      '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
       '@rollup/plugin-node-resolve': ^9.0.0
       '@semantic-release/changelog': ^5.0.1
@@ -346,7 +346,7 @@ importers:
       '@babel/plugin-proposal-object-rest-spread': ^7.10.0
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
-      '@casl/ability': ^5.1.0-next.15
+      '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
       '@rollup/plugin-node-resolve': ^9.0.0
       '@semantic-release/changelog': ^5.0.1
@@ -409,7 +409,7 @@ importers:
       '@babel/plugin-proposal-object-rest-spread': ^7.10.0
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
-      '@casl/ability': ^5.1.0-next.15
+      '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
       '@rollup/plugin-node-resolve': ^9.0.0
       '@semantic-release/changelog': ^5.0.1
