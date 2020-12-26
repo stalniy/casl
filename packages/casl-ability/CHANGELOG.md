@@ -2,6 +2,289 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.1.0](https://github.com/stalniy/casl/compare/@casl/ability@5.0.0...@casl/ability@5.1.0) (2020-12-26)
+
+
+### Bug Fixes
+
+* **ability:** ensure default field matcher can match fields with partial patterns inside ([362f49f](https://github.com/stalniy/casl/commit/362f49fce07ceb08725f129ee4c7251d20fee9f2)), closes [#388](https://github.com/stalniy/casl/issues/388)
+* **ability:** replaces getters with functions to ensure terser properly minifies them ([386ecb6](https://github.com/stalniy/casl/commit/386ecb6df79aa466f10e3e2eccea4d3771c97ad4))
+* **angular:** fixes sourcemap generation for the code built by ngc ([7715263](https://github.com/stalniy/casl/commit/771526379ff8203170a433d71b68644a48ff44eb)), closes [#387](https://github.com/stalniy/casl/issues/387) [#382](https://github.com/stalniy/casl/issues/382)
+* **build:** ensure dist is updated before ([0a879f7](https://github.com/stalniy/casl/commit/0a879f7162b8e5010a78ddff0f858f00b3537aa5))
+* **conditions:** moves logic related to compare complex types to @ucast/mongo2js ([9bd6a1b](https://github.com/stalniy/casl/commit/9bd6a1b90f6f949e8b6eb51cc406f6c44f33a705))
+* **condtions:** adds interpreter for `$and` parsing instruction ([3166a32](https://github.com/stalniy/casl/commit/3166a32a4803b06ceb7a682007b503b2185a7240))
+* **extra:** makes `permittedFieldsOf` to iterate from the end of array ([81e6409](https://github.com/stalniy/casl/commit/81e64096eb780762e117dae05cfa7cafad801aa3))
+* **package:** removes `engine` section that points to npm@6 ([eecd12a](https://github.com/stalniy/casl/commit/eecd12ac49f56d6a0f57d1a57fb37487335b5f03)), closes [#417](https://github.com/stalniy/casl/issues/417)
+* **README:** removes explanation duplicated from intro guide ([6315aa7](https://github.com/stalniy/casl/commit/6315aa7eea681d76bda947a7d5353da39c48e005))
+* **types:** ensure `ForceSubject` generic parameter is preserved in resulting d.ts files ([e97e5fe](https://github.com/stalniy/casl/commit/e97e5fe012e48553ae61a42f8c8240506056afed))
+* **types:** makes parameters of `AbilityClass` optional ([e7d0815](https://github.com/stalniy/casl/commit/e7d0815bfc2e18f4158bf5464b844fd55be92680))
+
+
+### Code Refactoring
+
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsOf` [skip release] ([df29b0d](https://github.com/stalniy/casl/commit/df29b0d7364ab1964d4d7b3b98212615beaa4952))
+* **ruleIndex:** `detectSubjectType` option is now responsible only for detecting subject type from objects [skip release] ([ebeaadc](https://github.com/stalniy/casl/commit/ebeaadc0974a3e1697b34b3d85d2510d65b73dbb))
+* **ruleIndex:** removes possibility to pass subject to `rulesFor` and `possibleRulesFor` [skip release] ([b8c324d](https://github.com/stalniy/casl/commit/b8c324d747f0a4fb8554931a85f1af211fe3c268))
+* **types:** restricts which utility types are exported by library ([e98618f](https://github.com/stalniy/casl/commit/e98618f34d0a29358644b6c11ce87398ffeb2437))
+
+
+### Features
+
+* **builder:** improves typings for AbilityBuilder [skip release] ([ebd4d17](https://github.com/stalniy/casl/commit/ebd4d17a355a2646467033118a3d6efee4321d27)), closes [#379](https://github.com/stalniy/casl/issues/379)
+* **builder:** improves typings of `AbilityBuilder['can']` and `AbilityBuilder['cannot']` methods [skip release] ([98ffbfc](https://github.com/stalniy/casl/commit/98ffbfc58fbfa810020e9b79d22d27d67563e5b7)), closes [#333](https://github.com/stalniy/casl/issues/333)
+* **esm:** adds ESM support for latest Node.js through `exports` prop in package.json ([cac2506](https://github.com/stalniy/casl/commit/cac2506a80c18f194210c2d89108d1d094751fa4)), closes [#331](https://github.com/stalniy/casl/issues/331)
+* **extra:** adds `rulesToAST` that converts rules into [@ucast](https://github.com/ucast) AST ([55fd6ee](https://github.com/stalniy/casl/commit/55fd6eeb9e0b71bb38f1db8cfb87ba7fad391988)), closes [#350](https://github.com/stalniy/casl/issues/350)
+
+
+### Performance Improvements
+
+* **ability:** creates conditions and field matcher lazily ([4ae7799](https://github.com/stalniy/casl/commit/4ae779902c0a59c6dea6f3535ba2fd80cac691da))
+* **ability:** replaces object for storing index with ES6 Map ([d1fa117](https://github.com/stalniy/casl/commit/d1fa117c090e41c2b5f176f467e7561456961c78))
+* **events:** converts LinkedItem into POJO and regular functions ([6f2de73](https://github.com/stalniy/casl/commit/6f2de73550d7304bc22487d93ea9e5b9dc6a3b64))
+* **events:** handles event removal in space efficient way ([71246e2](https://github.com/stalniy/casl/commit/71246e220b6c1abddd553ff8684cdc8732106d57))
+* **events:** moves out side-effect from `LinkedItem` constructor ([3657c7f](https://github.com/stalniy/casl/commit/3657c7f6d1e24ef2f4a73d1fadee12a529b8148b))
+* **events:** utilizes LinkedList for storing event handlers ([e2fd265](https://github.com/stalniy/casl/commit/e2fd2656e06af1883ac3f428b97add1ce14727fb))
+* **extra:** replaces object with `Set` in `permittedFieldsOf` ([a9260d1](https://github.com/stalniy/casl/commit/a9260d17c71bfe1c497f058c2b080b102cb28ed6))
+* **rule:** ensures conditions/field matcher created only when we have object/field to check ([110a69d](https://github.com/stalniy/casl/commit/110a69d049e8abd6711f8d111af0a28e8d079428))
+* **ruleIndex:** removes subject type detection from `_buildIndexFor` ([13fe934](https://github.com/stalniy/casl/commit/13fe93437fa3f9f5604a962eecaac02c663b39cb))
+* **rules:** improves merging logic of rules of subject and `manage all` ([6f8a13a](https://github.com/stalniy/casl/commit/6f8a13a507a2caafe7d6877c9a6f28cdd56c59bc))
+
+
+### Reverts
+
+* **builder:** reverts back `AbilityBuilder` generic parameter ([aa7b45f](https://github.com/stalniy/casl/commit/aa7b45f69c4fc7b603b8b5be3e9982d370d3398a))
+* **extra:** makes `rulesToQuery` return an object with `Object` prototype ([dcb7254](https://github.com/stalniy/casl/commit/dcb725471f125d4f7989f116ebf729dee7f53bef))
+
+
+### BREAKING CHANGES
+
+* **types:** types `AliasesMap`, `TaggedInterface`, `AbilityTupleType`, `ToAbilityTypes`, `AnyObject` are no longer exported by the library
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsO
+f`. This reduces confusion around why `permittedFieldsOf` returns empty array when user can manage entity fields. So, now this logic is just explicit and clear
+
+  **Before**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+  import { permittedFieldsOf } from '@casl/ability/extra';
+
+  const ability = defineAbility((can) => {
+    can('read', 'Article');
+  });
+
+  const fields = permittedFieldsOf(ability, 'read', 'Article'); // []
+  ```
+
+  **After**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+  import { permittedFieldsOf } from '@casl/ability/extra';
+
+  const ability = defineAbility((can) => {
+    can('read', 'Article');
+  });
+
+  const ARTICLE_FIELDS = ['id', 'title', 'description'];
+  const fields = permittedFieldsOf(ability, 'read', 'Article', {
+    fieldsFrom: rule => rule.fields || ARTICLE_FIELDS
+  }); // ['id', 'title', 'description']
+  ```
+* **ruleIndex:** string and class (or function constructor) are the only possible subject types for now. `detectSubjectType` is now responsible only for detecting subject type from object
+
+  **Before**
+
+  When providing subject type it was important to handle cases when passed in argument is a string or function. As an alternative it was possible to call built-in `detectSubjectType` which could catch this cases:
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([], {
+    detectSubjectType(object) {
+      if (object && typeof object === 'object') {
+        return object.__typename;
+      }
+
+      return detectSubjectType(object);
+  });
+  ```
+
+  **After**
+
+  There is no need to handle subject type values in `detectSubjectType` function anymore. It's now handled internally:
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([], {
+    detectSubjectType: object => object.__typename
+  });
+  ```
+
+  Also it's important to note that if you want it's no longer possible to use classes and strings as subject types interchangably together as it was before. Now, if you want to use classes, you should use them everywhere:
+
+  **Before**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+
+  class Post {}
+  const ability = defineAbility((can) => {
+    can('read', Post);
+    can('update', 'Post');
+  });
+
+  ability.can('read', 'Post') // true
+  ability.can('read', Post) // true
+  ability.can('update', Post) // true
+  ```
+
+  **After**
+
+  ```js
+  import { defineAbility } from '@casl/ability';
+
+  class Post {}
+  const ability = defineAbility((can) => {
+    can('read', Post);
+    can('update', 'Post');
+  });
+
+  ability.can('read', 'Post') // false, 'Post' and Post are considered different now
+  ability.can('read', Post) // true
+  ability.can('update', Post) // false
+  ```
+* **ruleIndex:** `rulesFor`, `possibleRulesFor`, `rulesToQuery`, `ruleToAST`, `rulesToFields` accepts only subject type now!
+
+  **Before**
+
+  ```js
+  import { Ability } from '@casl/ability';
+
+  const ability = new Ability([
+    { action: 'read', subject: 'Post' }
+  ]);
+
+  class Post {}
+
+  console.log(ability.rulesFor('read', new Post())); // [Rule]
+  console.log(ability.rulesFor('read', 'Post')); // [Rule]
+  ```
+
+  **After**
+
+  ```js
+    import { Ability } from '@casl/ability';
+
+  const ability = new Ability([
+    { action: 'read', subject: 'Post' }
+  ]);
+
+  class Post {}
+
+  console.log(ability.rulesFor('read', new Post())); // throws exception
+  console.log(ability.rulesFor('read', 'Post')); // [Rule]
+  ```
+
+  Other functions and methods have the same behavior
+* **builder:** changes main generic parameter to be a class instead of instance and makes `defineAbility` to accept options as the 2nd argument.
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility({ resolveAction }, (can) => can('read', 'Item'));
+  const builder = new AbilityBuilder<Ability>(Ability);
+  ```
+
+  **After**
+
+  ```ts
+  import { AbilityBuilder, defineAbility, Ability } from '@casl/ability';
+
+  const resolveAction = (action: string) => {/* custom implementation */ };
+  const ability = defineAbility((can) => can('read', 'Item'), { resolveAction });
+  const builder = new AbilityBuilder(Ability); // first argument is now mandatory!
+  ```
+
+  The 1st parameter to `AbilityBuilder` is now madatory. This allows to infer generic parameters from it and makes AbilityType that is built to be explicit.
+* **builder:** `can` and `cannot` methods of `AbilityBuilder` now restricts what fields and operators can be used inside conditions (i.e., `MongoQuery`). Also these methods now suggests object fields based on passed instance
+
+  **Before**
+
+  ```ts
+  import { AbilityBuilder, Ability, AbilityClass } from '@casl/ability';
+
+  interface Person {
+    kind: 'Person'
+    firstName: string
+    lastName: string
+    age: number
+    address: {
+      street: string
+      city: string
+    }
+  }
+
+  type AppAbility = Ability<['read', Person | Person['kind']]>;
+  cons AppAbility = Ability as AbilityClass<AppAbility>;
+  cons { can } = new AbilityBuilder(AppAbility);
+
+  can('read', 'Person', {
+    'address.street': 'Somewhere in the world',
+    fistName: 'John' // unintentional typo
+  });
+  can('read', 'Person', ['fistName', 'lastName'], { // no intellisense for fields
+    age: { $gt: 18 }
+  })
+  ```
+
+  **After**
+
+  Because provided keys in the example above doesn't exist on `Person` interface, TypeScript throws an error. So, we are safe from typos! But what about dot notation? It's also supported but in more typesafe way:
+
+  ```ts
+  import { AbilityBuilder, Ability, AbilityClass } from '@casl/ability';
+
+  interface Person {
+    kind: 'Person'
+    firstName: string
+    lastName: string
+    age: number
+    address: {
+      street: string
+      city: string
+    }
+  }
+
+  type AppAbility = Ability<['read', Person | Person['kind']]>;
+  cons AppAbility = Ability as AbilityClass<AppAbility>;
+  cons { can } = new AbilityBuilder(AppAbility);
+
+  interface PersonQuery extends Person {
+    'address.street': Person['address']['street']
+    'address.city': Person['address']['city']
+  }
+
+  can<PersonQuery>('read', 'Person', {
+    'address.street': 'Somewhere in the world',
+    fistName: 'John' // unintentional typo
+  });
+  can<PersonQuery>('read', 'Person', ['firstName', 'lastName'], {
+    age: { $gt: 18 }
+  })
+  ```
+
+  Intellisense and type checking for fields is also implemented! To be able to use wildcards in fields just add additional generic parameter:
+
+  ```ts
+  can<PersonQuery, 'address.*'>('read', 'Person', ['firstName', 'address.*'], {
+    age: { $gt: 18 }
+  })
+  ```
+
 # [5.1.0-next.15](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0-next.14...@casl/ability@5.1.0-next.15) (2020-12-20)
 
 
