@@ -22,16 +22,16 @@ All notable changes to this project will be documented in this file.
 
 ### Code Refactoring
 
-* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsOf` [skip release] ([df29b0d](https://github.com/stalniy/casl/commit/df29b0d7364ab1964d4d7b3b98212615beaa4952))
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsOf` ([df29b0d](https://github.com/stalniy/casl/commit/df29b0d7364ab1964d4d7b3b98212615beaa4952))
 * **ruleIndex:** `detectSubjectType` option is now responsible only for detecting subject type from objects [skip release] ([ebeaadc](https://github.com/stalniy/casl/commit/ebeaadc0974a3e1697b34b3d85d2510d65b73dbb))
-* **ruleIndex:** removes possibility to pass subject to `rulesFor` and `possibleRulesFor` [skip release] ([b8c324d](https://github.com/stalniy/casl/commit/b8c324d747f0a4fb8554931a85f1af211fe3c268))
+* **ruleIndex:** removes possibility to pass subject to `rulesFor` and `possibleRulesFor` ([b8c324d](https://github.com/stalniy/casl/commit/b8c324d747f0a4fb8554931a85f1af211fe3c268))
 * **types:** restricts which utility types are exported by library ([e98618f](https://github.com/stalniy/casl/commit/e98618f34d0a29358644b6c11ce87398ffeb2437))
 
 
 ### Features
 
 * **builder:** improves typings for AbilityBuilder [skip release] ([ebd4d17](https://github.com/stalniy/casl/commit/ebd4d17a355a2646467033118a3d6efee4321d27)), closes [#379](https://github.com/stalniy/casl/issues/379)
-* **builder:** improves typings of `AbilityBuilder['can']` and `AbilityBuilder['cannot']` methods [skip release] ([98ffbfc](https://github.com/stalniy/casl/commit/98ffbfc58fbfa810020e9b79d22d27d67563e5b7)), closes [#333](https://github.com/stalniy/casl/issues/333)
+* **builder:** improves typings of `AbilityBuilder['can']` and `AbilityBuilder['cannot']` methods ([98ffbfc](https://github.com/stalniy/casl/commit/98ffbfc58fbfa810020e9b79d22d27d67563e5b7)), closes [#333](https://github.com/stalniy/casl/issues/333)
 * **esm:** adds ESM support for latest Node.js through `exports` prop in package.json ([cac2506](https://github.com/stalniy/casl/commit/cac2506a80c18f194210c2d89108d1d094751fa4)), closes [#331](https://github.com/stalniy/casl/issues/331)
 * **extra:** adds `rulesToAST` that converts rules into [@ucast](https://github.com/ucast) AST ([55fd6ee](https://github.com/stalniy/casl/commit/55fd6eeb9e0b71bb38f1db8cfb87ba7fad391988)), closes [#350](https://github.com/stalniy/casl/issues/350)
 
@@ -50,17 +50,10 @@ All notable changes to this project will be documented in this file.
 * **rules:** improves merging logic of rules of subject and `manage all` ([6f8a13a](https://github.com/stalniy/casl/commit/6f8a13a507a2caafe7d6877c9a6f28cdd56c59bc))
 
 
-### Reverts
-
-* **builder:** reverts back `AbilityBuilder` generic parameter ([aa7b45f](https://github.com/stalniy/casl/commit/aa7b45f69c4fc7b603b8b5be3e9982d370d3398a))
-* **extra:** makes `rulesToQuery` return an object with `Object` prototype ([dcb7254](https://github.com/stalniy/casl/commit/dcb725471f125d4f7989f116ebf729dee7f53bef))
-
-
 ### BREAKING CHANGES
 
 * **types:** types `AliasesMap`, `TaggedInterface`, `AbilityTupleType`, `ToAbilityTypes`, `AnyObject` are no longer exported by the library
-* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsO
-f`. This reduces confusion around why `permittedFieldsOf` returns empty array when user can manage entity fields. So, now this logic is just explicit and clear
+* **extra:** makes `fieldsFrom` option to be mandatory for `permittedFieldsOf`. This reduces confusion around why `permittedFieldsOf` returns empty array when user can manage entity fields. So, now this logic is just explicit and clear
 
   **Before**
 
@@ -121,7 +114,7 @@ f`. This reduces confusion around why `permittedFieldsOf` returns empty array wh
   });
   ```
 
-  Also it's important to note that if you want it's no longer possible to use classes and strings as subject types interchangably together as it was before. Now, if you want to use classes, you should use them everywhere:
+  Also it's important to note that it's no longer possible to use classes and strings as subject types interchangably as it was before. Now, if you want to use classes, you should use them everywhere:
 
   **Before**
 
