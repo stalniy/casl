@@ -2,11 +2,17 @@ import { LitElement, html, css } from 'lit-element';
 import { t } from '../directives/i18n';
 import liqpayIcon from '../assets/payment-options/liqpay.svg';
 import liqpayQrCode from '../assets/payment-options/liqpay-qrcode.png';
+import monoIcon from '../assets/payment-options/monobank.png';
+import monoQrCode from '../assets/payment-options/monobank-qrcode.svg';
 
 const PAYMENT_OPTIONS = {
   liqpay: {
     icon: liqpayIcon,
     image: liqpayQrCode
+  },
+  mono: {
+    icon: monoIcon,
+    image: monoQrCode,
   }
 };
 const PAYMENT_NAMES = Object.keys(PAYMENT_OPTIONS);
