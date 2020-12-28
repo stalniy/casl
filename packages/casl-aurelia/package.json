@@ -23,7 +23,7 @@
   "scripts": {
     "prebuild": "rm -rf dist/* && npm run build.types",
     "build": "BUILD_TYPES=es5m,es6m,umd rollup -c ../../rollup.config.js -n casl.au -g aurelia-framework:au,@casl/ability:casl",
-    "build.types": "tsc",
+    "build.types": "tsc -p tsconfig.build.json",
     "lint": "eslint --ext .js,.ts src/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",

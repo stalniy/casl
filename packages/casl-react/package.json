@@ -23,7 +23,7 @@
   "scripts": {
     "prebuild": "rm -rf dist/* && npm run build.types",
     "build": "BUILD_TYPES=es5m,es6m,umd rollup -c ../../rollup.config.js -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
-    "build.types": "tsc",
+    "build.types": "tsc -p tsconfig.build.json",
     "lint": "eslint --ext .ts,.js src/ spec/",
     "test": "NODE_ENV=test jest --config ../../tools/jest.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",

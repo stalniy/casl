@@ -27,7 +27,7 @@
     "build.es6": "TARGET=es2015 BUILD=es6m npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
-    "prerollup": "ngc -p tsconfig.lib.json --target $TARGET --outDir dist/$BUILD/tmp",
+    "prerollup": "ngc -p tsconfig.build.json --target $TARGET --outDir dist/$BUILD/tmp",
     "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
