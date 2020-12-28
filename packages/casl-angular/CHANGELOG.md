@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.1](https://github.com/stalniy/casl/compare/@casl/angular@5.0.0...@casl/angular@5.0.1) (2020-12-28)
+
+
+### Bug Fixes
+
+* **dist:** adds separate `tsconfig.build.json` to every completementary project ([87742ce](https://github.com/stalniy/casl/commit/87742cec518a8a68d5fc29be2bbc9561cbc7da6c)), closes [#419](https://github.com/stalniy/casl/issues/419)
+
 # [5.0.0](https://github.com/stalniy/casl/compare/@casl/angular@4.1.6...@casl/angular@5.0.0) (2020-12-26)
 
 
