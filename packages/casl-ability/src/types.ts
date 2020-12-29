@@ -54,8 +54,8 @@ export type InferSubjects<T, IncludeTagName extends boolean = false> =
       : TagName<T>
   );
 
-export declare abstract class ForcedSubject<T> {
-  protected readonly __caslSubjectType__: T;
+export interface ForcedSubject<T> {
+  readonly __caslSubjectType__: T;
 }
 
 export type TaggedInterface<T extends string> = ForcedSubject<T> |
