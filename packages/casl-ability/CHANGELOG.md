@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.1](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0...@casl/ability@5.1.1) (2020-12-29)
+
+
+### Bug Fixes
+
+* **types:** adds return type annotation to `detectSubjectType` method ([b514146](https://github.com/stalniy/casl/commit/b514146d61cf19c52717b94a101ef448f359cffe))
+* **types:** reverts `ForcedSubject<T>` to be an interface ([f48b0a0](https://github.com/stalniy/casl/commit/f48b0a07cc33c9a643a058c58861b6d72cb3be3d))
+
 # [5.1.0](https://github.com/stalniy/casl/compare/@casl/ability@5.0.0...@casl/ability@5.1.0) (2020-12-26)
 
 
