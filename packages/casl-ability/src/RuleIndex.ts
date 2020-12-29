@@ -113,7 +113,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return this._rules;
   }
 
-  detectSubjectType(object?: Normalize<A>[1]) {
+  detectSubjectType(object?: Normalize<A>[1]): ExtractSubjectType<Normalize<A>[1]> {
     return isSubjectType(object)
       ? object
       : this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
