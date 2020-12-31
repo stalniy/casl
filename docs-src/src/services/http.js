@@ -6,7 +6,16 @@ const FORMATS = {
   raw: {
     parse: identity,
     stringify: identity,
-  }
+  },
+  txtArrayJSON: {
+    parse(value) {
+      const values = value.trim().replace(/[\r\n]+/g, ',');
+      return JSON.parse(`[${values}]`);
+    },
+    stringify() {
+      throw new Error('"pson" format is not serializable');
+    },
+  },
 };
 
 export function fetch(rawUrl, options = {}) {
@@ -29,7 +38,7 @@ export function fetch(rawUrl, options = {}) {
       headers: {
         'content-type': xhr.getResponseHeader('Content-Type'),
       },
-      body: format.parse(xhr.responseText)
+      body: format.parse(xhr.responseText),
     });
     xhr.ontimeout = xhr.onerror = reject; // eslint-disable-line no-multi-assign
     xhr.send(options.data ? format.stringify(options.data) : null);
