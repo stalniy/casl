@@ -33,3 +33,11 @@ items:
     - name: blog
       url: https://sergiy-stotskiy.medium.com
 - name: support
+
+footer:
+  - icon: github
+    url: https://github.com/stalniy/casl
+  - icon: twitter
+    url: https://twitter.com/sergiy_stotskiy
+  - icon: medium
+    url: https://sergiy-stotskiy.medium.com
