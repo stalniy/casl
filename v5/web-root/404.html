@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CASL.js</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafrex/spa-github-pages
+      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+      // ----------------------------------------------------------------------
+      // This script takes the current url and converts the path and query
+      // string into just a query string, and then redirects the browser
+      // to the new url with only a query string and hash fragment,
+      // e.g. http://www.foo.tld/one/two?a=b&c=d#qwe, becomes
+      // http://www.foo.tld/?p=/one/two&q=a=b~and~c=d#qwe
+      // Note: this 404.html file must be at least 512 bytes for it to work
+      // with Internet Explorer (it is currently > 512 bytes)
+      var latestVersion = '/v5';
+      var oldUrls = {
+        '/casl/abilities/2017/07/20/define-abilities.html': '/en/guide/define-rules',
+        '/casl/abilities/2017/07/21/check-abilities.html': '/en/guide/intro',
+        '/casl/abilities/errors/2017/07/21/error-handling.html': '/en/api/casl-ability#forbidden-error',
+        '/casl/abilities/roles/2017/07/21/roles.html': '/en/cookbook/roles-with-static-permissions',
+        '/casl/abilities/storage/2017/07/22/storing-abilities.html': '/en/cookbook/cache-rules',
+        '/casl/abilities/database/integration/2017/07/22/database-integration.html': '/en/package/casl-mongoose',
+        '/casl/abilities/2017/07/23/use-cases.html': '/en/cookbook/intro',
+        '/casl/abilities/2017/12/18/dialect-support.html': '/en/guide/install#explanation-of-different-builds'
+      };
+      var l = window.location;
+      var url = oldUrls[l.pathname] ? latestVersion + oldUrls[l.pathname] : l.pathname;
+      var basePath = /^\/v\d+\//.test(l.pathname)
+        ? l.pathname.slice(0, l.pathname.indexOf('/', 2))
+        : latestVersion;
+      var redirectUrl = basePath + '/?p=' +
+        url.slice(basePath.length).replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash;
+      console.log('matches ', l.pathname, ' as ', url, '. Uses base path ', basePath);
+      console.log('going to redirect to ', redirectUrl);
+      l.replace(redirectUrl);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
