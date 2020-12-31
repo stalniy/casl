@@ -75,7 +75,10 @@ export default class Header extends LitElement {
     return html`
       <header class="container">
         ${this._renderMenuToggler()}
-        <app-link to="home" class="logo">${t('name')}</app-link>
+        <div>
+          <app-link to="home" class="logo">${t('name')}</app-link>
+          <versions-select></versions-select>
+        </div>
         ${this._renderControls()}
       </header>
       <!-- <app-lang-picker></app-lang-picker> -->
@@ -109,6 +112,7 @@ Header.styles = [
       font-weight: bold;
       font-size: 2rem;
       font-family: "Stardos Stencil", "Helvetica Neue", Arial, sans-serif;
+      vertical-align: middle;
     }
 
     .logo:hover {
@@ -146,6 +150,11 @@ Header.styles = [
       height: auto;
     }
 
+    versions-select {
+      vertical-align: middle;
+      margin-left: -5px;
+    }
+
     @media (min-width: 768px) {
       header {
         justify-content: space-between;
@@ -159,6 +168,11 @@ Header.styles = [
         border-radius: 15px;
         border: 1px solid #e3e3e3;
       }
+
+      versions-select {
+        vertical-align: top;
+        margin-left: -10px;
+      }
     }
-  `
+  `,
 ];
