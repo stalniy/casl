@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'expect-type'
-import { Ability, AbilityClass } from '../../src'
+import { Ability, AbilityClass, AbilityOptionsOf, SubjectType } from '../../src'
 
 describe('Ability types', () => {
   type Post = { id: number }
@@ -52,5 +52,28 @@ describe('Ability types', () => {
     type Events = Parameters<AppAbility['on']>[0]
 
     expectTypeOf<'update' | 'updated'>().toEqualTypeOf<Events>()
+  })
+
+  describe('AbilityOptions', () => {
+    type AppAbilityOptions = Required<AbilityOptionsOf<AppAbility>>
+    type MongoAbilityOptions = Required<AbilityOptionsOf<Ability>>
+
+    describe('`detectSubjectType`', () => {
+      it('accepts only subject type instances', () => {
+        type AppAbilityParam = Parameters<AppAbilityOptions['detectSubjectType']>[0]
+        type MongoAbilityParam = Parameters<MongoAbilityOptions['detectSubjectType']>[0]
+
+        expectTypeOf<AppAbilityParam>().toEqualTypeOf<Post>()
+        expectTypeOf<MongoAbilityParam>().toEqualTypeOf<Record<any, any>>()
+      })
+
+      it('returns subject type', () => {
+        type AppAbilityResult = ReturnType<AppAbilityOptions['detectSubjectType']>
+        type MongoAbilityResult = ReturnType<MongoAbilityOptions['detectSubjectType']>
+
+        expectTypeOf<AppAbilityResult>().toEqualTypeOf<'Post'>()
+        expectTypeOf<MongoAbilityResult>().toEqualTypeOf<SubjectType>()
+      })
+    })
   })
 })

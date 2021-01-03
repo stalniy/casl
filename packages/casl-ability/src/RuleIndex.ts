@@ -12,7 +12,9 @@ import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity,
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
-  detectSubjectType?(subject?: Exclude<Normalize<A>[1], SubjectType>): string
+  detectSubjectType?(
+    subject: Exclude<Normalize<A>[1], SubjectType>
+  ): ExtractSubjectType<Normalize<A>[1]>
 }
 
 declare const $abilities: unique symbol;

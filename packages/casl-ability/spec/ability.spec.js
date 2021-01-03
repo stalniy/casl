@@ -99,10 +99,15 @@ describe('Ability', () => {
     it('allows to perform specified actions on target type (class)', () => {
       ability = defineAbility((can) => {
         can('read', Post)
-        can('update', Post)
+        can('update', Post, { authorId: 1 })
+      }, {
+        detectSubjectType: object => object.constructor
       })
+
       expect(ability).to.allow('read', Post)
       expect(ability).to.allow('update', Post)
+      expect(ability).to.allow('read', new Post())
+      expect(ability).to.allow('update', new Post({ authorId: 1 }))
     })
 
     it('disallows to perform unspecified action on target', () => {
