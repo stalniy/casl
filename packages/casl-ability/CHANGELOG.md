@@ -129,7 +129,7 @@ All notable changes to this project will be documented in this file.
   });
   ```
 
-  Also it's important to note that it's no longer possible to use classes and strings as subject types interchangably as it was before. Now, if you want to use classes, you should use them everywhere:
+  Also it's important to note that it's no longer possible to use classes and strings as subject types interchangeably as it was before. Now, if you want to use classes, you should use them everywhere and define custom `detectSubjecType`:
 
   **Before**
 
@@ -156,11 +156,15 @@ All notable changes to this project will be documented in this file.
   const ability = defineAbility((can) => {
     can('read', Post);
     can('update', 'Post');
+  }, {
+    detectSubjectType: object => object.constructor
   });
 
   ability.can('read', 'Post') // false, 'Post' and Post are considered different now
   ability.can('read', Post) // true
-  ability.can('update', Post) // false
+  ability.can('update', Post) // false, because `update` is configured for 'Post' string
+  ability.can('read', new Post()) // true
+  ability.can('update', new Post()) // false, because `update` is configured for 'Post' string and subject type of this object is `Post` class
   ```
 * **ruleIndex:** `rulesFor`, `possibleRulesFor`, `rulesToQuery`, `ruleToAST`, `rulesToFields` accepts only subject type now!
 
