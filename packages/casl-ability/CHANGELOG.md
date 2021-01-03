@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.2](https://github.com/stalniy/casl/compare/@casl/ability@5.1.1...@casl/ability@5.1.2) (2021-01-03)
+
+
+### Bug Fixes
+
+* **types:** change type of `detectSubjectType` return value to be of `SubjectType` ([d76b18b](https://github.com/stalniy/casl/commit/d76b18b9b142da36c659d184503a11ee2b7427cb)), closes [#430](https://github.com/stalniy/casl/issues/430)
+
 ## [5.1.1](https://github.com/stalniy/casl/compare/@casl/ability@5.1.0...@casl/ability@5.1.1) (2020-12-29)
 
 
