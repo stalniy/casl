@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.2](https://github.com/stalniy/casl/compare/@casl/mongoose@3.2.1...@casl/mongoose@3.2.2) (2021-01-05)
+
+
+### Bug Fixes
+
+* **mongoose:** simplifies types for `toMongoQuery` helper ([1615f4b](https://github.com/stalniy/casl/commit/1615f4b9ba870cddc190bdf4a504822760a21add))
+
 ## [3.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@3.2.0...@casl/mongoose@3.2.1) (2020-12-28)
 
 
