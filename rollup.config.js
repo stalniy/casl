@@ -33,7 +33,12 @@ const build = config => ({
           keep_fnames: /Ability|ForbiddenError/,
           keep_classnames: /Ability|ForbiddenError/,
           mangle: {
-            properties: { regex: /^_[a-z]/i },
+            properties: {
+              reserved: [
+                '_collection',
+              ],
+              regex: /^_[a-z]/i
+            },
           },
           compress: {
             inline: 0,
