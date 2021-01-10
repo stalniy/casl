@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.2](https://github.com/stalniy/casl/compare/@casl/angular@5.0.1...@casl/angular@5.0.2) (2021-01-10)
+
+
+### Bug Fixes
+
+* **angular:** changes ES6M distribution to use `.js` ext instead of `.mjs` ([06bd5be](https://github.com/stalniy/casl/commit/06bd5be0904b3194733c9f6fc3a3dd34cc069aba)), closes [#427](https://github.com/stalniy/casl/issues/427)
+
 ## [5.0.1](https://github.com/stalniy/casl/compare/@casl/angular@5.0.0...@casl/angular@5.0.1) (2020-12-28)
 
 
