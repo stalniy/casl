@@ -110,7 +110,7 @@ function parseOptions(overrideOptions) {
 
 export default (overrideOptions) => {
   const builds = [
-    { id: 'es6m', type: 'es6', format: 'es', ext: '.mjs' },
+    { id: 'es6m', type: 'es6', format: 'es', ext: process.env.ES6M_EXT || '.mjs' },
     { id: 'es6c', type: 'es6', format: 'cjs' },
     { id: 'es5m', type: 'es5', format: 'es' },
     { id: 'umd', type: 'es5', format: 'umd', name: overrideOptions.name },

@@ -4,11 +4,11 @@
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.mjs",
+  "es2015": "dist/es6m/index.js",
   "typings": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es6m/index.mjs",
+      "import": "./dist/es6m/index.js",
       "require": "./dist/umd/index.js"
     }
   },
@@ -28,7 +28,7 @@
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json",
     "prerollup": "ngc -p tsconfig.build.json --target $TARGET --outDir dist/$BUILD/tmp",
-    "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
+    "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false ES6M_EXT=.js rollup -c ../../rollup.config.js -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "NODE_ENV=test jest --config ./jest.config.js",
     "lint": "eslint --ext .ts,.js src/ spec/",
