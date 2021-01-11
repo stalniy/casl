@@ -122,36 +122,12 @@ All official packages has the same directory layout (except of `@casl/mongoose` 
 
 ## Webpack
 
-If you faced with the next issue during build of your app:
+Webpack runs ESM JavaScript in a strict mode. The issue is that webpack4 reads only `main` property of `package.json` and ignores everything else in `resolve.mainFields`. All casl related packages, including ucast, distribute CommonJS file in `main` property. And this results to the next issue:
 
 > ERROR in ./node_modules/@casl/ability/dist/es6m/index.mjs
 > Can't import the named export 'xxx' from non EcmaScript module (only default export is available)
 
-It means that for some reason, webpack chose the wrong version of the library. Make sure, [module.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) contains `es2015` and `module` entries:
-
-```js
-module.exports = {
-  // other configs
-  module: {
-    mainFields: ['es2015', 'module', 'main']
-  }
-}
-```
-
-Alternatively, you may relax webpack strictness regarding `.mjs` files by adding a special rule:
-
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        type: 'javascript/auto',
-        test: /\.mjs$/,
-      }
-    ]
-  }
-}
-```
+The best way to fix it is to upgrade to webpack 5 which reads `exports` property of package.json when import packages and properly and works with ESM imports. But if you stuck with webpack 4, read [this comment](https://github.com/stalniy/casl/issues/427#issuecomment-757539486) for possible workarounds.
 
 ## CSP environments
 
