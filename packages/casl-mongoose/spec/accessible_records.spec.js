@@ -1,4 +1,4 @@
-import { defineAbility } from '@casl/ability'
+import { defineAbility, ForbiddenError } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleRecordsPlugin, toMongoQuery } from '../src'
 
@@ -84,57 +84,96 @@ describe('Accessible Records Plugin', () => {
         query = Post.find().accessibleBy(ability, 'notAllowedAction')
       })
 
-      it('adds non-existing property check to conditions for other callback based cases', async () => {
-        expect(query.getQuery()).to.have.property('__forbiddenByCasl__').that.equal(1)
-      })
+      describe('when exist private `_pre` method', () => {
+        it('throws `ForbiddenError` for collection request', async () => {
+          await query.exec()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-      it('returns empty array for collection request', async () => {
-        const items = await query.exec()
+        it('throws `ForbiddenError` when `find` operation is passed to `exec`', async () => {
+          await query.exec('find')
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-        expect(items).to.be.an('array').that.is.empty
-      })
+        it('throws `ForbiddenError` when callback is passed to `exec`', async () => {
+          await wrapInPromise(cb => query.exec(cb))
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-      it('returns empty array when `find` operation is passed to `exec`', async () => {
-        const items = await query.exec('find')
+        it('throws `ForbiddenError` for item request', async () => {
+          await query.findOne().exec()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-        expect(items).to.be.an('array').that.is.empty
-      })
+        it('throws `ForbiddenError` when `findOne` operation is passed to `exec`', async () => {
+          await query.exec('findOne')
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-      it('returns empty array for collection request when callback is passed to `exec`', async () => {
-        const items = await wrapInPromise(cb => query.exec(cb))
+        it('throws `ForbiddenError` for item request when callback is passed to `exec`', async () => {
+          await wrapInPromise(cb => query.findOne().exec(cb))
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-        expect(items).to.be.an('array').that.is.empty
-      })
+        it('throws `ForbiddenError` for count request', async () => {
+          await query.count()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-      it('returns `null` for item request', async () => {
-        const item = await query.findOne().exec()
+        it('throws `ForbiddenError` for count request', async () => {
+          await query.count()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-        expect(item).to.be.null
-      })
+        it('throws `ForbiddenError` for `countDocuments` request', async () => {
+          await query.countDocuments()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
 
-      it('returns `null` when `findOne` operation is passed to `exec`', async () => {
-        const item = await query.exec('findOne')
-
-        expect(item).to.be.null
-      })
-
-      it('returns `null` for item request when callback is passed to `exec`', async () => {
-        const item = await wrapInPromise(cb => query.findOne().exec(cb))
-
-        expect(item).to.be.null
-      })
-
-      it('returns `0` for count request', async () => {
-        const count = await query.count()
-
-        expect(count).to.equal(0)
-      })
-
-      it('calls original `exec` for other cases', async () => {
-        Post.Query.prototype.exec = spy(() => Promise.resolve('original `exec` method call'))
-        await query.update({ $set: { state: 'draft' } })
-
-        expect(Post.Query.prototype.exec).to.have.been.called()
+        it('throws `ForbiddenError` for `countDocuments` request', async () => {
+          await query.estimatedDocumentCount()
+            .then(() => fail('should not execute'))
+            .catch((error) => {
+              expect(error).to.be.instanceOf(ForbiddenError)
+              expect(error.message).to.match(/cannot execute/i)
+            })
+        })
       })
     })
   })

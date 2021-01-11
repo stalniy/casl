@@ -58,7 +58,8 @@
       },
       "globals": {
         "expect": true,
-        "spy": true
+        "spy": true,
+        "fail": true
       },
       "rules": {
         "@typescript-eslint/semi": ["error", "never"],

@@ -1,33 +1,28 @@
-import { Normalize, AnyMongoAbility, Generics } from '@casl/ability';
+import { Normalize, AnyMongoAbility, Generics, ForbiddenError, getDefaultErrorMessage } from '@casl/ability';
 import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
-const DENY_CONDITION_NAME = '__forbiddenByCasl__'; // eslint-disable-line
+function failedQuery(
+  ability: AnyMongoAbility,
+  action: string,
+  modelName: string,
+  query: DocumentQuery<Document, Document>
+) {
+  const error = ForbiddenError.from(ability);
+  error.action = action;
+  error.subjectType = modelName;
+  error.setMessage(getDefaultErrorMessage(error));
 
-function returnQueryResult(this: any, methodName: string, returnValue: any, ...args: any[]) {
-  const [conditions, , callback] = args;
-
-  if (conditions[DENY_CONDITION_NAME]) {
-    return typeof callback === 'function'
-      ? callback(null, returnValue)
-      : Promise.resolve(returnValue);
-  }
-
-  if (conditions.hasOwnProperty(DENY_CONDITION_NAME)) {
-    delete conditions[DENY_CONDITION_NAME];
-  }
-
-  return this[methodName].apply(this, args);
-}
-
-function emptifyQuery(query: DocumentQuery<Document, Document>) {
-  query.where({ [DENY_CONDITION_NAME]: 1 });
-  const privateQuery: any = query;
-  const collection = Object.create(privateQuery._collection); // eslint-disable-line
-  privateQuery._collection = collection; // eslint-disable-line
-  collection.find = returnQueryResult.bind(collection, 'find', []);
-  collection.findOne = returnQueryResult.bind(collection, 'findOne', null);
-  collection.count = returnQueryResult.bind(collection, 'count', 0);
+  query.where({ __forbiddenByCasl__: 1 }); // eslint-disable-line
+  query.exec = function patchedExecByCasl(...args: any[]) {
+    const cb = typeof args[0] === 'function' ? args[0] : args[1];
+    if (typeof cb === 'function') {
+      process.nextTick(() => cb(error));
+      return;
+    }
+    // eslint-disable-next-line consistent-return
+    return Promise.reject(error);
+  } as typeof query['exec'];
 
   return query;
 }
@@ -52,11 +47,10 @@ function accessibleBy<T extends AnyMongoAbility>(
     throw new TypeError('Cannot detect model name to return accessible records');
   }
 
-  const toQuery = toMongoQuery as (...args: any[]) => ReturnType<typeof toMongoQuery>;
-  const query = toQuery(ability, modelName, action);
+  const query = toMongoQuery(ability, modelName, action);
 
   if (query === null) {
-    return emptifyQuery(this.where());
+    return failedQuery(ability, action || 'read', modelName, this.where());
   }
 
   return this instanceof Query ? this.and([query]) : this.where({ $and: [query] });
