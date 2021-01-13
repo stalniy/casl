@@ -25,7 +25,7 @@ First of all, we need to define tables for `users` and `roles`. `users` table st
 
 As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create `Ability` instance. Using `Ability` instance we can guarantee that a user can do only what his role allows him to do.
 
-> In the next Demo, we are not going to implement REST API as the main intension of this recipe is to solve [The issue](#the-issue).
+> In the next Demo, we are not going to implement REST API as the main intention of this recipe is to solve [The issue](#the-issue).
 
 ## Demo
 

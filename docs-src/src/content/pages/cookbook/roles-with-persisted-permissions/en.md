@@ -50,7 +50,7 @@ Having users, roles and permissions, we can create `Ability` instance for every 
 
 Enough theory, let's see some examples!
 
-> In the next Demo, we are not going to implement REST API as the main intension of this recipe is to solve [The issue](#the-issue).
+> In the next Demo, we are not going to implement REST API as the main intention of this recipe is to solve [The issue](#the-issue).
 
 ## Demo
 
