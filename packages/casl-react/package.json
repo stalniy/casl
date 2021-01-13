@@ -58,7 +58,7 @@
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.0.7",
     "@semantic-release/npm": "^7.0.5",
-    "@testing-library/react-hooks": "^3.2.1",
+    "@testing-library/react-hooks": "^4.0.0",
     "@types/node": "^14.0.5",
     "@types/react": "^16.9.19",
     "@typescript-eslint/eslint-plugin": "4.13.0",
