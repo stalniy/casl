@@ -16,7 +16,7 @@ CASL is written in [TypeScript] and this brings several benefits:
 
 So, let's play around with them
 
-> Minimum supported TypeScript version is **3.5.3**
+> Minimum supported TypeScript version is **3.8.3**. CASL uses [`export type` syntax](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export)
 
 ## Permissions inference
 
