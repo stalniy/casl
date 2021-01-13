@@ -64,7 +64,9 @@
     {
       "packageNames": [
         "react",
-        "react-test-renderer"
+        "react-test-renderer",
+        "@types/react",
+        "@testing-library/react-hooks"
       ],
       "groupName": "react"
     },
