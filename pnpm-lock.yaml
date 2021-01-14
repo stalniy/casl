@@ -64,7 +64,7 @@ importers:
       eslint-config-airbnb-base: 14.2.0_d16150454fdcfcb844b1c8b6bcc91ca3
       eslint-config-airbnb-typescript: 12.0.0_354a9af856523f38112cf63645716201
       eslint-plugin-import: 2.22.1_eslint@7.10.0
-      expect-type: 0.9.0
+      expect-type: 0.11.0
       jest: 26.4.2
       rollup: 2.28.2
       rollup-plugin-sourcemaps: 0.6.2_234a6cd3a876825e4a85aa8d458a02a6
@@ -92,7 +92,7 @@ importers:
       eslint-config-airbnb-base: ^14.1.0
       eslint-config-airbnb-typescript: ^12.0.0
       eslint-plugin-import: ^2.20.2
-      expect-type: ^0.9.0
+      expect-type: ^0.11.0
       jest: ^26.0.0
       rollup: ^2.10.9
       rollup-plugin-sourcemaps: ^0.6.2
@@ -4250,10 +4250,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-t3c14xXOMPa27/D4OwQVGiJEliI=
-  /expect-type/0.9.0:
+  /expect-type/0.11.0:
     dev: true
     resolution:
-      integrity: sha512-4AM+MjAB/WFsuufmkmbhHjjd6Ks3ytUWJiwRYnzRN0lI7CtekY2hg2oUM3PfYQziKfOEUVqtsR7SgW7qtu1WLA==
+      integrity: sha512-hkObxepDKhTYloH/UZoxYTT2uUzdhvDEwAi0oqdk29XEkHF8p+5ZRpX/BZES2PtGN9YgyEqutIjXfnL9iMflMw==
   /expect/26.4.2:
     dependencies:
       '@jest/types': 26.3.0
