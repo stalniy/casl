@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.2](https://github.com/stalniy/casl/compare/@casl/react@2.2.1...@casl/react@2.2.2) (2021-01-14)
+
+
+### Features
+
+* **angular:** updates angular to v11 ([#421](https://github.com/stalniy/casl/issues/421)) ([ec16bf9](https://github.com/stalniy/casl/commit/ec16bf9e93536c4ec249d2520cf336c1497615a9))
+
 ## [2.2.1](https://github.com/stalniy/casl/compare/@casl/react@2.2.0...@casl/react@2.2.1) (2020-12-28)
 
 
