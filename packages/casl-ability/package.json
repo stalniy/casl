@@ -70,7 +70,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-plugin-import": "^2.20.2",
-    "expect-type": "^0.9.0",
+    "expect-type": "^0.11.0",
     "jest": "^26.0.0",
     "rollup": "^2.10.9",
     "rollup-plugin-sourcemaps": "^0.6.2",
