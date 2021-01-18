@@ -14,7 +14,7 @@ This README file contains only basic information about the package. If you need 
 
 ## Getting Started
 
-**Note**: the best way to get started is to read [Guide][intro] in the official documentation. In this README file, you will find just basic information.
+**Note**: the best way to get started is to read the [Guide][intro] in the official documentation. In this README file, you will find just basic information.
 
 **Note**: all the examples below are written in ES6 using ES modules but CASL also has a sophisticated support for TypeScript, read [CASL TypeScript support][typescript-support] for details.
 
