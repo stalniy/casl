@@ -1,6 +1,14 @@
-import Vue, { VNode } from 'vue';
-import { SubjectType, Generics, AnyAbility, Abilities, IfString, AbilityTuple } from '@casl/ability';
-import { VueAbility } from '../types';
+import { defineComponent, ComponentCustomProperties } from 'vue';
+import {
+  SubjectType,
+  Generics,
+  AnyAbility,
+  Ability,
+  Abilities,
+  IfString,
+  AbilityTuple,
+} from '@casl/ability';
+import { useAbility } from '../useAbility';
 
 type AbilityCanProps<
   T extends Abilities,
@@ -12,14 +20,33 @@ type AbilityCanProps<
   { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
   : Else;
 
-export type AllCanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
+export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
   not?: boolean,
   passThrough?: boolean
 };
 
-export default Vue.extend<AllCanProps<VueAbility>>({
+type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }
+  ? ComponentCustomProperties['$ability']
+  : Ability;
+
+function detectSubjectProp(props: Record<string, unknown>) {
+  if ('a' in props) {
+    return 'a';
+  }
+
+  if ('this' in props) {
+    return 'this';
+  }
+
+  if ('an' in props) {
+    return 'an';
+  }
+
+  return '';
+}
+
+export const Can = defineComponent<CanProps<VueAbility>>({
   name: 'Can',
-  functional: true,
   props: {
     I: String,
     do: String,
@@ -30,30 +57,39 @@ export default Vue.extend<AllCanProps<VueAbility>>({
     not: Boolean,
     passThrough: Boolean,
     field: String
-  },
-  render(h, { props, children, parent, data }): VNode | VNode[] {
-    const mixed = props as any;
-    const [action, field] = (mixed.I || mixed.do || '').split(' ');
-    const subject = mixed.of || mixed.an || mixed.a || mixed.this || mixed.on;
+  } as any,
+  setup(props, { slots }) {
+    const $props = props as Record<string, any>;
+    let actionProp = 'do';
+    let subjectProp = 'on';
 
-    if (!action) {
-      throw new Error('[Vue Can]: neither `I` nor `do` prop was passed in <Can>');
+    if (!(actionProp in props)) {
+      actionProp = 'I';
+      subjectProp = detectSubjectProp(props);
     }
 
-    const isAllowed = parent.$can(action, subject, field);
-    const canRender = props.not ? !isAllowed : isAllowed;
-
-    if (!props.passThrough) {
-      return canRender ? children : [];
+    if (!$props[actionProp]) {
+      throw new Error('Neither `I` nor `do` prop was passed in <Can>');
     }
 
-    if (!data.scopedSlots || !data.scopedSlots.default) {
-      throw new Error('[Vue Can]: `passThrough` expects default scoped slot to be specified');
+    if (!slots.default) {
+      throw new Error('Expects to receive default slot');
     }
 
-    return data.scopedSlots.default({
-      allowed: canRender,
-      ability: parent.$ability,
-    }) as VNode;
+    const ability = useAbility<VueAbility>();
+
+    return () => {
+      const isAllowed = ability.can($props[actionProp], $props[subjectProp], $props.field);
+      const canRender = props.not ? !isAllowed : isAllowed;
+
+      if (!props.passThrough) {
+        return canRender ? slots.default!() : null;
+      }
+
+      return slots.default!({
+        allowed: canRender,
+        ability,
+      });
+    };
   }
 });

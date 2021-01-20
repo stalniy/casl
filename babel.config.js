@@ -2,7 +2,7 @@ const CONFIG = {
   default: {
     plugins: [
       ['@babel/plugin-transform-typescript', {
-        allowDeclareFields: true
+        allowDeclareFields: false
       }],
       ['@babel/plugin-proposal-class-properties', {
         loose: true

@@ -82,6 +82,14 @@
         }],
         "import/no-extraneous-dependencies": "off"
       }
+    },
+    {
+      "files": [
+        "packages/casl-vue/spec/**/*.{js,ts}"
+      ],
+      "env": {
+        "browser": true
+      }
     }
   ]
 }

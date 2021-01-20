@@ -1,58 +1,21 @@
-import { VueConstructor } from 'vue';
-import { VueAbility } from './types';
+import { App } from 'vue';
+import { AnyAbility, PureAbility } from '@casl/ability';
+import { ABILITY_TOKEN } from './useAbility';
+import { reactiveAbility } from './reactiveAbility';
 
-const WATCHERS = new WeakMap();
-
-function renderingDependencyFor(Vue: VueConstructor, ability: VueAbility) {
-  if (WATCHERS.has(ability)) {
-    return WATCHERS.get(ability);
-  }
-
-  const data = { _touch: true }; // eslint-disable-line no-underscore-dangle
-  const watcher = typeof Vue.observable === 'function'
-    ? Vue.observable(data)
-    : new Vue({ data });
-
-  ability.on('updated', () => {
-    // eslint-disable-next-line no-underscore-dangle
-    watcher._touch = !watcher._touch;
-  });
-  WATCHERS.set(ability, watcher);
-
-  return watcher;
+export interface AbilityPluginOptions {
+  useGlobalProperties?: boolean
 }
 
-function abilityDescriptor(ability?: VueAbility) {
-  if (ability) {
-    return { value: ability };
+export function abilitiesPlugin(app: App, ability: AnyAbility, options?: AbilityPluginOptions) {
+  if (!ability || !(ability instanceof PureAbility)) {
+    throw new Error('Please provide an Ability instance to abilitiesPlugin plugin');
   }
 
-  return {
-    get() {
-      throw new Error('Please provide `Ability` instance either in `abilitiesPlugin` or in ComponentOptions');
-    }
-  };
-}
+  app.provide(ABILITY_TOKEN, reactiveAbility(ability));
 
-export function abilitiesPlugin(Vue: VueConstructor, defaultAbility?: VueAbility) {
-  Object.defineProperty(Vue.prototype, '$ability', abilityDescriptor(defaultAbility));
-
-  Vue.mixin({
-    beforeCreate() {
-      const { ability, parent } = this.$options;
-      const localAbility = ability || (parent ? parent.$ability : null);
-
-      if (localAbility) {
-        Object.defineProperty(this, '$ability', { value: localAbility });
-      }
-    },
-
-    methods: {
-      $can(...args: any): boolean {
-        const dep = renderingDependencyFor(Vue, this.$ability);
-        dep._touch = dep._touch; // eslint-disable-line
-        return this.$ability.can(...args);
-      }
-    }
-  });
+  if (options && options.useGlobalProperties) {
+    app.config.globalProperties.$ability = ability;
+    app.config.globalProperties.$can = ability.can;
+  }
 }
