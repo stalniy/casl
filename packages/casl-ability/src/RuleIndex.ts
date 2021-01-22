@@ -24,10 +24,10 @@ interface WithGenerics {
   [$conditions]: any
 }
 export type Public<T extends WithGenerics> = { [K in keyof T]: T[K] };
-export type Generics<T extends WithGenerics> = {
+export interface Generics<T extends WithGenerics> {
   abilities: T[typeof $abilities],
   conditions: T[typeof $conditions]
-};
+}
 
 export type RuleOf<T extends WithGenerics> =
   Rule<Generics<T>['abilities'], Generics<T>['conditions']>;
