@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.2.0](https://github.com/stalniy/casl/compare/@casl/ability@5.1.2...@casl/ability@5.2.0) (2021-01-22)
+
+
+### Bug Fixes
+
+* **ability:** hides `Public` private type under interface ([2524431](https://github.com/stalniy/casl/commit/25244317cfa7a0d52ad7e03586fe8062037758b7)), closes [#446](https://github.com/stalniy/casl/issues/446)
+
+
+### Features
+
+* **angular:** updates angular to v11 ([#421](https://github.com/stalniy/casl/issues/421)) ([ec16bf9](https://github.com/stalniy/casl/commit/ec16bf9e93536c4ec249d2520cf336c1497615a9))
+
 ## [5.1.2](https://github.com/stalniy/casl/compare/@casl/ability@5.1.1...@casl/ability@5.1.2) (2021-01-03)
 
 
