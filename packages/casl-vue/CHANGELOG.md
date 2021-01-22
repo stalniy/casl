@@ -10,11 +10,6 @@ All notable changes to this project will be documented in this file.
 * **vue:** adds support for vue 3 ([#444](https://github.com/stalniy/casl/issues/444)) ([e742bcf](https://github.com/stalniy/casl/commit/e742bcf0d187f8283ff171ec9760431759b55910)), closes [#396](https://github.com/stalniy/casl/issues/396)
 
 
-### Features
-
-* **angular:** updates angular to v11 ([#421](https://github.com/stalniy/casl/issues/421)) ([ec16bf9](https://github.com/stalniy/casl/commit/ec16bf9e93536c4ec249d2520cf336c1497615a9))
-
-
 ### BREAKING CHANGES
 
 * **vue:** refactor to use Vue 3 what introduces a bunch of breaking changes:
