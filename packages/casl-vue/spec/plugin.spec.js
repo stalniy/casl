@@ -1,110 +1,75 @@
-import { createLocalVue } from '@vue/test-utils'
+import { createApp, defineComponent, nextTick } from 'vue'
 import { defineAbility } from '@casl/ability'
-import { abilitiesPlugin } from '../src'
+import { abilitiesPlugin, ABILITY_TOKEN, Can } from '../src'
 
 describe('Abilities plugin', () => {
   let ability
-  let Component
-  let Vue
   let vm
+  let app
+  let appRoot
+  const App = defineComponent({
+    inject: {
+      ability: { from: ABILITY_TOKEN }
+    },
+    render() {
+      return this.ability.can('read', 'Post') ? 'Yes' : 'No'
+    }
+  })
 
   beforeEach(() => {
-    Vue = createLocalVue()
-    Component = Vue.extend({
-      props: {
-        post: { default: () => new Post() }
-      },
-      render(h) {
-        return h('div', this.$can('read', this.post) ? 'Yes' : 'No')
-      }
-    })
+    ability = defineAbility(can => can('read', 'Post'))
+    appRoot = window.document.createElement('div')
   })
 
-  describe('when ability is provided', () => {
-    beforeEach(() => {
-      ability = defineAbility(can => can('read', 'Post'))
-      Vue.use(abilitiesPlugin, ability)
-      vm = new Component()
-    })
-
-    it('defines `$can` for each component', () => {
-      expect(vm.$can).to.be.a('function')
-    })
-
-    it('defines `$ability` instance for all components', () => {
-      expect(vm.$ability).to.equal(ability)
-    })
+  it('throws if `Ability` instance is not passed', () => {
+    expect(() => createApp().use(abilitiesPlugin))
+      .to.throw(/Please provide an Ability instance/)
+    expect(() => createApp().use(abilitiesPlugin, {}))
+      .to.throw(/Please provide an Ability instance/)
   })
 
-  describe('when ability is provided as option of a component', () => {
+  describe('by default', () => {
     beforeEach(() => {
-      ability = defineAbility(can => can('read', 'Post'))
-      Vue.use(abilitiesPlugin)
+      app = createApp(App)
+        .use(abilitiesPlugin, ability)
+      vm = app.mount(appRoot)
     })
 
-    it('uses that ability', () => {
-      vm = new Component({ ability })
-      spy.on(ability, 'can')
-      vm.$can('read', 'Post')
-
-      expect(vm.$ability).to.equal(ability)
-      expect(ability.can).to.have.been.called.with.exactly('read', 'Post')
+    it('does not define global `$ability` and `$can` if `useGlobalProperties` is falsy', () => {
+      expect(vm.$ability).not.to.exist
+      expect(vm.$can).not.to.exist
     })
 
-    it('passes ability down through the components tree', () => {
-      vm = new Vue({
-        ability,
-        render: h => h(Component)
-      }).$mount()
-
-      expect(vm.$children[0].$ability).to.equal(ability)
-    })
-  })
-
-  describe('when ability is not provided', () => {
-    beforeEach(() => {
-      Vue.use(abilitiesPlugin)
-      vm = new Component()
+    it('does not provide `Can` component', () => {
+      expect(app.component(Can.name)).not.to.exist
     })
 
-    it('throws exception', () => {
-      expect(() => vm.$ability).to.throw(Error)
-    })
-  })
-
-  describe('`$can`', () => {
-    beforeEach(() => {
-      ability = defineAbility(can => can('read', 'Post'))
-      Vue.use(abilitiesPlugin, ability)
-      vm = new Component().$mount()
+    it('provides `Ability` instance', () => {
+      expect(vm.ability).to.equal(ability)
     })
 
-    it('calls `can` method of underlying ability instance', () => {
-      spy.on(ability, 'can')
-      vm.$can('read', vm.post)
+    it('provides reactive `Ability` instance', async () => {
+      expect(appRoot.innerHTML).to.equal('Yes')
 
-      expect(ability.can).to.have.been.called.with.exactly('read', vm.post)
-
-      spy.restore(ability, 'can')
-    })
-
-    it('can be used inside component template', () => {
-      expect(vm.$el.textContent).to.equal('Yes')
-    })
-
-    it('updates components when ability is updated', (done) => {
       ability.update([])
+      await nextTick()
 
-      vm.$nextTick(() => {
-        expect(vm.$el.textContent).to.equal('No')
-        done()
-      })
+      expect(appRoot.innerHTML).to.equal('No')
     })
   })
 
-  class Post {
-    constructor(attrs) {
-      Object.assign(this, attrs)
-    }
-  }
+  describe('when `useGlobalProperties` is true', () => {
+    beforeEach(() => {
+      vm = createApp(App)
+        .use(abilitiesPlugin, ability, {
+          useGlobalProperties: true
+        })
+        .mount(appRoot)
+    })
+
+    it('defines `$can` and `$ability` for all components', () => {
+      expect(vm.$can).to.be.a('function')
+      expect(vm.$ability).to.equal(ability)
+    })
+  })
 })
