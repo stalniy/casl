@@ -11,11 +11,11 @@ This package allows to integrate `@casl/ability` with [Vue 3] application. So, y
 **For Vue 2.x**:
 
 ```sh
-npm install @casl/vue@1.2.1 @casl/ability
+npm install @casl/vue@1.x @casl/ability
 # or
-yarn add @casl/vue@1.2.1 @casl/ability
+yarn add @casl/vue@1.x @casl/ability
 # or
-pnpm add @casl/vue@1.2.1 @casl/ability
+pnpm add @casl/vue@1.x @casl/ability
 ```
 
 **For Vue 3.x**:
@@ -30,11 +30,11 @@ pnpm add @casl/vue @casl/ability
 
 ## Getting started
 
-This package provides a Vue plugin which defines `$ability` object and `$can` method for all components, in the same way as it was for Vue 2.x. Additionally, this package provides `useAbility` and `provideAbility` hooks that can be used with new [Vue Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html).
+This package provides a Vue plugin, several hooks for new [Vue Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) and `Can` component.
 
-### Vue plugin if you need some backward compatibility
+### The plugin
 
-`abilitiesPlugin` is left for backward compatibility with Vue 2.x and provides global `$ability` and `$can` properties. However,`Ability` instance is now a mandatory argument for plugin:
+The plugin provides reactive `Ability` instance and optionally defines `$ability` and `$can` global properties, in the same way as it was for Vue 2.x. The only difference with the previous version is that it requires `Ability` instance to be passed as a mandatory argument:
 
 ```js
 import { createApp } from 'vue';
@@ -42,18 +42,9 @@ import { abilitiesPlugin } from '@casl/vue';
 import ability from './services/ability';
 
 createApp()
-  .use(abilitiesPlugin, ability)
-  .mount('#app');
-```
-
-`Can` component is not registered by the plugin, so we can decide whether we want to use component or `v-if` + `$can` method. Also, this helps tree shaking to remove it if we decide to not use it. So, to register component globally just use global API ([read more](#can-component)):
-
-```js
-import { Can } from '@casl/vue';
-
-createApp()
-  .use(abilitiesPlugin, ability)
-  .component(Can.name, Can)
+  .use(abilitiesPlugin, ability, {
+    useGlobalProperties: true
+  })
   .mount('#app');
 ```
 
@@ -67,17 +58,15 @@ Later, we can use either `$ability` or `$can` method in any component:
 </template>
 ```
 
-`globalProperties` is the same concept as a global variables which make life more complicated because any component has access to them (i.e., implicit dependency) and we need to ensure they don't introduce name collisions by prefixing them. So, instead of exposing `$ability` and `$can` as globals, we can use [provide/inject API](https://v3.vuejs.org/guide/component-provide-inject.html) to get access to `$ability`:
+`globalProperties` is the same concept as global variables which may make life a bit more complicated because any component has access to them (i.e., implicit dependency) and we need to ensure they don't introduce name collisions by prefixing them. So, instead of exposing `$ability` and `$can` as globals, we can use [provide/inject API](https://v3.vuejs.org/guide/component-provide-inject.html) to inject `$ability`:
 
 ```js
 createApp()
-  .use(abilitiesPlugin, ability, {
-    defineGlobals: false // disable globalProperties pollution
-  })
+  .use(abilitiesPlugin, ability)
   .mount('#app');
 ```
 
-To inject an `Ability` instance, we can use `ABILITY_TOKEN`:
+And to inject an `Ability` instance in a component, we can use `ABILITY_TOKEN`:
 
 ```vue
 <template>
@@ -99,7 +88,7 @@ export default {
 </script>
 ```
 
-This is a bit more complicated but allows us to be explicit. This works especially good with new [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html):
+This is a bit more verbose but allows us to be explicit. This works especially good with new [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html):
 
 ```vue
 <template>
@@ -142,9 +131,11 @@ import { defineAbility } from '@casl/ability';
 
 export default {
   setup() {
-    provideAbility(defineAbility((can) => {
+    const myCustomAbility = defineAbility((can) => {
       // ...
-    }))
+    });
+
+    provideAbility(myCustomAbility)
   }
 }
 </script>
@@ -155,7 +146,20 @@ export default {
 
 ### Can component
 
-There is an alternative way we can check permissions in the app, by using `Can` component:
+There is an alternative way we can check permissions in the app, by using `Can` component. `Can` component is not registered by the plugin, so we can decide whether we want to use component or `v-if` + `$can` method. Also, this helps tree shaking to remove it if we decide to not use it.
+
+To register component globally, we can use global API (we can also register component locally in components that use it):
+
+```js
+import { Can, abilitiesPlugin } from '@casl/vue';
+
+createApp()
+  .use(abilitiesPlugin, ability)
+  .component(Can.name, Can) // component registration
+  .mount('#app');
+```
+
+And this is how we can use it:
 
 ```vue
 <template>
