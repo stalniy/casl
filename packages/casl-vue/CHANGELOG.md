@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2](https://github.com/stalniy/casl/compare/@casl/vue@1.2.1...@casl/vue@1.2.2) (2021-01-23)
+
+
+### Bug Fixes
+
+* **types:** rebuild with newer version of @casl/ability to ensure that no private types are exposed by d.ts generator ([415a5f8](https://github.com/stalniy/casl/commit/415a5f8e3e69afdfaece2ee0d20e14b787e20c02)), closes [#446](https://github.com/stalniy/casl/issues/446)
+
 ## [1.2.1](https://github.com/stalniy/casl/compare/@casl/vue@1.2.0...@casl/vue@1.2.1) (2020-12-28)
 
 
