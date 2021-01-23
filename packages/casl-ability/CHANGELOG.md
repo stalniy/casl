@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.1](https://github.com/stalniy/casl/compare/@casl/ability@5.2.0...@casl/ability@5.2.1) (2021-01-23)
+
+
+### Bug Fixes
+
+* **ability:** removes generic parameters from `AnyAbility` type ([5566ac8](https://github.com/stalniy/casl/commit/5566ac863aa4cb477d96da1fb83d414fade1e48f))
+
 # [5.2.0](https://github.com/stalniy/casl/compare/@casl/ability@5.1.2...@casl/ability@5.2.0) (2021-01-22)
 
 
