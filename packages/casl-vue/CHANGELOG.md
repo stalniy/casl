@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1](https://github.com/stalniy/casl/compare/@casl/vue@2.0.0...@casl/vue@2.0.1) (2021-01-23)
+
 # [2.0.0](https://github.com/stalniy/casl/compare/@casl/vue@1.2.1...@casl/vue@2.0.0) (2021-01-22)
 
 
