@@ -17,7 +17,8 @@ module.exports = {
   tagFormat: `${process.env.npm_package_name}@\${version}`,
   branches: [
     'master',
-    { name: 'next', channel: 'next', prerelease: true }
+    { name: 'next', channel: 'next', prerelease: true },
+    `${process.env.npm_package_name}@+([0-9])?(.{+([0-9]),x}).x`
   ],
   plugins: [
     ['@semantic-release/commit-analyzer', {
