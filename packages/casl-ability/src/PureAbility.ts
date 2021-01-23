@@ -4,8 +4,7 @@ import { Rule } from './Rule';
 
 export interface AbilityOptions<A extends Abilities, Conditions>
   extends RuleIndexOptions<A, Conditions> {}
-export interface AnyAbility<A extends Abilities = any, Conditions = any>
-  extends Public<PureAbility<A, Conditions>> {}
+export interface AnyAbility extends Public<PureAbility<any, any>> {}
 export interface AbilityOptionsOf<T extends AnyAbility> extends RuleIndexOptionsOf<T> {}
 export type AbilityClass<T extends AnyAbility> = new (
   rules?: RawRuleOf<T>[],

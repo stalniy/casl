@@ -1,8 +1,9 @@
-import { PureAbility, AbilityOptions, AnyAbility } from './PureAbility';
+import { PureAbility, AbilityOptions } from './PureAbility';
 import { RawRuleFrom } from './RawRule';
 import { AbilityTuple } from './types';
 import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
 import { fieldPatternMatcher } from './matchers/field';
+import { Public } from './RuleIndex';
 
 export class Ability<
   A extends AbilityTuple = AbilityTuple,
@@ -17,4 +18,4 @@ export class Ability<
   }
 }
 
-export interface AnyMongoAbility extends AnyAbility<any, MongoQuery> {}
+export interface AnyMongoAbility extends Public<Ability<any, MongoQuery>> {}
