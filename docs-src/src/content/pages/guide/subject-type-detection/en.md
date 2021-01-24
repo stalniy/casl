@@ -177,7 +177,26 @@ class Article {}
 const ability = defineAbility((can) => {
   can('read', Article);
 }, {
-  detectSubjectType: object => object ? object.constructor : null
+  detectSubjectType: object => object.constructor
+});
+
+ability.can('read', new Article()); // true
+ability.can('read', Article); // true
+```
+
+Or with `AbilityBuilder`:
+
+```js
+import { AbilityBuilder, Ability } from '@casl/ability';
+
+class Article {}
+
+const { can, build } = new AbilityBuilder(Ability);
+
+can('read', Article);
+
+const ability = build({
+  detectSubjectType: object => object.constructor
 });
 
 ability.can('read', new Article()); // true
