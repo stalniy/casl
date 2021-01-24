@@ -53,6 +53,7 @@ jobs:
         GITHUB_ACTOR: docs
       run: |
         CASL_DOCS_ROOT="./${CASL_VERSION}"
+        CURRENT_BRANCH=$(git branch --show-current)
         cat <<- EOF > $HOME/.netrc
           machine github.com
           login $GITHUB_ACTOR
@@ -68,7 +69,11 @@ jobs:
         git checkout -f gh-pages
         rm -rf $CASL_DOCS_ROOT
         mv docs-src/dist $CASL_DOCS_ROOT
-        cp $CASL_DOCS_ROOT/web-root/* $CASL_DOCS_ROOT/versions.txt .
+
+        if [ "$CURRENT_BRANCH" = "master" ]; then
+          cp $CASL_DOCS_ROOT/web-root/* $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
+        fi
+
         git add .
         git commit -m "chore(release): deploy ${CASL_DOCS_ROOT}"
         git push --set-upstream origin gh-pages
