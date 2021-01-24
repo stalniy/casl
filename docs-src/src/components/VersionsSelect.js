@@ -1,5 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
-import { getCurrentVersion, fetchVersions } from '../services/version';
+import { getCurrentVersion, fetchVersions, genCurrentUrlForVersion } from '../services/version';
+
+function updateVersion(event) {
+  window.location.href = genCurrentUrlForVersion(event.target.value);
+}
 
 export default class VersionsSelect extends LitElement {
   static cName = 'versions-select';
@@ -24,18 +28,12 @@ export default class VersionsSelect extends LitElement {
 
   render() {
     return html`
-      <select @change=${this._updateVersion}>
+      <select @change=${updateVersion}>
         ${this._versions.map(version => html`
           <option .selected=${version.number === this._currentVersion}>${version.number}</option>
         `)}
       </select>
     `;
-  }
-
-  _updateVersion(event) {
-    const selectedVersion = event.target.value;
-    window.location.href = window.location.href
-      .replace(`/${this._currentVersion}/`, `/${selectedVersion}/`);
   }
 }
 
