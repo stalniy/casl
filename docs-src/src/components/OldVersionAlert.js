@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { getCurrentVersion, fetchVersions } from '../services/version';
+import { getCurrentVersion, genCurrentUrlForVersion, fetchVersions } from '../services/version';
 import { ut } from '../directives/i18n';
 import { alertCss, mdCss } from '../styles';
 
@@ -30,7 +30,7 @@ export default class OldVersionAlert extends LitElement {
         ${ut('oldVersionAlert', {
     latestVersion: latestVersion.number,
     currentVersion: this._currentVersion,
-    latestVersionUrl: `/${latestVersion.number}`
+    latestVersionUrl: genCurrentUrlForVersion(latestVersion.number),
   })}
       </div>
     `;
@@ -44,5 +44,5 @@ OldVersionAlert.styles = [
     a {
       color: inherit;
     }
-  `
+  `,
 ];
