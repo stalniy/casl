@@ -28,7 +28,8 @@ export default css`
     font-family: "Roboto Mono", Monaco, courier, monospace;
   }
 
-  .md blockquote {
+  .md blockquote,
+  .alert {
     padding: 0.8rem 1rem;
     margin: 0;
     border-left: 4px solid #81a2be;
@@ -38,7 +39,8 @@ export default css`
     border-top-right-radius: 2px;
   }
 
-  .md blockquote:before {
+  .md blockquote:before,
+  .alert:before {
     position: absolute;
     top: 0.8rem;
     left: -12px;
@@ -54,15 +56,18 @@ export default css`
     content: 'i';
   }
 
-  .md blockquote > p:first-child {
+  .md blockquote > p:first-child,
+  .alert > p:first-child {
     margin-top: 0;
   }
 
-  .md blockquote > p:last-child {
+  .md blockquote > p:last-child,
+  .alert > p:last-child {
     margin-bottom: 0;
   }
 
-  .md blockquote + blockquote {
+  .md blockquote + blockquote,
+  .alert + .alert {
     margin-top: 20px;
   }
 

@@ -17,6 +17,7 @@ import PagesByCategories from './components/PagesByCategories';
 import AppNotification from './components/AppNotification';
 import MenuDrawer from './components/MenuDrawer';
 import VersionsSelect from './components/VersionsSelect';
+import OldVersionAlert from './components/OldVersionAlert';
 import { locale, setLocale, defaultLocale } from './services/i18n';
 import router from './services/router';
 import { setRouteMeta } from './services/meta';
@@ -40,6 +41,7 @@ const components = [
   AppNotification,
   MenuDrawer,
   VersionsSelect,
+  OldVersionAlert,
 ];
 
 export function bootstrap(selector) {
