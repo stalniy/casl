@@ -7,6 +7,11 @@ slogan: |
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Sergii Stotskyi](https://www.linkedin.com/in/sergii-stotskyi-b747ba23/)
+oldVersionAlert: !md |
+  This is documentation for CASL **%{currentVersion}**, which is no longer actively maintained.
+
+  For up-to-date documentation, see <a href="%{latestVersionUrl}"><strong>the latest version (%{latestVersion})</strong></a>
+
 menu:
   root: Menu
   api: API

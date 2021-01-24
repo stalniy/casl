@@ -1,15 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { fetch } from '../services/http';
-
-function getCurrentVersion() {
-  const pathname = window.location.pathname;
-
-  return /^\/v\d+\//.test(pathname)
-    ? pathname.slice(1, pathname.indexOf('/', 1))
-    : null;
-}
-
-const VERSION = process.env.CASL_VERSION || '';
+import { getCurrentVersion, fetchVersions } from '../services/version';
 
 export default class VersionsSelect extends LitElement {
   static cName = 'versions-select';
@@ -18,18 +8,17 @@ export default class VersionsSelect extends LitElement {
     super();
 
     this._versions = [];
-    this._currentVersion = getCurrentVersion() || VERSION;
+    this._currentVersion = getCurrentVersion();
 
     if (this._currentVersion) {
-      this._versions.push(this._currentVersion);
+      this._versions.push({ number: this._currentVersion });
     }
   }
 
   async connectedCallback() {
     super.connectedCallback();
-    const response = await fetch('/versions.txt', { format: 'txtArrayJSON' });
-
-    this._versions = response.body.slice(0).reverse();
+    const versions = await fetchVersions();
+    this._versions = versions.slice(0).reverse();
     this.requestUpdate();
   }
 

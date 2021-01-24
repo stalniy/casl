@@ -68,6 +68,7 @@ export default class Page extends I18nElement {
     return html`
       <article itemscope itemtype="http://schema.org/Article">
         <h1>${interpolate(this._page.title)}</h1>
+        <old-version-alert></old-version-alert>
         <div class="description md">${this.content(this._page, this.vars)}</div>
       </article>
       ${this.nav && this.nav.length ? this._renderNav() : ''}

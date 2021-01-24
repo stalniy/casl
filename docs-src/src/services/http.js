@@ -13,17 +13,16 @@ const FORMATS = {
       return JSON.parse(`[${values}]`);
     },
     stringify() {
-      throw new Error('"pson" format is not serializable');
+      throw new Error('"txtArrayJSON" format is not serializable');
     },
   },
 };
 
-export function fetch(rawUrl, options = {}) {
+function http(url, options = {}) {
   const format = FORMATS[options.format || 'json'];
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    const url = options.absoluteUrl ? rawUrl : config.baseUrl + rawUrl;
 
     xhr.open(options.method || 'GET', url);
 
@@ -43,4 +42,30 @@ export function fetch(rawUrl, options = {}) {
     xhr.ontimeout = xhr.onerror = reject; // eslint-disable-line no-multi-assign
     xhr.send(options.data ? format.stringify(options.data) : null);
   });
+}
+
+const inflightRequests = Object.create(null);
+export function fetch(rawUrl, options = {}) {
+  const url = options.absoluteUrl ? rawUrl : config.baseUrl + rawUrl;
+  const method = options.method || 'GET';
+
+  if (method !== 'GET') {
+    return http(url, options);
+  }
+
+  inflightRequests[url] = inflightRequests[url] || http(url, options);
+
+  if (options.cache === true) {
+    return inflightRequests[url];
+  }
+
+  return inflightRequests[url]
+    .then((response) => {
+      delete inflightRequests[url];
+      return response;
+    })
+    .catch((error) => {
+      delete inflightRequests[url];
+      return Promise.reject(error);
+    });
 }
