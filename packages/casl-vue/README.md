@@ -50,7 +50,7 @@ createApp()
 
 Later, we can use either `$ability` or `$can` method in any component:
 
-```vue
+```html
 <template>
   <div v-if="$can('create', 'Post')">
     <a @click="createPost">Add Post</a>
@@ -68,7 +68,7 @@ createApp()
 
 And to inject an `Ability` instance in a component, we can use `ABILITY_TOKEN`:
 
-```vue
+```html
 <template>
   <div>
     <div v-if="$ability.can('create', 'Post')">
@@ -90,7 +90,7 @@ export default {
 
 This is a bit more verbose but allows us to be explicit. This works especially good with new [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html):
 
-```vue
+```html
 <template>
   <div>
     <div v-if="can('create', 'Post')">
@@ -120,7 +120,7 @@ export default {
 
 Very rarely, we may need to provide a different `Ability` instance for a sub-tree of components, and to do this we can use `provideAbility` hook:
 
-```vue
+```html
 <template>
   <!-- a template -->
 </template>
@@ -161,7 +161,7 @@ createApp()
 
 And this is how we can use it:
 
-```vue
+```html
 <template>
   <Can I="create" a="Post">
     <a @click="createPost">Add Post</a>
@@ -175,7 +175,7 @@ It accepts default slot and 5 properties:
 * `on` - checked subject. Has `a`, `an`, `this` aliases
 * `field` - checked field
 
-  ```vue
+  ```html
   <template>
     <Can I="read" :this="post" field="title">
       Yes, you can do this! ;)
@@ -185,7 +185,7 @@ It accepts default slot and 5 properties:
 
 * `not` - inverts ability check and show UI if user cannot do some action:
 
-  ```vue
+  ```html
   <template>
     <Can not I="create" a="Post">
       You are not allowed to create a post
@@ -195,7 +195,7 @@ It accepts default slot and 5 properties:
 
 * `passThrough` - renders children in spite of what `ability.can` returns. This is useful for creating custom components based on `Can`. For example, if you need to disable button based on user permissions:
 
-  ```vue
+  ```html
   <template>
     <div>
       <Can I="delete" a="Post" passThrough v-slot="{ allowed }">
@@ -333,7 +333,7 @@ export const TOKEN = ABILITY_TOKEN as InjectionKey<AppAbility>;
 
 and now, when we inject `AppAbility` instance, we will have the correct types:
 
-```vue
+```html
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { TOKEN } from './AppAbility';
