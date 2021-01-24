@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
-import { getCurrentVersion, genCurrentUrlForVersion, fetchVersions } from '../services/version';
 import { ut } from '../directives/i18n';
 import { alertCss, mdCss } from '../styles';
+import { getCurrentVersion, genCurrentUrlForVersion, fetchVersions } from '../services/version';
+import router from '../services/router';
 
 export default class OldVersionAlert extends LitElement {
   static cName = 'old-version-alert';
@@ -14,8 +15,17 @@ export default class OldVersionAlert extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+    this._unwatchRouter = router.observe(() => this.requestUpdate());
     this._versions = await fetchVersions();
     this.requestUpdate();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    if (this._unwatchRouter) {
+      this._unwatchRouter();
+    }
   }
 
   render() {
