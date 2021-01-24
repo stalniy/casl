@@ -202,3 +202,28 @@ const ability = build({
 ability.can('read', new Article()); // true
 ability.can('read', Article); // true
 ```
+
+If you want to use classes in TypeScript, you need to cast `object.constructor` (read [this TypeScript issue](https://github.com/microsoft/TypeScript/issues/3841) for details):
+
+```ts
+import { AbilityBuilder, Ability, ExtractSubjectType, AbilityClass } from '@casl/ability';
+
+class Article {}
+
+type Actions = 'read' | 'update';
+type Subjects = Article | typeof Article;
+type AppAbility = Ability<[Actions, Subjects]>;
+const AppAbility = Ability as AbilityClass<AppAbility>;
+
+const { can, build } = new AbilityBuilder(AppAbility);
+
+can('read', Article);
+
+const ability = build({
+  // if you don't use permission specific types, you can cast return value to `SubjectType` type
+  detectSubjectType: object => object.constructor as ExtractSubjectType<Subjects>
+});
+
+ability.can('read', new Article()); // true
+ability.can('read', Article); // true
+```
