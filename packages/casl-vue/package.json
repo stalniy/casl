@@ -43,7 +43,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.1.0",
-    "vue": "^2.0.0"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
