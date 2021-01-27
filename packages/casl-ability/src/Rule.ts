@@ -12,7 +12,7 @@ import { RawRule, RawRuleFrom } from './RawRule';
 
 type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
 
-function validate<A extends Abilities, C>(rule: RawRuleFrom<A, C>, options: RuleOptions<A, C>) {
+function validate(rule: RawRuleFrom<Abilities, any>, options: RuleOptions<any>) {
   if (Array.isArray(rule.fields) && !rule.fields.length) {
     throw new Error('`rawRule.fields` cannot be an empty array. https://bit.ly/390miLa');
   }
@@ -26,17 +26,16 @@ function validate<A extends Abilities, C>(rule: RawRuleFrom<A, C>, options: Rule
   }
 }
 
-type ResolveAction<T> = (action: T | T[]) => T | T[];
-export interface RuleOptions<A extends Abilities, Conditions> {
+export interface RuleOptions<Conditions> {
   conditionsMatcher?: ConditionsMatcher<Conditions>
   fieldMatcher?: FieldMatcher
-  resolveAction: ResolveAction<Normalize<A>[0]>
+  resolveAction(action: string | string[]): string | string[]
 }
 
 export class Rule<A extends Abilities, C> {
   private _matchConditions: MatchConditions | undefined;
   private _matchField: MatchField<string> | undefined;
-  private readonly _options!: RuleOptions<A, C>;
+  private readonly _options!: RuleOptions<C>;
   public readonly action!: Tuple<A>[0] | Tuple<A>[0][];
   public readonly subject!: Tuple<A>[1] | Tuple<A>[1][];
   public readonly inverted!: boolean;
@@ -47,7 +46,7 @@ export class Rule<A extends Abilities, C> {
 
   constructor(
     rule: RawRule<ToAbilityTypes<A>, C>,
-    options: RuleOptions<A, C>,
+    options: RuleOptions<C>,
     priority: number = 0
   ) {
     validate(rule, options);
@@ -85,7 +84,7 @@ export class Rule<A extends Abilities, C> {
     }
 
     const matches = this._conditionsMatcher();
-    return matches(object as object);
+    return matches(object as Record<string, unknown>);
   }
 
   matchesField(field: string | undefined): boolean {

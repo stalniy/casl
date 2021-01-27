@@ -11,7 +11,7 @@ import {
 import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType } from './utils';
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
-export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<A, C>> {
+export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
   detectSubjectType?(
     subject: Exclude<Normalize<A>[1], SubjectType>
   ): ExtractSubjectType<Normalize<A>[1]>
@@ -92,7 +92,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
   private _events: Events<this> = new Map();
   private _indexedRules!: IndexTree<A, Conditions>;
   private _rules!: RawRuleFrom<A, Conditions>[];
-  private readonly _ruleOptions!: RuleOptions<A, Conditions>;
+  private readonly _ruleOptions!: RuleOptions<Conditions>;
   private readonly _detectSubjectType!: Required<RuleIndexOptions<A, Conditions>>['detectSubjectType'];
   readonly [$abilities]!: A;
   readonly [$conditions]!: Conditions;

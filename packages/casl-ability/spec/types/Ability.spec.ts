@@ -1,5 +1,11 @@
 import { expectTypeOf } from 'expect-type'
-import { Ability, AbilityClass, AbilityOptionsOf, SubjectType } from '../../src'
+import {
+  Ability,
+  AbilityClass,
+  AbilityOptionsOf,
+  SubjectType,
+  createAliasResolver
+} from '../../src'
 
 describe('Ability types', () => {
   type Post = { id: number }
@@ -74,6 +80,15 @@ describe('Ability types', () => {
         expectTypeOf<AppAbilityResult>().toEqualTypeOf<'Post'>()
         expectTypeOf<MongoAbilityResult>().toEqualTypeOf<SubjectType>()
       })
+    })
+
+    describe('`resolveAction`', () => {
+      const resolveAction = createAliasResolver({
+        modify: ['delete', 'update']
+      })
+
+      expectTypeOf<typeof resolveAction>()
+        .toMatchTypeOf<AbilityOptionsOf<AppAbility>['resolveAction']>()
     })
   })
 })
