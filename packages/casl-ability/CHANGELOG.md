@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.2](https://github.com/stalniy/casl/compare/@casl/ability@5.2.1...@casl/ability@5.2.2) (2021-01-27)
+
+
+### Bug Fixes
+
+* **types:** relaxes types for `resolveAction` `AbilityOptions` property ([2af2927](https://github.com/stalniy/casl/commit/2af2927adc967ed0f4fa1ed1daa2eefe61d8d9ca))
+
 ## [5.2.1](https://github.com/stalniy/casl/compare/@casl/ability@5.2.0...@casl/ability@5.2.1) (2021-01-23)
 
 
