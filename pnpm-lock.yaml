@@ -14,7 +14,6 @@ importers:
       eslint-config-airbnb-base: 14.2.1_d4477e7d44043beb7952cd76bd313965
       eslint-config-airbnb-typescript: 12.0.0_1d9459b652b508c659e218a6d89baf4d
       eslint-plugin-import: 2.22.1_eslint@7.18.0
-      husky: 5.0.9
       lint-staged: 10.5.3
       rollup: 2.37.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.37.1
@@ -35,7 +34,6 @@ importers:
       eslint-config-airbnb-base: ^14.1.0
       eslint-config-airbnb-typescript: ^12.0.0
       eslint-plugin-import: ^2.20.2
-      husky: ^5.0.0
       lint-staged: ^10.0.10
       rollup: ^2.10.9
       rollup-plugin-sourcemaps: ^0.6.2
@@ -1668,8 +1666,8 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
       '@types/istanbul-reports': 3.0.0
-      '@types/node': 14.14.22
-      '@types/yargs': 15.0.12
+      '@types/node': 14.14.25
+      '@types/yargs': 15.0.13
       chalk: 4.1.0
     dev: true
     engines:
@@ -2225,6 +2223,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
+  /@types/node/14.14.25:
+    dev: true
+    resolution:
+      integrity: sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ==
   /@types/normalize-package-data/2.4.0:
     dev: true
     resolution:
@@ -2278,6 +2280,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-f+fD/fQAo3BCbCDlrUpznF1A5Zp9rB0noS5vnoormHSIPFKL0Z2DcUJ3Gxp5ytH4uLRNxy7AwYUC9exZzqGMAw==
+  /@types/yargs/15.0.13:
+    dependencies:
+      '@types/yargs-parser': 20.2.0
+    dev: true
+    resolution:
+      integrity: sha512-kQ5JNTrbDv3Rp5X2n/iUu37IJBDU2gsZ5R/g1/KHOOEc5IKfUFjXT6DENPGduh08I/pamwtEq4oul7gUqKTQDQ==
   /@typescript-eslint/eslint-plugin/4.15.0_eslint@7.18.0+typescript@4.0.5:
     dependencies:
       '@typescript-eslint/experimental-utils': 4.15.0_eslint@7.18.0+typescript@4.0.5
@@ -4864,13 +4872,6 @@ packages:
       node: '>=10.17.0'
     resolution:
       integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
-  /husky/5.0.9:
-    dev: true
-    engines:
-      node: '>= 10'
-    hasBin: true
-    resolution:
-      integrity: sha512-0SjcaY21a+IRdx7p7r/X33Vc09UR2m8SbP8yfkhUX2/jAmwcz+GR7i9jXkp2pP3GfX23JhMkVP6SWwXB18uXtg==
   /iconv-lite/0.4.24:
     dependencies:
       safer-buffer: 2.1.2

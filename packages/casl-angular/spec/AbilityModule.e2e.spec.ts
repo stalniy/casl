@@ -21,13 +21,13 @@ describe('Ability pipes', () => {
     it('provides deprecated impure `can` pipe', () => {
       configureTestingModule([AppWithCanPipe])
       fixture = createComponent(AppWithCanPipe)
-      expect(fixture.nativeElement.textContent).to.equal('false')
+      expect(fixture.nativeElement.textContent).toBe('false')
     })
 
     it('provides impure `able` pipe', () => {
       configureTestingModule([AppWithAblePipe])
       fixture = createComponent(AppWithAblePipe)
-      expect(fixture.nativeElement.textContent).to.equal('false')
+      expect(fixture.nativeElement.textContent).toBe('false')
     })
   })
 
@@ -55,7 +55,7 @@ describe('Ability pipes', () => {
       ability.update([{ subject: Post.name, action: 'read' }])
       fixture.detectChanges()
 
-      expect(fixture.nativeElement.textContent).to.equal('true')
+      expect(fixture.nativeElement.textContent).toBe('true')
     })
 
     describe('when abilities depends on object attribute', () => {
@@ -66,7 +66,7 @@ describe('Ability pipes', () => {
       })
 
       it('returns `true` if object attribute equals to specified value', () => {
-        expect(fixture.nativeElement.textContent).to.equal('true')
+        expect(fixture.nativeElement.textContent).toBe('true')
       })
 
       if (App !== AppWithAblePurePipe) {
@@ -74,7 +74,7 @@ describe('Ability pipes', () => {
           post.author = 'not me'
           fixture.detectChanges()
 
-          expect(fixture.nativeElement.textContent).to.equal('false')
+          expect(fixture.nativeElement.textContent).toBe('false')
         })
       }
     })

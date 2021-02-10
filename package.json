@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "build.docs": "cd docs-src && NODE_ENV=production npm run build",
-    "coverage.submit": "codecov"
+    "coverage.submit": "codecov",
+    "postinstall": "npx husky@^5.0.0 install ./git-hooks"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -20,7 +21,6 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-plugin-import": "^2.20.2",
-    "husky": "^5.0.0",
     "lint-staged": "^10.0.10",
     "rollup": "^2.10.9",
     "rollup-plugin-sourcemaps": "^0.6.2",
@@ -31,15 +31,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/stalniy/casl.git"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,ts}": [
-      "eslint --fix --ext .js,.ts"
-    ]
   }
 }

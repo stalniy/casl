@@ -2,10 +2,10 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing'
-import { TestBed } from '@angular/core/testing'
-import { Component } from '@angular/core'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { Component, Type } from '@angular/core'
 import { Ability, PureAbility } from '@casl/ability'
-import { AbilityModule } from '../dist/umd'
+import { AbilityModule } from '../src/public'
 
 TestBed.initTestEnvironment(
   BrowserDynamicTestingModule,
@@ -13,16 +13,15 @@ TestBed.initTestEnvironment(
 )
 
 let appIndex = 0
-export const createApp = template => class App {
-  static get annotations() {
-    return [
-      new Component({
-        selector: `app-ability-${++appIndex}`,
-        template,
-        inputs: ['post']
-      })
-    ]
-  }
+export const createApp = (template) => {
+  @Component({
+    selector: `app-ability-${++appIndex}`,
+    template,
+    inputs: ['post']
+  })
+  class App {}
+
+  return App
 }
 
 export class Post {
@@ -31,8 +30,11 @@ export class Post {
   }
 }
 
-export function createComponent(Type, inputs) {
-  const cmp = TestBed.createComponent(Type)
+export function createComponent<T extends Type<unknown>>(
+  ComponentType: T,
+  inputs?: Record<string, unknown>
+): ComponentFixture<InstanceType<T>> {
+  const cmp = TestBed.createComponent(ComponentType) as ComponentFixture<InstanceType<T>>
   Object.assign(cmp.componentInstance, inputs)
   cmp.detectChanges()
 
