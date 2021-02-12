@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@4.0.0...@casl/mongoose@4.0.1) (2021-02-12)
+
+
+### Bug Fixes
+
+* **changelog:** removes unrelated entries from changelog ([5437622](https://github.com/stalniy/casl/commit/543762224e329cda02f786c585998217581c2f3b))
+
 # [4.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@3.2.2...@casl/mongoose@4.0.0) (2021-02-12)
 
 ### Features
