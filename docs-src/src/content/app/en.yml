@@ -69,10 +69,10 @@ features:
     description: Written in TypeScript, that makes your apps safer and developer experience more enjoyable
   treeshakable:
     title: Tree shakable
-    description: The core is only 4KB mingzipped and can be even smaller!
+    description: The core is only 6KB mingzipped and can be even smaller!
   declarative:
-    title: Declarative
-    description: Allows to serialize and share permissions between UI, API and microservices
+    title: Serializable
+    description: Allows to share permissions between UI, API and microservices
 
 search:
   placeholder: Search
