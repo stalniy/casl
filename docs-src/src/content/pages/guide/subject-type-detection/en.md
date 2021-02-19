@@ -30,9 +30,13 @@ What do you think the last line returns? It returns `false`, but why? Because `a
 
 ## How does CASL detect subject type?
 
-If you pass an object as the 2nd argument in `ability.can`, CASL gets `object.constructor.modelName` as subject type and if this is not available, it fallbacks to `object.constructor.name`.
+The first thing to clarify is "what is subject type?". A subject type is basically a type of an object, in OOP class represents instance metadata and represents object metadata information.
 
-In the example above, `article` variable contains a plain object, its constructor doesn't have `modelName`, so CASL gets its `constructor.name` as a subject type. So, in that case subject type is `Object`. There are no rules for `Object` subject type, that's why we got `false` when tried to check whether it's possible to read that object. So, how can we fix that example? The easiest way is to use special class for our `Article` model:
+> Starting from v5, CASL perceives string, function and class as a subject type. Any other type is perceived as a subject, for which CASL needs to detect subject type.
+
+When we pass an object as the 2nd argument in `ability.can`, CASL gets `object.constructor.modelName` as subject type, and fallbacks to `object.constructor.name` if `modelName` is not specified.
+
+In the example above, `article` variable contains a plain object, its constructor doesn't have `modelName`, so CASL gets its `constructor.name` as a subject type. Eventually, we get `Object`. There are no rules for `Object` subject type, that's why we got `false` when tried to check whether it's possible to read that object. So, how can we fix that example? The easiest way is to use a special class for our `Article` model:
 
 ```js
 import ability from './defineAbility';
@@ -43,12 +47,10 @@ const article = new Article();
 ability.can('read', article); // true
 ```
 
-> Function and class names are mangled if you use [terser] or [uglifyjs] to minify your app. That's why CASL checks `constructor.modelName` which you can define on a class to define subject type.
-
 [terser]: https://terser.org/
 [uglifyjs]: http://lisperator.net/uglifyjs/
 
-The example above won't work in production if we use minimization. To fix it, we need to set static property on `Article` class:
+**The example above won't work** in production if we use minimization. To fix it, we need to set a static property on `Article` class:
 
 ```js
 import ability from './defineAbility';
@@ -139,16 +141,14 @@ const { can, build } = new AbilityBuilder(Ability);
 can('read', 'Article');
 
 const ability = build({
-  detectSubjectType: object => object ? object.__typename : 'all'
+  detectSubjectType: object => object.__typename
 });
 
 const article = { __typename: 'Article' };
 ability.can('read', article); // true
 ```
 
-Custom detection function must return `string` and handle the next cases:
-* when `subject` is `undefined`
-* when subject is an `object`
+Custom detection function must return a subject type (either string, class or function).
 
 The same can be achieved using `defineAbility` function:
 
@@ -158,12 +158,14 @@ import { defineAbility } from '@casl/ability';
 const ability = defineAbility((can) => {
   can('read', 'Article');
 }, {
-  detectSubjectType: object => object ? object.__typename : 'all'
+  detectSubjectType: object => object.__typename
 });
 
 const article = { __typename: 'Article' };
 ability.can('read', article); // true
 ```
+
+It's important to note that `detectSubjectType` is responsible for mapping objects to their corresponding types. When we pass a class, a function or a string in `ability.can`, they are automatically perceived as a subject type and `detectSubjectType` is not called for them.
 
 ### Use classes as subject types
 
