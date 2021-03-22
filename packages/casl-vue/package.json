@@ -56,7 +56,7 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "4.18.0",
+    "@typescript-eslint/eslint-plugin": "4.19.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
     "eslint": "^7.1.0",
