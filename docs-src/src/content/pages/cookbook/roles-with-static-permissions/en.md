@@ -123,7 +123,7 @@ import { User } from '../models/User';
 
 // abilities definition from previous example
 
-type DefinePermissions = (user: User, builder: AbilityBuilder<typeof AppAbility>) => void;
+type DefinePermissions = (user: User, builder: AbilityBuilder<AppAbility>) => void;
 type Roles = 'member' | 'admin';
 
 const rolePermissions: Record<Roles, DefinePermissions> = {
