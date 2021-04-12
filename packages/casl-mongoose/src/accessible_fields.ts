@@ -1,6 +1,6 @@
 import { wrapArray, Normalize, AnyMongoAbility, Generics } from '@casl/ability';
 import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
-import { Schema, Model, Document } from 'mongoose';
+import type { Schema, Model, Document } from 'mongoose';
 
 export type AccessibleFieldsOptions =
   {

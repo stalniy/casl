@@ -1,5 +1,6 @@
 import { Normalize, AnyMongoAbility, Generics, ForbiddenError, getDefaultErrorMessage } from '@casl/ability';
-import { Schema, DocumentQuery, Query, Model, Document } from 'mongoose';
+import type { Schema, DocumentQuery, Model, Document } from 'mongoose';
+import mongoose from 'mongoose';
 import { toMongoQuery } from './mongo';
 
 function failedQuery(
@@ -53,7 +54,7 @@ function accessibleBy<T extends AnyMongoAbility>(
     return failedQuery(ability, action || 'read', modelName, this.where());
   }
 
-  return this instanceof Query ? this.and([query]) : this.where({ $and: [query] });
+  return this instanceof mongoose.Query ? this.and([query]) : this.where({ $and: [query] });
 }
 
 export interface AccessibleRecordModel<T extends Document, K = {}> extends Model<T, K & {
