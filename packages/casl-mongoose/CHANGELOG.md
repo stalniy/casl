@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@4.0.1...@casl/mongoose@4.0.2) (2021-04-12)
+
+
+### Bug Fixes
+
+* **mongoose:** uses `mongoose` as commonjs module ([c98506b](https://github.com/stalniy/casl/commit/c98506b77ebd6b3068040f512012e12891749b87))
+
 ## [4.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@4.0.0...@casl/mongoose@4.0.1) (2021-02-12)
 
 
