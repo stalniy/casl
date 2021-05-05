@@ -39,7 +39,8 @@
     "object-curly-newline": ["error", {
       "ObjectPattern": "never"
     }],
-    "func-names": "off"
+    "func-names": "off",
+    "class-methods-use-this": "warn"
   },
   "overrides": [
     {
@@ -69,7 +70,6 @@
         "browser": true
       },
       "rules": {
-        "class-methods-use-this": ["error", { "exceptMethods": ["render"] }],
         "import/no-unresolved": ["error", {
           "ignore": ["\\.pages$", "\\.i18n$", "/assets/"]
         }],

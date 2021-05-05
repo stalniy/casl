@@ -5,10 +5,9 @@
   "scripts": {
     "build.docs": "cd docs-src && NODE_ENV=production npm run build",
     "coverage.submit": "codecov",
-    "postinstall": "dx install"
+    "prepare": "cd packages/dx && bin/dx.js install"
   },
   "devDependencies": {
-    "@casl/dx": "workspace:^1.0.0",
     "codecov": "^3.0.0"
   },
   "repository": {
