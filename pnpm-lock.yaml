@@ -10,7 +10,7 @@ importers:
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@typescript-eslint/eslint-plugin': 4.22.1
       codecov: ^3.0.0
       eslint: ^7.1.0
@@ -30,7 +30,7 @@ importers:
       '@babel/plugin-transform-typescript': 7.13.0_@babel+core@7.13.16
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@typescript-eslint/eslint-plugin': 4.22.1_eslint@7.25.0+typescript@4.0.7
       codecov: 3.8.1
       eslint: 7.25.0
@@ -52,7 +52,7 @@ importers:
       '@babel/plugin-transform-typescript': ^7.10.0
       '@babel/preset-env': ^7.8.4
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@types/jest': ^26.0.15
@@ -82,7 +82,7 @@ importers:
       '@babel/plugin-transform-typescript': 7.13.0_@babel+core@7.13.16
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.4.2
       '@semantic-release/git': 9.0.0_semantic-release@17.4.2
       '@types/jest': 26.0.22
@@ -119,7 +119,7 @@ importers:
       '@babel/preset-env': ^7.8.4
       '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@typescript-eslint/eslint-plugin': 4.22.1
@@ -154,7 +154,7 @@ importers:
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@casl/ability': link:../casl-ability
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.3.2
       '@semantic-release/git': 9.0.0_semantic-release@17.3.2
       '@typescript-eslint/eslint-plugin': 4.22.1_eslint@7.25.0+typescript@4.0.7
@@ -184,7 +184,7 @@ importers:
       '@babel/preset-env': ^7.8.4
       '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@typescript-eslint/eslint-plugin': 4.22.1
@@ -215,7 +215,7 @@ importers:
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@casl/ability': link:../casl-ability
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.3.2
       '@semantic-release/git': 9.0.0_semantic-release@17.3.2
       '@typescript-eslint/eslint-plugin': 4.22.1_eslint@7.25.0+typescript@4.0.7
@@ -248,7 +248,7 @@ importers:
       '@babel/preset-env': ^7.8.4
       '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@types/mongoose': ^5.7.0
@@ -275,7 +275,7 @@ importers:
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@casl/ability': link:../casl-ability
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.3.2
       '@semantic-release/git': 9.0.0_semantic-release@17.3.2
       '@types/mongoose': 5.10.5
@@ -304,7 +304,7 @@ importers:
       '@babel/preset-env': ^7.8.4
       '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@testing-library/react-hooks': ^4.0.1
@@ -334,7 +334,7 @@ importers:
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@casl/ability': link:../casl-ability
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.3.2
       '@semantic-release/git': 9.0.0_semantic-release@17.3.2
       '@testing-library/react-hooks': 4.0.1_509016fd322278d497c1e58f6164ce1d
@@ -366,7 +366,7 @@ importers:
       '@babel/preset-env': ^7.8.4
       '@casl/ability': ^5.1.0
       '@rollup/plugin-babel': ^5.0.2
-      '@rollup/plugin-node-resolve': ^11.0.0
+      '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
       '@typescript-eslint/eslint-plugin': 4.22.1
@@ -392,7 +392,7 @@ importers:
       '@babel/preset-env': 7.13.15_@babel+core@7.13.16
       '@casl/ability': link:../casl-ability
       '@rollup/plugin-babel': 5.3.0_e09c366a9a3fa078d0105d61f2408f67
-      '@rollup/plugin-node-resolve': 11.2.1_rollup@2.45.2
+      '@rollup/plugin-node-resolve': 13.0.0_rollup@2.45.2
       '@semantic-release/changelog': 5.0.1_semantic-release@17.3.2
       '@semantic-release/git': 9.0.0_semantic-release@17.3.2
       '@typescript-eslint/eslint-plugin': 4.22.1_eslint@7.25.0+typescript@4.0.7
@@ -1892,11 +1892,11 @@ packages:
       rollup: 2.45.2
     dev: true
 
-  /@rollup/plugin-node-resolve/11.2.1_rollup@2.45.2:
-    resolution: {integrity: sha512-yc2n43jcqVyGE2sqV5/YCmocy9ArjVAP/BeXyTtADTBBX6V0e5UMqwO8CdQ0kzjb6zu5P1qMzsScCMRvE9OlVg==}
+  /@rollup/plugin-node-resolve/13.0.0_rollup@2.45.2:
+    resolution: {integrity: sha512-41X411HJ3oikIDivT5OKe9EZ6ud6DXudtfNrGbC4nniaxx2esiWjkLOzgnZsWq1IM8YIeL2rzRGLZLBjlhnZtQ==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0
+      rollup: ^2.42.0
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.45.2
       '@types/resolve': 1.17.1

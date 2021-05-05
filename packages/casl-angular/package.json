@@ -68,7 +68,7 @@
     "@babel/preset-env": "^7.8.4",
     "@casl/ability": "^5.1.0",
     "@rollup/plugin-babel": "^5.0.2",
-    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "4.22.1",
