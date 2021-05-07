@@ -9,10 +9,10 @@ type ModelDelegates = {
     : never
 };
 
-export type WhereInput<T> = T extends Model<Record<string, unknown>, infer Kind>
-  // @ts-expect-error because prisma client is not generated at this stage
-  ? Exclude<Parameters<ModelDelegates[Kind]['findFirst']>[0], undefined | null>['where']
-  : never;
+type Present<T> = Exclude<T, null | undefined>;
+
+export type WhereInput<TModelName extends Prisma.ModelName> =
+  Present<Present<Parameters<ModelDelegates[TModelName]['findFirst']>[0]>['where']>;
 
 export type Model<T extends Record<string, unknown>, TName extends string> = T & { kind?: TName };
 
