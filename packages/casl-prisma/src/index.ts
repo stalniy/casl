@@ -1,4 +1,2 @@
-import { createPrismaInterpreter } from './prisma/interpreter';
-import * as operators from './prisma/operators';
-
-export const interpreter = createPrismaInterpreter(operators);
+export { prismaQuery } from './prisma/PrismaQuery';
+export type { WhereInput, Model } from './prisma/PrismaQuery';
