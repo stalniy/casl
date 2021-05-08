@@ -32,6 +32,7 @@ export type {
   EventHandler,
   Unsubscribe
 } from './RuleIndex';
+export * as hkt from './hkt';
 export {
   setSubjectType as subject,
   detectSubjectType,

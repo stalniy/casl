@@ -14,8 +14,6 @@ type Present<T> = Exclude<T, null | undefined>;
 export type WhereInput<TModelName extends Prisma.ModelName> =
   Present<Present<Parameters<ModelDelegates[TModelName]['findFirst']>[0]>['where']>;
 
-export type Model<T extends Record<string, unknown>, TName extends string> = T & { kind?: TName };
-
 export const parser = new PrismaQueryParser();
 
 export const prismaQuery = createTranslatorFactory(
