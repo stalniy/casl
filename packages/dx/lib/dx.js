@@ -12,18 +12,13 @@ const COMMANDS = {
       args: ['install', fsPath.join(projectRoot, 'git-hooks')],
     };
   },
-  eslint(cliArgs) {
+  eslint() {
     const args = [];
-
-    if (!cliArgs.includes('--config')) {
-      args.push('--config', configPath('.eslintrc'));
-    }
-
     args.push('--parser-options', '{"project": "./tsconfig.json"}');
     args.push('--ext', '.js,.ts');
 
     return {
-      args,
+      args
     };
   },
   'semantic-release': function () {

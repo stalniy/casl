@@ -39,11 +39,11 @@ jobs:
     - name: Install dependencies
       run: pnpm install
     - name: Build
-      run: pnpm recursive run build
+      run: pnpm run -r build
     - name: lint & test
       run: |
-        pnpm recursive run lint
-        WITH_COVERAGE=1 pnpm recursive run test
+        pnpm run -r lint
+        WITH_COVERAGE=1 pnpm run -r test
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
