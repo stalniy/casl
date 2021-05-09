@@ -12,7 +12,8 @@ import {
   lt,
   lte,
   gt,
-  gte
+  gte,
+  compare
 } from '@ucast/js';
 
 type StringInterpreter = JsInterpreter<FieldCondition<string>, Record<string, string>>;
@@ -80,6 +81,16 @@ const isNot: JsInterpreter<FieldCondition<Condition>> = (condition, object, ctx)
   return !is(condition, object, ctx);
 };
 
+function toComparable(value: unknown) {
+  if (value instanceof Date) {
+    return value.getTime();
+  }
+
+  return value;
+}
+
+const compareValues: typeof compare = (a, b) => compare(toComparable(a), toComparable(b));
+
 export const interpretPrismaQuery = createJsInterpreter({
   // TODO: support arrays and objects comparison
   equals: eq,
@@ -111,5 +122,6 @@ export const interpretPrismaQuery = createJsInterpreter({
   is,
   isNot,
 }, {
-  get: (object, field) => object[field]
+  get: (object, field) => object[field],
+  compare: compareValues,
 });

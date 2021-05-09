@@ -9,11 +9,15 @@ import {
   ObjectQueryParser
 } from '@ucast/core';
 
+const isPlainObject = (value: any) => {
+  return value && (value.constructor === Object || !value.constructor);
+};
+
 const equals: FieldInstruction = {
   type: 'field',
   validate(instruction, value) {
-    if (Array.isArray(value) || value && typeof value === 'object') {
-      throw new TypeError(`"${instruction.name}" does not currently supports comparison of arrays and objects`);
+    if (Array.isArray(value) || isPlainObject(value)) {
+      throw new TypeError(`"${instruction.name}" does not supports comparison of arrays and objects`);
     }
   }
 };

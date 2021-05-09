@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import { AnyInterpreter, createTranslatorFactory } from '@ucast/core';
+import { ForcedSubject, hkt } from '@casl/ability';
 import { PrismaQueryParser } from './PrismaQueryParser';
 import { interpretPrismaQuery } from './interpretPrismaQuery';
 
@@ -8,14 +9,28 @@ type ModelDelegates = {
     ? PrismaClient[Uncapitalize<K>]
     : never
 };
-
 type Present<T> = Exclude<T, null | undefined>;
-
-export type WhereInput<TModelName extends Prisma.ModelName> =
+type WhereInput<TModelName extends Prisma.ModelName> =
   Present<Present<Parameters<ModelDelegates[TModelName]['findFirst']>[0]>['where']>;
+type ExtractModelName<T> = T extends { kind: Prisma.ModelName }
+  ? T['kind']
+  : T extends ForcedSubject<Prisma.ModelName>
+    ? T['__caslSubjectType__']
+    : T extends { __typename: Prisma.ModelName }
+      ? T['__typename']
+      : never;
 
-export const parser = new PrismaQueryParser();
+interface PrismaQueryTypeFactory extends hkt.GenericFactory {
+  produce: WhereInput<ExtractModelName<this[0]>>
+}
 
+export type Model<T, TName extends string> = T & ForcedSubject<TName>;
+
+type PrismaModel = Model<Record<string, unknown>, Prisma.ModelName>;
+export type PrismaQuery<T extends PrismaModel = PrismaModel> =
+  WhereInput<ExtractModelName<T>> & hkt.Container<PrismaQueryTypeFactory>;
+
+const parser = new PrismaQueryParser();
 export const prismaQuery = createTranslatorFactory(
   parser.parse,
   interpretPrismaQuery as AnyInterpreter

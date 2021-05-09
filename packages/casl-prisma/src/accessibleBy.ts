@@ -40,7 +40,6 @@ type AccessibleQuery = {
   [K in Prisma.ModelName]: WhereInput<K>;
 };
 
-// TODO: replace AnyAbility with PrismaAbility when it's ready
 export function accessibleBy(ability: PrismaAbility<any, any>, action = 'read'): AccessibleQuery {
   return createQuery(ability, action);
 }
