@@ -24,7 +24,7 @@
     "build": "BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.vue -g vue:Vue,@casl/ability:casl",
     "build.types": "dx tsc -p tsconfig.build.json",
     "prebuild": "rm -rf dist/* && npm run build.types",
-    "lint": "dx eslint --ext .ts,.js src/ spec/",
+    "lint": "dx eslint src/ spec/",
     "test": "dx jest --env jsdom",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
