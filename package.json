@@ -5,28 +5,11 @@
   "scripts": {
     "build.docs": "cd docs-src && NODE_ENV=production npm run build",
     "coverage.submit": "codecov",
-    "postinstall": "npx husky@^5.0.0 install ./git-hooks"
+    "postinstall": "dx install"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.10.0",
-    "@babel/plugin-transform-typescript": "^7.10.0",
-    "@babel/preset-env": "^7.8.4",
-    "@rollup/plugin-babel": "^5.0.2",
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "@typescript-eslint/eslint-plugin": "4.22.1",
-    "codecov": "^3.0.0",
-    "eslint": "^7.1.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-airbnb-typescript": "^12.0.0",
-    "eslint-plugin-import": "^2.20.2",
-    "lint-staged": "^10.0.10",
-    "rollup": "^2.10.9",
-    "rollup-plugin-sourcemaps": "^0.6.2",
-    "rollup-plugin-terser": "^7.0.0",
-    "ts-jest": "^26.4.4",
-    "typescript": "~4.0.0"
+    "@casl/dx": "workspace:^1.0.0",
+    "codecov": "^3.0.0"
   },
   "repository": {
     "type": "git",

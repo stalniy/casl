@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import { dirname, basename, extname } from 'path';
+import babelConfig from './babel.config';
 
 const output = (config) => {
   let prop = 'dir';
@@ -55,13 +56,11 @@ const build = config => ({
     }),
     config.transformJS
       ? babel({
-        rootMode: 'upward',
+        ...babelConfig(config.type),
+        babelrc: false,
         extensions: ['.js', '.mjs', '.ts'],
         inputSourceMap: config.useInputSourceMaps,
         babelHelpers: 'bundled',
-        caller: {
-          output: config.type,
-        }
       })
       : sourcemaps(),
     ...config.plugins

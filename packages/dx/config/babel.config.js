@@ -40,7 +40,7 @@ const CONFIG = {
   }
 };
 
-function config(name) {
+export default function config(name) {
   if (name === 'default' || !CONFIG[name]) {
     return CONFIG.default;
   }
@@ -52,11 +52,3 @@ function config(name) {
     plugins: plugins.concat(CONFIG.default.plugins || []),
   };
 }
-
-module.exports = (api) => {
-  let format;
-  api.caller(caller => format = caller.output || process.env.NODE_ENV);
-  api.cache.using(() => format);
-
-  return config(format);
-};

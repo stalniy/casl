@@ -39,19 +39,12 @@
     "object-curly-newline": ["error", {
       "ObjectPattern": "never"
     }],
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": [
-        "tools/**/*.js",
-        "**/*.spec.js",
-        "**/*/spec_helper.js",
-        "**/*/rollup.config.js"
-      ]
-    }]
+    "func-names": "off"
   },
   "overrides": [
     {
       "files": [
-        "packages/*/spec/**/*.{js,ts}"
+        "spec/**/*.{js,ts}"
       ],
       "env": {
         "jest": true
@@ -85,7 +78,7 @@
     },
     {
       "files": [
-        "packages/casl-vue/spec/**/*.{js,ts}"
+        "casl-vue/spec/**/*.{js,ts}"
       ],
       "env": {
         "browser": true

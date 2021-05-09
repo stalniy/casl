@@ -1,7 +1,8 @@
-const config = require('../../tools/jest.config');
+const config = require('@casl/dx/config/jest.config');
 
 module.exports = {
   ...config,
+  testEnvironment: "jsdom",
   setupFilesAfterEnv: [
     '@abraham/reflection',
     'zone.js/dist/zone',

@@ -1,0 +1,34 @@
+{
+  "name": "@casl/dx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Private dev env for CASL",
+  "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "dx": "bin/dx.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/plugin-transform-typescript": "^7.13.0",
+    "@babel/preset-env": "^7.14.1",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
+    "lint-staged": "^11.0.0",
+    "rollup": "^2.47.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "semantic-release": "^17.4.2",
+    "ts-jest": "^26.5.6",
+    "typescript": "~4.1.0"
+  }
+}

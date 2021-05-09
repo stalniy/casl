@@ -2,6 +2,7 @@ module.exports = {
   collectCoverage: !!process.env.WITH_COVERAGE,
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
+  testEnvironment: 'node',
   coverageReporters: [
     'lcov',
     'text'
@@ -17,6 +18,6 @@ module.exports = {
     '^.+\\.mjs$': 'ts-jest',
   },
   setupFilesAfterEnv: [
-    `${__dirname}/spec_helper.js`
+    `${__dirname}/../lib/spec_helper.js`
   ],
 };
