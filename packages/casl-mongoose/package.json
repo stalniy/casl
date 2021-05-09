@@ -24,7 +24,7 @@
     "build": "BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,mongoose",
     "build.types": "dx tsc",
     "lint": "dx eslint src/ spec/",
-    "test": "dx jest",
+    "test": "dx jest --config ../dx/config/jest.chai.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
   },

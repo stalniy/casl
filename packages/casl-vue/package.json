@@ -25,7 +25,7 @@
     "build.types": "dx tsc -p tsconfig.build.json",
     "prebuild": "rm -rf dist/* && npm run build.types",
     "lint": "dx eslint src/ spec/",
-    "test": "dx jest --env jsdom",
+    "test": "dx jest --env jsdom --config ../dx/config/jest.chai.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
   },

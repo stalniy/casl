@@ -25,7 +25,7 @@
     "build": "BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.au -g aurelia-framework:au,@casl/ability:casl",
     "build.types": "dx tsc",
     "lint": "dx eslint src/",
-    "test": "dx jest --env jsdom",
+    "test": "dx jest --env js --config ../dx/config/jest.chai.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
   },

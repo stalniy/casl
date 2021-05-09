@@ -34,7 +34,7 @@
     "prebuild": "rm -rf dist/*",
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "dx eslint src/ spec/",
-    "test": "dx jest",
+    "test": "dx jest --config ../dx/config/jest.chai.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
   },
