@@ -89,15 +89,14 @@ Let's implement the matcher that allows to use a function as conditions matcher:
 import {
   PureAbility,
   AbilityBuilder,
-  Abilities,
+  AbilityTuple,
   MatchConditions,
-  ConditionsMatcher,
   AbilityClass
 } from '@casl/ability';
 
-type AppAbility = PureAbility<Abilities, MatchConditions>;
+type AppAbility = PureAbility<AbilityTuple, MatchConditions>;
 const AppAbility = PureAbility as AbilityClass<AppAbility>;
-const lambdaMatcher: ConditionsMatcher<MatchConditions> = matchConditions => matchConditions;
+const lambdaMatcher = (matchConditions: MatchConditions) => matchConditions;
 
 export default function defineAbilityFor(user: any) {
   const { can, build } = new AbilityBuilder(AppAbility);
