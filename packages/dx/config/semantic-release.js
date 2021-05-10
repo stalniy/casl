@@ -36,6 +36,9 @@ module.exports = {
     ['@semantic-release/git', {
       message: `chore(release): ${process.env.npm_package_name}@\${nextRelease.version} [skip ci]`
     }],
-    '@semantic-release/github'
+    ["@semantic-release/github", {
+      releasedLabels: false,
+      successComment: false,
+    }]
   ],
 };
