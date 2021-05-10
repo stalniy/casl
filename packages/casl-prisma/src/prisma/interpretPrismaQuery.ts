@@ -1,14 +1,12 @@
-import { Condition, FieldCondition } from '@ucast/core';
+import { CompoundCondition, Condition, FieldCondition } from '@ucast/core';
 import {
   JsInterpreter,
   createJsInterpreter,
   eq,
   ne,
-  not,
   and,
   or,
   within,
-  nin,
   lt,
   lte,
   gt,
@@ -43,24 +41,28 @@ type ArrayInterpreter<
   TValue extends Record<string, unknown[]> = Record<string, unknown[]>
 > = JsInterpreter<FieldCondition<TConditionValue>, TValue>;
 const isEmpty: ArrayInterpreter<boolean> = (condition, object, { get }) => {
-  const empty = get(object, condition.field).length === 0;
+  const value = get(object, condition.field);
+  const empty = Array.isArray(value) && value.length === 0;
   return empty === condition.value;
 };
 const has: ArrayInterpreter<unknown> = (condition, object, { get }) => {
-  return get(object, condition.field).includes(condition.value);
+  const value = get(object, condition.field);
+  return Array.isArray(value) && value.includes(condition.value);
 };
 const hasSome: ArrayInterpreter<unknown[]> = (condition, object, { get }) => {
   const value = get(object, condition.field);
-  return condition.value.some(v => value.includes(v));
+  return Array.isArray(value) && condition.value.some(v => value.includes(v));
 };
 const hasEvery: ArrayInterpreter<unknown[]> = (condition, object, { get }) => {
   const value = get(object, condition.field);
-  return condition.value.every(v => value.includes(v));
+  return Array.isArray(value) && condition.value.every(v => value.includes(v));
 };
 
 const every: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
   const items = get(object, condition.field) as Record<string, unknown>[];
-  return Array.isArray(items) && items.every(item => interpret(condition.value, item));
+  return Array.isArray(items) &&
+    items.length > 0 &&
+    items.every(item => interpret(condition.value, item));
 };
 
 const some: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
@@ -68,18 +70,14 @@ const some: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get
   return Array.isArray(items) && items.some(item => interpret(condition.value, item));
 };
 
-const none: JsInterpreter<FieldCondition<Condition>> = (condition, object, ctx) => {
-  return !every(condition, object, ctx);
-};
-
 const is: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
   const item = get(object, condition.field) as Record<string, unknown>;
   return item && typeof item === 'object' && interpret(condition.value, item);
 };
 
-const isNot: JsInterpreter<FieldCondition<Condition>> = (condition, object, ctx) => {
-  return !is(condition, object, ctx);
-};
+const not: JsInterpreter<CompoundCondition> = (condition, object, { interpret }) => {
+  return condition.value.every(subCondition => !interpret(subCondition, object));
+}
 
 function toComparable(value: unknown) {
   if (value instanceof Date) {
@@ -94,9 +92,8 @@ const compareValues: typeof compare = (a, b) => compare(toComparable(a), toCompa
 export const interpretPrismaQuery = createJsInterpreter({
   // TODO: support arrays and objects comparison
   equals: eq,
-  not: ne,
+  notEquals: ne,
   in: within,
-  notIn: nin,
   lt,
   lte,
   gt,
@@ -117,10 +114,8 @@ export const interpretPrismaQuery = createJsInterpreter({
   OR: or,
   NOT: not,
   every,
-  none,
   some,
   is,
-  isNot,
 }, {
   get: (object, field) => object[field],
   compare: compareValues,
