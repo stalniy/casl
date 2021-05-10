@@ -10,7 +10,7 @@ type ModelDelegates = {
     : never
 };
 type Present<T> = Exclude<T, null | undefined>;
-type WhereInput<TModelName extends Prisma.ModelName> =
+export type WhereInput<TModelName extends Prisma.ModelName> =
   Present<Present<Parameters<ModelDelegates[TModelName]['findFirst']>[0]>['where']>;
 type ExtractModelName<T> = T extends { kind: Prisma.ModelName }
   ? T['kind']
