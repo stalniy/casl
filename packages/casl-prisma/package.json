@@ -41,13 +41,13 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^5.1.0",
-    "@prisma/client": "^2.0.0"
+    "@prisma/client": "^2.14.0"
   },
   "devDependencies": {
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
     "@prisma/client": "^2.22.0",
-    "prisma": "^2.22.0"
+    "prisma": "^2.22.1"
   },
   "files": [
     "dist",

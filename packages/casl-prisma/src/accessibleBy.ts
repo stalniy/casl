@@ -13,8 +13,11 @@ const proxyHandlers: ProxyHandler<{ _ability: AnyAbility, _action: string }> = {
     const query = rulesToQuery(target._ability, target._action, subjectType, convertToPrismaQuery);
 
     if (query === null) {
-      throw ForbiddenError.from(target._ability)
+      const error = ForbiddenError.from(target._ability)
         .setMessage(`It's not allowed to run "${target._action}" on "${subjectType as string}"`);
+      error.action = target._action;
+      error.subjectType = error.subject = subjectType as string;
+      throw error;
     }
 
     const prismaQuery = Object.create(null);

@@ -102,15 +102,15 @@ importers:
       '@prisma/client': ^2.22.0
       '@ucast/core': ^1.10.0
       '@ucast/js': ^3.0.1
-      prisma: ^2.22.0
+      prisma: ^2.22.1
     dependencies:
       '@ucast/core': 1.10.0
       '@ucast/js': 3.0.1
     devDependencies:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
-      '@prisma/client': 2.22.1_prisma@2.22.0
-      prisma: 2.22.0
+      '@prisma/client': 2.22.1_prisma@2.22.1
+      prisma: 2.22.1
 
   packages/casl-react:
     specifiers:
@@ -1810,7 +1810,7 @@ packages:
       '@octokit/openapi-types': 7.0.0
     dev: false
 
-  /@prisma/client/2.22.1_prisma@2.22.0:
+  /@prisma/client/2.22.1_prisma@2.22.1:
     resolution: {integrity: sha512-JQjbsY6QSfFiovXHEp5WeJHa5p2CuR1ZFPAeYXmUsOAQOaMCrhgQmKAL6w2Q3SRA7ALqPjrKywN9/QfBc4Kp1A==}
     engines: {node: '>=10.16'}
     requiresBuild: true
@@ -1821,7 +1821,7 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c
-      prisma: 2.22.0
+      prisma: 2.22.1
     dev: true
 
   /@prisma/engines-version/2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c:
@@ -6573,8 +6573,8 @@ packages:
       ansi-styles: 4.3.0
       react-is: 17.0.2
 
-  /prisma/2.22.0:
-    resolution: {integrity: sha512-rJgjZCl0mxrdCjR6N5Z5Ivm6fy+iPznOQDA4TSiKvzs7tzo4smsBbFZmliylmEeRkuq2f93+/I/jmw64rrFpHQ==}
+  /prisma/2.22.1:
+    resolution: {integrity: sha512-hwvCM3zyxgSda/+/p+GW7nz93jRebtMU01wAG7YVVnl0OKU+dpw1wPvPFmQRldkZHk8fTCleYmjc24WaSdVPZQ==}
     engines: {node: '>=10.4'}
     hasBin: true
     requiresBuild: true

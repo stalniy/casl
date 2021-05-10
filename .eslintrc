@@ -40,7 +40,8 @@
       "ObjectPattern": "never"
     }],
     "func-names": "off",
-    "class-methods-use-this": "warn"
+    "class-methods-use-this": "warn",
+    "no-multi-assign": "off"
   },
   "overrides": [
     {
