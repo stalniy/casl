@@ -158,6 +158,7 @@ importers:
       '@rollup/plugin-babel': ^5.3.0
       '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
+      '@semantic-release/git': ^9.0.0
       '@typescript-eslint/eslint-plugin': ^4.22.1
       eslint: ^7.26.0
       eslint-config-airbnb-base: ^14.2.1
@@ -180,6 +181,7 @@ importers:
       '@rollup/plugin-babel': 5.3.0_@babel+core@7.14.0+rollup@2.47.0
       '@rollup/plugin-node-resolve': 13.0.0_rollup@2.47.0
       '@semantic-release/changelog': 5.0.1_semantic-release@17.4.2
+      '@semantic-release/git': 9.0.0_semantic-release@17.4.2
       '@typescript-eslint/eslint-plugin': 4.22.1_eslint@7.26.0+typescript@4.1.5
       eslint: 7.26.0
       eslint-config-airbnb-base: 14.2.1_05d4fb7044661160135c97642add2911
@@ -1910,6 +1912,25 @@ packages:
 
   /@semantic-release/error/2.2.0:
     resolution: {integrity: sha512-9Tj/qn+y2j+sjCI3Jd+qseGtHjOAeg7dU2/lVcqIQ9TV3QDaDXDYXcoOHU+7o2Hwh8L8ymL4gfuO7KxDs3q2zg==}
+    dev: false
+
+  /@semantic-release/git/9.0.0_semantic-release@17.4.2:
+    resolution: {integrity: sha512-AZ4Zha5NAPAciIJH3ipzw/WU9qLAn8ENaoVAhD6srRPxTpTzuV3NhNh14rcAo8Paj9dO+5u4rTKcpetOBluYVw==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      semantic-release: '>=16.0.0 <18.0.0'
+    dependencies:
+      '@semantic-release/error': 2.2.0
+      aggregate-error: 3.1.0
+      debug: 4.3.1
+      dir-glob: 3.0.1
+      execa: 4.1.0
+      lodash: 4.17.21
+      micromatch: 4.0.4
+      p-reduce: 2.1.0
+      semantic-release: 17.4.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@semantic-release/github/7.2.3_semantic-release@17.4.2:
