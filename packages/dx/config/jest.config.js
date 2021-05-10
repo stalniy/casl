@@ -1,5 +1,4 @@
 module.exports = {
-  collectCoverage: !!process.env.WITH_COVERAGE,
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
   testEnvironment: 'node',

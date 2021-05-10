@@ -43,7 +43,7 @@ jobs:
     - name: lint & test
       run: |
         pnpm run -r lint
-        WITH_COVERAGE=1 pnpm run -r test
+        pnpm run -r test -- --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
