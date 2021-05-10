@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-cd packages/dx && bin/dx.js lint-staged
+
+packages/dx/bin/dx.js lint-staged

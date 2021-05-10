@@ -28,7 +28,7 @@ class RuleBuilder<T extends AnyAbility> {
 type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClass<infer R>
   ? R
   : S extends string
-    ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends { kind: string }
+    ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends TaggedInterface<string>
       ? Extract<Normalize<Generics<T>['abilities']>[1], TaggedInterface<S>>
       : AnyObject
     : never;

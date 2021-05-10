@@ -2,14 +2,15 @@ const fsPath = require('path');
 const { spawnAndExit } = require('./spawn');
 
 const configPath = filename => fsPath.join(__dirname, '..', 'config', filename);
+const localBin = cli => fsPath.join(__dirname, '..', 'node_modules', '.bin', cli);
 
 const COMMANDS = {
   install() {
     const projectRoot = fsPath.join(__dirname, '..', '..', '..');
     return {
       cwd: projectRoot,
-      cli: 'husky@~6.0.0',
-      args: ['install', fsPath.join(projectRoot, 'git-hooks')],
+      cli: 'npx',
+      args: ['-q', 'husky@~6.0.0', 'install', fsPath.join(projectRoot, 'git-hooks')],
     };
   },
   eslint() {
@@ -86,9 +87,11 @@ function run(name, args) {
     DX_CLI: name,
     ...cmd.env,
   };
+  const cliName = cmd.cli || name;
+  const bin = cliName === 'npx' ? cliName : localBin(cliName);
 
   spawnAndExit(
-    fsPath.join(__dirname, '..', 'node_modules', '.bin', cmd.cli || name),
+    bin,
     [
       ...(cmd.args || []),
       ...(callArgs || []),
