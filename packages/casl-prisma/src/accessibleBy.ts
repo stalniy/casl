@@ -1,11 +1,11 @@
 import { Prisma } from '@prisma/client';
 import { rulesToQuery } from '@casl/ability/extra';
-import { AnyAbility } from '@casl/ability';
+import { AnyAbility, ForbiddenError } from '@casl/ability';
 import { PrismaAbility } from './PrismaAbility';
 import { WhereInput } from './prisma/PrismaQuery';
 
 function convertToPrismaQuery(rule: AnyAbility['rules'][number]) {
-  return rule.inverted ? { NOT: [rule.conditions] } : rule.conditions;
+  return rule.inverted ? { NOT: rule.conditions } : rule.conditions;
 }
 
 const proxyHandlers: ProxyHandler<{ _ability: AnyAbility, _action: string }> = {
@@ -13,7 +13,8 @@ const proxyHandlers: ProxyHandler<{ _ability: AnyAbility, _action: string }> = {
     const query = rulesToQuery(target._ability, target._action, subjectType, convertToPrismaQuery);
 
     if (query === null) {
-      return null;
+      throw ForbiddenError.from(target._ability)
+        .setMessage(`It's not allowed to run "${target._action}" on "${subjectType as string}"`);
     }
 
     const prismaQuery = Object.create(null);

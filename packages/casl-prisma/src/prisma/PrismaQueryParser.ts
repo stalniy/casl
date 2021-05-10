@@ -64,11 +64,16 @@ const lt: FieldInstruction<Comparable> = {
   }
 };
 
+const POSSIBLE_MODES = new Set(['insensitive', 'default']);
 const mode: FieldInstruction<string> = {
   type: 'field',
   validate(instruction, value) {
-    if (value && value !== 'insensitive') {
-      throw ParsingQueryError.invalidArgument(instruction.name, value, '"insensitive"');
+    if (!POSSIBLE_MODES.has(value)) {
+      throw ParsingQueryError.invalidArgument(
+        instruction.name,
+        value,
+        `one of ${Array.from(POSSIBLE_MODES).join(', ')}`
+      );
     }
   },
   parse: () => NULL_CONDITION

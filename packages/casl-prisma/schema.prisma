@@ -7,6 +7,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Fake {
-  id    Int     @id
+model User {
+  id          Int     @id
+  firstName   String
+  lastName    String
+  age         Int
+  posts       Post[]
+}
+
+model Post {
+  id        Int      @id
+  title     String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
