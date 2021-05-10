@@ -11,7 +11,7 @@ import {
   ObjectQueryFieldParsingContext,
   ObjectQueryParser
 } from '@ucast/core';
-import { ParsingQueryError } from "../errors/ParsingQueryError";
+import { ParsingQueryError } from '../errors/ParsingQueryError';
 
 const isPlainObject = (value: any) => {
   return value && (value.constructor === Object || !value.constructor);
@@ -39,7 +39,7 @@ const not: FieldInstruction<unknown, ObjectQueryFieldParsingContext> = {
 
     return new CompoundCondition('NOT', [parse(value, { field })]);
   }
-}
+};
 
 const within: FieldInstruction<unknown[]> = {
   type: 'field',
@@ -149,7 +149,7 @@ const inverted = (name: string, baseInstruction: FieldInstruction): FieldInstruc
         : new FieldCondition(name, ctx.field, value);
       return new CompoundCondition('NOT', [condition]);
     }
-  }
+  };
 };
 
 const instructions = {

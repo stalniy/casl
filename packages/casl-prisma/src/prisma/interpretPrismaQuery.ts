@@ -60,9 +60,9 @@ const hasEvery: ArrayInterpreter<unknown[]> = (condition, object, { get }) => {
 
 const every: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
   const items = get(object, condition.field) as Record<string, unknown>[];
-  return Array.isArray(items) &&
-    items.length > 0 &&
-    items.every(item => interpret(condition.value, item));
+  return Array.isArray(items)
+    && items.length > 0
+    && items.every(item => interpret(condition.value, item));
 };
 
 const some: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
@@ -77,7 +77,7 @@ const is: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, 
 
 const not: JsInterpreter<CompoundCondition> = (condition, object, { interpret }) => {
   return condition.value.every(subCondition => !interpret(subCondition, object));
-}
+};
 
 function toComparable(value: unknown) {
   if (value instanceof Date) {
