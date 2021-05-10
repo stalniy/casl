@@ -1,325 +1,132 @@
-# CASL Mongoose
+# CASL Prisma
 
-[![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose)
-[![](https://img.shields.io/npm/dm/%40casl%2Fmongoose.svg)](https://www.npmjs.com/package/%40casl%2Fmongoose)
+[![@casl/prisma NPM version](https://badge.fury.io/js/%40casl%2Fprisma.svg)](https://badge.fury.io/js/%40casl%2Fprisma)
+[![](https://img.shields.io/npm/dm/%40casl%2Fprisma.svg)](https://www.npmjs.com/package/%40casl%2Fprisma)
 [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-This package integrates [CASL] and [MongoDB]. In other words, it allows to fetch records based on CASL rules from MongoDB and answer questions like: "Which records can be read?" or "Which records can be updated?".
+This package allows to define [CASL] permissions on [Prisma] models using Prisma `WhereInput`. And that brings a lot of power in terms of permission management in SQL world:
+
+1. We can use Prisma Query to define permissions, no need to learn MongoDB query language anymore.
+2. Additionally, we can ask our SQL database questions like: "Which records can be read?" or "Which records can be updated?".
 
 ## Installation
 
 ```sh
-npm install @casl/mongoose @casl/ability
+npm install @casl/prisma @casl/ability
 # or
-yarn add @casl/mongoose @casl/ability
+yarn add @casl/prisma @casl/ability
 # or
-pnpm add @casl/mongoose @casl/ability
+pnpm add @casl/prisma @casl/ability
 ```
 
-## Integration with mongoose
+## Usage
 
-[mongoose] is a popular JavaScript ODM for [MongoDB]. `@casl/mongoose` provides 2 plugins that allow to integrate `@casl/ability` and mongoose in few minutes:
+This package is a bit different from all others because it provides a custom `PrismaAbility` class that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
 
-### Accessible Records plugin
+```ts
+import { User, Post, Prisma } from '@prisma/client';
+import { AbilityClass, AbilityBuilder, subject } from '@casl/ability';
+import { PrismaAbility, Model } from '@casl/prisma';
 
-`accessibleRecordsPlugin` is a plugin which adds `accessibleBy` method to query and static methods of your models. You can add this plugin globally:
+type AppAbility = PrismaAbility<[string, Models<{
+  User: User,
+  Post: Post
+}>]>;
+const AppAbility = PrismaAbility as AbilityClass<AppAbility>;
+const { can, cannot, build } = new AbilityBuilder(AppAbility);
 
-```js
-const { accessibleRecordsPlugin } = require('@casl/mongoose');
-const mongoose = require('mongoose');
+can('read', 'Post', { authorId: 1 });
+cannot('read', 'Post', { title: { startsWith: '[WIP]:' } });
 
-mongoose.plugin(accessibleRecordsPlugin);
+const ability = build();
+ability.can('read', 'Post');
+ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 ```
 
-> Make sure you add the plugin before calling `mongoose.model(...)` method. Mongoose won't add global plugins to models that where created before calling `mongoose.plugin()`.
+> See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
-or to a particular model:
+### Note on subject helper
 
-```js @{data-filename="Post.js"}
-const mongoose = require('mongoose')
-const { accessibleRecordsPlugin } = require('@casl/mongoose')
+Because Prisma returns DTO objects without exposing any type information on it, we need to use `subject` helper to provide that type manually, so CASL can understand what rules to apply to passed in object.
 
-const Post = new mongoose.Schema({
-  title: String,
-  author: String
-})
+Unfortunately, there is no easy way to automate this, except of adding additional column to all models. For more details, check [this issue](https://github.com/prisma/prisma/issues/5315).
 
-Post.plugin(accessibleRecordsPlugin)
+> To get more details about object type detection, please read [CASL Subject type detection](https://casl.js.org/v5/en/guide/subject-type-detection)
 
-module.exports = mongoose.model('Post', Post)
-```
+### Note on Prisma Query runtime interpreter
 
-Afterwards you can fetch accessible records by calling `accessibleBy` method on `Post`:
+`@casl/prisma` uses [ucast](https://github.com/stalniy/ucast) to interpret Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where) in JavaScript runtime. However, there are few caveats:
+- equality of JSON columns is not implemented
+- equality of array/list columns is not implemented (however operators like `has`, `hasSome` and `hasEvery` should be more than enough)
+- when defining conditions on relation, always specify one of operators (`every`, `none`, `some`, `is` or `isNot`)
 
-```js
-const Post = require('./Post')
-const ability = require('./ability') // defines Ability instance
+Interpreter throws a `ParsingQueryError` in cases it receives invalid parameters for query operators or if some operation is not supported.
 
-async function main() {
-  const accessiblePosts = await Post.accessibleBy(ability);
-  console.log(accessiblePosts);
-}
-```
+## Finding Accessible Records
 
-> See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities
+One nice feature of [Prisma] and [CASL] integration is that we can get all records from the database our user has access to. To do this, just use `accessibleBy` helper function:
 
-or on existing query instance:
+```ts
+// ability is a PrismaAbility instance created in the example above
 
-```js
-const Post = require('./Post');
-const ability = require('./ability');
-
-async function main() {
-  const accessiblePosts = await Post.find({ status: 'draft' })
-    .accessibleBy(ability)
-    .select('title');
-  console.log(accessiblePosts);
-}
-```
-
-`accessibleBy` returns an instance of `mongoose.Query` and that means you can chain it with any `mongoose.Query`'s method (e.g., `select`, `limit`, `sort`). By default, `accessibleBy` constructs query based on the list of rules for `read` action but you can change this by providing the 2nd optional argument:
-
-```js
-const Post = require('./Post');
-const ability = require('./ability');
-
-async function main() {
-  const postsThatCanBeUpdated = await Post.accessibleBy(ability, 'update');
-  console.log(postsThatCanBeUpdated);
-}
-```
-
-> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://casl.js.org/v5/en/advanced/ability-to-database-query) to get insights of how it works.
-
-In case when user doesn’t have permission to do a particular action, CASL will not even send request to MongoDB and instead will force Query to return empty result set. CASL patches native mongodb collection's methods in such case to return predefine value (empty array for `find`, `null` for `findOne` and `0` for `count`). It also adds `__forbiddenByCasl__: 1` condition which will enforce mongodb to return empty set in case if you use one of methods that are not patched, so users who is not allowed to get particular records won't get them!
-
-For example, lets find all posts which user can delete (we haven’t defined abilities for delete):
-
-```js
-const { defineAbility } = require('@casl/ability');
-const mongoose = require('mongoose');
-const Post = require('./Post');
-
-mongoose.set('debug', true);
-
-const ability = defineAbility(can => can('read', 'Post', { private: false }));
-
-async function main() {
-  const posts = await Post.accessibleBy(ability, 'delete');
-  console.log(posts) // [];
-}
-```
-
-You can also use the resulting conditions in [aggregation pipeline](https://mongoosejs.com/docs/api.html#aggregate_Aggregate):
-
-```js
-const Post = require('./Post');
-const ability = require('./ability');
-
-async function main() {
-  const query = Post.accessibleBy(ability)
-    .where({ status: 'draft' })
-    .getQuery();
-  const result = await Post.aggregate([
-    {
-      $match: {
-        $and: [
-          query,
-          // other aggregate conditions
-        ]
-      }
-    },
-    // other pipelines here
-  ]);
-  console.log(result);
-}
-```
-
-or in [mapReduce](https://mongoosejs.com/docs/api.html#model_Model.mapReduce):
-
-```js
-const Post = require('./Post');
-const ability = require('./ability');
-
-async function main() {
-  const query = Post.accessibleBy(ability)
-    .where({ status: 'draft' })
-    .getQuery();
-  const result = await Post.mapReduce({
-    query: {
-      $and: [
-        query,
-        // other conditions
-      ]
-    },
-    map: () => emit(this.title, 1);
-    reduce: (_, items) => items.length;
-  });
-  console.log(result);
-}
-```
-
-### Accessible Fields plugin
-
-`accessibleFieldsPlugin` is a plugin that adds `accessibleFieldsBy` method to instance and static methods of a model and allows to retrieve all accessible fields. This is useful when you need send only accessible part of a model in response:
-
-```js
-const { accessibleFieldsPlugin } = require('@casl/mongoose');
-const mongoose = require('mongoose');
-const pick = require('lodash/pick');
-const ability = require('./ability');
-const app = require('./app'); // express app
-
-mongoose.plugin(accessibleFieldsPlugin);
-
-const Post = require('./Post');
-
-app.get('/api/posts/:id', async (req, res) => {
-  const post = await Post.accessibleBy(ability).findByPk(req.params.id);
-  res.send(pick(post, post.accessibleFieldsBy(ability))
+const accessiblePosts = await prisma.post.findMany({
+  where: accessibleBy(ability).Post
 });
 ```
 
-Method with the same name exists on Model's class. But **it's important** to understand the difference between them. Static method does not take into account conditions! It follows the same [checking logic](https://casl.js.org/v5/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
+That function accepts `PrismaAbility` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
 
-```js
-const { defineAbility } = require('@casl/ability');
-const Post = require('./Post');
+**Important**: in case user doesn't have ability to access any posts, `accessibleBy` throws `ForbiddenError`, so be ready to catch it!
 
-const ability = defineAbility((can) => {
-  can('read', 'Post', ['title'], { private: true });
-  can('read', 'Post', ['title', 'description'], { private: false });
-});
-const post = new Post({ private: true, title: 'Private post' });
+To combine this with business logic conditions, just use `AND`:
 
-Post.accessibleFieldsBy(ability); // ['title', 'description']
-post.accessibleFieldsBy(ability); // ['title']
-```
-
-As you can see, a static method returns all fields that can be read for all posts. At the same time, an instance method returns fields that can be read from this particular `post` instance. That's why there is no much sense (except you want to reduce traffic between app and database) to pass the result of static method into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
-
-## Integration with any MongoDB library
-
-In case you don't use mongoose, this package provides `toMongoQuery` function which can convert CASL rules into [MongoDB] query. Lets see an example of how to fetch accessible records using raw [MongoDB adapter][mongo-adapter]
-
-```js
-const { toMongoQuery } = require('@casl/mongoose');
-const { MongoClient } = require('mongodb');
-const ability = require('./ability');
-
-async function main() {
-  const db = await MongoClient.connect('mongodb://localhost:27017/blog');
-  const query = toMongoQuery(ability, 'Post', 'update');
-  let posts;
-
-  try {
-    if (query === null) {
-      // returns null if ability does not allow to update posts
-      posts = [];
-    } else {
-      posts = await db.collection('posts').find(query);
-    }
-  } finally {
-    db.close();
+```ts
+const accessiblePosts = await prisma.post.findMany({
+  where: {
+    AND: [
+      accessibleBy(ability).Post,
+      { /* business related conditions */ }
+    ]
   }
-
-  console.log(posts);
-}
+})
 ```
 
 ## TypeScript support
 
-The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE will hint you about you can pass inside arguments and TypeScript will warn you about wrong usage. Let's see it in action!
+The package is written in TypeScript what provides comprehensive IDE hints and compile time validation.
 
-Suppose we have `Post` entity which can be described as:
+> Makes sure to call `prisma generate`.  `@casl/prisma` uses Prisma generated types, so if client is not generated nothing will work.
 
-```ts
-import * as mongoose from 'mongoose';
+Additionally, there are several helpers that makes it easy to work with Prisma and CASL:
 
-export interface Post {
-  title: string
-  content: string
-  published: boolean
-}
+### PrismaQuery
 
-const PostSchema = new mongoose.Schema<Post>({
-  title: String,
-  content: String,
-  published: Boolean
-});
-
-export const Post = mongoose.model('Post', PostSchema);
-```
-
-To extend `Post` model with `accessibleBy` method it's enough to include the corresponding plugin (either globally or locally in `Post`) and use corresponding `Model` type. So, let's change the example, so it includes `accessibleRecordsPlugin`:
+It's a generic type that provides `Prisma.ModelWhereInput` in generic way. We need to pass inside a named model:
 
 ```ts
-import { accessibleRecordsPlugin, AccessibleRecordModel } from '@casl/mongoose';
+import { User } from '@prisma/client';
+import { Model } from '@casl/prisma';
 
-// all previous code, except last line
-
-PostSchema.plugin(accessibleRecordsPlugin);
-
-export const Post = mongoose.model<Post, AccessibleRecordModel<Post>>('Post', PostSchema);
-
-// Now we can safely use `Post.accessibleBy` method.
-Post.accessibleBy(/* parameters */)
-Post.where(/* parameters */).accessibleBy(/* parameters */);
+// almost the same as Prisma.UserWhereInput except that it's a higher order type
+type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
 ```
 
-In the similar manner, we can include `accessibleFieldsPlugin`, using `AccessibleFieldsModel` and `AccessibleFieldsDocument` types:
+### Model
+
+Just gives a name to a model. That name is stored using `ForcedSubject<TName>` helper from `@casl/ability`. To use a separate column or another strategy to name models, don't use this helper because it only works in combination with `subject` helper.
+
+### Subjects
+
+Creates a union of all possible subjects out of passed in object:
 
 ```ts
-import {
-  accessibleFieldsPlugin,
-  AccessibleFieldsModel,
-  AccessibleFieldsDocument
-} from '@casl/mongoose';
-import * as mongoose from 'mongoose';
+import { User } from '@prisma/client';
+import { Subjects } from '@casl/prisma';
 
-export interface Post extends AccessibleFieldsDocument {
-  // the same Post definition from previous example
-}
-
-const PostSchema = new mongoose.Schema<Post>({
-  // the same Post schema definition from previous example
-})
-
-PostSchema.plugin(accessibleFieldsPlugin);
-
-export const Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema);
-
-// Now we can safely use `Post.accessibleFieldsBy` method and `post.accessibleFieldsBy`
-Post.accessibleFieldsBy(/* parameters */);
-const post = new Post();
-post.accessibleFieldsBy(/* parameters */);
+type AppSubjects = Subjects<{
+  User: User
+}>; // 'User' | Model<User, 'User'>
 ```
-
-And we want to include both plugins, we can use `AccessibleModel` type that includes methods from both plugins:
-
-```ts
-import {
-  accessibleFieldsPlugin,
-  accessibleRecordsPlugin,
-  AccessibleModel,
-  AccessibleFieldsDocument
-} from '@casl/mongoose';
-import * as mongoose from 'mongoose';
-
-export interface Post extends AccessibleFieldsDocument {
-  // the same Post definition from previous example
-}
-
-const PostSchema = new mongoose.Schema<Post>({
-  // the same Post schema definition from previous example
-});
-PostSchema.plugin(accessibleFieldsPlugin);
-PostSchema.plugin(accessibleRecordsPlugin);
-
-export const Post = mongoose.model<Post, AccessibleModel<Post>>('Post', PostSchema);
-```
-
-This allows us to use the both `accessibleBy` and `accessibleFieldsBy` methods safely.
 
 ## Want to help?
 
@@ -334,7 +141,5 @@ If you'd like to help us sustain our community and project, consider [to become 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
-[mongoose]: http://mongoosejs.com/
-[mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
+[Prisma]: https://prisma.io/
 [CASL]: https://github.com/stalniy/casl
-[MongoDB]: https://www.mongodb.com/
