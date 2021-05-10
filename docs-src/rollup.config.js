@@ -167,10 +167,13 @@ export default {
       ]
     }),
     replace({
-      ...getAppEnvVars(process.env),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
-      'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH),
+      preventAssignment: true,
+      values: {
+        ...getAppEnvVars(process.env),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
+        'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH),
+      }
     }),
     html({
       title: process.env.LIT_APP_TITLE,

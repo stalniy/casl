@@ -31,7 +31,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 [@casl/ability]: ../intro
 [@casl/mongoose]: ../../package/casl-mongoose
-[@casl/prisma]: ../../packages/casl-prisma
+[@casl/prisma]: ../../package/casl-prisma
 [@casl/angular]: ../../package/casl-angular
 [@casl/react]: ../../package/casl-react
 [@casl/vue]: ../../package/casl-vue

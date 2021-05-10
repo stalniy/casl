@@ -5,7 +5,7 @@
   "description": "CASL docs",
   "author": "Sergii Stotskyi <sergiy.stotskiy@freaksidea.com>",
   "scripts": {
-    "build": "rm -rf dist/* && rollup -c",
+    "build": "rm -rf dist/* && rollup -c rollup.config.js",
     "build.watch": "npm run build -- --watch",
     "build.sitemap": "node tools/sitemap.xml.js",
     "prerender": "node tools/prerender.js",
@@ -36,7 +36,7 @@
     "@rollup/plugin-replace": "^2.3.2",
     "@rollup/plugin-url": "^6.0.0",
     "@rollup/pluginutils": "^4.0.0",
-    "@sindresorhus/slugify": "^2.0.0",
+    "@sindresorhus/slugify": "1.1.0",
     "core-js": "^3.6.4",
     "dotenv-flow": "^3.1.0",
     "gray-matter": "^4.0.2",
