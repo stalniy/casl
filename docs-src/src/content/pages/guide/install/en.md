@@ -22,7 +22,8 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 | Project           | Status                               | Description |
 |-------------------|--------------------------------------|-------------|
 | [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package |
-| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with  [Mongoose][mongoose] |
+| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with [Mongoose][mongoose] |
+| [@casl/prisma]  | [![@casl/prisma-status]][@casl/prisma-package] | integration with [Prisma][prisma] |
 | [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] |
 | [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] |
 | [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] |
@@ -30,6 +31,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 [@casl/ability]: ../intro
 [@casl/mongoose]: ../../package/casl-mongoose
+[@casl/prisma]: ../../packages/casl-prisma
 [@casl/angular]: ../../package/casl-angular
 [@casl/react]: ../../package/casl-react
 [@casl/vue]: ../../package/casl-vue
@@ -37,6 +39,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 [@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
 [@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
+[@casl/prisma-status]: https://img.shields.io/npm/v/@casl/prisma.svg
 [@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
 [@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
 [@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
@@ -44,6 +47,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 
 [@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
 [@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
+[@casl/prisma-package]: https://www.npmjs.com/package/@casl/prisma
 [@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
 [@casl/react-package]: https://www.npmjs.com/package/@casl/react
 [@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
@@ -54,6 +58,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
 [aurelia]: http://aurelia.io
+[prisma]: https://www.prisma.io/
 
 ## NPM, YARN, PNPM
 

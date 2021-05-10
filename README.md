@@ -21,7 +21,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 * **TypeSafe**\
   Written in TypeScript, what makes your apps safer and developer experience more enjoyable
 * **Tree shakable**\
-  The core is only 4KB mingzipped and can be even smaller!
+  The core is only 6KB mingzipped and can be even smaller!
 * **Declarative**\
   Thanks to declarative rules, you can serialize and share permissions between UI and API or microservices
 
@@ -30,7 +30,8 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 | Project           | Status                               | Description | Supported envinronemnts |
 |-------------------|--------------------------------------|-------------|-------------------------|
 | [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | nodejs 8+ and ES5 compatible browsers (IE 9+) |
-| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with  [Mongoose][mongoose] | nodejs 8+ |
+| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with [Mongoose][mongoose] | nodejs 8+ |
+| [@casl/prisma]  | [![@casl/prisma-status]][@casl/prisma-package] | integration with [Prisma][prisma] | nodejs 12+ |
 | [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | IE 9+ |
 | [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | IE 9+ |
 | [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | IE 11+ (uses `WeakMap`) |
@@ -38,6 +39,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 [@casl/ability]: packages/casl-ability
 [@casl/mongoose]: packages/casl-mongoose
+[@casl/prisma]: packages/casl-prisma
 [@casl/angular]: packages/casl-angular
 [@casl/react]: packages/casl-react
 [@casl/vue]: packages/casl-vue
@@ -45,6 +47,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 [@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
 [@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
+[@casl/prisma-status]: https://img.shields.io/npm/v/@casl/prisma.svg
 [@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
 [@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
 [@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
@@ -52,6 +55,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 [@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
 [@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
+[@casl/prisma-package]: https://www.npmjs.com/package/@casl/prisma
 [@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
 [@casl/react-package]: https://www.npmjs.com/package/@casl/react
 [@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
@@ -261,3 +265,4 @@ Copyright (c) 2017-present, Sergii Stotskyi
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
 [aurelia]: http://aurelia.io
+[prisma]: https://www.prisma.io/
