@@ -40,7 +40,7 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^5.1.0",
+    "@casl/ability": "^5.3.0",
     "@prisma/client": "^2.14.0"
   },
   "devDependencies": {
