@@ -18,6 +18,7 @@ module.exports = {
   branches: [
     'master',
     { name: 'next', channel: 'next', prerelease: true },
+    { name: 'alpha', channel: 'alpha', prerelease: true },
     `${process.env.npm_package_name}@+([0-9])?(.{+([0-9]),x}).x`
   ],
   plugins: [
