@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@4.0.2...@casl/mongoose@5.0.0) (2021-05-10)
+
+
+### Code Refactoring
+
+* **mongoose:** migrates `@casl/mongoose` to official mongoose types ([0379e7b](https://github.com/stalniy/casl/commit/0379e7b875a8d4f6d8c1cc194a0facdd9a43dc64)), closes [#436](https://github.com/stalniy/casl/issues/436)
+
+
+### Features
+
+* **prisma:** adds prisma integration ([#505](https://github.com/stalniy/casl/issues/505)) ([9f91ac4](https://github.com/stalniy/casl/commit/9f91ac403f05c8fac5229b1c9e243909379efbc6)), closes [#161](https://github.com/stalniy/casl/issues/161) [#161](https://github.com/stalniy/casl/issues/161)
+
+
+### BREAKING CHANGES
+
+* **mongoose:** migrates `@casl/mongoose` to official mongoose types. This is a breaking change for TypeScript users. What you need to do is to
+
+  ```sh
+  npm uninstall @types/mongoose
+  ```
+
+  and extend model interfaces by `mongoose.Document`
+
+  **Before**
+
+  ```ts
+  interface Post {
+    title: string;
+    content: string;
+  }
+
+  const schema = new mongoose.Schema<Post>({
+    // model definition
+  });
+  ```
+
+  **After**
+
+  ```ts
+  import mongoose from "mongoose";
+
+  interface Post extends mongoose.Document {
+    title: string;
+    content: string;
+  }
+
+  const schema = new mongoose.Schema<Post>({
+    // model definition
+  });
+  ```
+
+  For example, check updated README.md
+
 ## [4.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@4.0.1...@casl/mongoose@4.0.2) (2021-04-12)
 
 
