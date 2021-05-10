@@ -22,7 +22,7 @@ pnpm add @casl/mongoose @casl/ability
 
 ### Accessible Records plugin
 
-`accessibleRecordsPlugin` is a plugin which adds `accessibleBy` method to query and static methods of your models. You can add this plugin globally:
+`accessibleRecordsPlugin` is a plugin which adds `accessibleBy` method to query and static methods of mongoose models. We can add this plugin globally:
 
 ```js
 const { accessibleRecordsPlugin } = require('@casl/mongoose');
@@ -31,7 +31,7 @@ const mongoose = require('mongoose');
 mongoose.plugin(accessibleRecordsPlugin);
 ```
 
-> Make sure you add the plugin before calling `mongoose.model(...)` method. Mongoose won't add global plugins to models that where created before calling `mongoose.plugin()`.
+> Make sure to add the plugin before calling `mongoose.model(...)` method. Mongoose won't add global plugins to models that where created before calling `mongoose.plugin()`.
 
 or to a particular model:
 
@@ -49,7 +49,7 @@ Post.plugin(accessibleRecordsPlugin)
 module.exports = mongoose.model('Post', Post)
 ```
 
-Afterwards you can fetch accessible records by calling `accessibleBy` method on `Post`:
+Afterwards, we can fetch accessible records using `accessibleBy` method on `Post`:
 
 ```js
 const Post = require('./Post')
@@ -77,7 +77,7 @@ async function main() {
 }
 ```
 
-`accessibleBy` returns an instance of `mongoose.Query` and that means you can chain it with any `mongoose.Query`'s method (e.g., `select`, `limit`, `sort`). By default, `accessibleBy` constructs query based on the list of rules for `read` action but you can change this by providing the 2nd optional argument:
+`accessibleBy` returns an instance of `mongoose.Query` and that means you can chain it with any `mongoose.Query`'s method (e.g., `select`, `limit`, `sort`). By default, `accessibleBy` constructs a query based on the list of rules for `read` action but we can change this by providing the 2nd optional argument:
 
 ```js
 const Post = require('./Post');
@@ -91,7 +91,7 @@ async function main() {
 
 > `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://casl.js.org/v5/en/advanced/ability-to-database-query) to get insights of how it works.
 
-In case when user doesn’t have permission to do a particular action, CASL will not even send request to MongoDB and instead will force Query to return empty result set. CASL patches native mongodb collection's methods in such case to return predefine value (empty array for `find`, `null` for `findOne` and `0` for `count`). It also adds `__forbiddenByCasl__: 1` condition which will enforce mongodb to return empty set in case if you use one of methods that are not patched, so users who is not allowed to get particular records won't get them!
+In case user doesn’t have permission to do a particular action, CASL will throw `ForbiddenError` and will not send request to MongoDB. It also adds `__forbiddenByCasl__: 1` condition for additional safety.
 
 For example, lets find all posts which user can delete (we haven’t defined abilities for delete):
 
@@ -105,12 +105,15 @@ mongoose.set('debug', true);
 const ability = defineAbility(can => can('read', 'Post', { private: false }));
 
 async function main() {
-  const posts = await Post.accessibleBy(ability, 'delete');
-  console.log(posts) // [];
+  try {
+    const posts = await Post.accessibleBy(ability, 'delete');
+  } catch (error) {
+    console.log(error) // ForbiddenError;
+  }
 }
 ```
 
-You can also use the resulting conditions in [aggregation pipeline](https://mongoosejs.com/docs/api.html#aggregate_Aggregate):
+We can also use the resulting conditions in [aggregation pipeline](https://mongoosejs.com/docs/api.html#aggregate_Aggregate):
 
 ```js
 const Post = require('./Post');
@@ -161,7 +164,7 @@ async function main() {
 
 ### Accessible Fields plugin
 
-`accessibleFieldsPlugin` is a plugin that adds `accessibleFieldsBy` method to instance and static methods of a model and allows to retrieve all accessible fields. This is useful when you need send only accessible part of a model in response:
+`accessibleFieldsPlugin` is a plugin that adds `accessibleFieldsBy` method to instance and static methods of a model and allows to retrieve all accessible fields. This is useful when we need to send only accessible part of a model in response:
 
 ```js
 const { accessibleFieldsPlugin } = require('@casl/mongoose');
@@ -198,7 +201,7 @@ post.accessibleFieldsBy(ability); // ['title']
 
 As you can see, a static method returns all fields that can be read for all posts. At the same time, an instance method returns fields that can be read from this particular `post` instance. That's why there is no much sense (except you want to reduce traffic between app and database) to pass the result of static method into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
 
-## Integration with any MongoDB library
+## Integration with other MongoDB libraries
 
 In case you don't use mongoose, this package provides `toMongoQuery` function which can convert CASL rules into [MongoDB] query. Lets see an example of how to fetch accessible records using raw [MongoDB adapter][mongo-adapter]
 
@@ -229,14 +232,14 @@ async function main() {
 
 ## TypeScript support
 
-The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE will hint you about you can pass inside arguments and TypeScript will warn you about wrong usage. Let's see it in action!
+The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE provides useful hints. Let's see it in action!
 
 Suppose we have `Post` entity which can be described as:
 
 ```ts
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface Post {
+export interface Post extends mongoose.Document {
   title: string
   content: string
   published: boolean
@@ -295,7 +298,7 @@ const post = new Post();
 post.accessibleFieldsBy(/* parameters */);
 ```
 
-And we want to include both plugins, we can use `AccessibleModel` type that includes methods from both plugins:
+And if we want to include both plugins, we can use `AccessibleModel` type that provides methods from both plugins:
 
 ```ts
 import {

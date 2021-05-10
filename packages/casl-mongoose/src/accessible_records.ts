@@ -9,21 +9,18 @@ function failedQuery(
   modelName: string,
   query: DocumentQuery<Document, Document>
 ) {
-  const error = ForbiddenError.from(ability);
-  error.action = action;
-  error.subjectType = modelName;
-  error.setMessage(getDefaultErrorMessage(error));
-
   query.where({ __forbiddenByCasl__: 1 }); // eslint-disable-line
-  query.exec = function patchedExecByCasl(...args: any[]) {
-    const cb = typeof args[0] === 'function' ? args[0] : args[1];
-    if (typeof cb === 'function') {
-      process.nextTick(() => cb(error));
-      return;
-    }
-    // eslint-disable-next-line consistent-return
-    return Promise.reject(error);
-  } as typeof query['exec'];
+  const anyQuery: any = query;
+
+  if (typeof anyQuery.pre === 'function') {
+    anyQuery.pre((cb: (error?: Error) => void) => {
+      const error = ForbiddenError.from(ability);
+      error.action = action;
+      error.subjectType = modelName;
+      error.setMessage(getDefaultErrorMessage(error));
+      cb(error);
+    });
+  }
 
   return query;
 }
@@ -63,7 +60,7 @@ export interface AccessibleRecordModel<T extends Document, K = {}> extends Model
   accessibleBy: GetAccessibleRecords<T>
 }
 
-export function accessibleRecordsPlugin(schema: Schema<Document>) {
+export function accessibleRecordsPlugin(schema: Schema<any>) {
   schema.query.accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
 }

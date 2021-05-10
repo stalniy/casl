@@ -41,7 +41,9 @@
     }],
     "func-names": "off",
     "class-methods-use-this": "warn",
-    "no-multi-assign": "off"
+    "no-multi-assign": "off",
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": ["error"]
   },
   "overrides": [
     {

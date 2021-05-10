@@ -4,7 +4,7 @@
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "dist/es6c/index.js",
   "es2015": "dist/es6m/index.mjs",
-  "typings": "index.d.ts",
+  "typings": "dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/es6m/index.mjs",
@@ -24,7 +24,7 @@
     "build": "BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,mongoose",
     "build.types": "dx tsc",
     "lint": "dx eslint src/ spec/",
-    "test": "dx jest --config ../dx/config/jest.chai.config.js",
+    "test": "dx jest",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release"
   },
@@ -40,15 +40,14 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^3.0.0 || ^4.0.0 || ^5.1.0",
-    "mongoose": "^4.0.0 || <= 5.10.0"
+    "mongoose": "^5.12.0"
   },
   "devDependencies": {
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
-    "@types/mongoose": "^5.7.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "mongoose": "~5.10.0"
+    "mongoose": "^5.12.0"
   },
   "files": [
     "dist",
