@@ -32,11 +32,8 @@
   "keywords": [
     "casl",
     "aurelia",
-    "access control",
     "authorization",
     "acl",
-    "cancan",
-    "security",
     "permissions"
   ],
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",

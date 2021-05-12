@@ -29,11 +29,10 @@
     "release": "dx semantic-release"
   },
   "keywords": [
+    "casl",
     "mongo",
-    "access control",
     "authorization",
     "acl",
-    "security",
     "permissions"
   ],
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
