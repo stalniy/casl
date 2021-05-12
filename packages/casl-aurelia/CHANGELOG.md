@@ -10,11 +10,6 @@ All notable changes to this project will be documented in this file.
 * adjusts package tags to improve discoverability ([73e88b0](https://github.com/stalniy/casl/commit/73e88b0a256625b193b2cd9dc4a219f2e1193cbc))
 
 
-### Features
-
-* **angular:** updates angular to v11 ([#421](https://github.com/stalniy/casl/issues/421)) ([ec16bf9](https://github.com/stalniy/casl/commit/ec16bf9e93536c4ec249d2520cf336c1497615a9))
-* **prisma:** adds prisma integration ([#505](https://github.com/stalniy/casl/issues/505)) ([9f91ac4](https://github.com/stalniy/casl/commit/9f91ac403f05c8fac5229b1c9e243909379efbc6)), closes [#161](https://github.com/stalniy/casl/issues/161) [#161](https://github.com/stalniy/casl/issues/161)
-
 # [1.2.0](https://github.com/stalniy/casl/compare/@casl/aurelia@1.1.1...@casl/aurelia@1.2.0) (2021-05-12)
 
 

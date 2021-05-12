@@ -9,11 +9,6 @@ All notable changes to this project will be documented in this file.
 
 * adjusts package tags to improve discoverability ([73e88b0](https://github.com/stalniy/casl/commit/73e88b0a256625b193b2cd9dc4a219f2e1193cbc))
 
-
-### Features
-
-* **prisma:** adds prisma integration ([#505](https://github.com/stalniy/casl/issues/505)) ([9f91ac4](https://github.com/stalniy/casl/commit/9f91ac403f05c8fac5229b1c9e243909379efbc6)), closes [#161](https://github.com/stalniy/casl/issues/161) [#161](https://github.com/stalniy/casl/issues/161)
-
 ## [2.0.2](https://github.com/stalniy/casl/compare/@casl/vue@2.0.1...@casl/vue@2.0.2) (2021-01-25)
 
 ## [2.0.1](https://github.com/stalniy/casl/compare/@casl/vue@2.0.0...@casl/vue@2.0.1) (2021-01-23)
