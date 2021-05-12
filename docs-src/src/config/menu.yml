@@ -14,6 +14,8 @@ items:
   route: false
   children:
     - heading: packages
+    - name: pkg-prisma
+      page: package/casl-prisma
     - name: pkg-mongoose
       page: package/casl-mongoose
     - name: pkg-angular
