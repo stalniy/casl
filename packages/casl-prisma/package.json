@@ -30,11 +30,10 @@
     "prepare": "prisma generate"
   },
   "keywords": [
-    "mongo",
-    "access control",
+    "casl",
+    "sql",
     "authorization",
     "acl",
-    "security",
     "permissions"
   ],
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",

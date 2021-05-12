@@ -8,7 +8,7 @@ describe('toMongoQuery', () => {
     })
     const query = toMongoQuery(ability, 'Post', 'update')
 
-    expect(query).to.deep.equal({
+    expect(query).toEqual({
       $or: [{ _id: 'mega' }]
     })
   })
@@ -22,7 +22,7 @@ describe('toMongoQuery', () => {
     })
     const query = toMongoQuery(ability, 'Post')
 
-    expect(query).to.deep.equal({
+    expect(query).toEqual({
       $or: [
         { state: 'draft' },
         { _id: 'mega' }
@@ -41,7 +41,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ isPublished: { $exists: true, $ne: null } }] })
+      expect(query).toEqual({ $or: [{ isPublished: { $exists: true, $ne: null } }] })
     })
 
     it('is blank', () => {
@@ -51,7 +51,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({
+      expect(query).toEqual({
         $or: [
           { isPublished: null },
           { isPublished: { $exists: false } }
@@ -65,7 +65,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ state: { $in: ['draft', 'archived'] } }] })
+      expect(query).toEqual({ $or: [{ state: { $in: ['draft', 'archived'] } }] })
     })
 
     it('is defined by `$all` criteria', () => {
@@ -74,7 +74,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ state: { $all: ['draft', 'archived'] } }] })
+      expect(query).toEqual({ $or: [{ state: { $all: ['draft', 'archived'] } }] })
     })
     it('is defined by `$lt` and `$lte` criteria', () => {
       const ability = defineAbility((can) => {
@@ -83,7 +83,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ views: { $lt: 5 } }, { views: { $lt: 10 } }] })
+      expect(query).toEqual({ $or: [{ views: { $lt: 5 } }, { views: { $lt: 10 } }] })
     })
 
     it('is defined by `$gt` and `$gte` criteria', () => {
@@ -93,7 +93,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ views: { $gte: 100 } }, { views: { $gt: 10 } }] })
+      expect(query).toEqual({ $or: [{ views: { $gte: 100 } }, { views: { $gt: 10 } }] })
     })
 
     it('is defined by `$ne` criteria', () => {
@@ -102,7 +102,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ creator: { $ne: 'me' } }] })
+      expect(query).toEqual({ $or: [{ creator: { $ne: 'me' } }] })
     })
 
     it('is defined by dot notation fields', () => {
@@ -111,7 +111,7 @@ describe('toMongoQuery', () => {
       })
       const query = toMongoQuery(ability, 'Post')
 
-      expect(query).to.deep.equal({ $or: [{ 'comments.author': 'Ted' }] })
+      expect(query).toEqual({ $or: [{ 'comments.author': 'Ted' }] })
     })
   })
 })

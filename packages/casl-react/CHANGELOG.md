@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.3.0](https://github.com/stalniy/casl/compare/@casl/react@2.2.2...@casl/react@2.3.0) (2021-05-12)
+
+
+### Bug Fixes
+
+* adjusts package tags to improve discoverability ([73e88b0](https://github.com/stalniy/casl/commit/73e88b0a256625b193b2cd9dc4a219f2e1193cbc))
+
+
 ## [2.2.2](https://github.com/stalniy/casl/compare/@casl/react@2.2.1...@casl/react@2.2.2) (2021-01-14)
 
 

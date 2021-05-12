@@ -23,6 +23,7 @@ menu:
   cookbook: Cookbook
   ecosystem: Ecosystem
   packages: Official packages
+  pkg-prisma: CASL Prisma
   pkg-mongoose: CASL Mongoose
   pkg-angular: CASL Angular
   pkg-react: CASL React

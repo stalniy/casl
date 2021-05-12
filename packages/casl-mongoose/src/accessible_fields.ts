@@ -37,7 +37,7 @@ export interface AccessibleFieldsDocument extends Document {
 
 function modelFieldsGetter() {
   let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
-  return (schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) => {
+  return (schema: Schema<any>, options: Partial<AccessibleFieldsOptions>) => {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options
         ? wrapArray(options.only as string[])
@@ -50,7 +50,7 @@ function modelFieldsGetter() {
 }
 
 export function accessibleFieldsPlugin(
-  schema: Schema<AccessibleFieldsDocument>,
+  schema: Schema<any>,
   rawOptions?: Partial<AccessibleFieldsOptions>
 ) {
   const options = { getFields: getSchemaPaths, ...rawOptions };

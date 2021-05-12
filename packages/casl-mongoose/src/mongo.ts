@@ -9,7 +9,7 @@ function convertToMongoQuery(rule: AnyMongoAbility['rules'][number]) {
 export function toMongoQuery<T extends AnyMongoAbility>(
   ability: T,
   subjectType: Parameters<T['rulesFor']>[1],
-  action: Parameters<T['rulesFor']>[0]
+  action: Parameters<T['rulesFor']>[0] = 'read'
 ) {
-  return rulesToQuery(ability, action || 'read', subjectType, convertToMongoQuery);
+  return rulesToQuery(ability, action, subjectType, convertToMongoQuery);
 }

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.1.1](https://github.com/stalniy/casl/compare/@casl/angular@5.1.0...@casl/angular@5.1.1) (2021-05-12)
+
+
+### Bug Fixes
+
+* adjusts package tags to improve discoverability ([73e88b0](https://github.com/stalniy/casl/commit/73e88b0a256625b193b2cd9dc4a219f2e1193cbc))
+
 # [5.1.0](https://github.com/stalniy/casl/compare/@casl/angular@5.0.2...@casl/angular@5.1.0) (2021-01-14)
 
 

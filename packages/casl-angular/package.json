@@ -1,6 +1,6 @@
 {
   "name": "@casl/angular",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
@@ -38,11 +38,8 @@
   "keywords": [
     "casl",
     "angular",
-    "access control",
     "authorization",
     "acl",
-    "cancan",
-    "security",
     "permissions"
   ],
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
