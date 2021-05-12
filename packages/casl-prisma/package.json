@@ -1,6 +1,6 @@
 {
   "name": "@casl/prisma",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Allows to query accessible records using Prisma client based on CASL rules",
   "main": "dist/es6c/index.js",
   "es2015": "dist/es6m/index.mjs",
