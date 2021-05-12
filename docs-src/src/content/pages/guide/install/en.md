@@ -60,6 +60,13 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [aurelia]: http://aurelia.io
 [prisma]: https://www.prisma.io/
 
+
+## 3rd party packages
+
+There are also 3rd party packages which we can utilize in our projects. To find them, just [search on NPM using "casl" keyword](https://www.npmjs.com/search?q=keywords:casl)
+
+> Add "casl" in [package.json#keywords](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#keywords) array to show up your CASL based package in that list
+
 ## NPM, YARN, PNPM
 
 Installation through package manager is the recommended way to install CASL. To install the latest stable version run:
