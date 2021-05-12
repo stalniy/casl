@@ -27,7 +27,7 @@
     "lint": "dx eslint src/ spec/",
     "test": "dx jest --env jsdom --config ../dx/config/jest.chai.config.js",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release -e ../../tools/semantic-release"
+    "release": "dx semantic-release"
   },
   "keywords": [
     "casl",
