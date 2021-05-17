@@ -51,7 +51,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@abraham/reflection": "^0.7.0",
+    "@abraham/reflection": "^0.8.0",
     "@angular/common": "^11.0.0",
     "@angular/compiler": "^11.0.0",
     "@angular/compiler-cli": "^11.0.0",
