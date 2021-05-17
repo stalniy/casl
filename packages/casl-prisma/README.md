@@ -26,9 +26,9 @@ This package is a bit different from all others because it provides a custom `Pr
 ```ts
 import { User, Post, Prisma } from '@prisma/client';
 import { AbilityClass, AbilityBuilder, subject } from '@casl/ability';
-import { PrismaAbility, Model } from '@casl/prisma';
+import { PrismaAbility, Subjects } from '@casl/prisma';
 
-type AppAbility = PrismaAbility<[string, Models<{
+type AppAbility = PrismaAbility<[string, Subjects<{
   User: User,
   Post: Post
 }>]>;
