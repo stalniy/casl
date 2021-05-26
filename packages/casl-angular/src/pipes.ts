@@ -1,7 +1,8 @@
-import { Pipe, ChangeDetectorRef, Inject, PipeTransform } from '@angular/core';
+import { Pipe, ChangeDetectorRef, Inject, PipeTransform, Injectable } from '@angular/core';
 import { PureAbility, Unsubscribe, AnyAbility } from '@casl/ability';
 import { Observable } from 'rxjs';
 
+@Injectable()
 class AbilityPipe<T extends AnyAbility> {
   protected _unsubscribeFromAbility?: Unsubscribe;
   private _ability: T;
