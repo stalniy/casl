@@ -45,7 +45,7 @@
   "devDependencies": {
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
-    "@testing-library/react-hooks": "^4.0.1",
+    "@testing-library/react-hooks": "^7.0.0",
     "@types/node": "^14.0.5",
     "@types/react": "^17.0.0",
     "chai": "^4.1.0",
