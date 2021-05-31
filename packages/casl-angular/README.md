@@ -172,7 +172,7 @@ For apps that mutate application state, we need to use impure `able` pipe as it 
 
 ## TypeScript support
 
-The package is written in TypeScript, so it will warn you about wrong usage.
+This package is written in TypeScript, so it will warn you about wrong usage.
 
 It may be a bit tedious to use application specific abilities in Angular app because everywhere you inject `Ability` instance you will need to import its generic parameters:
 
