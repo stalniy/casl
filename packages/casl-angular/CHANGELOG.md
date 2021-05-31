@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [5.1.2](https://github.com/stalniy/casl/compare/@casl/angular@5.1.1...@casl/angular@5.1.2) (2021-05-31)
+## [5.1.2](https://github.com/stalniy/casl/compare/@casl/angular@5.1.1...@casl/angular@5.1.2) (2021-05-31) DEPRECATED
 
 
 ### chore
