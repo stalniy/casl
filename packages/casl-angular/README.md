@@ -4,9 +4,11 @@
 [![](https://img.shields.io/npm/dm/%40casl%2Fangular.svg)](https://www.npmjs.com/package/%40casl%2Fangular)
 [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-This package allows to integrate `@casl/ability` with [Angular] application. It provides `AblePipe` and **deprecated** `CanPipe` to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.
+This package allows to integrate `@casl/ability` with [Angular] application. It provides `AblePipe` and `AblePurePipe` to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.
 
 ## Installation
+
+The latest version of this package is compiled by Ivy, so **apps that do not use Ivy are no longer supported.**
 
 ```sh
 npm install @casl/angular @casl/ability
@@ -39,7 +41,7 @@ import { Ability, PureAbility } from '@casl/ability';
 export class AppModule {}
 ```
 
-The 2nd provider provides instance of `PureAbility`, so `CanPipe` and `AblePipe` can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need conditions you can use `PureAbility` and get rid of `sift` library).
+The 2nd provider provides instance of `PureAbility`, so pipes can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need conditions you can use `PureAbility` and shrink @casl/ability size).
 
 > Read [CASL and TypeScript](https://casl.js.org/v5/en/advanced/typescript) to get more details about `Ability` type configuration.
 
@@ -130,16 +132,6 @@ To check permissions in any template you can use `AblePipe`:
 ```
 
 > You can read the expression in `ngIf` as "if creatable Post"
-
-Or with **deprecated** `CanPipe`:
-
-```html
-<div *ngIf="'Post' | can: 'create'">
-  <a (click)="createPost()">Add Post</a>
-</div>
-```
-
-`CanPipe` was deprecated because it is less readable and it was harder to integrate it with all type definitions supported by `Ability`'s `can` method. That's why `CanPipe` has weaker typings than `AblePipe`.
 
 ## Why pipe and not directive?
 

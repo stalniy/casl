@@ -4,11 +4,11 @@
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.js",
+  "es2015": "dist/es6m/index.mjs",
   "typings": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es6m/index.js",
+      "import": "./dist/es6m/index.mjs",
       "require": "./dist/umd/index.js"
     }
   },
@@ -26,9 +26,9 @@
     "build.es5m": "TARGET=es5 BUILD=es5m npm run rollup",
     "build.es6": "TARGET=es2015 BUILD=es6m npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
-    "build.types": "ngc -p tsconfig.types.json",
+    "build.types": "ngc -p tsconfig.types.json && rm -rf dist/types/*.js",
     "prerollup": "ngc -p tsconfig.build.json --target $TARGET --outDir dist/$BUILD/tmp",
-    "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false ES6M_EXT=.js dx rollup -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
+    "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false dx rollup -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
     "postrollup": "rm -rf dist/$BUILD/tmp",
     "test": "dx jest --config ./jest.config.js",
     "lint": "dx eslint src/ spec/",
@@ -45,24 +45,25 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^9.0.0 || ^10.0.0 || ^11.0.0",
+    "@angular/core": "^12.0.0",
     "@casl/ability": "^3.0.0 || ^4.0.0 || ^5.1.0",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.5.3",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@abraham/reflection": "^0.7.0",
-    "@angular/common": "^11.0.0",
-    "@angular/compiler": "^11.0.0",
-    "@angular/compiler-cli": "^11.0.0",
-    "@angular/core": "^11.0.0",
-    "@angular/platform-browser": "^11.0.0",
-    "@angular/platform-browser-dynamic": "^11.0.0",
+    "@abraham/reflection": "^0.8.0",
+    "@angular/common": "^12.0.0",
+    "@angular/compiler": "^12.0.0",
+    "@angular/compiler-cli": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "@angular/platform-browser": "^12.0.0",
+    "@angular/platform-browser-dynamic": "^12.0.0",
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.5.3",
     "tslib": "^2.0.0",
-    "zone.js": "^0.10.2"
+    "typescript": "~4.2.3",
+    "zone.js": "~0.11.4"
   },
   "files": [
     "dist",

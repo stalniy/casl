@@ -24,10 +24,8 @@
     "spec/*"
   ],
   "angularCompilerOptions": {
-    "enableIvy": false,
+    "enableIvy": true,
     "skipMetadataEmit": true,
-    "skipTemplateCodegen": true,
-    "strictInjectionParameters": true,
     "flatModuleOutFile": "index.js",
     "flatModuleId": "@casl/angular"
   }
