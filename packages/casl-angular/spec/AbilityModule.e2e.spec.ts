@@ -2,7 +2,6 @@ import { PureAbility } from '@casl/ability'
 import { TestBed } from '@angular/core/testing'
 import { createApp, createComponent, configureTestingModule, Post } from './spec_helper'
 
-const AppWithCanPipe = createApp('{{ post | can: \'read\' }}')
 const AppWithAblePipe = createApp('{{ \'read\' | able: post }}')
 const AppWithAblePurePipe = createApp('{{ \'read\' | ablePure: post | async }}')
 
@@ -19,8 +18,8 @@ describe('Ability pipes', () => {
 
   describe('module', () => {
     it('provides deprecated impure `can` pipe', () => {
-      configureTestingModule([AppWithCanPipe])
-      fixture = createComponent(AppWithCanPipe)
+      configureTestingModule([AppWithAblePurePipe])
+      fixture = createComponent(AppWithAblePurePipe)
       expect(fixture.nativeElement.textContent).toBe('false')
     })
 
@@ -29,10 +28,6 @@ describe('Ability pipes', () => {
       fixture = createComponent(AppWithAblePipe)
       expect(fixture.nativeElement.textContent).toBe('false')
     })
-  })
-
-  describe('`can` pipe', () => {
-    behavesLikeAbilityPipe(AppWithCanPipe)
   })
 
   describe('`able` pipe', () => {
