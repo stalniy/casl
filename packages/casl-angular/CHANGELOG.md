@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.0.0](https://github.com/stalniy/casl/compare/@casl/angular@5.1.2...@casl/angular@6.0.0) (2021-05-31)
+
+
+### Code Refactoring
+
+* **angular:** removes deprecated CanPipe and stick to Ivy compiler ([82b61f5](https://github.com/stalniy/casl/commit/82b61f5e46dc3c031aef42ae499eca25f2698fdb))
+
+
+### BREAKING CHANGES
+
+* **angular:** there are few important changes:
+
+  * deprecated `CanPipe` was removed, use `AblePipe` instead
+  * library is compiled by Ivy and no longer support ViewEngine
+
 ## [5.1.2](https://github.com/stalniy/casl/compare/@casl/angular@5.1.1...@casl/angular@5.1.2) (2021-05-31)
 
 
