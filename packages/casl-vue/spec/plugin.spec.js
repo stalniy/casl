@@ -68,8 +68,8 @@ describe('Abilities plugin', () => {
     })
 
     it('defines `$can` and `$ability` for all components', () => {
-      expect(vm.$can).to.be.a('function')
-      expect(vm.$ability).to.equal(ability)
+      expect(vm.$can('read', 'Post')).to.be.true
+      expect(vm.$ability.can('read', 'Post')).to.be.true
     })
   })
 })

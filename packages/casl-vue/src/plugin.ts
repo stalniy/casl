@@ -16,6 +16,6 @@ export function abilitiesPlugin(app: App, ability: AnyAbility, options?: Ability
 
   if (options && options.useGlobalProperties) {
     app.config.globalProperties.$ability = ability;
-    app.config.globalProperties.$can = ability.can;
+    app.config.globalProperties.$can = ability.can.bind(ability);
   }
 }
