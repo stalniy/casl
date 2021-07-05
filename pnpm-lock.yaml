@@ -16,7 +16,7 @@ importers:
       '@ucast/mongo2js': ^1.3.0
       chai: ^4.1.0
       chai-spies: ^1.0.0
-      expect-type: ^0.11.0
+      expect-type: ^0.12.0
     dependencies:
       '@ucast/mongo2js': 1.3.2
     devDependencies:
@@ -25,7 +25,7 @@ importers:
       '@types/node': 14.14.41
       chai: 4.3.4
       chai-spies: 1.0.0_chai@4.3.4
-      expect-type: 0.11.0
+      expect-type: 0.12.0
 
   packages/casl-angular:
     specifiers:
@@ -3950,8 +3950,8 @@ packages:
       to-regex: 3.0.2
     dev: false
 
-  /expect-type/0.11.0:
-    resolution: {integrity: sha512-hkObxepDKhTYloH/UZoxYTT2uUzdhvDEwAi0oqdk29XEkHF8p+5ZRpX/BZES2PtGN9YgyEqutIjXfnL9iMflMw==}
+  /expect-type/0.12.0:
+    resolution: {integrity: sha512-IHwziEOjpjXqxQhtOAD5zMiQpGztaEKM4Q8wnwoRN9NIFlnyNHNjRxKWv+18UqRfsqi6vVnZIYFU16ePf+HaqA==}
     dev: true
 
   /expect/26.6.2:
