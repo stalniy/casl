@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [5.4.0](https://github.com/stalniy/casl/compare/@casl/ability@5.3.1...@casl/ability@5.4.0) (2021-08-11)
+
+
+### Features
+
+* **ability:** adds posibility to define custom any action and any subject type instead of using `manage` and `all` ([#533](https://github.com/stalniy/casl/issues/533)) ([9226583](https://github.com/stalniy/casl/commit/9226583c85ba2af70c3ae8de59e7441f004c72a3)), closes [#527](https://github.com/stalniy/casl/issues/527)
+
 ## [5.3.1](https://github.com/stalniy/casl/compare/@casl/ability@5.3.0...@casl/ability@5.3.1) (2021-05-12)
 
 
