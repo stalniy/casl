@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3](https://github.com/stalniy/casl/compare/@casl/vue@1.2.2...@casl/vue@1.2.3) (2021-08-11)
+
+
+### Bug Fixes
+
+* **vue:** properly extracts field from props ([71f7931](https://github.com/stalniy/casl/commit/71f7931d1ebaae5fcdb0db9f0a73f67a1ef3dcf7))
+
 ## [1.2.2](https://github.com/stalniy/casl/compare/@casl/vue@1.2.1...@casl/vue@1.2.2) (2021-01-23)
 
 
