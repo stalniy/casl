@@ -33,14 +33,14 @@ export default Vue.extend<AllCanProps<VueAbility>>({
   },
   render(h, { props, children, parent, data }): VNode | VNode[] {
     const mixed = props as any;
-    const [action, field] = (mixed.I || mixed.do || '').split(' ');
+    const action = mixed.I || mixed.do;
     const subject = mixed.of || mixed.an || mixed.a || mixed.this || mixed.on;
 
     if (!action) {
       throw new Error('[Vue Can]: neither `I` nor `do` prop was passed in <Can>');
     }
 
-    const isAllowed = parent.$can(action, subject, field);
+    const isAllowed = parent.$can(action, subject, mixed.field);
     const canRender = props.not ? !isAllowed : isAllowed;
 
     if (!props.passThrough) {

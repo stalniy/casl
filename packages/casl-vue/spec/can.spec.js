@@ -28,12 +28,22 @@ describe('`Can` component', () => {
 
   it('renders all children if `Ability` instance allows to do an action on field', () => {
     const wrapper = render(`
-      <Can I="update" a="Plugin" field="title">
+      <Can I="update" a="Plugin" field="version">
         <h1></h1>
       </Can>
     `)
 
     expect(wrapper.contains('h1')).to.be.true
+  })
+
+  it('renders nothing if `Ability` instance does not allow to do an action on a field', () => {
+    const wrapper = render(`
+      <Can I="update" a="Plugin" field="forbiddenField">
+        <h1></h1>
+      </Can>
+    `)
+
+    expect(wrapper.contains('h1')).to.be.false
   })
 
   it('inverts permission condition when `not` prop is passed', () => {
