@@ -76,6 +76,20 @@ describe('Ability', () => {
     expect(ability).to.allow('read')
   })
 
+  it('allows to define custom `anyAction` and `anySubjectType` options', () => {
+    ability = new Ability([{ action: '*', subject: '*' }], {
+      anyAction: '*',
+      anySubjectType: '*',
+    })
+
+    expect(ability.can('read', 'Post')).to.be.true
+    expect(ability.can('update', 'Post')).to.be.true
+    expect(ability.can('doAnythingWith', 'Post')).to.be.true
+    expect(ability.can('*', '*')).to.be.true
+    expect(ability.can('*', 'Post')).to.be.true
+    expect(ability.can('read', '*')).to.be.true
+  })
+
   describe('by default', () => {
     beforeEach(() => {
       ability = defineAbility((can, cannot) => {

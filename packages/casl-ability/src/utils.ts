@@ -47,11 +47,7 @@ export const getSubjectTypeName = (value: SubjectType) => {
   return typeof value === 'string' ? value : getSubjectClassName(value);
 };
 
-export function detectSubjectType(subject?: Exclude<Subject, SubjectType>): string {
-  if (!subject) {
-    return 'all';
-  }
-
+export function detectSubjectType(subject: Exclude<Subject, SubjectType>): string {
   if (subject.hasOwnProperty(TYPE_FIELD)) {
     return (subject as any)[TYPE_FIELD];
   }
@@ -59,7 +55,8 @@ export function detectSubjectType(subject?: Exclude<Subject, SubjectType>): stri
   return getSubjectClassName(subject.constructor as SubjectClass);
 }
 
-export function expandActions(aliasMap: AliasesMap, rawActions: string | string[]) {
+type AliasMerge = (actions: string[], action: string | string[]) => string[];
+function expandActions(aliasMap: AliasesMap, rawActions: string | string[], merge: AliasMerge) {
   let actions = wrapArray(rawActions);
   let i = 0;
 
@@ -67,36 +64,56 @@ export function expandActions(aliasMap: AliasesMap, rawActions: string | string[
     const action = actions[i++];
 
     if (aliasMap.hasOwnProperty(action)) {
-      actions = actions.concat(aliasMap[action]);
+      actions = merge(actions, aliasMap[action]);
     }
   }
 
   return actions;
 }
 
-function assertAliasMap(aliasMap: AliasesMap) {
-  if (aliasMap.manage) {
-    throw new Error('Cannot add alias for "manage" action because it is reserved');
+function findDuplicate(actions: string[], actionToFind: string | string[]) {
+  if (typeof actionToFind === 'string' && actions.indexOf(actionToFind) !== -1) {
+    return actionToFind;
   }
 
-  Object.keys(aliasMap).forEach((alias) => {
-    const hasError = alias === aliasMap[alias]
-      || Array.isArray(aliasMap[alias]) && (
-        aliasMap[alias].indexOf(alias) !== -1 || aliasMap[alias].indexOf('manage') !== -1
-      );
+  for (let i = 0; i < actionToFind.length; i++) {
+    if (actions.indexOf(actionToFind[i]) !== -1) return actionToFind[i];
+  }
 
-    if (hasError) {
-      throw new Error(`Attempt to alias action to itself: ${alias} -> ${aliasMap[alias]}`);
-    }
-  });
+  return null;
 }
 
-export function createAliasResolver(aliasMap: AliasesMap) {
-  if (process.env.NODE_ENV !== 'production') {
-    assertAliasMap(aliasMap);
+const defaultAliasMerge: AliasMerge = (actions, action) => actions.concat(action);
+function validateForCycles(aliasMap: AliasesMap, reservedAction: string) {
+  if (reservedAction in aliasMap) {
+    throw new Error(`Cannot use "${reservedAction}" as an alias because it's reserved action.`);
   }
 
-  return (action: string | string[]) => expandActions(aliasMap, action);
+  const keys = Object.keys(aliasMap);
+  const mergeAliasesAndDetectCycles: AliasMerge = (actions, action) => {
+    const duplicate = findDuplicate(actions, action);
+    if (duplicate) throw new Error(`Detected cycle ${duplicate} -> ${actions.join(', ')}`);
+
+    const isUsingReservedAction = typeof action === 'string' && action === reservedAction
+      || actions.indexOf(reservedAction) !== -1
+      || Array.isArray(action) && action.indexOf(reservedAction) !== -1;
+    if (isUsingReservedAction) throw new Error(`Cannot make an alias to "${reservedAction}" because this is reserved action`);
+
+    return actions.concat(action);
+  };
+
+  for (let i = 0; i < keys.length; i++) {
+    expandActions(aliasMap, keys[i], mergeAliasesAndDetectCycles);
+  }
+}
+
+export type AliasResolverOptions = { skipValidate?: boolean; anyAction?: string };
+export function createAliasResolver(aliasMap: AliasesMap, options?: AliasResolverOptions) {
+  if (!options || options.skipValidate !== false) {
+    validateForCycles(aliasMap, options && options.anyAction || 'manage');
+  }
+
+  return (action: string | string[]) => expandActions(aliasMap, action, defaultAliasMerge);
 }
 
 function copyArrayTo<T>(dest: T[], target: T[], start: number) {

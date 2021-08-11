@@ -21,7 +21,7 @@ export type AbilityTupleType<
   U extends SubjectType = SubjectType
 > = [T, U];
 export type AbilityTypes = string | AbilityTupleType;
-export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, 'all'];
+export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, string];
 
 export type IfString<T, U> = T extends string ? U : never;
 export type AbilityParameters<
