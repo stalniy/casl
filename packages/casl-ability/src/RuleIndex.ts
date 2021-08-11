@@ -14,7 +14,9 @@ import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
   detectSubjectType?(
     subject: Exclude<Normalize<A>[1], SubjectType>
-  ): ExtractSubjectType<Normalize<A>[1]>
+  ): ExtractSubjectType<Normalize<A>[1]>;
+  anyAction?: string;
+  anySubjectType?: string;
 }
 
 declare const $abilities: unique symbol;
@@ -94,6 +96,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
   private _rules!: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions!: RuleOptions<Conditions>;
   private readonly _detectSubjectType!: Required<RuleIndexOptions<A, Conditions>>['detectSubjectType'];
+  private readonly _anyAction: string;
+  private readonly _anySubjectType: string;
   readonly [$abilities]!: A;
   readonly [$conditions]!: Conditions;
 
@@ -106,6 +110,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
       fieldMatcher: options.fieldMatcher,
       resolveAction: options.resolveAction || identity,
     };
+    this._anyAction = options.anyAction || 'manage';
+    this._anySubjectType = options.anySubjectType || 'all';
     this._detectSubjectType = options.detectSubjectType || detectSubjectType;
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
@@ -116,9 +122,9 @@ export class RuleIndex<A extends Abilities, Conditions> {
   }
 
   detectSubjectType(object?: Normalize<A>[1]): ExtractSubjectType<Normalize<A>[1]> {
-    return isSubjectType(object)
-      ? object
-      : this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
+    if (isSubjectType(object)) return object;
+    if (!object) return this._anySubjectType;
+    return this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
   }
 
   update(rules: RawRuleFrom<A, Conditions>[]): Public<this> {
@@ -143,7 +149,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
       const priority = rawRules.length - i - 1;
       const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
-      const subjects = wrapArray(rule.subject || 'all');
+      const subjects = wrapArray(rule.subject || this._anySubjectType);
       analyze(this, rule);
 
       for (let k = 0; k < subjects.length; k++) {
@@ -159,7 +165,10 @@ export class RuleIndex<A extends Abilities, Conditions> {
   }
 
   possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[]
-  possibleRulesFor(action: string, subjectType: SubjectType = 'all'): Rule<A, Conditions>[] {
+  possibleRulesFor(
+    action: string,
+    subjectType: SubjectType = this._anySubjectType
+  ): Rule<A, Conditions>[] {
     if (!isSubjectType(subjectType)) {
       throw new Error('"possibleRulesFor" accepts only subject types (i.e., string or class) as the 2nd parameter');
     }
@@ -171,13 +180,13 @@ export class RuleIndex<A extends Abilities, Conditions> {
       return actionRules.rules;
     }
 
-    const manageRules = action !== 'manage' && subjectRules.has('manage')
-      ? subjectRules.get('manage')!.rules
+    const anyActionRules = action !== this._anyAction && subjectRules.has(this._anyAction)
+      ? subjectRules.get(this._anyAction)!.rules
       : undefined;
-    let rules = mergePrioritized(actionRules.rules, manageRules);
+    let rules = mergePrioritized(actionRules.rules, anyActionRules);
 
-    if (subjectType !== 'all') {
-      rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, 'all'));
+    if (subjectType !== this._anySubjectType) {
+      rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, this._anySubjectType));
     }
 
     actionRules.rules = rules;
