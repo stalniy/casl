@@ -18,7 +18,7 @@ module.exports = {
   branches: [
     'master',
     { name: 'next', channel: 'next', prerelease: true },
-    `${process.env.npm_package_name}@+([0-9])?(.{+([0-9]),x}).x`,
+    `+([0-9])?(.{+([0-9]),x}).x`,
   ],
   verifyConditions: [
     '@semantic-release/changelog',
