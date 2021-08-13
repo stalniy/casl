@@ -150,7 +150,7 @@ const inverted = (name: string, baseInstruction: FieldInstruction): FieldInstruc
     ...baseInstruction,
     parse(instruction, value, ctx) {
       const condition = baseInstruction.parse
-        ? baseInstruction.parse(instruction, value, ctx)
+        ? baseInstruction.parse({ ...instruction, name }, value, ctx)
         : new FieldCondition(name, ctx.field, value);
       return new CompoundCondition('NOT', [condition]);
     }
@@ -179,7 +179,7 @@ const instructions = {
   OR: compound,
   every: relation,
   some: relation,
-  none: inverted('every', relation),
+  none: inverted('some', relation),
   is: relation,
   isNot: inverted('is', relation),
 };

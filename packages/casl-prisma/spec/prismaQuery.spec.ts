@@ -11,13 +11,13 @@ describe('PrismaQuery evaluation', () => {
   describe('equals', () => {
     it('throws when comparing with object or array', () => {
       expect(() => prismaQuery({
-        items: {}
+        items: {},
       })).toThrow(/does not supports comparison of arrays and objects/)
       expect(() => prismaQuery({
-        items: Object.create(null)
+        items: Object.create(null),
       })).toThrow(/does not supports comparison of arrays and objects/)
       expect(() => prismaQuery({
-        items: []
+        items: [],
       })).toThrow(/does not supports comparison of arrays and objects/)
     })
 
@@ -31,7 +31,7 @@ describe('PrismaQuery evaluation', () => {
 
     it('can be specified using "equals" operator', () => {
       const test = prismaQuery({
-        createdAt: { equals: 'test' }
+        createdAt: { equals: 'test' },
       })
       expect(test({ createdAt: 'test' })).toBe(true)
       expect(test({ createdAt: 'test2' })).toBe(false)
@@ -41,13 +41,13 @@ describe('PrismaQuery evaluation', () => {
   describe('not', () => {
     it('throws when comparing with object without nested operators or array', () => {
       expect(() => prismaQuery({
-        items: { not: {} }
+        items: { not: {} },
       })).toThrow(/does not supports comparison of arrays and objects/)
       expect(() => prismaQuery({
-        items: { not: Object.create(null) }
+        items: { not: Object.create(null) },
       })).toThrow(/does not supports comparison of arrays and objects/)
       expect(() => prismaQuery({
-        items: { not: [] }
+        items: { not: [] },
       })).toThrow(/does not supports comparison of arrays and objects/)
     })
 
@@ -63,9 +63,9 @@ describe('PrismaQuery evaluation', () => {
         name: {
           not: {
             endsWith: 'oe',
-            startsWith: 'J'
-          }
-        }
+            startsWith: 'J',
+          },
+        },
       })
 
       expect(test({ name: 'John Doe' })).toBe(false)
@@ -79,7 +79,7 @@ describe('PrismaQuery evaluation', () => {
   describe('in', () => {
     it('throws if passed value is not an array', () => {
       expect(() => prismaQuery({
-        items: { in: {} }
+        items: { in: {} },
       })).toThrow(/expects to receive an array/)
     })
 
@@ -95,7 +95,7 @@ describe('PrismaQuery evaluation', () => {
   describe('notIn', () => {
     it('throws if passed value is not an array', () => {
       expect(() => prismaQuery({
-        items: { notIn: {} }
+        items: { notIn: {} },
       })).toThrow(/expects to receive an array/)
     })
 
@@ -111,16 +111,16 @@ describe('PrismaQuery evaluation', () => {
   describe('lt, lte', () => {
     it('throws if value is not comparable (string, number or Date)', () => {
       expect(() => prismaQuery({
-        name: { lt: true }
+        name: { lt: true },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { lte: [] }
+        name: { lte: [] },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { lte: NaN }
+        name: { lte: NaN },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { lt: Infinity }
+        name: { lt: Infinity },
       })).toThrow(/expects to receive comparable value/)
     })
 
@@ -140,16 +140,16 @@ describe('PrismaQuery evaluation', () => {
   describe('gt, gte', () => {
     it('throws if value is not comparable (string, number or Date)', () => {
       expect(() => prismaQuery({
-        name: { gt: true }
+        name: { gt: true },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { gte: [] }
+        name: { gte: [] },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { gte: NaN }
+        name: { gte: NaN },
       })).toThrow(/expects to receive comparable value/)
       expect(() => prismaQuery({
-        name: { gt: Infinity }
+        name: { gt: Infinity },
       })).toThrow(/expects to receive comparable value/)
     })
 
@@ -169,10 +169,10 @@ describe('PrismaQuery evaluation', () => {
   describe('startsWith', () => {
     it('throws if value is not a string', () => {
       expect(() => prismaQuery({
-        name: { startsWith: 1 }
+        name: { startsWith: 1 },
       })).toThrow(/expects to receive string/)
       expect(() => prismaQuery({
-        name: { startsWith: {} }
+        name: { startsWith: {} },
       })).toThrow(/expects to receive string/)
     })
 
@@ -185,7 +185,9 @@ describe('PrismaQuery evaluation', () => {
     })
 
     it('ignores case during check when "mode" is "insensitive"', () => {
-      const test = prismaQuery({ name: { startsWith: 'j', mode: 'insensitive' } })
+      const test = prismaQuery({
+        name: { startsWith: 'j', mode: 'insensitive' },
+      })
 
       expect(test({ name: 'john' })).toBe(true)
       expect(test({ name: 'John' })).toBe(true)
@@ -196,10 +198,10 @@ describe('PrismaQuery evaluation', () => {
   describe('endsWith', () => {
     it('throws if value is not a string', () => {
       expect(() => prismaQuery({
-        name: { endsWith: 1 }
+        name: { endsWith: 1 },
       })).toThrow(/expects to receive string/)
       expect(() => prismaQuery({
-        name: { endsWith: {} }
+        name: { endsWith: {} },
       })).toThrow(/expects to receive string/)
     })
 
@@ -212,7 +214,9 @@ describe('PrismaQuery evaluation', () => {
     })
 
     it('ignores case during check when "mode" is "insensitive"', () => {
-      const test = prismaQuery({ name: { startsWith: 'j', mode: 'insensitive' } })
+      const test = prismaQuery({
+        name: { startsWith: 'j', mode: 'insensitive' },
+      })
 
       expect(test({ name: 'john' })).toBe(true)
       expect(test({ name: 'John doe' })).toBe(true)
@@ -222,8 +226,12 @@ describe('PrismaQuery evaluation', () => {
 
   describe('contains', () => {
     it('throws if value is not a string', () => {
-      expect(() => prismaQuery({ name: { contains: 1 } })).toThrow(/expects to receive string/)
-      expect(() => prismaQuery({ name: { contains: {} } })).toThrow(/expects to receive string/)
+      expect(() => prismaQuery({ name: { contains: 1 } })).toThrow(
+        /expects to receive string/
+      )
+      expect(() => prismaQuery({ name: { contains: {} } })).toThrow(
+        /expects to receive string/
+      )
     })
 
     it('checks that value contains specified one', () => {
@@ -237,7 +245,9 @@ describe('PrismaQuery evaluation', () => {
     })
 
     it('ignores case during check when "mode" is "insensitive"', () => {
-      const test = prismaQuery({ name: { contains: 'Doe', mode: 'insensitive' } })
+      const test = prismaQuery({
+        name: { contains: 'Doe', mode: 'insensitive' },
+      })
 
       expect(test({ name: 'John Doe' })).toBe(true)
       expect(test({ name: 'John Doe Clark' })).toBe(true)
@@ -249,8 +259,12 @@ describe('PrismaQuery evaluation', () => {
 
   describe('isEmpty', () => {
     it('throws if value is not a boolean', () => {
-      expect(() => prismaQuery({ items: { isEmpty: 1 } })).toThrow(/expects to receive a boolean/)
-      expect(() => prismaQuery({ items: { isEmpty: {} } })).toThrow(/expects to receive a boolean/)
+      expect(() => prismaQuery({ items: { isEmpty: 1 } })).toThrow(
+        /expects to receive a boolean/
+      )
+      expect(() => prismaQuery({ items: { isEmpty: {} } })).toThrow(
+        /expects to receive a boolean/
+      )
     })
 
     it('checks that array is empty', () => {
@@ -274,10 +288,10 @@ describe('PrismaQuery evaluation', () => {
   describe('hasSome', () => {
     it('throws if value is not an array', () => {
       expect(() => prismaQuery({
-        items: { hasSome: 1 }
+        items: { hasSome: 1 },
       })).toThrow(/expects to receive an array/)
       expect(() => prismaQuery({
-        items: { hasSome: {} }
+        items: { hasSome: {} },
       })).toThrow(/expects to receive an array/)
     })
 
@@ -294,10 +308,10 @@ describe('PrismaQuery evaluation', () => {
   describe('hasEvery', () => {
     it('throws if value is not an array', () => {
       expect(() => prismaQuery({
-        items: { hasEvery: 1 }
+        items: { hasEvery: 1 },
       })).toThrow(/expects to receive an array/)
       expect(() => prismaQuery({
-        items: { hasEvery: {} }
+        items: { hasEvery: {} },
       })).toThrow(/expects to receive an array/)
     })
 
@@ -315,10 +329,10 @@ describe('PrismaQuery evaluation', () => {
   describe('every', () => {
     it('throws if value is not a nested query', () => {
       expect(() => prismaQuery({
-        posts: { every: 1 }
+        posts: { every: 1 },
       })).toThrow(/expects to receive a query for nested relation/)
       expect(() => prismaQuery({
-        posts: { every: [] }
+        posts: { every: [] },
       })).toThrow(/expects to receive a query for nested relation/)
     })
 
@@ -327,40 +341,94 @@ describe('PrismaQuery evaluation', () => {
         posts: {
           every: {
             active: true,
-            authorId: 1
-          }
-        }
+            authorId: 1,
+          },
+        },
       })
 
       expect(test({ posts: [] })).toBe(false)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: true, authorId: 1 }
-        ]
-      })).toBe(true)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: false, authorId: 1 }
-        ]
-      })).toBe(false)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: true, authorId: 2 }
-        ]
-      })).toBe(false)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 1 },
+          ],
+        })
+      ).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: false, authorId: 1 },
+          ],
+        })
+      ).toBe(false)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 2 },
+          ],
+        })
+      ).toBe(false)
+    })
+  })
+
+  describe('none', () => {
+    it('throws if value is not a nested query', () => {
+      expect(() => prismaQuery({
+        posts: { none: 1 },
+      })).toThrow(/expects to receive a query for nested relation/)
+      expect(() => prismaQuery({
+        posts: { none: [] },
+      })).toThrow(/expects to receive a query for nested relation/)
+    })
+
+    it('checks that zero objects in nested relation matches criteria', () => {
+      const test = prismaQuery({
+        posts: {
+          none: {
+            active: true,
+            authorId: 1,
+          },
+        },
+      })
+
+      expect(test({ posts: [] })).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 1 },
+          ],
+        })
+      ).toBe(false)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: false, authorId: 1 },
+          ],
+        })
+      ).toBe(false)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 2 },
+          ],
+        })
+      ).toBe(false)
     })
   })
 
   describe('some', () => {
     it('throws if value is not a nested query', () => {
       expect(() => prismaQuery({
-        posts: { some: 1 }
+        posts: { some: 1 },
       })).toThrow(/expects to receive a query for nested relation/)
       expect(() => prismaQuery({
-        posts: { some: [] }
+        posts: { some: [] },
       })).toThrow(/expects to receive a query for nested relation/)
     })
 
@@ -369,52 +437,62 @@ describe('PrismaQuery evaluation', () => {
         posts: {
           some: {
             active: true,
-            authorId: 1
-          }
-        }
+            authorId: 1,
+          },
+        },
       })
 
       expect(test({ posts: [] })).toBe(false)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: true, authorId: 1 }
-        ]
-      })).toBe(true)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: false, authorId: 1 }
-        ]
-      })).toBe(true)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: true, authorId: 2 }
-        ]
-      })).toBe(true)
-      expect(test({
-        posts: [
-          { id: 1, active: true, authorId: 1 },
-          { id: 2, active: true, authorId: 2 }
-        ]
-      })).toBe(true)
-      expect(test({
-        posts: [
-          { id: 1, active: false, authorId: 1 },
-          { id: 2, active: true, authorId: 2 }
-        ]
-      })).toBe(false)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 1 },
+          ],
+        })
+      ).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: false, authorId: 1 },
+          ],
+        })
+      ).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 2 },
+          ],
+        })
+      ).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: true, authorId: 1 },
+            { id: 2, active: true, authorId: 2 },
+          ],
+        })
+      ).toBe(true)
+      expect(
+        test({
+          posts: [
+            { id: 1, active: false, authorId: 1 },
+            { id: 2, active: true, authorId: 2 },
+          ],
+        })
+      ).toBe(false)
     })
   })
 
   describe('is', () => {
     it('throws if value is not a nested query', () => {
       expect(() => prismaQuery({
-        posts: { is: 1 }
+        posts: { is: 1 },
       })).toThrow(/expects to receive a query for nested relation/)
       expect(() => prismaQuery({
-        posts: { is: [] }
+        posts: { is: [] },
       })).toThrow(/expects to receive a query for nested relation/)
     })
 
@@ -423,9 +501,9 @@ describe('PrismaQuery evaluation', () => {
         author: {
           is: {
             active: true,
-            age: { gte: 18 }
-          }
-        }
+            age: { gte: 18 },
+          },
+        },
       })
 
       expect(test({ author: {} })).toBe(false)
@@ -436,22 +514,47 @@ describe('PrismaQuery evaluation', () => {
     })
   })
 
+  describe('isNot', () => {
+    it('throws if value is not a nested query', () => {
+      expect(() => prismaQuery({
+        posts: { isNot: 1 },
+      })).toThrow(/expects to receive a query for nested relation/)
+      expect(() => prismaQuery({
+        posts: { isNot: [] },
+      })).toThrow(/expects to receive a query for nested relation/)
+    })
+
+    it('checks that object matches criteria', () => {
+      const test = prismaQuery({
+        author: {
+          isNot: {
+            active: true,
+            age: { gte: 18 },
+          },
+        },
+      })
+
+      expect(test({ author: {} })).toBe(true)
+      expect(test({ author: { active: true, age: 5 } })).toBe(true)
+      expect(test({ author: { active: false, age: 18 } })).toBe(true)
+      expect(test({ author: { active: true, age: 18 } })).toBe(false)
+      expect(test({ author: { active: true, age: 19 } })).toBe(false)
+    })
+  })
+
   describe('AND', () => {
     it('throws if value is not an object or array', () => {
       expect(() => prismaQuery({
-        AND: 1
+        AND: 1,
       })).toThrow(/expects to receive an array or object/)
       expect(() => prismaQuery({
-        AND: 'test'
+        AND: 'test',
       })).toThrow(/expects to receive an array or object/)
     })
 
     it('combines criteria passed as an array using logical AND', () => {
       const test = prismaQuery({
-        AND: [
-          { age: { gte: 18 } },
-          { active: true }
-        ]
+        AND: [{ age: { gte: 18 } }, { active: true }],
       })
 
       expect(test({})).toBe(false)
@@ -465,7 +568,7 @@ describe('PrismaQuery evaluation', () => {
       const test = prismaQuery({
         AND: {
           age: { gte: 18 },
-          active: true
+          active: true,
         },
       })
 
@@ -480,19 +583,16 @@ describe('PrismaQuery evaluation', () => {
   describe('OR', () => {
     it('throws if value is not an object or array', () => {
       expect(() => prismaQuery({
-        OR: 1
+        OR: 1,
       })).toThrow(/expects to receive an array or object/)
       expect(() => prismaQuery({
-        OR: 'test'
+        OR: 'test',
       })).toThrow(/expects to receive an array or object/)
     })
 
     it('combines criteria passed as an array using logical OR', () => {
       const test = prismaQuery({
-        OR: [
-          { age: { gte: 18 } },
-          { active: true }
-        ]
+        OR: [{ age: { gte: 18 } }, { active: true }],
       })
 
       expect(test({})).toBe(false)
@@ -507,7 +607,7 @@ describe('PrismaQuery evaluation', () => {
       const test = prismaQuery({
         OR: {
           age: { gte: 18 },
-          active: true
+          active: true,
         },
       })
 
@@ -522,19 +622,16 @@ describe('PrismaQuery evaluation', () => {
   describe('NOT', () => {
     it('throws if value is not an object or array', () => {
       expect(() => prismaQuery({
-        NOT: 1
+        NOT: 1,
       })).toThrow(/expects to receive an array or object/)
       expect(() => prismaQuery({
-        NOT: 'test'
+        NOT: 'test',
       })).toThrow(/expects to receive an array or object/)
     })
 
     it('combines an array of criteria with logical AND NOTs', () => {
       const test = prismaQuery({
-        NOT: [
-          { age: { gte: 18 } },
-          { active: true }
-        ]
+        NOT: [{ age: { gte: 18 } }, { active: true }],
       })
 
       expect(test({})).toBe(true)
@@ -550,7 +647,7 @@ describe('PrismaQuery evaluation', () => {
       const test = prismaQuery({
         NOT: {
           age: { gte: 18 },
-          active: true
+          active: true,
         },
       })
 
