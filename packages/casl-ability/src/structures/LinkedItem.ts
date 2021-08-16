@@ -4,7 +4,7 @@ export interface LinkedItem<T> {
   readonly value: T
 }
 
-export const linkedItem = <T>(value: T, prev: LinkedItem<T>['prev']) => {
+export function linkedItem<T>(value: T, prev: LinkedItem<T>['prev']) {
   const item = { value, prev, next: null };
 
   if (prev) {
@@ -12,9 +12,9 @@ export const linkedItem = <T>(value: T, prev: LinkedItem<T>['prev']) => {
   }
 
   return item;
-};
+}
 
-export const unlinkItem = (item: LinkedItem<any>) => {
+export function unlinkItem(item: LinkedItem<any>) {
   if (item.next) {
     item.next.prev = item.prev;
   }
@@ -24,4 +24,10 @@ export const unlinkItem = (item: LinkedItem<any>) => {
   }
 
   item.next = item.prev = null; // eslint-disable-line
-};
+}
+
+export const cloneLinkedItem = <T extends LinkedItem<any>>(item: T): T => ({
+  value: item.value,
+  prev: item.prev,
+  next: item.next,
+} as T);

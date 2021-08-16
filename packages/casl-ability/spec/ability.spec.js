@@ -157,7 +157,7 @@ describe('Ability', () => {
       expect(ability).not.to.allow('publish', 'Post')
     })
 
-    describe('`update` method', () => {
+    describe('`update` method and events', () => {
       let updateHandler
 
       beforeEach(() => {
@@ -201,24 +201,46 @@ describe('Ability', () => {
         expect(anotherHandler).to.have.been.called()
       })
 
-      it('invokes all subscribers even if they are changed during "emit" phase', () => {
-        const firstSubscription = setupListenerChangesInListener()
-        const secondSubscription = setupListenerChangesInListener()
+      it('can unregister itself inside event handler', () => {
+        const handlers = [spy(), spy()]
+        const unsubscribe1 = ability.on('updated', () => {
+          handlers[0]()
+          unsubscribe1()
+        })
+        ability.on('updated', handlers[1])
 
         ability.update([])
 
-        expect(firstSubscription).to.have.been.called()
-        expect(secondSubscription).to.have.been.called()
+        expect(handlers[0]).to.have.been.called()
+        expect(handlers[1]).to.have.been.called()
       })
 
-      function setupListenerChangesInListener() {
-        const unsubscribe = spy(ability.on('update', function listen() {
-          unsubscribe()
-          ability.on('update', listen)
-        }))
+      it('can unregister another event handler inside own handler', () => {
+        let results = []
+        const handlers = [
+          spy(() => results.push(0)),
+          spy(() => results.push(1)),
+          spy(() => results.push(2)),
+          spy(() => results.push(3))
+        ]
+        const unsubscribe = []
 
-        return unsubscribe
-      }
+        unsubscribe[0] = ability.on('updated', handlers[0])
+        unsubscribe[1] = ability.on('updated', handlers[1])
+        unsubscribe[2] = ability.on('updated', handlers[2])
+        unsubscribe[3] = ability.on('updated', () => {
+          handlers[3]()
+          unsubscribe[2]()
+        })
+        ability.update([])
+
+        expect(results).to.deep.equal([3, 2, 1, 0])
+
+        results = []
+        ability.update([{ action: 'read', subject: 'all' }])
+
+        expect(results).to.deep.equal([3, 1, 0])
+      })
     })
   })
 

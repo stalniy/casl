@@ -9,7 +9,7 @@ import {
   ExtractSubjectType
 } from './types';
 import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType } from './utils';
-import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
+import { LinkedItem, linkedItem, unlinkItem, cloneLinkedItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
   detectSubjectType?(
@@ -48,16 +48,20 @@ interface AbilityEvent<T extends WithGenerics> {
 export interface UpdateEvent<T extends WithGenerics> extends AbilityEvent<T> {
   rules: RawRuleOf<T>[]
 }
+/**
+ * @deprecated `on`/`emit` properly infer type without this type
+ * TODO(major): delete
+ */
 export type EventHandler<Event> = (event: Event) => void;
 
 export type Events<
   T extends WithGenerics,
   K extends keyof EventsMap<T> = keyof EventsMap<T>
-> = Map<K, LinkedItem<EventHandler<EventsMap<T>[K]>> | null>;
+> = Map<K, LinkedItem<EventsMap<T>[K]> | null>;
 
 interface EventsMap<T extends WithGenerics> {
-  update: UpdateEvent<T>
-  updated: UpdateEvent<T>
+  update(event: UpdateEvent<T>): void
+  updated(event: UpdateEvent<T>): void
 }
 
 type IndexTree<A extends Abilities, C> = Map<SubjectType, Map<string, {
@@ -212,7 +216,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
 
   on<T extends keyof EventsMap<this>>(
     event: T,
-    handler: EventHandler<EventsMap<Public<this>>[T]>
+    handler: EventsMap<Public<this>>[T]
   ): Unsubscribe {
     const head = this._events.get(event) || null;
     const item = linkedItem(handler, head);
@@ -227,10 +231,13 @@ export class RuleIndex<A extends Abilities, Conditions> {
     };
   }
 
-  private _emit<T extends keyof EventsMap<this>>(name: T, payload: EventsMap<this>[T]) {
+  private _emit<T extends keyof EventsMap<this>>(
+    name: T,
+    payload: Parameters<EventsMap<this>[T]>[0]
+  ) {
     let current = this._events.get(name) || null;
     while (current !== null) {
-      const prev = current.prev;
+      const prev = current.prev ? cloneLinkedItem(current.prev) : null;
       current.value(payload);
       current = prev;
     }
