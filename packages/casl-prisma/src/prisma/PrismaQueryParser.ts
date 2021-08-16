@@ -146,12 +146,25 @@ const relation: FieldInstruction<Record<string, unknown>, ObjectQueryFieldParsin
 };
 
 const inverted = (name: string, baseInstruction: FieldInstruction): FieldInstruction => {
+  const parse = baseInstruction.parse;
+
+  if (!parse) {
+    return {
+      ...baseInstruction,
+      parse(_, value, ctx) {
+        return new CompoundCondition('NOT', [new FieldCondition(name, ctx.field, value)]);
+      }
+    };
+  }
+
   return {
     ...baseInstruction,
     parse(instruction, value, ctx) {
-      const condition = baseInstruction.parse
-        ? baseInstruction.parse({ ...instruction, name }, value, ctx)
-        : new FieldCondition(name, ctx.field, value);
+      const condition = parse(instruction, value, ctx);
+      if (condition.operator !== instruction.name) {
+        throw new Error(`Cannot invert "${name}" operator parser because it returns a complex Condition`);
+      }
+      (condition as Mutable<Condition>).operator = name;
       return new CompoundCondition('NOT', [condition]);
     }
   };
@@ -204,3 +217,5 @@ export class PrismaQueryParser extends ObjectQueryParser<Query> {
     return super.parse(query);
   }
 }
+
+type Mutable<T> = { -readonly [K in keyof T]: T[K] };

@@ -80,11 +80,7 @@ const not: JsInterpreter<CompoundCondition> = (condition, object, { interpret })
 };
 
 function toComparable(value: unknown) {
-  if (value instanceof Date) {
-    return value.getTime();
-  }
-
-  return value;
+  return value && typeof value === 'object' ? value.valueOf() : value;
 }
 
 const compareValues: typeof compare = (a, b) => compare(toComparable(a), toComparable(b));
