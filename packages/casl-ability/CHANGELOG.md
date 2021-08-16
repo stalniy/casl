@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.1](https://github.com/stalniy/casl/compare/@casl/ability@5.4.0...@casl/ability@5.4.1) (2021-08-16)
+
+
+### Bug Fixes
+
+* **ability:** ensure ability call all event handlers during emit ([fdf2095](https://github.com/stalniy/casl/commit/fdf20959e90c4c4af7b0453bab2856785ecb8685))
+
 # [5.4.0](https://github.com/stalniy/casl/compare/@casl/ability@5.3.1...@casl/ability@5.4.0) (2021-08-11)
 
 
