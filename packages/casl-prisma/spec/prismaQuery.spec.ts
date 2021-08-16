@@ -354,6 +354,48 @@ describe('PrismaQuery evaluation', () => {
     })
   })
 
+  describe('none', () => {
+    it('throws if value is not a nested query', () => {
+      expect(() => prismaQuery({
+        posts: { none: 1 }
+      })).toThrow(/expects to receive a query for nested relation/)
+      expect(() => prismaQuery({
+        posts: { none: [] }
+      })).toThrow(/expects to receive a query for nested relation/)
+    })
+
+    it('checks that zero objects in nested relation matches criteria', () => {
+      const test = prismaQuery({
+        posts: {
+          none: {
+            active: true,
+            authorId: 1
+          }
+        }
+      })
+
+      expect(test({ posts: [] })).toBe(true)
+      expect(test({
+        posts: [
+          { id: 1, active: true, authorId: 1 },
+          { id: 2, active: true, authorId: 1 }
+        ]
+      })).toBe(false)
+      expect(test({
+        posts: [
+          { id: 1, active: true, authorId: 1 },
+          { id: 2, active: false, authorId: 1 }
+        ]
+      })).toBe(false)
+      expect(test({
+        posts: [
+          { id: 1, active: true, authorId: 3 },
+          { id: 2, active: true, authorId: 2 }
+        ]
+      })).toBe(true)
+    })
+  })
+
   describe('some', () => {
     it('throws if value is not a nested query', () => {
       expect(() => prismaQuery({
@@ -433,6 +475,34 @@ describe('PrismaQuery evaluation', () => {
       expect(test({ author: { active: false, age: 18 } })).toBe(false)
       expect(test({ author: { active: true, age: 18 } })).toBe(true)
       expect(test({ author: { active: true, age: 19 } })).toBe(true)
+    })
+  })
+
+  describe('isNot', () => {
+    it('throws if value is not a nested query', () => {
+      expect(() => prismaQuery({
+        posts: { isNot: 1 }
+      })).toThrow(/expects to receive a query for nested relation/)
+      expect(() => prismaQuery({
+        posts: { isNot: [] }
+      })).toThrow(/expects to receive a query for nested relation/)
+    })
+
+    it('checks that object not matches criteria', () => {
+      const test = prismaQuery({
+        author: {
+          isNot: {
+            active: true,
+            age: { gte: 18 }
+          }
+        }
+      })
+
+      expect(test({ author: {} })).toBe(true)
+      expect(test({ author: { active: true, age: 5 } })).toBe(true)
+      expect(test({ author: { active: false, age: 18 } })).toBe(true)
+      expect(test({ author: { active: true, age: 18 } })).toBe(false)
+      expect(test({ author: { active: true, age: 19 } })).toBe(false)
     })
   })
 
