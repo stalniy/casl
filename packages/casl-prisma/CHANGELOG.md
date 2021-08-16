@@ -2,13 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.0.0 (2021-05-12)
+# [1.0.0-alpha.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.0-alpha.1...@casl/prisma@1.0.0-alpha.2) (2021-05-12)
 
 
 ### Bug Fixes
 
 * adjusts package tags to improve discoverability ([73e88b0](https://github.com/stalniy/casl/commit/73e88b0a256625b193b2cd9dc4a219f2e1193cbc))
 * **prisma:** sets minimum @casl/ability version to 5.3.0 ([55615e4](https://github.com/stalniy/casl/commit/55615e44fa22bfe2b4f2791f6eb218db1df5cfcc))
+
+# 1.0.0-alpha.1 (2021-05-10)
 
 
 ### Features
