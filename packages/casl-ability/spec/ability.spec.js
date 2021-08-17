@@ -241,7 +241,7 @@ describe('Ability', () => {
       })
 
       it('can unregister last handler', () => {
-        let results = []
+        const results = []
         const handlers = [
           spy(() => results.push(0)),
           spy(() => results.push(1)),
@@ -252,7 +252,7 @@ describe('Ability', () => {
         unsubscribe[0] = ability.on('updated', handlers[0])
         unsubscribe[1] = ability.on('updated', handlers[1])
         unsubscribe[2] = ability.on('updated', handlers[2])
-        unsubscribe[2]();
+        unsubscribe[2]()
         ability.update([])
 
         expect(results).to.deep.equal([1, 0])
