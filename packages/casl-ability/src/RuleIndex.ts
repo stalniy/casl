@@ -218,16 +218,20 @@ export class RuleIndex<A extends Abilities, Conditions> {
     event: T,
     handler: EventsMap<Public<this>>[T]
   ): Unsubscribe {
-    const head = this._events.get(event) || null;
-    const item = linkedItem(handler, head);
+    const tail = this._events.get(event) || null;
+    const item = linkedItem(handler, tail);
     this._events.set(event, item);
 
     return () => {
-      if (!item.next && !item.prev && this._events.get(event) === item) {
+      const currentTail = this._events.get(event);
+
+      if (!item.next && !item.prev && currentTail === item) {
         this._events.delete(event);
-      } else {
-        unlinkItem(item);
+      } else if (item === currentTail) {
+        this._events.set(event, item.prev);
       }
+
+      unlinkItem(item);
     };
   }
 

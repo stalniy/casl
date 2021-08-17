@@ -221,25 +221,41 @@ describe('Ability', () => {
           spy(() => results.push(0)),
           spy(() => results.push(1)),
           spy(() => results.push(2)),
-          spy(() => results.push(3))
+        ]
+        const unsubscribe = []
+
+        unsubscribe[0] = ability.on('updated', handlers[0])
+        unsubscribe[1] = ability.on('updated', handlers[1])
+        unsubscribe[2] = ability.on('updated', () => {
+          handlers[2]()
+          unsubscribe[1]()
+        })
+        ability.update([])
+
+        expect(results).to.deep.equal([2, 1, 0])
+
+        results = []
+        ability.update([{ action: 'read', subject: 'all' }])
+
+        expect(results).to.deep.equal([2, 0])
+      })
+
+      it('can unregister last handler', () => {
+        let results = []
+        const handlers = [
+          spy(() => results.push(0)),
+          spy(() => results.push(1)),
+          spy(() => results.push(2)),
         ]
         const unsubscribe = []
 
         unsubscribe[0] = ability.on('updated', handlers[0])
         unsubscribe[1] = ability.on('updated', handlers[1])
         unsubscribe[2] = ability.on('updated', handlers[2])
-        unsubscribe[3] = ability.on('updated', () => {
-          handlers[3]()
-          unsubscribe[2]()
-        })
+        unsubscribe[2]();
         ability.update([])
 
-        expect(results).to.deep.equal([3, 2, 1, 0])
-
-        results = []
-        ability.update([{ action: 'read', subject: 'all' }])
-
-        expect(results).to.deep.equal([3, 1, 0])
+        expect(results).to.deep.equal([1, 0])
       })
     })
   })
