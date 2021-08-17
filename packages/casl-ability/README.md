@@ -6,6 +6,10 @@ This package is the core of CASL. It includes logic responsible for [checking an
 
 ```sh
 npm install @casl/ability
+# or
+pnpm install @casl/ability
+# or
+yarn add @casl/ability
 ```
 
 ## Documentation
