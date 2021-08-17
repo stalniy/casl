@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.3](https://github.com/stalniy/casl/compare/@casl/ability@5.4.2...@casl/ability@5.4.3) (2021-08-17)
+
+
+### Bug Fixes
+
+* **release:** force release because of disable pre/post hook execution of pnpm ([39c20f6](https://github.com/stalniy/casl/commit/39c20f60d9bbaaa31dff8d5ed11286fae72db558))
+
 ## [5.4.2](https://github.com/stalniy/casl/compare/@casl/ability@5.4.1...@casl/ability@5.4.2) (2021-08-17)
 
 
