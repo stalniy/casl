@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.2](https://github.com/stalniy/casl/compare/@casl/ability@5.4.1...@casl/ability@5.4.2) (2021-08-17)
+
+
+### Bug Fixes
+
+* **ability:** makes sure that other event handlers are not lost when last handler is unregistered ([ff3e75f](https://github.com/stalniy/casl/commit/ff3e75fe5ea8d439f87842d6289d7d331aa8290e))
+
 ## [5.4.1](https://github.com/stalniy/casl/compare/@casl/ability@5.4.0...@casl/ability@5.4.1) (2021-08-16)
 
 
