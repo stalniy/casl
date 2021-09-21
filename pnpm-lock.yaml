@@ -99,18 +99,18 @@ importers:
     specifiers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
-      '@prisma/client': ^2.22.0
+      '@prisma/client': ^3.0.0
       '@ucast/core': ^1.10.0
       '@ucast/js': ^3.0.1
-      prisma: ^2.22.1
+      prisma: ^3.0.0
     dependencies:
       '@ucast/core': 1.10.0
       '@ucast/js': 3.0.1
     devDependencies:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
-      '@prisma/client': 2.22.1_prisma@2.22.1
-      prisma: 2.22.1
+      '@prisma/client': 3.0.1_prisma@3.0.1
+      prisma: 3.0.1
 
   packages/casl-react:
     specifiers:
@@ -1737,9 +1737,9 @@ packages:
       '@octokit/openapi-types': 7.0.0
     dev: false
 
-  /@prisma/client/2.22.1_prisma@2.22.1:
-    resolution: {integrity: sha512-JQjbsY6QSfFiovXHEp5WeJHa5p2CuR1ZFPAeYXmUsOAQOaMCrhgQmKAL6w2Q3SRA7ALqPjrKywN9/QfBc4Kp1A==}
-    engines: {node: '>=10.16'}
+  /@prisma/client/3.0.1_prisma@3.0.1:
+    resolution: {integrity: sha512-o/5wd1LqI2nr0/8L8Tg0cm5/wL/z7FLx5pd0D7MbnUoBv62sxHP5wRgturjljUwCBm4GpfRnBZUTWTuKA610MA==}
+    engines: {node: '>=12.6'}
     requiresBuild: true
     peerDependencies:
       prisma: '*'
@@ -1747,16 +1747,16 @@ packages:
       prisma:
         optional: true
     dependencies:
-      '@prisma/engines-version': 2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c
-      prisma: 2.22.1
+      '@prisma/engines-version': 2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db
+      prisma: 3.0.1
     dev: true
 
-  /@prisma/engines-version/2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c:
-    resolution: {integrity: sha512-OkkVwk6iTzTbwwl8JIKAENyxmh4TFORal55QMKQzrHEY8UzbD0M90mQnmziz3PAopQUZgTFFMlaPAq1WNrLMtA==}
+  /@prisma/engines-version/2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db:
+    resolution: {integrity: sha512-iArSApZZImVmT9oC/rGOjzvpG2AOqlIeqYcVnop9poA3FxD4zfVPbNPH9DTgOWhc06OkBHujJZeAcsNddVabIQ==}
     dev: true
 
-  /@prisma/engines/2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c:
-    resolution: {integrity: sha512-KmWdogrsfsSLYvfqY3cS3QcDGzaEFklE+T6dNJf+k/KPQum4A29IwDalafMwh5cMN8ivZobUbowNSwWJrMT08Q==}
+  /@prisma/engines/2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db:
+    resolution: {integrity: sha512-Q9CwN6e5E5Abso7J3A1fHbcF4NXGRINyMnf7WQ07fXaebxTTARY5BNUzy2Mo5uH82eRVO5v7ImNuR044KTjLJg==}
     requiresBuild: true
     dev: true
 
@@ -5948,13 +5948,13 @@ packages:
       react-is: 17.0.2
     dev: false
 
-  /prisma/2.22.1:
-    resolution: {integrity: sha512-hwvCM3zyxgSda/+/p+GW7nz93jRebtMU01wAG7YVVnl0OKU+dpw1wPvPFmQRldkZHk8fTCleYmjc24WaSdVPZQ==}
-    engines: {node: '>=10.4'}
+  /prisma/3.0.1:
+    resolution: {integrity: sha512-ENmYAopd56nkds5/IOSTGixbkbUN2QdEzB4cp/mtaGB/G0OArbP6cnbA/9u02Pe29RdErbNOoIdCGASjpItJwQ==}
+    engines: {node: '>=12.6'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c
+      '@prisma/engines': 2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db
     dev: true
 
   /process-nextick-args/2.0.1:
