@@ -75,12 +75,12 @@ CASL operates on the abilities level, that is what a user can actually do in the
 
 1. User Action\
    Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., `prolong`, `read`). Very often it will be a list of words from CRUD - `create`, `read`, `update` and `delete`.
-2. Subject\
-   The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
+2. Resource\
+   The resource or resource type which you want to check user action on. Usually this is a business (or domain) entity name (e.g., `Subscription`, `BlogPost`, `User`).
 3. Conditions\
-   An object or function which restricts user action only to matched subjects. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
+   An object or function which restricts user action only to matched resources. This is useful when you need to give a permission on resources created by a user (e.g., to allow user to update and delete own `BlogPost`)
 4. Fields\
-   Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `description` or `title`)
+   Can be used to restrict user action only to matched resource's fields (e.g., to allow moderator to update `hidden` field of `BlogPost` but not update `description` or `title`)
 
 Using CASL you can describe abilities using regular and inverted rules. Let's see how
 
@@ -118,7 +118,7 @@ function defineAbilitiesFor(user: User) {
 
 Do you see how easily business requirements were translated into CASL's rules?
 
-**Note**: you can use class instead of string as a subject type (e.g., `can('read', BlogPost)`)
+**Note**: you can use class instead of string as a resource type (e.g., `can('read', BlogPost)`)
 
 And yes, `Ability` class allow you to use some MongoDB operators to define conditions. Don't worry if you don't know MongoDB, it's not required and explained in details in [Defining Abilities][define-abilities]
 
