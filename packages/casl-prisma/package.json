@@ -45,8 +45,8 @@
   "devDependencies": {
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
-    "@prisma/client": "^3.0.0",
-    "prisma": "^3.0.0"
+    "@prisma/client": "^3.2.1",
+    "prisma": "^3.2.1"
   },
   "files": [
     "dist",
