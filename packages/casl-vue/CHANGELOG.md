@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.2](https://github.com/stalniy/casl/compare/@casl/vue@2.1.1...@casl/vue@2.1.2) (2021-10-07)
+
+
+### Bug Fixes
+
+* **vue:** makes sure Abilities `can` and `cannot` methods are bound ([86f9157](https://github.com/stalniy/casl/commit/86f91570d3e1709449cfded37c153fb21e56c474)), closes [#530](https://github.com/stalniy/casl/issues/530)
+
 ## [2.1.1](https://github.com/stalniy/casl/compare/@casl/vue@2.1.0...@casl/vue@2.1.1) (2021-07-05)
 
 
