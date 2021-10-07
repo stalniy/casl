@@ -16,6 +16,8 @@ export function reactiveAbility(ability: AnyAbility) {
     watcher.value = watcher.value; // eslint-disable-line
     return possibleRulesFor(action, subject);
   };
+  ability.can = ability.can.bind(ability);
+  ability.cannot = ability.cannot.bind(ability);
 
   return ability;
 }

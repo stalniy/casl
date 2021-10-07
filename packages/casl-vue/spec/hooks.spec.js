@@ -45,5 +45,24 @@ describe('Vue hooks', () => {
 
       expect(root.innerHTML).to.contain('Cannot inject Ability instance')
     })
+
+    it('allows to use `can` and `cannot` directly', () => {
+      const app = createApp({
+        setup() {
+          provideAbility(ability)
+          return () => h({
+            setup() {
+              const { can, cannot } = useAbility()
+              return () => {
+                return h('div', can('read', 'Post').toString() + cannot('read', 'Post').toString())
+              }
+            }
+          })
+        }
+      })
+
+      app.mount(root)
+      expect(root.firstElementChild.innerHTML).to.equal('falsetrue')
+    })
   })
 })
