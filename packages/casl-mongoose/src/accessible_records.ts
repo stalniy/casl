@@ -1,5 +1,5 @@
 import { Normalize, AnyMongoAbility, Generics, ForbiddenError, getDefaultErrorMessage } from '@casl/ability';
-import type { Schema, DocumentQuery, Model, Document } from 'mongoose';
+import type { Schema, QueryWithHelpers, Model, Document } from 'mongoose';
 import mongoose from 'mongoose';
 import { toMongoQuery } from './mongo';
 
@@ -7,7 +7,7 @@ function failedQuery(
   ability: AnyMongoAbility,
   action: string,
   modelName: string,
-  query: DocumentQuery<Document, Document>
+  query: QueryWithHelpers<Document, Document>
 ) {
   query.where({ __forbiddenByCasl__: 1 }); // eslint-disable-line
   const anyQuery: any = query;
@@ -28,13 +28,13 @@ function failedQuery(
 type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
   ability: U,
   action?: Normalize<Generics<U>['abilities']>[0]
-) => DocumentQuery<T, T>;
+) => QueryWithHelpers<T, T>;
 
 function accessibleBy<T extends AnyMongoAbility>(
   this: any,
   ability: T,
   action?: Normalize<Generics<T>['abilities']>[0]
-): DocumentQuery<Document, Document> {
+): QueryWithHelpers<Document, Document> {
   let modelName: string | undefined = this.modelName;
 
   if (!modelName) {
