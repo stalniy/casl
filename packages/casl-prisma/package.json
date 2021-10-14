@@ -13,7 +13,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stalniy/casl.git"
+    "url": "https://github.com/stalniy/casl.git",
+    "directory": "packages/casl-prisma"
   },
   "publishConfig": {
     "access": "public"
