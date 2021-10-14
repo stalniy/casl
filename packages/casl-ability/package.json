@@ -21,7 +21,8 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/stalniy/casl.git"
+    "url": "https://github.com/stalniy/casl.git",
+    "directory": "packages/casl-ability"
   },
   "homepage": "https://casl.js.org",
   "publishConfig": {
