@@ -47,7 +47,7 @@
     "@casl/dx": "workspace:^1.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "mongoose": "^5.12.0"
+    "mongoose": "^6.0.0"
   },
   "files": [
     "dist",
