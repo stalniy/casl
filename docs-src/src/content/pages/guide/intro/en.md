@@ -52,9 +52,9 @@ export default defineAbility((can, cannot) => {
 
 > CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript](../../advanced/typescript) for details
 
-In the example above, we have just defined `Ability` instance which allows to do anything in the app but not delete users. As you probably guessed, `can` and `cannot` accept the same arguments but has different meanings, `can` allows to do an action on the specified subject and `cannot` forbids. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions, `all` and `User` are subjects
+In the example above, we have just defined an `Ability` instance which permits doing anything in the app except for deleting users. As you probably guessed, `can` and `cannot` accept the same arguments but have different meanings: `can` permits an action on the specified subject and `cannot` forbids it. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions and `all` and `User` are subjects.
 
-> `manage` and `all` are special keywords in CASL. `manage` represents any action and `all` represents any subject
+> `manage` and `all` are special keywords in CASL. `manage` represents any action and `all` represents any subject.
 
 Now let's try to check permissions
 
@@ -68,13 +68,13 @@ ability.can('delete', 'User') // false
 ability.cannot('delete', 'User') // true
 ```
 
-In the example above, `Ability` instance allows us to check permissions in pretty readable way. By the way, all that examples shows check on a subject type (i.e.,an object type or class) but CASL really shines when you need to restrict objects based on their attributes (i.e., properties).
+In the example above, the `Ability` instance allows us to check permissions in a pretty readable way. By the way, all these examples demonstrate checking permissions based on a subject type (i.e. an object type or class), but CASL really shines when you need to restrict objects based on their attributes (i.e. properties).
 
 ## Conditions
 
-The most common requirement to mid size apps is an ability to restrict action on own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to `can` and `cannot` methods on the definition step.
+The most common requirement for mid-sized apps is the ability to limit users so that they can perform actions only on their own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to `can` and `cannot` methods on the definition step.
 
-Before diving into details, let's first consider requirements for permissions of a blog website. In such blog, user
+Before diving into the details, let's first consider requirements for the permissions of a blog website. In such a blog, a user
 
 * can `read` any `Article`
 * can `update` own `Article`'s
@@ -109,9 +109,9 @@ const article = /* intentionally not defined */;
 ability.can('read', article);
 ```
 
-As you see, you can do checks on subject the same way you do it on subject's type! But what does `article` variable hold inside? How does CASL know what subject type has this variable?
+As you see, you can do checks on the subject the same way you do it on the subject's type! But what does the `article` variable hold inside? How does CASL know the subject type of the object referenced by this variable?
 
-Do you remember, that a subject and its type belongs to each other the same way as an object instance and it's class? CASL remembers this as well, and retrieves `article.constructor.name` as its subject type.
+Do you remember that a subject and its type belong to each other in the same way as an object instance and its class? CASL remembers this as well and retrieves `article.constructor.name` as its subject type.
 
 > Classes are natural in backend but not always makes sense in frontend development. CASL supports other ways to detect subject type, see [Subject type detection](../subject-type-detection) for details.
 
