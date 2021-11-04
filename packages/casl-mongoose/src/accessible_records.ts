@@ -25,11 +25,6 @@ function failedQuery(
   return query;
 }
 
-type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
-  ability: U,
-  action?: Normalize<Generics<U>['abilities']>[0]
-) => QueryWithHelpers<T, T>;
-
 function accessibleBy<T extends AnyMongoAbility>(
   this: any,
   ability: T,
@@ -54,9 +49,17 @@ function accessibleBy<T extends AnyMongoAbility>(
   return this instanceof mongoose.Query ? this.and([query]) : this.where({ $and: [query] });
 }
 
-export interface AccessibleRecordModel<T extends Document, K = {}> extends Model<T, K & {
+type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
+  ability: U,
+  action?: Normalize<Generics<U>['abilities']>[0]
+) => QueryWithHelpers<T, T, QueryHelpers<T>>;
+
+type QueryHelpers<T extends Document> = {
   accessibleBy: GetAccessibleRecords<T>
-}> {
+};
+export interface AccessibleRecordModel<
+  T extends Document, K = unknown
+> extends Model<T, K & QueryHelpers<T>> {
   accessibleBy: GetAccessibleRecords<T>
 }
 

@@ -74,6 +74,11 @@ describe('Accessible Records Plugin', () => {
       ])
     })
 
+    it('allows to chain `accessibleBy` method', () => {
+      Post.find().accessibleBy(ability).accessibleBy(ability, 'update')
+      Post.accessibleBy(ability).where({ title: /test/ }).accessibleBy(ability, 'delete')
+    })
+
     describe('when ability disallow to perform an action', () => {
       let query: mongoose.QueryWithHelpers<Post, Post>
 
