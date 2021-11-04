@@ -75,7 +75,7 @@ describe('Accessible Records Plugin', () => {
     })
 
     describe('when ability disallow to perform an action', () => {
-      let query: mongoose.DocumentQuery<Post, Post>
+      let query: mongoose.QueryWithHelpers<Post, Post>
 
       beforeEach(() => {
         query = Post.find().accessibleBy(ability, 'notAllowedAction')
