@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@5.0.1...@casl/mongoose@6.0.0) (2021-11-04)
+
+
+### Bug Fixes
+
+* ensure it's possible to chain `accessibleBy` after another `accessibleBy` and combine with other `Query` methods ([5632c53](https://github.com/stalniy/casl/commit/5632c53de5dc62c10b19864686c82e87d17b6147))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
+
+### Features
+
+* update mongoose to v6 and use mongoose-v6 QueryWithHelpers interface ([#561](https://github.com/stalniy/casl/issues/561)) ([a5f1036](https://github.com/stalniy/casl/commit/a5f1036dfdb065b21798215fb4feabdd3dd6434d))
+
+
+### BREAKING CHANGES
+
+* updates mongoose and related ts types to v6
+
 ## [5.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@5.0.0...@casl/mongoose@5.0.1) (2021-05-12)
 
 
