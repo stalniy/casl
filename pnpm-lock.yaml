@@ -40,13 +40,13 @@ importers:
       '@casl/dx': workspace:^1.0.0
       rxjs: ^7.0.0
       tslib: ^2.2.0
-      typescript: ~4.2.3
+      typescript: ~4.3.2
       zone.js: ~0.11.4
     devDependencies:
       '@abraham/reflection': 0.8.0
       '@angular/common': 13.1.1_@angular+core@13.1.1+rxjs@7.4.0
       '@angular/compiler': 13.1.1
-      '@angular/compiler-cli': 13.1.1_2192b1ab3635c2ec56e7638f799f2af5
+      '@angular/compiler-cli': 13.1.1_1f1d49cb2a59003aadb79d81b0cf891e
       '@angular/core': 13.1.1_rxjs@7.4.0+zone.js@0.11.4
       '@angular/platform-browser': 13.1.1_97c374658fb8cefbe875884a7f473e47
       '@angular/platform-browser-dynamic': 13.1.1_53ae741ee19166964f64e7b56404e938
@@ -54,7 +54,7 @@ importers:
       '@casl/dx': link:../dx
       rxjs: 7.4.0
       tslib: 2.2.0
-      typescript: 4.2.4
+      typescript: 4.3.5
       zone.js: 0.11.4
 
   packages/casl-aurelia:
@@ -214,7 +214,7 @@ packages:
       tslib: 2.3.1
     dev: true
 
-  /@angular/compiler-cli/13.1.1_2192b1ab3635c2ec56e7638f799f2af5:
+  /@angular/compiler-cli/13.1.1_1f1d49cb2a59003aadb79d81b0cf891e:
     resolution: {integrity: sha512-ycdXN2urBZepbXn2xx1oxF1i6g0Dq/Rb8ySQeELdL9qr6hiZF9fkvIwd91d8uhFG2PvoM4O8/U/3x4yA2bXzew==}
     engines: {node: ^12.20.0 || ^14.15.0 || >=16.10.0}
     hasBin: true
@@ -233,7 +233,7 @@ packages:
       semver: 7.3.5
       sourcemap-codec: 1.4.8
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.3.5
       yargs: 17.3.0
     transitivePeerDependencies:
       - supports-color
@@ -6958,8 +6958,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.2.4:
-    resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
+  /typescript/4.3.5:
+    resolution: {integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
