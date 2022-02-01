@@ -52,7 +52,7 @@
   "license": "MIT",
   "devDependencies": {
     "@casl/dx": "workspace:^1.0.0",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^27.4.0",
     "@types/node": "^14.0.5",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
