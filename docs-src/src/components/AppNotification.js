@@ -28,4 +28,8 @@ AppNotification.styles = css`
     color: #fff;
     cursor: pointer;
   }
+
+  a {
+    color: inherit;
+  }
 `;

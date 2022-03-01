@@ -117,8 +117,12 @@ export default class App extends LitElement {
 
     const { body } = this._route;
     const sidebar = body.sidebar ? cache(body.sidebar) : '';
+    const stopWar = `
+      Stop war in Ukraine. <a href="https://dearrussian.wtf" target="_blank">All truth about Russia invasion</a>
+    `;
 
     return html`
+      <app-notification class="stop-war" .message="${stopWar}"></app-notification>
       <menu-drawer ?disabled="${!this._isMobile}">
         <div slot="menu">${this._renderDrawerMenu(sidebar)}</div>
         <app-root
@@ -139,6 +143,13 @@ App.styles = [
   css`
     :host {
       display: block;
+    }
+
+    .stop-war {
+      position: fixed;
+      z-index: 1000;
+      top: 5px;
+      right: 5px;
     }
   `
 ];
