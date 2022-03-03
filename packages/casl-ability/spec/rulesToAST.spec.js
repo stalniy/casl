@@ -44,7 +44,12 @@ describe('rulesToAST', () => {
     expect(ast).to.deep.equal({
       operator: 'and',
       value: [
-        { operator: 'eq', field: 'private', value: true },
+        {
+          operator: 'not',
+          value: [
+            { operator: 'eq', field: 'private', value: true }
+          ]
+        },
         {
           operator: 'or',
           value: [

@@ -1,4 +1,4 @@
-import { Condition, buildAnd, buildOr } from '@ucast/mongo2js';
+import { Condition, buildAnd, buildOr, CompoundCondition } from '@ucast/mongo2js';
 import { PureAbility, AnyAbility } from './PureAbility';
 import { RuleOf } from './RuleIndex';
 import { RawRule } from './RawRule';
@@ -45,7 +45,8 @@ function ruleToAST(rule: RuleOf<AnyAbility>): Condition {
   if (!rule.ast) {
     throw new Error(`Ability rule "${JSON.stringify(rule)}" does not have "ast" property. So, cannot be used to generate AST`);
   }
-  return rule.ast;
+
+  return rule.inverted ? new CompoundCondition('not', [rule.ast]) : rule.ast;
 }
 
 export function rulesToAST<T extends AnyAbility>(
