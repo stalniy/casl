@@ -183,7 +183,7 @@ export type AppAbility = Ability<Abilities>;
 export const AppAbility = Ability as AbilityClass<AppAbility>;
 ```
 
-This simple pattern comes to TypeScript from Scala, and it's a way to pair together types and objects. In TypeScript, values and types live in a separate namespaces, this allows to use the same name for a type and a class. TypeScript understands which one to use baed on the context.
+This simple pattern comes to TypeScript from Scala, and it's a way to pair together types and objects. In TypeScript, values and types live in a separate namespaces, this allows to use the same name for a type and a class. TypeScript understands which one to use based on the context.
 
 ## AbilityBuilder type inference
 
