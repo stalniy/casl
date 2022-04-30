@@ -14,6 +14,7 @@ describe('PrismaAbility', () => {
     })
     const ability = build()
 
+    expect(ability.can('read', 'all')).toBe(false)
     expect(ability.can('read', subject('Post', { authorId: 1 } as Post))).toBe(false)
     expect(ability.can('read', subject('Post', { authorId: 2 } as Post))).toBe(false)
     expect(ability.can('read', subject('Post', { authorId: 3 } as Post))).toBe(true)
@@ -43,8 +44,11 @@ describe('PrismaAbility', () => {
           conditions: {
             // @ts-expect-error unknown model field in conditions
             unknown: 1,
-
           }
+        },
+        {
+          action: 'read',
+          subject: 'all'
         }
       ])).toBeInstanceOf(AppAbility)
     })
@@ -73,6 +77,7 @@ describe('PrismaAbility', () => {
           }
         }
       })
+      can('delete', 'all')
     })
 
     it('uses Prisma types when building `PrismaQuery<TModel>` type', () => {
