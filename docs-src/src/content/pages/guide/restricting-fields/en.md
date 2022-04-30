@@ -95,7 +95,7 @@ CASL knows nothing about shapes of our entities, so the only way to tell him is 
 
 This method is very useful in combination with [lodash.pick] to extract permitted fields from user request
 
-> If you need `pick` with support for wildcards, check [this implementation][pick.wildcars]
+> If you need `pick` with support for wildcards, check [this implementation][pick.wildcards]
 
 [lodash.pick]: https://lodash.com/docs/4.17.15#pick
 [pick.wildcards]: https://gist.github.com/stalniy/855f3de3115c8a89824370cb4d8bb5a7
