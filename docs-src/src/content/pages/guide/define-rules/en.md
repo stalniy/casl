@@ -171,7 +171,7 @@ The simplified version (without generics) of raw rule shape in [TypeScript](http
 ```ts
 interface RawRule {
   action: string | string[]
-  subject?: string | string[]
+  subject: string | string[]
   /** an array of fields to which user has (or not) access */
   fields?: string[]
   /** an object of conditions which restricts the rule scope */
