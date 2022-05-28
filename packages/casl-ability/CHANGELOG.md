@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.4](https://github.com/stalniy/casl/compare/@casl/ability@5.4.3...@casl/ability@5.4.4) (2022-05-28)
+
+
+### Bug Fixes
+
+* **ability:** negates inverted rules in ruleToAST ([#602](https://github.com/stalniy/casl/issues/602)) ([c1bdc60](https://github.com/stalniy/casl/commit/c1bdc601d3517a2385a3a7d70f2d9631c5b1f243))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
 ## [5.4.3](https://github.com/stalniy/casl/compare/@casl/ability@5.4.2...@casl/ability@5.4.3) (2021-08-17)
 
 
