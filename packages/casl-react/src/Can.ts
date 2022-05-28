@@ -1,4 +1,4 @@
-import { Children, ReactNodeArray, PureComponent, Fragment, createElement } from 'react';
+import { PureComponent, ReactNode } from 'react';
 import {
   Unsubscribe,
   AbilityTuple,
@@ -10,17 +10,6 @@ import {
 } from '@casl/ability';
 
 const noop = () => {};
-const renderChildren = Fragment
-  ? (children?: ReactNodeArray) => {
-    if (!children) {
-      return null;
-    }
-
-    return children.length > 1
-      ? createElement(Fragment, null, ...children)
-      : Children.only(children);
-  }
-  : Children.only;
 
 type AbilityCanProps<
   T extends Abilities,
@@ -39,10 +28,12 @@ interface ExtraProps {
 
 interface CanExtraProps<T extends AnyAbility> extends ExtraProps {
   ability: T
+  children: ReactNode | ((isAllowed: boolean, ability: T) => ReactNode)
 }
 
 interface BoundCanExtraProps<T extends AnyAbility> extends ExtraProps {
   ability?: T
+  children: ReactNode | ((isAllowed: boolean, ability: T) => ReactNode)
 }
 
 export type CanProps<T extends AnyAbility> =
@@ -97,9 +88,9 @@ export class Can<
   private _renderChildren() {
     const { children, ability } = this.props;
     const elements = typeof children === 'function'
-      ? children(this._isAllowed, ability)
+      ? children(this._isAllowed, ability as any)
       : children;
 
-    return renderChildren(elements);
+    return elements as ReactNode;
   }
 }

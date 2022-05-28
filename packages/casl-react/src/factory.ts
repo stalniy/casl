@@ -1,4 +1,4 @@
-import { createElement as h, ComponentClass, Consumer, StatelessComponent } from 'react';
+import { createElement as h, ComponentClass, Consumer, FunctionComponent } from 'react';
 import { AnyAbility } from '@casl/ability';
 import { Can, BoundCanProps } from './Can';
 
@@ -14,9 +14,11 @@ export function createCanBoundTo<T extends AnyAbility>(ability: T): BoundCanClas
 
 export function createContextualCan<T extends AnyAbility>(
   Getter: Consumer<T>
-): StatelessComponent<BoundCanProps<T>> {
-  return (props: BoundCanProps<T>) => h(Getter, null, (ability: T) => h(Can, {
-    ability,
-    ...props,
-  } as any));
+): FunctionComponent<BoundCanProps<T>> {
+  return (props: BoundCanProps<T>) => h(Getter, {
+    children: (ability: T) => h(Can, {
+      ability,
+      ...props,
+    } as any)
+  });
 }
