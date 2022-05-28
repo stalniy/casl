@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.0.0](https://github.com/stalniy/casl/compare/@casl/react@2.3.0...@casl/react@3.0.0) (2022-05-28)
+
+
+### Bug Fixes
+
+* replaces StatelessComponent<T> type with FunctionComponent<T> ([69336ea](https://github.com/stalniy/casl/commit/69336ea7a06b9a33d29b8df6dd4b2de2f7dc087d))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
+
+### BREAKING CHANGES
+
+* removes deprecated things
+
+  * restrics `children` prop of `<Can>` to support only single
+el
+  * updates React to 18.x
+  * removes react@15 from peer deps
+
 # [2.3.0](https://github.com/stalniy/casl/compare/@casl/react@2.2.2...@casl/react@2.3.0) (2021-05-12)
 
 
