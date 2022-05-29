@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import type { PrismaClient, Prisma } from '@prisma/client';
 import { AnyInterpreter, createTranslatorFactory } from '@ucast/core';
 import { ForcedSubject, hkt } from '@casl/ability';
 import { PrismaQueryParser } from './PrismaQueryParser';
@@ -9,9 +9,8 @@ type ModelDelegates = {
     ? PrismaClient[Uncapitalize<K>]
     : never
 };
-type Present<T> = Exclude<T, null | undefined>;
 export type WhereInput<TModelName extends Prisma.ModelName> =
-  Present<Present<Parameters<ModelDelegates[TModelName]['findFirst']>[0]>['where']>;
+  Extract<Extract<Parameters<ModelDelegates[TModelName]['findFirst']>[0], { where?: any }>['where'], Record<any, any>>;
 type ExtractModelName<T> = T extends { kind: Prisma.ModelName }
   ? T['kind']
   : T extends ForcedSubject<Prisma.ModelName>
