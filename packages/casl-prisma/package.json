@@ -47,6 +47,7 @@
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
     "@prisma/client": "^3.2.1",
+    "@types/jest": "^26.0.22",
     "prisma": "^3.2.1"
   },
   "files": [

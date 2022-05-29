@@ -45,6 +45,7 @@
   "devDependencies": {
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
+    "@types/jest": "^26.0.22",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
     "mongoose": "^6.0.0"

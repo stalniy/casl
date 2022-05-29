@@ -61,6 +61,7 @@
     "@angular/platform-browser-dynamic": "^12.0.0",
     "@casl/ability": "^5.1.0",
     "@casl/dx": "workspace:^1.0.0",
+    "@types/jest": "^26.0.22",
     "rxjs": "^6.5.3",
     "tslib": "^2.0.0",
     "typescript": "~4.2.3",

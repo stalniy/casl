@@ -11,7 +11,7 @@ importers:
   packages/casl-ability:
     specifiers:
       '@casl/dx': workspace:^1.0.0
-      '@types/jest': ^26.0.15
+      '@types/jest': ^26.0.22
       '@types/node': ^14.0.5
       '@ucast/mongo2js': ^1.3.0
       chai: ^4.1.0
@@ -38,6 +38,7 @@ importers:
       '@angular/platform-browser-dynamic': ^12.0.0
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
+      '@types/jest': ^26.0.22
       rxjs: ^6.5.3
       tslib: ^2.0.0
       typescript: ~4.2.3
@@ -52,6 +53,7 @@ importers:
       '@angular/platform-browser-dynamic': 12.0.2_te6uw7ttbhuoreg3clu6mefori
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
+      '@types/jest': 26.0.22
       rxjs: 6.6.7
       tslib: 2.2.0
       typescript: 4.2.4
@@ -61,6 +63,7 @@ importers:
     specifiers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
+      '@types/jest': ^26.0.22
       aurelia-bootstrapper: ^2.3.0
       aurelia-framework: ^1.3.1
       aurelia-loader-nodejs: ^1.0.1
@@ -72,6 +75,7 @@ importers:
     devDependencies:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
+      '@types/jest': 26.0.22
       aurelia-bootstrapper: 2.3.3
       aurelia-framework: 1.3.1
       aurelia-loader-nodejs: 1.1.0
@@ -85,12 +89,14 @@ importers:
     specifiers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
+      '@types/jest': ^26.0.22
       chai: ^4.1.0
       chai-spies: ^1.0.0
       mongoose: ^6.0.0
     devDependencies:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
+      '@types/jest': 26.0.22
       chai: 4.3.4
       chai-spies: 1.0.0_chai@4.3.4
       mongoose: 6.0.10
@@ -100,6 +106,7 @@ importers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
       '@prisma/client': ^3.2.1
+      '@types/jest': ^26.0.22
       '@ucast/core': ^1.10.0
       '@ucast/js': ^3.0.1
       prisma: ^3.2.1
@@ -110,6 +117,7 @@ importers:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
       '@prisma/client': 3.2.1_prisma@3.2.1
+      '@types/jest': 26.0.22
       prisma: 3.2.1
 
   packages/casl-react:
@@ -117,6 +125,7 @@ importers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
       '@testing-library/react-hooks': ^4.0.1
+      '@types/jest': ^26.0.22
       '@types/node': ^14.0.5
       '@types/react': ^18.0.0
       chai: ^4.1.0
@@ -127,6 +136,7 @@ importers:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
       '@testing-library/react-hooks': 4.0.1_v67mqjgtk6qs7kmtat6rugseti
+      '@types/jest': 26.0.22
       '@types/node': 14.14.41
       '@types/react': 18.0.9
       chai: 4.3.4
@@ -138,12 +148,14 @@ importers:
     specifiers:
       '@casl/ability': ^5.1.0
       '@casl/dx': workspace:^1.0.0
+      '@types/jest': ^26.0.22
       chai: ^4.1.0
       chai-spies: ^1.0.0
       vue: ^3.0.5
     devDependencies:
       '@casl/ability': link:../casl-ability
       '@casl/dx': link:../dx
+      '@types/jest': 26.0.22
       chai: 4.3.4
       chai-spies: 1.0.0_chai@4.3.4
       vue: 3.0.11
@@ -159,6 +171,7 @@ importers:
       '@rollup/plugin-node-resolve': ^13.0.0
       '@semantic-release/changelog': ^5.0.1
       '@semantic-release/git': ^9.0.0
+      '@types/jest': ^26.0.22
       '@typescript-eslint/eslint-plugin': ^4.22.1
       '@typescript-eslint/parser': ^4.0.0
       eslint: ^7.26.0
@@ -197,6 +210,8 @@ importers:
       semantic-release: 17.4.2
       ts-jest: 27.0.3_slnjjt3sgil24duaehocke6d2y
       typescript: 4.1.5
+    devDependencies:
+      '@types/jest': 26.0.22
 
 packages:
 
