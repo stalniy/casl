@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.1...@casl/prisma@1.0.2) (2022-05-29)
+
+
+### Bug Fixes
+
+* add 'all' to AbilityTuple ([#615](https://github.com/stalniy/casl/issues/615)) ([70025ac](https://github.com/stalniy/casl/commit/70025ac13a8acdf4093d5379961198daf26e9007)), closes [#584](https://github.com/stalniy/casl/issues/584)
+* makes sure `WhereInput<T>` resolves to corresponding Prisma model ([9288dcb](https://github.com/stalniy/casl/commit/9288dcb9a6eb91671b23c38454e189cd561af235)), closes [#613](https://github.com/stalniy/casl/issues/613)
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
 ## [1.0.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.0...@casl/prisma@1.0.1) (2021-10-07)
 
 # 1.0.0 (2021-08-16)
