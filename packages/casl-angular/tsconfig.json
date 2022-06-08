@@ -4,8 +4,8 @@
     "inlineSources": true,
     "inlineSourceMap": true,
     "declaration": false,
-    "module": "es2015",
-    "target": "es2015",
+    "module": "es2020",
+    "target": "es2017",
     "skipLibCheck": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -15,7 +15,7 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "lib": [
-      "es2018",
+      "es2019",
       "dom"
     ]
   },

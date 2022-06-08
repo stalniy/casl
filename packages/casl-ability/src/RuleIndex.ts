@@ -19,8 +19,8 @@ export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOp
   anySubjectType?: string;
 }
 
-declare const $abilities: unique symbol;
-declare const $conditions: unique symbol;
+export declare const $abilities: unique symbol;
+export declare const $conditions: unique symbol;
 interface WithGenerics {
   [$abilities]: any
   [$conditions]: any
