@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.0.0](https://git-stalniy/stalniy/casl/compare/@casl/angular@6.0.0...@casl/angular@7.0.0) (2022-06-16)
+
+
+### Bug Fixes
+
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://git-stalniy/stalniy/casl/issues/560)) ([0ef534c](https://git-stalniy/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
+
+### Features
+
+* Angular 13 support ([#632](https://git-stalniy/stalniy/casl/issues/632)) ([6b86fd9](https://git-stalniy/stalniy/casl/commit/6b86fd9e7a3bdd6bd40fea032372a826cd72c0fe))
+
+
+### BREAKING CHANGES
+
+* drops support for angular < 13
+
 # [6.0.0](https://github.com/stalniy/casl/compare/@casl/angular@5.1.2...@casl/angular@6.0.0) (2021-05-31)
 
 
