@@ -1,13 +1,16 @@
 import { defineAbility, Ability } from '@casl/ability'
 import mongoose from 'mongoose'
-import { AccessibleFieldsModel, accessibleFieldsPlugin, AccessibleFieldsDocument } from '../src'
+import { AccessibleFieldsModel, accessibleFieldsPlugin } from '../src'
 
 describe('Accessible fields plugin', () => {
-  interface Post extends AccessibleFieldsDocument {
+  interface Post {
     title: string;
     state: string;
   }
-  let PostSchema: mongoose.Schema<Post>
+
+  type PostModel = AccessibleFieldsModel<Post>
+
+  let PostSchema: mongoose.Schema<Post, PostModel>
 
   beforeEach(() => {
     PostSchema = new mongoose.Schema<Post>({
@@ -21,7 +24,7 @@ describe('Accessible fields plugin', () => {
   })
 
   it('adds static and instace `accessibleFieldsBy` method', () => {
-    const Post = mongoose.model<Post, AccessibleFieldsModel<Post>>(
+    const Post = mongoose.model<Post, PostModel>(
       'Post',
       PostSchema.plugin(accessibleFieldsPlugin)
     )

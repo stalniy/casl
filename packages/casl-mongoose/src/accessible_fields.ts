@@ -21,19 +21,28 @@ function fieldsOf(schema: Schema<Document>, options: Partial<AccessibleFieldsOpt
   return fields.filter(field => excludedFields.indexOf(field) === -1);
 }
 
-type GetAccessibleFields<T extends AccessibleFieldsDocument> = <U extends AnyMongoAbility>(
+type GetAccessibleFields<T> = <U extends AnyMongoAbility>(
   this: Model<T> | T,
   ability: U,
   action?: Normalize<Generics<U>['abilities']>[0]
 ) => string[];
 
-export interface AccessibleFieldsModel<T extends AccessibleFieldsDocument> extends Model<T> {
+export interface AccessibleFieldsModel<
+  T,
+  TQueryHelpers = {},
+  TMethods = {},
+  TVirtuals = {}
+> extends Model<T, TQueryHelpers, TMethods & AccessibleFieldDocumentMethods, TVirtuals> {
   accessibleFieldsBy: GetAccessibleFields<T>
 }
 
-export interface AccessibleFieldsDocument extends Document {
-  accessibleFieldsBy: GetAccessibleFields<AccessibleFieldsDocument>
+export interface AccessibleFieldDocumentMethods {
+  accessibleFieldsBy: GetAccessibleFields<Document>
 }
+
+/** @deprecated Mongoose recommends against `extends Document`, prefer to use `AccessibleFieldsModel` instead.
+ * See here: https://mongoosejs.com/docs/typescript.html#using-extends-document */
+export interface AccessibleFieldsDocument extends Document, AccessibleFieldDocumentMethods {}
 
 function modelFieldsGetter() {
   let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];

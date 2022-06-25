@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import { AccessibleRecordModel, accessibleRecordsPlugin, toMongoQuery } from '../src'
 
 describe('Accessible Records Plugin', () => {
-  interface Post extends mongoose.Document {
+  interface Post {
     title: string;
     state: string;
   }
@@ -79,8 +79,19 @@ describe('Accessible Records Plugin', () => {
       Post.accessibleBy(ability).where({ title: /test/ }).accessibleBy(ability, 'delete')
     })
 
+    it('has proper typing for `accessibleBy` methods', () => {
+      let expectedQueryType: mongoose.Query<mongoose.HydratedDocument<Post>[], any>
+      expectedQueryType = Post.find()
+      expectedQueryType = Post.find().accessibleBy(ability)
+      expectedQueryType = Post.find().accessibleBy(ability).accessibleBy(ability, 'update')
+      expectedQueryType = Post.accessibleBy(ability).where({ title: /test/ }).accessibleBy(ability, 'delete')
+      expectedQueryType = Post.accessibleBy(ability).find()
+      expectedQueryType = Post.accessibleBy(ability).accessibleBy(ability, 'update').find()
+      expect(expectedQueryType).not.toBeUndefined()
+    })
+
     describe('when ability disallow to perform an action', () => {
-      let query: mongoose.QueryWithHelpers<Post, Post>
+      let query: mongoose.QueryWithHelpers<Post, Post, any, any>
 
       beforeEach(() => {
         query = Post.find().accessibleBy(ability, 'notAllowedAction')
@@ -89,7 +100,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for collection request', async () => {
         await query.exec()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -98,7 +109,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` when `find` is called', async () => {
         await query.find()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -107,7 +118,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` when callback is passed to `exec`', async () => {
         await wrapInPromise(cb => query.exec(cb))
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -116,7 +127,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for item request', async () => {
         await query.findOne().exec()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -125,7 +136,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` when `findOne` is called', async () => {
         await query.findOne()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -134,7 +145,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for item request when callback is passed to `exec`', async () => {
         await wrapInPromise(cb => query.findOne().exec(cb))
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -143,7 +154,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for count request', async () => {
         await query.count()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -152,7 +163,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for count request', async () => {
         await query.count()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -161,7 +172,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for `countDocuments` request', async () => {
         await query.countDocuments()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })
@@ -170,7 +181,7 @@ describe('Accessible Records Plugin', () => {
       it('throws `ForbiddenError` for `countDocuments` request', async () => {
         await query.estimatedDocumentCount()
           .then(() => fail('should not execute'))
-          .catch((error) => {
+          .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
           })

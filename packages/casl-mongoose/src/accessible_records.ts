@@ -1,5 +1,5 @@
 import { Normalize, AnyMongoAbility, Generics, ForbiddenError, getDefaultErrorMessage } from '@casl/ability';
-import type { Schema, QueryWithHelpers, Model, Document } from 'mongoose';
+import type { Schema, QueryWithHelpers, Model, Document, HydratedDocument } from 'mongoose';
 import mongoose from 'mongoose';
 import { toMongoQuery } from './mongo';
 
@@ -49,21 +49,35 @@ function accessibleBy<T extends AnyMongoAbility>(
   return this instanceof mongoose.Query ? this.and([query]) : this.where({ $and: [query] });
 }
 
-type GetAccessibleRecords<T extends Document> = <U extends AnyMongoAbility>(
+type GetAccessibleRecords<T, TQueryHelpers, TMethods, TVirtuals> = <U extends AnyMongoAbility>(
   ability: U,
   action?: Normalize<Generics<U>['abilities']>[0]
-) => QueryWithHelpers<T, T, QueryHelpers<T>>;
+) => QueryWithHelpers<Array<T>, T, QueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>>;
 
-type QueryHelpers<T extends Document> = {
-  accessibleBy: GetAccessibleRecords<T>
+type QueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
+  accessibleBy: GetAccessibleRecords<
+  HydratedDocument<T, TMethods, TVirtuals>,
+  TQueryHelpers,
+  TMethods,
+  TVirtuals>
 };
 export interface AccessibleRecordModel<
-  T extends Document, K = unknown
-> extends Model<T, K & QueryHelpers<T>> {
-  accessibleBy: GetAccessibleRecords<T>
+  T,
+  TQueryHelpers = {},
+  TMethods = {},
+  TVirtuals = {}
+> extends Model<T,
+  TQueryHelpers & QueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>,
+  TMethods,
+  TVirtuals> {
+  accessibleBy: GetAccessibleRecords<
+  HydratedDocument<T, TMethods, TVirtuals>,
+  TQueryHelpers,
+  TMethods,
+  TVirtuals>
 }
 
-export function accessibleRecordsPlugin(schema: Schema<any>) {
+export function accessibleRecordsPlugin(schema: Schema<any, any, any, any>) {
   schema.query.accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
 }
