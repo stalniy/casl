@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.0.0-alpha.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.3...@casl/prisma@2.0.0-alpha.1) (2022-07-23)
+
+
+### Features
+
+* adds custom prisma generator to provide an ability to customize client library ([189ccca](https://github.com/stalniy/casl/commit/189ccca24518562095731c4cd43f4dc1d0cd826a))
+
+
+### BREAKING CHANGES
+
+* @casl/prisma requires developers to use custom casl generator in their schema.prisma
+
+   **Before**
+
+   No changes required for schema.prisma
+
+   **After**
+
+   ```prisma
+    generator client {
+      provider = "prisma-client-js"
+    }
+
+    generator caslAdapter {
+      provider = "node @casl/prisma/generator.js" // <--- this line is important to add!
+    }
+   ```
+
 ## [1.0.3](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.2...@casl/prisma@1.0.3) (2022-07-23)
 
 
