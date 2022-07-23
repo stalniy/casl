@@ -17,14 +17,14 @@ type ExtractModelName<T> = T extends { kind: Prisma.ModelName }
     ? T['__caslSubjectType__']
     : T extends { __typename: Prisma.ModelName }
       ? T['__typename']
-      : never;
+      : Prisma.ModelName;
 
 interface PrismaQueryTypeFactory extends hkt.GenericFactory {
   produce: WhereInput<ExtractModelName<this[0]>>
 }
 
 export type Model<T, TName extends string> = T & ForcedSubject<TName>;
-export type Subjects<T extends Record<Prisma.ModelName, Record<string, unknown>>> =
+export type Subjects<T extends Partial<Record<Prisma.ModelName, Record<string, unknown>>>> =
   | keyof T
   | { [K in keyof T]: Model<T[K], K & string> }[keyof T];
 
