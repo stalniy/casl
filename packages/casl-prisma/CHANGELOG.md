@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.0.0-alpha.2](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.0-alpha.1...@casl/prisma@2.0.0-alpha.2) (2022-07-23)
+
+
+### Bug Fixes
+
+* makes .prisma-casl-adapter to be external ([9ee8373](https://github.com/stalniy/casl/commit/9ee8373b644d64e7ac228854d9e59efed193d0bb))
+
 # [2.0.0-alpha.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.3...@casl/prisma@2.0.0-alpha.1) (2022-07-23)
 
 
