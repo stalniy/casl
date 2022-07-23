@@ -7,6 +7,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator caslAdapter {
+  provider = "node generator.js"
+}
+
 model User {
   id          Int     @id
   firstName   String

@@ -21,7 +21,30 @@ pnpm add @casl/prisma @casl/ability
 
 ## Usage
 
-This package is a bit different from all others because it provides a custom `PrismaAbility` class that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
+First of all, you need to add custom casl generator to your Prisma schema. The main purpose of this generator is to expose Prisma types to CASL and allow to provide [custom path for prisma generated types](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/generating-prisma-client#using-a-custom-output-path):
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator caslAdapter {
+  provider = "node @casl/prisma/generator.js" // <--- important to add this
+  clientLib = "@my-custom/prisma-client" // optional and by default equals to @prisma/client
+}
+
+model User {
+  id     Int     @id
+  name   String
+}
+```
+
+Now we are ready to code! This package is a bit different from all others because it provides a custom `PrismaAbility` class that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
 
 ```ts
 import { User, Post, Prisma } from '@prisma/client';

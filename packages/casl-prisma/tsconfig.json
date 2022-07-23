@@ -5,6 +5,7 @@
     "spec/*"
   ],
   "compilerOptions": {
-    "outDir": "dist/types"
+    "outDir": "dist",
+    "resolveJsonModule": true
   }
 }

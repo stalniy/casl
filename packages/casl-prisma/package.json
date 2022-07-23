@@ -9,6 +9,9 @@
     ".": {
       "import": "./dist/es6m/index.mjs",
       "require": "./dist/es6c/index.js"
+    },
+    "./generator": {
+      "require": "./generator.js"
     }
   },
   "repository": {
@@ -21,14 +24,16 @@
   },
   "homepage": "https://casl.js.org",
   "scripts": {
-    "prebuild": "rm -rf dist/* && npm run build.types",
+    "prebuild": "rm -rf dist/* && npm run build.types && npm run build.generator",
     "build": "BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,@prisma/client,@ucast/core,@ucast/js",
     "build.types": "dx tsc",
+    "build.generator": "BUILD_TYPES=es6c dx rollup -i src/prismaGenerator.ts -e ../package.json,@prisma/generator-helper,path,fs/promises",
+    "postbuild.generator": "mv dist/es6c/prismaGenerator.* dist",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "dx semantic-release",
-    "prepare": "prisma generate"
+    "prepare": "npm run build.generator && prisma generate"
   },
   "keywords": [
     "casl",
@@ -53,9 +58,10 @@
   "files": [
     "dist",
     "*.d.ts",
-    "index.js"
+    "generator.js"
   ],
   "dependencies": {
+    "@prisma/generator-helper": "^4.1.0",
     "@ucast/core": "^1.10.0",
     "@ucast/js": "^3.0.1"
   }

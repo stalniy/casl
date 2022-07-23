@@ -1,34 +1,27 @@
-import type { PrismaClient, Prisma } from '@prisma/client';
 import { AnyInterpreter, createTranslatorFactory } from '@ucast/core';
 import { ForcedSubject, hkt } from '@casl/ability';
 import { PrismaQueryParser } from './PrismaQueryParser';
 import { interpretPrismaQuery } from './interpretPrismaQuery';
+import type { WhereInput, ModelName } from '.prisma/casl-adapter'; // generated file
 
-type ModelDelegates = {
-  [K in Prisma.ModelName]: Uncapitalize<K> extends keyof PrismaClient
-    ? PrismaClient[Uncapitalize<K>]
-    : never
-};
-export type WhereInput<TModelName extends Prisma.ModelName> =
-  Extract<Extract<Parameters<ModelDelegates[TModelName]['findFirst']>[0], { where?: any }>['where'], Record<any, any>>;
-type ExtractModelName<T> = T extends { kind: Prisma.ModelName }
+type ExtractModelName<T> = T extends { kind: ModelName }
   ? T['kind']
-  : T extends ForcedSubject<Prisma.ModelName>
+  : T extends ForcedSubject<ModelName>
     ? T['__caslSubjectType__']
-    : T extends { __typename: Prisma.ModelName }
+    : T extends { __typename: ModelName }
       ? T['__typename']
-      : Prisma.ModelName;
+      : ModelName;
 
 interface PrismaQueryTypeFactory extends hkt.GenericFactory {
   produce: WhereInput<ExtractModelName<this[0]>>
 }
 
 export type Model<T, TName extends string> = T & ForcedSubject<TName>;
-export type Subjects<T extends Partial<Record<Prisma.ModelName, Record<string, unknown>>>> =
+export type Subjects<T extends Partial<Record<ModelName, Record<string, unknown>>>> =
   | keyof T
   | { [K in keyof T]: Model<T[K], K & string> }[keyof T];
 
-type PrismaModel = Model<Record<string, any>, Prisma.ModelName>;
+type PrismaModel = Model<Record<string, any>, ModelName>;
 export type PrismaQuery<T extends PrismaModel = PrismaModel> =
   WhereInput<ExtractModelName<T>> & hkt.Container<PrismaQueryTypeFactory>;
 

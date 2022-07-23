@@ -1,8 +1,7 @@
-import { Prisma } from '@prisma/client';
 import { rulesToQuery } from '@casl/ability/extra';
 import { AnyAbility, ForbiddenError } from '@casl/ability';
 import { PrismaAbility } from './PrismaAbility';
-import { WhereInput } from './prisma/PrismaQuery';
+import { WhereInput, ModelName } from '.prisma/casl-adapter';
 
 function convertToPrismaQuery(rule: AnyAbility['rules'][number]) {
   return rule.inverted ? { NOT: rule.conditions } : rule.conditions;
@@ -41,7 +40,7 @@ function createQuery(ability: PrismaAbility, action: string) {
 }
 
 type AccessibleQuery = {
-  [K in Prisma.ModelName]: WhereInput<K>;
+  [K in ModelName]: WhereInput<K>;
 };
 
 export function accessibleBy(ability: PrismaAbility<any, any>, action = 'read'): AccessibleQuery {
