@@ -34,7 +34,7 @@ generator client {
 }
 
 generator caslAdapter {
-  provider = "node @casl/prisma/generator.js" // <--- important to add this
+  provider = "node node node_modules/@casl/prisma/generator.js" // <--- important to add this
   clientLib = "@my-custom/prisma-client" // optional and by default equals to @prisma/client
 }
 
