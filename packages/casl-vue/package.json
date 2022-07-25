@@ -40,11 +40,11 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.1.0",
+    "@casl/ability": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.1.0 || ^6.0.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^5.1.0",
+    "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
     "@types/jest": "^26.0.22",
     "chai": "^4.1.0",

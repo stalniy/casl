@@ -37,7 +37,7 @@ importers:
       '@angular/core': ^13.0.0
       '@angular/platform-browser': ^13.0.0
       '@angular/platform-browser-dynamic': ^13.0.0
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@types/jest': ^27.4.7
       jest: ^27.0.0
@@ -67,7 +67,7 @@ importers:
 
   packages/casl-aurelia:
     specifiers:
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@types/jest': ^26.0.22
       aurelia-bootstrapper: ^2.3.0
@@ -93,7 +93,7 @@ importers:
 
   packages/casl-mongoose:
     specifiers:
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@types/jest': ^26.0.22
       chai: ^4.1.0
@@ -109,7 +109,7 @@ importers:
 
   packages/casl-prisma:
     specifiers:
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@prisma/client': ^4.0.0
       '@types/jest': ^26.0.22
@@ -128,7 +128,7 @@ importers:
 
   packages/casl-react:
     specifiers:
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@testing-library/react-hooks': ^4.0.1
       '@types/jest': ^26.0.22
@@ -152,7 +152,7 @@ importers:
 
   packages/casl-vue:
     specifiers:
-      '@casl/ability': ^5.1.0
+      '@casl/ability': ^6.0.0
       '@casl/dx': workspace:^1.0.0
       '@types/jest': ^26.0.22
       chai: ^4.1.0
