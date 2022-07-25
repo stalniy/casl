@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1](https://github.com/stalniy/casl/compare/@casl/aurelia@1.2.0...@casl/aurelia@1.2.1) (2022-07-25)
+
+
+### Bug Fixes
+
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
 # [1.2.0](https://github.com/stalniy/casl/compare/@casl/aurelia@1.1.1...@casl/aurelia@1.2.0) (2021-05-12)
 
 
