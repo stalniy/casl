@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@6.0.1...@casl/mongoose@7.0.0) (2022-07-29)
+
+
+### Features
+
+* allow to use mongoose typings without extending Document ([#639](https://github.com/stalniy/casl/issues/639)) ([f5273e3](https://github.com/stalniy/casl/commit/f5273e3475c1593dbda45176aa3c9ff593e8940f))
+
+
+### BREAKING CHANGES
+
+* increased mongoose version to 6.0.13 in order to use 4 generic types in `Model` type
+
 ## [6.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@6.0.0...@casl/mongoose@6.0.1) (2022-07-25)
 
 # [6.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@5.0.1...@casl/mongoose@6.0.0) (2021-11-04)
