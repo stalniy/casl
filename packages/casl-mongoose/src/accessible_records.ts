@@ -52,7 +52,11 @@ function accessibleBy<T extends AnyMongoAbility>(
 type GetAccessibleRecords<T, TQueryHelpers, TMethods, TVirtuals> = <U extends AnyMongoAbility>(
   ability: U,
   action?: Normalize<Generics<U>['abilities']>[0]
-) => QueryWithHelpers<Array<T>, T, QueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>>;
+) => QueryWithHelpers<
+Array<T>,
+T,
+AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>
+>;
 
 export type AccessibleRecordQueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
   accessibleBy: GetAccessibleRecords<
