@@ -79,7 +79,8 @@ export interface AccessibleRecordModel<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,
   TMethods,
-  TVirtuals>
+  TVirtuals
+  >
 }
 
 export function accessibleRecordsPlugin(schema: Schema<any, any, any, any>) {

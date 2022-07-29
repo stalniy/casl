@@ -12,7 +12,7 @@ export interface AccessibleModel<
   AccessibleFieldsModel<T, TQueryHelpers & AccessibleRecordQueryHelpers<
   T,
   TQueryHelpers,
-  TMethods,
+  TMethods & AccessibleFieldDocumentMethods<T>,
   TVirtuals
   >, TMethods, TVirtuals>
 {}
