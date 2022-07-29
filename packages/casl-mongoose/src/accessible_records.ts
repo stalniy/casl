@@ -54,12 +54,13 @@ type GetAccessibleRecords<T, TQueryHelpers, TMethods, TVirtuals> = <U extends An
   action?: Normalize<Generics<U>['abilities']>[0]
 ) => QueryWithHelpers<Array<T>, T, QueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>>;
 
-type QueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
+export type AccessibleRecordQueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
   accessibleBy: GetAccessibleRecords<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,
   TMethods,
-  TVirtuals>
+  TVirtuals
+  >
 };
 export interface AccessibleRecordModel<
   T,
@@ -67,7 +68,7 @@ export interface AccessibleRecordModel<
   TMethods = {},
   TVirtuals = {}
 > extends Model<T,
-  TQueryHelpers & QueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>,
+  TQueryHelpers & AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>,
   TMethods,
   TVirtuals> {
   accessibleBy: GetAccessibleRecords<

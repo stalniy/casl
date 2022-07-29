@@ -1,6 +1,6 @@
 import { defineAbility, Ability } from '@casl/ability'
 import mongoose from 'mongoose'
-import { AccessibleFieldsModel, accessibleFieldsPlugin } from '../src'
+import { accessibleFieldsPlugin, AccessibleFieldsModel } from '../src'
 
 describe('Accessible fields plugin', () => {
   interface Post {
@@ -9,7 +9,6 @@ describe('Accessible fields plugin', () => {
   }
 
   type PostModel = AccessibleFieldsModel<Post>
-
   let PostSchema: mongoose.Schema<Post, PostModel>
 
   beforeEach(() => {
@@ -35,12 +34,12 @@ describe('Accessible fields plugin', () => {
   })
 
   describe('`accessibleFieldsBy` method', () => {
-    let Post: AccessibleFieldsModel<Post>
+    let Post: PostModel
 
     describe('by default', () => {
       beforeEach(() => {
         PostSchema.plugin(accessibleFieldsPlugin)
-        Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema)
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
       })
 
       it('returns empty array for empty `Ability` instance', () => {
@@ -89,28 +88,28 @@ describe('Accessible fields plugin', () => {
 
       it('returns fields provided in `only` option specified as string', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { only: 'title' })
-        Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema)
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
         expect(Post.accessibleFieldsBy(ability)).toEqual(['title'])
       })
 
       it('returns fields provided in `only` option specified as array', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { only: ['title', 'state'] })
-        Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema)
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
         expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state'])
       })
 
       it('returns all fields except one specified in `except` option as string', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { except: '_id' })
-        Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema)
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
         expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state', '__v'])
       })
 
       it('returns all fields except specified in `except` option as array', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { except: ['_id', '__v'] })
-        Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema)
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
         expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state'])
       })

@@ -32,16 +32,18 @@ export interface AccessibleFieldsModel<
   TQueryHelpers = {},
   TMethods = {},
   TVirtuals = {}
-> extends Model<T, TQueryHelpers, TMethods & AccessibleFieldDocumentMethods, TVirtuals> {
+> extends Model<T, TQueryHelpers, TMethods & AccessibleFieldDocumentMethods<T>, TVirtuals> {
   accessibleFieldsBy: GetAccessibleFields<T>
 }
 
-export interface AccessibleFieldDocumentMethods {
-  accessibleFieldsBy: GetAccessibleFields<Document>
+export interface AccessibleFieldDocumentMethods<T = Document> {
+  accessibleFieldsBy: GetAccessibleFields<T>
 }
 
-/** @deprecated Mongoose recommends against `extends Document`, prefer to use `AccessibleFieldsModel` instead.
- * See here: https://mongoosejs.com/docs/typescript.html#using-extends-document */
+/**
+ * @deprecated Mongoose recommends against `extends Document`, prefer to use `AccessibleFieldsModel` instead.
+ * See here: https://mongoosejs.com/docs/typescript.html#using-extends-document
+ */
 export interface AccessibleFieldsDocument extends Document, AccessibleFieldDocumentMethods {}
 
 function modelFieldsGetter() {
