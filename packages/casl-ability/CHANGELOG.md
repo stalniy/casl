@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.0.0](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@6.0.0) (2022-07-25)
+
+
+### Bug Fixes
+
+* replaces object.hasOwnProperty with static calls to Object.hasOwn (+ polyfill) ([22fa7f8](https://github.com/stalniy/casl/commit/22fa7f874438f2c3bcfec7fae357e64c5d8b3610)), closes [#604](https://github.com/stalniy/casl/issues/604)
+
+
+### Features
+
+* Angular 13 support ([#632](https://github.com/stalniy/casl/issues/632)) ([6b86fd9](https://github.com/stalniy/casl/commit/6b86fd9e7a3bdd6bd40fea032372a826cd72c0fe))
+
+
+### BREAKING CHANGES
+
+* drops support for angular < 13
+
 ## [5.4.4](https://github.com/stalniy/casl/compare/@casl/ability@5.4.3...@casl/ability@5.4.4) (2022-05-28)
 
 

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.3...@casl/prisma@1.0.4) (2022-07-25)
+
+## [1.0.3](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.2...@casl/prisma@1.0.3) (2022-07-23)
+
+
+### Bug Fixes
+
+* **prisma:** allpows to specify not all models inside Subjects helper ([fb9cf8d](https://github.com/stalniy/casl/commit/fb9cf8d3b41f2030e36d2e774731da3540cca55e))
+* improved AbilityTuple ([#616](https://github.com/stalniy/casl/issues/616)) ([270446f](https://github.com/stalniy/casl/commit/270446fe7b68bb00a6546d04d6bee88a816a00ff))
+* update prisma to version 4 ([#638](https://github.com/stalniy/casl/issues/638)) ([d5abdf1](https://github.com/stalniy/casl/commit/d5abdf1c82b58c8515d2be48d2cf798add5b1e13))
+
 ## [1.0.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.1...@casl/prisma@1.0.2) (2022-05-29)
 
 

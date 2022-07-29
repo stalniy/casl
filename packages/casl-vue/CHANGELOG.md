@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.3](https://github.com/stalniy/casl/compare/@casl/vue@2.1.2...@casl/vue@2.1.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
 ## [2.1.2](https://github.com/stalniy/casl/compare/@casl/vue@2.1.1...@casl/vue@2.1.2) (2021-10-07)
 
 

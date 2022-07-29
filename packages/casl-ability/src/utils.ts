@@ -21,13 +21,16 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
   ref[lastKey] = value;
 }
 
+const hasOwnProperty = (Object as any).hasOwn
+  || Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty);
+
 const TYPE_FIELD = '__caslSubjectType__';
 export function setSubjectType<
   T extends string,
   U extends Record<PropertyKey, any>
 >(type: T, object: U): U & ForcedSubject<T> {
   if (object) {
-    if (!object.hasOwnProperty(TYPE_FIELD)) {
+    if (!hasOwnProperty(object, TYPE_FIELD)) {
       Object.defineProperty(object, TYPE_FIELD, { value: type });
     } else if (type !== object[TYPE_FIELD]) {
       throw new Error(`Trying to cast object to subject type ${type} but previously it was casted to ${object[TYPE_FIELD]}`);
@@ -48,8 +51,8 @@ export const getSubjectTypeName = (value: SubjectType) => {
 };
 
 export function detectSubjectType(subject: Exclude<Subject, SubjectType>): string {
-  if (subject.hasOwnProperty(TYPE_FIELD)) {
-    return (subject as any)[TYPE_FIELD];
+  if (hasOwnProperty(subject, TYPE_FIELD)) {
+    return subject[TYPE_FIELD];
   }
 
   return getSubjectClassName(subject.constructor as SubjectClass);
@@ -63,7 +66,7 @@ function expandActions(aliasMap: AliasesMap, rawActions: string | string[], merg
   while (i < actions.length) {
     const action = actions[i++];
 
-    if (aliasMap.hasOwnProperty(action)) {
+    if (hasOwnProperty(aliasMap, action)) {
       actions = merge(actions, aliasMap[action]);
     }
   }
