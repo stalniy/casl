@@ -63,7 +63,7 @@ function modelFieldsGetter() {
 export function accessibleFieldsPlugin(
   schema: Schema<any>,
   rawOptions?: Partial<AccessibleFieldsOptions>
-) {
+): void {
   const options = { getFields: getSchemaPaths, ...rawOptions };
   const fieldsFrom = modelFieldsGetter();
   type ModelOrDoc = Model<AccessibleFieldsDocument> | AccessibleFieldsDocument;

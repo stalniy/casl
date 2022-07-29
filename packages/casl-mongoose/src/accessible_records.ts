@@ -83,7 +83,7 @@ export interface AccessibleRecordModel<
   >
 }
 
-export function accessibleRecordsPlugin(schema: Schema<any, any, any, any>) {
-  schema.query.accessibleBy = accessibleBy;
+export function accessibleRecordsPlugin(schema: Schema<any>): void {
+  (schema.query as Record<string, unknown>).accessibleBy = accessibleBy;
   schema.statics.accessibleBy = accessibleBy;
 }
