@@ -34,7 +34,7 @@
     "@rollup/plugin-html": "^0.2.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-replace": "^4.0.0",
-    "@rollup/plugin-url": "^6.0.0",
+    "@rollup/plugin-url": "^7.0.0",
     "@rollup/pluginutils": "^4.0.0",
     "@sindresorhus/slugify": "1.1.2",
     "core-js": "^3.6.4",
