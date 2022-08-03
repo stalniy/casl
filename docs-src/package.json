@@ -46,7 +46,7 @@
     "js-yaml": "^4.0.0",
     "markdown-it-highlightjs": "^4.0.0",
     "markdown-it-include": "^2.0.0",
-    "puppeteer": "^13.0.0",
+    "puppeteer": "^15.0.0",
     "regenerator-runtime": "^0.13.3",
     "rollup": "^2.35.1",
     "rollup-plugin-content": "0.7.1",
