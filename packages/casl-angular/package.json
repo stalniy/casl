@@ -59,7 +59,7 @@
     "@angular/core": "^13.0.0",
     "@angular/platform-browser": "^13.0.0",
     "@angular/platform-browser-dynamic": "^13.0.0",
-    "@angular-devkit/build-angular": "^13.0.0",
+    "@angular-devkit/build-angular": "^14.0.0",
     "jest": "^28.0.0",
     "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
