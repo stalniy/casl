@@ -34,7 +34,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "semantic-release": "^17.4.2",
     "ts-jest": "^28.0.0",
-    "typescript": "~4.4.4"
+    "typescript": "~4.7.0"
   },
   "devDependencies": {
     "@types/jest": "^28.0.0"
