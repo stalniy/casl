@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [8.0.0](https://github.com/stalniy/casl/compare/@casl/angular@7.1.0...@casl/angular@8.0.0) (2022-08-20)
+
+
+### chore
+
+* **deps:** update angular monorepo to v14 (major)  ([#663](https://github.com/stalniy/casl/issues/663)) ([e556f14](https://github.com/stalniy/casl/commit/e556f144229a0e6fea1eaba7556a9e3db910aabb))
+
+
+### BREAKING CHANGES
+
+* **deps:** drop support for angular@13, moving to Ivy only!
+
 # [7.1.0](https://github.com/stalniy/casl/compare/@casl/angular@7.0.1...@casl/angular@7.1.0) (2022-08-20)
 
 
