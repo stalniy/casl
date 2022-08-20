@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.1.0](https://github.com/stalniy/casl/compare/@casl/angular@7.0.1...@casl/angular@7.1.0) (2022-08-20)
+
+
+### Features
+
+* **angular:** implements services that provides Ability as an Observable ([5a139b2](https://github.com/stalniy/casl/commit/5a139b2f1bb694308c7afb46ad7be6e7cb719f19))
+
 ## [7.0.1](https://github.com/stalniy/casl/compare/@casl/angular@7.0.0...@casl/angular@7.0.1) (2022-07-25)
 
 # [7.0.0](https://git-stalniy/stalniy/casl/compare/@casl/angular@6.0.0...@casl/angular@7.0.0) (2022-06-16)
