@@ -1,10 +1,9 @@
 import { Pipe, Inject, PipeTransform } from '@angular/core';
-import { PureAbility, Unsubscribe, AnyAbility } from '@casl/ability';
+import { PureAbility, AnyAbility } from '@casl/ability';
 import { Observable } from 'rxjs';
 
 @Pipe({ name: 'able', pure: false })
 export class AblePipe<T extends AnyAbility> implements PipeTransform {
-  protected _unsubscribeFromAbility?: Unsubscribe;
   private _ability: T;
 
   constructor(@Inject(PureAbility) ability: T) {

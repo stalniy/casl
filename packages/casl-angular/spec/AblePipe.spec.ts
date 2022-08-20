@@ -1,7 +1,7 @@
 import { defineAbility, Ability } from '@casl/ability'
 import { AblePipe } from '../src/public'
 
-describe('Can pipe', () => {
+describe('Able pipe', () => {
   let ability: Ability
   let pipe: AblePipe<any>
 

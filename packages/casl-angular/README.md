@@ -121,7 +121,40 @@ export class LoginForm {
 }
 ```
 
-## Check permissions in templates
+## Check permissions in templates using AbilityService
+
+`AbilityService` is a service that provides `ability$` observable. This observable injects provided in DI `PureAbility` instance and emits it each time its rules are changed. This allows efficiently use permissions checks, especially in case we use `ChangeDetectionStrategy.OnPush`.
+
+Let's first see how it can be used in any component:
+
+```ts
+@Component({
+  selector: 'my-home',
+  template: `
+    <ng-container *ngIf="ability$ | async as ability">
+      <h1>Home Page</h1>
+      <button *ngIf="ability.can('create', 'Post')">Create Post</button>
+    </ng-container>
+  `
+})
+export class HomeComponent {
+  readonly ability$: Observable<AppAbility>;
+
+  constructor(abilityService: AbilityService<AppAbility>) {
+    this.ability$ = abilityService.ability$;
+  }
+}
+```
+
+It also can be safely used inside `*ngFor` and other directives. If we use `ChangeDetectionStrategy.OnPush`, it will give us additional performance improvements because `ability.can(...)` won't be called without a need.
+
+This approach works good from performance point of view because it creates only single subscription per component (not per check as in case of `ablePure` pipe) and doesn't require our component to use `Default` or `OnPush` strategy.
+
+**Note**: provide this service at root injector level as we need only 1 instance of it.
+
+But let's also see how we can do permission checks using pipes and what are performance implications of that:
+
+## Check permissions in templates using pipe
 
 To check permissions in any template you can use `AblePipe`:
 
@@ -131,9 +164,7 @@ To check permissions in any template you can use `AblePipe`:
 </div>
 ```
 
-> You can read the expression in `ngIf` as "if creatable Post"
-
-## Why pipe and not directive?
+### Why pipe and not directive?
 
 Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable a button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:
 
@@ -141,7 +172,7 @@ Directive cannot be used to pass values into inputs of other components. For exa
 <button [disabled]="!('create' | able: 'Post')">Add Post</button>
 ```
 
-## Performance considerations
+### Performance considerations
 
 There are 2 pipes in `@casl/angular`:
 

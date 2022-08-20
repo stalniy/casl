@@ -41,7 +41,7 @@ export function createComponent<T extends Type<unknown>>(
   return cmp
 }
 
-export function configureTestingModule(declarations) {
+export function configureTestingModule(declarations: Type<unknown>[] = []) {
   TestBed.configureTestingModule({
     imports: [AbilityModule],
     declarations,
