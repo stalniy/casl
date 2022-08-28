@@ -10,10 +10,12 @@
   "typings": "./index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/es6m/index.mjs",
       "require": "./dist/es6c/index.js"
     },
     "./extra": {
+      "types": "./dist/types/extra.d.ts",
       "import": "./dist/es6m/extra.mjs",
       "require": "./dist/es6c/extra.js"
     }
