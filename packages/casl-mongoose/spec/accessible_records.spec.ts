@@ -1,4 +1,4 @@
-import { Ability, defineAbility, ForbiddenError } from '@casl/ability'
+import { Ability, defineAbility, ForbiddenError, SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
 import { AccessibleRecordModel, accessibleRecordsPlugin, toMongoQuery } from '../src'
 
@@ -33,7 +33,6 @@ describe('Accessible Records Plugin', () => {
 
   it('injects `accessibleBy` query method', () => {
     expect(typeof Post.find().accessibleBy).toBe('function')
-    expect(Post.find().accessibleBy).toBe(Post.accessibleBy)
   })
 
   describe('`accessibleBy` method', () => {
@@ -88,6 +87,24 @@ describe('Accessible Records Plugin', () => {
       expectedQueryType = Post.accessibleBy(ability).find()
       expectedQueryType = Post.accessibleBy(ability).accessibleBy(ability, 'update').find()
       expect(expectedQueryType).not.toBeUndefined()
+    })
+
+    it('returns query for Ability that uses classes as subject type', () => {
+      ability = defineAbility<Ability>((can) => {
+        can('read', Post, { state: 'draft' })
+        can('update', Post, { state: 'published' })
+      }, {
+        detectSubjectType: o => o.constructor as SubjectType
+      })
+      const query = Post.accessibleBy(ability).getQuery()
+
+      expect(query).toEqual({
+        $and: [
+          {
+            $or: [{ state: 'draft' }]
+          }
+        ]
+      })
     })
 
     describe('when ability disallow to perform an action', () => {

@@ -1,4 +1,4 @@
-import { defineAbility, Ability } from '@casl/ability'
+import { defineAbility, Ability, SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleFieldsPlugin, AccessibleFieldsModel } from '../src'
 
@@ -30,7 +30,7 @@ describe('Accessible fields plugin', () => {
     const post = new Post()
 
     expect(typeof Post.accessibleFieldsBy).toBe('function')
-    expect(post.accessibleFieldsBy).toBe(Post.accessibleFieldsBy)
+    expect(typeof post.accessibleFieldsBy).toBe('function')
   })
 
   describe('`accessibleFieldsBy` method', () => {
@@ -72,6 +72,18 @@ describe('Accessible fields plugin', () => {
         const ability = defineAbility((can) => {
           can('update', 'Post', ['title', 'state'], { state: 'draft' })
           can('update', 'Post', ['title'], { state: 'public' })
+        })
+        const post = new Post({ state: 'public' })
+
+        expect(post.accessibleFieldsBy(ability, 'update')).toEqual(['title'])
+      })
+
+      it('returns fields for Ability that uses classes as subject type', () => {
+        const ability = defineAbility((can) => {
+          can('update', Post, ['title', 'state'], { state: 'draft' })
+          can('update', Post, ['title'], { state: 'public' })
+        }, {
+          detectSubjectType: o => o.constructor as SubjectType
         })
         const post = new Post({ state: 'public' })
 

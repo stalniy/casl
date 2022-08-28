@@ -66,15 +66,20 @@ export function accessibleFieldsPlugin(
 ): void {
   const options = { getFields: getSchemaPaths, ...rawOptions };
   const fieldsFrom = modelFieldsGetter();
-  type ModelOrDoc = Model<AccessibleFieldsDocument> | AccessibleFieldsDocument;
 
-  function accessibleFieldsBy(this: ModelOrDoc, ability: AnyMongoAbility, action?: string) {
-    const subject = typeof this === 'function' ? this.modelName : this;
-    return permittedFieldsOf(ability, action || 'read', subject, {
+  function istanceAccessibleFields(this: Document, ability: AnyMongoAbility, action?: string) {
+    return permittedFieldsOf(ability, action || 'read', this, {
       fieldsFrom: fieldsFrom(schema, options)
     });
   }
 
-  schema.statics.accessibleFieldsBy = accessibleFieldsBy;
-  schema.method('accessibleFieldsBy', accessibleFieldsBy);
+  function modelAccessibleFields(this: Model<unknown>, ability: AnyMongoAbility, action?: string) {
+    const document = { constructor: this };
+    return permittedFieldsOf(ability, action || 'read', document, {
+      fieldsFrom: fieldsFrom(schema, options)
+    });
+  }
+
+  schema.statics.accessibleFieldsBy = modelAccessibleFields;
+  schema.method('accessibleFieldsBy', istanceAccessibleFields);
 }
