@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.1](https://github.com/stalniy/casl/compare/@casl/ability@6.1.0...@casl/ability@6.1.1) (2022-08-28)
+
+
+### Bug Fixes
+
+* exports private continer property to get rid of ts error ([6ffdb14](https://github.com/stalniy/casl/commit/6ffdb14466d6709ca391c9d5cd20e38b224de95e)), closes [#608](https://github.com/stalniy/casl/issues/608)
+
 # [6.1.0](https://github.com/stalniy/casl/compare/@casl/ability@6.0.0...@casl/ability@6.1.0) (2022-08-28)
 
 
