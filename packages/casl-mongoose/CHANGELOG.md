@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.1.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.0.0...@casl/mongoose@7.1.0) (2022-08-28)
+
+
+### Bug Fixes
+
+* ensure acessible plugins can work with Ability instance that uses classes as SubjectTypes ([7e9b634](https://github.com/stalniy/casl/commit/7e9b6342ec57ac1131ee34f9d6d825856914e1c0)), closes [#656](https://github.com/stalniy/casl/issues/656)
+
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+
 # [7.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@6.0.1...@casl/mongoose@7.0.0) (2022-07-29)
 
 
