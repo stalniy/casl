@@ -1,6 +1,6 @@
 {
   "name": "@casl/vue",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "Vue plugin for CASL which makes it easy to add permissions in any Vue application",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",

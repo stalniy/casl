@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [2.2.0](https://github.com/stalniy/casl/compare/@casl/vue@2.1.3...@casl/vue@2.2.0) (2022-08-28)
+
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+
 ## [2.1.3](https://github.com/stalniy/casl/compare/@casl/vue@2.1.2...@casl/vue@2.1.3) (2022-07-25)
 
 
