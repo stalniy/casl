@@ -8,7 +8,7 @@
     "@semantic-release/git",
     "@semantic-release/changelog"
   ],
-  "ignorePaths": ["./docs-src/**"],
+  "ignorePaths": ["**/docs-src/**"],
   "pinVersions": false,
   "separatePatchReleases": false,
   "ignoreUnstable": true,
