@@ -198,7 +198,7 @@ describe('Permissions', () => {
 
     it('can read non private article', () => {
       expect(ability.can('read', 'Article')).to.be.true;
-      expect(ability.can('read', article({ title: 'test' }))).to.be.true;
+      expect(ability.can('read', article({ title: 'test' }))).to.be.false; // because no private field
       expect(ability.can('read', article({ title: 'test', private: false }))).to.be.true;
       expect(ability.can('read', article({ private: true }))).to.be.false;
     });
