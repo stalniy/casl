@@ -1,6 +1,6 @@
-declare const $value: unique symbol;
-export type Container<T> = { [$value]?: T };
-export type Unpack<T extends Container<any>> = Exclude<T[typeof $value], undefined>;
+export declare const ɵvalue: unique symbol;
+export type Container<T> = { [ɵvalue]?: T };
+export type Unpack<T extends Container<any>> = Exclude<T[typeof ɵvalue], undefined>;
 
 export interface Generic<T1 = unknown, T2 = unknown, T3 = unknown, T4 = unknown> {
   0: T1

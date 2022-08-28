@@ -19,16 +19,16 @@ export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOp
   anySubjectType?: string;
 }
 
-export declare const $abilities: unique symbol;
-export declare const $conditions: unique symbol;
+export declare const ɵabilities: unique symbol;
+export declare const ɵconditions: unique symbol;
 interface WithGenerics {
-  [$abilities]: any
-  [$conditions]: any
+  [ɵabilities]: any
+  [ɵconditions]: any
 }
 export type Public<T extends WithGenerics> = { [K in keyof T]: T[K] };
 export interface Generics<T extends WithGenerics> {
-  abilities: T[typeof $abilities],
-  conditions: T[typeof $conditions]
+  abilities: T[typeof ɵabilities],
+  conditions: T[typeof ɵconditions]
 }
 
 export type RuleOf<T extends WithGenerics> =
@@ -102,8 +102,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
   private readonly _detectSubjectType!: Required<RuleIndexOptions<A, Conditions>>['detectSubjectType'];
   private readonly _anyAction: string;
   private readonly _anySubjectType: string;
-  readonly [$abilities]!: A;
-  readonly [$conditions]!: Conditions;
+  readonly [ɵabilities]!: A;
+  readonly [ɵconditions]!: Conditions;
 
   constructor(
     rules: RawRuleFrom<A, Conditions>[] = [],
