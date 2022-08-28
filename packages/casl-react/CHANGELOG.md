@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [3.1.0](https://github.com/stalniy/casl/compare/@casl/react@3.0.1...@casl/react@3.1.0) (2022-08-28)
+
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+
 ## [3.0.1](https://github.com/stalniy/casl/compare/@casl/react@3.0.0...@casl/react@3.0.1) (2022-07-25)
 
 # [3.0.0](https://github.com/stalniy/casl/compare/@casl/react@2.3.0...@casl/react@3.0.0) (2022-05-28)
