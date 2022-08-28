@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.1.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.4...@casl/prisma@1.1.0) (2022-08-28)
+
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+
 ## [1.0.4](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.3...@casl/prisma@1.0.4) (2022-07-25)
 
 ## [1.0.3](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.2...@casl/prisma@1.0.3) (2022-07-23)
