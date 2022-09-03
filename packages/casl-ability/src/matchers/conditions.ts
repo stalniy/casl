@@ -72,9 +72,9 @@ interface MongoQueryFactory extends GenericFactory {
 }
 
 type MergeUnion<T extends {}, Keys extends keyof T = keyof T> = { [K in Keys]: T[K] };
-export type MongoQuery<T = AnyObject> = BuildMongoQuery<MergeUnion<T>, {
+export type MongoQuery<T = AnyObject> = BuildMongoQuery<MergeUnion<NonNullable<T>>, {
   toplevel: {},
-  field: Pick<DefaultOperators<MergeUnion<T>>['field'], keyof typeof defaultInstructions>
+  field: Pick<DefaultOperators<MergeUnion<NonNullable<T>>>['field'], keyof typeof defaultInstructions>
 }> & Container<MongoQueryFactory>;
 
 type MongoQueryMatcherFactory =
