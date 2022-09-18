@@ -1,18 +1,20 @@
 import { expectTypeOf } from 'expect-type'
 import {
   AbilityBuilder,
-  Ability,
   AbilityClass,
   PureAbility,
   SubjectType,
-  MongoQuery
+  MongoQuery,
+  AbilityTuple,
+  MongoAbility,
+  createMongoAbility
 } from '../../src'
 
 describe('AbilityBuilder types', () => {
   type Method<T extends any[]> = (...args: T) => any
 
   it('infers types from `PureAbility` default generics', () => {
-    const builder = new AbilityBuilder(PureAbility)
+    const builder = new AbilityBuilder<PureAbility<AbilityTuple>>(PureAbility)
     type Can = typeof builder.can
 
     expectTypeOf<Method<[string, SubjectType]>>().toMatchTypeOf<Can>()
@@ -26,8 +28,8 @@ describe('AbilityBuilder types', () => {
     expectTypeOf<[string]>().not.toEqualTypeOf<Parameters<Can>>()
   })
 
-  it('infers types from `Ability` default generics', () => {
-    const builder = new AbilityBuilder(Ability)
+  it('infers types from `createMongoAbility` default generics', () => {
+    const builder = new AbilityBuilder(createMongoAbility)
     type Can = typeof builder.can
 
     expectTypeOf<Method<[string, SubjectType]>>().toMatchTypeOf<Can>()
@@ -49,8 +51,8 @@ describe('AbilityBuilder types', () => {
   describe('tagged interface as subject', () => {
     type Post = { id: number, title: string, kind: 'Post' }
     type User = { id: number, name: string, kind: 'User' }
-    type AppAbility = Ability<['read', 'Post' | Post | 'User' | User]>
-    const AppAbility = Ability as AbilityClass<AppAbility> // eslint-disable-line
+    type AppAbility = MongoAbility<['read', 'Post' | Post | 'User' | User]>
+    const AppAbility = PureAbility as AbilityClass<AppAbility> // eslint-disable-line
     let builder: AbilityBuilder<AppAbility>
 
     beforeEach(() => {
@@ -105,8 +107,8 @@ describe('AbilityBuilder types', () => {
       name!: string
     }
 
-    type AppAbility = Ability<['read', Post | typeof Post | User | typeof User]>
-    const AppAbility = Ability as AbilityClass<AppAbility> // eslint-disable-line
+    type AppAbility = MongoAbility<['read', Post | typeof Post | User | typeof User]>
+    const AppAbility = PureAbility as AbilityClass<AppAbility> // eslint-disable-line
     let builder: AbilityBuilder<AppAbility>
 
     beforeEach(() => {

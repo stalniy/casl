@@ -1,19 +1,20 @@
 import { expectTypeOf } from 'expect-type'
 import {
-  Ability,
   AbilityClass,
   AbilityOptionsOf,
   SubjectType,
-  createAliasResolver
+  createAliasResolver,
+  MongoAbility,
+  PureAbility
 } from '../../src'
 
 describe('Ability types', () => {
   type Post = { id: number }
-  type AppAbility = Ability<['read', 'Post' | Post]>
+  type AppAbility = MongoAbility<['read', 'Post' | Post]>
   type AnyClass = new (...args: any[]) => any
 
   it('accepts any string and any Subject by default as parameters to `can`', () => {
-    type Args = Parameters<Ability['can']>
+    type Args = Parameters<MongoAbility['can']>
 
     expectTypeOf<[string, string, string]>().toMatchTypeOf<Args>()
     expectTypeOf<[string, string]>().toMatchTypeOf<Args>()
@@ -29,7 +30,7 @@ describe('Ability types', () => {
   })
 
   it('can be casted to `AbilityClass`', () => {
-    const AppAbility = Ability as AbilityClass<AppAbility>
+    const AppAbility = PureAbility as AbilityClass<AppAbility>
     expectTypeOf(AppAbility).toEqualTypeOf<AbilityClass<AppAbility>>()
   })
 
@@ -62,7 +63,7 @@ describe('Ability types', () => {
 
   describe('AbilityOptions', () => {
     type AppAbilityOptions = Required<AbilityOptionsOf<AppAbility>>
-    type MongoAbilityOptions = Required<AbilityOptionsOf<Ability>>
+    type MongoAbilityOptions = Required<AbilityOptionsOf<MongoAbility>>
 
     describe('`detectSubjectType`', () => {
       it('accepts only subject type instances', () => {

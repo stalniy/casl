@@ -1,4 +1,4 @@
-import { AbilityBuilder, Ability, defineAbility } from '../src'
+import { AbilityBuilder, defineAbility, PureAbility, createMongoAbility } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('AbilityBuilder', () => {
@@ -104,6 +104,16 @@ describe('AbilityBuilder', () => {
     })
   })
 
+  it('can create Ability instance from a factory function', () => {
+    const factory = spy(createMongoAbility)
+    const { can, build, rules } = new AbilityBuilder(factory)
+    const options = {}
+    can('read', 'Post')
+    build(options)
+
+    expect(factory).to.have.been.called.with(rules, options)
+  })
+
   describe('defineAbility', () => {
     it('defines `Ability` instance using DSL', () => {
       const ability = defineAbility((can, cannot) => {
@@ -111,7 +121,7 @@ describe('AbilityBuilder', () => {
         cannot('read', 'Book', { private: true })
       })
 
-      expect(ability).to.be.instanceof(Ability)
+      expect(ability).to.be.instanceof(PureAbility)
       expect(ability.rules.map(ruleToObject)).to.deep.equal([
         { action: 'read', subject: 'Book' },
         { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }
@@ -124,7 +134,7 @@ describe('AbilityBuilder', () => {
         cannot('read', 'Book', { private: true })
       })
 
-      expect(ability).to.be.instanceof(Ability)
+      expect(ability).to.be.instanceof(PureAbility)
       expect(ability.rules.map(ruleToObject)).to.deep.equal([
         { action: 'read', subject: 'Book' },
         { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }

@@ -1,11 +1,11 @@
-import { Ability, ForbiddenError, getDefaultErrorMessage } from '../src'
+import { ForbiddenError, getDefaultErrorMessage, PureAbility } from '../src'
 
 describe('`ForbiddenError` class', () => {
   let ability
   let error
 
   beforeEach(() => {
-    ability = new Ability([
+    ability = new PureAbility([
       { action: 'read', subject: 'Post' }
     ])
     error = ForbiddenError.from(ability)

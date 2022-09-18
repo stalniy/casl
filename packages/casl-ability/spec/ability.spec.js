@@ -1,4 +1,4 @@
-import { defineAbility, Ability, PureAbility, createAliasResolver } from '../src'
+import { defineAbility, PureAbility, createAliasResolver } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
@@ -71,13 +71,13 @@ describe('Ability', () => {
   })
 
   it('allows to check abilities only by action', () => {
-    ability = new Ability([{ action: 'read' }])
+    ability = new PureAbility([{ action: 'read' }])
 
     expect(ability).to.allow('read')
   })
 
   it('allows to define custom `anyAction` and `anySubjectType` options', () => {
-    ability = new Ability([{ action: '*', subject: '*' }], {
+    ability = new PureAbility([{ action: '*', subject: '*' }], {
       anyAction: '*',
       anySubjectType: '*',
     })

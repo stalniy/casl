@@ -1,9 +1,9 @@
 import { rulesToFields } from '../src/extra'
-import { defineAbility, Ability } from '../src'
+import { defineAbility, PureAbility } from '../src'
 
 describe('rulesToFields', () => {
   it('returns an empty object for an empty `Ability` instance', () => {
-    const object = rulesToFields(new Ability(), 'read', 'Post')
+    const object = rulesToFields(new PureAbility(), 'read', 'Post')
 
     expect(object).to.be.an('object').and.empty
   })

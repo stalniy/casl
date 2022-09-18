@@ -1,5 +1,5 @@
-import { Ability, AnyMongoAbility } from './Ability';
-import { AnyAbility, AbilityOptionsOf, AbilityClass } from './PureAbility';
+import { AnyMongoAbility, createMongoAbility } from './Ability';
+import { AnyAbility, AbilityOptionsOf } from './PureAbility';
 import { RawRuleOf, Generics } from './RuleIndex';
 import {
   ExtractSubjectType as E,
@@ -11,6 +11,10 @@ import {
   AnyClass,
 } from './types';
 import { ProduceGeneric } from './hkt';
+
+function isAbilityClass(factory: AbilityFactory<any>): factory is AnyClass {
+  return typeof factory.prototype.possibleRulesFor === 'function';
+}
 
 class RuleBuilder<T extends AnyAbility> {
   public _rule!: RawRuleOf<T>;
@@ -25,13 +29,16 @@ class RuleBuilder<T extends AnyAbility> {
   }
 }
 
+type AbilityFactory<T extends AnyAbility> = AnyClass<T> | ((...args: any[]) => T);
 type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClass<infer R>
   ? R
-  : S extends string
-    ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends TaggedInterface<string>
-      ? Extract<Normalize<Generics<T>['abilities']>[1], TaggedInterface<S>>
-      : AnyObject
-    : never;
+  : S extends (...args: any[]) => infer O
+    ? O
+    : S extends string
+      ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends TaggedInterface<string>
+        ? Extract<Normalize<Generics<T>['abilities']>[1], TaggedInterface<S>>
+        : AnyObject
+      : never;
 type ConditionsOf<T extends AnyAbility, I extends {}> =
   ProduceGeneric<Generics<T>['conditions'], I>;
 type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
@@ -72,10 +79,10 @@ type Keys<T> = string & keyof T;
 
 export class AbilityBuilder<T extends AnyAbility> {
   public rules: RawRuleOf<T>[] = [];
-  private _AbilityType!: AnyClass<T>;
+  private readonly _createAbility: AbilityFactory<T>;
 
-  constructor(AbilityType: AnyClass<T>) {
-    this._AbilityType = AbilityType;
+  constructor(AbilityType: AbilityFactory<T>) {
+    this._createAbility = AbilityType;
     this.can = this.can.bind(this as any);
     this.cannot = this.cannot.bind(this as any);
     this.build = this.build.bind(this as any);
@@ -138,7 +145,9 @@ export class AbilityBuilder<T extends AnyAbility> {
   }
 
   build(options?: AbilityOptionsOf<T>) {
-    return new this._AbilityType(this.rules, options);
+    return isAbilityClass(this._createAbility)
+      ? new this._createAbility(this.rules, options)
+      : this._createAbility(this.rules, options);
   }
 }
 
@@ -156,7 +165,7 @@ export function defineAbility<
 export function defineAbility<
   T extends AnyMongoAbility
 >(define: DSL<T, void | Promise<void>>, options?: AbilityOptionsOf<T>): T | Promise<T> {
-  const builder = new AbilityBuilder(Ability as unknown as AbilityClass<T>);
+  const builder = new AbilityBuilder(createMongoAbility as unknown as AbilityFactory<T>);
   const result = define(builder.can, builder.cannot);
 
   if (result && typeof result.then === 'function') {
