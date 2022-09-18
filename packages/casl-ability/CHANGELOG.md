@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.2](https://github.com/stalniy/casl/compare/@casl/ability@6.1.1...@casl/ability@6.1.2) (2022-09-18)
+
+
+### Bug Fixes
+
+* fixes MongoQuery type for typescript ^4.8.x ([4af7c39](https://github.com/stalniy/casl/commit/4af7c394bb755c0a9ffb3b96ac994588a358a77c)), closes [#673](https://github.com/stalniy/casl/issues/673)
+
 ## [6.1.1](https://github.com/stalniy/casl/compare/@casl/ability@6.1.0...@casl/ability@6.1.1) (2022-08-28)
 
 
