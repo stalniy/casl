@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.2.0](https://github.com/stalniy/casl/compare/@casl/ability@6.1.2...@casl/ability@6.2.0) (2022-09-18)
+
+
+### Features
+
+* adds possibility to build Ability instance from factory function ([53d199f](https://github.com/stalniy/casl/commit/53d199f6dcdf812b4af7d364d2cf1ba4eebdf022))
+
 ## [6.1.2](https://github.com/stalniy/casl/compare/@casl/ability@6.1.1...@casl/ability@6.1.2) (2022-09-18)
 
 
