@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.2.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.1.0...@casl/prisma@1.2.0) (2022-09-19)
+
+
+### Features
+
+* adds support for custom generate prisma client ([832a50e](https://github.com/stalniy/casl/commit/832a50e532afcf32c19f3696958d25d300bd08bd))
+
 # [1.1.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.0.4...@casl/prisma@1.1.0) (2022-08-28)
 
 
