@@ -11,6 +11,7 @@ on:
       - packages/casl-vue/README.md
       - packages/casl-angular/README.md
       - packages/casl-aurelia/README.md
+      - packages/casl-prisma/README.md
 
 jobs:
   build:
