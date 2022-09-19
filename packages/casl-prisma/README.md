@@ -150,10 +150,8 @@ import {
   ExtractModelName,
   Model
 } from "@casl/prisma/runtime";
-import { hkt, AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRuleFrom } from "@casl/ability";
-
+import { hkt } from "@casl/ability";
 import type { Prisma, PrismaClient } from "./generated/client";
-import type { ExtractModelName, Model } from "./prisma/prismaQuery";
 
 type ModelName = Prisma.ModelName;
 type ModelWhereInput = {
