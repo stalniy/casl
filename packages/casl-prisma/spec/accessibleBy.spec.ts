@@ -1,9 +1,9 @@
 import { ForbiddenError } from '@casl/ability'
 import { accessibleBy } from '../src'
-import { AppAbility } from './AppAbility'
+import { createAppAbility } from './AppAbility'
 
 describe('accessibleBy', () => {
-  const ability = new AppAbility([
+  const ability = createAppAbility([
     {
       action: 'read',
       subject: 'Post',

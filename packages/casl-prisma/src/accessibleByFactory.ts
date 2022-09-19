@@ -1,8 +1,5 @@
-import { Prisma } from '@prisma/client';
 import { rulesToQuery } from '@casl/ability/extra';
-import { AnyAbility, ForbiddenError } from '@casl/ability';
-import { PrismaAbility } from './PrismaAbility';
-import { WhereInput } from './prisma/PrismaQuery';
+import { AnyAbility, ForbiddenError, PureAbility } from '@casl/ability';
 
 function convertToPrismaQuery(rule: AnyAbility['rules'][number]) {
   return rule.inverted ? { NOT: rule.conditions } : rule.conditions;
@@ -33,17 +30,15 @@ const proxyHandlers: ProxyHandler<{ _ability: AnyAbility, _action: string }> = {
     return prismaQuery;
   }
 };
-function createQuery(ability: PrismaAbility, action: string) {
-  return new Proxy({
-    _ability: ability,
-    _action: action
-  }, proxyHandlers) as unknown as AccessibleQuery;
-}
 
-type AccessibleQuery = {
-  [K in Prisma.ModelName]: WhereInput<K>;
+export const createAccessibleByFactory = <
+  TResult extends Record<string, unknown>,
+  TPrismaQuery
+>() => {
+  return function accessibleBy(ability: PureAbility<any, TPrismaQuery>, action = 'read'): TResult {
+    return new Proxy({
+      _ability: ability,
+      _action: action
+    }, proxyHandlers) as unknown as TResult;
+  };
 };
-
-export function accessibleBy(ability: PrismaAbility<any, any>, action = 'read'): AccessibleQuery {
-  return createQuery(ability, action);
-}

@@ -1,11 +1,11 @@
-import { AbilityBuilder, subject } from '@casl/ability'
+import { AbilityBuilder, PureAbility, subject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
 import { Model as M, PrismaQuery } from '../src'
-import { AppAbility } from './AppAbility'
+import { createAppAbility } from './AppAbility'
 
 describe('PrismaAbility', () => {
   it('uses PrismaQuery to evaluate conditions', () => {
-    const { can, build } = new AbilityBuilder(AppAbility)
+    const { can, build } = new AbilityBuilder(createAppAbility)
     can('read', 'Post', {
       authorId: { notIn: [1, 2] }
     })
@@ -24,7 +24,7 @@ describe('PrismaAbility', () => {
 
   describe('types', () => {
     it('ensures that only specified models can be used as subjects', () => {
-      expect(new AppAbility([
+      expect(createAppAbility([
         {
           action: 'read',
           subject: 'Post'
@@ -50,11 +50,11 @@ describe('PrismaAbility', () => {
           action: 'read',
           subject: 'all'
         }
-      ])).toBeInstanceOf(AppAbility)
+      ])).toBeInstanceOf(PureAbility)
     })
 
     it('provides type validation in `AbilityBuilder`', () => {
-      const { can } = new AbilityBuilder(AppAbility)
+      const { can } = new AbilityBuilder(createAppAbility)
 
       can('read', 'Post', {
         // @ts-expect-error referencing User property

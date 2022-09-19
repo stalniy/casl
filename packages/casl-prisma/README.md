@@ -105,7 +105,7 @@ It's a generic type that provides `Prisma.ModelWhereInput` in generic way. We ne
 
 ```ts
 import { User } from '@prisma/client';
-import { Model } from '@casl/prisma';
+import { Model, PrismaQuery } from '@casl/prisma';
 
 // almost the same as Prisma.UserWhereInput except that it's a higher order type
 type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
@@ -126,6 +126,64 @@ import { Subjects } from '@casl/prisma';
 type AppSubjects = Subjects<{
   User: User
 }>; // 'User' | Model<User, 'User'>
+```
+
+## Custom PrismaClient output path
+
+Prisma allows [to generate client into a custom directory](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/generating-prisma-client#using-a-custom-output-path) in this case `@prisma/client` doesn't re-export needed types anymore and `@casl/prisma` cannot automatically detect and infer types. In this case, we need to provide required types manually. Let's assume that we have the next configuration:
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+```
+
+Then we need to create a custom file for casl-prisma integration:
+
+```ts
+// src/casl-prisma.ts
+import {
+  createAbilityFactory,
+  createAccessibleByFactory,
+  prismaQuery,
+  ExtractModelName,
+  Model
+} from "@casl/prisma/runtime";
+import { hkt, AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRuleFrom } from "@casl/ability";
+
+import type { Prisma, PrismaClient } from "./generated/client";
+import type { ExtractModelName, Model } from "./prisma/prismaQuery";
+
+type ModelName = Prisma.ModelName;
+type ModelWhereInput = {
+  [K in Prisma.ModelName]: Uncapitalize<K> extends keyof PrismaClient
+    ? Extract<Parameters<PrismaClient[Uncapitalize<K>]['findFirst']>[0], { where?: any }>["where"]
+    : never
+};
+
+type WhereInput<TModelName extends Prisma.ModelName> = Extract<ModelWhereInput[TModelName], Record<any, any>>;
+
+interface PrismaQueryTypeFactory extends hkt.GenericFactory {
+  produce: WhereInput<ExtractModelName<this[0], ModelName>>
+}
+
+type PrismaModel = Model<Record<string, any>, string>;
+// Higher Order type that allows to infer passed in Prisma Model name
+export type PrismaQuery<T extends PrismaModel = PrismaModel> =
+  WhereInput<ExtractModelName<T, ModelName>> & hkt.Container<PrismaQueryTypeFactory>;
+
+type WhereInputPerModel = {
+  [K in ModelName]: WhereInput<K>;
+};
+
+const createPrismaAbility = createAbilityFactory<ModelName, PrismaQuery>();
+const accessibleBy = createAccessibleByFactory<WhereInputPerModel, PrismaQuery>();
+
+export {
+  createPrismaAbility,
+  accessibleBy,
+};
 ```
 
 ## Want to help?

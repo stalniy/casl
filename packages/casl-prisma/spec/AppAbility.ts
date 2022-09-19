@@ -1,10 +1,14 @@
-import { AbilityClass } from '@casl/ability'
+import { AbilityOptionsOf, PureAbility, RawRuleOf } from '@casl/ability'
 import { User, Post } from '@prisma/client'
-import { PrismaAbility, Subjects } from '../src'
+import { createPrismaAbility, PrismaQuery, Subjects } from '../src'
 
-export type AppAbility = PrismaAbility<[string, Subjects<{
+export type AppAbility = PureAbility<[string, 'all' | Subjects<{
   User: User,
   Post: Post
-}>]>
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AppAbility = PrismaAbility as AbilityClass<AppAbility>
+}>], PrismaQuery>
+
+type AppAbilityFactory = (
+  rules?: RawRuleOf<AppAbility>[],
+  options?: AbilityOptionsOf<AppAbility>
+) => AppAbility
+export const createAppAbility = createPrismaAbility as AppAbilityFactory
