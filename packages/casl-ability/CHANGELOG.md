@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.3.0](https://github.com/stalniy/casl/compare/@casl/ability@6.2.0...@casl/ability@6.3.0) (2022-09-26)
+
+
+### Features
+
+* updates createMongoAbility function signature to accept AppAbility as generic type ([f4a466c](https://github.com/stalniy/casl/commit/f4a466c7c085fd4da3783371aed9545a32570e9a))
+
 # [6.2.0](https://github.com/stalniy/casl/compare/@casl/ability@6.1.2...@casl/ability@6.2.0) (2022-09-18)
 
 
