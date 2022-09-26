@@ -52,11 +52,10 @@ describe('AbilityBuilder types', () => {
     type Post = { id: number, title: string, kind: 'Post' }
     type User = { id: number, name: string, kind: 'User' }
     type AppAbility = MongoAbility<['read', 'Post' | Post | 'User' | User]>
-    const AppAbility = PureAbility as AbilityClass<AppAbility> // eslint-disable-line
     let builder: AbilityBuilder<AppAbility>
 
     beforeEach(() => {
-      builder = new AbilityBuilder(AppAbility)
+      builder = new AbilityBuilder<AppAbility>(createMongoAbility)
     })
 
     it('infers properties from `AppAbility` for specified subject conditions', () => {
@@ -108,11 +107,10 @@ describe('AbilityBuilder types', () => {
     }
 
     type AppAbility = MongoAbility<['read', Post | typeof Post | User | typeof User]>
-    const AppAbility = PureAbility as AbilityClass<AppAbility> // eslint-disable-line
     let builder: AbilityBuilder<AppAbility>
 
     beforeEach(() => {
-      builder = new AbilityBuilder(AppAbility)
+      builder = new AbilityBuilder<AppAbility>(createMongoAbility)
     })
 
     it('infers properties from `AppAbility` for specified subject conditions', () => {

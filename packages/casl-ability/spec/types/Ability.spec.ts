@@ -5,7 +5,9 @@ import {
   SubjectType,
   createAliasResolver,
   MongoAbility,
-  PureAbility
+  PureAbility,
+  createMongoAbility,
+  MongoQuery
 } from '../../src'
 
 describe('Ability types', () => {
@@ -90,6 +92,18 @@ describe('Ability types', () => {
 
       expectTypeOf<typeof resolveAction>()
         .toMatchTypeOf<AbilityOptionsOf<AppAbility>['resolveAction']>()
+    })
+  })
+
+  describe('createMongoAbility', () => {
+    it('can accept Ability type as a single generic parameter', () => {
+      const ability = createMongoAbility<AppAbility>()
+      expectTypeOf<typeof ability>().toEqualTypeOf<AppAbility>()
+    })
+
+    it('can accept abilities and conditions generics', () => {
+      const ability = createMongoAbility<['read', 'Post' | Post], MongoQuery>()
+      expectTypeOf<typeof ability>().toEqualTypeOf<AppAbility>()
     })
   })
 })

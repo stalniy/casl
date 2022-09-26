@@ -30,14 +30,14 @@ Lets define `Ability` for a blog website where visitors:
 * cannot delete a post if it was created more than a day ago
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 import { User } from '../models'; // application specific interfaces
 
 /**
  * @param user contains details about logged in user: its id, name, email, etc
  */
 function defineAbilitiesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder(Ability);
+  const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
   // can read blog posts
   can('read', 'BlogPost');
@@ -48,7 +48,7 @@ function defineAbilitiesFor(user) {
     createdAt: { $lt: Date.now() - 24 * 60 * 60 * 1000 }
   });
 
-  return new Ability(rules);
+  return build();
 });
 ```
 
@@ -84,7 +84,6 @@ Of course, you are not restricted to use only class instances in order to check 
 CASL has a complementary package [@casl/mongoose] which provides easy integration with MongoDB and [mongoose].
 
 ```js
-import { AbilityBuilder } from '@casl/ability';
 import { accessibleRecordsPlugin } from '@casl/mongoose';
 import mongoose from 'mongoose';
 

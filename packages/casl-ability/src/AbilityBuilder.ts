@@ -29,7 +29,7 @@ class RuleBuilder<T extends AnyAbility> {
   }
 }
 
-type AbilityFactory<T extends AnyAbility> = AnyClass<T> | ((...args: any[]) => T);
+type AbilityFactory<T extends AnyAbility> = AnyClass<T> | ((rules?: any[], options?: any) => T);
 type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClass<infer R>
   ? R
   : S extends (...args: any[]) => infer O
@@ -165,7 +165,7 @@ export function defineAbility<
 export function defineAbility<
   T extends AnyMongoAbility
 >(define: DSL<T, void | Promise<void>>, options?: AbilityOptionsOf<T>): T | Promise<T> {
-  const builder = new AbilityBuilder(createMongoAbility as unknown as AbilityFactory<T>);
+  const builder = new AbilityBuilder<T>(createMongoAbility);
   const result = define(builder.can, builder.cannot);
 
   if (result && typeof result.then === 'function') {
