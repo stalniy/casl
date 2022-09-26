@@ -9,7 +9,7 @@ meta:
 
 `@casl/ability` contains 2 modules:
 
-* core module which provides `Ability` and other core classes
+* core module which provides `PureAbility` and other core classes
 
   ```ts
   import * as core from '@casl/ability';
@@ -171,7 +171,7 @@ Can be used to detect subject type of object. Works for both subject types and s
   * `subject: Subject`
 * **Returns**: `string`
 
-## Ability
+## Ability (deprecated by createMongoAbility)
 
 `Ability` extends [`PureAbility`](#pure-ability). It sets default values for 2 options:
 
@@ -180,9 +180,13 @@ Can be used to detect subject type of object. Works for both subject types and s
 
 It also enforces `MongoQuery` restriction on the `Conditions` generic parameter. By default, it is `Ability<Abilities, MongoQuery>`.
 
+## createMongoAbility
+
+This is a factory function that creates an instance of `PureAbility` with Mongo-like conditions to restrict access.
+
 ## AbilityBuilder
 
-This class allows to define `Ability` or `PureAbility` instance in declarative way. It accepts a single generic parameter `T extends AnyAbility`. You don't need to provide it, as TypeScript will always infer it for you (just don't forget to pass class of `Ability` in constructor).
+This class allows to construct `PureAbility` instance in declarative way. It accepts a single generic parameter `T extends AnyAbility`. Usually, we don't need to provide it, as TypeScript will always infer it for us (just don't forget to pass class of `Ability` in constructor).
 
 ### AbilityBuilder constructor
 
@@ -191,15 +195,15 @@ This class allows to define `Ability` or `PureAbility` instance in declarative w
 * **Usage**:
 
   ```ts
-  import { AbilityBuilder, Ability } from '@casl/ability';
+  import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
-  const { can, build } = new AbilityBuilder(Ability);
+  const { can, build } = new AbilityBuilder(createMongoAbility);
   ```
 * **See also**: [Define rules](../../guide/define-rules)
 
 ### can of AbilityBuilder
 
-Registers a `RawRule` instance in `rules` array. Depending on the passed in `Ability` generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `Ability` is a string) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
+Registers a `RawRule` instance in `rules` array. Depending on the passed in generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `PureAbility` is a string) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
 
 * **Parameters**: this method has 2 overloads
   * `action: string | string[]`
@@ -214,7 +218,7 @@ Registers a `RawRule` instance in `rules` array. Depending on the passed in `Abi
 * **Usage**:
 
   ```ts
-  import { AbilityBuilder, PureAbility, Ability, AbilityClass } from '@casl/ability';
+  import { AbilityBuilder, PureAbility, createMongoAbility, AbilityClass } from '@casl/ability';
 
   // action only Ability type
   type ClaimAbility = PureAbility<'read' | 'update'>;
@@ -225,7 +229,7 @@ Registers a `RawRule` instance in `rules` array. Depending on the passed in `Abi
   can('update');
 
   // or action and subject Ability type
-  const { can, build } = new AbilityBuilder(Ability);
+  const { can, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', 'Article', { private: true });
   can('read', 'User', ['firstName', 'lastName']);
@@ -240,7 +244,7 @@ Registers an inverted `RawRule` inside `AbilityBuilder`. Accepts the same parame
 
 ### build
 
-Builds an instance of provided `Ability` class.
+Builds an instance of provided `Ability` type.
 
 * **Parameters**:
   * `options?: AbilityOptionsOf<TAbility>`
@@ -252,7 +256,7 @@ Contains an array of `RawRule`s registered by [`can`](#can-of-ability-builder) a
 
 ## defineAbility
 
-This function allows to define [`Ability`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation.
+This function allows to define [`MongoAbility`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation.
 
 * **Signature** (`T` is `TAbility`):
   * `<T extends AnyAbility>(define: DSL<T, void>, options?: AbilityOptionsOf<T>) => T`

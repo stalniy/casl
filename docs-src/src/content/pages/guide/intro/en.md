@@ -52,7 +52,7 @@ export default defineAbility((can, cannot) => {
 
 > CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See [CASL TypeScript](../../advanced/typescript) for details
 
-In the example above, we have just defined an `Ability` instance which permits doing anything in the app except for deleting users. As you probably guessed, `can` and `cannot` accept the same arguments but have different meanings: `can` permits an action on the specified subject and `cannot` forbids it. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions and `all` and `User` are subjects.
+In the example above, we have just defined a `MongoAbility` instance which permits doing anything in the app except for deleting users. As you probably guessed, `can` and `cannot` accept the same arguments but have different meanings: `can` permits an action on the specified subject and `cannot` forbids it. Both may accept up to 4 arguments (in exactly the same order as listed in [concepts section](#basics)). In this case, `manage` and `delete` are user actions and `all` and `User` are subjects.
 
 > `manage` and `all` are special keywords in CASL. `manage` represents any action and `all` represents any subject.
 
@@ -68,7 +68,7 @@ ability.can('delete', 'User') // false
 ability.cannot('delete', 'User') // true
 ```
 
-In the example above, the `Ability` instance allows us to check permissions in a pretty readable way. By the way, all these examples demonstrate checking permissions based on a subject type (i.e. an object type or class), but CASL really shines when you need to restrict objects based on their attributes (i.e. properties).
+In the example above, the `MongoAbility` instance allows us to check permissions in a pretty readable way. By the way, all these examples demonstrate checking permissions based on a subject type (i.e. an object type or class), but CASL really shines when you need to restrict objects based on their attributes (i.e. properties).
 
 ## Conditions
 
@@ -157,11 +157,11 @@ ability.can('update', ownArticle) // true
 ability.can('update', anotherArticle) // false, we can't update articles which were not written by us
 ```
 
-> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to `can` and `cannot` methods of `Ability` class, they have completely different purposes and accept different arguments. See [Make `can` API less confusing](../../cookbook/less-confusing-can-api) if it confuses you.
+> Despite the fact that `can` and `cannot` functions in `defineAbility` callback are similar to `can` and `cannot` methods of `MongoAbility` class, they have completely different purposes and accept different arguments. See [Make `can` API less confusing](../../cookbook/less-confusing-can-api) if it confuses you.
 
 **Pay attention** that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that `authorId` in `Article` instance equals to `authorId` in conditions object. Conditions may have several fields, in that case all fields should match (`AND` logic).
 
-But conditions are not restricted to simple equality checks! Thanks to [ucast](https://github.com/stalniy/ucast) `Ability` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
+But conditions are not restricted to simple equality checks! Thanks to [ucast](https://github.com/stalniy/ucast) `MongoAbility` instances can match objects using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).
 
 > If you are not familiar with MongoDB query language, see [CASL conditions in depth](../conditions-in-depth) for details
 
@@ -203,7 +203,7 @@ Here we defined that any user can update `title` and `description` fields of the
 
 > If fields are not specified, a user is allowed to access any field.
 
-To check permissions use the same `can` and `cannot` methods of `Ability` instance:
+To check permissions use the same `can` and `cannot` methods of `MongoAbility` instance:
 
 ```js
 import defineAbilityFor from './defineAbility';
@@ -334,7 +334,7 @@ try {
 
 ## Update rules
 
-Sometimes, especially in frontend application development, we need to update `Ability` instance's rules (e.g., on login or logout). To do this, we can use `update` method:
+Sometimes, especially in frontend application development, we need to update `Ability` instance (e.g., on login or logout). To do this, we can use `update` method:
 
 ```js
 import ability from './defineAbility';
@@ -348,22 +348,22 @@ ability.update([ // switch to readonly mode
 Also we can use `AbilityBuilder` to create rules:
 
 ```js
-import { Ability, AbilityBuilder } from '@casl/ability';
+import { createMongoAbility, AbilityBuilder } from '@casl/ability';
 
-const ability = new Ability();
+const ability = createMongoAbility();
 
-const { can, rules } = new AbilityBuilder();
+const { can, rules } = new AbilityBuilder(createMongoAbility);
 can('read', 'all');
 
 ability.update(rules);
 ```
 
-To track when rules are updated, we can subscribe to `update` (before ability is updated) or `updated` (after ability is updated) events of `Ability` instance:
+To track when rules are updated, we can subscribe to `update` (before ability is updated) or `updated` (after ability is updated) events of `PureAbility` instance:
 
 ```js
 const unsubscribe = ability.on('update', ({ rules, target }) => {
   // `rules` is an array passed to `update` method
-  // `target` is an Ability instance that triggered event
+  // `target` is a PureAbility instance that triggered event
 })
 
 unsubscribe() // removes subscription

@@ -11,7 +11,7 @@ Sometimes it may be a bit complicated to understand why some action in the app i
 
 ## Debugging
 
-`Ability`'s `can` and `cannot` methods return boolean result and doesn't explain the reason or which rule forbids the action. To get the rule which allows or forbids an action on a subject, you can use `relevantRuleFor` method. It accepts the same arguments as `can`:
+`PureAbility`'s `can` and `cannot` methods return boolean result and doesn't explain the reason or which rule forbids the action. To get the rule which allows or forbids an action on a subject, you can use `relevantRuleFor` method. It accepts the same arguments as `can`:
 
 ```js
 import { defineAbility } from '@casl/ability';
@@ -86,10 +86,10 @@ console.log(rule.reason); // Private content is protected by law
 
 ## Testing
 
-`Ability` instance is pure in terms of functional programming. It means that for the same rules, its `can` method returns always the same result. That's why, there is no big profit in testing CASL permissions, instead you should test rule distribution logic. **This sounds correct, but only at the first sight**. Let's consider an example:
+`PureAbility` instance is pure in terms of functional programming. It means that for the same rules, its `can` method returns always the same result. That's why, there is no big profit in testing CASL permissions, instead you should test rule distribution logic. **This sounds correct, but only at the first sight**. Let's consider an example:
 
 ```js @{data-filename="defineAbility.js"}
-import { Ability, AbilityBuilder, subject } from '@casl/ability';
+import { createMongoAbility, AbilityBuilder, subject } from '@casl/ability';
 
 export const article = subject.bind(null, 'Article');
 
@@ -98,7 +98,7 @@ export const article = subject.bind(null, 'Article');
  * And we need to test it, not ability checks!
  */
 export function defineRulesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder(Ability);
+  const { can, cannot, rules } = new AbilityBuilder(createMongoAbility);
 
   if (user.isAdmin) {
     can('manage', 'all');
@@ -110,7 +110,7 @@ export function defineRulesFor(user) {
   return rules;
 }
 
-export const defineAbilityFor = user => new Ability(defineRulesFor(user));
+export const defineAbilityFor = user => createMongoAbility(defineRulesFor(user));
 ```
 
 Now we want to ensure that admin users can do anything and other can only read non-private articles. Using [mocha] + [chai] or [jest] we can do it (we will use mocha and chai):
@@ -153,10 +153,10 @@ Do you see the issue? **We've just tested implementation details and this is bad
 Rules logic is very expressive and you can achieve the same results using a different combination of rules. For example "user can read non private articles" can be expressed in another way:
 
 ```js
-import { AbilityBuilder } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
 export function defineRulesFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder(Ability);
+  const { can, cannot, rules } = new AbilityBuilder(createMongoAbility);
 
   if (user.isAdmin) {
     can('manage', 'all');

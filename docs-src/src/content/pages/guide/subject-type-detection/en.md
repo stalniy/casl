@@ -134,9 +134,9 @@ Sometimes you will need to define your own type detection algorithm (e.g., [Grap
 For such cases, we can override built-in algorithm by providing `detectSubjectType` option:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
-const { can, build } = new AbilityBuilder(Ability);
+const { can, build } = new AbilityBuilder(createMongoAbility);
 
 can('read', 'Article');
 
@@ -189,11 +189,11 @@ ability.can('read', Article); // true
 Or with `AbilityBuilder`:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
 class Article {}
 
-const { can, build } = new AbilityBuilder(Ability);
+const { can, build } = new AbilityBuilder(createMongoAbility);
 
 can('read', Article);
 
@@ -208,16 +208,15 @@ ability.can('read', Article); // true
 If you want to use classes in TypeScript, you need to cast `object.constructor` (read [this TypeScript issue](https://github.com/microsoft/TypeScript/issues/3841) for details):
 
 ```ts
-import { AbilityBuilder, Ability, ExtractSubjectType, AbilityClass } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } from '@casl/ability';
 
 class Article {}
 
 type Actions = 'read' | 'update';
 type Subjects = Article | typeof Article;
-type AppAbility = Ability<[Actions, Subjects]>;
-const AppAbility = Ability as AbilityClass<AppAbility>;
+type AppAbility = MongoAbility<[Actions, Subjects]>;
 
-const { can, build } = new AbilityBuilder(AppAbility);
+const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
 can('read', Article);
 

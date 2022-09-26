@@ -48,10 +48,10 @@ ability.can('read', 'Post');
 The same example using pure `AbilityBuilder` can be written in similar way using [object-destructuring]:
 
 ```ts
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
 // define abilities
-const { can: allow, cannot: forbid, build } = new AbilityBuilder(Ability);
+const { can: allow, cannot: forbid, build } = new AbilityBuilder(createMongoAbility);
 
 allow('read', 'Post');
 forbid('read', 'Post', { private: true });

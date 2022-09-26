@@ -10,10 +10,10 @@ meta:
 Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish `Article`:
 
 ```js @{data-filename="defineAbility.js"}
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
 export default function defineAbilityFor(user) {
-  const { can, rules } = new AbilityBuilder(Ability);
+  const { can, rules } = new AbilityBuilder(createMongoAbility);
 
   can('read', 'Article');
   can('update', 'Article', ['title', 'description'], { authorId: user.id });
@@ -22,7 +22,7 @@ export default function defineAbilityFor(user) {
     can('update', 'Article', ['published']);
   }
 
-  return new Ability(rules);
+  return createMongoAbility(rules);
 }
 ```
 
@@ -72,7 +72,7 @@ So, the last check returned `true` and at the first sight it seems wrong! But it
 * when we check on particular `Article` instance, we are asking **can user update this article's title**
 * and when we check on subject type, we are asking **can user update title of at least one article?**
 
-Another way to check permissions is to extract all permitted fields from `Ability` instance using `permittedFieldsOf` helper from `@casl/ability/extra` sub-module. The same checking logic applies here:
+Another way to check permissions is to extract all permitted fields from `PureAbility` instance using `permittedFieldsOf` helper from `@casl/ability/extra` sub-module. The same checking logic applies here:
 
 ```js
 import { permittedFieldsOf } from '@casl/ability/extra';

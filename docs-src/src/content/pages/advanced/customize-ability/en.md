@@ -21,7 +21,7 @@ Let's see an example of how to add `$nor` operator. To do this, we will use `bui
 
 ```ts
 import {
-  Ability,
+  createMongoAbility,
   AbilityBuilder,
   Abilities,
   buildMongoQueryMatcher,
@@ -31,7 +31,7 @@ import { $nor, nor } from '@ucast/mongo2js';
 const conditionsMatcher = buildMongoQueryMatcher({ $nor }, { nor });
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder(Ability);
+  const { can, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', 'Article', {
     $nor: [{ private: true }, { authorId: user.id }]
@@ -47,22 +47,21 @@ export default function defineAbilityFor(user: any) {
 
 ```ts
 import {
-  Ability,
+  createMongoAbility,
+  MongoAbility,
   AbilityBuilder,
   Abilities,
   MongoQueryFieldOperators,
   ConditionsMatcher,
-  AbilityClass
 } from '@casl/ability';
 import { $in, within, $eq, eq, createFactory, BuildMongoQuery } from '@ucast/mongo2js';
 
 type RestrictedMongoQuery<T> = BuildMongoQuery<T, Pick<MongoQueryFieldOperators, '$eq' | '$in'>>;
 const conditionsMatcher: ConditionsMatcher<RestrictedMongoQuery> = createFactory({ $in, $eq }, { in: within, eq });
-type AppAbility = Ability<Abilities, RestrictedMongoQuery>;
-const AppAbility = Ability as AbilityClass<AppAbility>;
+type AppAbility = MongoAbility<Abilities, RestrictedMongoQuery>;
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder(AppAbility);
+  const { can, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', 'Article', { authorId: user.id } });
   can('read', 'Article', { status: { $in: ['draft', 'published'] } });
@@ -77,7 +76,7 @@ By restricting operators, you not only disallow other developers to use more com
 
 ## Custom conditions matcher implementation
 
-If you want to implement custom conditions matcher, you should use `PureAbility` class instead of `Ability`. `PureAbility` is a parent class for `Ability`, the only difference between them is that `Ability` has restriction on `Conditions` generic parameter and has default values for `conditionsMatcher` and `fieldMatcher` options.
+If you want to implement custom conditions matcher, you should use `PureAbility` class instead of `createMongoAbility` factory function. `createMongoAbility` is a factory function that creates `PureAbility` instance with default values for `conditionsMatcher` and `fieldMatcher` options (i.e, mongo conditions matcher and field pattern matcher).
 
 > The prefix "Pure" has nothing to do with functional programming. It just means this class has no predefined configuration.
 
@@ -91,15 +90,13 @@ import {
   AbilityBuilder,
   AbilityTuple,
   MatchConditions,
-  AbilityClass
 } from '@casl/ability';
 
 type AppAbility = PureAbility<AbilityTuple, MatchConditions>;
-const AppAbility = PureAbility as AbilityClass<AppAbility>;
 const lambdaMatcher = (matchConditions: MatchConditions) => matchConditions;
 
-export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder(AppAbility);
+export default function defineAbilityFor(user: any): AppAbility {
+  const { can, build } = new AbilityBuilder<AppAbility>(PureAbility);
 
   can('read', 'Article', ({ authorId }) => authorId === user.id);
   can('read', 'Article', ({ status }) => ['draft', 'published'].includes(status));
@@ -114,19 +111,19 @@ We don't recommend to use functions for matching logic if you need to serialize 
 
 ## Custom field matcher
 
-Field matcher is responsible for matching fields passed as 3rd argument to `can` method of `Ability` instance. It is a factory function that returns a function which accepts field and returns boolean. This logic is enforced by `FieldMatcher` type from `@casl/ability`.
+Field matcher is responsible for matching fields passed as 3rd argument to `can` method of `PureAbility` instance. It is a factory function that returns a function which accepts field and returns boolean. This logic is enforced by `FieldMatcher` type from `@casl/ability`.
 
 > We cannot imagine a reasonable case to override field matching logic, [default implementation](../../guide/restricting-fields) should be more than enough.
 
 You can use this to reduce your bundle size or enforce simpler logic. For example, let's implement simple field matcher that doesn't support field patterns:
 
 ```ts
-import { Ability, AbilityBuilder, FieldMatcher } from '@casl/ability';
+import { createMongoAbility, AbilityBuilder, FieldMatcher } from '@casl/ability';
 
 export const fieldMatcher: FieldMatcher = fields => field => fields.includes(field);
 
 export default function defineAbilityFor(user: any) {
-  const { can, build } = new AbilityBuilder(Ability);
+  const { can, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', 'Article', ['title', 'content']);
 

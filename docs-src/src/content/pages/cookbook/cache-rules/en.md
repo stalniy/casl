@@ -11,19 +11,18 @@ meta:
 
 ## The issue
 
-It takes considerable amount of time or requires additional roundtrip to the database to construct an `Ability` instance.
+It takes considerable amount of time or requires additional roundtrip to the database to construct a `PureAbility` instance.
 
-Let's consider an example where user can manage own devices but **devices doesn't have** a reference to the owner. In such cases, we need to fetch all device ids in order to create an `Ability`:
+Let's consider an example where user can manage own devices but **devices doesn't have** a reference to the owner. In such cases, we need to fetch all device ids in order to create a `MongoAbility` instance:
 
 ```ts @{data-filename="defineAbility.ts"}
-import { AbilityBuilder, Ability, Abilities, AbilityClass } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility, MongoAbility } from '@casl/ability';
 import { getDevicesOf } from '../services/device';
 
-export type AppAbility = Ability<Abilities>;
-const AppAbility = Ability as AbilityClass<AppAbility>;
+export type AppAbility = MongoAbility;
 
 export async function defineRulesFor(user) {
-  const { can, rules } = new AbilityBuilder(AppAbility);
+  const { can, rules } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
   const devices = await getDevicesOf(user);
   const ids = devices.map(device => device.id);
@@ -58,7 +57,7 @@ There are several ways to do this:
 
 > There is quite popular [lru-cache](https://www.npmjs.com/package/lru-cache) Node.js package which we will use in this guide but you can use any other implementation the same way.
 
-So, let's create a middleware that defines `Ability` instance of `Request` object:
+So, let's create a middleware that defines abilities for `Request` object:
 
 ```ts @{data-filename="provideAbility.ts"}
 import LruCache from 'lru-cache';
@@ -79,7 +78,7 @@ export async function provideAbility(req, res, next) {
 }
 ```
 
-Now we can use this middleware to provide `Ability` instance for a particular user and check its permissions:
+Now we can use this middleware to provide abilities for a particular user and check its permissions:
 
 ```ts @{data-filename="boot.ts"}
 import { provideAbility } from './provideAbility';
@@ -98,14 +97,14 @@ app.listen(3000, () => console.log('app is listening on http://localhost:3000'))
 
 ### In session storage
 
-If the application uses stored sessions and [LRU cache](#in-memory-lru-cache) doesn't satisfy your needs, you can store `Ability` rules in user's session (e.g., Redis, Memcached). Why do we store rules and not `Ability` instance? Because session storage serializes object before storing it. Rules are easily serializable and `Ability` instance is not, but can be created from rules.
+If the application uses stored sessions and [LRU cache](#in-memory-lru-cache) doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not `PureAbility` instance? Because session storage serializes object before storing it. Rules are easily serializable and `PureAbility` instance is not, but can be created from rules.
 
 Sessions in express usually are implemented with help of [express-session](https://www.npmjs.com/package/express-session) and [connect-redis](https://www.npmjs.com/package/connect-redis). We will do it the same way.
 
 So, the only thing which is left is to implement `provideAbility` middleware that saves rules for a particular user in his session storage. Pay attention that we use `defineRulesFor` and not `defineAbilityFor` function:
 
 ```ts @{data-filename="provideAbility.ts"}
-import { Ability, Abilities } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 import { defineRulesFor } from './defineAbility';
 
 export async function provideAbility(req, res, next) {
@@ -116,7 +115,7 @@ export async function provideAbility(req, res, next) {
     req.session.abilityRules = rules
   }
 
-  req.ability = new Ability<Abilities>(rules);
+  req.ability = createMongoAbility(rules);
   next();
 }
 ```
@@ -164,7 +163,7 @@ export async function login(req, res) {
 And implement `provideAbility` middleware that creates ability out of jwt token which is provided by client in `Authorization` header:
 
 ```ts @{data-filename="provideAbility.ts"}
-import { Ability, Abilities } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 import jwt from 'jsonwebtoken';
 import { defineRulesFor } from './defineAbility';
 
@@ -173,7 +172,7 @@ export async function provideAbility(req, res, next) {
     const token = req.headers.authorization;
     const { rules } = jwt.verify(token, req.app.get('jwtSecret'));
 
-    req.ability = new Ability<Abilities>(rules);
+    req.ability = createMongoAbility(rules);
     next();
   } catch (error) {
     next(error);

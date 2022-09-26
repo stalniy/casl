@@ -16,7 +16,7 @@ In order to understand which way to use, let's learn more about each one.
 
 ## defineAbility function
 
-This function is a [DSL] that allows to create `Ability` instance using `can` and `cannot` methods. It allows to define and use `Ability` instance without writing too much code.
+This function is a [DSL] that allows to create `MongoAbility` instance using `can` and `cannot` methods. It allows to define and use `MongoAbility` instance without writing too much code.
 
 [DSL]: https://en.wikipedia.org/wiki/Domain-specific_language
 
@@ -69,7 +69,7 @@ So, to keep examples simple and clear, we will use `defineAbility` in majority o
 There is nothing extremely wrong with this function but there are several drawbacks when you use it in your app:
 
 1. In most cases, rules depends on user request, so using callback style to define permissions, adds additional nesting and increases cognitive complexity.
-2. It can create only `Ability` instance which works with [MongoDB conditions](../conditions-in-depth), so you won't be able to use another language to match conditions.
+2. It can create only `MongoAbility` instance which works with [MongoDB conditions](../conditions-in-depth), so you won't be able to use another language to match conditions.
 
 > See [Customize Ability](../../advanced/customize-ability) to know more about different ability classes and possibilities to customize it.
 
@@ -82,9 +82,9 @@ This class implements `can` and `cannot` functions, that makes possible to write
 [defineAbility example](#defineability-example) written using `AbilityBuilder` class looks a bit more wordy:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 
-const { can, cannot, build } = new AbilityBuilder(Ability);
+const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
 can('read', 'Post');
 cannot('delete', 'Post', { published: true });
@@ -95,10 +95,10 @@ export default build();
 But it allows to define rules without additional nesting, this is especially important when you build rules based on conditional logic:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 
 export default function defineAbilityFor(user) {
-  const { can, cannot, build } = new AbilityBuilder(Ability);
+  const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
   if (user.isAdmin) {
     can('manage', 'all'); // read-write access to everything
@@ -114,24 +114,24 @@ export default function defineAbilityFor(user) {
 
 > To learn more about `can` and `cannot` functions' parameters, read [AbilityBuilder API](../../api#abilitybuilder)
 
-For more advanced cases, it's possible to use `rules` property of `AbilityBuilder` and create `Ability` instance manually:
+For more advanced cases, it's possible to use `rules` property of `AbilityBuilder` and create `MongoAbility` instance manually:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 
 export default function defineAbilityFor(user) {
-  const { can, cannot, rules } = new AbilityBuilder(Ability);
+  const { can, cannot, rules } = new AbilityBuilder(createMongoAbility);
 
   // defined permissions
 
-  return new Ability(rules);
+  return createMongoAbility(rules);
 }
 ```
 
 ### When to use AbilityBuilder
 
 * in apps which have static permissions (i.e., permissions are not changed by admin user but defined inside system)
-* anywhere where you use custom subclasses of `PureAbility`
+* anywhere where you use custom ability factory functions
 
 > See [Customize Ability](../../advanced/customize-ability) to learn more about `PureAbility` class.
 
@@ -146,9 +146,9 @@ It's not required to use `AbilityBuilder` to define rules in the app, especially
 The same example using `JSON`:
 
 ```js
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
-export default new Ability([
+export default createMongoAbility([
   {
     action: 'read',
     subject: 'Post'
@@ -260,11 +260,11 @@ Direct logic is easier to reason about for human mind, so use direct rules as mu
 So, are there a valid usecases for inverted rules? **Yes**! They work very well when are not combined with regular rules and defined explicitly to express why particular action on particular subject was forbidden, for example:
 
 ```js
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 
 async function defineAbility(user) {
   const hasPaidSubscription = await user.hasPaidSubscription();
-  const { can, cannot, build } = new AbilityBuilder(Ability);
+  const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
   if (hasPaidSubscription) {
     can('create', 'BlogPost');

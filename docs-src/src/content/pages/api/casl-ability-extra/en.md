@@ -31,7 +31,7 @@ This function converts rules into [ucast](github.com/stalniy/ucast) AST.
 
 ## rulesToFields
 
-This is a helper function that allows to extract field values from `Ability` conditions. This may be useful to extract default values from permissions for a new object.
+This is a helper function that allows to extract field values from `PureAbility` conditions. This may be useful to extract default values from permissions for a new object.
 
 * **Parameters**:
   * `ability: TAbility`
@@ -133,14 +133,14 @@ This function **reduces serialized rules size in 2 times** (in comparison to its
 
 ## unpackRules
 
-This function unpacks rules previously packed by [`packRules`](#pack-rules), so they can be consumed by `Ability` instance.
+This function unpacks rules previously packed by [`packRules`](#pack-rules), so they can be consumed by `PureAbility` instance.
 
 * **Parameters**:
   * `rules: PackRule<TRawRule>[]`
   * `unpackSubject?: (type: string) => SubjectType` - we need to pass this parameter only if we use classes as subject types. It should return subject type out of its string representation.
 * **Returns** `TRawRule[]`
 * **Usage**\
-  If backend sends packed rules, we need to use `unpackRules` before passing them into `Ability` instance:
+  If backend sends packed rules, we need to use `unpackRules` before passing them into `PureAbility` instance:
 
   ```ts
   import { unpackRules } from '@casl/ability/extra'

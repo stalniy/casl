@@ -32,19 +32,19 @@ When all combinations of actions and subjects are known, we can create a table f
    **The main advantage** is that you can do partial updates using regular SQL.
    **The main disadvantage** more complicated queries (you need to join `roles` and `permissions`) and bigger eventual database size.
 
-We will use the 1st option in this guide because permissions are not changed often, so the risk of conflict is acceptable for us. Moreover this `permissions` field will contain an array that is acceptable by `Ability` instance (i.e., `RawRuleOf<AppAbility>[]`).
+We will use the 1st option in this guide because permissions are not changed often, so the risk of conflict is acceptable for us. Moreover this `permissions` field will contain an array that is acceptable by `PureAbility` instance (i.e., `RawRuleOf<AppAbility>[]`).
 
 > If it's not acceptable for your situation, use raw SQL syntax of your RDBMS to partially update JSON column or use 2nd option.
 
 We also need a table for `users`. Every user may have only 1 role, in other words every row in `users` table should have `roleId` field.
 
-Having users, roles and permissions, we can create `Ability` instance for every user request. The logic for the REST API is the following:
+Having users, roles and permissions, we can create `PureAbility` instance for every user request. The logic for the REST API is the following:
 
 1. User sends request to access some resources.
 2. If it's not authenticated, sends back an error that he needs to login.
 3. If it's authenticated, the app fetches it together with permissions from the database.
-4. The app creates an `Ability` instance based on user's permissions
-5. Using `Ability` instance, the app checks whether user can do a particular action on requested resource.
+4. The app creates an `PureAbility` instance based on user's permissions
+5. Using `PureAbility` instance, the app checks whether user can do a particular action on requested resource.
 6. If not, it's sends error back that user has no permission to do what he attempted to do.
 7. If user has permissions, then proceed with the actual action.
 
@@ -150,7 +150,7 @@ exports.seed = async (knex) => {
 Now, let's define all possible actions and subjects:
 
 ```ts @{data-filename="services/appAbility.ts"}
-import { Ability, RawRuleOf, ForcedSubject } from '@casl/ability';
+import { createMongoAbility, MongoAbility, RawRuleOf, ForcedSubject } from '@casl/ability';
 
 export const actions = ['manage', 'create', 'read', 'update', 'delete'] as const;
 export const subjects = ['Article', 'all'] as const;
@@ -159,13 +159,13 @@ export type Abilities = [
   typeof actions[number],
   typeof subjects[number] | ForcedSubject<Exclude<typeof subjects[number], 'all'>>
 ];
-export type AppAbility = Ability<Abilities>;
-export const createAbility = (rules: RawRuleOf<AppAbility>[]) => new Ability<Abilities>(rules);
+export type AppAbility = MongoAbility<Abilities>;
+export const createAbility = (rules: RawRuleOf<AppAbility>[]) => createMongoAbility<AppAbility>(rules);
 ```
 
 > See [TypeScript support](../../advanced/typescript#useful-type-helpers) to get details about type helpers.
 
-`typeof actions[number]` converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope. We also export `createAbility` function to make it easier to create `Ability` instance with bound generic parameters.
+`typeof actions[number]` converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope. We also export `createAbility` function to make it easier to create `PureAbility` instance with bound generic parameters.
 
 In order to work with our database on higher level, we need to create services.
 
@@ -210,7 +210,7 @@ Let's go line by line to understand what happens in the function:
   }
   ```
 
-  As you can see, its permissions property has the type that `Ability` instance accepts in the first parameter. This was done intentionally to simplify ability creation.
+  As you can see, its permissions property has the type that `PureAbility` instance accepts in the first parameter. This was done intentionally to simplify ability creation.
 * we import `interpolate` function, this function takes a JSON template and replaces all placeholder (e.g., `${user.id}`) with the provided variables inside context. This function uses `reviver` argument of `JSON.parse` method to iterate deeply over the object but it's not important for this guide. You can use any template library you like (e.g., [mustache](https://mustache.github.io/), [underscore template](http://underscorejs.org/#template)).
 * in `findBy` function, we join users and roles to get user's permissions and role and preprocess permissions' template with the `interpolate` function (so that, it replaces `${user.id}` placeholders with the actual `user.id` value).
 
@@ -234,7 +234,7 @@ export async function create(ability: AppAbility, partialArticle: Omit<Article, 
 // other functions
 ```
 
-In this service, we use `ForbiddenError` class which allows to throw an error if user doesn't have an ability to do something. We also wrap `partialArticle` with `subject` call. This allows `Ability` instance to detect subject type of a plain object.
+In this service, we use `ForbiddenError` class which allows to throw an error if user doesn't have an ability to do something. We also wrap `partialArticle` with `subject` call. This allows `PureAbility` instance to detect subject type of a plain object.
 
 > See [Subject type detection](../../guide/subject-type-detection#subject-helper) for details.
 
@@ -253,7 +253,7 @@ Now, when service layer is finished, we can put it together!
 
 ### Putting together
 
-We need to start from connecting things together, to do so we need to fetch users and create `Ability` instances for each one:
+We need to start from connecting things together, to do so we need to fetch users and create `PureAbility` instances for each one:
 
 ```ts @{data-filename="main.ts"}
 import { findBy } from './services/users';

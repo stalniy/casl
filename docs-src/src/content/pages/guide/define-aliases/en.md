@@ -49,7 +49,7 @@ ability.can('update', 'Post'); // true
 ability.can('delete', 'Post'); // true
 ```
 
-We got `false` for `modify` action, even though we can `delete` and `update` a Post! Aliases are resolved once on `Ability` instantiation level or when you call `ability.update`. It was done this way in order to make `ability.can` faster.
+We got `false` for `modify` action, even though we can `delete` and `update` a Post! Aliases are resolved once on `PureAbility` instantiation level or when you call `ability.update`. It was done this way in order to make `ability.can` faster.
 
 You can also define aliases on aliases, they are resolved recursively:
 

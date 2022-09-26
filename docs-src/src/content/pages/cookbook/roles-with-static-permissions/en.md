@@ -23,7 +23,7 @@ First of all, we need to define tables for `users` and `roles`. `users` table st
 
 > Tables' structure may be different in your application. We are going to use the simplest but sufficient structure to solve [The issue](#the-issue)
 
-As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create `Ability` instance. Using `Ability` instance we can guarantee that a user can do only what his role allows him to do.
+As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create corresponding abilities. Using `PureAbility` instance we can guarantee that a user can do only what his role allows him to do.
 
 > In the next Demo, we are not going to implement REST API as the main intention of this recipe is to solve [The issue](#the-issue).
 
@@ -99,7 +99,7 @@ Now, let's define all possible actions and subjects.
 This app has only `User` subject, users can only `update` himself and invite other users, so:
 
 ```ts @{data-filename="appAbility.ts"}
-import { Ability, ForcedSubject, AbilityClass } from '@casl/ability';
+import { createMongoAbility, ForcedSubject, CreateAbility, MongoAbility } from '@casl/ability';
 
 const actions = ['manage', 'invite'] as const;
 const subjects = ['User', 'all'] as const;
@@ -107,8 +107,9 @@ type AppAbilities = [
   typeof actions[number],
   typeof subjects[number] | ForcedSubject<Exclude<typeof subjects[number], 'all'>>
 ];
-export type AppAbility = Ability<AppAbilities>;
-export const AppAbility = Ability as AbilityClass<AppAbility>;
+
+export type AppAbility = MongoAbility<AppAbilities>;
+export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
 ```
 
 > See [TypeScript support](../../advanced/typescript#useful-type-helpers) to get details about type helpers.
@@ -118,7 +119,7 @@ export const AppAbility = Ability as AbilityClass<AppAbility>;
 Having all possible subjects and actions, we can define roles' permissions in the same file:
 
 ```ts @{data-filename="appAbility.ts"}
-import { Ability, ForcedSubject, AbilityBuilder, AbilityClass } from '@casl/ability';
+import { ForcedSubject, AbilityBuilder } from '@casl/ability';
 import { User } from '../models/User';
 
 // abilities definition from previous example
@@ -152,17 +153,17 @@ export interface User {
 
 > We created `rolePermissions` object that holds our permission definitions functions instead of using regular functions. This allows us to retrieve role specific function by accessing properties of this object, this is very convenient and efficient.
 
-Finally, let's create a function that defines `Ability` instance for our user, let's do this in the same file:
+Finally, let's create a function that defines `PureAbility` instance for our user, let's do this in the same file:
 
 ```ts @{data-filename="services/appAbility.ts"}
-import { Ability, ForcedSubject, AbilityBuilder } from '@casl/ability';
+import { createMongoAbility, ForcedSubject, AbilityBuilder } from '@casl/ability';
 import { User } from '../models/User';
 
 // abilities definition from the example above
 // roles definition from the example above
 
 export function defineAbilityFor(user: User): AppAbility {
-  const builder = new AbilityBuilder(Ability);
+  const builder = new AbilityBuilder(createMongoAbility);
 
   if (typeof rolePermissions[user.role] === 'function') {
     rolePermissions[user.role](user, builder);
@@ -233,7 +234,7 @@ export async function updateUserDetails(
 Let's go line by line in order to understand the code:
 
 1. We created `updateUserDetails` that accepts 3 arguments: 1st represents user's email who initiates the request (i.e., logged in user), 2nd is an email of a user whose details will be updated and 3rd is an object of changes.
-2. Inside the function, we find initiator user in order to create `Ability` instance for it.
+2. Inside the function, we find initiator user in order to create `PureAbility` instance for it.
 3. We also find user whose details needs to be updated, so we have his id.
 4. Using `ForbiddenError` class, we ensure that user can update own details. If not, a `ForbiddenError` will be thrown. Also pay attention that we call `subject` function. It assigns a particular subject type to a plain JavaScript object (see [subject helper](../../guide/subject-type-detection#subject-helper) for details).
 5. We call `updateUserById` function to update user details by id in the database.

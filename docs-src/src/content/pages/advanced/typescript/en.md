@@ -20,25 +20,25 @@ So, let's play around with them
 
 ## Permissions inference
 
-`Ability` class accepts 2 **optional** generic parameters:
+`PureAbility` class and `createMongoAbility` factory function accepts 2 **optional** generic parameters:
 
 ```ts
-import { Ability, Subject, MongoQuery } from '@casl/ability';
+import { createMongoAbility, Subject, MongoQuery } from '@casl/ability';
 
 type PossibleAbilities = [string, Subject];
 type Conditions = MongoQuery;
 
-const ability = new Ability<PossibleAbilities, Conditions>();
+const ability = createMongoAbility<PossibleAbilities, Conditions>();
 ```
 
-> `Subject` is a special type that represents all possible subjects that `Ability` can accept. So, it's `object | string | Function | undefined`.
+> `Subject` is a special type that represents all possible subjects that `PureAbility` can accept. So, it's `object | string | Function | undefined`.
 
-Don't be scared by the complexity, `Ability` uses that types by default, so the example above is the same as the one below:
+Don't be scared by the complexity, `createMongoAbility` uses that types by default, so the example above is the same as the one below:
 
 ```ts
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
-const ability = new Ability();
+const ability = new createMongoAbility();
 ```
 
 These types are enough to protect you from passing wrong arguments but you can go further and make them even stricter. To illustrate how, let's consider a blog application, which has `User`, `Article` and `Comment` entities with the next user's permissions:
@@ -49,15 +49,15 @@ These types are enough to protect you from passing wrong arguments but you can g
 So, let's translate this to CASL by specifying all possible actions and all possible subjects as generic parameters:
 
 ```ts
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'Comment' | 'User';
 
-const ability = new Ability<[Actions, Subjects]>();
+const ability = createMongoAbility<[Actions, Subjects]>();
 ```
 
-If you try to type `ability.can(` in [VSCode] (or other TypeScript supported IDEs), it provides hints:
+If we try to type `ability.can(` in [VSCode] (or other TypeScript supported IDEs), it provides hints:
 
 [VSCode]: https://code.visualstudio.com/
 
@@ -76,7 +76,7 @@ The same behavior works for `AbilityBuilder` and `defineAbility` function:
 You can also specify interfaces as subjects:
 
 ```ts
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
 interface Article {
   id: number
@@ -99,7 +99,7 @@ interface Comment {
 type Action = 'create' | 'read' | 'update' | 'delete';
 type Subject = Article | Comment | User | 'Article' | 'User' | 'Comment';
 
-const ability = new Ability<[Action, Subject]>();
+const ability = createMongoAbility<[Action, Subject]>();
 
 ability.can('read', 'Article');
 ability.can('write', 'Article'); // error because non-existing action name
@@ -109,7 +109,7 @@ ability.can('update', 'Coment') // error because of typo
 and classes:
 
 ```ts
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
 class Article {
   id: number
@@ -121,7 +121,7 @@ class Article {
 type Action = 'create' | 'read' | 'update' | 'delete';
 type Subject = typeof Article | Article;
 
-const ability = new Ability<[Action, Subject]>();
+const ability = createMongoAbility<[Action, Subject]>();
 
 ability.can('read', Article);
 ability.can('update', new Article());
@@ -158,12 +158,12 @@ But even this is not the end and you can go even further!
 For the most cases the suggested approach above should be enough but if you prefer to ensure extreme type safety, you can define dependencies between actions and subjects. For example, user can only read information about users in your app and nothing more but can manage articles:
 
 ```ts
-import { Ability } from '@casl/ability';
+import { createMongoAbility } from '@casl/ability';
 
 type CRUD = 'create' | 'read' | 'update' | 'delete';
 type Abilities = ['read', 'User'] | [CRUD, 'Article'];
 
-const ability = new Ability<Abilities>();
+const ability = createMongoAbility<Abilities>();
 
 ability.can('read', 'User');
 ability.can('create', 'User'); // build time error! because it's not allowed to create users
@@ -174,28 +174,34 @@ ability.can('create', 'User'); // build time error! because it's not allowed to 
 From the first sight, it looks like that in order to use safer generic parameters, your app's code will become more complicated and this is true. But there is an escape hatch - **Companion object pattern**:
 
 ```ts
-import { Ability, AbilityClass } from '@casl/ability';
+import { MongoAbility, createMongoAbility, CreateAbility } from '@casl/ability';
 
 type CRUD = 'create' | 'read' | 'update' | 'delete';
 type Abilities = ['read', 'User'] | [CRUD, 'Article'];
+export type AppAbility = MongoAbility<Abilities>;
 
-export type AppAbility = Ability<Abilities>;
-export const AppAbility = Ability as AbilityClass<AppAbility>;
+export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>;
+// or you can just call whenever you need
+const ability = createMongoAbility<AppAbility>();
 ```
 
 This simple pattern comes to TypeScript from Scala, and it's a way to pair together types and objects. In TypeScript, values and types live in a separate namespaces, this allows to use the same name for a type and a class. TypeScript understands which one to use based on the context.
 
 ## AbilityBuilder type inference
 
-`AbilityBuilder` constructor accepts the single argument which is a type of `Ability` we want to build:
+`AbilityBuilder` constructor accepts the single argument which is a type of Ability we want to build:
 
 ```ts
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, PureAbility, createMongoAbility } from '@casl/ability';
 
-const builder = new AbilityBuilder(Ability);
+// we can pass custom Ability class
+const builder = new AbilityBuilder(PureAbility);
+
+// or we can pass factory function
+const builder = new AbilityBuilder(createMongoAbility);
 ```
 
-> Starting from v5, `AbilityBuilder` accepts required parameter, `Ability` class to build
+> Starting from v5, `AbilityBuilder` accepts required parameter, `Ability` class to build or ability factory function
 
 Thanks to this `AbilityBuilder` can infer all needed types from `Ability` types. This is especially useful when we define `AppAbility` because then we will have IDE hints and type safety for:
 
@@ -217,7 +223,7 @@ The cool thing is that all that safety is subject type dependent! Try to pass `U
 If we need to define conditions based on nested fields, we can do this by defining a separate interface:
 
 ```ts
-import { Ability, AbilityClass } from '@casl/ability';
+import { MongoAbility, createMongoAbility } from '@casl/ability';
 
 interface User {
   kind: 'User'
@@ -229,10 +235,9 @@ interface User {
   }
 }
 
-type AppAbility = Ability<['read', User | 'User']>;
-const AppAbility = Ability as AbilityClass<AppAbility>;
+type AppAbility = MongoAbility<['read', User | 'User']>;
 
-const { can } = new AbilityBuilder(AppAbility);
+const { can } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
 type FlatUser = User & {
   'address.street': User['address']['street']
@@ -250,10 +255,10 @@ can<FlatUser>('read', 'Post', ['address.street'], { 'address.street': 'test' })
 Sometimes you may need to create `RawRule`s manually (or fetch them from db). In that case, you will need to type them explicitly. Use `RawRuleOf<AppAbility>` in case if you have type for `AppAbility` or `RawRuleFrom<Abilities, Conditions>` otherwise.
 
 ```ts
-import { Ability, RawRuleOf, RawRuleFrom, MongoQuery } from '@casl/ability';
+import { MongoAbility, RawRuleOf, RawRuleFrom, MongoQuery } from '@casl/ability';
 
 type AppAbilities = ['read' | 'update', 'Article'];
-type AppAbility = Ability<AppAbilities>;
+type AppAbility = MongoAbility<AppAbilities>;
 
 const rawRules: RawRuleOf<AppAbility>[] = [
   { action: 'read', subject: 'Article' }
@@ -268,27 +273,27 @@ async function getRulesFromDb(): Promise<AppRawRule[]> {
 
 ### RuleOf
 
-Similar to `RawRule` helpers, there is a helper `RuleOf<Ability>` for `Rule<Abilities, Conditions>`. It's very unlikely that you will need to work with this types on application layer.
+Similar to `RawRule` helpers, there is a helper `RuleOf<AppAbility>` for `Rule<Abilities, Conditions>`. It's very unlikely that you will need to work with this types on application layer.
 
 ### AbilityOptionsOf
 
-Similar to `RawRule`, if you don't want to explicitly use `AbilityOptions<Abilities, Conditions>`, you can use `AbilityOptionsOf<Ability>`:
+Similar to `RawRule`, if you don't want to explicitly use `AbilityOptions<Abilities, Conditions>`, you can use `AbilityOptionsOf<AppAbility>`:
 
 ```ts
-import { AbilityOptionsOf, Ability } from '@casl/ability';
+import { AbilityOptionsOf, MongoAbility, createMongoAbility } from '@casl/ability';
 
 type AppAbilities = ['read' | 'update', 'Article'];
-type AppAbility = Ability<AppAbilities>;
+type AppAbility = MongoAbility<AppAbilities>;
 const options: AbilityOptionsOf<AppAbility> = {
   detectSubjectType: (subject) => /* custom implementation */
 };
 
-const ability = new Ability<AppAbilities>([], options);
+const ability = createMongoAbility<AppAbilities>([], options);
 ```
 
 ### AnyAbility and AnyMongoAbility
 
-These 2 types represents any `PureAbility` instance and any `Ability` instance. They are usually a good fit for restrictions in generic types. For example, this is how `AnyAbility` is used in `AbilityBuilder`:
+These 2 types represents any `PureAbility` instance and any `MongoAbility` instance. They are usually a good fit for restrictions in generic types. For example, this is how `AnyAbility` is used in `AbilityBuilder`:
 
 ```ts
 export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
@@ -301,7 +306,7 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
 There are 2 types that represents built-in mongo operators:
 
 * `MongoQuery<T>` is an actual mongo query.\
-  Is used as a conditions restriction in `Ability` class. Actually `Ability` is a `PureAbility` with conditions being restricted to `MongoQuery`.
+  Is used as a conditions restriction in `PureAbility` created by `createMongoAbility` factory function.
 * `MongoQueryOperators<T>` represents supported MongoDB operators and it's a union of `MongoQueryFieldOperators<T>` and `MongoQueryTopLevelOperators<T>` that represent supported field and document level operators respectively
 
 ### ForcedSubject
