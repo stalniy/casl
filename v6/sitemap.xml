@@ -3,189 +3,189 @@
       
   <url>
     <loc>https://casl.js.org/en/api/casl-ability</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/api/casl-ability-extra</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/support-casljs</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/install</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/intro</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/intro</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/less-confusing-can-api</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/claim-authorization</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/cache-rules</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/roles-with-static-permissions</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/define-rules</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/cookbook/roles-with-persisted-permissions</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/conditions-in-depth</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/restricting-fields</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/subject-type-detection</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/guide/define-aliases</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/advanced/typescript</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/advanced/customize-ability</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/advanced/debugging-testing</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/advanced/ability-to-database-query</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-prisma</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-mongoose</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-angular</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-react</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-vue</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en/package/casl-aurelia</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://casl.js.org/en</loc>
-    <lastmod>2022-09-19</lastmod>
+    <lastmod>2022-09-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>1</priority>
   </url>
