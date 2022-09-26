@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.3.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.2.0...@casl/prisma@1.3.0) (2022-09-26)
+
+
+### Features
+
+* extends createPrisma types to accept AppAbility as generic type ([4ac2531](https://github.com/stalniy/casl/commit/4ac25319ad08c5a1731706a0b7be6eae2a46005f))
+
 # [1.2.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.1.0...@casl/prisma@1.2.0) (2022-09-19)
 
 
