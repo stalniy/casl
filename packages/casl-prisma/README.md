@@ -21,19 +21,18 @@ pnpm add @casl/prisma @casl/ability
 
 ## Usage
 
-This package is a bit different from all others because it provides a custom `PrismaAbility` class that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
+This package is a bit different from all others because it provides a custom `createPrismaAbility` factory function that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
 
 ```ts
 import { User, Post, Prisma } from '@prisma/client';
-import { AbilityClass, AbilityBuilder, subject } from '@casl/ability';
-import { PrismaAbility, Subjects } from '@casl/prisma';
+import { PureAbility, AbilityBuilder, subject } from '@casl/ability';
+import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
 
-type AppAbility = PrismaAbility<[string, Subjects<{
+type AppAbility = PureAbility<[string, Subjects<{
   User: User,
   Post: Post
-}>]>;
-const AppAbility = PrismaAbility as AbilityClass<AppAbility>;
-const { can, cannot, build } = new AbilityBuilder(AppAbility);
+}>], PrismaQuery>;
+const { can, cannot, build } = new AbilityBuilder<AppAbility>(createPrismaAbility);
 
 can('read', 'Post', { authorId: 1 });
 cannot('read', 'Post', { title: { startsWith: '[WIP]:' } });
@@ -74,7 +73,7 @@ const accessiblePosts = await prisma.post.findMany({
 });
 ```
 
-That function accepts `PrismaAbility` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
+That function accepts `Ability` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
 
 **Important**: in case user doesn't have ability to access any posts, `accessibleBy` throws `ForbiddenError`, so be ready to catch it!
 
@@ -126,6 +125,16 @@ import { Subjects } from '@casl/prisma';
 type AppSubjects = Subjects<{
   User: User
 }>; // 'User' | Model<User, 'User'>
+```
+
+To support rule definition for `all`, we just need to explicitly do it:
+
+```ts
+type AppSubjects = 'all' | Subjects<{
+  User: User
+}>; // 'User' | Model<User, 'User'>
+
+type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
 ```
 
 ## Custom PrismaClient output path
