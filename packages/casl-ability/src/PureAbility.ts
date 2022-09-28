@@ -12,8 +12,8 @@ export type AbilityClass<T extends AnyAbility> = new (
   options?: AbilityOptionsOf<T>
 ) => T;
 
-export type CreteAbility<T extends AnyAbility> = (
-  rules?: RawRuleOf<T>,
+export type CreateAbility<T extends AnyAbility> = (
+  rules?: RawRuleOf<T>[],
   options?: AbilityOptionsOf<T>
 ) => T;
 
