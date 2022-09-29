@@ -30,7 +30,7 @@ Lets define `Ability` for a blog website where visitors:
 * cannot delete a post if it was created more than a day ago
 
 ```js
-import { AbilityBuilder, createMongoAbility } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 import { User } from '../models'; // application specific interfaces
 
 /**
