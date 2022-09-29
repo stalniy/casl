@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.3.1](https://github.com/stalniy/casl/compare/@casl/ability@6.3.0...@casl/ability@6.3.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* fixes `CreateAbility` type typos and wrong types in parameters ([aaec82d](https://github.com/stalniy/casl/commit/aaec82d7836542359a84284207208bc66153b02f))
+
 # [6.3.0](https://github.com/stalniy/casl/compare/@casl/ability@6.2.0...@casl/ability@6.3.0) (2022-09-26)
 
 
