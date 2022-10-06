@@ -3,7 +3,8 @@ import { createAbilityFactory, createAccessibleByFactory, prismaQuery } from './
 import { WhereInputPerModel, ModelName, PrismaQuery } from './prismaClientBoundTypes';
 
 export type { PrismaQuery } from './prismaClientBoundTypes';
-export { prismaQuery, Model, Subjects, ParsingQueryError } from './runtime';
+export type { Model, Subjects } from './runtime';
+export { prismaQuery, ParsingQueryError } from './runtime';
 
 const createPrismaAbility = createAbilityFactory<ModelName, PrismaQuery>();
 const accessibleBy = createAccessibleByFactory<WhereInputPerModel, PrismaQuery>();
