@@ -152,7 +152,7 @@ const anotherArticle = new Article({ authorId: 2 });
 const ability = defineAbilityFor(user);
 
 ability.can('read', 'Article') // true
-ability.can('update', 'Article') // true
+ability.can('update', 'Article') // false, anyone can not update Article
 ability.can('update', ownArticle) // true
 ability.can('update', anotherArticle) // false, we can't update articles which were not written by us
 ```
