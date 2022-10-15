@@ -1,6 +1,6 @@
 import { AbilityBuilder, PureAbility, subject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
-import { createPrismaAbility, Model as M, PrismaQuery } from '../src'
+import { createPrismaAbility, Model as M, PrismaAbility, PrismaQuery, Subjects } from '../src'
 import { AppAbility } from './AppAbility'
 
 describe('PrismaAbility', () => {
@@ -86,6 +86,19 @@ describe('PrismaAbility', () => {
         : false
 
       expect<ExpectTrue>(true).toBe(true)
+    })
+
+    it('supports per subject actions', () => {
+      type Abilities =
+        | ['read', Subjects<{ User: User }>]
+        | ['read' | 'update', Subjects<{ Post: Post }>]
+      type ThisAbility = PrismaAbility<Abilities>
+      const ability = createPrismaAbility<ThisAbility>()
+
+      ability.can('update', 'Post')
+
+      // @ts-expect-error
+      ability.can('update', 'User')
     })
   })
 })

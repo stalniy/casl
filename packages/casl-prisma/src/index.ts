@@ -14,7 +14,12 @@ export {
   accessibleBy,
 };
 
-type ExtendedAbilityTuple<T extends AbilityTuple> = [T[0], 'all' | T[1]];
+/**
+ * Uses conditional type to support union distribution
+ */
+type ExtendedAbilityTuple<T extends AbilityTuple> = T extends AbilityTuple
+  ? [T[0], 'all' | T[1]]
+  : never;
 
 /**
  * @deprecated use createPrismaAbility instead
