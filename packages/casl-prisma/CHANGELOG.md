@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.0...@casl/prisma@1.3.1) (2022-10-15)
+
+
+### Bug Fixes
+
+* export Model and Subjects as type ([#688](https://github.com/stalniy/casl/issues/688)) ([b0e76e3](https://github.com/stalniy/casl/commit/b0e76e3e667ea639ca94101ce0930bbd784fd60f))
+* makes sure PrismaAbility support per subject actions type ([5db9a37](https://github.com/stalniy/casl/commit/5db9a3758f444ac40b957f5bb20821d43a830b8e)), closes [#675](https://github.com/stalniy/casl/issues/675)
+
 # [1.3.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.2.0...@casl/prisma@1.3.0) (2022-09-26)
 
 
