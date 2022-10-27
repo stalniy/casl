@@ -4,7 +4,7 @@ import { Generics } from './RuleIndex';
 import { getSubjectTypeName } from './utils';
 
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
-export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
+export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${getSubjectTypeName(error.subjectType)}"`;
 
 const NativeError = function NError(this: Error, message: string) {
   this.message = message;
