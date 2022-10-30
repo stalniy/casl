@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.0...@casl/mongoose@7.1.1) (2022-10-30)
+
+
+### Bug Fixes
+
+* adds unlessCan method to ForbiddenError and reused it mongoose package to construct ForbiddenError ([be7ae6a](https://github.com/stalniy/casl/commit/be7ae6aa7694394e31ddf2d2fcf560fef4b792e2))
+
 # [7.1.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.0.0...@casl/mongoose@7.1.0) (2022-08-28)
 
 
