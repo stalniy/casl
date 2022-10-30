@@ -40,7 +40,7 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^3.0.0 || ^4.0.0 || ^5.1.0 || ^6.0.0",
+    "@casl/ability": "^6.3.2",
     "mongoose": "^6.0.13"
   },
   "devDependencies": {
@@ -49,7 +49,7 @@
     "@types/jest": "^28.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "mongoose": "^6.0.13"
+    "mongoose": "^6.7.0"
   },
   "files": [
     "dist",
