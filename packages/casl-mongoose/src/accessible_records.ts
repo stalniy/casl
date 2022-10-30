@@ -31,7 +31,7 @@ function accessibleBy<T extends AnyMongoAbility>(
   });
 
   if (!subjectType) {
-    throw new TypeError(`Cannot detect subjec type of "${baseQuery.model.modelName}" to return accessible records`);
+    throw new TypeError(`Cannot detect subject type of "${baseQuery.model.modelName}" to return accessible records`);
   }
 
   const query = toMongoQuery(ability, subjectType, action);
