@@ -1,6 +1,6 @@
 import { defineAbility } from '../src'
 import { rulesToQuery } from '../src/extra'
-import './spec_helper';
+import './spec_helper'
 
 function toQuery(ability, action, subject) {
   const convert = rule => rule.inverted ? { $not: rule.conditions } : rule.conditions

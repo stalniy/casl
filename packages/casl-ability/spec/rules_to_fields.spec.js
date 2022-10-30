@@ -1,6 +1,6 @@
 import { rulesToFields } from '../src/extra'
 import { defineAbility, PureAbility } from '../src'
-import './spec_helper';
+import './spec_helper'
 
 describe('rulesToFields', () => {
   it('returns an empty object for an empty `Ability` instance', () => {

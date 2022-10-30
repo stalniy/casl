@@ -1,4 +1,4 @@
-import './spec_helper';
+import './spec_helper'
 import { packRules, unpackRules } from '../src/extra'
 
 describe('Ability rules packing', () => {

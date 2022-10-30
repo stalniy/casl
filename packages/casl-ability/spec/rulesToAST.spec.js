@@ -1,6 +1,6 @@
 import { defineAbility } from '../src'
 import { rulesToAST } from '../src/extra'
-import './spec_helper';
+import './spec_helper'
 
 describe('rulesToAST', () => {
   it('returns empty "and" `Condition` if there are no conditions in `Ability`', () => {

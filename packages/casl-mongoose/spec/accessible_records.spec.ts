@@ -1,4 +1,4 @@
-import { Ability, defineAbility, ForbiddenError, SubjectType } from '@casl/ability'
+import { Ability, createMongoAbility, defineAbility, ForbiddenError, MongoAbility, SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
 import { AccessibleRecordModel, accessibleRecordsPlugin, toMongoQuery } from '../src'
 
@@ -195,12 +195,27 @@ describe('Accessible Records Plugin', () => {
           })
       })
 
-      it('throws `ForbiddenError` for `countDocuments` request', async () => {
+      it('throws `ForbiddenError` for `estimatedDocumentCount` request', async () => {
         await query.estimatedDocumentCount()
           .then(() => fail('should not execute'))
           .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
             expect(error.message).toMatch(/cannot execute/i)
+          })
+      })
+
+      it('throws `ForbiddenError` with correct message when subjectType is a model', async () => {
+        const anotherAbility = createMongoAbility([
+          { action: 'read', subject: Post }
+        ], {
+          detectSubjectType: o => o.constructor,
+        })
+
+        await Post.find().accessibleBy(anotherAbility, 'update')
+          .then(() => fail('should never be called'))
+          .catch((error: unknown) => {
+            expect(error).toBeInstanceOf(ForbiddenError)
+            expect((error as ForbiddenError<MongoAbility>).message).toBe('Cannot execute "update" on "Post"')
           })
       })
     })

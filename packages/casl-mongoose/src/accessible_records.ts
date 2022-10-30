@@ -1,4 +1,4 @@
-import { Normalize, AnyMongoAbility, Generics, ForbiddenError, getDefaultErrorMessage } from '@casl/ability';
+import { Normalize, AnyMongoAbility, Generics, ForbiddenError } from '@casl/ability';
 import { Schema, QueryWithHelpers, Model, Document, HydratedDocument, Query } from 'mongoose';
 import { toMongoQuery } from './mongo';
 
@@ -13,10 +13,7 @@ function failedQuery(
 
   if (typeof anyQuery.pre === 'function') {
     anyQuery.pre((cb: (error?: Error) => void) => {
-      const error = ForbiddenError.from(ability);
-      error.action = action;
-      error.subjectType = modelName;
-      error.setMessage(getDefaultErrorMessage(error));
+      const error = ForbiddenError.from(ability).unlessCan(action, modelName);
       cb(error);
     });
   }

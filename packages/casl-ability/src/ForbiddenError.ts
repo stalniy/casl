@@ -1,9 +1,10 @@
 import { AnyAbility } from './PureAbility';
-import { Normalize } from './types';
+import { Normalize, Subject } from './types';
 import { Generics } from './RuleIndex';
 import { getSubjectTypeName } from './utils';
 
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
+/** @deprecated will be removed in the next major release */
 export const getDefaultErrorMessage: GetErrorMessage = error => `Cannot execute "${error.action}" on "${error.subjectType}"`;
 
 const NativeError = function NError(this: Error, message: string) {
@@ -25,7 +26,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     this._defaultErrorMessage = typeof messageOrFn === 'string' ? () => messageOrFn : messageOrFn;
   }
 
-  static from<U extends AnyAbility>(ability: U) {
+  static from<U extends AnyAbility>(ability: U): ForbiddenError<U> {
     return new this<U>(ability);
   }
 
@@ -39,26 +40,33 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     }
   }
 
-  setMessage(message: string) {
+  setMessage(message: string): this {
     this.message = message;
     return this;
   }
 
-  throwUnlessCan(...args: Parameters<T['can']>) {
-    const rule = this.ability.relevantRuleFor(...args);
+  throwUnlessCan(...args: Parameters<T['can']>): void
+  throwUnlessCan(action: string, subject?: Subject, field?: string): void {
+    const error = (this as any).unlessCan(action, subject, field);
+    if (error) throw error;
+  }
+
+  unlessCan(...args: Parameters<T['can']>): this | undefined
+  unlessCan(action: string, subject?: Subject, field?: string): this | undefined {
+    const rule = this.ability.relevantRuleFor(action, subject, field);
 
     if (rule && !rule.inverted) {
       return;
     }
 
-    this.action = args[0];
-    this.subject = args[1];
-    this.subjectType = getSubjectTypeName(this.ability.detectSubjectType(args[1]));
-    this.field = args[2];
+    this.action = action;
+    this.subject = subject;
+    this.subjectType = getSubjectTypeName(this.ability.detectSubjectType(subject));
+    this.field = field;
 
     const reason = rule ? rule.reason : '';
     // eslint-disable-next-line no-underscore-dangle
     this.message = this.message || reason || (this.constructor as any)._defaultErrorMessage(this);
-    throw this; // eslint-disable-line
+    return this; // eslint-disable-line consistent-return
   }
 }
