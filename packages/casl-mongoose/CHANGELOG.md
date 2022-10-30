@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.2](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.1...@casl/mongoose@7.1.2) (2022-10-30)
+
+
+### Bug Fixes
+
+* fixes type in mongoose error message ([1d28496](https://github.com/stalniy/casl/commit/1d284968fcdf541bc559e12abb059e9c67f358b9))
+
 ## [7.1.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.0...@casl/mongoose@7.1.1) (2022-10-30)
 
 
