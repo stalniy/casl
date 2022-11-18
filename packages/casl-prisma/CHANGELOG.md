@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.3](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.2...@casl/prisma@1.3.3) (2022-11-18)
+
+
+### Bug Fixes
+
+* another attempt to fix .mjs local imports ([890c334](https://github.com/stalniy/casl/commit/890c3341acf52e8b1c55eb6450841d02133226e1))
+
 ## [1.3.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.1...@casl/prisma@1.3.2) (2022-11-18)
 
 
