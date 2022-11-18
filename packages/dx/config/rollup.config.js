@@ -5,6 +5,17 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
 import { dirname, basename, extname } from 'path';
 import babelConfig from './babel.config';
 
+function extensionify(options) {
+  return {
+    name: 'extensionify',
+    renderChunk(code) {
+      return code.replace(/((?:import|export)[^}]+\}\s+from\s+)(['"])(\.\/[^'"]+)/g, (_, importedPackage, quote, packageName) => {
+        return `${importedPackage}${quote}${packageName}${options.ext}`;
+      });
+    }
+  }
+}
+
 const output = (config) => {
   let prop = 'dir';
   let path = `dist/${config.id}${config.subpath}`;
@@ -35,9 +46,6 @@ const build = config => ({
           keep_classnames: /Ability|ForbiddenError/,
           mangle: {
             properties: {
-              reserved: [
-                '_collection',
-              ],
               regex: /^_[a-z]/i
             },
           },
@@ -46,6 +54,9 @@ const build = config => ({
             defaults: false,
           }
         })
+        : null,
+      config.ext
+        ? extensionify({ ext: config.ext })
         : null
     ]
   },
@@ -75,7 +86,7 @@ function parseOptions(overrideOptions) {
     useInputSourceMaps: !!process.env.USE_SRC_MAPS,
     minify: process.env.NODE_ENV === 'production' && process.env.LIB_MINIFY !== 'false',
     transformJS: process.env.ES_TRANSFORM !== 'false',
-    plugins: []
+    plugins: [],
   };
 
   if (overrideOptions.input) {
