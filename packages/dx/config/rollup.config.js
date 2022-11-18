@@ -9,7 +9,7 @@ function extensionify(options) {
   return {
     name: 'extensionify',
     renderChunk(code) {
-      return code.replace(/((?:import|export)[^}]+\}\s+from\s+)(['"])(\.\/[^'"]+)/g, (_, importedPackage, quote, packageName) => {
+      return code.replace(/((?:import|export)[^}]+\}\s*from\s*)(['"])(\.\/[^'"]+)/g, (_, importedPackage, quote, packageName) => {
         return `${importedPackage}${quote}${packageName}${options.ext}`;
       });
     }
