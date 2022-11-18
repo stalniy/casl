@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.1...@casl/prisma@1.3.2) (2022-11-18)
+
+
+### Bug Fixes
+
+* es6m build now contains .mjs extension for local imports/exports ([d233c9f](https://github.com/stalniy/casl/commit/d233c9fecdb762b2b454d8e9375805633d9e35fe))
+
 ## [1.3.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.0...@casl/prisma@1.3.1) (2022-10-15)
 
 
