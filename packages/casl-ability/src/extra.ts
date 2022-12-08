@@ -151,7 +151,7 @@ export function packRules<T extends RawRule<any, any>>(
       rule.reason || ''
     ];
 
-    while (!packedRule[packedRule.length - 1]) packedRule.pop();
+    while (packedRule.length > 0 && !packedRule[packedRule.length - 1]) packedRule.pop();
 
     return packedRule;
   });
@@ -173,17 +173,9 @@ export function unpackRules<T extends RawRule<any, any>>(
         : subjects
     } as T;
 
-    if (conditions) {
-      rule.conditions = conditions;
-    }
-
-    if (fields) {
-      rule.fields = fields.split(',');
-    }
-
-    if (reason) {
-      rule.reason = reason;
-    }
+    if (conditions) rule.conditions = conditions;
+    if (fields) rule.fields = fields.split(',');
+    if (reason) rule.reason = reason;
 
     return rule;
   });
