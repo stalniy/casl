@@ -75,8 +75,8 @@ export default class Header extends LitElement {
     return html`
       <header>
         <div class="header-notification">
-          <p>Stop war in 🇺🇦 Ukraine.</p>
-          <a href="https://dearrussian.wtf" target="_blank">All truth about Russia invasion</a>
+          <p>Do you like this package?</p>
+          <a href="https://prytulafoundation.org/en/home/support_page" target="_blank">Support Ukraine 🇺🇦</a>
         </div>
         <div class="header container">
           ${this._renderMenuToggler()}
