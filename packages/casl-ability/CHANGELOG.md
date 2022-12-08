@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.3.3](https://github.com/stalniy/casl/compare/@casl/ability@6.3.2...@casl/ability@6.3.3) (2022-12-08)
+
+
+### Bug Fixes
+
+* ensures `packRule` helper doesn't stuck inside infinite loop when invalid parameters are passed ([a19bd09](https://github.com/stalniy/casl/commit/a19bd09030d7bb33912b681d05d3040cd4275a49)), closes [#705](https://github.com/stalniy/casl/issues/705)
+
 ## [6.3.2](https://github.com/stalniy/casl/compare/@casl/ability@6.3.1...@casl/ability@6.3.2) (2022-10-30)
 
 
