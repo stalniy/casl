@@ -30,15 +30,15 @@ type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }
   : Ability;
 
 function detectSubjectProp(props: Record<string, unknown>) {
-  if ('a' in props) {
+  if (props.a !== undefined) {
     return 'a';
   }
 
-  if ('this' in props) {
+  if (props.this !== undefined) {
     return 'this';
   }
 
-  if ('an' in props) {
+  if (props.an !== undefined) {
     return 'an';
   }
 
@@ -63,7 +63,7 @@ export const Can = defineComponent<CanProps<VueAbility>>({
     let actionProp = 'do';
     let subjectProp = 'on';
 
-    if (!(actionProp in props)) {
+    if ($props[actionProp] === undefined) {
       actionProp = 'I';
       subjectProp = detectSubjectProp(props);
     }
