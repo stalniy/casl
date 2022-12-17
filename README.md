@@ -1,9 +1,5 @@
 # CASL
 
-## Do you like this package?
-
-[Support Ukraine 🇺🇦](https://prytulafoundation.org/en/home/support_page)
-
 <p align="center">
   <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs-src/src/assets/shield.png" alt="CASL logo"></a>
 
