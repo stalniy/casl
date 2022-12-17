@@ -29,7 +29,7 @@ importers:
 
   packages/casl-angular:
     specifiers:
-      '@abraham/reflection': ^0.10.0
+      '@abraham/reflection': ^0.11.0
       '@angular-devkit/build-angular': ^14.0.0
       '@angular/common': ^14.0.0
       '@angular/compiler': ^14.0.0
@@ -47,7 +47,7 @@ importers:
       typescript: ~4.7.4
       zone.js: ~0.11.4
     devDependencies:
-      '@abraham/reflection': 0.10.0
+      '@abraham/reflection': 0.11.0
       '@angular-devkit/build-angular': 14.1.2_uetmhv4xnnw2kxd27pia5hisqm
       '@angular/common': 14.1.2_zxu6kynelzm47wrpz4hiraa5fu
       '@angular/compiler': 14.1.2_@angular+core@14.1.2
@@ -227,8 +227,8 @@ importers:
 
 packages:
 
-  /@abraham/reflection/0.10.0:
-    resolution: {integrity: sha512-ltEjxbZn3B5CzPhUND30YJiondgOTH3m52edgshMxcuHTEjO2lRyL+EoO7H11yYzt1FIS5CfnMcACSP52WKrLA==}
+  /@abraham/reflection/0.11.0:
+    resolution: {integrity: sha512-lCPIgtjeiZ7ZWLPP5RiAmGAyw5I0dHMt0GzzKZVZiZ48lNC0sGnmTzKITEtOlZevylf0sf5vjhbEmByuQMQE9Q==}
     dev: true
 
   /@ampproject/remapping/2.2.0:
