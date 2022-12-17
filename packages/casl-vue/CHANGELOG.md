@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1](https://github.com/stalniy/casl/compare/@casl/vue@2.2.0...@casl/vue@2.2.1) (2022-12-17)
+
+
+### Bug Fixes
+
+* handles vue props aliases using "undefined" instead of "in" ([#712](https://github.com/stalniy/casl/issues/712)) ([3d85baa](https://github.com/stalniy/casl/commit/3d85baa5d594734cafe79929634f344a123bf905))
+
 # [2.2.0](https://github.com/stalniy/casl/compare/@casl/vue@2.1.3...@casl/vue@2.2.0) (2022-08-28)
 
 
