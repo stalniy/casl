@@ -1,6 +1,6 @@
 import chai from 'chai'
 import spies from 'chai-spies'
-import '../../dx/lib/spec_helper'
+import '@casl/dx/lib/spec_helper'
 
 chai.use(spies)
 

@@ -168,7 +168,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return indexedRules;
   }
 
-  possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[]
+  possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[];
   possibleRulesFor(
     action: string,
     subjectType: SubjectType = this._anySubjectType
@@ -199,7 +199,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return rules;
   }
 
-  rulesFor(...args: AbilitySubjectTypeParameters<A>): Rule<A, Conditions>[]
+  rulesFor(...args: AbilitySubjectTypeParameters<A>): Rule<A, Conditions>[];
   rulesFor(action: string, subjectType?: SubjectType, field?: string): Rule<A, Conditions>[] {
     const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subjectType);
 

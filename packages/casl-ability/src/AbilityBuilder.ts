@@ -91,12 +91,12 @@ export class AbilityBuilder<T extends AnyAbility> {
   can<
     I extends InstanceOf<T, S>,
     S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>
+  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>;
   can<
     I extends InstanceOf<T, S>,
     F extends string = Keys<I>,
     S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>
+  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>;
   can(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
@@ -127,12 +127,12 @@ export class AbilityBuilder<T extends AnyAbility> {
   cannot<
     I extends InstanceOf<T, S>,
     S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>
+  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>;
   cannot<
     I extends InstanceOf<T, S>,
     F extends string = Keys<I>,
     S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>
+  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>;
   cannot(
     action: string | string[],
     subject?: SubjectType | SubjectType[],

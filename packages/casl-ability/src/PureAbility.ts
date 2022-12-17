@@ -21,13 +21,13 @@ export class PureAbility<
   A extends Abilities = AbilityTuple,
   Conditions = unknown
 > extends RuleIndex<A, Conditions> {
-  can(...args: CanParameters<A>): boolean
+  can(...args: CanParameters<A>): boolean;
   can(action: string, subject?: Subject, field?: string): boolean {
     const rule = (this as PrimitiveAbility).relevantRuleFor(action, subject, field);
     return !!rule && !rule.inverted;
   }
 
-  relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null
+  relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null;
   relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null {
     const subjectType = this.detectSubjectType(subject);
     const rules = (this as any).rulesFor(action, subjectType, field);
@@ -41,7 +41,7 @@ export class PureAbility<
     return null;
   }
 
-  cannot(...args: CanParameters<A>): boolean
+  cannot(...args: CanParameters<A>): boolean;
   cannot(action: string, subject?: Subject, field?: string): boolean {
     return !(this as PrimitiveAbility).can(action, subject, field);
   }

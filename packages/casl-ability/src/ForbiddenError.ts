@@ -45,13 +45,13 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     return this;
   }
 
-  throwUnlessCan(...args: Parameters<T['can']>): void
+  throwUnlessCan(...args: Parameters<T['can']>): void;
   throwUnlessCan(action: string, subject?: Subject, field?: string): void {
     const error = (this as any).unlessCan(action, subject, field);
     if (error) throw error;
   }
 
-  unlessCan(...args: Parameters<T['can']>): this | undefined
+  unlessCan(...args: Parameters<T['can']>): this | undefined;
   unlessCan(action: string, subject?: Subject, field?: string): this | undefined {
     const rule = this.ability.relevantRuleFor(action, subject, field);
 

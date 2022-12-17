@@ -4,8 +4,10 @@
     "*.d.ts"
   ],
   "extends": [
+    "airbnb-base",
     "airbnb-typescript/base"
   ],
+  "plugins": ["import"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
