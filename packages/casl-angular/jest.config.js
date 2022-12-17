@@ -8,7 +8,6 @@ module.exports = {
   testEnvironment: "jsdom",
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: [
-    '@abraham/reflection',
     'zone.js/dist/zone',
     'zone.js/dist/zone-testing'
   ],
