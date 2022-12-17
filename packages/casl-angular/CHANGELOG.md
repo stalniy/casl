@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [8.2.0](https://github.com/stalniy/casl/compare/@casl/angular@8.1.0...@casl/angular@8.2.0) (2022-12-17)
+
+
+### Features
+
+* update angular to v15 ([#704](https://github.com/stalniy/casl/issues/704)) ([4f4b713](https://github.com/stalniy/casl/commit/4f4b7135942aba0b8908a0aeadc9d101678faafb))
+
 # [8.1.0](https://github.com/stalniy/casl/compare/@casl/angular@8.0.0...@casl/angular@8.1.0) (2022-08-28)
 
 
