@@ -21,7 +21,7 @@ This is a helper iterator function that allows to aggregate conditions from perm
 
 ## rulesToAST
 
-This function converts rules into [ucast](github.com/stalniy/ucast) AST.
+This function converts rules into [ucast](https://github.com/stalniy/ucast) AST.
 
 * **Parameters**:
   * `ability: TAbility`
