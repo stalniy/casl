@@ -27,6 +27,8 @@ import {
   $exists,
   exists,
   and,
+  $or,
+  or,
   createFactory,
   BuildMongoQuery,
   DefaultOperators,
@@ -49,6 +51,7 @@ const defaultInstructions = {
   $options,
   $elemMatch,
   $exists,
+  $or,
 };
 const defaultInterpreters = {
   eq,
@@ -65,6 +68,7 @@ const defaultInterpreters = {
   elemMatch,
   exists,
   and,
+  or
 };
 
 interface MongoQueryFactory extends GenericFactory {
