@@ -77,7 +77,7 @@ export interface AccessibleRecordModel<
   >
 }
 
-function modelAccessibleBy(this: Model<unknown>, ability: AnyMongoAbility, action?: string) {
+function modelAccessibleBy<T>(this: Model<T>, ability: AnyMongoAbility, action?: string) {
   return accessibleBy(this.where(), ability, action);
 }
 
@@ -89,7 +89,7 @@ function queryAccessibleBy(
   return accessibleBy(this, ability, action);
 }
 
-export function accessibleRecordsPlugin(schema: Schema<any>): void {
+export function accessibleRecordsPlugin<T>(schema: Schema<T, AccessibleRecordModel<T>>): void {
   (schema.query as Record<string, unknown>).accessibleBy = queryAccessibleBy;
   schema.statics.accessibleBy = modelAccessibleBy;
 }
