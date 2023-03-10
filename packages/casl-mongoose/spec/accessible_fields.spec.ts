@@ -12,10 +12,15 @@ describe('Accessible fields plugin', () => {
   let PostSchema: mongoose.Schema<Post, PostModel>
 
   beforeEach(() => {
-    PostSchema = new mongoose.Schema<Post>({
-      title: String,
-      state: String
-    })
+    PostSchema = new mongoose.Schema<Post>(
+      {
+        title: String,
+        state: String
+      },
+      {
+        toJSON: { virtuals: true }
+      }
+    )
   })
 
   afterEach(() => {
@@ -53,7 +58,7 @@ describe('Accessible fields plugin', () => {
         const ability = defineAbility(can => can('read', 'Post'))
 
         expect(Post.accessibleFieldsBy(ability).sort())
-          .toEqual(['_id', '__v', 'title', 'state'].sort())
+          .toEqual(['_id', '__v', 'id', 'title', 'state'].sort())
       })
 
       it('returns fields for `read` action by default', () => {
@@ -116,14 +121,35 @@ describe('Accessible fields plugin', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { except: '_id' })
         Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
-        expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state', '__v'])
+        expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state', '__v', 'id'])
       })
 
       it('returns all fields except specified in `except` option as array', () => {
         PostSchema.plugin(accessibleFieldsPlugin, { except: ['_id', '__v'] })
         Post = mongoose.model<Post, PostModel>('Post', PostSchema)
 
-        expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state'])
+        expect(Post.accessibleFieldsBy(ability)).toEqual(['title', 'state', 'id'])
+      })
+    })
+
+    describe('when using virtuals', () => {
+      beforeEach(() => {
+        PostSchema.plugin(accessibleFieldsPlugin, { except: ['_id', '__v', 'title', 'state'] })
+        PostSchema.virtual('slug')
+        Post = mongoose.model<Post, PostModel>('Post', PostSchema)
+      })
+
+      it('returns all virtual fields for model if ability does not have restrictions on rules', () => {
+        const ability = defineAbility(can => can('read', 'Post'))
+
+        expect(Post.accessibleFieldsBy(ability).sort())
+          .toEqual(['id', 'slug'].sort())
+      })
+
+      it('returns virtual fields for `read` action', () => {
+        const ability = defineAbility(can => can('read', 'Post', ['slug']))
+
+        expect(Post.accessibleFieldsBy(ability)).toEqual(['slug'])
       })
     })
   })

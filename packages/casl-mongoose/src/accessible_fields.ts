@@ -8,7 +8,10 @@ export type AccessibleFieldsOptions =
   } &
   ({ only: string | string[] } | { except: string | string[] });
 
-export const getSchemaPaths: AccessibleFieldsOptions['getFields'] = schema => Object.keys((schema as { paths: object }).paths);
+export const getSchemaPaths: AccessibleFieldsOptions['getFields'] = schema => [
+  ...Object.keys((schema as { paths: object }).paths),
+  ...Object.keys((schema as { virtuals: object }).virtuals)
+];
 
 function fieldsOf(schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) {
   const fields = options.getFields!(schema);
