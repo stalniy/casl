@@ -44,13 +44,13 @@ importers:
       rxjs: ^7.5.5
       tslib: ^2.0.0
       typescript: ~4.8.0
-      zone.js: ~0.12.0
+      zone.js: ~0.13.0
     devDependencies:
       '@angular-devkit/build-angular': 15.0.4_ltfrn6fmtzn5tkculqt6r534ka
       '@angular/common': 15.0.4_g4vjwblvzjkpzhwwygeezwczwm
       '@angular/compiler': 15.0.4_@angular+core@15.0.4
       '@angular/compiler-cli': 15.0.4_ewn2ril7hiljdjavj4fhvjxokq
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       '@angular/platform-browser': 15.0.4_wcjhsjedbutghxn65tv34lliyq
       '@angular/platform-browser-dynamic': 15.0.4_hnn6v3m7xpfwy5wugozvutqsyi
       '@casl/ability': link:../casl-ability
@@ -61,7 +61,7 @@ importers:
       rxjs: 7.5.5
       tslib: 2.2.0
       typescript: 4.8.4
-      zone.js: 0.12.0
+      zone.js: 0.13.0
 
   packages/casl-aurelia:
     specifiers:
@@ -382,7 +382,7 @@ packages:
       '@angular/core': 15.0.4
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       rxjs: 7.5.5
       tslib: 2.4.0
     dev: true
@@ -420,11 +420,11 @@ packages:
       '@angular/core':
         optional: true
     dependencies:
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       tslib: 2.4.0
     dev: true
 
-  /@angular/core/15.0.4_rxjs@7.5.5+zone.js@0.12.0:
+  /@angular/core/15.0.4_rxjs@7.5.5+zone.js@0.13.0:
     resolution: {integrity: sha512-Xf8Nuu0iM/VjQHPS4A0jufqTYZCfiGqc0iAD7j9zM3TD6caQ3OP4mxXVYYTpIG+APKel38+Gol8cpQB/8PVbqQ==}
     engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0}
     peerDependencies:
@@ -433,7 +433,7 @@ packages:
     dependencies:
       rxjs: 7.5.5
       tslib: 2.4.0
-      zone.js: 0.12.0
+      zone.js: 0.13.0
     dev: true
 
   /@angular/platform-browser-dynamic/15.0.4_hnn6v3m7xpfwy5wugozvutqsyi:
@@ -447,7 +447,7 @@ packages:
     dependencies:
       '@angular/common': 15.0.4_g4vjwblvzjkpzhwwygeezwczwm
       '@angular/compiler': 15.0.4_@angular+core@15.0.4
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       '@angular/platform-browser': 15.0.4_wcjhsjedbutghxn65tv34lliyq
       tslib: 2.4.0
     dev: true
@@ -464,7 +464,7 @@ packages:
         optional: true
     dependencies:
       '@angular/common': 15.0.4_g4vjwblvzjkpzhwwygeezwczwm
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       tslib: 2.4.0
     dev: true
 
@@ -8571,7 +8571,7 @@ packages:
     dependencies:
       '@angular-devkit/build-angular': 15.0.4_ltfrn6fmtzn5tkculqt6r534ka
       '@angular/compiler-cli': 15.0.4_ewn2ril7hiljdjavj4fhvjxokq
-      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.12.0
+      '@angular/core': 15.0.4_rxjs@7.5.5+zone.js@0.13.0
       '@angular/platform-browser-dynamic': 15.0.4_hnn6v3m7xpfwy5wugozvutqsyi
       bs-logger: 0.2.6
       esbuild-wasm: 0.15.13
@@ -12338,8 +12338,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  /zone.js/0.12.0:
-    resolution: {integrity: sha512-XtC+I5dXU14HrzidAKBNMqneIVUykLEAA1x+v4KVrd6AUPWlwYORF8KgsVqvgdHiKZ4BkxxjvYi/ksEixTPR0Q==}
+  /zone.js/0.13.0:
+    resolution: {integrity: sha512-7m3hNNyswsdoDobCkYNAy5WiUulkMd3+fWaGT9ij6iq3Zr/IwJo4RMCYPSDjT+r7tnPErmY9sZpKhWQ8S5k6XQ==}
     dependencies:
       tslib: 2.4.1
     dev: true
