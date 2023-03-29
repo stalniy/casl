@@ -7,6 +7,11 @@ interface BaseRawRule<Conditions> {
   inverted?: boolean
   /** explains the reason of why rule does not allow to do something */
   reason?: string
+  /** Any custom information.
+   * Usually can be used to trace rule source.
+   * Also can be used to store additional options related with action.
+   */
+  additionalData?: any
 }
 
 export interface ClaimRawRule<A extends string> extends BaseRawRule<undefined> {
