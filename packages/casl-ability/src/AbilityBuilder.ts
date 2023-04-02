@@ -1,16 +1,11 @@
 import { AnyMongoAbility, createMongoAbility } from './Ability';
-import { AnyAbility, AbilityOptionsOf } from './PureAbility';
-import { RawRuleOf, Generics } from './RuleIndex';
-import {
-  ExtractSubjectType as E,
-  AbilityTuple,
-  SubjectType,
-  TaggedInterface,
-  Normalize,
-  AnyObject,
-  AnyClass,
-} from './types';
 import { ProduceGeneric } from './hkt';
+import { AbilityOptionsOf, AnyAbility } from './PureAbility';
+import { Generics, RawRuleOf } from './RuleIndex';
+import {
+  AbilityTuple, AnyClass, AnyObject, ExtractSubjectType as E, Normalize, SubjectType,
+  TaggedInterface
+} from './types';
 
 function isAbilityClass(factory: AbilityFactory<any>): factory is AnyClass {
   return typeof factory.prototype.possibleRulesFor === 'function';
@@ -42,7 +37,7 @@ type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClas
 type ConditionsOf<T extends AnyAbility, I extends {}> =
   ProduceGeneric<Generics<T>['conditions'], I>;
 type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
-  ? S extends T[1] ? T[0] : never
+  ? S extends Extract<T[1], SubjectType> ? T[0] : never
   : never;
 type ActionOf<T extends AnyAbility, S extends SubjectType> = ActionFrom<Generics<T>['abilities'], S>;
 type SubjectTypeOf<T extends AnyAbility> = E<Normalize<Generics<T>['abilities']>[1]>;
@@ -77,34 +72,56 @@ type BuilderCanParametersWithFields<
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 
-export class AbilityBuilder<T extends AnyAbility> {
-  public rules: RawRuleOf<T>[] = [];
-  private readonly _createAbility: AbilityFactory<T>;
-
-  constructor(AbilityType: AbilityFactory<T>) {
-    this._createAbility = AbilityType;
-    this.can = this.can.bind(this as any);
-    this.cannot = this.cannot.bind(this as any);
-    this.build = this.build.bind(this as any);
-  }
-
-  can<
-    I extends InstanceOf<T, S>,
-    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>;
-  can<
+type AddRule<T extends AnyAbility> = {
+  <
     I extends InstanceOf<T, S>,
     F extends string = Keys<I>,
     S extends SubjectTypeOf<T> = SubjectTypeOf<T>
   >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>;
-  can(
+  <
+    I extends InstanceOf<T, S>,
+    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
+  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>;
+};
+
+export class AbilityBuilder<T extends AnyAbility> {
+  public rules: RawRuleOf<T>[] = [];
+  private readonly _createAbility: AbilityFactory<T>;
+  public can: AddRule<T>;
+  public cannot: AddRule<T>;
+  public build: (options?: AbilityOptionsOf<T>) => T;
+
+  constructor(AbilityType: AbilityFactory<T>) {
+    this._createAbility = AbilityType;
+
+    this.can = (
+      action: string | string[],
+      subject?: SubjectType | SubjectType[],
+      conditionsOrFields?: string | string[] | Generics<T>['conditions'],
+      conditions?: Generics<T>['conditions']
+    ) => this._addRule(action, subject, conditionsOrFields, conditions, false);
+    this.cannot = (
+      action: string | string[],
+      subject?: SubjectType | SubjectType[],
+      conditionsOrFields?: string | string[] | Generics<T>['conditions'],
+      conditions?: Generics<T>['conditions']
+    ) => this._addRule(action, subject, conditionsOrFields, conditions, true);
+
+    this.build = options => (isAbilityClass(this._createAbility)
+      ? new this._createAbility(this.rules, options)
+      : this._createAbility(this.rules, options));
+  }
+
+  private _addRule(
     action: string | string[],
     subject?: SubjectType | SubjectType[],
     conditionsOrFields?: string | string[] | Generics<T>['conditions'],
-    conditions?: Generics<T>['conditions']
+    conditions?: Generics<T>['conditions'],
+    inverted?: boolean
   ): RuleBuilder<T> {
     const rule = { action } as RawRuleOf<T>;
 
+    if (inverted) rule.inverted = inverted;
     if (subject) {
       rule.subject = subject;
 
@@ -120,34 +137,7 @@ export class AbilityBuilder<T extends AnyAbility> {
     }
 
     this.rules.push(rule);
-
     return new RuleBuilder(rule);
-  }
-
-  cannot<
-    I extends InstanceOf<T, S>,
-    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParameters<S, I, T>): RuleBuilder<T>;
-  cannot<
-    I extends InstanceOf<T, S>,
-    F extends string = Keys<I>,
-    S extends SubjectTypeOf<T> = SubjectTypeOf<T>
-  >(...args: BuilderCanParametersWithFields<S, I, F | Keys<I>, T>): RuleBuilder<T>;
-  cannot(
-    action: string | string[],
-    subject?: SubjectType | SubjectType[],
-    conditionsOrFields?: string | string[] | Generics<T>['conditions'],
-    conditions?: Generics<T>['conditions'],
-  ): RuleBuilder<T> {
-    const builder = (this as any).can(action, subject, conditionsOrFields, conditions);
-    builder._rule.inverted = true;
-    return builder;
-  }
-
-  build(options?: AbilityOptionsOf<T>) {
-    return isAbilityClass(this._createAbility)
-      ? new this._createAbility(this.rules, options)
-      : this._createAbility(this.rules, options);
   }
 }
 

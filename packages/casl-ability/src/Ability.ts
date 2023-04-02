@@ -29,12 +29,12 @@ export interface MongoAbility<
 > extends PureAbility<A, C> {}
 
 export function createMongoAbility<
+  T extends AnyMongoAbility = MongoAbility
+>(rules?: RawRuleOf<T>[], options?: AbilityOptionsOf<T>): T;
+export function createMongoAbility<
   A extends AbilityTuple = AbilityTuple,
   C extends MongoQuery = MongoQuery
 >(rules?: RawRuleFrom<A, C>[], options?: AbilityOptions<A, C>): MongoAbility<A, C>;
-export function createMongoAbility<
-  T extends AnyMongoAbility = AnyMongoAbility
->(rules?: RawRuleOf<T>[], options?: AbilityOptionsOf<T>): T;
 export function createMongoAbility(rules: any[] = [], options = {}): AnyMongoAbility {
   return new PureAbility(rules, {
     conditionsMatcher: mongoQueryMatcher,
