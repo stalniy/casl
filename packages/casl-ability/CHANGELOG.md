@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.4.0](https://github.com/stalniy/casl/compare/@casl/ability@6.3.4...@casl/ability@6.4.0) (2023-04-02)
+
+
+### Features
+
+* adds `actionsFor(subjectType)` method that returns all actions associated with particular subject type ([f2d7e17](https://github.com/stalniy/casl/commit/f2d7e175e9d987bcb8f89936c519df3a5c0b63ac)), closes [#497](https://github.com/stalniy/casl/issues/497)
+
 ## [6.3.4](https://github.com/stalniy/casl/compare/@casl/ability@6.3.3...@casl/ability@6.3.4) (2023-04-02)
 
 
