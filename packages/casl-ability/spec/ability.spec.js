@@ -745,8 +745,8 @@ describe('Ability', () => {
     it('returns all actions including aliases associated with provided subject type', () => {
       const resolveAction = createAliasResolver({
         modify: ['read', 'update']
-      });
-      ability = defineAbility((can) => can('modify', 'Post'), { resolveAction });
+      })
+      ability = defineAbility(can => can('modify', 'Post'), { resolveAction })
 
       expect(ability.actionsFor('Post')).to.deep.equal([
         'modify',
@@ -768,9 +768,7 @@ describe('Ability', () => {
     })
 
     it('returns actions associated with "all" subject type if there is no actions for provided one', () => {
-      ability = defineAbility((can) => {
-        can('read', 'all')
-      })
+      ability = defineAbility(can => can('read', 'all'))
 
       expect(ability.actionsFor('Post')).to.deep.equal([
         'read',
