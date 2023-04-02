@@ -76,11 +76,6 @@ const defaultActionEntry = () => ({
   merged: false
 });
 const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActionEntry>>();
-const analyze = (index: any, rule: Rule<any, any>) => {
-  if (!index._hasPerFieldRules && rule.fields) {
-    index._hasPerFieldRules = true;
-  }
-};
 
 type AbilitySubjectTypeParameters<T extends Abilities, IncludeField extends boolean = true> =
   AbilityParameters<
@@ -95,11 +90,11 @@ type AbilitySubjectTypeParameters<T extends Abilities, IncludeField extends bool
 
 export class RuleIndex<A extends Abilities, Conditions> {
   private _hasPerFieldRules: boolean = false;
-  private _events: Events<this> = new Map();
-  private _indexedRules!: IndexTree<A, Conditions>;
-  private _rules!: RawRuleFrom<A, Conditions>[];
-  private readonly _ruleOptions!: RuleOptions<Conditions>;
-  private readonly _detectSubjectType!: Required<RuleIndexOptions<A, Conditions>>['detectSubjectType'];
+  private _events?: Events<this>;
+  private _indexedRules: IndexTree<A, Conditions>;
+  private _rules: RawRuleFrom<A, Conditions>[];
+  private readonly _ruleOptions: RuleOptions<Conditions>;
+  private readonly _detectSubjectType: this['detectSubjectType'];
   private readonly _anyAction: string;
   private readonly _anySubjectType: string;
   readonly [ɵabilities]!: A;
@@ -116,7 +111,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     };
     this._anyAction = options.anyAction || 'manage';
     this._anySubjectType = options.anySubjectType || 'all';
-    this._detectSubjectType = options.detectSubjectType || detectSubjectType;
+    this._detectSubjectType = options.detectSubjectType || (detectSubjectType as this['detectSubjectType']);
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
   }
@@ -126,8 +121,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
   }
 
   detectSubjectType(object?: Normalize<A>[1]): ExtractSubjectType<Normalize<A>[1]> {
-    if (isSubjectType(object)) return object;
-    if (!object) return this._anySubjectType;
+    if (isSubjectType(object)) return object as ExtractSubjectType<Normalize<A>[1]>;
+    if (!object) return this._anySubjectType as ExtractSubjectType<Normalize<A>[1]>;
     return this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
   }
 
@@ -154,7 +149,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
       const rule = new Rule(rawRules[i], this._ruleOptions, priority);
       const actions = wrapArray(rule.action);
       const subjects = wrapArray(rule.subject || this._anySubjectType);
-      analyze(this, rule);
+      if (!this._hasPerFieldRules && rule.fields) this._hasPerFieldRules = true;
 
       for (let k = 0; k < subjects.length; k++) {
         const subjectRules = getOrDefault(indexedRules, subjects[k], defaultSubjectEntry);
@@ -214,21 +209,45 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return rules.filter(rule => rule.matchesField(field));
   }
 
+  actionsFor(subjectType: ExtractSubjectType<Normalize<A>[1]>): string[] {
+    if (!isSubjectType(subjectType)) {
+      throw new Error('"actionsFor" accepts only subject types (i.e., string or class) as a parameter');
+    }
+
+    const actions = new Set<string>();
+
+    const subjectRules = this._indexedRules.get(subjectType);
+    if (subjectRules) {
+      Array.from(subjectRules.keys()).forEach(action => actions.add(action));
+    }
+
+    const anySubjectTypeRules = subjectType !== this._anySubjectType
+      ? this._indexedRules.get(this._anySubjectType)
+      : undefined;
+    if (anySubjectTypeRules) {
+      Array.from(anySubjectTypeRules.keys()).forEach(action => actions.add(action));
+    }
+
+    return Array.from(actions);
+  }
+
   on<T extends keyof EventsMap<this>>(
     event: T,
     handler: EventsMap<Public<this>>[T]
   ): Unsubscribe {
-    const tail = this._events.get(event) || null;
+    this._events = this._events || new Map();
+    const events = this._events;
+    const tail = events.get(event) || null;
     const item = linkedItem(handler, tail);
-    this._events.set(event, item);
+    events.set(event, item);
 
     return () => {
-      const currentTail = this._events.get(event);
+      const currentTail = events.get(event);
 
       if (!item.next && !item.prev && currentTail === item) {
-        this._events.delete(event);
+        events.delete(event);
       } else if (item === currentTail) {
-        this._events.set(event, item.prev);
+        events.set(event, item.prev);
       }
 
       unlinkItem(item);
@@ -239,6 +258,8 @@ export class RuleIndex<A extends Abilities, Conditions> {
     name: T,
     payload: Parameters<EventsMap<this>[T]>[0]
   ) {
+    if (!this._events) return;
+
     let current = this._events.get(name) || null;
     while (current !== null) {
       const prev = current.prev ? cloneLinkedItem(current.prev) : null;

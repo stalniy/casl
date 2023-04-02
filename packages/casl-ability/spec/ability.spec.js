@@ -727,4 +727,60 @@ describe('Ability', () => {
       ])
     })
   })
+
+  describe('`actionsFor`', () => {
+    it('returns all actions associated with provided subject type', () => {
+      ability = defineAbility((can, cannot) => {
+        can('read', 'Post')
+        can('update', 'Post')
+        cannot('read', 'Post', { private: true })
+      })
+
+      expect(ability.actionsFor('Post')).to.deep.equal([
+        'read',
+        'update'
+      ])
+    })
+
+    it('returns all actions including aliases associated with provided subject type', () => {
+      const resolveAction = createAliasResolver({
+        modify: ['read', 'update']
+      });
+      ability = defineAbility((can) => can('modify', 'Post'), { resolveAction });
+
+      expect(ability.actionsFor('Post')).to.deep.equal([
+        'modify',
+        'read',
+        'update'
+      ])
+    })
+
+    it('returns all actions including those that are associated with "all" subject type', () => {
+      ability = defineAbility((can) => {
+        can('read', 'all')
+        can('update', 'Post')
+      })
+
+      expect(ability.actionsFor('Post')).to.deep.equal([
+        'update',
+        'read',
+      ])
+    })
+
+    it('returns actions associated with "all" subject type if there is no actions for provided one', () => {
+      ability = defineAbility((can) => {
+        can('read', 'all')
+      })
+
+      expect(ability.actionsFor('Post')).to.deep.equal([
+        'read',
+      ])
+    })
+
+    it('returns an empty array if there are no actions for provided subject type and no actions for "all" subject type', () => {
+      ability = defineAbility(() => {})
+
+      expect(ability.actionsFor('Post')).to.have.length(0)
+    })
+  })
 })

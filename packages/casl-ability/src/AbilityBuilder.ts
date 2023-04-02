@@ -1,4 +1,4 @@
-import { AnyMongoAbility, createMongoAbility } from './Ability';
+import { AnyMongoAbility, createMongoAbility, MongoAbility } from './Ability';
 import { ProduceGeneric } from './hkt';
 import { AbilityOptionsOf, AnyAbility } from './PureAbility';
 import { Generics, RawRuleOf } from './RuleIndex';
@@ -147,10 +147,10 @@ type DSL<T extends AnyAbility, R> = (
 ) => R;
 
 export function defineAbility<
-  T extends AnyMongoAbility
+  T extends AnyMongoAbility = MongoAbility
 >(define: DSL<T, Promise<void>>, options?: AbilityOptionsOf<T>): Promise<T>;
 export function defineAbility<
-  T extends AnyMongoAbility
+  T extends AnyMongoAbility = MongoAbility
 >(define: DSL<T, void>, options?: AbilityOptionsOf<T>): T;
 export function defineAbility<
   T extends AnyMongoAbility
