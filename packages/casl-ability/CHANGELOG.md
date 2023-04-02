@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.3.4](https://github.com/stalniy/casl/compare/@casl/ability@6.3.3...@casl/ability@6.3.4) (2023-04-02)
+
+
+### Bug Fixes
+
+* **builder:** makes AbilityBuilder bound methods define as arrow functions ([e724741](https://github.com/stalniy/casl/commit/e724741e9e2ae54511f19ef3d34231932e3c744e)), closes [#736](https://github.com/stalniy/casl/issues/736)
+
 ## [6.3.3](https://github.com/stalniy/casl/compare/@casl/ability@6.3.2...@casl/ability@6.3.3) (2022-12-08)
 
 
