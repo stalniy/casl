@@ -52,8 +52,6 @@ Unfortunately, there is no easy way to automate this, except of adding additiona
 
 > To get more details about object type detection, please read [CASL Subject type detection](https://casl.js.org/v5/en/guide/subject-type-detection)
 
-However you can use [casl-prisma-generator](https://www.npmjs.com/package/casl-prisma-generator) to auto generate the subjects. 
-
 ### Note on Prisma Query runtime interpreter
 
 `@casl/prisma` uses [ucast](https://github.com/stalniy/ucast) to interpret Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where) in JavaScript runtime. However, there are few caveats:
@@ -128,6 +126,8 @@ type AppSubjects = Subjects<{
   User: User
 }>; // 'User' | Model<User, 'User'>
 ```
+Or generate it using [casl-prisma-generator](https://www.npmjs.com/package/casl-prisma-generator).
+
 
 To support rule definition for `all`, we just need to explicitly do it:
 
