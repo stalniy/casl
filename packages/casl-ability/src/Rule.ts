@@ -42,6 +42,7 @@ export class Rule<A extends Abilities, C> {
   public readonly conditions!: C | undefined;
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
+  public readonly origin!: RawRule<ToAbilityTypes<A>, C>;
   public readonly priority!: number;
 
   constructor(
@@ -56,6 +57,7 @@ export class Rule<A extends Abilities, C> {
     this.inverted = !!rule.inverted;
     this.conditions = rule.conditions;
     this.reason = rule.reason;
+    this.origin = rule;
     this.fields = rule.fields ? wrapArray(rule.fields) : undefined;
     this.priority = priority;
     this._options = options;
