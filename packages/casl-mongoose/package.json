@@ -41,7 +41,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^6.3.2",
-    "mongoose": "^6.0.13"
+    "mongoose": "^6.0.13 || ^7.0.0"
   },
   "devDependencies": {
     "@casl/ability": "^6.0.0",
@@ -49,7 +49,7 @@
     "@types/jest": "^29.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "mongoose": "^6.7.0"
+    "mongoose": "^7.0.0"
   },
   "files": [
     "dist",
