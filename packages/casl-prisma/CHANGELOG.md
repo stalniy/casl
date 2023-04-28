@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.4.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.3...@casl/prisma@1.4.0) (2023-04-28)
+
+
+### Features
+
+* exposes `WhereInput` type and removes restriction on Model inside PrismaQuery ([f7a26d4](https://github.com/stalniy/casl/commit/f7a26d424c96c4e0bd99c44952f60ef37f8fd882))
+
 ## [1.3.3](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.2...@casl/prisma@1.3.3) (2022-11-18)
 
 
