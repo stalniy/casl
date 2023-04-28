@@ -2,7 +2,7 @@ import { AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRule
 import { createAbilityFactory, createAccessibleByFactory, prismaQuery } from './runtime';
 import { WhereInputPerModel, ModelName, PrismaQuery } from './prismaClientBoundTypes';
 
-export type { PrismaQuery } from './prismaClientBoundTypes';
+export type { PrismaQuery, WhereInput } from './prismaClientBoundTypes';
 export type { Model, Subjects } from './runtime';
 export { prismaQuery, ParsingQueryError } from './runtime';
 
