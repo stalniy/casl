@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.5.0](https://github.com/stalniy/casl/compare/@casl/ability@6.4.0...@casl/ability@6.5.0) (2023-04-28)
+
+
+### Features
+
+* added origin field to Rule class ([#752](https://github.com/stalniy/casl/issues/752)) ([073d355](https://github.com/stalniy/casl/commit/073d355cb108f333ded6cbc03ad0305ac4595295))
+
 # [6.4.0](https://github.com/stalniy/casl/compare/@casl/ability@6.3.4...@casl/ability@6.4.0) (2023-04-02)
 
 
