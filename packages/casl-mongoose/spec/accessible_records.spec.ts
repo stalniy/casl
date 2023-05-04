@@ -132,15 +132,6 @@ describe('Accessible Records Plugin', () => {
           })
       })
 
-      it('throws `ForbiddenError` when callback is passed to `exec`', async () => {
-        await wrapInPromise(cb => query.exec(cb))
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
       it('throws `ForbiddenError` for item request', async () => {
         await query.findOne().exec()
           .then(() => fail('should not execute'))
@@ -152,15 +143,6 @@ describe('Accessible Records Plugin', () => {
 
       it('throws `ForbiddenError` when `findOne` is called', async () => {
         await query.findOne()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for item request when callback is passed to `exec`', async () => {
-        await wrapInPromise(cb => query.findOne().exec(cb))
           .then(() => fail('should not execute'))
           .catch((error: any) => {
             expect(error).toBeInstanceOf(ForbiddenError)
@@ -208,7 +190,7 @@ describe('Accessible Records Plugin', () => {
         const anotherAbility = createMongoAbility([
           { action: 'read', subject: Post }
         ], {
-          detectSubjectType: o => o.constructor,
+          detectSubjectType: o => o.constructor as SubjectType,
         })
 
         await Post.find().accessibleBy(anotherAbility, 'update')
@@ -220,11 +202,4 @@ describe('Accessible Records Plugin', () => {
       })
     })
   })
-
-  type Callback = (err: mongoose.CallbackError, result: unknown) => void
-  function wrapInPromise(callback: (fn: Callback) => void) {
-    return new Promise((resolve, reject) => {
-      callback((error, result) => error ? reject(error) : resolve(result))
-    })
-  }
 })
