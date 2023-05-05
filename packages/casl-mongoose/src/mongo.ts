@@ -6,6 +6,9 @@ function convertToMongoQuery(rule: AnyMongoAbility['rules'][number]) {
   return rule.inverted ? { $nor: [conditions] } : conditions;
 }
 
+/**
+ * Converts ability action + subjectType to MongoDB query
+ */
 export function toMongoQuery<T extends AnyMongoAbility>(
   ability: T,
   subjectType: Parameters<T['rulesFor']>[1],
