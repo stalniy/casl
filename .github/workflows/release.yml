@@ -22,3 +22,11 @@ jobs:
             pnpm_options[${#pnpm_options[@]}]="--filter ./${path}"
           done
           pnpm run "${pnpm_options[@]}" release
+
+          released_packages=()
+          for path in $changed_packages; do
+            package_name=$(grep '"name":' $path | cut -d : -f 2 | cut -d '"' -f 2)
+            package_version=$(grep '"version":' $path | cut -d : -f 2 | cut -d '"' -f 2)
+            released_packages[${#released_packages[@]}]="${package_name}@${package_version}"
+          done
+          gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
