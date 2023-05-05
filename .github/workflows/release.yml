@@ -6,7 +6,7 @@ on:
 
 jobs:
   release:
-    if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'Release')
+    if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -14,8 +14,8 @@ jobs:
 
       - name: Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
         run: |
           changed_files=$(gh pr view --json files --jq '.files.[].path' | cut -d / -f 1,2 | uniq)
           echo "pnpm -r --filter ${changed_files} release"
