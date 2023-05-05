@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: ${{ github.head_ref || github.ref_name }}
+        ref: ${{ github.sha }}
     - uses: pnpm/action-setup@v2
       with:
         version: 8.4.0
