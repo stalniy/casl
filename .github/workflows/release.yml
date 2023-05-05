@@ -6,12 +6,12 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'released')
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
       - name: Release
-        if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'released')
         env:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
