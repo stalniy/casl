@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.5.1](https://github.com/stalniy/casl/compare/@casl/ability@6.5.0...@casl/ability@6.5.1) (2023-05-05)
+
+
+### Bug Fixes
+
+* adds jsdoc comments ([#768](https://github.com/stalniy/casl/issues/768)) ([6ca6105](https://github.com/stalniy/casl/commit/6ca6105240e2a072f053f5d38b2c5c920f9d31b9))
+* adds jsdoc comments to test release trigger ([#766](https://github.com/stalniy/casl/issues/766)) ([fcdf8c8](https://github.com/stalniy/casl/commit/fcdf8c87798c438427c3df65fa5e537cf92dd195))
+* removes release testing comments ([#767](https://github.com/stalniy/casl/issues/767)) ([67ccbc9](https://github.com/stalniy/casl/commit/67ccbc989f20e3f98adaa97bb0c8126fbe28ee75))
+
 # [6.5.0](https://github.com/stalniy/casl/compare/@casl/ability@6.4.0...@casl/ability@6.5.0) (2023-04-28)
 
 
