@@ -10,7 +10,28 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.4.0
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        env:
+          cache-name: casl-deps
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: pnpm install
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
