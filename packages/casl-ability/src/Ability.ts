@@ -28,6 +28,9 @@ export interface MongoAbility<
   C extends MongoQuery = MongoQuery
 > extends PureAbility<A, C> {}
 
+/**
+ * Creates Ability with MongoDB conditions matcher
+ */
 export function createMongoAbility<
   T extends AnyMongoAbility = MongoAbility
 >(rules?: RawRuleOf<T>[], options?: AbilityOptionsOf<T>): T;
