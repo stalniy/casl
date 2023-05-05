@@ -38,11 +38,11 @@ jobs:
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
         run: |
           changed_packages=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)
-          pnpm_options=(-r)
+          pnpm_options=''
           for path in $changed_packages; do
-            pnpm_options[${#pnpm_options[@]}]="--filter ./${path}"
+            pnpm_options="${pnpm_options} --filter ./${path}"
           done
-          pnpm run "${pnpm_options[@]}" release
+          pnpm run -r $pnpm_options release
 
           released_packages=()
           for path in $changed_packages; do
