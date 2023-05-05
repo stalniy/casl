@@ -56,7 +56,7 @@ jobs:
     - name: lint
       run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
     - name: test
-      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' test -- --coverage
+      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' test --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
