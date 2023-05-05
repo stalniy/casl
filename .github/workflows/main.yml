@@ -38,12 +38,16 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       run: pnpm install
+    - name: Get base sha
+      id: base-commit
+      run: |
+        echo "sha=${{ github.event.pull_request.base.sha || github.event.before }}" >> $GITHUB_OUTPUT
     - name: Build
-      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' build
+      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' build
     - name: lint
-      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' lint
+      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
     - name: test
-      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' test -- --coverage
+      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' test -- --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
