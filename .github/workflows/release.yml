@@ -6,7 +6,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'released')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'released')
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -21,4 +21,4 @@ jobs:
           for path in $changed_packages; do
             pnpm_options[${#pnpm_options[@]}]="--filter ./${path}"
           done
-          echo "pnpm run ${pnpm_options[@]} release"
+          pnpm run "${pnpm_options[@]}" release
