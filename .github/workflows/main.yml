@@ -17,17 +17,16 @@ jobs:
     strategy:
       matrix:
         node:
-          - 12 # 30 Apr 2022
-          - 14 # 30 Apr 2023
-          - 16 # 11 Sep 2023
+          - 16 # 2023-09-11
+          - 18 # 2025-04-30
           - latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: pnpm/action-setup@v1.2.1
       with:
-        version: 5.15.0
+        version: 8.4.0
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       env:
         cache-name: casl-deps
       with:
@@ -40,11 +39,11 @@ jobs:
     - name: Install dependencies
       run: pnpm install
     - name: Build
-      run: pnpm run -r build
-    - name: lint & test
-      run: |
-        pnpm run -r lint
-        pnpm run -r test -- --coverage
+      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' build
+    - name: lint
+      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' lint
+    - name: test
+      run: pnpm run -r --filter '[${{ github.event.pull_request.base.sha }}]' test -- --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
