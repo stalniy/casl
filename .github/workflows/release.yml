@@ -1,0 +1,21 @@
+name: Release packages
+on:
+  pull_request:
+    types: [closed, labeled]
+    branches: [master]
+
+jobs:
+  release:
+    if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'Release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          changed_files=$(gh pr view --json files --jq '.files.[].path' | cut -d / -f 1,2 | uniq)
+          echo "pnpm -r --filter ${changed_files} release"
