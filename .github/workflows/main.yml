@@ -52,11 +52,11 @@ jobs:
       run: |
         echo "sha=${{ github.event.pull_request.base.sha || github.event.before }}" >> $GITHUB_OUTPUT
     - name: Build
-      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' build
+      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]...' build
     - name: lint
       run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
     - name: test
-      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' test --coverage
+      run: pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
