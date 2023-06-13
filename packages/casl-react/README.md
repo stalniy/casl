@@ -304,6 +304,15 @@ export default () => {
 
 > See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`
 
+## `useAbility` usage within hooks
+
+Using the return value `ability` of `const ability = useAbility(AbilityContext)` within a hook dependencies won't trigger a rerender when the rules are updated. You have to specify `ability.rules`:
+
+```jsx
+const posts = React.useMemo(() => getPosts(ability), [ability.rules]);
+// ✅ calling ability.update will update the list of posts
+```
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
