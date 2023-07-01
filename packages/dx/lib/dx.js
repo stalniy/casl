@@ -46,7 +46,7 @@ const COMMANDS = {
   },
   rollup() {
     return {
-      args: ['--config', configPath('rollup.config.js')]
+      args: ['--config', configPath('rollup.config.mjs')]
     };
   },
   tsc(cliArgs) {

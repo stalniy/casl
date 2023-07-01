@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import { dirname, basename, extname } from 'path';
-import babelConfig from './babel.config';
+import babelConfig from './babel.config.mjs';
 
 function extensionify(options) {
   return {
