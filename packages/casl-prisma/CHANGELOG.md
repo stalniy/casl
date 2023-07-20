@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.4.0...@casl/prisma@1.4.1) (2023-07-20)
+
 # [1.4.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.3...@casl/prisma@1.4.0) (2023-04-28)
 
 
