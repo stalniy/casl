@@ -1,35 +1,35 @@
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import sourcemaps from 'rollup-plugin-sourcemaps';
-import { dirname, basename, extname } from 'path';
+import { dirname, basename, extname, join as joinPath } from 'path';
 import babelConfig from './babel.config.mjs';
-
-function extensionify(options) {
-  return {
-    name: 'extensionify',
-    renderChunk(code) {
-      return code.replace(/((?:import|export)[^}]+\}\s*from\s*)(['"])(\.\/[^'"]+)/g, (_, importedPackage, quote, packageName) => {
-        return `${importedPackage}${quote}${packageName}${options.ext}`;
-      });
-    }
-  }
-}
 
 const output = (config) => {
   let prop = 'dir';
   let path = `dist/${config.id}${config.subpath}`;
+  let pathsMapping = {};
 
   if (config.ext) {
     prop = 'file';
     path += `/${basename(config.input, extname(config.input))}${config.ext}`;
   }
 
+  const relativeExternalModules = config.external.filter(value => typeof value === 'string' && value.startsWith('./'));
+  if (config.ext && relativeExternalModules.length) {
+    relativeExternalModules.forEach((path) => {
+      pathsMapping[joinPath(process.cwd(), 'src', path)] = path + config.ext;
+    });
+  }
+
+  console.log(pathsMapping);
+
   return {
     [prop]: path,
     format: config.format,
     name: config.name,
     globals: config.globals,
+    paths: pathsMapping
   };
 };
 
@@ -55,9 +55,6 @@ const build = config => ({
           }
         })
         : null,
-      config.ext
-        ? extensionify({ ext: config.ext })
-        : null
     ]
   },
   plugins: [

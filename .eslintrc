@@ -3,13 +3,29 @@
   "ignorePatterns": [
     "*.d.ts"
   ],
-  "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base"
-  ],
-  "plugins": ["import"],
+  "plugins": ["import", "@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "settings": {
+    // Apply special parsing for TypeScript files
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"],
+    },
+    // Append "ts" extensions to Airbnb "import/resolver" setting
+    // Original: [".mjs", ".js", ".json"]
+    "import/resolver": {
+      "node": {
+        "extensions": [".mjs", ".js", ".json", ".ts", ".d.ts"],
+      },
+    },
+    // Append "ts" extensions to Airbnb "import/extensions" setting
+    // Original: [".js", ".mjs", ".jsx"]
+    "import/extensions": [".js", ".mjs", ".jsx", ".ts", ".tsx", ".d.ts"],
+    // Resolve type definition packages
+    "import/external-module-folders": ["node_modules", "node_modules/@types"],
   },
   "rules": {
     "max-len": ["error", {
@@ -21,31 +37,13 @@
     "@typescript-eslint/lines-between-class-members": ["error", "always", {
       "exceptAfterSingleLine": true
     }],
-    "prefer-destructuring": "off",
-    "import/prefer-default-export": "off",
-    "no-plusplus": "off",
-    "comma-dangle": "off",
     "@typescript-eslint/comma-dangle": "off",
-    "no-underscore-dangle": "off",
-    "no-param-reassign": ["error", { "props": false }],
-    "no-mixed-operators": "off",
-    "no-prototype-builtins": "off",
-    "no-confusing-arrow": "off",
-    "no-return-assign": "off",
-    "arrow-body-style": "off",
-    "prefer-spread": "off",
-    "max-classes-per-file": "off",
-    "arrow-parens": ["error", "as-needed", {
-      "requireForBlockBody": true
-    }],
-    "object-curly-newline": ["error", {
-      "ObjectPattern": "never"
-    }],
-    "func-names": "off",
-    "class-methods-use-this": "warn",
-    "no-multi-assign": "off",
     "no-redeclare": "off",
-    "@typescript-eslint/no-redeclare": ["error"]
+    "@typescript-eslint/no-redeclare": ["error"],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-use-before-define": "off"
   },
   "overrides": [
     {
@@ -62,7 +60,6 @@
       },
       "rules": {
         "@typescript-eslint/semi": ["error", "never"],
-        "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "import/no-extraneous-dependencies": "off"
       }
