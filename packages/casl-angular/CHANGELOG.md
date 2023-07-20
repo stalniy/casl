@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.2.1](https://github.com/stalniy/casl/compare/@casl/angular@8.2.0...@casl/angular@8.2.1) (2023-07-20)
+
 # [8.2.0](https://github.com/stalniy/casl/compare/@casl/angular@8.1.0...@casl/angular@8.2.0) (2022-12-17)
 
 
