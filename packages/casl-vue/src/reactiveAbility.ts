@@ -2,7 +2,7 @@ import { AnyAbility, SubjectType } from '@casl/ability';
 import { ref } from 'vue';
 
 export function reactiveAbility(ability: AnyAbility) {
-  if (ability.hasOwnProperty('possibleRulesFor')) {
+  if (Object.hasOwn(ability, 'possibleRulesFor')) {
     return ability;
   }
 

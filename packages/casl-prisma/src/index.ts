@@ -1,6 +1,6 @@
 import { AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRuleFrom } from '@casl/ability';
 import { createAbilityFactory, createAccessibleByFactory, prismaQuery } from './runtime';
-import { WhereInputPerModel, ModelName, PrismaQuery } from './prismaClientBoundTypes';
+import type { WhereInputPerModel, ModelName, PrismaQuery } from './prismaClientBoundTypes';
 
 export type { PrismaQuery, WhereInput } from './prismaClientBoundTypes';
 export type { Model, Subjects } from './runtime';
