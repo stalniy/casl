@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.2.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.3...@casl/mongoose@7.2.0) (2023-07-22)
+
+
+### Bug Fixes
+
+* adds jsdoc comments ([#768](https://github.com/stalniy/casl/issues/768)) ([6ca6105](https://github.com/stalniy/casl/commit/6ca6105240e2a072f053f5d38b2c5c920f9d31b9))
+* adds jsdoc comments to test release trigger ([#766](https://github.com/stalniy/casl/issues/766)) ([fcdf8c8](https://github.com/stalniy/casl/commit/fcdf8c87798c438427c3df65fa5e537cf92dd195))
+* removes release testing comments ([#767](https://github.com/stalniy/casl/issues/767)) ([67ccbc9](https://github.com/stalniy/casl/commit/67ccbc989f20e3f98adaa97bb0c8126fbe28ee75))
+
+
+### Features
+
+* adds accessibleBy helper and deprecates `toMongoQuery` and `accessibleRecordsPlugin` ([#795](https://github.com/stalniy/casl/issues/795)) ([bd58bb2](https://github.com/stalniy/casl/commit/bd58bb2a450389370614cf9381d3bcd7ac34cf6b))
+
 ## [7.1.3](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.2...@casl/mongoose@7.1.3) (2023-05-05)
 
 ## [7.1.2](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.1...@casl/mongoose@7.1.2) (2022-10-30)
