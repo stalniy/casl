@@ -2,11 +2,36 @@ import { defineAbility } from '@casl/ability'
 import { toMongoQuery } from '../src'
 
 describe('toMongoQuery', () => {
+  testConversionToMongoQuery(toMongoQuery)
+
+  it('returns `null` if there are no rules for specific subject/action', () => {
+    const ability = defineAbility((can) => {
+      can('update', 'Post')
+    })
+
+    const query = toMongoQuery(ability, 'Post', 'read')
+
+    expect(query).toBe(null)
+  })
+
+  it('returns null if there is a rule that forbids previous one', () => {
+    const ability = defineAbility((can, cannot) => {
+      can('update', 'Post', { authorId: 1 })
+      cannot('update', 'Post')
+    })
+
+    const query = toMongoQuery(ability, 'Post', 'update')
+
+    expect(query).toBe(null)
+  })
+})
+
+export function testConversionToMongoQuery(abilityToMongoQuery: typeof toMongoQuery) {
   it('accepts ability action as third argument', () => {
     const ability = defineAbility((can) => {
       can('update', 'Post', { _id: 'mega' })
     })
-    const query = toMongoQuery(ability, 'Post', 'update')
+    const query = abilityToMongoQuery(ability, 'Post', 'update')
 
     expect(query).toEqual({
       $or: [{ _id: 'mega' }]
@@ -20,7 +45,7 @@ describe('toMongoQuery', () => {
       cannot('read', 'Post', { private: true })
       cannot('read', 'Post', { state: 'archived' })
     })
-    const query = toMongoQuery(ability, 'Post')
+    const query = abilityToMongoQuery(ability, 'Post')
 
     expect(query).toEqual({
       $or: [
@@ -39,7 +64,7 @@ describe('toMongoQuery', () => {
       const ability = defineAbility((can) => {
         can('read', 'Post', { isPublished: { $exists: true, $ne: null } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ isPublished: { $exists: true, $ne: null } }] })
     })
@@ -49,7 +74,7 @@ describe('toMongoQuery', () => {
         can('read', 'Post', { isPublished: { $exists: false } })
         can('read', 'Post', { isPublished: null })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({
         $or: [
@@ -63,7 +88,7 @@ describe('toMongoQuery', () => {
       const ability = defineAbility((can) => {
         can('read', 'Post', { state: { $in: ['draft', 'archived'] } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ state: { $in: ['draft', 'archived'] } }] })
     })
@@ -72,7 +97,7 @@ describe('toMongoQuery', () => {
       const ability = defineAbility((can) => {
         can('read', 'Post', { state: { $all: ['draft', 'archived'] } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ state: { $all: ['draft', 'archived'] } }] })
     })
@@ -81,7 +106,7 @@ describe('toMongoQuery', () => {
         can('read', 'Post', { views: { $lt: 10 } })
         can('read', 'Post', { views: { $lt: 5 } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ views: { $lt: 5 } }, { views: { $lt: 10 } }] })
     })
@@ -91,7 +116,7 @@ describe('toMongoQuery', () => {
         can('read', 'Post', { views: { $gt: 10 } })
         can('read', 'Post', { views: { $gte: 100 } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ views: { $gte: 100 } }, { views: { $gt: 10 } }] })
     })
@@ -100,7 +125,7 @@ describe('toMongoQuery', () => {
       const ability = defineAbility((can) => {
         can('read', 'Post', { creator: { $ne: 'me' } })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ creator: { $ne: 'me' } }] })
     })
@@ -109,9 +134,9 @@ describe('toMongoQuery', () => {
       const ability = defineAbility((can) => {
         can('read', 'Post', { 'comments.author': 'Ted' })
       })
-      const query = toMongoQuery(ability, 'Post')
+      const query = abilityToMongoQuery(ability, 'Post')
 
       expect(query).toEqual({ $or: [{ 'comments.author': 'Ted' }] })
     })
   })
-})
+}

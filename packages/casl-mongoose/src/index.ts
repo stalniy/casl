@@ -25,4 +25,6 @@ export type {
   AccessibleFieldsDocument,
   AccessibleFieldsOptions
 } from './accessible_fields';
-export { toMongoQuery } from './mongo';
+
+export { toMongoQuery, accessibleBy } from './mongo';
+export type { RecordTypes } from './mongo';
