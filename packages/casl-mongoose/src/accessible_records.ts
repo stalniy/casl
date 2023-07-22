@@ -8,7 +8,7 @@ function failedQuery(
   modelName: string,
   query: QueryWithHelpers<Document, Document>
 ) {
-  query.where({ __forbiddenByCasl__: 1 }); // eslint-disable-line
+  query.where({ $expr: false }); // rule that returns empty result set
   const anyQuery: any = query;
 
   if (typeof anyQuery.pre === 'function') {
@@ -53,6 +53,7 @@ AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>
 >;
 
 export type AccessibleRecordQueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
+  /** @deprecated use accessibleBy helper instead */
   accessibleBy: GetAccessibleRecords<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,
@@ -69,6 +70,7 @@ export interface AccessibleRecordModel<
   TQueryHelpers & AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>,
   TMethods,
   TVirtuals> {
+  /** @deprecated use accessibleBy helper instead */
   accessibleBy: GetAccessibleRecords<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,
