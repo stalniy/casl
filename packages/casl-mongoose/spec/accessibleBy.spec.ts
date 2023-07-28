@@ -16,7 +16,7 @@ describe('accessibleBy', () => {
 
     const query = accessibleBy(ability, 'update').Post
 
-    expect(query).toEqual({ $expr: false })
+    expect(query).toEqual({ $expr: { $eq: [0, 1] } })
   })
 
   it('returns `{ $expr: false }` if there is a rule that forbids previous one', () => {
@@ -27,7 +27,7 @@ describe('accessibleBy', () => {
 
     const query = accessibleBy(ability, 'update').Post
 
-    expect(query).toEqual({ $expr: false })
+    expect(query).toEqual({ $expr: { $eq: [0, 1] } })
   })
 
   describe('it behaves like `toMongoQuery` when converting rules', () => {

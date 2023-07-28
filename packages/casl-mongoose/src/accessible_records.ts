@@ -1,6 +1,6 @@
 import { Normalize, AnyMongoAbility, Generics, ForbiddenError } from '@casl/ability';
 import { Schema, QueryWithHelpers, Model, Document, HydratedDocument, Query } from 'mongoose';
-import { toMongoQuery } from './mongo';
+import { EMPTY_RESULT_QUERY, toMongoQuery } from './mongo';
 
 function failedQuery(
   ability: AnyMongoAbility,
@@ -8,7 +8,7 @@ function failedQuery(
   modelName: string,
   query: QueryWithHelpers<Document, Document>
 ) {
-  query.where({ $expr: false }); // rule that returns empty result set
+  query.where(EMPTY_RESULT_QUERY);
   const anyQuery: any = query;
 
   if (typeof anyQuery.pre === 'function') {

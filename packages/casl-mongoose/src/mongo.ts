@@ -37,9 +37,10 @@ export function accessibleBy<T extends AnyMongoAbility>(
   }, accessibleByProxyHandlers) as unknown as Record<StringOrKeysOf<RecordTypes>, AbilityQuery>;
 }
 
+export const EMPTY_RESULT_QUERY = { $expr: { $eq: [0, 1] } };
 const accessibleByProxyHandlers: ProxyHandler<{ _ability: AnyMongoAbility, _action: string }> = {
   get(target, subjectType) {
     const query = rulesToQuery(target._ability, target._action, subjectType, convertToMongoQuery);
-    return query === null ? { $expr: false } : query;
+    return query === null ? EMPTY_RESULT_QUERY : query;
   }
 };
