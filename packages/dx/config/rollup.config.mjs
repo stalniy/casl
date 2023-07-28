@@ -22,8 +22,6 @@ const output = (config) => {
     });
   }
 
-  console.log(pathsMapping);
-
   return {
     [prop]: path,
     format: config.format,
