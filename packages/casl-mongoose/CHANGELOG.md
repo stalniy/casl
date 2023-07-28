@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.0...@casl/mongoose@7.2.1) (2023-07-28)
+
+
+### Bug Fixes
+
+* changes empty result query to be $expr with object, otherwise mongoose throws error ([9eae155](https://github.com/stalniy/casl/commit/9eae155cb730d6f23bc18808fee2eb4cbf5075b5))
+
 # [7.2.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.1.3...@casl/mongoose@7.2.0) (2023-07-22)
 
 
