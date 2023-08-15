@@ -154,6 +154,9 @@ ability.can('read', BlogPost);
 ability.can('manage', new BlogPost({ author: user.id }));
 
 // true if there is no ability to read this particular blog post
+const post = new BlogPost({ title: 'What is CASL?' });
+ability.cannot('read', post);
+
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const postCreatedNow = new BlogPost({ createdAt: new Date() });
 const postCreatedAWeekAgo = new BlogPost({ createdAt: new Date(Date.now() - 7 * ONE_DAY) });
