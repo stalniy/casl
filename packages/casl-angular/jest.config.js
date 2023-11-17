@@ -8,7 +8,7 @@ module.exports = {
   testEnvironment: "jsdom",
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: [
-    'zone.js/dist/zone',
-    'zone.js/dist/zone-testing'
+    'zone.js',
+    'zone.js/testing'
   ],
 };
