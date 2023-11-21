@@ -42,7 +42,7 @@ jobs:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
         run: |
-          changed_packages=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)
+          changed_packages=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq | grep ./packages)
           pnpm_options=''
           for path in $changed_packages; do
             pnpm_options="${pnpm_options} --filter ./${path}"
@@ -53,8 +53,8 @@ jobs:
 
           released_packages=()
           for path in $changed_packages; do
-            package_name=$(grep '"name":' $path | cut -d : -f 2 | cut -d '"' -f 2)
-            package_version=$(grep '"version":' $path | cut -d : -f 2 | cut -d '"' -f 2)
+            package_name=$(grep '"name":' $path/package.json | cut -d : -f 2 | cut -d '"' -f 2)
+            package_version=$(grep '"version":' $path/package.json | cut -d : -f 2 | cut -d '"' -f 2)
             released_packages[${#released_packages[@]}]="${package_name}@${package_version}"
           done
 
