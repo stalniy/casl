@@ -41,7 +41,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
+          ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
         run: |
+          if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
+            set -o xtrace # Trace the execution of the script (debug)
+          fi
+
           changed_paths=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)
           changed_packages=$(echo "$changed_paths" | grep ./packages)
           pnpm_options=''
