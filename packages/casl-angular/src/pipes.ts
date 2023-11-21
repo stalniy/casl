@@ -23,7 +23,7 @@ export class AblePurePipe<T extends AnyAbility> implements PipeTransform {
     this._ability = ability;
   }
 
-  // TODO: `Observable` can be removed after https://github.com/angular/angular/issues/15041
+  // TODO: use computed signals https://github.com/angular/angular/issues/47553
   transform(...args: Parameters<T['can']>): Observable<boolean> {
     return new Observable((s) => {
       const emit = () => s.next(this._ability.can(...args));
