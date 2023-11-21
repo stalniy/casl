@@ -2,11 +2,16 @@ name: Release packages
 on:
   pull_request:
     types: [closed, labeled]
+  # workflow_dispatch:
+  #   inputs:
+  #     packagePath:
+  #       description: 'Package path'
+  #       required: true
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'released')
+    if: ${{ !github.event.pull_request || github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'released') }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -42,6 +47,8 @@ jobs:
           for path in $changed_packages; do
             pnpm_options="${pnpm_options} --filter ./${path}"
           done
+
+          echo "running: pnpm run -r $pnpm_options release" >> $GITHUB_STEP_SUMMARY
           pnpm run -r $pnpm_options release
 
           released_packages=()
@@ -50,4 +57,9 @@ jobs:
             package_version=$(grep '"version":' $path | cut -d : -f 2 | cut -d '"' -f 2)
             released_packages[${#released_packages[@]}]="${package_name}@${package_version}"
           done
-          gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
+
+          if [ "${github.event.pull_request.number}" != "" ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
+          fi
+
+          echo "🚀 Released in ${released_packages[@]}" >> $GITHUB_STEP_SUMMARY
