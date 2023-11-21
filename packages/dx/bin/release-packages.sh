@@ -18,7 +18,7 @@ changed_packages="$(echo "$changed_paths" | grep 'packages/' | grep -v packages/
 
 if [ "$changed_packages" = "" ]; then
     echo "No packages to release" >> $GITHUB_STEP_SUMMARY;
-    echo "Changed files:\n${changed_paths}" >> $GITHUB_STEP_SUMMARY
+    echo -e "Changed files:\n${changed_paths}" >> $GITHUB_STEP_SUMMARY
     exit 0;
 fi
 
