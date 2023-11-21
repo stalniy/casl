@@ -38,3 +38,4 @@ for path in $changed_packages; do
 done
 
 echo "🚀 Released in ${released_packages[@]}" >> $GITHUB_STEP_SUMMARY
+echo "${released_packages[@]}"
