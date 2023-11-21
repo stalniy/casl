@@ -6,12 +6,15 @@ if [ "$changed_paths" = "" ];then
     echo '
     Usage:
       ./release-packages.sh "packages/casl-ability"
-      ./release-packages.sh "packages/casl-ability packages/casl-angular"
+      ./release-packages.sh '
+        packages/casl-ability
+        packages/casl-angular
+      '
     ';
-    exit;
+    exit 1;
 fi
 
-changed_packages="$(echo "$changed_paths" | grep 'packages/')";
+changed_packages="$(echo "$changed_paths" | grep 'packages/' | grep -v packages/dx)";
 
 if [ "$changed_packages" = "" ]; then
     echo "No packages to release" >> $GITHUB_STEP_SUMMARY;
