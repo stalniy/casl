@@ -41,7 +41,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^6.3.2",
-    "mongoose": "^6.0.13 || ^7.0.0"
+    "mongoose": "^6.0.13 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
     "@casl/ability": "^6.0.0",
