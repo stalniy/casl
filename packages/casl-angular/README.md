@@ -8,8 +8,6 @@ This package allows to integrate `@casl/ability` with [Angular] application. It 
 
 ## Installation
 
-The latest version of this package is compiled by Ivy, so **apps that do not use Ivy are no longer supported**.
-
 ```sh
 npm install @casl/angular @casl/ability
 # or
