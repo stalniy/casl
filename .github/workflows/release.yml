@@ -48,30 +48,8 @@ jobs:
           fi
 
           changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
-          changed_packages="$(echo "$changed_paths" | grep 'packages/')";
-
-          if [ "$changed_packages" = "" ]; then
-            echo -e "No packages to release:\n ${changed_paths}" >> $GITHUB_STEP_SUMMARY
-            exit 0;
-          fi
-
-          pnpm_options=''
-          for path in $changed_packages; do
-            pnpm_options="${pnpm_options} --filter ./${path}"
-          done
-
-          echo "running: pnpm run -r $pnpm_options release" >> $GITHUB_STEP_SUMMARY
-          pnpm run -r $pnpm_options release
-
-          released_packages=()
-          for path in $changed_packages; do
-            package_name=$(grep '"name":' $path/package.json | cut -d : -f 2 | cut -d '"' -f 2)
-            package_version=$(grep '"version":' $path/package.json | cut -d : -f 2 | cut -d '"' -f 2)
-            released_packages[${#released_packages[@]}]="${package_name}@${package_version}"
-          done
+          ./packages/dx/bin/release-packages.sh "$changed_paths";
 
           if [ "${{github.event.pull_request.number}}" != "" ]; then
-            gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
+              gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
           fi
-
-          echo "🚀 Released in ${released_packages[@]}" >> $GITHUB_STEP_SUMMARY
