@@ -42,11 +42,17 @@ jobs:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
         run: |
-          changed_packages=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq | grep ./packages)
+          changed_paths=$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)
+          changed_packages=$(echo "$changed_paths" | grep ./packages)
           pnpm_options=''
           for path in $changed_packages; do
             pnpm_options="${pnpm_options} --filter ./${path}"
           done
+
+          if [ "$pnpm_options" = "" ]; then
+            echo -e "No packages to release:\n ${changed_paths}" >> $GITHUB_STEP_SUMMARY
+            exit 0;
+          fi
 
           echo "running: pnpm run -r $pnpm_options release" >> $GITHUB_STEP_SUMMARY
           pnpm run -r $pnpm_options release
