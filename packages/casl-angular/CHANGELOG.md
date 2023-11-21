@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.2.3](https://github.com/stalniy/casl/compare/@casl/angular@8.2.2...@casl/angular@8.2.3) (2023-11-21)
+
+
+### Bug Fixes
+
+* changes comment to trigger release ([#855](https://github.com/stalniy/casl/issues/855)) ([f13103b](https://github.com/stalniy/casl/commit/f13103b45729264a435b6c00a7352971a15ece73))
+* ensure pre-post scripts are enabled for pnpm ([#853](https://github.com/stalniy/casl/issues/853)) ([fa23801](https://github.com/stalniy/casl/commit/fa23801e81773b6c8f3393aa6340ce8a324b12dd))
+
 ## [8.2.2](https://github.com/stalniy/casl/compare/@casl/angular@8.2.1...@casl/angular@8.2.2) (2023-11-21)
 
 ## [8.2.1](https://github.com/stalniy/casl/compare/@casl/angular@8.2.0...@casl/angular@8.2.1) (2023-07-20)
