@@ -58,7 +58,7 @@ jobs:
             released_packages[${#released_packages[@]}]="${package_name}@${package_version}"
           done
 
-          if [ "${github.event.pull_request.number}" != "" ]; then
+          if [ "${{github.event.pull_request.number}}" != "" ]; then
             gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages[@]}"
           fi
 
