@@ -47,8 +47,8 @@ jobs:
             set -o xtrace # Trace the execution of the script (debug)
           fi
 
-          changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)"
-          changed_packages="$(echo "$changed_paths" | grep ./packages)"
+          changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
+          changed_packages="$(echo "$changed_paths" | grep 'packages/')";
 
           if [ "$changed_packages" = "" ]; then
             echo -e "No packages to release:\n ${changed_paths}" >> $GITHUB_STEP_SUMMARY
