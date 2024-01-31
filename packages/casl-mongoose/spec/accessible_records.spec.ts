@@ -64,7 +64,7 @@ describe('Accessible Records Plugin', () => {
 
     it('properly merges `toMongoQuery` result with existing in query `$and` conditions', () => {
       const existingConditions = [{ prop: true }, { anotherProp: false }]
-      const query = Post.find({ $and: existingConditions })
+      const query = Post.find({ $and: existingConditions.slice(0) })
       const conditions = query.accessibleBy(ability).getQuery()
 
       expect(conditions.$and).toEqual([
