@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.2](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.1...@casl/mongoose@7.2.2) (2024-01-31)
+
 ## [7.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.0...@casl/mongoose@7.2.1) (2023-07-28)
 
 
