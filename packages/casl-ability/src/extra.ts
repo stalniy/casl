@@ -6,19 +6,19 @@ import { Rule } from './Rule';
 import { setByPath, wrapArray } from './utils';
 import { AnyObject, SubjectType, ExtractSubjectType } from './types';
 
-export type RuleToQueryConverter<T extends AnyAbility> = (rule: RuleOf<T>) => object;
+export type RuleToQueryConverter<T extends AnyAbility, R = object> = (rule: RuleOf<T>) => R;
 export interface AbilityQuery<T = object> {
   $or?: T[]
   $and?: T[]
 }
 
-export function rulesToQuery<T extends AnyAbility>(
+export function rulesToQuery<T extends AnyAbility, R = object>(
   ability: T,
   action: Parameters<T['rulesFor']>[0],
   subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
-  convert: RuleToQueryConverter<T>
-): AbilityQuery | null {
-  const query: AbilityQuery = {};
+  convert: RuleToQueryConverter<T, R>
+): AbilityQuery<R> | null {
+  const query: AbilityQuery<R> = {};
   const rules = ability.rulesFor(action, subjectType);
 
   for (let i = 0; i < rules.length; i++) {
