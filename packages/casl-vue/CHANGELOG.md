@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.2](https://github.com/stalniy/casl/compare/@casl/vue@2.2.1...@casl/vue@2.2.2) (2024-02-14)
+
+
+### Bug Fixes
+
+* fixes type for ABILITY_TOKEN in casl-vue ([#879](https://github.com/stalniy/casl/issues/879)) ([886aeb3](https://github.com/stalniy/casl/commit/886aeb3d699466d83185c950abba936e1e7d1d24))
+
 ## [2.2.1](https://github.com/stalniy/casl/compare/@casl/vue@2.2.0...@casl/vue@2.2.1) (2022-12-17)
 
 
