@@ -1,6 +1,6 @@
-import { defineAbility, Ability, SubjectType } from '@casl/ability'
+import { MongoAbility, SubjectType, createMongoAbility, defineAbility } from '@casl/ability'
 import mongoose from 'mongoose'
-import { accessibleFieldsPlugin, AccessibleFieldsModel } from '../src'
+import { AccessibleFieldsModel, accessibleFieldsPlugin } from '../src'
 
 describe('Accessible fields plugin', () => {
   interface Post {
@@ -43,7 +43,7 @@ describe('Accessible fields plugin', () => {
       })
 
       it('returns empty array for empty `Ability` instance', () => {
-        const fields = Post.accessibleFieldsBy(new Ability())
+        const fields = Post.accessibleFieldsBy(createMongoAbility())
 
         expect(fields).toBeInstanceOf(Array)
         expect(fields).toHaveLength(0)
@@ -92,10 +92,10 @@ describe('Accessible fields plugin', () => {
     })
 
     describe('when plugin options are provided', () => {
-      let ability: Ability
+      let ability: MongoAbility
 
       beforeEach(() => {
-        ability = defineAbility<Ability>(can => can('read', 'Post'))
+        ability = defineAbility<MongoAbility>(can => can('read', 'Post'))
       })
 
       it('returns fields provided in `only` option specified as string', () => {

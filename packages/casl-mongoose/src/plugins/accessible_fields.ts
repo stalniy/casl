@@ -1,6 +1,6 @@
-import { wrapArray, Normalize, AnyMongoAbility, Generics } from '@casl/ability';
-import { permittedFieldsOf, PermittedFieldsOptions } from '@casl/ability/extra';
-import type { Schema, Model, Document } from 'mongoose';
+import { AnyMongoAbility, Generics, Normalize, wrapArray } from '@casl/ability';
+import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from '@casl/ability/extra';
+import type { Document, Model, Schema } from 'mongoose';
 
 export type AccessibleFieldsOptions =
   {
@@ -46,17 +46,17 @@ export interface AccessibleFieldDocumentMethods<T = Document> {
  */
 export interface AccessibleFieldsDocument extends Document, AccessibleFieldDocumentMethods {}
 
-function modelFieldsGetter() {
-  let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
+function getAllSchemaFieldsFactory() {
+  let getAllFields: GetSubjectTypeAllFieldsExtractor;
   return (schema: Schema<any>, options: Partial<AccessibleFieldsOptions>) => {
-    if (!fieldsFrom) {
+    if (!getAllFields) {
       const ALL_FIELDS = options && 'only' in options
         ? wrapArray(options.only as string[])
         : fieldsOf(schema, options);
-      fieldsFrom = rule => rule.fields || ALL_FIELDS;
+      getAllFields = () => ALL_FIELDS;
     }
 
-    return fieldsFrom;
+    return getAllFields;
   };
 }
 
@@ -65,21 +65,19 @@ export function accessibleFieldsPlugin(
   rawOptions?: Partial<AccessibleFieldsOptions>
 ): void {
   const options = { getFields: getSchemaPaths, ...rawOptions };
-  const fieldsFrom = modelFieldsGetter();
+  const getAllFields = getAllSchemaFieldsFactory();
 
-  function istanceAccessibleFields(this: Document, ability: AnyMongoAbility, action?: string) {
-    return permittedFieldsOf(ability, action || 'read', this, {
-      fieldsFrom: fieldsFrom(schema, options)
-    });
+  function instanceAccessibleFields(this: Document, ability: AnyMongoAbility, action?: string) {
+    return new AccessibleFields(ability, action || 'read', getAllFields(schema, options)).of(this);
   }
 
   function modelAccessibleFields(this: Model<unknown>, ability: AnyMongoAbility, action?: string) {
-    const document = { constructor: this };
-    return permittedFieldsOf(ability, action || 'read', document, {
-      fieldsFrom: fieldsFrom(schema, options)
-    });
+    // using fake document because at this point we don't know how Ability's detectSubjectType was configured:
+    // does it use classes or strings?
+    const fakeDocument = { constructor: this };
+    return new AccessibleFields(ability, action || 'read', getAllFields(schema, options)).of(fakeDocument);
   }
 
   schema.statics.accessibleFieldsBy = modelAccessibleFields;
-  schema.method('accessibleFieldsBy', istanceAccessibleFields);
+  schema.method('accessibleFieldsBy', instanceAccessibleFields);
 }

@@ -1,27 +1,8 @@
-import { Normalize, AnyMongoAbility, Generics, ForbiddenError } from '@casl/ability';
-import { Schema, QueryWithHelpers, Model, Document, HydratedDocument, Query } from 'mongoose';
-import { EMPTY_RESULT_QUERY, toMongoQuery } from './mongo';
+import { AnyMongoAbility, Generics, Normalize } from '@casl/ability';
+import { Document, HydratedDocument, Model, Query, QueryWithHelpers, Schema } from 'mongoose';
+import { accessibleBy } from '../accessibleBy';
 
-function failedQuery(
-  ability: AnyMongoAbility,
-  action: string,
-  modelName: string,
-  query: QueryWithHelpers<Document, Document>
-) {
-  query.where(EMPTY_RESULT_QUERY);
-  const anyQuery: any = query;
-
-  if (typeof anyQuery.pre === 'function') {
-    anyQuery.pre((cb: (error?: Error) => void) => {
-      const error = ForbiddenError.from(ability).unlessCan(action, modelName);
-      cb(error);
-    });
-  }
-
-  return query;
-}
-
-function accessibleBy<T extends AnyMongoAbility>(
+function accessibleRecords<T extends AnyMongoAbility>(
   baseQuery: Query<any, any>,
   ability: T,
   action?: Normalize<Generics<T>['abilities']>[0]
@@ -34,11 +15,7 @@ function accessibleBy<T extends AnyMongoAbility>(
     throw new TypeError(`Cannot detect subject type of "${baseQuery.model.modelName}" to return accessible records`);
   }
 
-  const query = toMongoQuery(ability, subjectType, action);
-
-  if (query === null) {
-    return failedQuery(ability, action || 'read', subjectType, baseQuery.where());
-  }
+  const query = accessibleBy(ability, action).ofType(subjectType);
 
   return baseQuery.and([query]);
 }
@@ -80,7 +57,7 @@ export interface AccessibleRecordModel<
 }
 
 function modelAccessibleBy(this: Model<unknown>, ability: AnyMongoAbility, action?: string) {
-  return accessibleBy(this.where(), ability, action);
+  return accessibleRecords(this.where(), ability, action);
 }
 
 function queryAccessibleBy(
@@ -88,7 +65,7 @@ function queryAccessibleBy(
   ability: AnyMongoAbility,
   action?: string
 ) {
-  return accessibleBy(this, ability, action);
+  return accessibleRecords(this, ability, action);
 }
 
 export function accessibleRecordsPlugin(schema: Schema<any>): void {

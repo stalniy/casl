@@ -1,6 +1,6 @@
-import { Ability, createMongoAbility, defineAbility, ForbiddenError, MongoAbility, SubjectType } from '@casl/ability'
+import { Ability, defineAbility, SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
-import { AccessibleRecordModel, accessibleRecordsPlugin, toMongoQuery } from '../src'
+import { accessibleBy, AccessibleRecordModel, accessibleRecordsPlugin } from '../src'
 
 describe('Accessible Records Plugin', () => {
   interface Post {
@@ -58,7 +58,7 @@ describe('Accessible Records Plugin', () => {
       const query = Post.accessibleBy(ability).getQuery()
 
       expect(query).toEqual({
-        $and: [toMongoQuery(ability, 'Post')]
+        $and: [accessibleBy(ability).ofType('Post')]
       })
     })
 
@@ -69,7 +69,7 @@ describe('Accessible Records Plugin', () => {
 
       expect(conditions.$and).toEqual([
         ...existingConditions,
-        toMongoQuery(ability, 'Post')
+        accessibleBy(ability).ofType('Post')
       ])
     })
 
@@ -107,98 +107,12 @@ describe('Accessible Records Plugin', () => {
       })
     })
 
-    describe('when ability disallow to perform an action', () => {
-      let query: mongoose.QueryWithHelpers<Post, Post, any, any>
-
-      beforeEach(() => {
-        query = Post.find().accessibleBy(ability, 'notAllowedAction')
-      })
-
-      it('throws `ForbiddenError` for collection request', async () => {
-        await query.exec()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` when `find` is called', async () => {
-        await query.find()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for item request', async () => {
-        await query.findOne().exec()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` when `findOne` is called', async () => {
-        await query.findOne()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for count request', async () => {
-        await query.count()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for count request', async () => {
-        await query.count()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for `countDocuments` request', async () => {
-        await query.countDocuments()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` for `estimatedDocumentCount` request', async () => {
-        await query.estimatedDocumentCount()
-          .then(() => fail('should not execute'))
-          .catch((error: any) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect(error.message).toMatch(/cannot execute/i)
-          })
-      })
-
-      it('throws `ForbiddenError` with correct message when subjectType is a model', async () => {
-        const anotherAbility = createMongoAbility([
-          { action: 'read', subject: Post }
-        ], {
-          detectSubjectType: o => o.constructor as SubjectType,
-        })
-
-        await Post.find().accessibleBy(anotherAbility, 'update')
-          .then(() => fail('should never be called'))
-          .catch((error: unknown) => {
-            expect(error).toBeInstanceOf(ForbiddenError)
-            expect((error as ForbiddenError<MongoAbility>).message).toBe('Cannot execute "update" on "Post"')
-          })
+    it('returns always empty result query if ability disallow to perform action', () => {
+      const q = Post.find().accessibleBy(ability, 'notAllowedAction')
+      expect(q.getQuery()).toEqual({
+        $and: [
+          { $expr: { $eq: [0, 1] } }
+        ]
       })
     })
   })
