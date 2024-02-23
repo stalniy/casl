@@ -15,9 +15,9 @@
       "require": "./dist/es6c/index.js"
     },
     "./extra": {
-      "types": "./dist/types/extra.d.ts",
-      "import": "./dist/es6m/extra.mjs",
-      "require": "./dist/es6c/extra.js"
+      "types": "./dist/types/extra/index.d.ts",
+      "import": "./dist/es6m/extra/index.mjs",
+      "require": "./dist/es6c/extra/index.js"
     }
   },
   "sideEffects": false,
@@ -32,16 +32,14 @@
   },
   "scripts": {
     "build.core": "dx rollup -n casl -g @ucast/mongo2js:ucast.mongo2js",
-    "build.extra": "dx rollup -i src/extra.ts -n casl.extra -g @ucast/mongo2js:ucast.mongo2js",
-    "build.types": "dx tsc && cp index.metadata.json dist/types",
+    "build.extra": "dx rollup -i src/extra/index.ts -n casl.extra -g @ucast/mongo2js:ucast.mongo2js",
+    "build.types": "dx tsc",
     "prebuild": "rm -rf dist/*",
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
     "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release",
-    "preb": "echo 'pre'",
-    "b": "echo 123"
+    "release": "dx semantic-release"
   },
   "keywords": [
     "permissions",
