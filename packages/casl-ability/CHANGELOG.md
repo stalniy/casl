@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.7.0](https://github.com/stalniy/casl/compare/@casl/ability@6.6.0...@casl/ability@6.7.0) (2024-02-23)
+
+
+### Features
+
+* refactors extra subpackage in casl/ability and adds AccessibleFields helper class ([#883](https://github.com/stalniy/casl/issues/883)) ([9d2ad70](https://github.com/stalniy/casl/commit/9d2ad70e6f61dc6f12c8aeb2d53f9cfd5ba23b69))
+
 # [6.6.0](https://github.com/stalniy/casl/compare/@casl/ability@6.5.1...@casl/ability@6.6.0) (2024-02-23)
 
 
