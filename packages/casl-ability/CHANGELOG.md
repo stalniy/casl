@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [6.6.0](https://github.com/stalniy/casl/compare/@casl/ability@6.5.1...@casl/ability@6.6.0) (2024-02-23)
+
+
+### Features
+
+* adds possibility to auto detect subject type based on passed rules ([#882](https://github.com/stalniy/casl/issues/882)) ([4737fe2](https://github.com/stalniy/casl/commit/4737fe2270a5ce582dfcdba63c986865e3eb82c3))
+* adds return type  to 'rulesToQuery' based on return type from 'convert' param ([#876](https://github.com/stalniy/casl/issues/876)) ([379e130](https://github.com/stalniy/casl/commit/379e130d78eab470f672eb62b8378e243e798ab0))
+
 ## [6.5.1](https://github.com/stalniy/casl/compare/@casl/ability@6.5.0...@casl/ability@6.5.1) (2023-05-05)
 
 
