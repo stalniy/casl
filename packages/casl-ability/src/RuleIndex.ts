@@ -8,7 +8,7 @@ import {
   AbilityTuple,
   ExtractSubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY } from './utils';
 import { LinkedItem, linkedItem, unlinkItem, cloneLinkedItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
@@ -91,12 +91,13 @@ type AbilitySubjectTypeParameters<T extends Abilities, IncludeField extends bool
 export class RuleIndex<A extends Abilities, Conditions> {
   private _hasPerFieldRules: boolean = false;
   private _events?: Events<this>;
-  private _indexedRules: IndexTree<A, Conditions>;
+  private _indexedRules: IndexTree<A, Conditions> = new Map();
   private _rules: RawRuleFrom<A, Conditions>[];
   private readonly _ruleOptions: RuleOptions<Conditions>;
-  private readonly _detectSubjectType: this['detectSubjectType'];
+  private _detectSubjectType: this['detectSubjectType'];
   private readonly _anyAction: string;
   private readonly _anySubjectType: string;
+  private readonly _hasCustomSubjectTypeDetection: boolean;
   readonly [ɵabilities]!: A;
   readonly [ɵconditions]!: Conditions;
 
@@ -111,9 +112,10 @@ export class RuleIndex<A extends Abilities, Conditions> {
     };
     this._anyAction = options.anyAction || 'manage';
     this._anySubjectType = options.anySubjectType || 'all';
-    this._detectSubjectType = options.detectSubjectType || (detectSubjectType as this['detectSubjectType']);
     this._rules = rules;
-    this._indexedRules = this._buildIndexFor(rules);
+    this._hasCustomSubjectTypeDetection = !!options.detectSubjectType;
+    this._detectSubjectType = options.detectSubjectType || (detectSubjectType as this['detectSubjectType']);
+    this._indexAndAnalyzeRules(rules);
   }
 
   get rules() {
@@ -135,14 +137,15 @@ export class RuleIndex<A extends Abilities, Conditions> {
 
     this._emit('update', event);
     this._rules = rules;
-    this._indexedRules = this._buildIndexFor(rules);
+    this._indexAndAnalyzeRules(rules);
     this._emit('updated', event);
 
     return this;
   }
 
-  private _buildIndexFor(rawRules: RawRuleFrom<A, Conditions>[]) {
+  private _indexAndAnalyzeRules(rawRules: RawRuleFrom<A, Conditions>[]) {
     const indexedRules: IndexTree<A, Conditions> = new Map();
+    let typeOfSubjectType: string | undefined;
 
     for (let i = rawRules.length - 1; i >= 0; i--) {
       const priority = rawRules.length - i - 1;
@@ -153,6 +156,12 @@ export class RuleIndex<A extends Abilities, Conditions> {
 
       for (let k = 0; k < subjects.length; k++) {
         const subjectRules = getOrDefault(indexedRules, subjects[k], defaultSubjectEntry);
+        if (typeOfSubjectType === undefined) {
+          typeOfSubjectType = typeof subjects[k];
+        }
+        if (typeof subjects[k] !== typeOfSubjectType && typeOfSubjectType !== 'mixed') {
+          typeOfSubjectType = 'mixed';
+        }
 
         for (let j = 0; j < actions.length; j++) {
           getOrDefault(subjectRules, actions[j], defaultActionEntry).rules.push(rule);
@@ -160,7 +169,11 @@ export class RuleIndex<A extends Abilities, Conditions> {
       }
     }
 
-    return indexedRules;
+    this._indexedRules = indexedRules;
+    if (typeOfSubjectType !== 'mixed' && !this._hasCustomSubjectTypeDetection) {
+      const detectSubjectType = DETECT_SUBJECT_TYPE_STRATEGY[typeOfSubjectType as 'function' | 'string'] || DETECT_SUBJECT_TYPE_STRATEGY.string;
+      this._detectSubjectType = detectSubjectType as this['detectSubjectType'];
+    }
   }
 
   possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[];
