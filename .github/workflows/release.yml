@@ -48,9 +48,11 @@ jobs:
           if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
             set -o xtrace # Trace the execution of the script (debug)
           fi
+          . ./packages/dx/bin/release-packages.sh
 
           changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
-          released_packages=$(./packages/dx/bin/release-packages.sh "$changed_paths");
+          release_packages "$changed_paths"
+          released_packages=$(extract_package_versions "$changed_paths");
 
           if [[ "${{github.event.pull_request.number}}" != "" && "$released_packages" != "" ]]; then
             gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages}"
