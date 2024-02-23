@@ -114,8 +114,6 @@ describe('Ability', () => {
       ability = defineAbility((can) => {
         can('read', Post)
         can('update', Post, { authorId: 1 })
-      }, {
-        detectSubjectType: object => object.constructor
       })
 
       expect(ability).to.allow('read', Post)

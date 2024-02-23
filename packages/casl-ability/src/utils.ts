@@ -43,17 +43,22 @@ export const isSubjectType = (value: unknown): value is SubjectType => {
 };
 
 const getSubjectClassName = (value: SubjectClass) => value.modelName || value.name;
-export const getSubjectTypeName = (value: SubjectType) => {
+export function getSubjectTypeName(value: SubjectType) {
   return typeof value === 'string' ? value : getSubjectClassName(value);
-};
+}
 
-export function detectSubjectType(subject: Exclude<Subject, SubjectType>): string {
-  if (Object.hasOwn(subject, TYPE_FIELD)) {
-    return subject[TYPE_FIELD];
+export function detectSubjectType(object: Exclude<Subject, SubjectType>): string {
+  if (Object.hasOwn(object, TYPE_FIELD)) {
+    return object[TYPE_FIELD];
   }
 
-  return getSubjectClassName(subject.constructor as SubjectClass);
+  return getSubjectClassName(object.constructor as SubjectClass);
 }
+
+export const DETECT_SUBJECT_TYPE_STRATEGY = {
+  function: (object: Exclude<Subject, SubjectType>) => object.constructor as SubjectClass,
+  string: detectSubjectType
+};
 
 type AliasMerge = (actions: string[], action: string | string[]) => string[];
 function expandActions(aliasMap: AliasesMap, rawActions: string | string[], merge: AliasMerge) {
