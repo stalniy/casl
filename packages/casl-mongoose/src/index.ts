@@ -23,7 +23,8 @@ export { getSchemaPaths, accessibleFieldsPlugin } from './accessible_fields';
 export type {
   AccessibleFieldsModel,
   AccessibleFieldsDocument,
-  AccessibleFieldsOptions
+  AccessibleFieldsOptions,
+  AccessibleFieldDocumentMethods
 } from './accessible_fields';
 
 export { toMongoQuery, accessibleBy } from './mongo';
