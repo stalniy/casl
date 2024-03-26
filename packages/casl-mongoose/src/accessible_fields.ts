@@ -10,7 +10,7 @@ export type AccessibleFieldsOptions =
 
 export const getSchemaPaths: AccessibleFieldsOptions['getFields'] = schema => Object.keys((schema as { paths: object }).paths);
 
-function fieldsOf(schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) {
+function fieldsOf(schema: Schema<Document, any>, options: Partial<AccessibleFieldsOptions>) {
   const fields = options.getFields!(schema);
 
   if (!options || !('except' in options)) {
@@ -48,7 +48,10 @@ export interface AccessibleFieldsDocument extends Document, AccessibleFieldDocum
 
 function modelFieldsGetter() {
   let fieldsFrom: PermittedFieldsOptions<AnyMongoAbility>['fieldsFrom'];
-  return (schema: Schema<any>, options: Partial<AccessibleFieldsOptions>) => {
+  return (
+    schema: Schema<any, AccessibleFieldsModel<any>>,
+    options: Partial<AccessibleFieldsOptions>
+  ) => {
     if (!fieldsFrom) {
       const ALL_FIELDS = options && 'only' in options
         ? wrapArray(options.only as string[])
@@ -60,8 +63,8 @@ function modelFieldsGetter() {
   };
 }
 
-export function accessibleFieldsPlugin(
-  schema: Schema<any>,
+export function accessibleFieldsPlugin<T>(
+  schema: Schema<T, AccessibleFieldsModel<T>>,
   rawOptions?: Partial<AccessibleFieldsOptions>
 ): void {
   const options = { getFields: getSchemaPaths, ...rawOptions };
@@ -73,7 +76,7 @@ export function accessibleFieldsPlugin(
     });
   }
 
-  function modelAccessibleFields(this: Model<unknown>, ability: AnyMongoAbility, action?: string) {
+  function modelAccessibleFields(this: Model<T>, ability: AnyMongoAbility, action?: string) {
     const document = { constructor: this };
     return permittedFieldsOf(ability, action || 'read', document, {
       fieldsFrom: fieldsFrom(schema, options)
