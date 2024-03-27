@@ -1,5 +1,5 @@
-import { AccessibleFieldDocumentMethods, AccessibleFieldsModel } from './accessible_fields';
-import { AccessibleRecordModel, AccessibleRecordQueryHelpers } from './accessible_records';
+import { AccessibleFieldDocumentMethods, AccessibleFieldsModel } from './plugins/accessible_fields';
+import { AccessibleRecordModel, AccessibleRecordQueryHelpers } from './plugins/accessible_records';
 
 export interface AccessibleModel<
   T,
@@ -17,14 +17,16 @@ export interface AccessibleModel<
   >, TMethods, TVirtuals>
 {}
 
-export { accessibleRecordsPlugin } from './accessible_records';
-export type { AccessibleRecordModel } from './accessible_records';
-export { getSchemaPaths, accessibleFieldsPlugin } from './accessible_fields';
+export { accessibleRecordsPlugin } from './plugins/accessible_records';
+export type { AccessibleRecordModel } from './plugins/accessible_records';
+export { getSchemaPaths, accessibleFieldsPlugin } from './plugins/accessible_fields';
 export type {
   AccessibleFieldsModel,
   AccessibleFieldsDocument,
   AccessibleFieldsOptions
-} from './accessible_fields';
+} from './plugins/accessible_fields';
 
-export { toMongoQuery, accessibleBy } from './mongo';
-export type { RecordTypes } from './mongo';
+export { accessibleBy } from './accessibleBy';
+export type { AccessibleRecords } from './accessibleBy';
+
+export { accessibleFieldsBy } from './accessibleFieldsBy';

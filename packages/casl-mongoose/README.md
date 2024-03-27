@@ -37,7 +37,7 @@ async function main() {
   let posts;
 
   try {
-    posts = await db.collection('posts').find(accessibleBy(ability, 'update').Post);
+    posts = await db.collection('posts').find(accessibleBy(ability, 'update').ofType('Post'));
   } finally {
     db.close();
   }
@@ -51,7 +51,7 @@ This can also be combined with other conditions with help of `$and` operator:
 ```js
 posts = await db.collection('posts').find({
   $and: [
-    accessibleBy(ability, 'update').Post,
+    accessibleBy(ability, 'update').ofType('Post'),
     { public: true }
   ]
 });
@@ -61,7 +61,7 @@ posts = await db.collection('posts').find({
 
 ```js
 // returns { authorId: 1 }
-const permissionRestrictedConditions = accessibleBy(ability, 'update').Post;
+const permissionRestrictedConditions = accessibleBy(ability, 'update').ofType('Post');
 
 const query = {
   ...permissionRestrictedConditions,
@@ -71,60 +71,22 @@ const query = {
 
 In the case above, we overwrote `authorId` property and basically allowed non-authorized access to posts of author with `id = 2`
 
-If there are no permissions defined for particular action/subjectType, `accessibleBy` will return `{ $expr: false }` and when it's sent to MongoDB, it will return an empty result set.
+If there are no permissions defined for particular action/subjectType, `accessibleBy` will return `{ $expr: { $eq: [0, 1] } }` and when it's sent to MongoDB, database will return an empty result set.
 
 #### Mongoose
+
 
 ```js
 const Post = require('./Post') // mongoose model
 const ability = require('./ability') // defines Ability instance
 
 async function main() {
-  const accessiblePosts = await Post.find(accessibleBy(ability).Post);
+  const accessiblePosts = await Post.find(accessibleBy(ability).ofType('Post'));
   console.log(accessiblePosts);
 }
 ```
 
-`accessibleBy` returns a `Proxy` instance and then we access particular subject type by reading its property. Property name is then passed to `Ability` methods as `subjectType`. With Typescript we can restrict this properties only to know record types:
-
-#### `accessibleBy` in TypeScript
-
-If we want to get hints in IDE regarding what record types (i.e., entity or model names) can be accessed in return value of `accessibleBy` we can easily do this by using module augmentation:
-
-```ts
-import { accessibleBy } from '@casl/mongoose';
-import { ability } from './ability'; // defines Ability instance
-
-declare module '@casl/mongoose' {
-  interface RecordTypes {
-    Post: true
-    User: true
-  }
-}
-
-accessibleBy(ability).User // allows only User and Post properties
-```
-
-This can be done either centrally, in the single place or it can be defined in every model/entity definition file. For example, we can augment `@casl/mongoose` in every mongoose model definition file:
-
-```js @{data-filename="Post.ts"}
-import mongoose from 'mongoose';
-
-const PostSchema = new mongoose.Schema({
-  title: String,
-  author: String
-});
-
-declare module '@casl/mongoose' {
-  interface RecordTypes {
-    Post: true
-  }
-}
-
-export const Post = mongoose.model('Post', PostSchema)
-```
-
-Historically, `@casl/mongoose` was intended for super easy integration with [mongoose] but now we re-orient it to be more MongoDB specific package because mongoose keeps bringing complexity and issues with ts types.
+Historically, `@casl/mongoose` was intended for super easy integration with [mongoose] but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS. This plugins are still shipped but deprecated and we encourage you either write own plugins on app level or use `accessibleBy` and `accessibleFieldsBy` helpers
 
 ### Accessible Records plugin
 
@@ -308,6 +270,38 @@ post.accessibleFieldsBy(ability); // ['title']
 ```
 
 As you can see, a static method returns all fields that can be read for all posts. At the same time, an instance method returns fields that can be read from this particular `post` instance. That's why there is no much sense (except you want to reduce traffic between app and database) to pass the result of static method into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
+
+### accessibleFieldsBy
+
+`accessibleFieldsBy` is companion helper that allows to get only accessible fields for specific subject type of subject:
+
+```ts
+import { accessibleFieldsBy } from '@casl/mongoose';
+import { Post } from './models';
+
+accessibleFieldsBy(ability).ofType('Post') // returns accessible fields for Post model
+accessibleFieldsBy(ability).ofType(Post) // also possible to pass class if classes are used for rule definition
+accessibleFieldsBy(ability).of(new Post()) // returns accessible fields for Post model
+```
+
+This helper is pre-configured to get all fields from `Model.schema.paths`, if this is not desired or you need to restrict public fields your app work with, you need to define your own custom helper:
+
+```ts
+import { AnyMongoAbility, Generics } from "@casl/ability";
+import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from "@casl/ability/extra";
+import mongoose from 'mongoose';
+
+const getSubjectTypeAllFieldsExtractor: GetSubjectTypeAllFieldsExtractor = (type) => {
+  /** custom implementation of returning all fields */
+};
+
+export function accessibleFieldsBy<T extends AnyMongoAbility>(
+  ability: T,
+  action: Parameters<T['rulesFor']>[0] = 'read'
+): AccessibleFields<Extract<Generics<T>['abilities'], unknown[]>[1]> {
+  return new AccessibleFields(ability, action, getSubjectTypeAllFieldsExtractor);
+}
+```
 
 ## TypeScript support in mongoose
 
