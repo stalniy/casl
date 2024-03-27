@@ -1,7 +1,7 @@
 {
   "name": "@casl/ability/extra",
   "typings": "../dist/types/extra/index.d.ts",
-  "main": "../dist/umd/extra.js",
-  "module": "../dist/es5m/extra.js",
-  "es2015": "../dist/es6c/extra.js"
+  "main": "../dist/umd/extra/index.js",
+  "module": "../dist/es5m/extra/index.js",
+  "es2015": "../dist/es6c/extra/index.js"
 }
