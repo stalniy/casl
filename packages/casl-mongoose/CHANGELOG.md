@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [7.3.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.2...@casl/mongoose@7.3.0) (2024-03-27)
+
+
+### Features
+
+* adds accessibleBy and accessibleFieldsBy to casl-mongoose ([#880](https://github.com/stalniy/casl/issues/880)) ([42745d6](https://github.com/stalniy/casl/commit/42745d65fc6a4c1752ded2599ab37246292b1c84))
+
 ## [7.2.2](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.1...@casl/mongoose@7.2.2) (2024-01-31)
 
 ## [7.2.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.0...@casl/mongoose@7.2.1) (2023-07-28)
