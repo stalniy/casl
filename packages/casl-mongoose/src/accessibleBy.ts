@@ -1,5 +1,4 @@
-import { AnyMongoAbility, Generics, SubjectType } from '@casl/ability';
-import { ToAbilityTypes } from '@casl/ability/dist/types/types';
+import { AnyMongoAbility, Generics, SubjectType, Abilities, AbilityTuple, ExtractSubjectType } from '@casl/ability';
 import { rulesToQuery } from '@casl/ability/extra';
 
 function convertToMongoQuery(rule: AnyMongoAbility['rules'][number]) {
@@ -23,12 +22,16 @@ export class AccessibleRecords<T extends SubjectType> {
   }
 }
 
+type SubjectTypes<T extends Abilities> = T extends AbilityTuple
+  ? ExtractSubjectType<T[1]>
+  : never;
+
 /**
  * Returns accessible records Mongo query per record type (i.e., entity type) based on provided Ability and action.
  */
 export function accessibleBy<T extends AnyMongoAbility>(
   ability: T,
   action: Parameters<T['rulesFor']>[0] = 'read'
-): AccessibleRecords<ToAbilityTypes<Generics<T>['abilities']>[1]> {
+): AccessibleRecords<SubjectTypes<Generics<T>['abilities']>> {
   return new AccessibleRecords(ability, action);
 }
