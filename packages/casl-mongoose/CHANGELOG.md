@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-# [7.3.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.2...@casl/mongoose@7.3.0) (2024-03-27)
+# [8.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.2...@casl/mongoose@8.0.0) (2024-03-27)
+
+### BREAKING CHANGES
+
+  * `accessibleBy` is now just a POJO which has `ofType` method to get query for specific type
+  * mongoose `accessibleRecordsPlugin` doesn't throw exception anymore if ability forbids to do an action and instead it sends empty result query to MongoDB
 
 
 ### Features
