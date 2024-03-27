@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.7.1](https://github.com/stalniy/casl/compare/@casl/ability@6.7.0...@casl/ability@6.7.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* fixes path to extra submodule in package.json ([#893](https://github.com/stalniy/casl/issues/893)) ([90e1e66](https://github.com/stalniy/casl/commit/90e1e66ef5f5a4d958616e7615ae2971c32379d8))
+
 # [6.7.0](https://github.com/stalniy/casl/compare/@casl/ability@6.6.0...@casl/ability@6.7.0) (2024-02-23)
 
 
