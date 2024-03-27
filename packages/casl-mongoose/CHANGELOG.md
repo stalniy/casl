@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.1](https://github.com/stalniy/casl/compare/@casl/mongoose@7.3.0...@casl/mongoose@7.3.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* gets rid of dist imported types which cannot be resolved at runtime ([#895](https://github.com/stalniy/casl/issues/895)) ([29f2d90](https://github.com/stalniy/casl/commit/29f2d9035ee96be1dedc1f8dc23d91e5ee6dd5e4))
+
 # [8.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@7.2.2...@casl/mongoose@8.0.0) (2024-03-27)
 
 ### BREAKING CHANGES
