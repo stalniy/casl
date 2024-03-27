@@ -48,7 +48,7 @@
     "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
     "@types/jest": "^29.0.0",
-    "chai": "^4.1.0",
+    "chai": "^5.0.0",
     "chai-spies": "^1.0.0",
     "vue": "^3.2.45"
   },
