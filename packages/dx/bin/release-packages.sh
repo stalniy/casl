@@ -41,6 +41,7 @@ ______HERE__;
 
 extract_package_versions() {
   changed_paths=$1;
+  changed_packages="$(echo "$changed_paths" | grep 'packages/' | grep -v packages/dx)";
 
   released_packages=();
   for path in $changed_packages; do

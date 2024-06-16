@@ -16,7 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.merged == true && github.ref_name || github.head_ref }}
       - uses: pnpm/action-setup@v2
         with:
           version: 8.4.0
@@ -61,17 +61,22 @@ jobs:
           echo "$release_notes"
 
           if [ "${{github.event.pull_request.number}}" != "" ]; then
+            released_packages=$(extract_package_versions "$changed_paths");
+
             if [ "$PREVIEW_BRANCH" = "" ]; then
-              released_packages=$(extract_package_versions "$changed_paths");
               if [ "$released_packages" != "" ]; then
                 gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}"
               else
-                gh pr comment "${{ github.event.pull_request.number }}" --body "No packages to release"
+                echo "No packages to release" >> $GITHUB_STEP_SUMMARY
               fi
             else
-              echo -e "# Release notes for packages that will be published after merge\n\n" > release_notes.txt
-              echo "$release_notes" | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | sed '/^##/,$!d' >> release_notes.txt
-              gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt
-              rm -f release_notes.txt
+              if [ "$released_packages" != "" ]; then
+                echo -e "# Release notes for packages that will be published after merge\n\n" > release_notes.txt
+                echo "$release_notes" | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | sed '/^##/,$!d' >> release_notes.txt
+                gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt
+                rm -f release_notes.txt
+              else
+                echo "No packages to release" >> $GITHUB_STEP_SUMMARY
+              fi
             fi
           fi
