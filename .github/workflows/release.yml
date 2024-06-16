@@ -11,10 +11,12 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: ${{ !github.event.pull_request || github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'released') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'released') }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        # with:
+        ##   ref: ${{ github.event.pull_request.merged == true && github.ref_name || github.head_ref }}
       - uses: pnpm/action-setup@v2
         with:
           version: 8.4.0
@@ -44,16 +46,32 @@ jobs:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
           ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
+          PREVIEW_BRANCH: ${{ github.event.pull_request.merged != true && github.head_ref }}
+          GITHUB_REF: ${{ github.head_ref }}
+          # GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
             set -o xtrace # Trace the execution of the script (debug)
           fi
+          unset GITHUB_ACTIONS
           . ./packages/dx/bin/release-packages.sh
 
           changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
-          release_packages "$changed_paths"
-          released_packages=$(extract_package_versions "$changed_paths");
+          release_notes=$(release_packages "$changed_paths" "$PREVIEW_BRANCH")
+          echo "$release_notes"
 
-          if [[ "${{github.event.pull_request.number}}" != "" && "$released_packages" != "" ]]; then
-            gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 Released in ${released_packages}"
+          if [ "${{github.event.pull_request.number}}" != "" ]; then
+            if [ "$PREVIEW_BRANCH" = "" ]; then
+              released_packages=$(extract_package_versions "$changed_paths");
+              if [ "$released_packages" != "" ]; then
+                gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}"
+              else
+                gh pr comment "${{ github.event.pull_request.number }}" --body "No packages to release"
+              fi
+            else
+              echo -e "# Release notes for packages that will be published after merge\n\n" > release_notes.txt
+              echo "$release_notes" | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | sed '/^##/,$!d' >> release_notes.txt
+              gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt
+              rm -f release_notes.txt
+            fi
           fi

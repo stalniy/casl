@@ -1,6 +1,6 @@
 {
   "name": "@casl/mongoose",
-  "version": "7.3.1",
+  "version": "8.0.1",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "dist/es6c/index.js",
   "es2015": "dist/es6m/index.mjs",
@@ -40,7 +40,7 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^6.3.2",
+    "@casl/ability": "^6.7.0",
     "mongoose": "^6.0.13 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
