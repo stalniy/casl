@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.1.1](https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@3.1.1) (2024-06-16)
+# 4.0.0 (https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@4.0.0) (2024-06-16)
+
+### Code Refactoring
+
+    * removes contextApiPatch.d.ts file from @casl/react to get rid of possible confusion in tools that can greedily include this file into compilation targets (7445a4b (https://github.com/stalniy/casl/commit/7445a4b95fe5ed1a22be91971fb6c70e599e6cee))
+
+### BREAKING CHANGES
+
+    * removes contextApiPatch.d.ts file from @casl/react to get rid of possible confusion. The only affected apps are those which are based on React < 16.4.
+
 
 # [3.1.0](https://github.com/stalniy/casl/compare/@casl/react@3.0.1...@casl/react@3.1.0) (2022-08-28)
 
