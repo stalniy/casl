@@ -205,14 +205,22 @@ export default () => {
 
 ### Usage note on React < 16.4 with TypeScript
 
-If you use TypeScript and React < 16.4 make sure to add `@casl/react/contextAPIPatch.d.ts` file in your `tscofig.json`, otherwise your app won't compile:
+If you use TypeScript and React < 16.4 make sure to create a file `contextAPIPatch.d.ts` file with the next content:
+
+```ts
+declare module 'react' {
+  export type Consumer<T> = any;
+}
+```
+
+and include it in your `tscofig.json`, otherwise your app won't compile:
 
 ```json
 {
   // other configuration options
   "include": [
     "src/**/*",
-    "@casl/react/contextAPIPatch.d.ts" // <-- add this line
+    "./contextAPIPatch.d.ts" // <-- add this line
   ]
 }
 ```
