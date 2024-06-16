@@ -36,7 +36,7 @@ ______HERE__;
     release_options="  --dry-run --no-ci --branches master,$preview_branch"
   fi
   echo "running: pnpm run -r $pnpm_options release $release_options" >> $GITHUB_STEP_SUMMARY
-  pnpm run -r $pnpm_options release --dry-run $release_options
+  pnpm run -r $pnpm_options release $release_options
 }
 
 extract_package_versions() {
