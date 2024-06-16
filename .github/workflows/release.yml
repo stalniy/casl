@@ -1,7 +1,7 @@
 name: Release packages
 on:
   pull_request:
-    types: [closed, labeled]
+    # types: [closed, labeled]
   # workflow_dispatch:
   #   inputs:
   #     packagePath:
@@ -46,8 +46,7 @@ jobs:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
           ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
-          PREVIEW_BRANCH: ${{ github.event.pull_request.merged != true && github.head_ref }}
-          GITHUB_REF: ${{ github.head_ref }}
+          PREVIEW_RELEASE: ${{ github.event.pull_request.merged == true && 'no' || 'yes' }}
           # GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
@@ -56,14 +55,19 @@ jobs:
           unset GITHUB_ACTIONS
           . ./packages/dx/bin/release-packages.sh
 
+          preview_branch=""
+          if [ "$PREVIEW_RELEASE" = "yes" ]; then
+            preview_branch="${{ github.head_ref }}"
+          fi
+
           changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
-          release_notes=$(release_packages "$changed_paths" "$PREVIEW_BRANCH")
+          release_notes=$(release_packages "$changed_paths" "$preview_branch")
           echo "$release_notes"
 
           if [ "${{github.event.pull_request.number}}" != "" ]; then
             released_packages=$(extract_package_versions "$changed_paths");
 
-            if [ "$PREVIEW_BRANCH" = "" ]; then
+            if [ "$preview_branch" = "" ]; then
               if [ "$released_packages" != "" ]; then
                 gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}"
               else
