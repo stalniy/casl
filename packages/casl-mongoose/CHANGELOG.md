@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.1...@casl/mongoose@8.0.2) (2024-06-16)
+
+
+### Bug Fixes
+
+* **deps:** fixes @casl/ability peer dep for @casl/mongoose  ([#925](https://github.com/stalniy/casl/issues/925)) ([c7f3d09](https://github.com/stalniy/casl/commit/c7f3d093add225305c75fb0fdb5d84bd935c5206))
+
 ## [8.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.0...@casl/mongoose@8.0.1) (2024-03-27)
 
 
