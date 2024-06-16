@@ -2,9 +2,12 @@
 
 release_packages() {
   changed_paths=$1;
+  preview_branch=$2;
+
+  echo "Releasing packages with the next args (branch: ${preview_branch:-master}): $changed_paths"
 
   if [ "$changed_paths" = "" ];then
-      echo <<<______HERE__
+    echo <<<______HERE__
       Usage:
         release-packages "packages/casl-ability"
         release-packages '
@@ -28,8 +31,12 @@ ______HERE__;
       pnpm_options="${pnpm_options} --filter ./${path}"
   done
 
-  echo "running: pnpm run -r $pnpm_options release" >> $GITHUB_STEP_SUMMARY
-  pnpm run -r $pnpm_options release
+  release_options=""
+  if [ "$preview_branch" != "" ]; then
+    release_options="  --dry-run --no-ci --branches master,$preview_branch"
+  fi
+  echo "running: pnpm run -r $pnpm_options release $release_options" >> $GITHUB_STEP_SUMMARY
+  pnpm run -r $pnpm_options release $release_options
 }
 
 extract_package_versions() {
