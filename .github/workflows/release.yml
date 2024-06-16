@@ -1,17 +1,11 @@
 name: Release packages
 on:
   pull_request:
-    # types: [closed, labeled]
-  # workflow_dispatch:
-  #   inputs:
-  #     packagePath:
-  #       description: 'Package path'
-  #       required: true
+    types: [opened, synchronize, closed]
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'released') }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
