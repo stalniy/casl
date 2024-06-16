@@ -40,7 +40,7 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^6.3.2",
+    "@casl/ability": "^6.7.0",
     "mongoose": "^6.0.13 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
