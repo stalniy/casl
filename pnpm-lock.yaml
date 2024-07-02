@@ -28,11 +28,11 @@ importers:
         specifier: ^20.0.0
         version: 20.14.9
       chai:
-        specifier: ^4.1.0
-        version: 4.4.1
+        specifier: ^5.0.0
+        version: 5.1.1
       chai-spies:
         specifier: ^1.0.0
-        version: 1.1.0(chai@4.4.1)
+        version: 1.1.0(chai@5.1.1)
       expect-type:
         specifier: ^0.15.0
         version: 0.15.0
@@ -118,11 +118,11 @@ importers:
         specifier: ^1.0.0-beta.4.0.0
         version: 1.1.0
       chai:
-        specifier: ^4.1.0
-        version: 4.4.1
+        specifier: ^5.0.0
+        version: 5.1.1
       chai-spies:
         specifier: ^1.0.0
-        version: 1.1.0(chai@4.4.1)
+        version: 1.1.0(chai@5.1.1)
 
   packages/casl-mongoose:
     devDependencies:
@@ -136,11 +136,11 @@ importers:
         specifier: ^29.0.0
         version: 29.5.12
       chai:
-        specifier: ^4.1.0
-        version: 4.4.1
+        specifier: ^5.0.0
+        version: 5.1.1
       chai-spies:
         specifier: ^1.0.0
-        version: 1.1.0(chai@4.4.1)
+        version: 1.1.0(chai@5.1.1)
       mongoose:
         specifier: ^8.0.0
         version: 8.4.4
@@ -191,11 +191,11 @@ importers:
         specifier: ^18.0.0
         version: 18.3.3
       chai:
-        specifier: ^4.1.0
-        version: 4.4.1
+        specifier: ^5.0.0
+        version: 5.1.1
       chai-spies:
         specifier: ^1.0.0
-        version: 1.1.0(chai@4.4.1)
+        version: 1.1.0(chai@5.1.1)
       react:
         specifier: ^18.0.0
         version: 18.3.1
@@ -215,11 +215,11 @@ importers:
         specifier: ^29.0.0
         version: 29.5.12
       chai:
-        specifier: ^4.1.0
-        version: 4.4.1
+        specifier: ^5.0.0
+        version: 5.1.1
       chai-spies:
         specifier: ^1.0.0
-        version: 1.1.0(chai@4.4.1)
+        version: 1.1.0(chai@5.1.1)
       vue:
         specifier: ^3.2.45
         version: 3.4.31
@@ -5542,8 +5542,9 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /assertion-error@1.1.0:
-    resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
+  /assertion-error@2.0.1:
+    resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
+    engines: {node: '>=12'}
     dev: true
 
   /asynckit@0.4.0:
@@ -6134,26 +6135,24 @@ packages:
       redeyed: 2.1.1
     dev: false
 
-  /chai-spies@1.1.0(chai@4.4.1):
+  /chai-spies@1.1.0(chai@5.1.1):
     resolution: {integrity: sha512-ikaUhQvQWchRYj2K54itFp3nrcxaFRpSDQxDlRzSn9aWgu9Pi7lD8yFxTso4WnQ39+WZ69oB/qOvqp+isJIIWA==}
     engines: {node: '>= 4.0.0'}
     peerDependencies:
       chai: '*'
     dependencies:
-      chai: 4.4.1
+      chai: 5.1.1
     dev: true
 
-  /chai@4.4.1:
-    resolution: {integrity: sha512-13sOfMv2+DWduEU+/xbun3LScLoqN17nBeTLUsmDfKdoiC1fr0n9PU4guu4AhRcOVFk/sW8LyZWHuhWtQZiF+g==}
-    engines: {node: '>=4'}
+  /chai@5.1.1:
+    resolution: {integrity: sha512-pT1ZgP8rPNqUgieVaEY+ryQr6Q4HXNg8Ei9UnLUrjN4IA7dvQC5JB+/kxVcPNDHyBcc/26CXPkbNzq3qwrOEKA==}
+    engines: {node: '>=12'}
     dependencies:
-      assertion-error: 1.1.0
-      check-error: 1.0.3
-      deep-eql: 4.1.4
-      get-func-name: 2.0.2
-      loupe: 2.3.7
-      pathval: 1.1.1
-      type-detect: 4.0.8
+      assertion-error: 2.0.1
+      check-error: 2.1.1
+      deep-eql: 5.0.2
+      loupe: 3.1.1
+      pathval: 2.0.0
     dev: true
 
   /chalk@2.4.2:
@@ -6183,10 +6182,9 @@ packages:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
 
-  /check-error@1.0.3:
-    resolution: {integrity: sha512-iKEoDYaRmd1mxM90a2OEfWhjsjPpYPuQ+lMYsoxB126+t8fw7ySEO48nmDg5COTjxDI65/Y2OWpeEHk3ZOe8zg==}
-    dependencies:
-      get-func-name: 2.0.2
+  /check-error@2.1.1:
+    resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
+    engines: {node: '>= 16'}
     dev: true
 
   /chokidar@3.6.0:
@@ -6742,11 +6740,9 @@ packages:
       babel-plugin-macros:
         optional: true
 
-  /deep-eql@4.1.4:
-    resolution: {integrity: sha512-SUwdGfqdKOwxCPeVYjwSyRpJ7Z+fhpwIAtmCUdZIWZ/YP5R9WAsyuSgpLVDi9bjWoN2LXHNss/dk3urXtdQxGg==}
+  /deep-eql@5.0.2:
+    resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
     engines: {node: '>=6'}
-    dependencies:
-      type-detect: 4.0.8
     dev: true
 
   /deep-extend@0.6.0:
@@ -9550,8 +9546,8 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
-  /loupe@2.3.7:
-    resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
+  /loupe@3.1.1:
+    resolution: {integrity: sha512-edNu/8D5MKVfGVFRhFf8aAxiTM6Wumfz5XsaatSxlD3w4R1d/WEKUTydCdPGbl9K7QG/Ca3GnDV2sIKIpXRQcw==}
     dependencies:
       get-func-name: 2.0.2
     dev: true
@@ -10513,8 +10509,9 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  /pathval@1.1.1:
-    resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
+  /pathval@2.0.0:
+    resolution: {integrity: sha512-vE7JKRyES09KiunauX7nd2Q9/L7lhok4smP9RZTDeD4MVs72Dp2qNFVz39Nz5a0FVEW0BJR6C0DYrq6unoziZA==}
+    engines: {node: '>= 14.16'}
     dev: true
 
   /picocolors@1.0.1:
