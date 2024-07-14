@@ -8,9 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
+        if: ${{ github.event.pull_request.merged == false }}
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.merged == false && github.head_ref }}
+          ref: ${{ github.head_ref }}
+      - name: Check out code
+        if: ${{ github.event.pull_request.merged == true }}
+        uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
           version: 8.4.0
@@ -46,13 +50,14 @@ jobs:
           if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
             set -o xtrace # Trace the execution of the script (debug)
           fi
-          unset GITHUB_ACTIONS
-          . ./packages/dx/bin/release-packages.sh
 
           preview_branch=""
           if [ "$PREVIEW_RELEASE" = "yes" ]; then
             preview_branch="${{ github.head_ref }}"
+            unset GITHUB_ACTIONS # to let semantic-release to run in dry-run mode
           fi
+
+          . ./packages/dx/bin/release-packages.sh
 
           changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
           release_notes=$(release_packages "$changed_paths" "$preview_branch")
