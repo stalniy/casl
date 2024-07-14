@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.2.4](https://github.com/stalniy/casl/compare/@casl/angular@8.2.3...@casl/angular@8.2.4) (2024-07-14)
+
+
+### Bug Fixes
+
+* debug release ([#939](https://github.com/stalniy/casl/issues/939)) ([80eeb6b](https://github.com/stalniy/casl/commit/80eeb6b0fb541f3266951603aaa550d776f9cf28))
+* **deps:** update dependency typescript to ~5.3.0 ([0ec328c](https://github.com/stalniy/casl/commit/0ec328cc1c291eafa932e135234af681650e9f6f))
+* **deps:** update dependency typescript to ~5.4.0 ([1092376](https://github.com/stalniy/casl/commit/10923766d5b2992744f304936e9e8ab9e17ecdf9))
+
 ## [8.2.3](https://github.com/stalniy/casl/compare/@casl/angular@8.2.2...@casl/angular@8.2.3) (2023-11-21)
 
 
