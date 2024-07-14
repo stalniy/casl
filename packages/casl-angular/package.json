@@ -1,6 +1,6 @@
 {
   "name": "@casl/angular",
-  "version": "8.2.4",
+  "version": "8.2.5",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",

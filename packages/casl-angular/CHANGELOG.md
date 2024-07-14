@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.2.5](https://github.com/stalniy/casl/compare/@casl/angular@8.2.4...@casl/angular@8.2.5) (2024-07-14)
+
+
+### Bug Fixes
+
+* debug auto releasing ([#942](https://github.com/stalniy/casl/issues/942)) ([6c7ca22](https://github.com/stalniy/casl/commit/6c7ca22a89a6436b618bbe7caf674a206d047acd))
+
 ## [8.2.4](https://github.com/stalniy/casl/compare/@casl/angular@8.2.3...@casl/angular@8.2.4) (2024-07-14)
 
 
