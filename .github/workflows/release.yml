@@ -10,7 +10,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.merged == true && github.ref_name || github.head_ref }}
+          ref: ${{ github.event.pull_request.merged == false && github.head_ref }}
       - uses: pnpm/action-setup@v2
         with:
           version: 8.4.0
