@@ -95,13 +95,15 @@ export class Rule<A extends Abilities, C> {
     }
 
     if (!field) {
+      // if there is no field (i.e., checking whether user has access to at least one field on subject)
+      // we ignore inverted rules because they disallow to do an action on it, so we are continue looking for regular rule
       return !this.inverted;
     }
 
-    if (this.fields && !this._matchField) {
+    if (!this._matchField) {
       this._matchField = this._options.fieldMatcher!(this.fields);
     }
 
-    return this._matchField!(field);
+    return this._matchField(field);
   }
 }
