@@ -12,6 +12,7 @@ model User {
   firstName   String
   lastName    String
   age         Int
+  verified    Boolean?
   posts       Post[]
 }
 

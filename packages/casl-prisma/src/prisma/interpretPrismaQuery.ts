@@ -79,6 +79,11 @@ const not: JsInterpreter<CompoundCondition> = (condition, object, { interpret })
   return condition.value.every(subCondition => !interpret(subCondition, object));
 };
 
+const isSet: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get }) => {
+  const item = get(object, condition.field);
+  return item !== undefined;
+}
+
 function toComparable(value: unknown) {
   return value && typeof value === 'object' ? value.valueOf() : value;
 }
@@ -112,6 +117,7 @@ export const interpretPrismaQuery = createJsInterpreter({
   every,
   some,
   is,
+  isSet,
 }, {
   get: (object, field) => object[field],
   compare: compareValues,
