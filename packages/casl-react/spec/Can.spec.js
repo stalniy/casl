@@ -6,16 +6,33 @@ import { Can } from '../src'
 describe('`Can` component', () => {
   let ability
   let children
+  let cantChopWoodReason = 'You are not a lumberjack'
 
   beforeEach(() => {
     children = spy(() => null)
-    ability = defineAbility(can => can('read', 'Post'))
+    ability = defineAbility((can, cannot) => {
+      can('read', 'Post')
+      cannot('chop', 'Wood').because(cantChopWoodReason)
+    }).update
+    
   })
 
   it('passes ability check value and instance as arguments to "children" function', () => {
     renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
     expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability, undefined)
+  })
+
+  it('passes forbidden reason message to "children" function when not allowed', () => {
+
+    renderer.create(e(Can, { I: 'chop', a: 'Wood', ability, passThrough: true }, children))
+    expect(children).to.have.been.called.with.exactly(ability.can('chop', 'Wood'), ability, ForbiddenError.from(ability).unlessCan('chop', 'Wood')?.message)
+  })
+
+  it('Does not pass forbidden reason message to "children" function when allowed', () => {
+    renderer.create(e(Can, { not: true, I: 'chop', a: 'Wood', ability }, children))
+
+    expect(children).to.have.been.called.with.exactly(ability.cannot('chop', 'Wood'), ability, undefined)
   })
 
   it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
