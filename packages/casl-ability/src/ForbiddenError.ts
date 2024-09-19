@@ -14,6 +14,7 @@ const NativeError = function NError(this: Error, message: string) {
 
 NativeError.prototype = Object.create(Error.prototype);
 
+
 export class ForbiddenError<T extends AnyAbility> extends NativeError {
   public readonly ability!: T;
   public action!: Normalize<Generics<T>["abilities"]>[0];
@@ -79,10 +80,30 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     return this; // eslint-disable-line consistent-return
   }
 
+  private unless(inverted: boolean, ...args: Parameters<T["can"]> ): this | undefined 
+  private unless(
+    inverted: boolean,
+    action: string,
+    subject?: Subject,
+    field?: string
+  ): this | undefined {
+    return this.handleRule(action, inverted, subject, field,);
+  }
+
+  private throwUnless(inverted: boolean, ...args: Parameters<T["can"]> | Parameters<T["cannot"]>): void
+  private throwUnless(
+    inverted: boolean,
+    action: string,
+    subject?: Subject,
+    field?: string
+  ): void {
+    const error = (this as any).unless(inverted, action, subject, field);
+    if (error) throw error;
+  }
+
   throwUnlessCan(...args: Parameters<T["can"]>): void;
   throwUnlessCan(action: string, subject?: Subject, field?: string): void {
-    const error = (this as any).unlessCan(action, subject, field);
-    if (error) throw error;
+    (this as any).throwUnless(false, action, subject, field)
   }
 
   unlessCan(...args: Parameters<T["can"]>): this | undefined;
@@ -91,13 +112,12 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     subject?: Subject,
     field?: string
   ): this | undefined {
-    return this.handleRule(action, false, subject, field);
+    return (this as any).unless(false, action, subject, field);
   }
 
   throwUnlessCannot(...args: Parameters<T["cannot"]>): void;
   throwUnlessCannot(action: string, subject?: Subject, field?: string): void {
-    const error = (this as any).unlessCannot(action, subject, field);
-    if (error) throw error;
+    return (this as any).throwUnless(true, action, subject, field);
   }
 
   unlessCannot(...args: Parameters<T["cannot"]>): this | undefined;
@@ -106,6 +126,6 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     subject?: Subject,
     field?: string
   ): this | undefined {
-    return this.handleRule(action, true, subject, field);
+    return (this as any).unless(true, action, subject, field);
   }
 }
