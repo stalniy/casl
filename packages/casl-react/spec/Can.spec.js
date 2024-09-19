@@ -17,7 +17,8 @@ describe("`Can` component", () => {
 
     expect(children).to.have.been.called.with.exactly(
       ability.can("read", "Post"),
-      ability
+      ability,
+      undefined
     );
   });
 

@@ -103,8 +103,8 @@ export class Can<
     const args = [props.I || props.do, subject, props.field];
     const error =
       check === "can"
-        ? ForbiddenError.from(props.ability!).unlessCan(args)
-        : ForbiddenError.from(props.ability!).unlessCannot(args);
+        ? ForbiddenError.from(props.ability!).unlessCan(...args)
+        : ForbiddenError.from(props.ability!).unlessCannot(...args);
 
     if (error) {
       return {
