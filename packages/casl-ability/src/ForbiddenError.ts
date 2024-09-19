@@ -56,9 +56,9 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
   ): this | undefined {
     const rule = this.ability.relevantRuleFor(action, subject, field);
 
-    if (inverted && (!rule || rule.inverted)) {
-      return;
-    } else if (!inverted && rule && !rule.inverted) {
+    const isRuleInverted = rule?.inverted ?? false;
+
+    if (inverted === isRuleInverted) {
       return;
     }
 
