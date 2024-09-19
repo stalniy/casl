@@ -24,7 +24,7 @@ describe('`ForbiddenError` class', () => {
 
     it('does not produce error on forbidden action when inverted', () => {
       const { error } = setup()
-      expect(error.unlessCannot('read', 'Post')).toBeUndefined()
+      expect(error.unlessCannot('archive', 'Post')).toBeUndefined()
     })
 
     it('produces an error on allowed action when inverted', () => {
