@@ -1,4 +1,4 @@
-import { defineAbility } from '@casl/ability'
+import { defineAbility, ForbiddenError } from '@casl/ability'
 import { createElement as e } from 'react'
 import renderer from 'react-test-renderer'
 import { Can } from '../src'
@@ -15,7 +15,7 @@ describe('`Can` component', () => {
   it('passes ability check value and instance as arguments to "children" function', () => {
     renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
 
-    expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability)
+    expect(children).to.have.been.called.with.exactly(ability.can('read', 'Post'), ability, undefined)
   })
 
   it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
@@ -24,6 +24,14 @@ describe('`Can` component', () => {
 
     expect(canComponent.getInstance().allowed).to.equal(ability.can('read', 'Post'))
     expect(canComponent.getInstance().allowed).to.equal(ability.cannot('run', 'Marathon'))
+  })
+
+  it('has public "forbiddenReason" property which returns the message for ForbiddenError ', () => {
+    const canComponent = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
+    renderer.create(e(Can, {  not: true, I: 'run', a: 'Marathon', ability }, children))
+
+    expect(canComponent.getInstance().forbiddenReason).to.equal(ForbiddenError.from(ability).unlessCan('read', 'Post')?.message)
+    expect(canComponent.getInstance().forbiddenReason).to.equal(ForbiddenError.from(ability).unlessCannot('run', 'Marathon')?.message)
   })
 
   it('unsubscribes from ability updates when unmounted', () => {

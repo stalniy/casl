@@ -95,6 +95,10 @@ export class Can<
     return this._isAllowed;
   }
 
+  get forbiddenReason() {
+    return this._forbiddenReason;
+  }
+
   private _getCanRenderWithReason(): CanRenderWithReason {
     const props: any = this.props;
     const subject = props.of || props.a || props.an || props.this || props.on;
@@ -103,8 +107,8 @@ export class Can<
     const args = [props.I || props.do, subject, props.field];
     const error =
       check === "can"
-        ? ForbiddenError.from(props.ability!).unlessCan(...args)
-        : ForbiddenError.from(props.ability!).unlessCannot(...args);
+        ? ForbiddenError.from(props.ability).unlessCan(...args)
+        : ForbiddenError.from(props.ability).unlessCannot(...args);
 
     if (error) {
       return {
