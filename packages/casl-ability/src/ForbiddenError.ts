@@ -3,10 +3,10 @@ import { Generics } from "./RuleIndex";
 import { Normalize, Subject } from "./types";
 import { getSubjectTypeName } from "./utils";
 
-export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
+export type GetErrorMessage = (error: ForbiddenError<AnyAbility>, inverted?: boolean) => string;
 /** @deprecated will be removed in the next major release */
 export const getDefaultErrorMessage: GetErrorMessage = (error) =>
-  `Cannot execute "${error.action}" on "${error.subjectType}"`;
+  `${error.inverted ? 'Can' : "Cannot"} execute "${error.action}" on "${error.subjectType}"`;
 
 const NativeError = function NError(this: Error, message: string) {
   this.message = message;
@@ -20,6 +20,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
   public subject!: Generics<T>["abilities"][1];
   public field?: string;
   public subjectType!: string;
+  public inverted!: boolean;
 
   static _defaultErrorMessage = getDefaultErrorMessage;
 
@@ -49,9 +50,9 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
 
   private handleRule(
     action: string,
+    inverted: boolean,
     subject?: Subject,
     field?: string,
-    inverted?: boolean
   ): this | undefined {
     const rule = this.ability.relevantRuleFor(action, subject, field);
 
@@ -67,13 +68,14 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
       this.ability.detectSubjectType(subject)
     );
     this.field = field;
+    this.inverted = inverted;
 
     const reason = rule ? rule.reason : "";
     // eslint-disable-next-line no-underscore-dangle
     this.message =
       this.message ||
       reason ||
-      (this.constructor as any)._defaultErrorMessage(this);
+      (this.constructor as any)._defaultErrorMessage(this, !!inverted);
     return this; // eslint-disable-line consistent-return
   }
 
@@ -89,7 +91,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     subject?: Subject,
     field?: string
   ): this | undefined {
-    return this.handleRule(action, subject, field, false);
+    return this.handleRule(action, false, subject, field);
   }
 
   throwUnlessCannot(...args: Parameters<T["cannot"]>): void;
@@ -104,6 +106,6 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     subject?: Subject,
     field?: string
   ): this | undefined {
-    return this.handleRule(action, subject, field, true);
+    return this.handleRule(action, true, subject, field);
   }
 }

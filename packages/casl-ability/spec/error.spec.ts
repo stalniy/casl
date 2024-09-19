@@ -17,6 +17,36 @@ describe('`ForbiddenError` class', () => {
       expect(() => error.throwUnlessCan('read', 'Post')).not.toThrow(ForbiddenError as unknown as Error)
     })
 
+    it('does not produce error on allowed action', () => {
+      const { error } = setup()
+      expect(error.unlessCan('read', 'Post')).toBeUndefined()
+    })
+
+    it('does not produce error on forbidden action when inverted', () => {
+      const { error } = setup()
+      expect(error.unlessCannot('read', 'Post')).toBeUndefined()
+    })
+
+    it('produces an error on allowed action when inverted', () => {
+      const { error } = setup()
+      expect(error.unlessCannot('read', 'Post')).not.toBeUndefined()
+    })
+
+    it("error is inverted when producing the error via 'unlessCannot'", () => {
+      const { error } = setup()
+      expect(error.unlessCannot('read', 'Post')?.inverted).toBe(true)
+    })
+
+    it("error is not inverted when producing the error via 'unlessCan'", () => {
+      const { error } = setup()
+      expect(error.unlessCan('archive', 'Post')?.inverted).toBe(false)
+    })
+
+    it('produces an error on forbidden action', () => {
+      const { error } = setup()
+      expect(error.unlessCan('archive', 'Post')).not.toBeUndefined()
+    })
+
     it('raises forbidden exception on allowed action when inverted', () => {
       const { error } = setup()
       expect(() => error.throwUnlessCannot('read', 'Post')).toThrow(ForbiddenError as unknown as Error)
