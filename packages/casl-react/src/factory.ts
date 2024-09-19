@@ -1,6 +1,6 @@
+import { createElement as h, ComponentClass, Consumer, FunctionComponent } from 'react';
 import { AnyAbility } from '@casl/ability';
-import { ComponentClass, Consumer, FunctionComponent, createElement as h } from 'react';
-import { BoundCanProps, Can } from './Can';
+import { Can, BoundCanProps } from './Can';
 
 interface BoundCanClass<T extends AnyAbility> extends ComponentClass<BoundCanProps<T>> {
   new (props: BoundCanProps<T>, context?: any): Can<T, true>
