@@ -13,7 +13,7 @@ describe('`Can` component', () => {
     ability = defineAbility((can, cannot) => {
       can('read', 'Post')
       cannot('chop', 'Wood').because(cantChopWoodReason)
-    }).update
+    })
     
   })
 
@@ -30,10 +30,11 @@ describe('`Can` component', () => {
   })
 
   it('Does not pass forbidden reason message to "children" function when allowed', () => {
-    renderer.create(e(Can, { not: true, I: 'chop', a: 'Wood', ability }, children))
+    renderer.create(e(Can, { not: true, I: 'chop', a: 'Wood', ability, passThrough: true }, children))
 
     expect(children).to.have.been.called.with.exactly(ability.cannot('chop', 'Wood'), ability, undefined)
   })
+  
 
   it('has public "allowed" property which returns boolean indicating whether children will be rendered', () => {
     const canComponent = renderer.create(e(Can, { I: 'read', a: 'Post', ability }, children))
