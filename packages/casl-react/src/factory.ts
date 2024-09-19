@@ -11,7 +11,6 @@ export function createCanBoundTo<T extends AnyAbility>(ability: T): BoundCanClas
     static defaultProps = { ability } as BoundCanClass<T>['defaultProps'];
   };
 }
-console.log('trigger')
 
 export function createContextualCan<T extends AnyAbility>(
   Getter: Consumer<T>
