@@ -112,7 +112,7 @@ const compound: CompoundInstruction = {
   }
 };
 
-const isEmpty: FieldInstruction<boolean> = {
+const booleanField: FieldInstruction<boolean> = {
   type: 'field',
   validate(instruction, value) {
     if (typeof value !== 'boolean') {
@@ -183,7 +183,7 @@ const instructions = {
   startsWith: compareString,
   endsWith: compareString,
   contains: compareString,
-  isEmpty,
+  isEmpty: booleanField,
   has,
   hasSome,
   hasEvery: hasSome,
@@ -195,6 +195,7 @@ const instructions = {
   none: inverted('some', relation),
   is: relation,
   isNot: inverted('is', relation),
+  isSet: booleanField
 };
 
 export interface ParseOptions {

@@ -75,6 +75,22 @@ describe('PrismaQuery evaluation', () => {
       expect(test({ name: 'Jane Doe' })).toBe(false)
     })
   })
+  describe('isSet', () => {
+    it('throws if value is not a boolean', () => {
+      expect(() => prismaQuery({ items: { isSet: 1 } })).toThrow(/expects to receive a boolean/)
+      expect(() => prismaQuery({ items: { isSet: {} } })).toThrow(/expects to receive a boolean/)
+      expect(() => prismaQuery({ items: { isSet: true } })).not.toThrow()
+    })
+
+    it('checks that object value is not defined when using "isSet"', () => {
+      const test = prismaQuery({ verified: { isSet: true } })
+      expect(test({ verified: true })).toBe(true)
+      expect(test({ verified: false })).toBe(true)
+      expect(test({ verified: null })).toBe(true)
+      expect(test({ verified: undefined })).toBe(false)
+      expect(test({})).toBe(false)
+    })
+  })
 
   describe('in', () => {
     it('throws if passed value is not an array', () => {
