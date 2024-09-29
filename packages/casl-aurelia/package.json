@@ -54,7 +54,7 @@
     "aurelia-pal-browser": "^1.8.0",
     "aurelia-polyfills": "^1.3.0",
     "aurelia-testing": "^1.0.0-beta.4.0.0",
-    "chai": "^4.1.0",
+    "chai": "^5.0.0",
     "chai-spies": "^1.0.0"
   },
   "files": [
