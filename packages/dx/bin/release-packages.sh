@@ -33,7 +33,7 @@ ______HERE__
 
   release_options=""
   if [ "$preview_branch" != "" ]; then
-    release_options="  --dry-run --no-ci --branches master,$preview_branch"
+    release_options="  --dry-run --verify-conditions false --no-ci --branches master,$preview_branch"
   fi
   echo "running: pnpm run -r $pnpm_options release $release_options" >> $GITHUB_STEP_SUMMARY
   pnpm run -r $pnpm_options release $release_options

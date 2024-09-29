@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+
+const git = require('semantic-release/lib/git');
+
+// overwrite semantic release verifyAuth function to be ignored in dry-run mode
+const verifyAuth = git.verifyAuth;
+git.verifyAuth = async (...args) => {
+  if (process.argv.includes('--dry-run')) return;
+  return verifyAuth(...args);
+}
+
+require('semantic-release/bin/semantic-release.js');

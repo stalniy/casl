@@ -1,8 +1,14 @@
 const fsPath = require('path');
+const fs = require('fs');
 const { spawnAndExit } = require('./spawn');
 
 const configPath = filename => fsPath.join(__dirname, '..', 'config', filename);
-const localBin = cli => fsPath.join(__dirname, '..', 'node_modules', '.bin', cli);
+const localBin = cli => {
+  const localReplacement = fsPath.join(__dirname, '..', 'bin', cli);
+  return fs.existsSync(localReplacement)
+    ? localReplacement
+    : fsPath.join(__dirname, '..', 'node_modules', '.bin', cli);
+}
 
 const COMMANDS = {
   install() {
