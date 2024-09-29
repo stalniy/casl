@@ -41,7 +41,7 @@ jobs:
         run: pnpm run -r build
       - name: Release
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN || github.token }}
           NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
           ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
           PREVIEW_RELEASE: ${{ github.event.pull_request.merged == true && 'no' || 'yes' }}
