@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.5.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.4.1...@casl/prisma@1.5.0) (2024-09-29)
+
+
+### Features
+
+* **prisma:** Add 'isSet' filter to prisma filters ([#967](https://github.com/stalniy/casl/issues/967)) ([256a2fe](https://github.com/stalniy/casl/commit/256a2fe170b3dcad9869cc2b17d895fdb1b8e6dc))
+
 ## [1.4.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.4.0...@casl/prisma@1.4.1) (2023-07-20)
 
 # [1.4.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.3.3...@casl/prisma@1.4.0) (2023-04-28)
