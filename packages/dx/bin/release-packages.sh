@@ -7,14 +7,14 @@ release_packages() {
   echo "Releasing packages with the next args (branch: ${preview_branch:-master}): $changed_paths"
 
   if [ "$changed_paths" = "" ];then
-    echo <<<______HERE__
+    cat <<______HERE__
       Usage:
         release-packages "packages/casl-ability"
         release-packages '
           packages/casl-ability
           packages/casl-angular
         '
-______HERE__;
+______HERE__
       return 1;
   fi
 
