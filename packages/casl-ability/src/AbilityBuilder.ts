@@ -8,7 +8,7 @@ import {
 } from './types';
 
 function isAbilityClass(factory: AbilityFactory<any>): factory is AnyClass {
-  return typeof factory.prototype.possibleRulesFor === 'function';
+  return factory.prototype !== undefined && typeof factory.prototype.possibleRulesFor === 'function';
 }
 
 class RuleBuilder<T extends AnyAbility> {
