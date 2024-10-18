@@ -114,6 +114,17 @@ describe('AbilityBuilder', () => {
     expect(factory).to.have.been.called.with(rules, options)
   })
 
+  it('can create Ability instance from a factory arrow function', () => {
+    const factorySpy = spy()
+    const factory = (...args) => factorySpy(...args)
+    const { can, build, rules } = new AbilityBuilder(factory)
+    const options = {}
+    can('read', 'Post')
+    build(options)
+
+    expect(factorySpy).to.have.been.called.with(rules, options)
+  })
+
   describe('defineAbility', () => {
     it('defines `Ability` instance using DSL', () => {
       const ability = defineAbility((can, cannot) => {
