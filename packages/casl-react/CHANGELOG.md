@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.1](https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@3.1.1) (2024-10-30)
+
 # 4.0.0 (https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@4.0.0) (2024-06-16)
 
 ### Code Refactoring
