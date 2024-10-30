@@ -51,7 +51,7 @@
     "@types/jest": "^29.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^18.0.0",
-    "chai": "^4.1.0",
+    "chai": "^5.0.0",
     "chai-spies": "^1.0.0",
     "react": "^18.0.0",
     "react-test-renderer": "^18.0.0"
