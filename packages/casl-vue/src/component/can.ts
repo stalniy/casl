@@ -1,13 +1,13 @@
-import { defineComponent, ComponentCustomProperties } from 'vue';
 import {
-  SubjectType,
-  Generics,
-  AnyAbility,
-  Ability,
   Abilities,
-  IfString,
   AbilityTuple,
+  AnyAbility,
+  Generics,
+  IfString,
+  MongoAbility,
+  SubjectType
 } from '@casl/ability';
+import { ComponentCustomProperties, defineComponent } from 'vue';
 import { useAbility } from '../useAbility';
 
 type AbilityCanProps<
@@ -27,7 +27,7 @@ export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilit
 
 type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }
   ? ComponentCustomProperties['$ability']
-  : Ability;
+  : MongoAbility;
 
 function detectSubjectProp(props: Record<string, unknown>) {
   if (props.a !== undefined) {
