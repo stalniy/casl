@@ -72,7 +72,7 @@ type BuilderCanParametersWithFields<
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 
-type AddRule<T extends AnyAbility> = {
+export type AddRule<T extends AnyAbility> = {
   <
     I extends InstanceOf<T, S>,
     F extends string = Keys<I>,
