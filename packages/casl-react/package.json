@@ -42,19 +42,19 @@
   "license": "MIT",
   "peerDependencies": {
     "@casl/ability": "^3.0.0 || ^4.0.0 || ^5.1.0 || ^6.0.0",
-    "react": "^16.0.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
-    "@testing-library/react-hooks": "^4.0.1",
+    "@testing-library/react-hooks": "^8.0.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^22.0.0",
-    "@types/react": "^18.0.0",
+    "@types/react": "^19.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "react": "^18.0.0",
-    "react-test-renderer": "^18.0.0"
+    "react": "^19.0.0",
+    "react-test-renderer": "^19.0.0"
   },
   "files": [
     "dist",
