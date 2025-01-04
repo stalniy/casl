@@ -2,7 +2,7 @@ import { Pipe, Inject, PipeTransform } from '@angular/core';
 import { PureAbility, AnyAbility } from '@casl/ability';
 import { Observable } from 'rxjs';
 
-@Pipe({ name: 'able', pure: false })
+@Pipe({ name: 'able', pure: false, standalone: false })
 export class AblePipe<T extends AnyAbility> implements PipeTransform {
   private _ability: T;
 
@@ -15,7 +15,7 @@ export class AblePipe<T extends AnyAbility> implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'ablePure' })
+@Pipe({ name: 'ablePure', standalone: false })
 export class AblePurePipe<T extends AnyAbility> implements PipeTransform {
   private _ability: T;
 
