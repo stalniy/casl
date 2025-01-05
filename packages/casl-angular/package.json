@@ -47,8 +47,8 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0",
-    "@casl/ability": "^3.0.0 || ^4.0.0 || ^5.1.0 || ^6.0.0",
+    "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0",
+    "@casl/ability": "^4.0.0 || ^5.1.0 || ^6.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0"
   },
