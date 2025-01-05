@@ -26,6 +26,7 @@ module.exports = {
       releaseRules: [
         { type: 'chore', scope: 'deps', release: 'patch' },
         { type: 'docs', scope: 'README', release: 'patch' },
+        { type: 'refactor', release: 'patch' },
       ]
     }],
     '@semantic-release/release-notes-generator',
