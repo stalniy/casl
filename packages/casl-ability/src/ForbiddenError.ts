@@ -30,7 +30,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     return new this<U>(ability);
   }
 
-  private constructor(ability: T) {
+  constructor(ability: T) {
     super('');
     this.ability = ability;
 
