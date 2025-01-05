@@ -1,6 +1,6 @@
 import { CompoundCondition, Condition, buildAnd, buildOr } from '@ucast/mongo2js';
 import { AnyAbility } from '../PureAbility';
-import { RuleOf } from '../RuleIndex';
+import { Generics, RuleOf } from '../RuleIndex';
 import { ExtractSubjectType } from '../types';
 
 export type RuleToQueryConverter<T extends AnyAbility, R = object> = (rule: RuleOf<T>) => R;
@@ -15,27 +15,39 @@ export function rulesToQuery<T extends AnyAbility, R = object>(
   subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
   convert: RuleToQueryConverter<T, R>
 ): AbilityQuery<R> | null {
-  const query: AbilityQuery<R> = {};
+  const $and: Generics<T>['conditions'][] = [];
+  const $or: Generics<T>['conditions'][] = [];
   const rules = ability.rulesFor(action, subjectType);
 
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
-    const op = rule.inverted ? '$and' : '$or';
+    const list = rule.inverted ? $and : $or;
 
     if (!rule.conditions) {
       if (rule.inverted) {
+        // stop if inverted rule without fields and conditions
+        // Example:
+        // can('read', 'Post', { id: 2 })
+        // cannot('read', "Post")
+        // can('read', 'Post', { id: 5 })
         break;
       } else {
-        delete query[op];
-        return query;
+        // if it allows reading all types then remove previous conditions
+        // Example:
+        // can('read', 'Post', { id: 1 })
+        // can('read', 'Post')
+        // cannot('read', 'Post', { status: 'draft' })
+        return $and.length ? { $and } : {};
       }
     } else {
-      query[op] = query[op] || [];
-      query[op]!.push(convert(rule));
+      list.push(convert(rule));
     }
   }
 
-  return query.$or ? query : null;
+  // if there are no regular conditions and the where no rule without condition
+  // then user is not allowed to perform this action on this subject type
+  if (!$or.length) return null;
+  return $and.length ? { $or, $and } : { $or };
 }
 
 function ruleToAST(rule: RuleOf<AnyAbility>): Condition {
