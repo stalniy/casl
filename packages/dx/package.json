@@ -21,7 +21,7 @@
     "@semantic-release/git": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^8.30.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^29.0.0",
     "lint-staged": "^13.0.0",
