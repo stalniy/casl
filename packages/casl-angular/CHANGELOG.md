@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [8.3.0](https://github.com/stalniy/casl/compare/@casl/angular@8.2.8...@casl/angular@8.3.0) (2025-01-05)
+
+
+### Features
+
+* adds AbilityServiceSignal and converted pipes to standalone pipes ([#1004](https://github.com/stalniy/casl/issues/1004)) ([46122e6](https://github.com/stalniy/casl/commit/46122e6b1abb0141cd4ea83ffd609c400adf0c04))
+
 ## [8.2.8](https://github.com/stalniy/casl/compare/@casl/angular@8.2.7...@casl/angular@8.2.8) (2024-08-23)
 
 ## [8.2.7](https://github.com/stalniy/casl/compare/@casl/angular@8.2.6...@casl/angular@8.2.7) (2024-07-16)
