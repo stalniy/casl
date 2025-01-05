@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.0.3](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.2...@casl/mongoose@8.0.3) (2025-01-05)
+
+
+### Bug Fixes
+
+* removes redundant comment ([#928](https://github.com/stalniy/casl/issues/928)) ([e56583b](https://github.com/stalniy/casl/commit/e56583bc1c2b2c4e92ab0134b62c6d963925c603))
+
 ## [8.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.1...@casl/mongoose@8.0.2) (2024-06-16)
 
 
