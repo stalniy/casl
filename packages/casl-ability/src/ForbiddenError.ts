@@ -65,8 +65,7 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
     this.field = field;
 
     const reason = rule ? rule.reason : '';
-    // eslint-disable-next-line no-underscore-dangle
     this.message = this.message || reason || (this.constructor as any)._defaultErrorMessage(this);
-    return this; // eslint-disable-line consistent-return
+    return this;
   }
 }

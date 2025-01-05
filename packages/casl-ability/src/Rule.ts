@@ -48,7 +48,7 @@ export class Rule<A extends Abilities, C> {
   constructor(
     rule: RawRule<ToAbilityTypes<A>, C>,
     options: RuleOptions<C>,
-    priority: number = 0
+    priority = 0
   ) {
     validate(rule, options);
 

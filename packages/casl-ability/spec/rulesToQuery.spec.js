@@ -1,4 +1,4 @@
-import { defineAbility } from '../src'
+import { createMongoAbility, defineAbility } from '../src'
 import { rulesToQuery } from '../src/extra'
 
 function toQuery(ability, action, subject) {
@@ -38,7 +38,7 @@ describe('rulesToQuery', () => {
   })
 
   it('returns `null` if empty `Ability` instance is passed', () => {
-    const ability = defineAbility(() => {})
+    const ability = createMongoAbility()
     const query = toQuery(ability, 'read', 'Post')
 
     expect(query).toBe(null)

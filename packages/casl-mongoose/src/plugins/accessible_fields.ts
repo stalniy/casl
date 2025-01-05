@@ -1,16 +1,16 @@
 import { AnyMongoAbility, Generics, Normalize, wrapArray } from '@casl/ability';
 import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from '@casl/ability/extra';
-import type { Document, Model, Schema } from 'mongoose';
+import type { Document as Doc, Model, Schema } from 'mongoose';
 
 export type AccessibleFieldsOptions =
   {
-    getFields(schema: Schema<Document>): string[]
+    getFields(schema: Schema<Doc>): string[]
   } &
   ({ only: string | string[] } | { except: string | string[] });
 
 export const getSchemaPaths: AccessibleFieldsOptions['getFields'] = schema => Object.keys((schema as { paths: object }).paths);
 
-function fieldsOf(schema: Schema<Document>, options: Partial<AccessibleFieldsOptions>) {
+function fieldsOf(schema: Schema<Doc>, options: Partial<AccessibleFieldsOptions>) {
   const fields = options.getFields!(schema);
 
   if (!options || !('except' in options)) {
@@ -36,7 +36,7 @@ export interface AccessibleFieldsModel<
   accessibleFieldsBy: GetAccessibleFields<T>
 }
 
-export interface AccessibleFieldDocumentMethods<T = Document> {
+export interface AccessibleFieldDocumentMethods<T = Doc> {
   accessibleFieldsBy: GetAccessibleFields<T>
 }
 
@@ -67,7 +67,7 @@ export function accessibleFieldsPlugin(
   const options = { getFields: getSchemaPaths, ...rawOptions };
   const getAllFields = getAllSchemaFieldsFactory();
 
-  function instanceAccessibleFields(this: Document, ability: AnyMongoAbility, action?: string) {
+  function instanceAccessibleFields(this: Doc, ability: AnyMongoAbility, action?: string) {
     return new AccessibleFields(ability, action || 'read', getAllFields(schema, options)).of(this);
   }
 

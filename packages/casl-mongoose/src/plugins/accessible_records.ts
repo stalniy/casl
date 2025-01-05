@@ -1,12 +1,12 @@
 import { AnyMongoAbility, Generics, Normalize } from '@casl/ability';
-import { Document, HydratedDocument, Model, Query, QueryWithHelpers, Schema } from 'mongoose';
+import type { Document as Doc, HydratedDocument, Model, Query, QueryWithHelpers, Schema } from 'mongoose';
 import { accessibleBy } from '../accessibleBy';
 
 function accessibleRecords<T extends AnyMongoAbility>(
   baseQuery: Query<any, any>,
   ability: T,
   action?: Normalize<Generics<T>['abilities']>[0]
-): QueryWithHelpers<Document, Document> {
+): QueryWithHelpers<Doc, Doc> {
   const subjectType = ability.detectSubjectType({
     constructor: baseQuery.model
   });
@@ -23,11 +23,7 @@ function accessibleRecords<T extends AnyMongoAbility>(
 type GetAccessibleRecords<T, TQueryHelpers, TMethods, TVirtuals> = <U extends AnyMongoAbility>(
   ability: U,
   action?: Normalize<Generics<U>['abilities']>[0]
-) => QueryWithHelpers<
-Array<T>,
-T,
-AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>
->;
+) => QueryWithHelpers<T[], T, AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>>;
 
 export type AccessibleRecordQueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
   /** @deprecated use accessibleBy helper instead */

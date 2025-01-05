@@ -89,7 +89,7 @@ type AbilitySubjectTypeParameters<T extends Abilities, IncludeField extends bool
   >;
 
 export class RuleIndex<A extends Abilities, Conditions> {
-  private _hasPerFieldRules: boolean = false;
+  private _hasPerFieldRules = false;
   private _events?: Events<this>;
   private _indexedRules: IndexTree<A, Conditions> = new Map();
   private _rules: RawRuleFrom<A, Conditions>[];

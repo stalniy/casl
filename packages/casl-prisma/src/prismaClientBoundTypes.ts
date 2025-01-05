@@ -10,7 +10,6 @@ type ModelWhereInput = {
     : never
 };
 
-// eslint-disable-next-line max-len
 export type WhereInput<TModelName extends Prisma.ModelName> = Extract<
 ModelWhereInput[TModelName],
 Record<any, any>

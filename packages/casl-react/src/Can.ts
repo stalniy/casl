@@ -45,7 +45,7 @@ export class Can<
   T extends AnyAbility,
   IsBound extends boolean = false
 > extends PureComponent<IsBound extends true ? BoundCanProps<T> : CanProps<T>> {
-  private _isAllowed: boolean = false;
+  private _isAllowed = false;
   private _ability: T | null = null;
   private _unsubscribeFromAbility: Unsubscribe = noop;
 

@@ -24,6 +24,7 @@ class AbilityValueConverter<T extends AnyAbility> {
   }
 }
 
+/** @deprecated use "able" value converter instead */
 export class CanValueConverter<T extends AnyAbility> extends AbilityValueConverter<T> {
   static $resource = {
     name: 'can',
@@ -35,8 +36,6 @@ export class CanValueConverter<T extends AnyAbility> extends AbilityValueConvert
     action: Parameters<T['can']>[0],
     field?: string
   ): boolean {
-    // eslint-disable-next-line
-    console.warn('`can` value converter is deprecated. Use `able` converter instead');
     return (this as any).can(action, subject, field);
   }
 }

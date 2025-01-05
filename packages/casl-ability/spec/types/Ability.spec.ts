@@ -86,6 +86,7 @@ describe('Ability types', () => {
     })
 
     describe('`resolveAction`', () => {
+      // eslint-disable-next-line
       const resolveAction = createAliasResolver({
         modify: ['delete', 'update']
       })
@@ -97,11 +98,13 @@ describe('Ability types', () => {
 
   describe('createMongoAbility', () => {
     it('can accept Ability type as a single generic parameter', () => {
+      // eslint-disable-next-line
       const ability = createMongoAbility<AppAbility>()
       expectTypeOf<typeof ability>().toEqualTypeOf<AppAbility>()
     })
 
     it('can accept abilities and conditions generics', () => {
+      // eslint-disable-next-line
       const ability = createMongoAbility<['read', 'Post' | Post], MongoQuery>()
       expectTypeOf<typeof ability>().toEqualTypeOf<AppAbility>()
     })

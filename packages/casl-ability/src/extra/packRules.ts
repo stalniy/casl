@@ -18,7 +18,7 @@ export function packRules<T extends RawRule<any, any>>(
   rules: T[],
   packSubject?: PackSubjectType<T['subject']>
 ): PackRule<T>[] {
-  return rules.map((rule) => { // eslint-disable-line
+  return rules.map((rule) => {
     const packedRule: PackRule<T> = [
       joinIfArray((rule as any).action || (rule as any).actions),
       typeof packSubject === 'function'

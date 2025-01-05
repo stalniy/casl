@@ -78,6 +78,7 @@ describe('AbilityBuilder types', () => {
 
   it('infers single action argument type from ClaimAbility', () => {
     const ClaimAbility = PureAbility as AbilityClass<PureAbility<string>>
+    // eslint-disable-next-line
     const builder = new AbilityBuilder(ClaimAbility)
     type Can = typeof builder.can
 

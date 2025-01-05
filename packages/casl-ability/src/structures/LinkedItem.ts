@@ -23,7 +23,7 @@ export function unlinkItem(item: LinkedItem<any>) {
     item.prev.next = item.next;
   }
 
-  item.next = item.prev = null; // eslint-disable-line
+  item.next = item.prev = null;
 }
 
 export const cloneLinkedItem = <T extends LinkedItem<any>>(item: T): T => ({

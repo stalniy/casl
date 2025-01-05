@@ -1,4 +1,4 @@
-import { defineAbility, PureAbility, createAliasResolver } from '../src'
+import { defineAbility, PureAbility, createAliasResolver, createMongoAbility } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('Ability', () => {
@@ -774,7 +774,7 @@ describe('Ability', () => {
     })
 
     it('returns an empty array if there are no actions for provided subject type and no actions for "all" subject type', () => {
-      ability = defineAbility(() => {})
+      ability = createMongoAbility()
 
       expect(ability.actionsFor('Post')).to.have.length(0)
     })
