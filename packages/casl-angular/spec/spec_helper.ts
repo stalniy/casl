@@ -17,7 +17,8 @@ export const createApp = (template) => {
   @Component({
     selector: `app-ability-${++appIndex}`,
     template,
-    inputs: ['post']
+    inputs: ['post'],
+    standalone: false,
   })
   class App {}
 
