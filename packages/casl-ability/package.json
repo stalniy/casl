@@ -34,12 +34,12 @@
     "build.core": "dx rollup -n casl -g @ucast/mongo2js:ucast.mongo2js",
     "build.extra": "dx rollup -i src/extra/index.ts -n casl.extra -g @ucast/mongo2js:ucast.mongo2js",
     "build.types": "dx tsc",
-    "prebuild": "rm -rf dist/*",
-    "build": "npm run build.types && npm run build.core && npm run build.extra",
+    "build.prepare": "rm -rf dist/* && npm run build.types",
+    "build": "npm run build.prepare && npm run build.core && npm run build.extra",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release"
+    "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "release": "npm run release.prepare && dx semantic-release"
   },
   "keywords": [
     "permissions",

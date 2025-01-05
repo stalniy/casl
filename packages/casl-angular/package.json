@@ -23,19 +23,18 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "rm -rf dist/*",
-    "build": "npm run build.types && npm run build.es5m && npm run build.es6 && npm run build.umd",
+    "build.prepare": "rm -rf dist/* && npm run build.types",
+    "build": "npm run build.prepare && npm run build.es5m && npm run build.es6 && npm run build.umd",
     "build.es5m": "TARGET=es5 BUILD=es5m npm run rollup",
     "build.es6": "TARGET=es2015 BUILD=es6m npm run rollup",
     "build.umd": "TARGET=es5 BUILD=umd npm run rollup",
     "build.types": "ngc -p tsconfig.types.json && rm -rf dist/types/*.js",
-    "prerollup": "ngc -p tsconfig.build.json --target $TARGET --outDir dist/$BUILD/tmp",
-    "rollup": "IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false dx rollup -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs",
-    "postrollup": "rm -rf dist/$BUILD/tmp",
+    "rollup.prepare": "ngc -p tsconfig.build.json --target $TARGET --outDir dist/$BUILD/tmp",
+    "rollup": "npm run rollup.prepare && IGNORE_SUBPATH=1 LIB_MINIFY=false BUILD_TYPES=$BUILD ES_TRANSFORM=false dx rollup -i dist/$BUILD/tmp/index.js -n casl.ng -g @angular/core:ng.core,@casl/ability:casl,tslib:tslib,rxjs:rxjs && rm -rf dist/$BUILD/tmp",
     "test": "dx jest --config ./jest.config.js",
     "lint": "dx eslint src/ spec/",
-    "prerelease": "npm run lint && NODE_ENV=production npm run build && npm test",
-    "release": "dx semantic-release"
+    "release.prepare": "npm run lint && NODE_ENV=production npm run build && npm test",
+    "release": "npm run release.prepare && dx semantic-release"
   },
   "keywords": [
     "casl",
