@@ -30,6 +30,9 @@ import {
   createFactory,
   BuildMongoQuery,
   DefaultOperators,
+  FieldInstruction,
+  JsInterpreter,
+  FieldCondition,
 } from '@ucast/mongo2js';
 import { ConditionsMatcher, AnyObject } from '../types';
 import { Container, GenericFactory } from '../hkt';
@@ -49,7 +52,7 @@ const defaultInstructions = {
   $options,
   $elemMatch,
   $exists,
-};
+} satisfies Record<string, FieldInstruction>;
 const defaultInterpreters = {
   eq,
   ne,
@@ -65,7 +68,7 @@ const defaultInterpreters = {
   elemMatch,
   exists,
   and,
-};
+} satisfies Record<string, JsInterpreter<FieldCondition<any>>>;
 
 interface MongoQueryFactory extends GenericFactory {
   produce: MongoQuery<this[0]>
