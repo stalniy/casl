@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.7.4](https://github.com/stalniy/casl/compare/@casl/ability@6.7.3...@casl/ability@6.7.4) (2025-01-05)
+
+
+### chore
+
+* **deps:** update react and removes old react and casl/ability support (major) ([#998](https://github.com/stalniy/casl/issues/998)) ([44d3f40](https://github.com/stalniy/casl/commit/44d3f40cb034fbd5abfd7f7014bb28baf75ef06a))
+
+
+### BREAKING CHANGES
+
+* **deps:** now supports react ^17 and casl/ability ^4
+
 ## [6.7.3](https://github.com/stalniy/casl/compare/@casl/ability@6.7.2...@casl/ability@6.7.3) (2025-01-05)
 
 ## [6.7.2](https://github.com/stalniy/casl/compare/@casl/ability@6.7.1...@casl/ability@6.7.2) (2024-10-30)
