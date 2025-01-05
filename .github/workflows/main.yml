@@ -59,9 +59,19 @@ jobs:
           pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]...' build
         fi
     - name: lint
-      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
+      run:  |
+        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+          pnpm run -r lint
+        else
+          pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
+        fi
     - name: test
-      run: pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
+      run:   |
+        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+          pnpm run -r  test --coverage
+        else
+          pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
+        fi
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
