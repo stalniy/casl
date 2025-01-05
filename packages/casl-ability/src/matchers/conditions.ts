@@ -1,39 +1,38 @@
 import {
-  $eq,
-  eq,
-  $ne,
-  ne,
-  $lt,
-  lt,
-  $lte,
-  lte,
-  $gt,
-  gt,
-  $gte,
-  gte,
-  $in,
-  within,
-  $nin,
-  nin,
   $all,
-  all,
-  $size,
-  size,
-  $regex,
-  $options,
-  regex,
   $elemMatch,
-  elemMatch,
+  $eq,
   $exists,
-  exists,
+  $gt,
+  $gte,
+  $in,
+  $lt,
+  $lte,
+  $ne,
+  $nin,
+  $options,
+  $regex,
+  $size,
+  all,
   and,
-  createFactory,
   BuildMongoQuery,
+  createFactory,
   DefaultOperators,
-  ParsingInstruction,
+  elemMatch,
+  eq,
+  exists,
+  gt,
+  gte,
+  lt,
+  lte,
+  ne,
+  nin,
+  regex,
+  size,
+  within
 } from '@ucast/mongo2js';
-import { ConditionsMatcher, AnyObject } from '../types';
 import { Container, GenericFactory } from '../hkt';
+import { AnyObject, ConditionsMatcher } from '../types';
 
 const defaultInstructions = {
   $eq,
@@ -81,14 +80,13 @@ export type MongoQuery<T = AnyObject> = BuildMongoQuery<MergeUnion<T>, {
 type MongoQueryMatcherFactory =
   (...args: Partial<Parameters<typeof createFactory>>) => ConditionsMatcher<MongoQuery>;
 export const buildMongoQueryMatcher = ((instructions, interpreters, options) => createFactory(
-  { ...defaultInstructions, ...instructions } as Record<string, ParsingInstruction<any, any>>,
+  { ...defaultInstructions, ...instructions },
   { ...defaultInterpreters, ...interpreters },
   options
 )) as MongoQueryMatcherFactory;
 
 export const mongoQueryMatcher = createFactory(defaultInstructions, defaultInterpreters);
 export type {
-  MongoQueryFieldOperators,
-  MongoQueryTopLevelOperators,
-  MongoQueryOperators,
+  MongoQueryFieldOperators, MongoQueryOperators, MongoQueryTopLevelOperators
 } from '@ucast/mongo2js';
+
