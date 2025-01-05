@@ -2,19 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.1.2](https://github.com/stalniy/casl/compare/@casl/react@3.1.1...@casl/react@3.1.2) (2025-01-05)
-
-
-### chore
-
-* **deps:** update react and removes old react and casl/ability support (major) ([#998](https://github.com/stalniy/casl/issues/998)) ([44d3f40](https://github.com/stalniy/casl/commit/44d3f40cb034fbd5abfd7f7014bb28baf75ef06a))
-
+# 5.0.0 (https://github.com/stalniy/casl/compare/@casl/react@4.0.0...@casl/react@5.0.0) (2025-01-05)
 
 ### BREAKING CHANGES
 
-* **deps:** now supports react ^17 and casl/ability ^4
+* update react and removes old react and casl/ability support (major) ([#998](https://github.com/stalniy/casl/issues/998)) ([44d3f40](https://github.com/stalniy/casl/commit/44d3f40cb034fbd5abfd7f7014bb28baf75ef06a))
 
-## [3.1.1](https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@3.1.1) (2024-10-30)
 
 # 4.0.0 (https://github.com/stalniy/casl/compare/@casl/react@3.1.0...@casl/react@4.0.0) (2024-06-16)
 
