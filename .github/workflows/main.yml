@@ -52,7 +52,12 @@ jobs:
       run: |
         echo "sha=${{ github.event.pull_request.base.sha || github.event.before }}" >> $GITHUB_OUTPUT
     - name: Build
-      run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]...' build
+      run: |
+        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+          pnpm run -r build
+        else
+          pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]...' build
+        fi
     - name: lint
       run: pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
     - name: test
