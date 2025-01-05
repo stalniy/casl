@@ -68,6 +68,12 @@ export default tseslint.config(
             "@typescript-eslint/ban-types": "off",
             "@typescript-eslint/no-explicit-any": "off",
             "@typescript-eslint/no-use-before-define": "off",
+            "no-restricted-imports": ["error", {
+                "patterns": [{
+                    "group": ["**/dist/*"],
+                    "message": "Do not import compiled sources directly"
+                }]
+            }]
         },
     }, 
     {
@@ -75,7 +81,7 @@ export default tseslint.config(
         languageOptions: {
             globals: {
                 ...globals.jest,
-                // ...globals.browser,
+                ...globals.browser,
                 expect: true,
                 spy: true,
                 fail: true,
