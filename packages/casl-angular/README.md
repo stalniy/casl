@@ -4,7 +4,7 @@
 [![](https://img.shields.io/npm/dm/%40casl%2Fangular.svg)](https://www.npmjs.com/package/%40casl%2Fangular)
 [![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
 
-This package allows to integrate `@casl/ability` with [Angular] application. It provides `AblePipe` and `AblePurePipe` to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.
+This package allows to integrate `@casl/ability` with [Angular] application. It provides deprecated `AblePipe`, `AblePurePipe` and new `AbilityService` and `AbilityServiceSignal` to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.
 
 ## Installation
 
@@ -18,30 +18,27 @@ pnpm add @casl/angular @casl/ability
 
 ## Configure AppModule
 
-To add pipes into your application's templates, you need to import `AbilityModule` in your `AppModule` and
+To add pipes into your application's templates, you need to import the one you need
 
 ```ts @{data-filename="app.module.ts"}
 import { NgModule } from '@angular/core';
-import { AbilityModule } from '@casl/angular';
-import { Ability, PureAbility } from '@casl/ability';
+import { AblePipe } from '@casl/angular';
+import { createMongoAbility, PureAbility } from '@casl/ability';
 
 @NgModule({
   imports: [
     // other modules
-    AbilityModule
+    AblePipe
   ],
   providers: [
-    { provide: Ability, useValue: new Ability() },
-    { provide: PureAbility, useExisting: Ability }
+    { provide: PureAbility, useValue: createMongoAbility() }
   ]
   // other properties
 })
 export class AppModule {}
 ```
 
-The 2nd provider provides instance of `PureAbility`, so pipes can inject it later. This pipes inject `PureAbility` (not `Ability`) because this allows an application developer to decide how to configure actions, subjects and conditions. Also this is the only way to get maximum from tree shaking (e.g., if you don't need conditions you can use `PureAbility` and shrink @casl/ability size).
-
-> Read [CASL and TypeScript](https://casl.js.org/v5/en/advanced/typescript) to get more details about `Ability` type configuration.
+> Read [CASL and TypeScript](https://casl.js.org/v5/en/advanced/typescript) to get more details about `MongoAbility` type configuration.
 
 ## Update Ability instance
 
@@ -50,14 +47,14 @@ Majority of applications that need permission checking support have something li
 Let's imagine that server returns user with a role on login:
 
 ```ts @{data-filename="Session.ts"}
-import { Ability, AbilityBuilder } from '@casl/ability';
+import { PureAbility, AbilityBuilder } from '@casl/ability';
 import { Injectable } from '@angular/core';
 
 @Injectable({ provideIn: 'root' })
 export class Session {
   private token: string
 
-  constructor(private ability: Ability) {}
+  constructor(@Inject(PureAbility) private ability: MongoAbility) {}
 
   login(details) {
     const params = { method: 'POST', body: JSON.stringify(details) };
@@ -70,7 +67,7 @@ export class Session {
   }
 
   private updateAbility(user) {
-    const { can, rules } = new AbilityBuilder(Ability);
+    const { can, rules } = new AbilityBuilder(createMongoAbility);
 
     if (user.role === 'admin') {
       can('manage', 'all');
@@ -148,11 +145,30 @@ It also can be safely used inside `*ngFor` and other directives. If we use `Chan
 
 This approach works good from performance point of view because it creates only single subscription per component (not per check as in case of `ablePure` pipe) and doesn't require our component to use `Default` or `OnPush` strategy.
 
-**Note**: provide this service at root injector level as we need only 1 instance of it.
-
 But let's also see how we can do permission checks using pipes and what are performance implications of that:
 
-## Check permissions in templates using pipe
+## Signals support
+
+The latest version of @casl/angular also supports new `signal`. To utilize it in your app, instead of `AbilityService` use `AbilityServiceSignal`:
+
+```ts
+import { AbilityServiceSignal } from '@casl/angular';
+import { AppAbility } from './AppAbility';
+
+@Component({
+  selector: 'my-home',
+  template: `
+      <h1>Home Page</h1>
+      <button *ngIf="can('create', 'Post')">Create Post</button>
+  `
+})
+export class HomeComponent {
+  private readonly abilityService = inject<AbilityServiceSignal<AppAbility>>(AbilityServiceSignal);
+  protected readonly can = this.abilityService.can;
+}
+```
+
+## Check permissions in templates using pipe (deprecated)
 
 To check permissions in any template you can use `AblePipe`:
 
@@ -228,8 +244,8 @@ import { Ability, AbilityClass } from '@casl/ability';
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User';
 
-export type AppAbility = Ability<[Actions, Subjects]>;
-export const AppAbility = Ability as AbilityClass<AppAbility>;
+export type AppAbility = MongoAbility<[Actions, Subjects]>;
+export const AppAbility = PureAbility as AbilityClass<AppAbility>;
 ```
 
 And use `AppAbility` everywhere in your app:
@@ -241,8 +257,7 @@ import { AppAbility } from './services/AppAbility';
 @NgModule({
   // other configuration
   providers: [
-    { provide: AppAbility, useValue: new AppAbility() },
-    { provide: PureAbility, useExisting: AppAbility },
+    { provide: AppAbility, useValue: createMongoAbility() },
   ]
 })
 export class AppModule {}
