@@ -1,11 +1,11 @@
+import { Component, Type } from '@angular/core'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing'
-import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { Component, Type } from '@angular/core'
-import { Ability, PureAbility } from '@casl/ability'
-import { AbilityModule } from '../src/public'
+import { createMongoAbility, PureAbility } from '@casl/ability'
+import { AblePipe, AblePurePipe } from '../src/public'
 
 TestBed.initTestEnvironment(
   BrowserDynamicTestingModule,
@@ -43,10 +43,10 @@ export function createComponent<T extends Type<unknown>>(
 
 export function configureTestingModule(declarations: Type<unknown>[] = []) {
   TestBed.configureTestingModule({
-    imports: [AbilityModule],
+    imports: [AblePipe, AblePurePipe],
     declarations,
     providers: [
-      { provide: PureAbility, useFactory: () => new Ability() }
+      { provide: PureAbility, useFactory: () => createMongoAbility() }
     ]
   })
 }

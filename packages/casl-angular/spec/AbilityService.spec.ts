@@ -1,6 +1,6 @@
 import { Type } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
-import { Ability, PureAbility } from '@casl/ability'
+import { createMongoAbility, MongoAbility, PureAbility } from '@casl/ability'
 import { firstValueFrom } from 'rxjs'
 import { AbilityService } from '../src/public'
 import './spec_helper'
@@ -26,7 +26,7 @@ describe('AbilityService', () => {
   })
 
   function setup() {
-    const ability = new Ability()
+    const ability = createMongoAbility()
     TestBed.configureTestingModule({
       providers: [
         AbilityService,
@@ -36,7 +36,7 @@ describe('AbilityService', () => {
 
     return {
       ability,
-      abilityService: TestBed.inject(AbilityService as Type<AbilityService<Ability>>)
+      abilityService: TestBed.inject(AbilityService as Type<AbilityService<MongoAbility>>)
     }
   }
 })
