@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.7.3](https://github.com/stalniy/casl/compare/@casl/ability@6.7.2...@casl/ability@6.7.3) (2025-01-05)
+
 ## [6.7.2](https://github.com/stalniy/casl/compare/@casl/ability@6.7.1...@casl/ability@6.7.2) (2024-10-30)
 
 ## [6.7.1](https://github.com/stalniy/casl/compare/@casl/ability@6.7.0...@casl/ability@6.7.1) (2024-03-27)
