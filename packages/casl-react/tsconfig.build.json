@@ -1,9 +1,14 @@
 {
-  "extends": "./tsconfig",
+  "extends": "../../tsconfig",
+  "include": [
+    "src/*",
+    "spec/*"
+  ],
   "exclude": [
     "spec/**/*"
   ],
   "compilerOptions": {
-    "outDir": "dist/types"
+    "outDir": "dist/types",
+    "allowSyntheticDefaultImports": true
   }
 }

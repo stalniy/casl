@@ -5,6 +5,7 @@
     "spec/*"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "dist/types",
     "allowSyntheticDefaultImports": true
   }

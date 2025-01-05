@@ -10,7 +10,7 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,js}'
   ],
   testMatch: [
-    '<rootDir>/spec/**/*.spec.{ts,js}'
+    '<rootDir>/spec/**/*.spec.{ts,tsx,js}'
   ],
   transform: {
     '^.+\\.[t|j]sx?$': 'ts-jest',

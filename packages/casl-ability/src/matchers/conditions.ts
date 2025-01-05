@@ -30,6 +30,7 @@ import {
   createFactory,
   BuildMongoQuery,
   DefaultOperators,
+  ParsingInstruction,
 } from '@ucast/mongo2js';
 import { ConditionsMatcher, AnyObject } from '../types';
 import { Container, GenericFactory } from '../hkt';
@@ -80,7 +81,7 @@ export type MongoQuery<T = AnyObject> = BuildMongoQuery<MergeUnion<T>, {
 type MongoQueryMatcherFactory =
   (...args: Partial<Parameters<typeof createFactory>>) => ConditionsMatcher<MongoQuery>;
 export const buildMongoQueryMatcher = ((instructions, interpreters, options) => createFactory(
-  { ...defaultInstructions, ...instructions },
+  { ...defaultInstructions, ...instructions } as Record<string, ParsingInstruction<any, any>>,
   { ...defaultInterpreters, ...interpreters },
   options
 )) as MongoQueryMatcherFactory;

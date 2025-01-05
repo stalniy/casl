@@ -41,13 +41,11 @@ export type CanProps<T extends AnyAbility> =
 export type BoundCanProps<T extends AnyAbility> =
   AbilityCanProps<Generics<T>['abilities']> & BoundCanExtraProps<T>;
 
-export class Can<
-  T extends AnyAbility,
-  IsBound extends boolean = false
-> extends PureComponent<IsBound extends true ? BoundCanProps<T> : CanProps<T>> {
+export class Can<T extends AnyAbility> extends PureComponent<CanProps<T>, { t: boolean }> {
   private _isAllowed = false;
   private _ability: T | null = null;
   private _unsubscribeFromAbility: Unsubscribe = noop;
+  state = { t: true }
 
   componentWillUnmount() {
     this._unsubscribeFromAbility();
@@ -63,7 +61,7 @@ export class Can<
 
     if (ability) {
       this._ability = ability;
-      this._unsubscribeFromAbility = ability.on('updated', () => this.forceUpdate());
+      this._unsubscribeFromAbility = ability.on('updated', () => this.setState({ t: !this.state.t }));
     }
   }
 
