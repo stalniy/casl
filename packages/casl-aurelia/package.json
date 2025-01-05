@@ -23,13 +23,13 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "rm -rf dist/* && npm run build.types",
-    "build": "BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.au -g aurelia-framework:au,@casl/ability:casl",
+    "build.prepare": "rm -rf dist/* && npm run build.types",
+    "build": "npm run build.prepare && BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.au -g aurelia-framework:au,@casl/ability:casl",
     "build.types": "dx tsc",
     "lint": "dx eslint src/",
     "test": "dx jest --env jsdom --config ../dx/config/jest.chai.config.js",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release"
+    "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "release": "npm run release.prepare && dx semantic-release"
   },
   "keywords": [
     "casl",

@@ -22,13 +22,13 @@
   },
   "homepage": "https://casl.js.org",
   "scripts": {
-    "prebuild": "rm -rf dist/* && npm run build.types",
-    "build": "BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,mongoose",
+    "build.prepare": "rm -rf dist/* && npm run build.types",
+    "build": "npm run build.prepare && BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,mongoose",
     "build.types": "dx tsc",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release"
+    "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "release": "npm run release.prepare && dx semantic-release"
   },
   "keywords": [
     "casl",
