@@ -57,7 +57,9 @@ async function renderPage({ page, iterator }, options) {
 }
 
 async function render(options) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
 
   try {
     const urls = await readSitemapUrls(browser);
