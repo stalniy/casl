@@ -10,7 +10,7 @@
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
 [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
-[![CASL Join the chat at https://discord.gg/TkyBtcNN](https://img.shields.io/badge/Support-Discord%20channel-green?style=flat&link=https://discord.gg/TkyBtcNN&cacheSeconds=86400)](https://discord.gg/TkyBtcNN)
+[![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
 <!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
 </p>
 
@@ -271,4 +271,4 @@ Copyright (c) 2017-present, Sergii Stotskyi
 [react]: https://reactjs.org/
 [aurelia]: http://aurelia.io
 [prisma]: https://www.prisma.io/
-[support-chat]: https://discord.gg/TkyBtcNN
+[support-chat]: https://github.com/stalniy/casl/discussions

@@ -11,7 +11,7 @@ assignees: ''
 
 If you do not fill in this template, your issue will be closed without explanation.
 Use https://stackoverflow.com/questions/tagged/casl to ask technical questions and ask for help with technical issues.
-Use https://discord.gg/TkyBtcNN to discuss roadmap, possible feature requests and anything else
+Use https://github.com/stalniy/casl/discussions to discuss roadmap, possible feature requests and anything else
 -->
 
 **Is your feature request related to a problem? Please describe.**

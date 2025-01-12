@@ -2,7 +2,7 @@
 
 [![@casl/vue NPM version](https://badge.fury.io/js/%40casl%2Fvue.svg)](https://badge.fury.io/js/%40casl%2Fvue)
 [![](https://img.shields.io/npm/dm/%40casl%2Fvue.svg)](https://www.npmjs.com/package/%40casl%2Fvue)
-[![CASL Join the chat at https://discord.gg/TkyBtcNN](https://img.shields.io/badge/Support-Discord%20channel-green?style=flat&link=https://discord.gg/TkyBtcNN&cacheSeconds=86400)](https://discord.gg/TkyBtcNN)
+[![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
 
 This package allows to integrate `@casl/ability` with [Vue 3] application. So, you can show or hide UI elements based on user ability to see them.
 

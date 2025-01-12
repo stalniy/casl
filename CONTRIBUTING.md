@@ -88,5 +88,5 @@ The commit message format is borrowed from Angular projects and you can find [mo
 
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
 [github]: https://github.com/stalniy/casl
-[chat]: https://discord.gg/TkyBtcNN
+[chat]: https://github.com/stalniy/casl/discussions
 [js-style-guide]: https://github.com/airbnb/javascript
