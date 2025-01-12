@@ -30,7 +30,7 @@ items:
     - name: questions
       url: https://stackoverflow.com/questions/tagged/casl
     - name: chat
-      url: https://gitter.im/stalniy-casl/casl
+      url: https://discord.gg/TkyBtcNN
     - heading: news
     - name: blog
       url: https://sergiy-stotskiy.medium.com

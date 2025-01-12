@@ -4,7 +4,7 @@ CASL.js is an MIT-licensed open source project. It's an independent project with
 Maintaining and developing Open Source project takes considerable amount of time to:
 
 * read, analyze and prioritize issues
-* answer questions in gitter chat and stackoverflow
+* answer questions in support chat and stackoverflow
 * create articles and examples of how to use CASL
 
 So, I am currently exploring the possibility of working on CASL fulltime.

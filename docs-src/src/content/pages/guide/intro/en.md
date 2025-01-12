@@ -9,7 +9,7 @@ meta:
 
 [![@casl/ability NPM version](https://badge.fury.io/js/%40casl%2Fability.svg)](https://badge.fury.io/js/%40casl%2Fability)
 [![](https://img.shields.io/npm/dm/%40casl%2Fability.svg)](https://www.npmjs.com/package/%40casl%2Fability)
-[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+[![CASL Join the chat at https://discord.gg/TkyBtcNN](https://img.shields.io/badge/Support-Discord%20channel-green?style=flat&link=https://discord.gg/TkyBtcNN&cacheSeconds=86400)](https://discord.gg/TkyBtcNN)
 
 ## What is CASL?
 

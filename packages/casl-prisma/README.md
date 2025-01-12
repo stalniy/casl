@@ -2,7 +2,7 @@
 
 [![@casl/prisma NPM version](https://badge.fury.io/js/%40casl%2Fprisma.svg)](https://badge.fury.io/js/%40casl%2Fprisma)
 [![](https://img.shields.io/npm/dm/%40casl%2Fprisma.svg)](https://www.npmjs.com/package/%40casl%2Fprisma)
-[![CASL Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+[![CASL Join the chat at https://discord.gg/TkyBtcNN](https://img.shields.io/badge/Support-Discord%20channel-green?style=flat&link=https://discord.gg/TkyBtcNN&cacheSeconds=86400)](https://discord.gg/TkyBtcNN)
 
 This package allows to define [CASL] permissions on [Prisma] models using Prisma `WhereInput`. And that brings a lot of power in terms of permission management in SQL world:
 

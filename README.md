@@ -10,7 +10,7 @@
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
 [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
-[![CASL Join the chat at https://gitter.im/stalniy-casl/casl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stalniy-casl/casl)
+[![CASL Join the chat at https://discord.gg/TkyBtcNN](https://img.shields.io/badge/Support-Discord%20channel-green?style=flat&link=https://discord.gg/TkyBtcNN&cacheSeconds=86400)](https://discord.gg/TkyBtcNN)
 <!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
 </p>
 
@@ -73,7 +73,7 @@ A lot of detailed information about CASL, integrations and examples can be found
 
 ## Have a question?
 
-Ask it in [chat](https://gitter.im/stalniy-casl/casl) or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl). Please don't ask questions in issues, the issue list of this repo is **exclusively** for bug reports and feature requests. Questions in the issue list may be closed immediately without answers.
+Ask it in [support chat][support-chat] or on [stackoverflow](https://stackoverflow.com/questions/tagged/casl). Please don't ask questions in issues, the issue list of this repo is **exclusively** for bug reports and feature requests. Questions in the issue list may be closed immediately without answers.
 
 ## CASL crash course
 
@@ -271,3 +271,4 @@ Copyright (c) 2017-present, Sergii Stotskyi
 [react]: https://reactjs.org/
 [aurelia]: http://aurelia.io
 [prisma]: https://www.prisma.io/
+[support-chat]: https://discord.gg/TkyBtcNN

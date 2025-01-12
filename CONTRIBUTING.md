@@ -11,7 +11,7 @@ I would love for you to contribute to CASL and help make it even better than it 
 
 ## <a name="question"></a> Got a Question or Problem?
 
-Do not open issues for general support questions as I want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [gitter chat][gitter] or [stackoverflow](https://stackoverflow.com/questions/tagged/casl).
+Do not open issues for general support questions as I want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [support chat][chat] or [stackoverflow](https://stackoverflow.com/questions/tagged/casl).
 
 ## <a name="issue"></a> Found a Bug?
 
@@ -88,5 +88,5 @@ The commit message format is borrowed from Angular projects and you can find [mo
 
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
 [github]: https://github.com/stalniy/casl
-[gitter]: https://gitter.im/stalniy-casl/casl
+[chat]: https://discord.gg/TkyBtcNN
 [js-style-guide]: https://github.com/airbnb/javascript
