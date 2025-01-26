@@ -58,7 +58,7 @@
     "@types/node": "^22.0.0",
     "chai": "^4.1.0",
     "chai-spies": "^1.0.0",
-    "expect-type": "^0.15.0"
+    "expect-type": "^0.20.0"
   },
   "files": [
     "dist",
