@@ -35,10 +35,10 @@ export const createAccessibleByFactory = <
   TResult extends Record<string, unknown>,
   TPrismaQuery
 >() => {
-  return function accessibleBy(ability: PureAbility<any, TPrismaQuery>, action = 'read'): TResult {
+  return function accessibleBy<TAbility extends PureAbility<any, TPrismaQuery>>(ability: TAbility, action: TAbility["rules"][number]["action"] = "read"): TResult {
     return new Proxy({
-      _ability: ability,
-      _action: action
+        _ability: ability,
+        _action: action,
     }, proxyHandlers) as unknown as TResult;
   };
 };
