@@ -66,7 +66,7 @@
     "jest-preset-angular": "^14.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0",
-    "typescript": "~5.5.0",
+    "typescript": "~5.8.0",
     "zone.js": "~0.15.0"
   },
   "files": [
