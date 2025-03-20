@@ -1,6 +1,6 @@
 {
   "name": "@casl/angular",
-  "version": "9.0.3",
+  "version": "9.0.4",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
   "main": "dist/umd/index.js",
   "module": "dist/es5m/index.js",
@@ -46,8 +46,8 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "@casl/ability": "^4.0.0 || ^5.1.0 || ^6.0.0",
+    "@angular/core": ">=16.0.0",
+    "@casl/ability": ">=4.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0"
   },
