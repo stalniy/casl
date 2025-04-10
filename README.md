@@ -33,7 +33,7 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 ## Ecosystem
 
-| Project           | Status                               | Description | Supported envinronemnts |
+| Project           | Status                               | Description | Supported environments |
 |-------------------|--------------------------------------|-------------|-------------------------|
 | [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | nodejs 8+ and ES5 compatible browsers (IE 9+) |
 | [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with [Mongoose][mongoose] | nodejs 8+ |
