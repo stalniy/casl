@@ -63,8 +63,10 @@ posts = await db.collection('posts').find({
 // returns { authorId: 1 }
 const permissionRestrictedConditions = accessibleBy(ability, 'update').ofType('Post');
 
+// DANGER DO NOT DO THIS (see above use $and)
 const query = {
-  ...permissionRestrictedConditions,
+  // This is bad and potentially wrong code
+  ...permissionRestrictedConditions, 
   authorId: 2
 };
 ```
