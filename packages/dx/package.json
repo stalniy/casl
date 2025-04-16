@@ -29,7 +29,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "semantic-release": "^17.4.2",
     "ts-jest": "^29.0.0",
-    "typescript": "~5.5.0",
+    "typescript": "~5.8.0",
     "typescript-eslint": "^8.19.0"
   },
   "devDependencies": {
