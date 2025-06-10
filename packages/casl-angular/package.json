@@ -62,7 +62,7 @@
     "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
     "@types/jest": "^29.0.0",
-    "jest": "^29.0.0",
+    "jest": "^30.0.0",
     "jest-preset-angular": "^14.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0",
