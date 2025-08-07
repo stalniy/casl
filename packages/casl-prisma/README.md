@@ -148,49 +148,24 @@ generator client {
 }
 ```
 
-Then we need to create a custom file for casl-prisma integration:
+Then we need to create a custom file for casl-prisma integration (check [source code](https://github.com/stalniy/casl/blob/master/packages/casl-prisma/src/index.ts) for the latest example):
 
 ```ts
 // src/casl-prisma.ts
 import {
+  type PrismaModel,
+  type PrismaQueryFactory,
+  type PrismaTypes,
   createAbilityFactory,
-  createAccessibleByFactory,
-  prismaQuery,
-  ExtractModelName,
-  Model
 } from "@casl/prisma/runtime";
-import { hkt } from "@casl/ability";
-import type { Prisma, PrismaClient } from "./generated/client";
+import type { hkt } from "@casl/ability";
+import { Prisma } from "./generated/client";
 
-type ModelName = Prisma.ModelName;
-type ModelWhereInput = {
-  [K in Prisma.ModelName]: Uncapitalize<K> extends keyof PrismaClient
-    ? Extract<Parameters<PrismaClient[Uncapitalize<K>]['findFirst']>[0], { where?: any }>["where"]
-    : never
-};
-
-type WhereInput<TModelName extends Prisma.ModelName> = Extract<ModelWhereInput[TModelName], Record<any, any>>;
-
-interface PrismaQueryTypeFactory extends hkt.GenericFactory {
-  produce: WhereInput<ExtractModelName<this[0], ModelName>>
-}
-
-type PrismaModel = Model<Record<string, any>, string>;
-// Higher Order type that allows to infer passed in Prisma Model name
-export type PrismaQuery<T extends PrismaModel = PrismaModel> =
-  WhereInput<ExtractModelName<T, ModelName>> & hkt.Container<PrismaQueryTypeFactory>;
-
-type WhereInputPerModel = {
-  [K in ModelName]: WhereInput<K>;
-};
-
-const createPrismaAbility = createAbilityFactory<ModelName, PrismaQuery>();
-const accessibleBy = createAccessibleByFactory<WhereInputPerModel, PrismaQuery>();
-
-export {
-  createPrismaAbility,
-  accessibleBy,
-};
+export { accessibleBy, ParsingQueryError } from '@casl/prisma/runtime';
+export type { Model, Subjects } from '@casl/prisma/runtime';
+export type WhereInput<TModelName extends Prisma.ModelName> = PrismaTypes<Prisma.TypeMap>['WhereInput'][TModelName];
+export type PrismaQuery<T extends PrismaModel = PrismaModel> = PrismaQueryFactory<Prisma.TypeMap, T>;
+export const createPrismaAbility = createAbilityFactory<Prisma.ModelName, PrismaQuery>();
 ```
 
 ## Want to help?

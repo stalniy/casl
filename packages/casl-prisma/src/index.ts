@@ -1,18 +1,17 @@
 import { AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRuleFrom } from '@casl/ability';
-import { createAbilityFactory, createAccessibleByFactory, prismaQuery } from './runtime';
-import type { WhereInputPerModel, ModelName, PrismaQuery } from './prismaClientBoundTypes';
+import { Prisma } from '@prisma/client';
 
-export type { PrismaQuery, WhereInput } from './prismaClientBoundTypes';
-export type { Model, Subjects } from './runtime';
-export { prismaQuery, ParsingQueryError } from './runtime';
+import type { PrismaModel, PrismaQueryFactory, PrismaTypes } from './runtime';
+import { createAbilityFactory, prismaQuery } from './runtime';
 
-const createPrismaAbility = createAbilityFactory<ModelName, PrismaQuery>();
-const accessibleBy = createAccessibleByFactory<WhereInputPerModel, PrismaQuery>();
+export { accessibleBy, ParsingQueryError, prismaQuery } from './runtime';
+export type * from './runtime';
+export type WhereInput<TModelName extends Prisma.ModelName> =
+  PrismaTypes<Prisma.TypeMap>['WhereInput'][TModelName];
+export type PrismaQuery<T extends PrismaModel = PrismaModel> =
+  PrismaQueryFactory<Prisma.TypeMap, T>;
 
-export {
-  createPrismaAbility,
-  accessibleBy,
-};
+export const createPrismaAbility = createAbilityFactory<Prisma.ModelName, PrismaQuery>();
 
 /**
  * Uses conditional type to support union distribution
@@ -25,7 +24,7 @@ type ExtendedAbilityTuple<T extends AbilityTuple> = T extends AbilityTuple
  * @deprecated use createPrismaAbility instead
  */
 export class PrismaAbility<
-  A extends AbilityTuple = [string, ModelName],
+  A extends AbilityTuple = [string, Prisma.ModelName],
   C extends PrismaQuery = PrismaQuery
 > extends PureAbility<ExtendedAbilityTuple<A>, C> {
   constructor(

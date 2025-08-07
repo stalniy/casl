@@ -1,5 +1,6 @@
 import { rulesToQuery } from '@casl/ability/extra';
-import { AnyAbility, ForbiddenError, PureAbility } from '@casl/ability';
+import { AnyAbility, ForbiddenError, Generics, PureAbility } from '@casl/ability';
+import { BasePrismaQuery, InferPrismaTypes } from './types';
 
 function convertToPrismaQuery(rule: AnyAbility['rules'][number]) {
   return rule.inverted ? { NOT: rule.conditions } : rule.conditions;
@@ -31,6 +32,9 @@ const proxyHandlers: ProxyHandler<{ _ability: AnyAbility, _action: string }> = {
   }
 };
 
+/**
+ * @deprecated use accessibleBy directly instead. It will infer the types from passed Ability instance.
+ */
 export const createAccessibleByFactory = <
   TResult extends Record<string, unknown>,
   TPrismaQuery
@@ -41,4 +45,14 @@ export const createAccessibleByFactory = <
         _action: action,
     }, proxyHandlers) as unknown as TResult;
   };
+};
+
+export function accessibleBy<TAbility extends PureAbility<any, BasePrismaQuery>>(
+  ability: TAbility,
+  action: TAbility["rules"][number]["action"] = "read"
+): InferPrismaTypes<Generics<TAbility>['conditions']>['WhereInput'] {
+  return new Proxy({
+      _ability: ability,
+      _action: action,
+  }, proxyHandlers) as Record<string, any>;
 };

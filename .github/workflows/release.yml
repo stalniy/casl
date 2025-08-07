@@ -71,7 +71,7 @@ jobs:
 
             if [ "$preview_branch" = "" ]; then
               if [ "$released_packages" != "" ]; then
-                gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}"
+                gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}" --edit-last
               else
                 echo "No packages to release" >> $GITHUB_STEP_SUMMARY
               fi
@@ -79,7 +79,7 @@ jobs:
               if [ "$released_packages" != "" ]; then
                 echo -e "# Release notes for packages that will be published after merge\n\n" > release_notes.txt
                 echo "$release_notes" | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | sed -ne '/[0-9]*:[0-9]*:[0-9]* *[AP]M\] *\[semantic-release\] *› *ℹ *Release note for version/,$ p' >> release_notes.txt
-                gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt
+                gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt --edit-last
                 rm -f release_notes.txt
               else
                 echo "No packages to release" >> $GITHUB_STEP_SUMMARY
