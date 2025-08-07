@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.5.1...@casl/prisma@1.5.2) (2025-08-07)
+
+
+### Bug Fixes
+
+* update accessibleBy function of casl/prisma to autocomplete action names ([#965](https://github.com/stalniy/casl/issues/965)) ([37c6b54](https://github.com/stalniy/casl/commit/37c6b543172f618404617de05486f141dcba0ddb))
+
 ## [1.5.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.5.0...@casl/prisma@1.5.1) (2025-01-05)
 
 # [1.5.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.4.1...@casl/prisma@1.5.0) (2024-09-29)
