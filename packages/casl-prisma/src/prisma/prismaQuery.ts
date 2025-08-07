@@ -19,7 +19,7 @@ export type Subjects<T extends Partial<Record<string, Record<string, unknown>>>>
  */
 export type ExtractModelName<
   TObject,
-  TModelName extends string
+  TModelName extends PropertyKey
 > = TObject extends { kind: TModelName }
   ? TObject['kind']
   : TObject extends ForcedSubject<TModelName>

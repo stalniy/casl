@@ -8,7 +8,7 @@ describe('accessibleBy', () => {
       action: 'read',
       subject: 'Post',
       conditions: {
-        id: 1
+        id: 1,
       }
     },
     {
@@ -18,7 +18,7 @@ describe('accessibleBy', () => {
       conditions: {
         title: { startsWith: '[WIP]:' }
       }
-    },
+    }
   ])
 
   it('throws `ForbiddenError` if ability does not allow to execute action', () => {
