@@ -3,6 +3,7 @@ export * from './PureAbility';
 export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';
+export * from './Rule';
 export * from './hkt';
 export * from './matchers/conditions';
 export * from './matchers/field';
