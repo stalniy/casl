@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Features
+
+* add Prisma 7 compatibility helpers and documentation updates
+
 ## [1.5.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.5.1...@casl/prisma@1.5.2) (2025-08-07)
 
 
