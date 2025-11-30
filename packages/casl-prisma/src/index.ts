@@ -1,7 +1,7 @@
 import { AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRuleFrom } from '@casl/ability';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
-import type { PrismaModel, PrismaQueryFactory, PrismaTypes } from './runtime';
+import type { PrismaModel, PrismaQueryFactory, PrismaTypeMap, PrismaTypes } from './runtime';
 import { createAbilityFactory, prismaQuery } from './runtime';
 
 export { accessibleBy, ParsingQueryError, prismaQuery } from './runtime';
@@ -11,7 +11,11 @@ export type WhereInput<TModelName extends Prisma.ModelName> =
 export type PrismaQuery<T extends PrismaModel = PrismaModel> =
   PrismaQueryFactory<Prisma.TypeMap, T>;
 
-export const createPrismaAbility = createAbilityFactory<Prisma.ModelName, PrismaQuery>();
+export function createPrismaAbilityFor<TTypeMap extends PrismaTypeMap<string>>() {
+  return createAbilityFactory<PrismaTypes<TTypeMap>['ModelName'], PrismaQueryFactory<TTypeMap>>();
+}
+
+export const createPrismaAbility = createPrismaAbilityFor<Prisma.TypeMap>();
 
 /**
  * Uses conditional type to support union distribution

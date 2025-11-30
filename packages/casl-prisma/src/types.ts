@@ -14,7 +14,7 @@ export type PrismaTypeMap<TModelName extends string> = {
 }
 
 export type PrismaTypes<TTypeMap extends PrismaTypeMap<string>> = {
-  ModelName: keyof TTypeMap['model'];
+  ModelName: Extract<keyof TTypeMap['model'], string>;
   WhereInput: {
     [K in keyof TTypeMap['model']]: Extract<
       TTypeMap['model'][K]['operations']['findFirst']['args']['where'],
@@ -37,6 +37,16 @@ export type PrismaQueryFactory<TTypeMap extends PrismaTypeMap<string>, T = Prism
   hkt.Container<PrismaQueryTypeFactory<TTypeMap>> & {
     [ɵprismaTypes]?: PrismaTypes<TTypeMap>;
   };
+
+export type PrismaQueryOf<
+  TTypeMap extends PrismaTypeMap<string>,
+  T extends PrismaModel = PrismaModel
+> = PrismaQueryFactory<TTypeMap, T>;
+
+export type WhereInputOf<
+  TTypeMap extends PrismaTypeMap<string>,
+  TModelName extends PrismaTypes<TTypeMap>['ModelName']
+> = PrismaTypes<TTypeMap>['WhereInput'][TModelName];
 
 export type BasePrismaQuery = { [ɵprismaTypes]?: PrismaTypes<PrismaTypeMap<string>> };
 export type InferPrismaTypes<T extends BasePrismaQuery> =
