@@ -65,11 +65,10 @@ Interpreter throws a `ParsingQueryError` in cases it receives invalid parameters
 
 ## Prisma 7 configuration
 
-Prisma 7 moves connection details into `prisma.config.ts` and no longer loads `.env` files automatically. Add a config next to your schema so `prisma generate` keeps working:
+Prisma 7 moves connection details into `prisma.config.ts`. Add a config next to your schema so `prisma generate` keeps working:
 
 ```ts
 // prisma.config.ts
-import 'dotenv/config';
 import { defineConfig } from 'prisma/config';
 
 export default defineConfig({
