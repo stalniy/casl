@@ -44,7 +44,29 @@ ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 
 > See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
-> If you generate Prisma Client with the Prisma 7 `prisma-client` generator, swap `@prisma/client` imports for the path of your generated client (for example `./prisma/generated/client`).
+Typing your AppAbility
+----------------------
+
+`createPrismaAbility` can be parameterized with your own `AppAbility` to reduce boilerplate and enforce the exact set of subjects/actions you support:
+
+```ts
+type AppSubjects = 'all' | Subjects<{ User: User }>;
+type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
+
+// Option 1: AbilityBuilder with typed factory
+const createAppAbility = (...args: Parameters<typeof createPrismaAbility<AppAbility>>) =>
+  createPrismaAbility<AppAbility>(...args);
+
+const { can, cannot, build } = new AbilityBuilder<AppAbility>(createAppAbility);
+can('read', 'User');
+// @ts-expect-error 'Post' is not part of AppSubjects
+can('read', 'Post');
+
+// Option 2: Build directly
+const ability: AppAbility = createPrismaAbility<AppAbility>();
+```
+
+If you generate Prisma Client with the Prisma 7 `prisma-client` generator, swap `@prisma/client` imports for the path of your generated client (for example `./prisma/generated/client`).
 
 ### Note on subject helper
 

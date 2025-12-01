@@ -1,4 +1,4 @@
-import { AbilityBuilder, PureAbility, subject } from '@casl/ability'
+import { AbilityBuilder, AbilityOptionsOf, PureAbility, RawRuleOf, subject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
 import { createPrismaAbility, Model as M, PrismaAbility, PrismaQuery, Subjects } from '../src'
 import { AppAbility } from './AppAbility'
@@ -99,6 +99,37 @@ describe('PrismaAbility', () => {
 
       // @ts-expect-error
       ability.can('update', 'User')
+    })
+
+    it('allows using AppAbility with createPrismaAbility', () => {
+      type AppSubjects = 'all' | Subjects<{ User: User }>
+      type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>
+
+      const ability: AppAbility = createPrismaAbility()
+
+      expect(ability.can('read', 'all')).toBe(false)
+    })
+
+    it('lets apps enforce their own Ability shape', () => {
+      type AppSubjects = 'all' | Subjects<{ User: User }>
+      type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>
+
+      const createAppAbility = (
+        rules?: RawRuleOf<AppAbility>[],
+        options?: AbilityOptionsOf<AppAbility>
+      ) => createPrismaAbility<AppAbility>(rules, options)
+
+      const { can, cannot, build } = new AbilityBuilder<AppAbility>(createAppAbility)
+
+      can('read', 'User')
+      cannot('delete', 'User')
+      // @ts-expect-error Post is not part of AppSubjects
+      can('read', 'Post')
+
+      const ability = build()
+
+      expect(ability.can('read', 'User')).toBe(true)
+      expect(ability.can('delete', 'User')).toBe(false)
     })
   })
 })

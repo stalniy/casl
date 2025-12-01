@@ -12,7 +12,8 @@ export type PrismaQuery<T extends PrismaModel = PrismaModel> =
   PrismaQueryFactory<Prisma.TypeMap, T>;
 
 export function createPrismaAbilityFor<TTypeMap extends PrismaTypeMap<string>>() {
-  return createAbilityFactory<PrismaTypes<TTypeMap>['ModelName'], PrismaQueryFactory<TTypeMap>>();
+  type ModelName = PrismaTypes<TTypeMap>['ModelName'] | 'all';
+  return createAbilityFactory<ModelName, PrismaQueryFactory<TTypeMap>>();
 }
 
 export const createPrismaAbility = createPrismaAbilityFor<Prisma.TypeMap>();
