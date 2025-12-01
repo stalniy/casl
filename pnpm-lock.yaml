@@ -169,9 +169,6 @@ importers:
       '@types/jest':
         specifier: ^29.0.0
         version: 29.5.14
-      dotenv:
-        specifier: ^16.4.7
-        version: 16.6.1
       prisma:
         specifier: ^7.0.0
         version: 7.0.1(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.3)

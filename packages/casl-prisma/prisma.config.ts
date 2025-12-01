@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { defineConfig } from 'prisma/config';
 
 // dotenv keeps DATABASE_URL available for the Prisma schema in Prisma 7
