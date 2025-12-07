@@ -1,0 +1,99 @@
+name: Diff package lock
+
+on:
+  # !!! ATTENTION: this workflow shares all secrets be mindful what you do here
+  pull_request_target:
+    branches:
+      - master
+    paths:
+      - "package-lock.json"
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+      - name: Fetch PR head ref (no checkout)
+        run: |
+          git fetch origin pull/${{ github.event.pull_request.number }}/head
+      - name: Post package-lock.json diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          diff=$(npx --yes diff-package-lock@1.3.0 ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }});
+
+          # shellcheck disable=SC2181
+          if [[ $? -ne 0 ]]; then
+            echo "Error: diff-package-lock failed"
+            exit 1
+          fi
+
+          if [[ -n "$diff" ]]; then
+            body=$(echo "$diff" | sed -E 's/\x1b\[[0-9;]*m//g' | sort | while read -r line; do
+              pkg=${line%@*}
+              version=${line##*@}
+              printf "%-90s %-8s\n" "$pkg" "$version"
+            done)
+            echo "$body"
+            echo "PACKAGE_LOCK_DIFF<<EOF" >> "$GITHUB_ENV"
+            echo "$body" >> "$GITHUB_ENV"
+            echo "EOF" >> "$GITHUB_ENV"
+          fi
+      - name: Post package-lock.json comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const diff = process.env.PACKAGE_LOCK_DIFF;
+            const prNumber = context.payload.pull_request.number;
+            const repo = context.repo;
+
+            // Fetch existing PR review comments
+            const { data: comments } = await github.rest.pulls.listReviewComments({
+              owner: repo.owner,
+              repo: repo.repo,
+              pull_number: prNumber,
+            });
+
+            // Find existing comment from GitHub Actions bot on package-lock.json
+            const existing = comments.find(c =>
+              c.user.login === "github-actions[bot]" &&
+              c.path === "package-lock.json"
+            );
+
+            const body = [
+              "## 🔄 Carefully review the package-lock.json diff",
+              "Resolve the comment if everything is ok",
+              "",
+              "```diff",
+              diff || 'No changes',
+              "```"
+            ].join("\n");
+
+            if (existing) {
+              console.log("Updating existing comment");
+              await github.rest.pulls.updateReviewComment({
+                owner: repo.owner,
+                repo: repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else if (diff) {
+              console.log("Creating new comment");
+              await github.rest.pulls.createReviewComment({
+                owner: repo.owner,
+                repo: repo.repo,
+                pull_number: prNumber,
+                body,
+                path: "package-lock.json",
+                position: 1,
+                commit_id: context.payload.pull_request.head.sha,
+              });
+            }
