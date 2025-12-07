@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.6.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.5.2...@casl/prisma@1.6.0) (2025-12-07)
+
+
+### Features
+
+* adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
+
 ## [1.5.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.5.1...@casl/prisma@1.5.2) (2025-08-07)
 
 
