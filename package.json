@@ -4,11 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "build.docs": "cd docs-src && NODE_ENV=production npm run build",
-    "coverage.submit": "codecov",
     "prepare": "cd packages/dx && bin/dx.js install"
-  },
-  "devDependencies": {
-    "codecov": "^3.8.3"
   },
   "repository": {
     "type": "git",
