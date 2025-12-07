@@ -67,7 +67,7 @@
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0",
     "typescript": "~5.8.3",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.16.0"
   },
   "files": [
     "dist",
