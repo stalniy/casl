@@ -44,6 +44,8 @@ ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 
 > See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
+> If you generate Prisma Client with the Prisma 7 `prisma-client` generator, swap `@prisma/client` imports for the path of your generated client (for example `./prisma/generated/client`).
+
 ### Note on subject helper
 
 Because Prisma returns DTO objects without exposing any type information on it, we need to use `subject` helper to provide that type manually, so CASL can understand what rules to apply to passed in object.
@@ -60,6 +62,26 @@ Unfortunately, there is no easy way to automate this, except of adding additiona
 - when defining conditions on relation, always specify one of operators (`every`, `none`, `some`, `is` or `isNot`)
 
 Interpreter throws a `ParsingQueryError` in cases it receives invalid parameters for query operators or if some operation is not supported.
+
+## Prisma 7 configuration
+
+Prisma 7 moves connection details into `prisma.config.ts` and no longer loads `.env` files automatically. Add a config next to your schema so `prisma generate` keeps working:
+
+```ts
+// prisma.config.ts
+import 'dotenv/config';
+import { defineConfig } from 'prisma/config';
+
+export default defineConfig({
+  schema: './schema.prisma',
+  datasource: {
+    // fall back to a local URL so generate does not fail in CI
+    url: process.env.DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5432/postgres',
+  },
+});
+```
+
+If you stay on the legacy `prisma-client-js` generator, the default `@prisma/client` import keeps working. With Prisma 7's new `prisma-client` generator (JS engine), the generated client lives in a custom output folder—see the section below to point CASL at it.
 
 ## Finding Accessible Records
 
@@ -137,36 +159,53 @@ type AppSubjects = 'all' | Subjects<{
 type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
 ```
 
-## Custom PrismaClient output path
+## Custom PrismaClient output path (Prisma 7 default)
 
-Prisma allows [to generate client into a custom directory](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/generating-prisma-client#using-a-custom-output-path) in this case `@prisma/client` doesn't re-export needed types anymore and `@casl/prisma` cannot automatically detect and infer types. In this case, we need to provide required types manually. Let's assume that we have the next configuration:
+Prisma 7's `prisma-client` generator writes the client into a custom directory, so `@prisma/client` no longer re-exports your project types. Point CASL at the generated namespace with a small wrapper:
 
 ```prisma
+// schema.prisma
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../src/generated/client"
 }
 ```
 
-Then we need to create a custom file for casl-prisma integration (check [source code](https://github.com/stalniy/casl/blob/master/packages/casl-prisma/src/index.ts) for the latest example):
+```ts
+// prisma.config.ts
+import 'dotenv/config';
+import { defineConfig } from 'prisma/config';
+
+export default defineConfig({
+  schema: './schema.prisma',
+  datasource: { url: process.env.DATABASE_URL! },
+});
+```
 
 ```ts
 // src/casl-prisma.ts
 import {
-  type PrismaModel,
-  type PrismaQueryFactory,
-  type PrismaTypes,
-  createAbilityFactory,
-} from "@casl/prisma/runtime";
-import type { hkt } from "@casl/ability";
-import { Prisma } from "./generated/client";
+  accessibleBy,
+  createPrismaAbilityFor,
+  Model,
+  PrismaQueryOf,
+  Subjects,
+  WhereInputOf,
+} from '@casl/prisma';
+import { Prisma } from './generated/client';
 
-export { accessibleBy, ParsingQueryError } from '@casl/prisma/runtime';
-export type { Model, Subjects } from '@casl/prisma/runtime';
-export type WhereInput<TModelName extends Prisma.ModelName> = PrismaTypes<Prisma.TypeMap>['WhereInput'][TModelName];
-export type PrismaQuery<T extends PrismaModel = PrismaModel> = PrismaQueryFactory<Prisma.TypeMap, T>;
-export const createPrismaAbility = createAbilityFactory<Prisma.ModelName, PrismaQuery>();
+export { ParsingQueryError, prismaQuery } from '@casl/prisma';
+
+export const createPrismaAbility = createPrismaAbilityFor<Prisma.TypeMap>();
+export type PrismaQuery<T extends Model<any, any> = Model<any, any>> = PrismaQueryOf<Prisma.TypeMap, T>;
+export type WhereInput<TModelName extends Prisma.ModelName> = WhereInputOf<Prisma.TypeMap, TModelName>;
+export type AppSubjects = Subjects<{
+  User: Prisma.User,
+  Post: Prisma.Post,
+}>;
 ```
+
+If you stay on the legacy `prisma-client-js` generator for Prisma 6.x compatibility, the default `@casl/prisma` entrypoint keeps working.
 
 ## Want to help?
 
