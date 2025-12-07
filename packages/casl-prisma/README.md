@@ -74,7 +74,6 @@ import { defineConfig } from 'prisma/config';
 
 export default defineConfig({
   schema: './schema.prisma',
-  engine: 'classic',
   datasource: {
     // fall back to a local URL so generate does not fail in CI
     url: process.env.DATABASE_URL ?? 'postgresql://postgres:postgres@localhost:5432/postgres',
