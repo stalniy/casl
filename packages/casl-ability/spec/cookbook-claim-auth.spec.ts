@@ -5,9 +5,10 @@ import { AbilityBuilder, PureAbility, AbilityClass } from '../src'
  * at docs-src/src/content/pages/cookbook/claim-authorization/en.md
  */
 describe('Cookbook: Claim-based Authorization', () => {
+  type Actions = 'review' | 'publish' | 'read'
+  type AppAbility = PureAbility<Actions>
+
   it('should work as documented in the cookbook', () => {
-    type Actions = 'review' | 'publish' | 'read'
-    type AppAbility = PureAbility<Actions>
 
     const ClaimAbility = PureAbility as AbilityClass<AppAbility>
     const { can, build } = new AbilityBuilder(ClaimAbility)
@@ -41,9 +42,6 @@ describe('Cookbook: Claim-based Authorization', () => {
   })
 
   it('should prevent actions that are not granted', () => {
-    type Actions = 'review' | 'publish' | 'read'
-    type AppAbility = PureAbility<Actions>
-
     const ClaimAbility = PureAbility as AbilityClass<AppAbility>
     const { can, build } = new AbilityBuilder(ClaimAbility)
 
