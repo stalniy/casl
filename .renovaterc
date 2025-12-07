@@ -22,6 +22,10 @@
   },
   "packageRules": [
     {
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
       "sourceUrlPrefixes": [
         "https://github.com/babel/babel"
       ],

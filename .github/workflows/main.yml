@@ -17,8 +17,9 @@ jobs:
     strategy:
       matrix:
         node:
-          - 18 # 2025-04-30
           - 20 # 2026-05-26
+          - 22 # 2026-12-07
+          - 24 # 2027-06-16
           - latest
     steps:
     - uses: actions/checkout@v3
@@ -27,7 +28,7 @@ jobs:
         fetch-depth: 2
     - uses: pnpm/action-setup@v2
       with:
-        version: 9.15.2
+        version: 10.24.0
         run_install: false
     - name: Get pnpm store directory
       id: pnpm-cache
@@ -72,7 +73,9 @@ jobs:
         else
           pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
         fi
-    - name: submit coverage
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: pnpm run coverage.submit
+    - name: Submit coverage
+      uses: codecov/codecov-action@v5
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true # optional (default = false)
