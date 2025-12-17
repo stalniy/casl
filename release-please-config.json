@@ -1,12 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-
   "release-type": "node",
   "separate-pull-requests": false,
   "tag-separator": "@",
   "include-component-in-tag": true,
   "include-v-in-tag": true,
-
   "packages": {
     "packages/casl-ability": {
       "package-name": "@casl/ability",
@@ -35,6 +33,14 @@
     "packages/casl-vue": {
       "package-name": "@casl/vue",
       "changelog-path": "packages/casl-vue/CHANGELOG.md"
+    },
+    ".": {
+      "changelog-path": "CHANGELOG.md",
+      "release-type": "node",
+      "bump-minor-pre-major": false,
+      "bump-patch-for-minor-pre-major": false,
+      "draft": false,
+      "prerelease": false
     }
   }
 }

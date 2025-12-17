@@ -5,5 +5,6 @@
   "@casl/mongoose": "8.0.3",
   "@casl/prisma": "1.6.0",
   "@casl/react": "5.0.0",
-  "@casl/vue": "2.2.2"
+  "@casl/vue": "2.2.2",
+  ".": "0.0.0"
 }
