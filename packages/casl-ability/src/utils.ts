@@ -1,9 +1,13 @@
 import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
+const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ||
+  ((obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop));
+
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
+const FORBIDDEN_PROPERTIES = new Set(['__proto__', 'constructor', 'prototype']);
 export function setByPath(object: AnyObject, path: string, value: unknown): void {
   let ref = object;
   let lastKey = path;
@@ -13,12 +17,15 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 
     lastKey = keys.pop()!;
     ref = keys.reduce((res, prop) => {
+      if (FORBIDDEN_PROPERTIES.has(prop)) return res;
       res[prop] = res[prop] || {};
       return res[prop] as AnyObject;
     }, object);
   }
 
-  ref[lastKey] = value;
+  if (!FORBIDDEN_PROPERTIES.has(lastKey)) {
+    ref[lastKey] = value;
+  }
 }
 
 const TYPE_FIELD = '__caslSubjectType__';
@@ -27,7 +34,7 @@ export function setSubjectType<
   U extends Record<PropertyKey, any>
 >(type: T, object: U): U & ForcedSubject<T> {
   if (object) {
-    if (!Object.hasOwn(object, TYPE_FIELD)) {
+    if (!hasOwn(object, TYPE_FIELD)) {
       Object.defineProperty(object, TYPE_FIELD, { value: type });
     } else if (type !== object[TYPE_FIELD]) {
       throw new Error(`Trying to cast object to subject type ${type} but previously it was casted to ${object[TYPE_FIELD]}`);
@@ -48,7 +55,7 @@ export function getSubjectTypeName(value: SubjectType) {
 }
 
 export function detectSubjectType(object: Exclude<Subject, SubjectType>): string {
-  if (Object.hasOwn(object, TYPE_FIELD)) {
+  if (hasOwn(object, TYPE_FIELD)) {
     return object[TYPE_FIELD];
   }
 
@@ -68,7 +75,7 @@ function expandActions(aliasMap: AliasesMap, rawActions: string | string[], merg
   while (i < actions.length) {
     const action = actions[i++];
 
-    if (Object.hasOwn(aliasMap, action)) {
+    if (hasOwn(aliasMap, action)) {
       actions = merge(actions, aliasMap[action]);
     }
   }
