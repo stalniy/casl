@@ -1,7 +1,7 @@
 {
   "packages/casl-ability": "6.7.4",
   "packages/casl-angular": "9.0.4",
-  "packages/casl-aurelia": "1.3.1",
+  "packages/casl-aurelia": "1.4.0",
   "packages/casl-mongoose": "8.0.3",
   "packages/casl-prisma": "1.6.0",
   "packages/casl-react": "5.0.0",
