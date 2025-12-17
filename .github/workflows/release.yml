@@ -1,89 +1,18 @@
-name: Release packages
+name: release-please
+
 on:
-  pull_request:
-    types: [opened, synchronize, closed]
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      id-token: write
     steps:
-      - name: Check out code
-        if: ${{ github.event.pull_request.merged == false }}
-        uses: actions/checkout@v3
+      - uses: googleapis/release-please-action@v4
         with:
-          ref: ${{ github.head_ref }}
-      - name: Check out code
-        if: ${{ github.event.pull_request.merged == true }}
-        uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10.24.0
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        env:
-          cache-name: casl-deps
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build
-        run: pnpm run -r build
-      - name: Release
-        env:
-          GH_TOKEN: ${{ github.event.pull_request.merged == true && secrets.RELEASE_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.RELEASE_NPM_TOKEN }}
-          ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
-          PREVIEW_RELEASE: ${{ github.event.pull_request.merged == true && 'no' || 'yes' }}
-          # GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          if [[ "${TRACE:-false}" == true || "${ACTIONS_STEP_DEBUG:-false}" == true ]]; then
-            set -o xtrace # Trace the execution of the script (debug)
-          fi
-
-          preview_branch=""
-          if [ "$PREVIEW_RELEASE" = "yes" ]; then
-            preview_branch="${{ github.head_ref }}"
-            unset GITHUB_ACTIONS # to let semantic-release to run in dry-run mode
-          fi
-
-          . ./packages/dx/bin/release-packages.sh
-
-          changed_paths="$(gh pr view --json files --jq '.files.[].path' "${{ github.event.pull_request.number }}" | cut -d / -f 1,2 | uniq)";
-          release_notes=$(release_packages "$changed_paths" "$preview_branch")
-          echo "$release_notes"
-
-          if [ "${{github.event.pull_request.number}}" != "" ]; then
-            released_packages=$(extract_package_versions "$changed_paths");
-
-            if [ "$preview_branch" = "" ]; then
-              if [ "$released_packages" != "" ]; then
-                gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 This PR changes was released in ${released_packages}" --edit-last
-              else
-                echo "No packages to release" >> $GITHUB_STEP_SUMMARY
-              fi
-            else
-              if [ "$released_packages" != "" ]; then
-                echo -e "# Release notes for packages that will be published after merge\n\n" > release_notes.txt
-                echo "$release_notes" | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | sed -ne '/[0-9]*:[0-9]*:[0-9]* *[AP]M\] *\[semantic-release\] *› *ℹ *Release note for version/,$ p' >> release_notes.txt
-                gh pr comment "${{ github.event.pull_request.number }}" --body-file ./release_notes.txt --edit-last
-                rm -f release_notes.txt
-              else
-                echo "No packages to release" >> $GITHUB_STEP_SUMMARY
-              fi
-            fi
-          fi
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

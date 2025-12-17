@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+
+  "release-type": "node",
+
+  "packages": {
+    "packages/casl-ability": {
+      "package-name": "@casl/ability",
+      "changelog-path": "packages/casl-ability/CHANGELOG.md"
+    },
+    "packages/casl-angular": {
+      "package-name": "@casl/angular",
+      "changelog-path": "packages/web/CHANGELOG.md"
+    },
+    "packages/casl-aurelia": {
+      "package-name": "@casl/aurelia",
+      "changelog-path": "packages/casl-aurelia/CHANGELOG.md"
+    },
+    "packages/casl-mongoose": {
+      "package-name": "@casl/mongoose",
+      "changelog-path": "packages/casl-mongoose/CHANGELOG.md"
+    },
+    "packages/casl-prisma": {
+      "package-name": "@casl/prisma",
+      "changelog-path": "packages/casl-prisma/CHANGELOG.md"
+    },
+    "packages/casl-react": {
+      "package-name": "@casl/react",
+      "changelog-path": "packages/casl-react/CHANGELOG.md"
+    },
+    "packages/casl-vue": {
+      "package-name": "@casl/vue",
+      "changelog-path": "packages/casl-vue/CHANGELOG.md"
+    }
+  },
+
+  "separate-pull-requests": true,
+  "include-component-in-tag": true,
+  "include-v-in-tag": true
+}

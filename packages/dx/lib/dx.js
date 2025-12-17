@@ -28,12 +28,6 @@ const COMMANDS = {
       args
     };
   },
-  'semantic-release': function () {
-    return {
-      args: ['--extends', configPath('semantic-release.js')],
-      defaultArgs: ['--no-ci'],
-    };
-  },
   'lint-staged': function () {
     return {
       args: ['--config', configPath('lintstaged.js')],
