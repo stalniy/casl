@@ -14,6 +14,6 @@ module.exports = {
   ],
   transform: {
     '^.+\\.[t|j]sx?$': 'ts-jest',
-    '^.+\\.mjs$': 'ts-jest',
+    '^.+\\.m?js$': 'ts-jest',
   },
 };
