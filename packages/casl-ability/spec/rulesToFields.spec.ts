@@ -1,12 +1,11 @@
 import { rulesToFields } from '../src/extra'
-import { defineAbility, PureAbility } from '../src'
-import './spec_helper'
+import { createMongoAbility, defineAbility } from '../src'
 
-describe('rulesToFields', () => {
+describe(rulesToFields.name, () => {
   it('returns an empty object for an empty `Ability` instance', () => {
-    const object = rulesToFields(new PureAbility(), 'read', 'Post')
+    const object = rulesToFields(createMongoAbility(), 'read', 'Post')
 
-    expect(object).to.be.an('object').and.empty
+    expect(Object.keys(object)).toHaveLength(0)
   })
 
   it('returns an empty object if `Ability` contains only inverted rules', () => {
@@ -16,14 +15,14 @@ describe('rulesToFields', () => {
     })
     const object = rulesToFields(ability, 'read', 'Post')
 
-    expect(object).to.be.an('object').and.empty
+    expect(Object.keys(object)).toHaveLength(0)
   })
 
   it('returns an empty object for `Ability` instance with rules without conditions', () => {
     const ability = defineAbility(can => can('read', 'Post'))
     const object = rulesToFields(ability, 'read', 'Post')
 
-    expect(object).to.be.an('object').and.empty
+    expect(Object.keys(object)).toHaveLength(0)
   })
 
   it('extracts field values from direct rule conditions', () => {
@@ -33,7 +32,7 @@ describe('rulesToFields', () => {
     })
     const object = rulesToFields(ability, 'read', 'Post')
 
-    expect(object).to.deep.equal({ id: 5, private: true })
+    expect(object).toEqual({ id: 5, private: true })
   })
 
   it('correctly sets values for fields declared with `dot notation`', () => {
@@ -43,7 +42,7 @@ describe('rulesToFields', () => {
     })
     const object = rulesToFields(ability, 'read', 'Post')
 
-    expect(object).to.deep.equal({
+    expect(object).toEqual({
       id: 5,
       state: {
         private: true
@@ -58,6 +57,18 @@ describe('rulesToFields', () => {
     })
     const object = rulesToFields(ability, 'read', 'Post')
 
-    expect(object).to.deep.equal({ private: true })
+    expect(object).toEqual({ private: true })
+  })
+
+  it('skips forbidden properties', () => {
+    const ability = defineAbility((can) => {
+      can('read', 'Post', { '__proto__.__pollutedValue__': 1 })
+      can('read', 'Post', { constructor: 1 })
+      can('read', 'Post', { prototype: 2 })
+    })
+    const object = rulesToFields(ability, 'read', 'Post')
+
+    expect(({} as any).__pollutedValue__).toBeUndefined()
+    expect(Object.keys(object)).toEqual(['__pollutedValue__'])
   })
 })
