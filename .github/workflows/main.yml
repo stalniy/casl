@@ -22,32 +22,11 @@ jobs:
           - 24 # 2027-06-16
           - latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
       with:
         ref: ${{ github.sha }}
         fetch-depth: 2
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 10.24.0
-        run_install: false
-    - name: Get pnpm store directory
-      id: pnpm-cache
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      env:
-        cache-name: casl-deps
-      with:
-        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-    - name: Install dependencies
-      run: pnpm install
+    - uses: ./.github/actions/setup-deps
     - name: Get base sha
       id: base-commit
       run: |
