@@ -10,30 +10,37 @@
   "packages": {
     "packages/casl-ability": {
       "package-name": "@casl/ability",
+      "component": "@casl/ability",
       "changelog-path": "packages/casl-ability/CHANGELOG.md"
     },
     "packages/casl-angular": {
       "package-name": "@casl/angular",
+      "component": "@casl/angular",
       "changelog-path": "packages/web/CHANGELOG.md"
     },
     "packages/casl-aurelia": {
       "package-name": "@casl/aurelia",
+      "component": "@casl/aurelia",
       "changelog-path": "packages/casl-aurelia/CHANGELOG.md"
     },
     "packages/casl-mongoose": {
       "package-name": "@casl/mongoose",
+      "component": "@casl/mongoose",
       "changelog-path": "packages/casl-mongoose/CHANGELOG.md"
     },
     "packages/casl-prisma": {
       "package-name": "@casl/prisma",
+      "component": "@casl/prisma",
       "changelog-path": "packages/casl-prisma/CHANGELOG.md"
     },
     "packages/casl-react": {
       "package-name": "@casl/react",
+      "component": "@casl/react",
       "changelog-path": "packages/casl-react/CHANGELOG.md"
     },
     "packages/casl-vue": {
       "package-name": "@casl/vue",
+      "component": "@casl/vue",
       "changelog-path": "packages/casl-vue/CHANGELOG.md"
     }
   }
