@@ -34,7 +34,7 @@
     "test": "dx jest --config ./jest.config.js",
     "lint": "dx eslint src/ spec/",
     "release.prepare": "npm run lint && NODE_ENV=production npm run build && npm test",
-    "release": "npm run release.prepare && dx semantic-release"
+    "release": "npm run release.prepare && pnpm publish"
   },
   "keywords": [
     "casl",
