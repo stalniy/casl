@@ -64,7 +64,7 @@ const COMMANDS = {
 
 function printHelp() {
   console.log(`
-  DX executable - a simple proxy around development tools like eslint, prettier, semantic-release, etc.
+  DX executable - a simple proxy around development tools like eslint, jest, etc.
   The main purpose is to provide default configuration files for mentioned tools.
   Supports: ${Object.keys(COMMANDS).join(', ')}
 `);
