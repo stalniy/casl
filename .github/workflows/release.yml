@@ -21,12 +21,12 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
       - uses: actions/checkout@v6
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.releases_created }}
       - uses: ./.github/actions/setup-deps
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.releases_created }}
       - name: Publish packages
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.releases_created }}
         run: |
-          for p in $(echo '${{ steps.rp.outputs.paths_released }}' | jq -r '.[]'); do
-            pnpm --filter "./$p" release
+          for p in $(echo '${{ steps.release.outputs.paths_released }}' | jq -r '.[]'); do
+            pnpm -r --filter "./$p" release
           done
