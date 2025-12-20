@@ -2,11 +2,12 @@ name: release-please
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -14,6 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
+        id: release
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+      - uses: actions/checkout@v6
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: ./.github/actions/setup-deps
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Publish packages
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          for p in $(echo '${{ steps.rp.outputs.paths_released }}' | jq -r '.[]'); do
+            pnpm --filter "./$p" release
+          done
