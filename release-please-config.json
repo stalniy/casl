@@ -5,7 +5,7 @@
   "separate-pull-requests": false,
   "tag-separator": "@",
   "include-component-in-tag": true,
-  "include-v-in-tag": true,
+  "include-v-in-tag": false,
 
   "packages": {
     "packages/casl-ability": {
