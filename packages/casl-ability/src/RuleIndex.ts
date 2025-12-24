@@ -222,6 +222,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     return rules.filter(rule => rule.matchesField(field));
   }
 
+  actionsFor(subjectType: ExtractSubjectType<Normalize<A>[1]>): Normalize<A>[0][];
   actionsFor(subjectType: ExtractSubjectType<Normalize<A>[1]>): string[] {
     if (!isSubjectType(subjectType)) {
       throw new Error('"actionsFor" accepts only subject types (i.e., string or class) as a parameter');
