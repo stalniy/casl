@@ -5,28 +5,34 @@ on:
     branches: [master]
   workflow_dispatch:
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      paths_released: ${{ steps.release-pl.outputs.paths_released }}
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - uses: googleapis/release-please-action@v4
-        id: release
+        id: release-pl
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+  publish:
+    runs-on: ubuntu-latest
+    needs: release
+    if: ${{ needs.release.outputs.paths_released && needs.release.outputs.paths_released != '[]' }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
       - uses: actions/checkout@v6
-        if: ${{ steps.release.outputs.releases_created }}
       - uses: ./.github/actions/setup-deps
-        if: ${{ steps.release.outputs.releases_created }}
       - name: Publish packages
-        if: ${{ steps.release.outputs.paths_released && steps.release.outputs.paths_released != '[]' }}
         run: |
-          for p in $(echo '${{ steps.release.outputs.paths_released }}' | jq -r '.[]'); do
+          for p in $(echo '${{ needs.release.outputs.paths_released }}' | jq -r '.[]'); do
             pnpm -r --filter "./$p" release
           done
