@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.5](https://github.com/stalniy/casl/compare/@casl/vue@2.2.4...@casl/vue@2.2.5) (2025-12-30)
+
+
+### Maintenance
+
+* force release @casl/vue ([#1120](https://github.com/stalniy/casl/issues/1120)) ([60e89ba](https://github.com/stalniy/casl/commit/60e89bab1f50e6296b0654eb1ad018fd56f2b10c))
+
 ## [2.2.4](https://github.com/stalniy/casl/compare/@casl/vue@2.2.3...@casl/vue@2.2.4) (2025-12-30)
 
 
