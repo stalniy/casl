@@ -344,7 +344,7 @@ export default defineComponent({
     ability: { from: TOKEN }
   },
   created() {
-    this.ability // AppAbility
+    this.ability // AppAbility instance
   }
 });
 </script>
