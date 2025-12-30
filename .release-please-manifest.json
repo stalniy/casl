@@ -5,5 +5,5 @@
   "packages/casl-mongoose": "8.0.3",
   "packages/casl-prisma": "1.6.0",
   "packages/casl-react": "5.0.0",
-  "packages/casl-vue": "2.2.2"
+  "packages/casl-vue": "2.2.3"
 }

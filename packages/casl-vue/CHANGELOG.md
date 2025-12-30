@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.3](https://github.com/stalniy/casl/compare/@casl/vue@2.2.2...@casl/vue@2.2.3) (2025-12-30)
+
+
+### Documentation
+
+* updates documentation of @casl/vue to not use deprecated ability APIs ([#1114](https://github.com/stalniy/casl/issues/1114)) ([2acb2de](https://github.com/stalniy/casl/commit/2acb2de28813eac30c9c5801d6481e81dc445d2c)), ([#1117](https://github.com/stalniy/casl/issues/1117)) ([4c19fac](https://github.com/stalniy/casl/commit/4c19fac4d12d50fbf96d608bcc8ac61c95ce8cb4)), ([#1113](https://github.com/stalniy/casl/pull/1113))
+
 ## [2.2.2](https://github.com/stalniy/casl/compare/@casl/vue@2.2.1...@casl/vue@2.2.2) (2024-02-14)
 
 
