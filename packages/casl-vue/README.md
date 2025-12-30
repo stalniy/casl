@@ -8,7 +8,16 @@ This package allows to integrate `@casl/ability` with [Vue 3] application. So, y
 
 ## Installation
 
-**For Vue 2.x**:
+```sh
+npm install @casl/vue @casl/ability
+# or
+yarn add @casl/vue @casl/ability
+# or
+pnpm add @casl/vue @casl/ability
+```
+
+<details>
+<summary>For Vue 2.x</summary>
 
 ```sh
 npm install @casl/vue@1.x @casl/ability
@@ -18,15 +27,8 @@ yarn add @casl/vue@1.x @casl/ability
 pnpm add @casl/vue@1.x @casl/ability
 ```
 
-**For Vue 3.x**:
+</details>
 
-```sh
-npm install @casl/vue @casl/ability
-# or
-yarn add @casl/vue @casl/ability
-# or
-pnpm add @casl/vue @casl/ability
-```
 
 ## Getting started
 
@@ -234,6 +236,17 @@ There are several other property aliases which allow constructing a readable que
 
 Let's consider PROS and CONS of both solutions in order to make the decision.
 
+**Reactive Ability**:
+
+**PROS**:
+* easy to use
+* declarative in template with `v-if`
+* easy to pass as a prop to another component
+* easy to use in complex boolean expressions (either in js or in template)
+
+**CONS**:
+* more expensive to check, conditions are re-evaluated on each re-render
+
 **Can Component**:
 
 **PROS**:
@@ -246,17 +259,6 @@ Let's consider PROS and CONS of both solutions in order to make the decision.
 * harder to use in complex boolean expressions
 * harder to pass permission check as a prop to another component
 
-**Reactive Ability**:
-
-**PROS**:
-* easy to use
-* declarative in template with `v-if`
-* easy to pass as a prop to another component
-* easy to use in complex boolean expressions (either in js or in template)
-
-**CONS**:
-* more expensive to check, conditions are re-evaluated on each re-render
-
 Despite the fact that reactive ability check is a bit more expensive, they are still very fast and it's recommended to use reactive ability instead of `<Can>` component.
 
 ## TypeScript support
@@ -267,13 +269,12 @@ There are few ways to use TypeScript in a Vue app, depending on your preferences
 
 
 ```ts @{data-filename="AppAbility.ts"}
-import { Ability, AbilityClass } from '@casl/ability';
+import { MongoAbility } from '@casl/ability';
 
 type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User'
 
-export type AppAbility = Ability<[Actions, Subjects]>;
-export const AppAbility = Ability as AbilityClass<AppAbility>;
+export type AppAbility = MongoAbility<[Actions, Subjects]>;
 ```
 
 ### Augment Vue types
@@ -367,8 +368,9 @@ Let's imagine that server returns user with a role on login:
 </template>
 
 <script>
-import { AbilityBuilder, Ability } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 import { ABILITY_TOKEN } from '@casl/vue';
+import { AppAbility } from '../ability';
 
 export default {
   name: 'LoginForm',
@@ -389,7 +391,7 @@ export default {
         .then(({ user }) => this.updateAbility(user));
     },
     updateAbility(user) {
-      const { can, rules } = new AbilityBuilder(Ability);
+      const { can, rules } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
       if (user.role === 'admin') {
         can('manage', 'all');
