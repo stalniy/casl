@@ -27,7 +27,7 @@
     "build": "npm run build.prepare && BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.vue -g vue:Vue,@casl/ability:casl",
     "build.types": "dx tsc -p tsconfig.build.json",
     "lint": "dx eslint src/ spec/",
-    "test": "dx jest --env jsdom --config ../dx/config/jest.chai.config.js",
+    "test": "dx jest --env jsdom",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "npm run release.prepare && pnpm publish"
   },

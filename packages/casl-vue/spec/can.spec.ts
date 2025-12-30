@@ -1,5 +1,5 @@
-import { createApp, h, nextTick } from 'vue'
-import { defineAbility, subject } from '@casl/ability'
+import { createApp, h, nextTick, VNode } from 'vue'
+import { defineAbility, MongoAbility, subject } from '@casl/ability'
 import { abilitiesPlugin, Can } from '../src'
 
 describe('`Can` component', () => {
@@ -11,7 +11,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(root.querySelectorAll('h1, h2')).to.have.length(2)
+    expect(root.querySelectorAll('h1, h2')).toHaveLength(2)
   })
 
   it('renders all children if `Ability` instance allows to do an action on field', () => {
@@ -21,7 +21,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(root.querySelector('h1')).to.exist
+    expect(root.querySelector('h1')).toBeTruthy()
   })
 
   it('inverts permission condition when `not` prop is passed', () => {
@@ -31,7 +31,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(root.querySelector('h1')).not.to.exist
+    expect(root.querySelector('h1')).toBeFalsy()
   })
 
   it('does not render children if `Ability` instance disallows to do an action', () => {
@@ -41,7 +41,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(root.querySelector('h1')).not.to.exist
+    expect(root.querySelector('h1')).toBeFalsy()
   })
 
   it('re-renders when `Ability` instance changes', async () => {
@@ -55,7 +55,7 @@ describe('`Can` component', () => {
     ability.update([])
     await nextTick()
 
-    expect(root.querySelector('h1')).not.to.exist
+    expect(root.querySelector('h1')).toBeFalsy()
   })
 
   it('uses `this` property as a subject', async () => {
@@ -64,10 +64,10 @@ describe('`Can` component', () => {
         <h1></h1>
       </Can>
     `)
-    vm.subject = subject('Plugin', {})
+    ;(vm as any).subject = subject('Plugin', {})
     await nextTick()
 
-    expect(root.querySelector('h1')).to.exist
+    expect(root.querySelector('h1')).toBeTruthy()
   })
 
   it('uses `an` property as a subject type', () => {
@@ -77,7 +77,7 @@ describe('`Can` component', () => {
       </Can>
     `)
 
-    expect(root.querySelector('h1')).not.to.exist
+    expect(root.querySelector('h1')).toBeFalsy()
   })
 
   it('is possible to omit subject', () => {
@@ -88,15 +88,24 @@ describe('`Can` component', () => {
       </Can>
     `, ability)
 
-    expect(root.querySelector('h1')).to.exist
+    expect(root.querySelector('h1')).toBeTruthy()
   })
 
   describe('`passThrough` property', () => {
-    const ability = createAppAbility()
-    let scopedSlot
+    it('always renders passed in slot', () => {
+      const { scopedSlot } = setup()
+      expect(scopedSlot).toHaveBeenCalled()
+    })
 
-    beforeEach(() => {
-      scopedSlot = spy(() => 'scoped default slot')
+    it('passes `allowed` and `ability` vars into scoped slot', () => {
+      const { scopedSlot, ability } = setup()
+      expect(scopedSlot).toHaveBeenCalledWith({ ability, allowed: false })
+    })
+
+    function setup() {
+      const ability = createAppAbility()
+      const scopedSlot = jest.fn(() => h('span', 'scoped default slot'))
+
       render(() => h('div', [
         h(Can, {
           I: 'delete',
@@ -106,15 +115,12 @@ describe('`Can` component', () => {
           default: scopedSlot
         })
       ]), ability)
-    })
 
-    it('always renders passed in slot', () => {
-      expect(scopedSlot).to.have.been.called()
-    })
-
-    it('passes `allowed` and `ability` vars into scoped slot', () => {
-      expect(scopedSlot).to.have.been.called.with({ ability, allowed: false })
-    })
+      return {
+        ability,
+        scopedSlot
+      }
+    }
   })
 
   describe('props validation', () => {
@@ -123,35 +129,35 @@ describe('`Can` component', () => {
         <Can a="Plugin">
           <h1></h1>
         </Can>
-      `)).to.throw(/`I` nor `do` prop was passed/i)
+      `)).toThrow(/`I` nor `do` prop was passed/i)
     })
 
     it('throws error if created without default slot', () => {
       expect(() => render(`
         <Can I="read" a="Post" />
-      `)).to.throw(/expects to receive default slot/i)
+      `)).toThrow(/expects to receive default slot/i)
     })
   })
 
-  function render(template, appAbility = null) {
-    const App = {
-      name: 'App',
-      data: () => ({
-        action: 'read',
-        subject: 'Plugin'
-      })
-    }
-
-    if (typeof template === 'function') {
-      App.render = template
-    } else {
-      App.template = template.trim()
-    }
+  function render(template: string | (() => VNode), appAbility: MongoAbility | null = null) {
+    const App = typeof template === 'function'
+      ? {
+          name: 'App',
+          render: template
+        }
+      : {
+          name: 'App',
+          data: () => ({
+            action: 'read',
+            subject: 'Plugin'
+          }),
+          template: template.trim()
+        }
 
     const root = window.document.createElement('div')
     const app = createApp(App)
       .use(abilitiesPlugin, appAbility || createAppAbility())
-      .component(Can.name, Can)
+      .component(Can.name!, Can)
     app.config.warnHandler = () => {}
     const vm = app.mount(root)
 

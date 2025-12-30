@@ -6,6 +6,6 @@
   ],
   "compilerOptions": {
     "outDir": "dist/types",
-    "types": ["vue"]
+    "types": ["vue", "jest"]
   }
 }
