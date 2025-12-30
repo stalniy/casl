@@ -20,9 +20,9 @@ jobs:
       CASL_VERSION: v6
       SITEMAP_WEBSITE: https://casl.js.org
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v5
       env:
         cache-name: casl-docs-deps
       with:
