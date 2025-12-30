@@ -1,28 +1,22 @@
 import { createApp, h } from 'vue'
-import { Ability } from '@casl/ability'
+import { createMongoAbility } from '@casl/ability'
 import { provideAbility, useAbility } from '../src'
 
 describe('Vue hooks', () => {
-  let ability
-  let root
   const Child = {
     setup() {
       try {
         useAbility()
         return () => 'Provided'
       } catch (e) {
-        return () => e.message
+        return () => (e as Error).message
       }
     }
   }
 
-  beforeEach(() => {
-    ability = new Ability()
-    root = document.createElement('div')
-  })
-
   describe('provideAbility', () => {
     it('provides reactive `Ability` instance', () => {
+      const { ability, root } = setup()
       createApp({
         setup() {
           provideAbility(ability)
@@ -30,12 +24,13 @@ describe('Vue hooks', () => {
         }
       }).mount(root)
 
-      expect(root.innerHTML).to.equal('Provided')
+      expect(root.innerHTML).toEqual('Provided')
     })
   })
 
   describe('`useAbility`', () => {
     it('throws if `Ability` instance has not been provided', () => {
+      const { root } = setup()
       const app = createApp({
         setup: () => () => h(Child)
       })
@@ -43,10 +38,11 @@ describe('Vue hooks', () => {
       app.config.warnHandler = () => {}
       app.mount(root)
 
-      expect(root.innerHTML).to.contain('Cannot inject Ability instance')
+      expect(root.innerHTML).toContain('Cannot inject Ability instance')
     })
 
     it('allows to use `can` and `cannot` directly', () => {
+      const { ability, root } = setup()
       const app = createApp({
         setup() {
           provideAbility(ability)
@@ -62,7 +58,17 @@ describe('Vue hooks', () => {
       })
 
       app.mount(root)
-      expect(root.firstElementChild.innerHTML).to.equal('falsetrue')
+      expect(root.firstElementChild?.innerHTML).toEqual('falsetrue')
     })
   })
+
+  function setup() {
+    const ability = createMongoAbility()
+    const root = document.createElement('div')
+
+    return {
+      ability,
+      root
+    }
+  }
 })
