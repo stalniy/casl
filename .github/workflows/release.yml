@@ -25,7 +25,7 @@ jobs:
       - uses: ./.github/actions/setup-deps
         if: ${{ steps.release.outputs.releases_created }}
       - name: Publish packages
-        if: ${{ steps.release.outputs.releases_created }}
+        if: ${{ steps.release.outputs.paths_released && steps.release.outputs.paths_released != '[]' }}
         run: |
           for p in $(echo '${{ steps.release.outputs.paths_released }}' | jq -r '.[]'); do
             pnpm -r --filter "./$p" release
