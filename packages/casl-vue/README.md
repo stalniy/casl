@@ -406,7 +406,7 @@ export default {
 </script>
 ```
 
-> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`.
 
 ## Want to help?
 
