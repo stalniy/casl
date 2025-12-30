@@ -350,7 +350,7 @@ export default defineComponent({
 </script>
 ```
 
-> Read [Vue TypeScript](https://v3.vuejs.org/guide/typescript-support.html) for more details.
+> Read [Vue TypeScript](https://v3.vuejs.org/guide/typescript-support.html) for more details
 
 ## Update Ability instance
 
