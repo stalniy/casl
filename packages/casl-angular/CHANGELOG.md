@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.0.5](https://github.com/stalniy/casl/compare/@casl/angular@9.0.4...@casl/angular@9.0.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* **deps:** update angular monorepo to v21 ([#1126](https://github.com/stalniy/casl/issues/1126)) ([e1fdac6](https://github.com/stalniy/casl/commit/e1fdac68493eaa174f09e4b8c19ab36519aca031))
+
 ## [9.0.4](https://github.com/stalniy/casl/compare/@casl/angular@9.0.3...@casl/angular@9.0.4) (2025-08-07)
 
 ## [9.0.3](https://github.com/stalniy/casl/compare/@casl/angular@9.0.2...@casl/angular@9.0.3) (2025-01-08)
