@@ -1,83 +1,40 @@
 {
-  "extends": [
-    "config:base",
-    "monorepo:angular"
-  ],
-  "ignoreDeps": [
-    "semantic-release",
-    "@semantic-release/git",
-    "@semantic-release/changelog"
-  ],
+  "extends": ["config:recommended"],
   "ignorePaths": ["**/docs-src/**"],
-  "pinVersions": false,
-  "separatePatchReleases": false,
+  "rangeStrategy": "replace",
+  "separateMinorPatch": false,
   "ignoreUnstable": true,
   "automerge": true,
-  "automergeType": "branch-push",
-  "lockFileMaintenance": {
-    "enabled": true
-  },
-  "peerDependencies": {
-    "versionStrategy": "widen"
-  },
+  "automergeType": "branch",
+  "lockFileMaintenance": {"enabled": true},
   "packageRules": [
+    {"matchDatasources": ["npm"], "minimumReleaseAge": "7 days"},
     {
-      "matchDatasources": ["npm"],
-      "minimumReleaseAge": "7 days"
+      "groupName": "babel monorepo",
+      "matchSourceUrls": ["https://github.com/babel/babel{/,}**"]
     },
+    {"matchPackageNames": ["chai", "chai-spies"], "groupName": "chai"},
+    {"matchPackageNames": ["^karma"], "groupName": "karma"},
+    {"matchPackageNames": ["^eslint"], "groupName": "eslint"},
+    {"matchPackageNames": ["^rollup"], "groupName": "rollup"},
+    {"matchPackageNames": ["^jest-"], "groupName": "jest"},
     {
-      "sourceUrlPrefixes": [
-        "https://github.com/babel/babel"
-      ],
-      "groupName": "babel monorepo"
-    },
-    {
-      "packageNames": [
-        "chai",
-        "chai-spies"
-      ],
-      "groupName": "chai"
-    },
-    {
-      "packagePatterns": ["^karma"],
-      "groupName": "karma"
-    },
-    {
-      "packagePatterns": ["^eslint"],
-      "groupName": "eslint"
-    },
-    {
-      "packagePatterns": ["^rollup"],
-      "groupName": "rollup"
-    },
-    {
-      "packagePatterns": ["lerna"],
-      "groupName": "lerna"
-    },
-    {
-      "packagePatterns": ["jest"],
-      "groupName": "jest"
-    },
-    {
-      "packageNames": [
-        "@vue/test-utils",
-        "vue",
-        "vue-template-compiler"
-      ],
+      "matchPackageNames": ["@vue/test-utils", "vue", "vue-template-compiler"],
       "groupName": "vue"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
         "react",
-        "react-test-renderer",
         "@types/react",
         "@testing-library/react-hooks"
       ],
       "groupName": "react"
     },
+    {"matchPackageNames": ["^aurelia-"], "groupName": "aurelia"},
     {
-      "packagePatterns": ["^aurelia-"],
-      "groupName": "aurelia"
-    }
+      "matchPackageNames": ["@angular/**", "typescript", "zone.js"],
+      "groupName": "angular"
+    },
+    {"matchDepTypes": ["peerDependencies"], "rangeStrategy": "widen"}
   ]
 }
