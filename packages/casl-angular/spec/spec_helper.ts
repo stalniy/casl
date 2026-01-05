@@ -1,19 +1,19 @@
-import { Component, Type } from '@angular/core'
+import { Component, provideZoneChangeDetection, Type } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing'
+  BrowserTestingModule,
+  platformBrowserTesting
+} from '@angular/platform-browser/testing'
 import { createMongoAbility, PureAbility } from '@casl/ability'
 import { AblePipe, AblePurePipe } from '../src/public'
 
 TestBed.initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
+  BrowserTestingModule,
+  platformBrowserTesting()
 )
 
 let appIndex = 0
-export const createApp = (template) => {
+export const createApp = (template: string) => {
   @Component({
     selector: `app-ability-${++appIndex}`,
     template,
@@ -26,7 +26,7 @@ export const createApp = (template) => {
 }
 
 export class Post {
-  constructor(attrs) {
+  constructor(attrs: Record<string, unknown>) {
     Object.assign(this, attrs)
   }
 }
@@ -47,6 +47,7 @@ export function configureTestingModule(declarations: Type<unknown>[] = []) {
     imports: [AblePipe, AblePurePipe],
     declarations,
     providers: [
+      provideZoneChangeDetection(),
       { provide: PureAbility, useFactory: () => createMongoAbility() }
     ]
   })
