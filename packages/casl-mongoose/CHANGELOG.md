@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
-* **deps:** forces mongoose release ([#1129](https://github.com/stalniy/casl/issues/1129)) ([aa148e3](https://github.com/stalniy/casl/commit/aa148e3fbb0df8e6650c2c6f426003ad27be607f))
+* **deps:** update dependency mongoose to v9 ([#1104](https://github.com/stalniy/casl/pull/1104))
 
 ## [8.0.3](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.2...@casl/mongoose@8.0.3) (2025-01-05)
 
