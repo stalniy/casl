@@ -1,4 +1,4 @@
-import { MongoAbility, SubjectType, createMongoAbility, defineAbility } from '@casl/ability'
+import { type MongoAbility, type SubjectType, createMongoAbility, defineAbility } from '@casl/ability'
 import mongoose from 'mongoose'
 import { AccessibleFieldsModel, accessibleFieldsPlugin } from '../src'
 
@@ -12,14 +12,14 @@ describe('Accessible fields plugin', () => {
   let PostSchema: mongoose.Schema<Post, PostModel>
 
   beforeEach(() => {
-    PostSchema = new mongoose.Schema<Post>({
+    PostSchema = new mongoose.Schema<Post, PostModel>({
       title: String,
       state: String
     })
   })
 
   afterEach(() => {
-    (mongoose as any).models = {}
+    mongoose.deleteModel('Post')
   })
 
   it('adds static and instace `accessibleFieldsBy` method', () => {
