@@ -66,7 +66,7 @@ const permissionRestrictedConditions = accessibleBy(ability, 'update').ofType('P
 // DANGER DO NOT DO THIS (see above use $and)
 const query = {
   // This is bad and potentially wrong code
-  ...permissionRestrictedConditions, 
+  ...permissionRestrictedConditions,
   authorId: 2
 };
 ```
@@ -92,7 +92,7 @@ Historically, `@casl/mongoose` was intended for super easy integration with [mon
 
 ### Accessible Records plugin
 
-This plugin is deprecated, the recommended way is to use [`accessibleBy` helper function](#accessibleBy-helper)
+This plugin is deprecated, the recommended way is to use [`accessibleBy` helper function](#accessibleBy-helper).
 
 `accessibleRecordsPlugin` is a plugin which adds `accessibleBy` method to query and static methods of mongoose models. We can add this plugin globally:
 
