@@ -4,6 +4,7 @@ function spawn(cli, args, options = {}) {
   return child.spawn(cli, args, {
     cwd: options.cwd || process.cwd(),
     stdio: 'inherit',
+    shell: options.shell,
     env: {
       ...process.env,
       ...options.env,
