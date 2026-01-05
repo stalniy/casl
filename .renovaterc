@@ -8,6 +8,10 @@
   "automergeType": "branch",
   "lockFileMaintenance": {"enabled": true},
   "packageRules": [
+    {
+      "matchPackageNames": ["*"],
+      "semanticCommitType": "fix"
+    },
     {"matchDatasources": ["npm"], "minimumReleaseAge": "7 days"},
     {
       "groupName": "babel monorepo",
