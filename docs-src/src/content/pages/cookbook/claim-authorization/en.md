@@ -41,16 +41,17 @@ All that consumes time and resources, as a result postpones the delivery of your
 Fortunately, CASL supports claim based authorization. The example above can be represented in CASL:
 
 ```ts
-import { defineAbility, PureAbility } from '@casl/ability';
+import { AbilityBuilder, PureAbility } from '@casl/ability';
 
 type AppAbility = PureAbility<Actions>;
 type Actions = 'review' | 'publish' | 'read';
 
-const ability = defineAbility<AppAbility>((can) => {
-  can('review');
-  can('publish');
-  can('read');
-});
+const { can, build } = new AbilityBuilder<AppAbility>(PureAbility);
+can('review');
+can('publish');
+can('read');
+
+const ability = build();
 
 function publishArticle(article: object, ability: AppAbility) {
   if (ability.cannot('publish')) {
