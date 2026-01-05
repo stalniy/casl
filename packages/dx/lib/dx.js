@@ -1,14 +1,17 @@
 const fsPath = require('path');
 const fs = require('fs');
+const os = require('os');
 const { spawnAndExit } = require('./spawn');
 
 const configPath = filename => fsPath.join(__dirname, '..', 'config', filename);
 const localBin = cli => {
-  const localReplacement = fsPath.join(__dirname, '..', 'bin', cli);
-  return fs.existsSync(localReplacement)
-    ? localReplacement
-    : fsPath.join(__dirname, '..', 'node_modules', '.bin', cli);
-}
+  const binPath = fsPath.join(__dirname, '..', 'node_modules', '.bin', cli);
+  const possiblePaths = os.platform() === 'win32'
+    ? [binPath,`${binPath}.cmd`,`${binPath}.exe`]
+    : [binPath];
+
+  return possiblePaths.find(path => fs.existsSync(path));
+};
 
 const COMMANDS = {
   install() {
@@ -99,6 +102,7 @@ function run(name, args) {
     {
       env,
       cwd: cmd.cwd,
+      shell: os.platform() === 'win32',
     }
   );
 }
