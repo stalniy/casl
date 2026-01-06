@@ -43,7 +43,7 @@ JavaScript is a superset of `JSON`, that's why we decided to use MongoDB query l
 
 **You don't need to know anything about MongoDB** in order to use CASL, you need to know only subset of its query language operators.
 
-Query is what you pass in conditions to `can` and `cannot` functions (3rd or 4th argument if you pass fields). So, it's an object which defines restrictions on a JavaScript object and if that restrictions are matched then a matched object is returned.
+Query is what you pass in conditions to `can` and `cannot` functions (3rd or 4th argument if you pass fields). So, it's an object which defines restrictions on a JavaScript object and if those restrictions are matched, then a matched object is returned.
 
 Let's see at examples of queries:
 
@@ -60,7 +60,7 @@ const queries = [
 ]
 ```
 
-We can combine any amount of fields inside single query, all their restrictions are tested according to `AND` logic. If we do not specify operator, the query uses `$eq` operator (equality operator). So, a query like `(2)` matches objects if their `private` and `hidden` property values equal to `false` (i.e., `!object.private && !object.hidden`).
+We can combine any number of fields inside single query, all their restrictions are tested according to `AND` logic. If we do not specify operator, the query uses `$eq` operator (equality operator). So, a query like `(2)` matches objects if their `private` and `hidden` property values equal to `false` (i.e., `!object.private && !object.hidden`).
 
 We can specify multiple operators for the same field, in this case each operator must return `true` to match a field value. So, `(3)` matches objects only if `price` property value is between 10 and 50 inclusively (i.e., `object.price >= 10 && object.price <= 50`).
 
