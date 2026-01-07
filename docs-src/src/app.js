@@ -1,4 +1,3 @@
-import 'core-js/modules/web.immediate';
 import App from './components/App';
 import AppRoot from './components/AppRoot';
 import AppFooter from './components/AppFooter';

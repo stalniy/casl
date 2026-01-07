@@ -1,9 +1,13 @@
 import MiniSearch from 'minisearch';
 import fs from 'fs';
-import searchOptions from '../src/config/search';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+import searchOptions from '../src/config/search.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function createIndexFor(lang) {
-  const stopWordsPath = `${__dirname}/tools/stop-words/${lang}.txt`;
+  const stopWordsPath = resolve(__dirname, `stop-words/${lang}.txt`);
   const stopWords = new Set(fs.readFileSync(stopWordsPath, 'utf8').trim().split('\n'));
 
   return new MiniSearch({

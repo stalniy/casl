@@ -1,8 +1,51 @@
-const http = require('http');
-const fs = require('fs');
-const puppeteer = require('puppeteer');
-const { promisify } = require('util');
-const { createServer } = require('history-server');
+import http from 'http';
+import fs from 'fs';
+import puppeteer from 'puppeteer';
+import { promisify } from 'util';
+import { dirname, resolve, join, extname } from 'path';
+import { fileURLToPath } from 'url';
+
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.js': 'application/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.svg': 'image/svg+xml',
+  '.xml': 'application/xml',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ico': 'image/x-icon',
+};
+
+function createStaticServer(root) {
+  return (req, res) => {
+    let filePath = join(root, req.url === '/' ? 'index.html' : req.url);
+
+    // Try to serve the file directly, or fall back to index.html for SPA routing
+    if (!fs.existsSync(filePath)) {
+      filePath = join(root, 'index.html');
+    } else if (fs.statSync(filePath).isDirectory()) {
+      filePath = join(filePath, 'index.html');
+    }
+
+    const ext = extname(filePath);
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+    fs.readFile(filePath, (err, content) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content);
+    });
+  };
+}
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
@@ -90,12 +133,8 @@ async function listen(server) {
 }
 
 async function run() {
-  const basePath = `${__dirname}/../dist`;
-  const app = createServer([
-    { path: BASE_URL || '/', root: basePath },
-    { path: '/', root: basePath },
-  ]);
-  const server = http.createServer(app);
+  const basePath = resolve(__dirname, '../dist');
+  const server = http.createServer(createStaticServer(basePath));
 
   try {
     await listen(server);

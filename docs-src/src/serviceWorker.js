@@ -1,7 +1,4 @@
-// To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://bit.ly/CRA-PWA
-import { fetch } from './services/http';
-
+// Service worker registration for Vite PWA
 const { navigator, location } = window;
 const isLocalhost = location.hostname === 'localhost'
   || location.hostname === '[::1]'
@@ -24,7 +21,7 @@ function notifyAboutNewWorker(worker, config) {
 
     if (navigator.serviceWorker.controller) {
       log('New content is available and will be used when all '
-        + 'tabs for this page are closed. See https://bit.ly/CRA-PWA.');
+        + 'tabs for this page are closed.');
 
       if (config && config.onUpdate) {
         config.onUpdate(worker);
@@ -62,36 +59,37 @@ function registerValidSW(swUrl, config) {
     });
 }
 
-function checkValidServiceWorker(swUrl, config) {
-  const headers = { 'Service-Worker': 'script' };
-  return fetch(swUrl, { headers, format: 'raw', absoluteUrl: true })
-    .then((response) => {
-      const contentType = response.headers['content-type'] || '';
-
-      if (response.status === 404 || contentType.indexOf('javascript') === -1) {
-        log('cannot detect service worker');
-        navigator.serviceWorker.ready
-          .then(registration => registration.unregister())
-          .then(() => location.reload());
-      } else {
-        registerValidSW(swUrl, config);
-      }
-    })
-    .catch(() => {
-      log('No internet connection found. App is running in offline mode.');
-    });
-}
-
 export function register(config) {
   if (!isSupportedServiceWorker) {
     return;
   }
 
+  // Only register in production
+  if (import.meta.env.MODE !== 'production') {
+    log('Service worker registration skipped in development mode');
+    return;
+  }
+
   window.addEventListener('load', () => {
-    const swUrl = `${process.env.BASE_URL}/sw.js`;
+    const swUrl = `${import.meta.env.BASE_URL_PATH || ''}/sw.js`;
 
     if (isLocalhost) {
-      checkValidServiceWorker(swUrl, config);
+      // Check if service worker exists
+      fetch(swUrl, { headers: { 'Service-Worker': 'script' } })
+        .then((response) => {
+          const contentType = response.headers.get('content-type') || '';
+          if (response.status === 404 || contentType.indexOf('javascript') === -1) {
+            log('Service worker not found');
+            navigator.serviceWorker.ready
+              .then(registration => registration.unregister())
+              .then(() => location.reload());
+          } else {
+            registerValidSW(swUrl, config);
+          }
+        })
+        .catch(() => {
+          log('No internet connection found. App is running in offline mode.');
+        });
     } else {
       registerValidSW(swUrl, config);
     }
