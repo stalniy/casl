@@ -21,7 +21,7 @@ pnpm add @casl/prisma @casl/ability
 
 ## Usage
 
-This package is a bit different from all others because it provides a custom `createPrismaAbility` factory function that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where):
+This package is a bit different from all others because it provides a custom `createPrismaAbility` factory function that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/orm/reference/prisma-client-reference#where):
 
 ```ts
 import { User, Post, Prisma } from '@prisma/client';
@@ -56,7 +56,7 @@ Unfortunately, there is no easy way to automate this, except of adding additiona
 
 ### Note on Prisma Query runtime interpreter
 
-`@casl/prisma` uses [ucast](https://github.com/stalniy/ucast) to interpret Prisma [WhereInput](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#where) in JavaScript runtime. However, there are few caveats:
+`@casl/prisma` uses [ucast](https://github.com/stalniy/ucast) to interpret Prisma [WhereInput](https://www.prisma.io/docs/orm/reference/prisma-client-reference#where) in JavaScript runtime. However, there are few caveats:
 - equality of JSON columns is not implemented
 - equality of array/list columns is not implemented (however operators like `has`, `hasSome` and `hasEvery` should be more than enough)
 - when defining conditions on relation, always specify one of operators (`every`, `none`, `some`, `is` or `isNot`)
