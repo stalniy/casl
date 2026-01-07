@@ -1,6 +1,10 @@
 import { parse, getOrCreateMdParser } from 'xyaml-webpack-loader/parser';
 import matter from 'gray-matter';
 import slugify from '@sindresorhus/slugify';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const markdownOptions = {
   use: {
@@ -10,11 +14,11 @@ export const markdownOptions = {
       slugify,
     },
     'markdown-it-include': {
-      root: `${__dirname}/..`,
+      root: resolve(__dirname, '..', '..'),
       bracesAreOptional: true,
       includeRe: /@include:(\s+[\w._/-]+)/
     },
-    [`${__dirname}/tools/mdLink`]: {
+    [`${__dirname}/mdLink.cjs`]: {
       external: {
         target: '_blank',
         rel: 'noopener nofollow'
@@ -23,11 +27,11 @@ export const markdownOptions = {
         tagName: 'app-link'
       }
     },
-    [`${__dirname}/tools/mdImage`]: {
+    [`${__dirname}/mdImage.cjs`]: {
       size: 'auto',
       srcRoot: `${process.env.LIT_APP_PUBLIC_PATH || ''}/images`
     },
-    [`${__dirname}/tools/mdTableContainer`]: {}
+    [`${__dirname}/mdTableContainer.cjs`]: {}
   }
 };
 

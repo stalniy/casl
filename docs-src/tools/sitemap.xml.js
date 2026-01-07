@@ -1,15 +1,19 @@
-const yaml = require('js-yaml');
-const childProcess = require('child_process');
-const { promisify } = require('util');
-const fs = require('fs');
+import yaml from 'js-yaml';
+import { exec as execCb } from 'child_process';
+import { promisify } from 'util';
+import fs from 'fs';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
-const exec = promisify(childProcess.exec);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const exec = promisify(execCb);
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
 const WEBSITE = (process.env.SITEMAP_WEBSITE || 'http://localhost:8080') + (process.env.LIT_APP_PUBLIC_PATH || '');
-const CONTENT_PATH = `${__dirname}/../src/content`;
-const DIST_PATH = `${__dirname}/../dist`;
+const CONTENT_PATH = resolve(__dirname, '../src/content');
+const DIST_PATH = resolve(__dirname, '../dist');
 
 async function findFileByPrefix(dir, prefix) {
   const files = await readdir(dir);
@@ -159,7 +163,8 @@ async function urlEntriesFrom(route, context = {}) {
 }
 
 async function generate() {
-  const { routes } = yaml.load(fs.readFileSync(`${__dirname}/../src/config/routes.yml`));
+  const routesPath = resolve(__dirname, '../src/config/routes.yml');
+  const { routes } = yaml.load(fs.readFileSync(routesPath, 'utf8'));
   const requests = routes.map(route => urlEntriesFrom(route));
   const urls = await Promise.all(requests);
   const content = `
@@ -169,12 +174,12 @@ async function generate() {
     </urlset>
   `.trim();
 
-  await writeFile(`${__dirname}/../dist/sitemap.xml`, content);
+  await writeFile(resolve(DIST_PATH, 'sitemap.xml'), content);
 }
 
 generate()
-  .then(() => console.log(`sitemap.xml has been successfully generated for ${WEBSITE}`)) // eslint-disable-line no-console
+  .then(() => console.log(`sitemap.xml has been successfully generated for ${WEBSITE}`))
   .catch((error) => {
-    console.error(error); // eslint-disable-line no-console
+    console.error(error);
     process.exit(1);
   });

@@ -108,6 +108,8 @@ HomePage.styles = [
 
       .col-example {
         display: block;
+        overflow-x: auto;
+        flex-basis: 40%;
       }
 
       .example code {
@@ -118,6 +120,10 @@ HomePage.styles = [
     @media (min-width: 1200px) {
       .example code {
         font-size: .8rem;
+      }
+
+      .col-example {
+        flex-basis: auto;
       }
     }
   `
