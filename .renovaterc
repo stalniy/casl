@@ -9,12 +9,12 @@
   "lockFileMaintenance": {"enabled": true},
   "packageRules": [
     {
-      "matchDepTypes": ["dependencies"],
-      "semanticCommitType": "fix"
+      "matchPackageNames": ["*"],
+      "semanticCommitType": "chore"
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "semanticCommitType": "chore"
+      "matchDepTypes": ["dependencies"],
+      "semanticCommitType": "fix"
     },
     {"matchDatasources": ["npm"], "minimumReleaseAge": "7 days"},
     {
