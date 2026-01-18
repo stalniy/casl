@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.8.0](https://github.com/stalniy/casl/compare/@casl/ability@6.7.5...@casl/ability@6.8.0) (2026-01-18)
+
+
+### Features
+
+* export the Rule and RuleOptions types ([#1077](https://github.com/stalniy/casl/issues/1077)) ([c6c94d8](https://github.com/stalniy/casl/commit/c6c94d8f15da80262930f6eb32f708f1b030665e))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+
 ## [6.7.5](https://github.com/stalniy/casl/compare/@casl/ability@6.7.4...@casl/ability@6.7.5) (2025-12-20)
 
 
