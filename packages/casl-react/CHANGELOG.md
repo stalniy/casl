@@ -27,6 +27,13 @@ All notable changes to this project will be documented in this file.
 
 * exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
 
+## [5.0.1](https://github.com/stalniy/casl/compare/@casl/react@5.0.0...@casl/react@5.0.1) (2026-01-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+
 ## [3.0.1](https://github.com/stalniy/casl/compare/@casl/react@3.0.0...@casl/react@3.0.1) (2022-07-25)
 
 # [3.0.0](https://github.com/stalniy/casl/compare/@casl/react@2.3.0...@casl/react@3.0.0) (2022-05-28)

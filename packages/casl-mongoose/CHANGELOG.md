@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.0.5](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.4...@casl/mongoose@8.0.5) (2026-01-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+
 ## [8.0.4](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.3...@casl/mongoose@8.0.4) (2026-01-05)
 
 
