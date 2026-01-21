@@ -1,4 +1,4 @@
-import { ForbiddenError, getDefaultErrorMessage, PureAbility, SubjectType } from '../src'
+import { ForbiddenError, fieldPatternMatcher, getDefaultErrorMessage, PureAbility, SubjectType } from '../src'
 
 describe('`ForbiddenError` class', () => {
   describe('`throwUnlessCan` method', () => {
@@ -46,6 +46,47 @@ describe('`ForbiddenError` class', () => {
       const { error } = setup()
 
       expect(() => error.setMessage(message).throwUnlessCan('update', 'Post')).toThrow(message)
+    })
+
+    it('allows when all fields are permitted', () => {
+      const ability = new PureAbility([
+        { action: 'read', subject: 'Post' }
+      ], {
+        fieldMatcher: fieldPatternMatcher
+      })
+      const error = ForbiddenError.from(ability)
+
+      ability.update([
+        { action: 'update', subject: 'Post', fields: ['title', 'content'] }
+      ])
+
+      expect(() => error.throwUnlessCan('update', 'Post', ['title'])).not.toThrow()
+      expect(() => error.throwUnlessCan('update', 'Post', ['title', 'content'])).not.toThrow()
+    })
+
+    it('raises forbidden error for the first disallowed field', () => {
+      const ability = new PureAbility([
+        { action: 'read', subject: 'Post' }
+      ], {
+        fieldMatcher: fieldPatternMatcher
+      })
+      const error = ForbiddenError.from(ability)
+
+      ability.update([
+        { action: 'update', subject: 'Post', fields: ['title'] }
+      ])
+
+      let thrownError: ForbiddenError<PureAbility> | undefined
+
+      try {
+        error.throwUnlessCan('update', 'Post', ['title', 'content'])
+      } catch (abilityError) {
+        thrownError = abilityError as ForbiddenError<PureAbility>
+      }
+
+      expect(thrownError!.field).toBe('content')
+      expect(thrownError!.action).toBe('update')
+      expect(thrownError!.subject).toBe('Post')
     })
 
     it('correctly extracts subject type name from class subject types', () => {

@@ -3,9 +3,9 @@ import { Abilities, AbilityTuple, CanParameters, Subject } from './types';
 import { Rule } from './Rule';
 
 export interface AbilityOptions<A extends Abilities, Conditions>
-  extends RuleIndexOptions<A, Conditions> {}
-export interface AnyAbility extends Public<PureAbility<any, any>> {}
-export interface AbilityOptionsOf<T extends AnyAbility> extends RuleIndexOptionsOf<T> {}
+  extends RuleIndexOptions<A, Conditions> { }
+export interface AnyAbility extends Public<PureAbility<any, any>> { }
+export interface AbilityOptionsOf<T extends AnyAbility> extends RuleIndexOptionsOf<T> { }
 
 export type AbilityClass<T extends AnyAbility> = new (
   rules?: RawRuleOf<T>[],
@@ -22,13 +22,42 @@ export class PureAbility<
   Conditions = unknown
 > extends RuleIndex<A, Conditions> {
   can(...args: CanParameters<A>): boolean;
-  can(action: string, subject?: Subject, field?: string): boolean {
-    const rule = (this as PrimitiveAbility).relevantRuleFor(action, subject, field);
-    return !!rule && !rule.inverted;
+  can(action: string, subject?: Subject, field?: string | string[]): boolean {
+    return this._can(action, subject, field);
   }
 
   relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null;
-  relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null {
+  relevantRuleFor(
+    action: string,
+    subject?: Subject,
+    field?: string | string[]
+  ): Rule<A, Conditions> | null {
+    if (Array.isArray(field)) {
+      let firstAllowedRule: Rule<A, Conditions> | null = null;
+
+      for (let i = 0; i < field.length; i++) {
+        const rule = this._relevantRuleFor(action, subject, field[i]);
+
+        if (!rule || rule.inverted) {
+          return rule;
+        }
+
+        if (!firstAllowedRule) {
+          firstAllowedRule = rule;
+        }
+      }
+
+      return firstAllowedRule;
+    }
+
+    return this._relevantRuleFor(action, subject, field);
+  }
+
+  private _relevantRuleFor(
+    action: string,
+    subject?: Subject,
+    field?: string
+  ): Rule<A, Conditions> | null {
     const subjectType = this.detectSubjectType(subject);
     const rules = (this as any).rulesFor(action, subjectType, field);
 
@@ -41,16 +70,17 @@ export class PureAbility<
     return null;
   }
 
-  cannot(...args: CanParameters<A>): boolean;
-  cannot(action: string, subject?: Subject, field?: string): boolean {
-    return !(this as PrimitiveAbility).can(action, subject, field);
-  }
-}
+  private _can(action: string, subject?: Subject, field?: string | string[]): boolean {
+    if (Array.isArray(field)) {
+      return field.every(value => this._can(action, subject, value));
+    }
 
-/**
- * helper interface that helps to emit js methods that have static parameters
- */
-interface PrimitiveAbility<A extends Abilities = AbilityTuple, Conditions = unknown> {
-  can(action: string, subject?: Subject, field?: string): boolean;
-  relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null
+    const rule = this._relevantRuleFor(action, subject, field);
+    return !!rule && !rule.inverted;
+  }
+
+  cannot(...args: CanParameters<A>): boolean;
+  cannot(action: string, subject?: Subject, field?: string | string[]): boolean {
+    return !this._can(action, subject, field);
+  }
 }

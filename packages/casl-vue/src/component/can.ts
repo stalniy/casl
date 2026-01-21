@@ -14,10 +14,10 @@ type AbilityCanProps<
   T extends Abilities,
   Else = IfString<T, { do: T } | { I: T }>
 > = T extends AbilityTuple
-  ? { do: T[0], on: T[1], field?: string } |
-  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
+  ? { do: T[0], on: T[1], field?: string | string[] } |
+  { I: T[0], a: Extract<T[1], SubjectType>, field?: string | string[] } |
+  { I: T[0], an: Extract<T[1], SubjectType>, field?: string | string[] } |
+  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string | string[] }
   : Else;
 
 export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
@@ -56,7 +56,7 @@ export const Can = defineComponent<CanProps<VueAbility>>({
     on: [String, Function, Object],
     not: Boolean,
     passThrough: Boolean,
-    field: String
+    field: [String, Array]
   } as any,
   setup(props, { slots }) {
     const $props = props as Record<string, any>;

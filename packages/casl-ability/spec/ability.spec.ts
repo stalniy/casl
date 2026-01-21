@@ -472,6 +472,22 @@ describe('Ability', () => {
       expect(ability.can('read', 'Post', 'description')).toBe(false)
     })
 
+    it('allows to check multiple fields at once', () => {
+      const ability = defineAbility(can => can('read', 'Post', ['title', 'id']))
+
+      expect(ability.can('read', 'Post', ['title'])).toBe(true)
+      expect(ability.can('read', 'Post', ['title', 'id'])).toBe(true)
+      expect(ability.can('read', 'Post', ['title', 'description'])).toBe(false)
+    })
+
+    it('allows to check multiple fields at once with `cannot`', () => {
+      const ability = defineAbility(can => can('read', 'Post', ['title', 'id']))
+
+      expect(ability.cannot('read', 'Post', ['title'])).toBe(false)
+      expect(ability.cannot('read', 'Post', ['title', 'id'])).toBe(false)
+      expect(ability.cannot('read', 'Post', ['title', 'description'])).toBe(true)
+    })
+
     it('allows to define inverted rules for a field', () => {
       const ability = defineAbility((can, cannot) => {
         can('read', 'Post')

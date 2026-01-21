@@ -34,7 +34,7 @@ export class CanValueConverter<T extends AnyAbility> extends AbilityValueConvert
   toView(
     subject: Parameters<T['can']>[1],
     action: Parameters<T['can']>[0],
-    field?: string
+    field?: string | string[]
   ): boolean {
     return (this as any).can(action, subject, field);
   }

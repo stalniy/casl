@@ -35,7 +35,7 @@ export type CanParameters<T extends Abilities, IncludeField extends boolean = tr
   T,
   T extends AbilityTuple
     ? IncludeField extends true
-      ? (action: T[0], subject: T[1], field?: string) => 0
+      ? (action: T[0], subject: T[1], field?: string | string[]) => 0
       : (action: T[0], subject: T[1]) => 0
     : never,
   (action: Extract<T, string>) => 0
