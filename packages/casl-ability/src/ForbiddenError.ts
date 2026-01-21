@@ -46,13 +46,35 @@ export class ForbiddenError<T extends AnyAbility> extends NativeError {
   }
 
   throwUnlessCan(...args: Parameters<T['can']>): void;
-  throwUnlessCan(action: string, subject?: Subject, field?: string): void {
+  throwUnlessCan(action: string, subject?: Subject, field?: string | string[]): void {
     const error = (this as any).unlessCan(action, subject, field);
     if (error) throw error;
   }
 
   unlessCan(...args: Parameters<T['can']>): this | undefined;
-  unlessCan(action: string, subject?: Subject, field?: string): this | undefined {
+  unlessCan(action: string, subject?: Subject, field?: string | string[]): this | undefined {
+    if (Array.isArray(field)) {
+      const failingField = field.find(item => {
+        const fieldRule = this.ability.relevantRuleFor(action, subject, item);
+        return !fieldRule || fieldRule.inverted;
+      });
+
+      if (!failingField) {
+        return;
+      }
+
+      const rule = this.ability.relevantRuleFor(action, subject, failingField);
+
+      this.action = action;
+      this.subject = subject;
+      this.subjectType = getSubjectTypeName(this.ability.detectSubjectType(subject));
+      this.field = failingField;
+
+      const reason = rule ? rule.reason : '';
+      this.message = this.message || reason || (this.constructor as any)._defaultErrorMessage(this);
+      return this;
+    }
+
     const rule = this.ability.relevantRuleFor(action, subject, field);
 
     if (rule && !rule.inverted) {

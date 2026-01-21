@@ -97,7 +97,7 @@ Checks that the provided action and subject satisfy permissions. Depending on `A
 * **Parameters**
   * `action: string` - an action to check
   * `subject: Subject` - a subject to check
-  * `field?: string` - a field to check
+  * `field?: string | string[]` - a field (or fields) to check
 * **Returns**: `boolean`
 * **Usage**:
 
@@ -117,6 +117,11 @@ Checks that the provided action and subject satisfy permissions. Depending on `A
 ### cannot of PureAbility
 
 This method works the same way as [can](#can-of-pure-ability) but returns inverted result.
+
+* **Parameters**
+  * `action: string` - an action to check
+  * `subject: Subject` - a subject to check
+  * `field?: string | string[]` - a field (or fields) to check
 
 ### relevantRuleFor
 
