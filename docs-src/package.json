@@ -36,9 +36,9 @@
     "markdown-it-include": "^2.0.0",
     "puppeteer": "^13.0.0",
     "rollup-plugin-content": "0.8.0",
-    "vite": "^5.0.0",
+    "vite": "^7.3.1",
     "vite-plugin-pwa": "^0.17.0",
-    "vite-plugin-static-copy": "^1.0.0",
+    "vite-plugin-static-copy": "^3.1.4",
     "workbox-window": "^7.0.0",
     "xyaml-webpack-loader": "0.7.1"
   }
