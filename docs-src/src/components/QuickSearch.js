@@ -1,11 +1,11 @@
 import { LitElement, html, css } from 'lit-element';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { t } from '../directives/i18n';
 import { locale } from '../services/i18n';
 import content from '../services/content';
 import router from '../services/router';
 import { debounce } from '../services/utils';
 import { gridCss } from '../styles';
+import { sanitizedHTML } from '../services/sanitize';
 
 const SUGGESTION_TEMPLATES = {
   dropdown(result) {
@@ -15,12 +15,12 @@ const SUGGESTION_TEMPLATES = {
     return html`
       <div class="row item">
         <div class="col title">
-          <app-link to="page" .params="${result.doc}">${unsafeHTML(title)}</app-link>
+          <app-link to="page" .params="${result.doc}">${sanitizedHTML(title)}</app-link>
         </div>
         <div class="col">
           ${headings.map(heading => html`
             <app-link to="page" .params="${result.doc}" hash="${heading.id}">
-              ${unsafeHTML(heading.title)}
+              ${sanitizedHTML(heading.title)}
             </app-link>
           `)}
         </div>
@@ -34,7 +34,7 @@ const SUGGESTION_TEMPLATES = {
     return html`
       ${headings.map(heading => html`
         <app-link class="item" to="page" .params="${result.doc}" hash="${heading.id}">
-          ${unsafeHTML(`${title} › ${heading.title}`)}
+          ${sanitizedHTML(`${title} › ${heading.title}`)}
         </app-link>
       `)}
     `;
