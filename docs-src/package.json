@@ -16,6 +16,7 @@
   "dependencies": {
     "@curi/router": "^2.1.0",
     "@hickory/browser": "^2.1.0",
+    "dompurify": "^3.3.1",
     "github-buttons": "^2.7.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.2.1",
