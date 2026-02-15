@@ -3,8 +3,8 @@ title: Customize Ability
 categories: [advanced]
 order: 65
 meta:
-  keywords: ~
-  description: ~
+  keywords: customize ability, conditionsMatcher, fieldMatcher, custom operators, ucast, PureAbility
+  description: Customize CASL Ability — custom conditions matchers, field matchers, MongoDB operators, json-schema, extend PureAbility.
 ---
 
 CASL was built with extensibility in mind and this allows you to extend conditions with custom operators, provide custom field matchers and even use your own implementation to match conditions (e.g., using functions or [json-schema])! Let's see how

@@ -3,8 +3,8 @@ title: Installation
 categories: [guide]
 order: 0
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl install, npm, yarn, pnpm, cdn, @casl/ability, semantic versioning, webpack, es modules
+  description: How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue, aurelia), builds and Webpack.
 ---
 
 ## Requirements

@@ -3,8 +3,8 @@ title: Debugging and testing
 categories: [advanced]
 order: 70
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl debugging, relevantRuleFor, testing abilities, ForbiddenError, rule inspection
+  description: Debugging and testing CASL — relevantRuleFor to find matching rules, forbidden reasons, and testing permission logic.
 ---
 
 Sometimes it may be a bit complicated to understand why some action in the app is forbidden for a particular user. In this guide, you will learn common pitfalls and ways to investigate the underlying reasons. Let's start.

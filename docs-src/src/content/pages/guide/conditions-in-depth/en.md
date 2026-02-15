@@ -3,8 +3,8 @@ title: Conditions in Depth
 categories: [guide]
 order: 30
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl conditions, MongoDB query language, ucast, $eq $ne $in $gte $lte, query operators
+  description: CASL conditions in depth — using MongoDB-style query language (via ucast) for permission conditions. Supported operators and examples.
 ---
 
 Thanks to [ucast](https://github.com/stalniy/ucast), we can define permissions using [MongoDB query language](http://docs.mongodb.org/manual/reference/operator/query/).

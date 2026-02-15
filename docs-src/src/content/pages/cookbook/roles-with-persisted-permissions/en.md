@@ -3,8 +3,8 @@ title: Roles with persisted permissions
 categories: [cookbook]
 order: 25
 meta:
-  keywords: ~
-  description: ~
+  keywords: RBAC, persisted permissions, configurable roles, database permissions, REST API
+  description: Roles with persisted permissions — configurable RBAC with permissions stored in DB. Build PureAbility from user's role and permissions.
 ---
 
 > This recipe targets backend developers. We use [TypeScript] and [RDBMS](https://en.wikipedia.org/wiki/Relational_database) in this guide, so the basic knowledge of both is required.

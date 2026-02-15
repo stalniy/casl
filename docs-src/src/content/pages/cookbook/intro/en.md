@@ -3,8 +3,8 @@ title: Cookbook Introduction
 categories: [cookbook]
 order: 10
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl cookbook, recipes, examples, use cases, contributing
+  description: CASL Cookbook introduction — recipe-style docs with focused examples, deeper dives, and contribution guidelines.
 ---
 
 ## The Cookbook vs the Guide

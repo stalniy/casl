@@ -3,8 +3,8 @@ title: TypeScript Support
 categories: [advanced]
 order: 60
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl TypeScript, type inference, Actions Subjects, generic parameters, IDE hints
+  description: CASL TypeScript support — type-safe abilities, infer actions and subjects, generic parameters, better IDE hints.
 ---
 
 CASL is written in [TypeScript] and this brings several benefits:

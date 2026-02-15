@@ -3,8 +3,8 @@ title: "@casl/ability API"
 categories: [api]
 order: 10
 meta:
-  keywords: ~
-  description: ~
+  keywords: @casl/ability API, PureAbility, MongoAbility, defineAbility, AbilityBuilder, ForbiddenError
+  description: @casl/ability API reference — PureAbility, MongoAbility, defineAbility, AbilityBuilder, update, can, cannot, ForbiddenError.
 ---
 
 `@casl/ability` contains 2 modules:

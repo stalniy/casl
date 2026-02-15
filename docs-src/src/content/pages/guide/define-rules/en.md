@@ -3,8 +3,8 @@ title: Define Rules
 categories: [guide]
 order: 20
 meta:
-  keywords: ~
-  description: ~
+  keywords: define rules, defineAbility, AbilityBuilder, JSON rules, DSL, MongoAbility, RawRule
+  description: Three ways to define CASL abilities: defineAbility DSL, AbilityBuilder class, and JSON rule objects. When to use each and trade-offs.
 ---
 
 There are 3 ways you can define abilities:

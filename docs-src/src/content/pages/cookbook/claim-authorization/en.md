@@ -3,8 +3,8 @@ title: Claim based Authorization
 categories: [cookbook]
 order: 16
 meta:
-  keywords: ~
-  description: ~
+  keywords: claim based authorization, actions without subject, PureAbility, permissions claims
+  description: Implement claim-based authorization with CASL — actions without subjects, advantages over hand-rolled checks, when to avoid.
 ---
 
 ## The issue

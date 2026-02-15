@@ -3,8 +3,8 @@ title: Introduction
 categories: [guide]
 order: 10
 meta:
-  keywords: ~
-  description: ~
+  keywords: casl, authorization, javascript, isomorphic, attribute based access control, ABAC, permissions, defineAbility, can cannot
+  description: Introduction to CASL — isomorphic JavaScript authorization library for attribute-based access control. Learn basics: actions, subjects, conditions, and fields.
 ---
 
 [![@casl/ability NPM version](https://badge.fury.io/js/%40casl%2Fability.svg)](https://badge.fury.io/js/%40casl%2Fability)

@@ -3,8 +3,8 @@ title: Subject type detection
 categories: [guide]
 order: 50
 meta:
-  keywords: ~
-  description: ~
+  keywords: subject type detection, modelName, subject helper, DTO, plain objects, constructor.name
+  description: How CASL detects subject type — constructor.name, modelName, subject() helper, and custom detection for DTOs and frontend.
 ---
 
 Let's consider an example:

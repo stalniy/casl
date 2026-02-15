@@ -3,8 +3,8 @@ title: Cache abilities
 categories: [cookbook]
 order: 20
 meta:
-  keywords: ~
-  description: ~
+  keywords: cache abilities, LRU cache, express middleware, PureAbility performance
+  description: Cache CASL ability instances — LRU in-memory caching and strategies when building abilities is slow or requires DB roundtrips.
 ---
 
 > This recipe targets backend developers. We use [express](https://expressjs.com/) library in this guide, so its knowledge (or knowledge of similar framework) is required.
