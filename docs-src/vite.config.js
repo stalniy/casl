@@ -86,7 +86,48 @@ export default defineConfig(({ mode }) => {
           },
         ],
       }),
+       {
+          name: 'inject-sharethis',
+          /**
+           *
+           * @returns {HtmlTagDescriptor[]}
+           */
+          transformIndexHtml() {
+            return [
+              {
+                tag: 'script',
+                attrs: {
+                  async: true,
+                  nonce: 'gha',
+                  src: `https://www.googletagmanager.com/gtag/js?id=${env.LIT_APP_GA_ID}`
+                },
+                injectTo: 'head',
+              },
+              {
+                tag: 'script',
+                attrs: {
+                  nonce: 'gha',
+                },
+                children: 'window.dataLayer = window.dataLayer || [];' +
+                  'function gtag(){dataLayer.push(arguments);}' +
+                  'gtag(\'js\', new Date());' +
+                  `gtag('config', '${env.LIT_APP_GA_ID}');`,
+                injectTo: 'head',
+              },
+              {
+                tag: 'script',
+                attrs: {
+                  nonce: 'sharethis',
+                  src: env.SHARETHIS_SRC
+                },
+                injectTo: 'body',
+              }
+
+            ]
+          }
+        },
       ...(mode === 'production' ? [
+
         VitePWA({
           registerType: 'prompt',
           injectRegister: null,
@@ -100,8 +141,9 @@ export default defineConfig(({ mode }) => {
               'fonts/*',
               'manifest.json',
               'index.html',
-              '*.js',
-              '*.{png,jpeg}',
+              '**/*.js',
+              '**/*.png',
+              '**/*.svg',
             ],
             navigateFallback: `${PUBLIC_PATH}/index.html`,
             runtimeCaching: [

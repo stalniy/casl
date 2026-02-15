@@ -26,7 +26,6 @@
   "license": "MIT",
   "devDependencies": {
     "@sindresorhus/slugify": "1.1.2",
-    "glob": "^10.3.10",
     "gray-matter": "^4.0.2",
     "highlight.js": "^11.0.0",
     "image-size": "^1.0.0",

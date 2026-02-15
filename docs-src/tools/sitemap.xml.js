@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import { exec as execCb } from 'child_process';
+import { execFile as execFileCb } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs';
 import { dirname, resolve } from 'path';
@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const exec = promisify(execCb);
+const execFile = promisify(execFileCb);
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
@@ -106,7 +106,7 @@ const urlEntry = (value) => `
 `.trimEnd();
 
 async function getLastModified(path) {
-  const { stdout, stderr } = await exec(`git log -1  --format="%aI" ${CONTENT_PATH}/${path}`);
+  const { stdout, stderr } = await execFile('git', ['log', '-1', '--format=%aI', `${CONTENT_PATH}/${path}`]);
 
   if (stderr) {
     throw new Error(stderr);
