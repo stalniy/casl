@@ -2,9 +2,10 @@
 <html>
 <head>
   <!-- Start Single Page Apps for GitHub Pages -->
-  <script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
+  <script nonce="safari-fix">!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>CASL - Isomorphic Authorization JavaScript library</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
@@ -22,11 +23,16 @@
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library" />
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
   <meta property="og:image" content="/app-icons/android-chrome-256x256.png" />
+
   <link rel="stylesheet" href="/v6/global.css">
-  <script type="module" crossorigin src="/v6/assets/index-CJkEL0sH.js"></script>
+  <script type="module" crossorigin src="/v6/assets/index-F-kZNJQ0.js"></script>
+  <script async nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
+  <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
   <casl-docs></casl-docs>
 
+  <div id="share-buttons"></div>
+  <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>
 </body>
 </html>
