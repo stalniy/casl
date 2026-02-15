@@ -3,8 +3,8 @@ title: Roles with predefined permissions
 categories: [cookbook]
 order: 20
 meta:
-  keywords: ~
-  description: ~
+  keywords: RBAC, roles, predefined permissions, role based access control, TypeScript, RDBMS
+  description: Roles with predefined permissions — RBAC recipe using CASL. Define role permissions in code, SQLite/knex demo, member vs admin.
 ---
 
 > This recipe targets backend developers. We use [TypeScript] and [RDBMS](https://en.wikipedia.org/wiki/Relational_database) in this guide, so the basic knowledge of both is required.

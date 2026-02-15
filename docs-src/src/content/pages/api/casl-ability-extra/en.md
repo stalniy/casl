@@ -3,8 +3,8 @@ title: "@casl/ability/extra API"
 categories: [api]
 order: 15
 meta:
-  keywords: ~
-  description: ~
+  keywords: @casl/ability/extra, rulesToQuery, rulesToAST, rulesToFields, permittedFieldsOf
+  description: @casl/ability/extra API — rulesToQuery, rulesToAST, rulesToFields, permittedFieldsOf. Helpers for DB queries and field filtering.
 ---
 
 ## rulesToQuery

@@ -3,8 +3,8 @@ title: Restricting fields access
 categories: [guide]
 order: 40
 meta:
-  keywords: ~
-  description: ~
+  keywords: restricting fields, field-level permissions, permittedFieldsOf, field access control
+  description: Restrict which fields a user can access in CASL. Field-level rules, permittedFieldsOf, and checking logic for subject vs subject type.
 ---
 
 Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish `Article`:

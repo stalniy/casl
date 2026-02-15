@@ -3,8 +3,8 @@ title: Less confusing can API
 categories: [cookbook]
 order: 15
 meta:
-  keywords: ~
-  description: ~
+  keywords: can cannot, allow forbid, AbilityBuilder, naming, define vs check permissions
+  description: Make CASL can/cannot API less confusing — use allow/forbid (or custom names) when defining rules to distinguish from ability.can() checks.
 ---
 
 ## The issue

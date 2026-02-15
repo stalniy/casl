@@ -3,8 +3,8 @@ title: Ability to database query
 categories: [advanced]
 order: 75
 meta:
-  keywords: ~
-  description: ~
+  keywords: rulesToQuery, ability to database query, sequelize, filter records by permissions
+  description: Convert CASL abilities to database queries — rulesToQuery helper, Sequelize example, filter records by user permissions.
 ---
 
 Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. `@casl/ability/extra` provides `rulesToQuery` helper function which helps to convert rules into a particular database's query. This function accepts 4 arguments:

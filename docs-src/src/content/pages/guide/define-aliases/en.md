@@ -3,8 +3,8 @@ title: Define Action Aliases
 categories: [guide]
 order: 55
 meta:
-  keywords: ~
-  description: ~
+  keywords: action aliases, createAliasResolver, modify, combine actions, resolveAction
+  description: Define action aliases in CASL with createAliasResolver — combine multiple actions (e.g. modify = update + delete) for simpler permission checks.
 ---
 
 Aliases gives a possibility to combine several actions into one. This also simplifies checks when we need to ensure that user can do both actions together (e.g., `delete` and `update`).
