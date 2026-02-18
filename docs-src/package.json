@@ -29,7 +29,7 @@
     "gray-matter": "^4.0.2",
     "highlight.js": "^11.0.0",
     "image-size": "^1.0.0",
-    "js-yaml": "^4.0.0",
+    "js-yaml": "^4.1.1",
     "markdown-it-headinganchor": "^1.3.0",
     "markdown-it-highlightjs": "^3.1.0",
     "markdown-it-include": "^2.0.0",
