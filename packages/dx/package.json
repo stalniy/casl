@@ -26,7 +26,7 @@
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.2.0",
     "lint-staged": "^16.0.0",
-    "rollup": "^4.0.0",
+    "rollup": "^4.59.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.0",
