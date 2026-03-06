@@ -16,6 +16,8 @@ items:
     - heading: packages
     - name: pkg-prisma
       page: package/casl-prisma
+    - name: pkg-typeorm
+      page: package/casl-typeorm
     - name: pkg-mongoose
       page: package/casl-mongoose
     - name: pkg-angular
