@@ -42,6 +42,11 @@
       "package-name": "@casl/vue",
       "component": "@casl/vue",
       "changelog-path": "CHANGELOG.md"
+    },
+    "packages/casl-typeorm": {
+      "package-name": "@casl/typeorm",
+      "component": "@casl/typeorm",
+      "changelog-path": "CHANGELOG.md"
     }
   }
 }

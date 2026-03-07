@@ -1,0 +1,61 @@
+{
+  "name": "@casl/typeorm",
+  "version": "1.0.0",
+  "description": "Allows to define and evaluate CASL permissions using TypeORM FindOptionsWhere conditions, and query accessible records",
+  "main": "dist/es6c/index.js",
+  "es2015": "dist/es6m/index.mjs",
+  "typings": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es6m/index.mjs",
+      "require": "./dist/es6c/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stalniy/casl.git",
+    "directory": "packages/casl-typeorm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://casl.js.org",
+  "scripts": {
+    "build.prepare": "rm -rf dist/* && npm run build.types",
+    "build": "npm run build.prepare && BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,typeorm,@ucast/core,@ucast/js",
+    "build.types": "dx tsc",
+    "lint": "dx eslint src/ spec/",
+    "test": "dx jest",
+    "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "release": "npm run release.prepare && pnpm publish"
+  },
+  "keywords": [
+    "casl",
+    "typeorm",
+    "sql",
+    "authorization",
+    "acl",
+    "permissions"
+  ],
+  "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@casl/ability": "^5.3.0 || ^6.0.0",
+    "typeorm": "^0.3.0"
+  },
+  "devDependencies": {
+    "@casl/ability": "^6.0.0",
+    "@casl/dx": "workspace:^1.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "typeorm": "^0.3.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@ucast/core": "^1.10.0",
+    "@ucast/js": "^3.0.1"
+  }
+}
