@@ -12,6 +12,7 @@ on:
       - packages/casl-angular/README.md
       - packages/casl-aurelia/README.md
       - packages/casl-prisma/README.md
+      - packages/casl-typeorm/README.md
 
 jobs:
   build:
