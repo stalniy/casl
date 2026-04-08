@@ -3,7 +3,7 @@
   "packages/casl-angular": "9.0.6",
   "packages/casl-aurelia": "1.3.2",
   "packages/casl-mongoose": "8.0.5",
-  "packages/casl-prisma": "1.6.1",
+  "packages/casl-prisma": "1.6.2",
   "packages/casl-react": "5.0.1",
   "packages/casl-vue": "2.2.6"
 }

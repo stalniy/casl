@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [1.6.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.6.1...@casl/prisma@1.6.2) (2026-04-08)
+
+
+### Bug Fixes
+
+* `every` returns true on empty arrays to match Prisma vacuous truth semantics ([#1180](https://github.com/stalniy/casl/issues/1180)) ([d881684](https://github.com/stalniy/casl/commit/d88168479e43a8fecf24908050cb5eef376e32bd))
+
 ## [1.6.1](https://github.com/stalniy/casl/compare/@casl/prisma@1.6.0...@casl/prisma@1.6.1) (2026-01-18)
 
 
