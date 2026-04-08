@@ -348,7 +348,7 @@ describe('PrismaQuery evaluation', () => {
         }
       })
 
-      expect(test({ posts: [] })).toBe(false)
+      expect(test({ posts: [] })).toBe(true)
       expect(test({
         posts: [
           { id: 1, active: true, authorId: 1 },

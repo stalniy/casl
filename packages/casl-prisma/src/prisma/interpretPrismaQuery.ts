@@ -61,7 +61,6 @@ const hasEvery: ArrayInterpreter<unknown[]> = (condition, object, { get }) => {
 const every: JsInterpreter<FieldCondition<Condition>> = (condition, object, { get, interpret }) => {
   const items = get(object, condition.field) as Record<string, unknown>[];
   return Array.isArray(items)
-    && items.length > 0
     && items.every(item => interpret(condition.value, item));
 };
 
