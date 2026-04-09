@@ -24,6 +24,7 @@ menu:
   ecosystem: Ecosystem
   packages: Official packages
   pkg-prisma: CASL Prisma
+  pkg-typeorm: CASL TypeORM
   pkg-mongoose: CASL Mongoose
   pkg-angular: CASL Angular
   pkg-react: CASL React

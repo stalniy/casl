@@ -1,0 +1,26 @@
+import { AnyInterpreter, createTranslatorFactory } from '@ucast/core';
+import { ForcedSubject } from '@casl/ability';
+import { TypeormQueryParser } from './TypeormQueryParser';
+import { interpretTypeormQuery } from './interpretTypeormQuery';
+
+const parser = new TypeormQueryParser();
+export const typeormQuery = createTranslatorFactory(
+  parser.parse,
+  interpretTypeormQuery as AnyInterpreter
+);
+
+export type Model<T, TName extends string> = T & ForcedSubject<TName>;
+export type Subjects<T extends Partial<Record<string, Record<string, unknown>>>> =
+  | keyof T
+  | { [K in keyof T]: Model<T[K], K & string> }[keyof T];
+
+export type ExtractModelName<
+  TObject,
+  TModelName extends PropertyKey
+> = TObject extends { kind: TModelName }
+  ? TObject['kind']
+  : TObject extends ForcedSubject<TModelName>
+    ? TObject['__caslSubjectType__']
+    : TObject extends { __typename: TModelName }
+      ? TObject['__typename']
+      : TModelName;
