@@ -27,6 +27,17 @@ All notable changes to this project will be documented in this file.
 
 * exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
 
+## [6.0.0](https://github.com/stalniy/casl/compare/@casl/react@5.0.1...@casl/react@6.0.0) (2026-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* drops support for react 17.x because of `useSyncExternalStore` hook
+
+### Bug Fixes
+
+* replaces useState+useEffect with useSyncExternalStore in useAbility ([#1183](https://github.com/stalniy/casl/issues/1183)) ([01bae14](https://github.com/stalniy/casl/commit/01bae14fb0db9bee5ec47b3fad202f104308319a))
+
 ## [5.0.1](https://github.com/stalniy/casl/compare/@casl/react@5.0.0...@casl/react@5.0.1) (2026-01-18)
 
 
