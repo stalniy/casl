@@ -78,7 +78,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
 * All public API methods **must be documented** in docs-src/src/content/pages.
-* Project follows [Airbnb's TypeScript Style Guide][js-style-guide] with [some exceptions](.eslintrc). All these will be checked by CI when you submit your PR
+* Project follows recommended eslint with [some exceptions](packages/dx/config/eslint.config.mjs). All these will be checked by CI when you submit a PR
 
 ## <a name="commit"></a> Commit Message Guidelines
 
@@ -89,4 +89,3 @@ The commit message format is borrowed from Angular projects and you can find [mo
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
 [github]: https://github.com/stalniy/casl
 [chat]: https://github.com/stalniy/casl/discussions
-[js-style-guide]: https://github.com/airbnb/javascript

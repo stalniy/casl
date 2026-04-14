@@ -35,13 +35,13 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 
 | Project           | Status                               | Description | Supported environments |
 |-------------------|--------------------------------------|-------------|-------------------------|
-| [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | nodejs 8+ and ES5 compatible browsers (IE 9+) |
-| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with [Mongoose][mongoose] | nodejs 8+ |
-| [@casl/prisma]  | [![@casl/prisma-status]][@casl/prisma-package] | integration with [Prisma][prisma] | nodejs 12+ |
-| [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | IE 9+ |
-| [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | IE 9+ |
-| [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | IE 11+ (uses `WeakMap`) |
-| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | IE 11+ (uses `WeakMap`) |
+| [@casl/ability]   | [![@casl/ability-status]][@casl/ability-package]   | CASL's core package | Node.js 18+, browsers IE 11+ (uses `Map`/`Set`) |
+| [@casl/mongoose]  | [![@casl/mongoose-status]][@casl/mongoose-package] | integration with [Mongoose][mongoose] | Node.js 20 |
+| [@casl/prisma]  | [![@casl/prisma-status]][@casl/prisma-package] | integration with [Prisma][prisma] | Node.js 20+ |
+| [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | Node.js 20+, browsers IE 11+ |
+| [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | Node.js 20+, browsers IE 11+ |
+| [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | Node.js 20+, browsers with `Symbol` support |
+| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | Node.js 20+, browsers IE 11+ (uses `WeakMap`) |
 
 [@casl/ability]: packages/casl-ability
 [@casl/mongoose]: packages/casl-mongoose
