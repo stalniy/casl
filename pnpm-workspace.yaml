@@ -5,7 +5,7 @@ minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   # Renovate security update: @casl/ability@6.7.5
   - "@casl/ability@6.7.5"
-  # Renovate security update: @angular/core@21.1.6
-  - "@angular/core@21.1.6"
+  # Renovate security update: @angular/core@21.1.6 || 21.2.4
+  - "@angular/core@21.1.6 || 21.2.4"
   # Renovate security update: rollup@4.59.0
   - rollup@4.59.0
