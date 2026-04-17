@@ -12,7 +12,7 @@ runs:
       run: |
         echo "Node version: $(node -v)"
         echo "npm version: $(npm -v)"
-    - uses: pnpm/action-setup@v4
+    - uses: pnpm/action-setup@v6
       with:
         version: 10.30.3
         run_install: false
