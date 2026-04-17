@@ -9,3 +9,5 @@ minimumReleaseAgeExclude:
   - "@angular/core@21.1.6 || 21.2.4"
   # Renovate security update: rollup@4.59.0
   - rollup@4.59.0
+  # Renovate security update: @angular/compiler@21.2.4
+  - "@angular/compiler@21.2.4"
