@@ -1,5 +1,5 @@
 import { inject, Injectable, OnDestroy, signal } from "@angular/core";
-import { AnyAbility, PureAbility, RawRuleOf } from "@casl/ability";
+import { AnyAbility, ForbiddenError, PureAbility, RawRuleOf } from "@casl/ability";
 
 @Injectable({ providedIn: 'root' })
 export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
@@ -24,6 +24,11 @@ export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
 
   cannot = (...args: Parameters<T['can']>): boolean => {
     return !this.can(...args);
+  };
+
+  cannotReason = (...args: Parameters<T['can']>): ForbiddenError<T> => {
+    this._rules(); // generate side effect for angular to track changes in this signal
+    return ForbiddenError.from(this._ability).unlessCan(...args)
   };
 
   update(rules: T['rules']): void {
