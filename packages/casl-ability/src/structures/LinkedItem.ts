@@ -25,9 +25,3 @@ export function unlinkItem(item: LinkedItem<any>) {
 
   item.next = item.prev = null;
 }
-
-export const cloneLinkedItem = <T extends LinkedItem<any>>(item: T): T => ({
-  value: item.value,
-  prev: item.prev,
-  next: item.next,
-} as T);

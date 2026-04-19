@@ -9,7 +9,7 @@ import {
   ExtractSubjectType
 } from './types';
 import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY } from './utils';
-import { LinkedItem, linkedItem, unlinkItem, cloneLinkedItem } from './structures/LinkedItem';
+import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
   detectSubjectType?(
@@ -274,10 +274,18 @@ export class RuleIndex<A extends Abilities, Conditions> {
     if (!this._events) return;
 
     let current = this._events.get(name) || null;
+    const handlers: ((payload: Parameters<EventsMap<this>[T]>[0]) => void)[] = [];
+
+    // We collect handlers in an array first to avoid issues if a handler
+    // unsubscribes itself (or others) during emission, which would mutate the linked list.
+    // Using an array here is faster than cloning linked list nodes.
     while (current !== null) {
-      const prev = current.prev ? cloneLinkedItem(current.prev) : null;
-      current.value(payload);
-      current = prev;
+      handlers.push(current.value);
+      current = current.prev;
+    }
+
+    for (let i = 0; i < handlers.length; i++) {
+      handlers[i](payload);
     }
   }
 }
