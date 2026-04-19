@@ -154,8 +154,13 @@ export function mergePrioritized<T extends { priority: number }>(
     if (array[i].priority < anotherArray[j].priority) {
       merged.push(array[i]);
       i++;
-    } else {
+    } else if (array[i].priority > anotherArray[j].priority) {
       merged.push(anotherArray[j]);
+      j++;
+    } else {
+      // rule priority is unique, if it's equal then it's the exact same rule, so we skip the duplicate
+      merged.push(array[i]);
+      i++;
       j++;
     }
   }
