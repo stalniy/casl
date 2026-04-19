@@ -43,19 +43,30 @@ describe('rulesToAST', () => {
     const ast = rulesToAST(ability, 'read', 'Post')
 
     expect(ast).to.deep.equal({
-      operator: 'and',
+      operator: 'or',
       value: [
         {
-          operator: 'not',
+          operator: 'and',
           value: [
-            { operator: 'eq', field: 'private', value: true }
+            { operator: 'eq', field: 'sharedWith', value: 1 },
+            {
+              operator: 'not',
+              value: [
+                { operator: 'eq', field: 'private', value: true }
+              ]
+            }
           ]
         },
         {
-          operator: 'or',
+          operator: 'and',
           value: [
-            { operator: 'eq', field: 'sharedWith', value: 1 },
             { operator: 'eq', field: 'author', value: 1 },
+            {
+              operator: 'not',
+              value: [
+                { operator: 'eq', field: 'private', value: true }
+              ]
+            }
           ]
         }
       ]
