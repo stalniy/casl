@@ -91,13 +91,13 @@ One nice feature of [Prisma] and [CASL] integration is that we can get all recor
 // ability is a PrismaAbility instance created in the example above
 
 const accessiblePosts = await prisma.post.findMany({
-  where: accessibleBy(ability).Post
+  where: accessibleBy(ability).ofType('Post')
 });
 ```
 
-That function accepts `Ability` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
+That function accepts `Ability` instance and `action` (defaults to `read`), returns an instance of `AccessibleRecords` with an `ofType` method which accepts Prisma model name and returns an object aggregated from permission rules `WhereInput`.
 
-**Important**: in case user doesn't have ability to access any posts, `accessibleBy` throws `ForbiddenError`, so be ready to catch it!
+**Important**: in case user doesn't have ability to access any posts, `.ofType` throws `ForbiddenError`, so be ready to catch it!
 
 To combine this with business logic conditions, just use `AND`:
 
@@ -105,7 +105,7 @@ To combine this with business logic conditions, just use `AND`:
 const accessiblePosts = await prisma.post.findMany({
   where: {
     AND: [
-      accessibleBy(ability).Post,
+      accessibleBy(ability).ofType('Post'),
       { /* business related conditions */ }
     ]
   }
