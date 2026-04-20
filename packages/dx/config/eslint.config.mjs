@@ -33,6 +33,7 @@ export default tseslint.config(
             ecmaVersion: 5,
             sourceType: "script",
             parserOptions: {
+                tsconfigRootDir: process.cwd(),
                 project: "./tsconfig.json",
             },
         },

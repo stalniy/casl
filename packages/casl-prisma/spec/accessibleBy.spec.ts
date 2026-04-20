@@ -1,4 +1,3 @@
-import { ForbiddenError } from '@casl/ability'
 import { accessibleBy, createPrismaAbility } from '../src'
 import { AppAbility } from './AppAbility'
 
@@ -21,8 +20,9 @@ describe('accessibleBy', () => {
     }
   ])
 
-  it('throws `ForbiddenError` if ability does not allow to execute action', () => {
-    expect(() => accessibleBy(ability, 'update').ofType('Post')).toThrow(ForbiddenError as unknown as Error)
+  it('registers empty marker if ability does not allow to execute action', () => {
+    const query = accessibleBy(ability, 'update').ofType('Post')
+    expect(query).toEqual({ OR: [] })
   })
 
   it('wraps inverted rules in `NOT` operator', () => {

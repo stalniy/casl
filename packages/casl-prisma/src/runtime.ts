@@ -12,3 +12,4 @@ export type {
   PrismaTypeMap,
   WhereInputOf,
 } from './types';
+export { createCaslExtension } from './createCaslExtension';
