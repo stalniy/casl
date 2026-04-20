@@ -1,5 +1,7 @@
 packages:
   - packages/*
+allowBuilds:
+  better-sqlite3: true
 
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
