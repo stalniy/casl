@@ -8,7 +8,7 @@ import {
   AbilityTuple,
   ExtractSubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY, filterWithLazyAllocation } from './utils';
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
@@ -219,7 +219,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
       return rules;
     }
 
-    return rules.filter(rule => rule.matchesField(field));
+    return filterWithLazyAllocation(rules, rule => rule.matchesField(field));
   }
 
   actionsFor(subjectType: ExtractSubjectType<Normalize<A>[1]>): string[] {
