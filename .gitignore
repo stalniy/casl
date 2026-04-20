@@ -60,3 +60,4 @@ typings/
 .vscode
 
 .pnpm-store
+packages/casl-prisma/dev.db

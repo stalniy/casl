@@ -22,11 +22,11 @@ describe('accessibleBy', () => {
   ])
 
   it('throws `ForbiddenError` if ability does not allow to execute action', () => {
-    expect(() => accessibleBy(ability, 'update').Post).toThrow(ForbiddenError as unknown as Error)
+    expect(() => accessibleBy(ability, 'update').ofType('Post')).toThrow(ForbiddenError as unknown as Error)
   })
 
   it('wraps inverted rules in `NOT` operator', () => {
-    const query = accessibleBy(ability).Post
+    const query = accessibleBy(ability).ofType('Post')
 
     expect(query.AND).toEqual([{
       NOT: {
@@ -36,7 +36,7 @@ describe('accessibleBy', () => {
   })
 
   it('wraps regular rules in OR and inverted ones in AND', () => {
-    const query = accessibleBy(ability).Post
+    const query = accessibleBy(ability).ofType('Post')
 
     expect(query).toEqual({
       AND: [{

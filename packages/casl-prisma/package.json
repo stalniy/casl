@@ -3,8 +3,6 @@
   "version": "1.6.2",
   "description": "Allows to query accessible records using Prisma client based on CASL rules",
   "main": "./dist/cjs/index.cjs",
-  "module": "./dist/esm/index.mjs",
-  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -28,12 +26,12 @@
   "homepage": "https://casl.js.org",
   "scripts": {
     "build.prepare": "rm -rf dist/* && dx tsc",
-    "build": "npm run build.prepare && dx tsdown",
+    "build": "npm run prisma.prepare && npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
     "release": "npm run release.prepare && pnpm publish",
-    "prepare": "prisma generate"
+    "prisma.prepare": "prisma generate && prisma migrate dev"
   },
   "keywords": [
     "casl",
@@ -51,6 +49,7 @@
   "devDependencies": {
     "@casl/ability": "^6.0.0",
     "@casl/dx": "workspace:^1.0.0",
+    "@prisma/adapter-better-sqlite3": "^7.7.0",
     "@prisma/client": "^7.0.0",
     "@types/jest": "^30.0.0",
     "prisma": "^7.0.0"

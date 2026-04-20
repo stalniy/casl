@@ -1,16 +1,18 @@
 import { AbilityBuilder, PureAbility, subject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
-import { createPrismaAbility, Model as M, PrismaAbility, PrismaQuery, Subjects } from '../src'
+import { createPrismaAbility, Model as M, PrismaQuery, Subjects } from '../src'
 import { AppAbility } from './AppAbility'
 
-describe('PrismaAbility', () => {
+describe(createPrismaAbility.name, () => {
   it('uses PrismaQuery to evaluate conditions', () => {
     const { can, build } = new AbilityBuilder<AppAbility>(createPrismaAbility)
     can('read', 'Post', {
       authorId: { notIn: [1, 2] }
     })
     can('read', 'User', {
-      firstName: { startsWith: 'john', mode: 'insensitive' }
+      firstName: {
+        startsWith: 'john',
+      },
     })
     const ability = build()
 
@@ -18,7 +20,7 @@ describe('PrismaAbility', () => {
     expect(ability.can('read', subject('Post', { authorId: 1 } as Post))).toBe(false)
     expect(ability.can('read', subject('Post', { authorId: 2 } as Post))).toBe(false)
     expect(ability.can('read', subject('Post', { authorId: 3 } as Post))).toBe(true)
-    expect(ability.can('read', subject('User', { firstName: 'John' } as User))).toBe(true)
+    expect(ability.can('read', subject('User', { firstName: 'john' } as User))).toBe(true)
     expect(ability.can('read', subject('User', { firstName: 'Tom' } as User))).toBe(false)
   })
 
@@ -92,7 +94,7 @@ describe('PrismaAbility', () => {
       type Abilities =
         | ['read', Subjects<{ User: User }>]
         | ['read' | 'update', Subjects<{ Post: Post }>]
-      type ThisAbility = PrismaAbility<Abilities>
+      type ThisAbility = PureAbility<Abilities, PrismaQuery>
       const ability = createPrismaAbility<ThisAbility>()
 
       ability.can('update', 'Post')

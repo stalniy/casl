@@ -44,7 +44,7 @@ ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 
 > See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
-> If you generate Prisma Client with the Prisma 7 `prisma-client` generator, swap `@prisma/client` imports for the path of your generated client (for example `./prisma/generated/client`).
+> If you generate Prisma Client with the Prisma 7 `prisma-client` generator, import model types from your generated client path (for example `./prisma/generated/client`) and create a small wrapper around `@casl/prisma/runtime` as shown below.
 
 ### Note on subject helper
 
@@ -81,7 +81,7 @@ export default defineConfig({
 });
 ```
 
-If you stay on the legacy `prisma-client-js` generator, the default `@prisma/client` import keeps working. With Prisma 7's new `prisma-client` generator (JS engine), the generated client lives in a custom output folder—see the section below to point CASL at it.
+If you stay on the legacy `prisma-client-js` generator, the default `@prisma/client` import keeps working.
 
 ## Finding Accessible Records
 
@@ -91,13 +91,13 @@ One nice feature of [Prisma] and [CASL] integration is that we can get all recor
 // ability is a PrismaAbility instance created in the example above
 
 const accessiblePosts = await prisma.post.findMany({
-  where: accessibleBy(ability).Post
+  where: accessibleBy(ability).ofType('Post')
 });
 ```
 
-That function accepts `Ability` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
+That function accepts `Ability` instance and `action` (defaults to `read`), returns an instance of `AccessibleRecords` with an `ofType` method which accepts Prisma model name and returns an object aggregated from permission rules `WhereInput`.
 
-**Important**: in case user doesn't have ability to access any posts, `accessibleBy` throws `ForbiddenError`, so be ready to catch it!
+**Important**: in case user doesn't have ability to access any posts, `.ofType` throws `ForbiddenError`, so be ready to catch it!
 
 To combine this with business logic conditions, just use `AND`:
 
@@ -105,7 +105,7 @@ To combine this with business logic conditions, just use `AND`:
 const accessiblePosts = await prisma.post.findMany({
   where: {
     AND: [
-      accessibleBy(ability).Post,
+      accessibleBy(ability).ofType('Post'),
       { /* business related conditions */ }
     ]
   }
@@ -125,8 +125,8 @@ Additionally, there are several helpers that makes it easy to work with Prisma a
 It's a generic type that provides `Prisma.ModelWhereInput` in generic way. We need to pass inside a named model:
 
 ```ts
-import { User } from '@prisma/client';
-import { Model, PrismaQuery } from '@casl/prisma';
+import type { User } from '@prisma/client';
+import type { Model, PrismaQuery } from '@casl/prisma';
 
 // almost the same as Prisma.UserWhereInput except that it's a higher order type
 type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
@@ -161,7 +161,7 @@ type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
 
 ## Custom PrismaClient output path (Prisma 7 default)
 
-Prisma 7's `prisma-client` generator writes the client into a custom directory, so `@prisma/client` no longer re-exports your project types. Point CASL at the generated namespace with a small wrapper:
+Prisma 7's `prisma-client` generator writes the client into a custom directory, so `@prisma/client` no longer re-exports your project types. Point CASL at the generated client with a small wrapper built on `@casl/prisma/runtime`:
 
 ```prisma
 // schema.prisma
@@ -173,7 +173,6 @@ generator client {
 
 ```ts
 // prisma.config.ts
-import 'dotenv/config';
 import { defineConfig } from 'prisma/config';
 
 export default defineConfig({
@@ -186,26 +185,31 @@ export default defineConfig({
 // src/casl-prisma.ts
 import {
   accessibleBy,
-  createPrismaAbilityFor,
-  Model,
-  PrismaQueryOf,
-  Subjects,
-  WhereInputOf,
-} from '@casl/prisma';
-import { Prisma } from './generated/client';
+  createPrismaAbility,
+  ParsingQueryError,
+  prismaQuery,
+  type Model,
+  type PrismaQueryOf,
+  type Subjects,
+  type WhereInputOf,
+} from '@casl/prisma/runtime';
+import type { Prisma, Post, User } from './generated/client';
 
-export { ParsingQueryError, prismaQuery } from '@casl/prisma';
+export { accessibleBy, createPrismaAbility, ParsingQueryError, prismaQuery };
 
-export const createPrismaAbility = createPrismaAbilityFor<Prisma.TypeMap>();
-export type PrismaQuery<T extends Model<any, any> = Model<any, any>> = PrismaQueryOf<Prisma.TypeMap, T>;
-export type WhereInput<TModelName extends Prisma.ModelName> = WhereInputOf<Prisma.TypeMap, TModelName>;
+export type PrismaQuery<T extends Model<any, any> = Model<any, any>> =
+  PrismaQueryOf<Prisma.TypeMap, T>;
+export type WhereInput<TModelName extends Prisma.ModelName> =
+  WhereInputOf<Prisma.TypeMap, TModelName>;
 export type AppSubjects = Subjects<{
-  User: Prisma.User,
-  Post: Prisma.Post,
+  User: User,
+  Post: Post,
 }>;
+
+export type AppAbility = PureAbility<['create' | "read" | "update" | "delete", 'all' | AppSubjects], PrismaQuery>
 ```
 
-If you stay on the legacy `prisma-client-js` generator for Prisma 6.x compatibility, the default `@casl/prisma` entrypoint keeps working.
+Use this wrapper in your app instead of importing from `@casl/prisma` directly. If you stay on the legacy `prisma-client-js` generator for Prisma 6.x compatibility, the default `@casl/prisma` entrypoint keeps working.
 
 ## Want to help?
 
