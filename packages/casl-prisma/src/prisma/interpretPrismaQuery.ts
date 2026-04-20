@@ -1,4 +1,4 @@
-import { CompoundCondition, Condition, FieldCondition } from '@ucast/core';
+import { CompoundCondition, Condition, FieldCondition, type Interpreter } from '@ucast/core';
 import {
   JsInterpreter,
   createJsInterpreter,
@@ -90,7 +90,6 @@ function toComparable(value: unknown) {
 const compareValues: typeof compare = (a, b) => compare(toComparable(a), toComparable(b));
 
 export const interpretPrismaQuery = createJsInterpreter({
-  // TODO: support arrays and objects comparison
   equals: eq,
   notEquals: ne,
   in: within,
@@ -120,4 +119,4 @@ export const interpretPrismaQuery = createJsInterpreter({
 }, {
   get: (object, field) => object[field],
   compare: compareValues,
-});
+}) as Interpreter<Condition, boolean>;
