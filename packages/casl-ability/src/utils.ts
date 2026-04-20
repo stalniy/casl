@@ -183,3 +183,18 @@ export function getOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: () => V
 }
 
 export const identity = <T>(x: T) => x;
+
+export function filterWithLazyAllocation<T>(array: T[], predicate: (item: T) => boolean): T[] {
+  let result: T[] | undefined;
+  for (let i = 0; i < array.length; i++) {
+    const matches = predicate(array[i]);
+    if (result && matches) {
+      result.push(array[i]);
+    }
+    if (!matches) {
+      result ??= array.slice(0, i);
+    }
+  }
+
+  return result || array;
+}
