@@ -1,5 +1,5 @@
+import { AnyAbility, ExtractSubjectType, Generics, PureAbility } from '@casl/ability';
 import { rulesToQuery } from '@casl/ability/extra';
-import { AnyAbility, ForbiddenError, Generics, PureAbility, ExtractSubjectType } from '@casl/ability';
 import { BasePrismaQuery, InferPrismaTypes } from './types';
 
 function convertToPrismaQuery(rule: AnyAbility['rules'][number]) {
@@ -18,11 +18,7 @@ export class AccessibleRecords<TAbility extends PureAbility<any, BasePrismaQuery
     const query = rulesToQuery(this._ability, this._action, subjectType, convertToPrismaQuery);
 
     if (query === null) {
-      const error = ForbiddenError.from(this._ability)
-        .setMessage(`It's not allowed to run "${this._action}" on "${String(subjectType)}"`);
-      error.action = this._action;
-      error.subjectType = error.subject = subjectType;
-      throw error;
+      return { OR: [] } as any;
     }
 
     const prismaQuery = Object.create(null);
@@ -41,7 +37,7 @@ export class AccessibleRecords<TAbility extends PureAbility<any, BasePrismaQuery
 
 export function accessibleBy<TAbility extends PureAbility<any, BasePrismaQuery>>(
   ability: TAbility,
-  action: TAbility["rules"][number]["action"] = "read"
+  action: TAbility["rules"][number]["action"] & string = "read"
 ): AccessibleRecords<TAbility> {
-  return new AccessibleRecords(ability, action as string);
+  return new AccessibleRecords(ability, action);
 }
