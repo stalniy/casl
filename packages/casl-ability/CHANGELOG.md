@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.8.1](https://github.com/stalniy/casl/compare/@casl/ability@6.8.0...@casl/ability@6.8.1) (2026-04-20)
+
+
+### Performance Improvements
+
+* improves perf of edge cases ([#1191](https://github.com/stalniy/casl/issues/1191)) ([f25a32a](https://github.com/stalniy/casl/commit/f25a32a7887a6be82fe69a223ac969323d6144b1))
+* lazily create a new array during rule field filtering ([#1194](https://github.com/stalniy/casl/issues/1194)) ([119f000](https://github.com/stalniy/casl/commit/119f000c044bff244b06c6102eb4f43cae3ccfce))
+
 ## [6.8.0](https://github.com/stalniy/casl/compare/@casl/ability@6.7.5...@casl/ability@6.8.0) (2026-01-18)
 
 
