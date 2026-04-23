@@ -53,6 +53,7 @@ jobs:
           pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
         fi
     - name: Submit coverage
+      if: matrix.node == 'latest'
       uses: codecov/codecov-action@v5
       with:
         fail_ci_if_error: true

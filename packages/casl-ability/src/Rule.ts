@@ -8,7 +8,8 @@ import {
   ConditionsMatcher,
   FieldMatcher,
 } from './types';
-import { RawRule, RawRuleFrom } from './RawRule';
+import type { RawRule, RawRuleFrom } from './RawRule';
+import type { Condition } from '@ucast/mongo2js';
 
 type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
 
@@ -82,11 +83,12 @@ export class Rule<A extends Abilities, C> {
     }
 
     if (!object || isSubjectType(object)) {
-      return !this.inverted;
+      if (!this.inverted) return true;
+      const matches = this._conditionsMatcher();
+      return matches.matchesAll === true || !!matches.ast && isMatchesAll(matches.ast);
     }
 
-    const matches = this._conditionsMatcher();
-    return matches(object as Record<string, unknown>);
+    return this._conditionsMatcher()(object as Record<string, unknown>);
   }
 
   matchesField(field: string | undefined): boolean {
@@ -106,4 +108,10 @@ export class Rule<A extends Abilities, C> {
 
     return this._matchField(field);
   }
+}
+
+function isMatchesAll(ast: Condition): boolean {
+  return (ast.operator === 'and' || ast.operator === 'AND') &&
+    Array.isArray(ast.value) &&
+    ast.value.length === 0;
 }

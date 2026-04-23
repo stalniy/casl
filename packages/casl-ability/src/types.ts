@@ -70,6 +70,7 @@ interface MatchConditionsFactory extends GenericFactory<{}> {
 export type MatchConditions<T extends {} = AnyRecord> = Container<MatchConditionsFactory> & {
   (object: T): boolean
   ast?: Condition
+  matchesAll?: boolean
 };
 export type ConditionsMatcher<T> = (conditions: T) => MatchConditions;
 export type MatchField<T extends string> = (field: T) => boolean;
