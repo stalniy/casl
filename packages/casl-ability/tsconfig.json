@@ -3,5 +3,8 @@
   "include": [
     "src/**/*",
     "spec/**/*"
-  ]
+  ],
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  }
 }

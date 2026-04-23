@@ -324,6 +324,16 @@ describe('Ability', () => {
       expect(ability.can('delete', 'Post')).toBe(false)
       expect(ability.can('delete', 'User')).toBe(true)
     })
+
+    it('treats empty conditions as always matching', () => {
+      const ability = defineAbility((can, cannot) => {
+        can('manage', 'User', {})
+        cannot('update', 'User', ['admin'], {})
+      })
+
+      expect(ability.can('update', 'User', 'admin')).toBe(false)
+      expect(ability.can('update', 'User', 'name')).toBe(true)
+    })
   })
 
   describe('rule conditions', () => {
