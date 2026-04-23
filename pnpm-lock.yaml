@@ -23,6 +23,9 @@ importers:
       '@types/node':
         specifier: ^24.0.0
         version: 24.10.3
+      '@ucast/js':
+        specifier: ^3.1.0
+        version: 3.1.0
       chai:
         specifier: ^4.1.0
         version: 4.5.0
@@ -10614,7 +10617,7 @@ snapshots:
   '@ucast/mongo2js@1.4.0':
     dependencies:
       '@ucast/core': 1.10.2
-      '@ucast/js': 3.0.4
+      '@ucast/js': 3.1.0
       '@ucast/mongo': 2.4.3
 
   '@ucast/mongo2js@1.4.1':
