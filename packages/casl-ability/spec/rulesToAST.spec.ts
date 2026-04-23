@@ -363,6 +363,26 @@ describe(rulesToAST.name, () => {
     expect(ability.can('read', posts[3])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[3]))
     expect(ability.can('read', posts[4])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[4]))
   })
+
+  it('interprets AST the same way as `Ability` when higher priority `cannot` shadows an overlapping `can` branch', () => {
+    const ability = defineAbility((can, cannot) => {
+      can('read', 'Post', { private: true });
+      can('read', 'Post', { draft: false });
+      cannot('read', 'Post', { private: true });
+    });
+
+    const posts = [
+      { private: true, draft: false },
+      { private: true, draft: true },
+      { private: false, draft: false },
+      { private: false, draft: true },
+    ].map(post => subject('Post', post))
+
+    expect(ability.can('read', posts[0])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[0]))
+    expect(ability.can('read', posts[1])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[1]))
+    expect(ability.can('read', posts[2])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[2]))
+    expect(ability.can('read', posts[3])).toBe(interpretAST(rulesToAST(ability, 'read', 'Post'), posts[3]))
+  })
 })
 
 function interpretAST(ast: Condition | null, instance: {}): boolean  {
