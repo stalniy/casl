@@ -19,6 +19,8 @@ yarn add @casl/prisma @casl/ability
 pnpm add @casl/prisma @casl/ability
 ```
 
+`@casl/prisma` requires Prisma Client 4.16.0 or later. Prisma Client extensions are used by the `createCaslExtension` helper which is important to add to Prisma Client!
+
 ## Usage
 
 This package is a bit different from all others because it provides a custom `createPrismaAbility` factory function that is configured to check permissions using Prisma [WhereInput](https://www.prisma.io/docs/orm/reference/prisma-client-reference#where):
@@ -91,13 +93,13 @@ One nice feature of [Prisma] and [CASL] integration is that we can get all recor
 // ability is a PrismaAbility instance created in the example above
 
 const accessiblePosts = await prisma.post.findMany({
-  where: accessibleBy(ability).Post
+  where: accessibleBy(ability).ofType('Post')
 });
 ```
 
-That function accepts `Ability` instance and `action` (defaults to `read`),  returns an object with keys that corresponds to Prisma model names and values being aggregated from permission rules `WhereInput` objects.
+That function accepts `Ability` instance and `action` (defaults to `read`), returns an instance of `AccessibleRecords` with an `ofType` method which accepts Prisma model name and returns an object aggregated from permission rules `WhereInput`.
 
-**Important**: in case user doesn't have ability to access any posts, `accessibleBy` throws `ForbiddenError`, so be ready to catch it!
+**Important**: in case user doesn't have ability to access any posts, `.ofType` returns a special empty condition. If you pass it directly to Prisma Client without `createCaslExtension`, Prisma rejects the query because the condition contains an internal marker field. This makes denied access fail closed.
 
 To combine this with business logic conditions, just use `AND`:
 
@@ -105,12 +107,38 @@ To combine this with business logic conditions, just use `AND`:
 const accessiblePosts = await prisma.post.findMany({
   where: {
     AND: [
-      accessibleBy(ability).Post,
+      accessibleBy(ability).ofType('Post'),
       { /* business related conditions */ }
     ]
   }
 })
 ```
+
+### Prisma Client extension
+
+`createCaslExtension` addresses [this issue](https://github.com/stalniy/casl/issues/794) by letting Prisma Client handle CASL's empty conditions as empty query results instead of throwing forbidden error.
+
+**Important:** make sure to add this extension to the Prisma Client instance you use for CASL-protected queries. Otherwise, some CASL restrictions may not be applied correctly.
+
+Add it as any other regular extension:
+
+```ts
+import { PrismaClient } from '@prisma/client';
+import { createCaslExtension } from '@casl/prisma';
+
+const prisma = new PrismaClient().$extends(createCaslExtension());
+```
+
+With this extension, operations with an empty CASL condition return the same kind of "no records" result Prisma users usually expect:
+
+```ts
+const posts = await prisma.post.findMany({
+  where: accessibleBy(ability).ofType('Post')
+});
+// posts === []
+```
+
+Single-record operations that require a matching record, such as `findFirstOrThrow`, `findUniqueOrThrow`, `update`, and `delete`, will reject with a "No record was found for an ..." error.
 
 ## TypeScript support
 

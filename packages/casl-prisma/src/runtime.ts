@@ -1,7 +1,8 @@
 export { prismaQuery } from './prisma/prismaQuery';
 export type { Model, Subjects, ExtractModelName } from './prisma/prismaQuery';
-export { createAccessibleByFactory, accessibleBy } from './accessibleByFactory';
-export { createAbilityFactory } from './createAbilityFactory';
+export { accessibleBy } from './accessibleBy';
+export type { AccessibleRecords } from './accessibleBy';
+export { createPrismaAbility } from './createPrismaAbility';
 export { ParsingQueryError } from './errors/ParsingQueryError';
 export type {
   PrismaTypes,
@@ -11,3 +12,4 @@ export type {
   PrismaTypeMap,
   WhereInputOf,
 } from './types';
+export { createCaslExtension } from './createCaslExtension';

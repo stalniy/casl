@@ -58,3 +58,5 @@ typings/
 
 #vscode
 .vscode
+
+packages/casl-prisma/dev.db
