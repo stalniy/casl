@@ -60,6 +60,6 @@
   ],
   "dependencies": {
     "@ucast/core": "^1.10.0",
-    "@ucast/js": "^3.0.1"
+    "@ucast/js": "^4.0.0"
   }
 }

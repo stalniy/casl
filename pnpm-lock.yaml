@@ -24,8 +24,8 @@ importers:
         specifier: ^24.0.0
         version: 24.10.3
       '@ucast/js':
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.1
       chai:
         specifier: ^4.1.0
         version: 4.5.0
@@ -153,8 +153,8 @@ importers:
         specifier: ^1.10.0
         version: 1.10.2
       '@ucast/js':
-        specifier: ^3.0.1
-        version: 3.0.4
+        specifier: ^4.0.0
+        version: 4.0.1
     devDependencies:
       '@casl/ability':
         specifier: ^6.0.0
@@ -2928,11 +2928,14 @@ packages:
   '@ucast/core@1.10.2':
     resolution: {integrity: sha512-ons5CwXZ/51wrUPfoduC+cO7AS1/wRb0ybpQJ9RrssossDxVy4t49QxWoWgfBDvVKsz9VXzBk9z0wqTdZ+Cq8g==}
 
-  '@ucast/js@3.0.4':
-    resolution: {integrity: sha512-TgG1aIaCMdcaEyckOZKQozn1hazE0w90SVdlpIJ/er8xVumE11gYAtSbw/LBeUnA4fFnFWTcw3t6reqseeH/4Q==}
+  '@ucast/core@2.0.0':
+    resolution: {integrity: sha512-4XVx6LzPXZGvnZO5jp39cm/G4UvuwvEdtmg+9+4+zl6uFkCcB7UJacvtMYeBE56GJVT99Zqy6Pii7dGJq3Kz9Q==}
 
   '@ucast/js@3.1.0':
     resolution: {integrity: sha512-eJ7yQeYtMK85UZjxoxBEbTWx6UMxEXKbjVyp+NlzrT5oMKV5Gpo/9bjTl3r7msaXTVC8iD9NJacqJ8yp7joX+Q==}
+
+  '@ucast/js@4.0.1':
+    resolution: {integrity: sha512-9O5xPBvwEWQk2WvO69Eh2WJB8QljVZ2vRVdFvfnKjlZwWXcYxp1lqLBhwXBU1AtuSgCvKhJPkXdjKJggUmAmQQ==}
 
   '@ucast/mongo2js@1.4.0':
     resolution: {integrity: sha512-vR9RJ3BHlkI3RfKJIZFdVktxWvBCQRiSTeJSWN9NPxP5YJkpfXvcBWAMLwvyJx4HbB+qib5/AlSDEmQiuQyx2w==}
@@ -7236,6 +7239,7 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   v8-to-istanbul@9.3.0:
@@ -10248,13 +10252,15 @@ snapshots:
 
   '@ucast/core@1.10.2': {}
 
-  '@ucast/js@3.0.4':
-    dependencies:
-      '@ucast/core': 1.10.2
+  '@ucast/core@2.0.0': {}
 
   '@ucast/js@3.1.0':
     dependencies:
       '@ucast/core': 1.10.2
+
+  '@ucast/js@4.0.1':
+    dependencies:
+      '@ucast/core': 2.0.0
 
   '@ucast/mongo2js@1.4.0':
     dependencies:
