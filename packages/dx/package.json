@@ -9,10 +9,10 @@
     "dx": "bin/dx.js"
   },
   "dependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^10.0.0",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/git": "^10.0.0",
-    "eslint": "^9.0.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-import": "^2.31.0",
     "globals": "^17.0.0",
     "jest": "^30.0.0",
