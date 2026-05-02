@@ -60,6 +60,6 @@
     "dist"
   ],
   "dependencies": {
-    "@ucast/mongo2js": "^1.3.0"
+    "@ucast/mongo2js": "^2.0.0"
   }
 }
