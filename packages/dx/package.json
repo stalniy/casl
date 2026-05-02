@@ -19,7 +19,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "lint-staged": "^16.0.0",
     "ts-jest": "^29.4.6",
-    "tsdown": "0.21.8",
+    "tsdown": "0.21.10",
     "typescript": "~5.9.0",
     "typescript-eslint": "^8.39.0"
   },
