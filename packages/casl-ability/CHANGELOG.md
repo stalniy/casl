@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.0](https://github.com/stalniy/casl/compare/@casl/ability@6.8.1...@casl/ability@7.0.0) (2026-05-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Ability matching now treats conditions that semantically match everything the same as rules without conditions.
+
+### Bug Fixes
+
+* treats empty conditions object as matches all ([#1198](https://github.com/stalniy/casl/issues/1198)) ([cedc463](https://github.com/stalniy/casl/commit/cedc463d1e21a65c98f245457ea71937df19308d)), closes [#684](https://github.com/stalniy/casl/issues/684)
+
 ## [6.8.1](https://github.com/stalniy/casl/compare/@casl/ability@6.8.0...@casl/ability@6.8.1) (2026-04-20)
 
 
