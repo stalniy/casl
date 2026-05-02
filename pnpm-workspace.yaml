@@ -11,3 +11,7 @@ minimumReleaseAgeExclude:
   - rollup@4.59.0
   # Renovate security update: @angular/compiler@21.2.4
   - "@angular/compiler@21.2.4"
+  - "@ucast/mongo2js@2.0.0"
+  - "@ucast/js@4.0.1"
+  - "@ucast/mongo@3.0.0"
+  - "@ucast/core@2.0.0"

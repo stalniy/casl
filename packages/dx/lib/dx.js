@@ -1,6 +1,7 @@
-const fsPath = require('path');
-const fs = require('fs');
-const os = require('os');
+const fsPath = require('node:path');
+const fs = require('node:fs');
+const os = require('node:os');
+const process = require('node:process');
 const { spawnAndExit } = require('./spawn');
 
 const configPath = filename => fsPath.join(__dirname, '..', 'config', filename);
@@ -47,9 +48,11 @@ const COMMANDS = {
       args
     };
   },
-  rollup() {
+  tsdown() {
+    const pathToLocalTsdown = fsPath.join(process.cwd(), 'tsdown.config.mjs');
+    const args = ['--config', fs.existsSync(pathToLocalTsdown) ? pathToLocalTsdown : configPath('tsdown.mjs')];
     return {
-      args: ['--config', configPath('rollup.config.mjs')]
+      args
     };
   },
   tsc(cliArgs) {
@@ -101,7 +104,7 @@ function run(name, args) {
     ],
     {
       env,
-      cwd: cmd.cwd,
+      cwd: cmd.cwd || process.cwd(),
       shell: os.platform() === 'win32',
     }
   );

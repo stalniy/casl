@@ -9,7 +9,7 @@ meta:
 
 ## Requirements
 
-CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires ES5 compatible environment and  `Map` class from ES6, that means the lowest supported version of Internet Explorer is IE11 and the lowest Nodejs version is 8.x. But we strongly recommend to use the latest Node.js environment and browsers because their JS VM works much faster.
+CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires an ES2020-compatible environment or newer.
 
 Additionally, `@casl/vue` and `@casl/aurelia` use [ES6 WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap), so it requires either polyfill or newer versions of browsers.
 
@@ -84,23 +84,17 @@ pnpm add @casl/ability
 For prototyping or learning purposes, you can use the latest version with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@casl/ability"></script>
+<script type="module">
+  import { Ability } from 'https://esm.sh/@casl/ability';
+</script>
 ```
 
 For production, we recommend linking to a specific version number to avoid unexpected breakage from newer versions:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@casl/ability@5.1.0"></script>
-```
-
-Remember that CASL depends on [@ucast/mongo2js] which depends on [@ucast/core], [@ucast/js] and [@ucast/mongo], that's why you need to specify all these libraries before `@casl/ability`:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@ucast/core"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ucast/mongo"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ucast/js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ucast/mongo2js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@casl/ability"></script>
+<script type="module">
+  import { Ability } from 'https://esm.sh/@casl/ability@6';
+</script>
 ```
 
 [@ucast/core]: https://www.npmjs.com/package/@ucast/core
@@ -108,35 +102,31 @@ Remember that CASL depends on [@ucast/mongo2js] which depends on [@ucast/core], 
 [@ucast/mongo]: https://www.npmjs.com/package/@ucast/mongo
 [@ucast/mongo2js]: https://www.npmjs.com/package/@ucast/mongo
 
-## Download and use &lt;script&gt; tag
+## Download and use ESM
 
-Simply [download CASL from CDN](https://cdn.jsdelivr.net/npm/@casl/ability) and include with a script tag. `casl` will be registered as a global variable.
-
-> Hopefully, you know what you are doing
+CASL no longer ships a standalone UMD build. If you want to load it without a package manager, use an ESM-capable CDN and import it from a `<script type="module">`.
 
 ## Explanation of Different Builds
 
-In the `dist/` [directory of the NPM package](https://cdn.jsdelivr.net/npm/@casl/ability/dist/) you will find many different builds of CASL.js. Here’s an overview of the difference between them:
+In the `dist/` directory of the NPM package you will find the published module builds:
 
 | Build           | Description                          |
 |-----------------|--------------------------------------|
-| es6m/index.mjs    | minified ES6 code with ES modules support. Intended for bundlers (e.g., [rollup], [webpack]) to create bundle for modern browsers or modern Nodejs version that support ES modules |
-| es6c/index.js    | minified ES6 code with Commonjs modules support. Intended for modern nodejs environments that support ES6 but doesn't support ES modules |
-| es5m/index.js   | minified ES5 code with ES modules support. Should be used by bundlers (e.g., [rollup], [webpack]) to tree shake the module and skip babel's transpile process |
-| umd/index.js    | **deprecated**, minified ES5 code with UMD. Intended for AMD apps and simple prototypes in a browser |
-| types           | contains [typescript] type declaration files |
+| esm/index.mjs   | ES2020+ code with ES modules support |
+| cjs/index.cjs   | ES2020+ code with CommonJS support |
+| types/\*.d.ts   | TypeScript declaration files |
 
 [rollup]: https://rollupjs.org/guide/en/
 [webpack]: https://webpack.js.org/
 [typescript]: http://www.typescriptlang.org/
 
-All official packages has the same directory layout (except of `@casl/mongoose` which does not have es5m version and packages that integrate CASL with UI frameworks which don't have es6c version).
+All official packages now use the same `dist/esm` and `dist/cjs` layout.
 
 ## Webpack
 
 Webpack runs ESM JavaScript in a strict mode. The issue is that webpack4 reads only `main` property of `package.json` and ignores everything else in `resolve.mainFields`. All casl related packages, including ucast, distribute CommonJS file in `main` property. And this results to the next issue:
 
-> ERROR in ./node_modules/@casl/ability/dist/es6m/index.mjs
+> ERROR in ./node_modules/@casl/ability/dist/esm/index.mjs
 > Can't import the named export 'xxx' from non EcmaScript module (only default export is available)
 
 The best way to fix it is to upgrade to webpack 5 which reads `exports` property of package.json when import packages and properly and works with ESM imports. But if you stuck with webpack 4, read [this comment](https://github.com/stalniy/casl/issues/427#issuecomment-757539486) for possible workarounds.

@@ -2,15 +2,12 @@
   "name": "@casl/vue",
   "version": "2.2.6",
   "description": "Vue plugin for CASL which makes it easy to add permissions in any Vue application",
-  "main": "dist/umd/index.js",
-  "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.mjs",
-  "typings": "dist/types/index.d.ts",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/es6m/index.mjs",
-      "require": "./dist/umd/index.js"
+      "import": "./dist/esm/index.mjs"
     }
   },
   "repository": {
@@ -23,9 +20,8 @@
     "access": "public"
   },
   "scripts": {
-    "build.prepare": "rm -rf dist/* && npm run build.types",
-    "build": "npm run build.prepare && BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.vue -g vue:Vue,@casl/ability:casl",
-    "build.types": "dx tsc -p tsconfig.build.json",
+    "build.prepare": "rm -rf dist/* && dx tsc",
+    "build": "npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest --env jsdom",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
@@ -53,7 +49,6 @@
     "vue": "^3.2.45"
   },
   "files": [
-    "dist",
-    "*.d.ts"
+    "dist"
   ]
 }

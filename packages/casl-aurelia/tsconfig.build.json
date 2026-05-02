@@ -3,7 +3,4 @@
   "exclude": [
     "spec/**/*"
   ],
-  "compilerOptions": {
-    "outDir": "dist/types"
-  }
 }

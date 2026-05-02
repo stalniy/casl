@@ -2,14 +2,14 @@
   "name": "@casl/mongoose",
   "version": "8.0.5",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
-  "main": "dist/es6c/index.js",
-  "es2015": "dist/es6m/index.mjs",
-  "typings": "dist/types/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/es6m/index.mjs",
-      "require": "./dist/es6c/index.js"
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "repository": {
@@ -22,9 +22,8 @@
   },
   "homepage": "https://casl.js.org",
   "scripts": {
-    "build.prepare": "rm -rf dist/* && npm run build.types",
-    "build": "npm run build.prepare && BUILD_TYPES=es6m,es6c dx rollup -e @casl/ability/extra,@casl/ability,mongoose",
-    "build.types": "dx tsc",
+    "build.prepare": "rm -rf dist/* && dx tsc",
+    "build": "npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
@@ -53,8 +52,6 @@
     "mongoose": "^9.0.0"
   },
   "files": [
-    "dist",
-    "*.d.ts",
-    "index.js"
+    "dist"
   ]
 }

@@ -366,10 +366,10 @@ describe(rulesToAST.name, () => {
 
   it('interprets AST the same way as `Ability` when higher priority `cannot` shadows an overlapping `can` branch', () => {
     const ability = defineAbility((can, cannot) => {
-      can('read', 'Post', { private: true });
-      can('read', 'Post', { draft: false });
-      cannot('read', 'Post', { private: true });
-    });
+      can('read', 'Post', { private: true })
+      can('read', 'Post', { draft: false })
+      cannot('read', 'Post', { private: true })
+    })
 
     const posts = [
       { private: true, draft: false },

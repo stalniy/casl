@@ -58,3 +58,5 @@ typings/
 
 #vscode
 .vscode
+
+.pnpm-store

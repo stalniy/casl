@@ -2,15 +2,12 @@
   "name": "@casl/react",
   "version": "6.0.0",
   "description": "React component for CASL which makes it easy to add permissions in any React application",
-  "main": "dist/umd/index.js",
-  "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.mjs",
-  "typings": "./index.d.ts",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/es6m/index.mjs",
-      "require": "./dist/umd/index.js"
+      "import": "./dist/esm/index.mjs"
     }
   },
   "repository": {
@@ -23,9 +20,8 @@
     "access": "public"
   },
   "scripts": {
-    "build.prepare": "rm -rf dist/* && npm run build.types",
-    "build": "npm run build.prepare && BUILD_TYPES=es5m,es6m,umd dx rollup -n casl.react -g react:React,prop-types:React.PropTypes,@casl/ability:casl",
-    "build.types": "dx tsc",
+    "build.prepare": "rm -rf dist/* && dx tsc",
+    "build": "npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest --env jsdom",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
@@ -58,7 +54,6 @@
     "react-dom": "^19.0.0"
   },
   "files": [
-    "dist",
-    "*.d.ts"
+    "dist"
   ]
 }

@@ -2,16 +2,16 @@ import { AbilityOptions, AbilityTuple, fieldPatternMatcher, PureAbility, RawRule
 import type { Prisma } from '@prisma/client';
 
 import type { PrismaModel, PrismaQueryFactory, PrismaTypeMap, PrismaTypes } from './runtime';
-import { createAbilityFactory, prismaQuery } from './runtime';
+import { createAbilityFactory, prismaQuery, type CreateAbility } from './runtime';
 
-export { accessibleBy, ParsingQueryError, prismaQuery } from './runtime';
 export type * from './runtime';
+export { accessibleBy, ParsingQueryError, prismaQuery } from './runtime';
 export type WhereInput<TModelName extends Prisma.ModelName> =
   PrismaTypes<Prisma.TypeMap>['WhereInput'][TModelName];
 export type PrismaQuery<T extends PrismaModel = PrismaModel> =
   PrismaQueryFactory<Prisma.TypeMap, T>;
 
-export function createPrismaAbilityFor<TTypeMap extends PrismaTypeMap<string>>() {
+export function createPrismaAbilityFor<TTypeMap extends PrismaTypeMap<string>>(): CreateAbility<PrismaTypes<TTypeMap>['ModelName'], PrismaQueryFactory<TTypeMap>> {
   return createAbilityFactory<PrismaTypes<TTypeMap>['ModelName'], PrismaQueryFactory<TTypeMap>>();
 }
 

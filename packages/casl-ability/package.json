@@ -3,21 +3,19 @@
   "version": "6.8.1",
   "description": "CASL is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access",
   "funding": "https://github.com/stalniy/casl/blob/master/BACKERS.md",
-  "main": "dist/es6c/index.js",
-  "module": "dist/es5m/index.js",
-  "es2015": "dist/es6m/index.mjs",
-  "legacy": "dist/umd/index.js",
-  "typings": "./index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/es6m/index.mjs",
-      "require": "./dist/es6c/index.js"
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs"
     },
     "./extra": {
-      "types": "./dist/types/extra/index.d.ts",
-      "import": "./dist/es6m/extra/index.mjs",
-      "require": "./dist/es6c/extra/index.js"
+      "types": "./dist/types/extra.d.ts",
+      "import": "./dist/esm/extra.mjs",
+      "require": "./dist/cjs/extra.cjs"
     }
   },
   "sideEffects": false,
@@ -31,11 +29,8 @@
     "access": "public"
   },
   "scripts": {
-    "build.core": "dx rollup -n casl -g @ucast/mongo2js:ucast.mongo2js",
-    "build.extra": "dx rollup -i src/extra/index.ts -n casl.extra -g @ucast/mongo2js:ucast.mongo2js",
-    "build.types": "dx tsc",
-    "build.prepare": "rm -rf dist/* && npm run build.types",
-    "build": "npm run build.prepare && npm run build.core && npm run build.extra",
+    "build.prepare": "rm -rf dist/* && dx tsc",
+    "build": "npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest",
     "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
@@ -62,9 +57,7 @@
     "expect-type": "^0.15.0"
   },
   "files": [
-    "dist",
-    "*.d.ts",
-    "extra"
+    "dist"
   ],
   "dependencies": {
     "@ucast/mongo2js": "^1.3.0"
