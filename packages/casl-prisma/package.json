@@ -59,7 +59,7 @@
     "dist"
   ],
   "dependencies": {
-    "@ucast/core": "^1.10.0",
+    "@ucast/core": "^2.0.0",
     "@ucast/js": "^3.0.1"
   }
 }
