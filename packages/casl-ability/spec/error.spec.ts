@@ -1,4 +1,4 @@
-import { ForbiddenError, getDefaultErrorMessage, Ability, SubjectType } from '../src'
+import { ForbiddenError, Ability, SubjectType } from '../src'
 
 describe('`ForbiddenError` class', () => {
   describe('`throwUnlessCan` method', () => {
@@ -69,7 +69,7 @@ describe('`ForbiddenError` class', () => {
 
   describe('`setDefaultMessage` method', () => {
     afterEach(() => {
-      ForbiddenError.setDefaultMessage(getDefaultErrorMessage)
+      ForbiddenError.setDefaultMessage(ForbiddenError._defaultErrorMessage)
     })
 
     it('sets default message from function', () => {
