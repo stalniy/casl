@@ -24,11 +24,6 @@
       "component": "@casl/angular",
       "changelog-path": "CHANGELOG.md"
     },
-    "packages/casl-aurelia": {
-      "package-name": "@casl/aurelia",
-      "component": "@casl/aurelia",
-      "changelog-path": "CHANGELOG.md"
-    },
     "packages/casl-mongoose": {
       "package-name": "@casl/mongoose",
       "component": "@casl/mongoose",

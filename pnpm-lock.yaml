@@ -87,42 +87,6 @@ importers:
         specifier: ~0.16.0
         version: 0.16.1
 
-  packages/casl-aurelia:
-    devDependencies:
-      '@casl/ability':
-        specifier: ^6.0.0
-        version: 6.8.1
-      '@casl/dx':
-        specifier: workspace:^1.0.0
-        version: link:../dx
-      '@types/jest':
-        specifier: ^30.0.0
-        version: 30.0.0
-      aurelia-bootstrapper:
-        specifier: ^2.3.0
-        version: 2.4.1
-      aurelia-framework:
-        specifier: ^1.3.1
-        version: 1.4.1
-      aurelia-loader-nodejs:
-        specifier: ^1.0.1
-        version: 1.1.0
-      aurelia-pal-browser:
-        specifier: ^1.8.0
-        version: 1.8.1
-      aurelia-polyfills:
-        specifier: ^1.3.0
-        version: 1.3.4
-      aurelia-testing:
-        specifier: ^1.0.0-beta.4.0.0
-        version: 1.1.0
-      chai:
-        specifier: ^4.1.0
-        version: 4.5.0
-      chai-spies:
-        specifier: ^1.0.0
-        version: 1.1.0(chai@4.5.0)
-
   packages/casl-mongoose:
     devDependencies:
       '@casl/ability':
@@ -1075,9 +1039,6 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
-
-  '@casl/ability@6.8.1':
-    resolution: {integrity: sha512-VX5DD1JbSP/DdewZnNwXXaCzve+0pLe14mcUj2l93CdOFAQUT/ylAptNqxf3Wc/jlsuSanAgXza4Z1Iq23dzpQ==}
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -2680,9 +2641,6 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
-  '@types/debug@0.0.29':
-    resolution: {integrity: sha512-e+ecEzEzjUcoWIx/Sc1rNGGCQPIutBoe8Fh/4C9GarzmpwaqT90Jqkud+nJg9AODR/VOSjMyIJ5gMunZ/5hB2A==}
-
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
 
@@ -2727,9 +2685,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/lodash@4.17.24':
-    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/mime@1.3.5':
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
@@ -2844,26 +2799,14 @@ packages:
     resolution: {integrity: sha512-/uejZt4dSere1bx12WLlPfv8GktzcaDtuJ7s42/HEZ5zGj9oxRaD4bj7qwSunXkf+pbAhFt2zjpHYUiT5lHf0Q==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ucast/core@1.10.2':
-    resolution: {integrity: sha512-ons5CwXZ/51wrUPfoduC+cO7AS1/wRb0ybpQJ9RrssossDxVy4t49QxWoWgfBDvVKsz9VXzBk9z0wqTdZ+Cq8g==}
-
   '@ucast/core@2.0.0':
     resolution: {integrity: sha512-4XVx6LzPXZGvnZO5jp39cm/G4UvuwvEdtmg+9+4+zl6uFkCcB7UJacvtMYeBE56GJVT99Zqy6Pii7dGJq3Kz9Q==}
-
-  '@ucast/js@3.1.0':
-    resolution: {integrity: sha512-eJ7yQeYtMK85UZjxoxBEbTWx6UMxEXKbjVyp+NlzrT5oMKV5Gpo/9bjTl3r7msaXTVC8iD9NJacqJ8yp7joX+Q==}
 
   '@ucast/js@4.0.1':
     resolution: {integrity: sha512-9O5xPBvwEWQk2WvO69Eh2WJB8QljVZ2vRVdFvfnKjlZwWXcYxp1lqLBhwXBU1AtuSgCvKhJPkXdjKJggUmAmQQ==}
 
-  '@ucast/mongo2js@1.4.1':
-    resolution: {integrity: sha512-9aeg5cmqwRQnKCXHN6I17wk83Rcm487bHelaG8T4vfpWneAI469wSI3Srnbu+PuZ5znWRbnwtVq9RgPL+bN6CA==}
-
   '@ucast/mongo2js@2.0.0':
     resolution: {integrity: sha512-vNBZzRnsfLr/TSxEoxz6W6hHQ5tmWsfEeC0nCq5z8RezC1AqIRy3cfHm8AGvlGtcn+cTSFQcZremfqnz6wm+nQ==}
-
-  '@ucast/mongo@2.4.3':
-    resolution: {integrity: sha512-XcI8LclrHWP83H+7H2anGCEeDq0n+12FU2mXCTz6/Tva9/9ddK/iacvvhCyW6cijAAOILmt0tWplRyRhVyZLsA==}
 
   '@ucast/mongo@3.0.0':
     resolution: {integrity: sha512-kwuSH+kdB4GCR0LGhy/PEDm4PCflur89AlK82kNiYD0FvsA8A/p+0sx7m+/R8mMFAlmlkAd3VXp7sM/cLLYWYg==}
@@ -3213,85 +3156,6 @@ packages:
   async-function@1.0.0:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
-
-  aurelia-binding@2.5.4:
-    resolution: {integrity: sha512-tYhYCFvQne+chO3p8KntCWj0r8oCXiCOGQ0yFbthHDBpjjTA4QlBwpGQ8nlGoGDKj7n4PoobeIjN3lEDKgKUyw==}
-
-  aurelia-bootstrapper@2.4.1:
-    resolution: {integrity: sha512-GFicHy+/Sz0DmJncApJew5RcVcnpcZTqfsz5j3iobTFif9JyLCo+gIVm96aopcE29cpTne94eLxkeJ1d/Lb/mA==}
-
-  aurelia-dependency-injection@1.6.1:
-    resolution: {integrity: sha512-UDSPjyqHlJ6Sx751m+c50LzImMm7grVS4Z7R46JeJHXFD4Mdu63zsRTNfIbsE+G5UgQIVDpg0IDGwQEm6145ZA==}
-
-  aurelia-event-aggregator@1.0.3:
-    resolution: {integrity: sha512-8fSWNCgh3gIsq/MgE+njVnUlYS05D6acyC8aJECekNWYecdBz46ckEblywP1ZNHLIt3u/Ws0oMqiOp1Jjw+0hw==}
-
-  aurelia-framework@1.4.1:
-    resolution: {integrity: sha512-oFnJyqqIDk2Kk7iSy2YNm2MNQMbTVEiPpa9q0oGfDLclqUgv+L05rnkEW9vEpVTUMV8gmOTxIrDidNICrDT7HA==}
-
-  aurelia-history-browser@1.4.0:
-    resolution: {integrity: sha512-cJdQmHHFMbv3U+xV1FwQVwBQZoJvCxKUh/sbSjwfBbguAqtwWQaj4TFkVe7kYcJaSXzbebbpnTUkSwOfRAojpw==}
-
-  aurelia-history@1.2.1:
-    resolution: {integrity: sha512-mHRgGtOKkvSc7ggdJvQGhjERSW0X4TNasa6JojkWGz9e6swe0HpFysKyMt+Hp7jYmGgiuCcQnM09lhDU1YExPA==}
-
-  aurelia-loader-default@1.2.1:
-    resolution: {integrity: sha512-V142AYyBFs8m+YD80wWwcjJ4E8lzIv3uAbgUCmgQuBjPxeyWEbaIzxvQvRrrHCI90L64boRNWDiU1VxKlPB1pA==}
-
-  aurelia-loader-nodejs@1.1.0:
-    resolution: {integrity: sha512-c1tvaWbYRUWepXkinC9qUbXgYxCxGE7qFxMGRvVmc4Cyosr8tbCPptrtAoF9s7C8reapjxQXdQWhYDCSId0iRg==}
-
-  aurelia-loader@1.0.2:
-    resolution: {integrity: sha512-3owEe5Zsk8cIJG+zcxN6gzqUr2z2c+FKhtrL49e1j8vE4ccQQjXg+tvKFnfBVf3pwma6A474WsdK8poYhoVZyA==}
-
-  aurelia-logging-console@1.1.1:
-    resolution: {integrity: sha512-fruw56b5P6qgVcbtwGok2m85hm/TI2Tt6Nzs1DOWUTnG8aeNLfCx6pRYBDZIQc/7VjX481e1tn4VqTncwXWCog==}
-
-  aurelia-logging@1.5.2:
-    resolution: {integrity: sha512-R0UdpGYBNSosBZ9WefmoIpgr36szFwQrRk2pbblhI+Vx911dUEEW85QXb6BRKVAP1ykz52Fuq8lCZxR6UupQXA==}
-
-  aurelia-metadata@1.0.8:
-    resolution: {integrity: sha512-Ty7k9F0KKtiaPVoHexU9V2SuvCYW6lieb+Vwjh0HyYPMo1I39DcJZ8ju+MO3im7FFA0QrivapJxJahXvE0dSCA==}
-
-  aurelia-pal-browser@1.8.1:
-    resolution: {integrity: sha512-wUZ/9EEaYKN7omQKESUakZO5aYrNslK1xLY3huMOpZGRsZJT6O76uPS2dDxefGWQEjUBtueMBq9Um7IcQGWXFw==}
-
-  aurelia-pal@1.8.2:
-    resolution: {integrity: sha512-6erozUK5aaD88PvThs/L87kLsqxqPaBU59PGECr36v9yezhve0BHqpKgbtJ8haHJSiH80K9lsJtXfefedS/3sw==}
-
-  aurelia-path@1.1.8:
-    resolution: {integrity: sha512-mbWsD7mc/e5FMm9JOskoHENjI8ZbIvyBDBlbBiQ8u8RraZ8lnTrOu+eeX7mJUSMOx8K1MpBsIL9tscCUg7epUQ==}
-
-  aurelia-polyfills@1.3.4:
-    resolution: {integrity: sha512-NvOBYi4aWnxWCxfCfyW5DObggevOwfkC0riGMicgXNQg/ngpaQpFIXQgc4jMlI6jyE+/e38J36Hd9CeUcj04BA==}
-
-  aurelia-route-recognizer@1.3.2:
-    resolution: {integrity: sha512-nBlNSVmN1aX6KpzCzbISrolX8ETqt/Otet+Lp2qpI98ib9ZoSXVrFDZSgPaOSJaUs3A0r+felLSqBm3NNHqy4g==}
-
-  aurelia-router@1.7.1:
-    resolution: {integrity: sha512-P6xxikeHHzVLxpZD8tvTwGJmEHY3M1MPTiIYzk32s85scd4kQ77FgQWo77ujYNv6hjrExifLFbrxIB7pUEziIQ==}
-    peerDependencies:
-      aurelia-history: ^1.1.0
-
-  aurelia-task-queue@1.3.3:
-    resolution: {integrity: sha512-ua3J2YO+cZgpn1MqxPlanSDXG4SB0BXotxYDW1iL5f6AsoEvJ3BycZJYw/N9hMQKmWniOeaBr7wGQ+KDiZFywQ==}
-
-  aurelia-templating-binding@1.6.0:
-    resolution: {integrity: sha512-ffWqrLyEryn3XXlKMsC2z5c6QWYXjQcHG+HMFR2F/ldrBL09IFj5CY2MWKIxymA217/nPCREYbv9YBkc4/Ds+A==}
-
-  aurelia-templating-resources@1.15.1:
-    resolution: {integrity: sha512-lmgP1LrXOSMxlxxb/L/RoxYVAOwKPMm7HKbUes6rdpbgN8VAVWn9/1OqRtlidkUvlX520MagzdcFAwnKMopBYw==}
-
-  aurelia-templating-router@1.5.0:
-    resolution: {integrity: sha512-UixnQzi6BHL20F5V7euk8b4y6/PLS9etEbmXdicnAPU9gLKDTMB6+SOCKNPRlTb5C00aQlCSbmkDrrdIdN6Vxg==}
-    peerDependencies:
-      aurelia-router: ^1.5.0
-
-  aurelia-templating@1.11.1:
-    resolution: {integrity: sha512-7Zrb/yvnIYBIlqGaLXIiBsmWMoFwo3SSoxyoucqWe/M80YpR4LJaTEKoZxhZZI6x9pU+tlFOBkwd/sA1JqPR8w==}
-
-  aurelia-testing@1.1.0:
-    resolution: {integrity: sha512-U/ncuoU0gxjhY7Awfv+dBbw/yDVNX9gQK4nKmqL5xau5vdeYb3pFj4f/Fp8k3rzhHS8A45NmrabKPiRKF7RQHw==}
 
   autoprefixer@10.4.27:
     resolution: {integrity: sha512-NP9APE+tO+LuJGn7/9+cohklunJsXWiaWEfV3si4Gi/XHDwVNgkwr1J3RQYFIvPy76GmJ9/bW8vyoU1LcxwKHA==}
@@ -7830,10 +7694,6 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@casl/ability@6.8.1':
-    dependencies:
-      '@ucast/mongo2js': 1.4.1
-
   '@csstools/color-helpers@5.1.0': {}
 
   '@csstools/css-calc@2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
@@ -9223,8 +9083,6 @@ snapshots:
     dependencies:
       '@types/node': 24.12.2
 
-  '@types/debug@0.0.29': {}
-
   '@types/eslint-scope@3.7.7':
     dependencies:
       '@types/eslint': 9.6.1
@@ -9283,8 +9141,6 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/lodash@4.17.24': {}
 
   '@types/mime@1.3.5': {}
 
@@ -9436,33 +9292,17 @@ snapshots:
       '@typescript-eslint/types': 8.59.0
       eslint-visitor-keys: 5.0.1
 
-  '@ucast/core@1.10.2': {}
-
   '@ucast/core@2.0.0': {}
-
-  '@ucast/js@3.1.0':
-    dependencies:
-      '@ucast/core': 1.10.2
 
   '@ucast/js@4.0.1':
     dependencies:
       '@ucast/core': 2.0.0
-
-  '@ucast/mongo2js@1.4.1':
-    dependencies:
-      '@ucast/core': 1.10.2
-      '@ucast/js': 3.1.0
-      '@ucast/mongo': 2.4.3
 
   '@ucast/mongo2js@2.0.0':
     dependencies:
       '@ucast/core': 2.0.0
       '@ucast/js': 4.0.1
       '@ucast/mongo': 3.0.0
-
-  '@ucast/mongo@2.4.3':
-    dependencies:
-      '@ucast/core': 1.10.2
 
   '@ucast/mongo@3.0.0':
     dependencies:
@@ -9831,166 +9671,6 @@ snapshots:
       pathe: 2.0.3
 
   async-function@1.0.0: {}
-
-  aurelia-binding@2.5.4:
-    dependencies:
-      aurelia-logging: 1.5.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-task-queue: 1.3.3
-
-  aurelia-bootstrapper@2.4.1:
-    dependencies:
-      aurelia-event-aggregator: 1.0.3
-      aurelia-framework: 1.4.1
-      aurelia-history: 1.2.1
-      aurelia-history-browser: 1.4.0
-      aurelia-loader-default: 1.2.1
-      aurelia-logging-console: 1.1.1
-      aurelia-pal: 1.8.2
-      aurelia-pal-browser: 1.8.1
-      aurelia-polyfills: 1.3.4
-      aurelia-router: 1.7.1(aurelia-history@1.2.1)
-      aurelia-templating: 1.11.1
-      aurelia-templating-binding: 1.6.0
-      aurelia-templating-resources: 1.15.1
-      aurelia-templating-router: 1.5.0(aurelia-router@1.7.1(aurelia-history@1.2.1))
-
-  aurelia-dependency-injection@1.6.1:
-    dependencies:
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-
-  aurelia-event-aggregator@1.0.3:
-    dependencies:
-      aurelia-logging: 1.5.2
-
-  aurelia-framework@1.4.1:
-    dependencies:
-      aurelia-binding: 2.5.4
-      aurelia-dependency-injection: 1.6.1
-      aurelia-loader: 1.0.2
-      aurelia-logging: 1.5.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-path: 1.1.8
-      aurelia-task-queue: 1.3.3
-      aurelia-templating: 1.11.1
-
-  aurelia-history-browser@1.4.0:
-    dependencies:
-      aurelia-history: 1.2.1
-      aurelia-pal: 1.8.2
-
-  aurelia-history@1.2.1: {}
-
-  aurelia-loader-default@1.2.1:
-    dependencies:
-      aurelia-loader: 1.0.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-
-  aurelia-loader-nodejs@1.1.0:
-    dependencies:
-      '@types/debug': 0.0.29
-      '@types/lodash': 4.17.24
-      aurelia-loader: 1.0.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-path: 1.1.8
-      debug: 2.6.9
-    transitivePeerDependencies:
-      - supports-color
-
-  aurelia-loader@1.0.2:
-    dependencies:
-      aurelia-metadata: 1.0.8
-      aurelia-path: 1.1.8
-
-  aurelia-logging-console@1.1.1: {}
-
-  aurelia-logging@1.5.2: {}
-
-  aurelia-metadata@1.0.8:
-    dependencies:
-      aurelia-pal: 1.8.2
-
-  aurelia-pal-browser@1.8.1:
-    dependencies:
-      aurelia-pal: 1.8.2
-
-  aurelia-pal@1.8.2: {}
-
-  aurelia-path@1.1.8: {}
-
-  aurelia-polyfills@1.3.4:
-    dependencies:
-      aurelia-pal: 1.8.2
-
-  aurelia-route-recognizer@1.3.2:
-    dependencies:
-      aurelia-path: 1.1.8
-
-  aurelia-router@1.7.1(aurelia-history@1.2.1):
-    dependencies:
-      aurelia-dependency-injection: 1.6.1
-      aurelia-event-aggregator: 1.0.3
-      aurelia-history: 1.2.1
-      aurelia-logging: 1.5.2
-      aurelia-path: 1.1.8
-      aurelia-route-recognizer: 1.3.2
-
-  aurelia-task-queue@1.3.3:
-    dependencies:
-      aurelia-pal: 1.8.2
-
-  aurelia-templating-binding@1.6.0:
-    dependencies:
-      aurelia-binding: 2.5.4
-      aurelia-logging: 1.5.2
-      aurelia-templating: 1.11.1
-
-  aurelia-templating-resources@1.15.1:
-    dependencies:
-      aurelia-binding: 2.5.4
-      aurelia-dependency-injection: 1.6.1
-      aurelia-loader: 1.0.2
-      aurelia-logging: 1.5.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-path: 1.1.8
-      aurelia-task-queue: 1.3.3
-      aurelia-templating: 1.11.1
-
-  aurelia-templating-router@1.5.0(aurelia-router@1.7.1(aurelia-history@1.2.1)):
-    dependencies:
-      aurelia-binding: 2.5.4
-      aurelia-dependency-injection: 1.6.1
-      aurelia-logging: 1.5.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-path: 1.1.8
-      aurelia-router: 1.7.1(aurelia-history@1.2.1)
-      aurelia-templating: 1.11.1
-
-  aurelia-templating@1.11.1:
-    dependencies:
-      aurelia-binding: 2.5.4
-      aurelia-dependency-injection: 1.6.1
-      aurelia-loader: 1.0.2
-      aurelia-logging: 1.5.2
-      aurelia-metadata: 1.0.8
-      aurelia-pal: 1.8.2
-      aurelia-path: 1.1.8
-      aurelia-task-queue: 1.3.3
-
-  aurelia-testing@1.1.0:
-    dependencies:
-      aurelia-dependency-injection: 1.6.1
-      aurelia-framework: 1.4.1
-      aurelia-logging: 1.5.2
-      aurelia-pal: 1.8.2
-      aurelia-templating: 1.11.1
 
   autoprefixer@10.4.27(postcss@8.5.6):
     dependencies:

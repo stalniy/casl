@@ -38,7 +38,6 @@
       ],
       "groupName": "react"
     },
-    {"matchPackageNames": ["^aurelia-"], "groupName": "aurelia"},
     {
       "matchPackageNames": ["@angular/**", "typescript", "zone.js"],
       "groupName": "angular"

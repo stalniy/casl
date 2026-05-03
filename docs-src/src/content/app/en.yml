@@ -28,7 +28,6 @@ menu:
   pkg-angular: CASL Angular
   pkg-react: CASL React
   pkg-vue: CASL Vue
-  pkg-aurelia: CASL Aurelia
   help: Help
 
   questions: Ask a question

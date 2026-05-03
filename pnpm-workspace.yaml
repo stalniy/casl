@@ -1,6 +1,13 @@
 packages:
   - packages/*
 allowBuilds:
+  '@parcel/watcher': false
+  '@prisma/engines': true
   better-sqlite3: true
+  esbuild: true
+  lmdb: false
+  msgpackr-extract: false
+  prisma: true
+  unrs-resolver: true
 
 minimumReleaseAge: 10080

@@ -24,8 +24,6 @@ items:
       page: package/casl-react
     - name: pkg-vue
       page: package/casl-vue
-    - name: pkg-aurelia
-      page: package/casl-aurelia
     - heading: help
     - name: questions
       url: https://stackoverflow.com/questions/tagged/casl

@@ -4,14 +4,12 @@ categories: [guide]
 order: 0
 meta:
   keywords: casl install, npm, yarn, pnpm, cdn, @casl/ability, semantic versioning, webpack, es modules
-  description: How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue, aurelia), builds and Webpack.
+  description: How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue), builds and Webpack.
 ---
 
 ## Requirements
 
 CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires an ES2020-compatible environment or newer.
-
-Additionally, `@casl/vue` and `@casl/aurelia` use [ES6 WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap), so it requires either polyfill or newer versions of browsers.
 
 ## Semantic Versioning
 
@@ -27,7 +25,6 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 | [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] |
 | [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] |
 | [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] |
-| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] |
 
 [@casl/ability]: ../intro
 [@casl/mongoose]: ../../package/casl-mongoose
@@ -35,7 +32,6 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular]: ../../package/casl-angular
 [@casl/react]: ../../package/casl-react
 [@casl/vue]: ../../package/casl-vue
-[@casl/aurelia]: ../../package/casl-aurelia
 
 [@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
 [@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
@@ -43,7 +39,6 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
 [@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
 [@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
-[@casl/aurelia-status]: https://img.shields.io/npm/v/@casl/aurelia.svg
 
 [@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
 [@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
@@ -51,13 +46,11 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
 [@casl/react-package]: https://www.npmjs.com/package/@casl/react
 [@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
-[@casl/aurelia-package]: https://www.npmjs.com/package/@casl/aurelia
 
 [mongoose]: http://mongoosejs.com/
 [vue]: https://vuejs.org
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
-[aurelia]: http://aurelia.io
 [prisma]: https://www.prisma.io/
 
 

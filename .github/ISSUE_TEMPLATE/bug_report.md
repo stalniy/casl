@@ -36,7 +36,6 @@ provide a link to the example from http://repl.it/, https://codesandbox.io/ or s
 `@casl/vue` - v
 `@casl/react` - v
 `@casl/angular` - v
-`@casl/aurelia` - v
 
 **Environment**:
 <!-- Nodejs version or Browser version or TypeScript version -->

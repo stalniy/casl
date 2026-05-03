@@ -41,7 +41,6 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 | [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] | Node.js 20+, browsers IE 11+ |
 | [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] | Node.js 20+, browsers IE 11+ |
 | [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] | Node.js 20+, browsers with `Symbol` support |
-| [@casl/aurelia]   | [![@casl/aurelia-status]][@casl/aurelia-package]   | integration with  [Aurelia][aurelia] | Node.js 20+, browsers IE 11+ (uses `WeakMap`) |
 
 [@casl/ability]: packages/casl-ability
 [@casl/mongoose]: packages/casl-mongoose
@@ -49,7 +48,6 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 [@casl/angular]: packages/casl-angular
 [@casl/react]: packages/casl-react
 [@casl/vue]: packages/casl-vue
-[@casl/aurelia]: packages/casl-aurelia
 
 [@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
 [@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
@@ -57,7 +55,6 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 [@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
 [@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
 [@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
-[@casl/aurelia-status]: https://img.shields.io/npm/v/@casl/aurelia.svg
 
 [@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
 [@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
@@ -65,7 +62,6 @@ Heavily inspired by [cancan](https://github.com/CanCanCommunity/cancancan).
 [@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
 [@casl/react-package]: https://www.npmjs.com/package/@casl/react
 [@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
-[@casl/aurelia-package]: https://www.npmjs.com/package/@casl/aurelia
 
 ## Documentation
 
@@ -269,6 +265,5 @@ Copyright (c) 2017-present, Sergii Stotskyi
 [vue]: https://vuejs.org
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
-[aurelia]: http://aurelia.io
 [prisma]: https://www.prisma.io/
 [support-chat]: https://github.com/stalniy/casl/discussions
