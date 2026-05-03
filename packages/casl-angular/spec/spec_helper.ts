@@ -4,8 +4,8 @@ import {
   BrowserTestingModule,
   platformBrowserTesting
 } from '@angular/platform-browser/testing'
-import { createMongoAbility, PureAbility } from '@casl/ability'
-import { AblePipe, AblePurePipe } from '../src/public'
+import { Ability, createMongoAbility } from '@casl/ability'
+import { AblePipe } from '../src/public'
 
 TestBed.initTestEnvironment(
   BrowserTestingModule,
@@ -44,11 +44,11 @@ export function createComponent<T extends Type<unknown>>(
 
 export function configureTestingModule(declarations: Type<unknown>[] = []) {
   TestBed.configureTestingModule({
-    imports: [AblePipe, AblePurePipe],
+    imports: [AblePipe],
     declarations,
     providers: [
       provideZoneChangeDetection(),
-      { provide: PureAbility, useFactory: () => createMongoAbility() }
+      { provide: Ability, useFactory: () => createMongoAbility() }
     ]
   })
 }

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
-import { createMongoAbility, MongoAbility, PureAbility } from '@casl/ability'
+import { Ability, createMongoAbility, MongoAbility } from '@casl/ability'
 import { firstValueFrom } from 'rxjs'
 import { AbilityService } from '../src/public'
 import './spec_helper'
@@ -30,7 +30,7 @@ describe('AbilityService', () => {
     TestBed.configureTestingModule({
       providers: [
         AbilityService,
-        { provide: PureAbility, useValue: ability }
+        { provide: Ability, useValue: ability }
       ]
     })
 

@@ -1,11 +1,10 @@
-import { PureAbility } from '@casl/ability'
+import { Ability } from '@casl/ability'
 import { TestBed } from '@angular/core/testing'
 import { createApp, createComponent, configureTestingModule, Post } from './spec_helper'
 
-const AppWithAblePipe = createApp('{{ \'read\' | able: post }}')
-const AppWithAblePurePipe = createApp('{{ \'read\' | ablePure: post | async }}')
+const App = createApp('{{ \'read\' | able: post }}')
 
-describe('Ability pipes', () => {
+describe('AblePipe', () => {
   let fixture
   let ability
   let post
@@ -17,31 +16,17 @@ describe('Ability pipes', () => {
   })
 
   describe('module', () => {
-    it('provides deprecated impure `can` pipe', () => {
-      configureTestingModule([AppWithAblePurePipe])
-      fixture = createComponent(AppWithAblePurePipe)
-      expect(fixture.nativeElement.textContent).toBe('false')
-    })
-
-    it('provides impure `able` pipe', () => {
-      configureTestingModule([AppWithAblePipe])
-      fixture = createComponent(AppWithAblePipe)
+    it('provides standalone `able` pipe', () => {
+      configureTestingModule([App])
+      fixture = createComponent(App)
       expect(fixture.nativeElement.textContent).toBe('false')
     })
   })
 
   describe('`able` pipe', () => {
-    behavesLikeAbilityPipe(AppWithAblePipe)
-  })
-
-  describe('`ablePure` pipe', () => {
-    behavesLikeAbilityPipe(AppWithAblePurePipe)
-  })
-
-  function behavesLikeAbilityPipe(App) {
     beforeEach(() => {
       configureTestingModule([App])
-      ability = TestBed.inject(PureAbility)
+      ability = TestBed.inject(Ability)
       post = new Post({ author: 'me' })
     })
 
@@ -64,14 +49,12 @@ describe('Ability pipes', () => {
         expect(fixture.nativeElement.textContent).toBe('true')
       })
 
-      if (App !== AppWithAblePurePipe) {
-        it('updates template when object attribute is changed', () => {
-          post.author = 'not me'
-          fixture.detectChanges()
+      it('updates template when object attribute is changed', () => {
+        post.author = 'not me'
+        fixture.detectChanges()
 
-          expect(fixture.nativeElement.textContent).toBe('false')
-        })
-      }
+        expect(fixture.nativeElement.textContent).toBe('false')
+      })
     })
-  }
+  })
 })

@@ -1,10 +1,10 @@
 import { inject, Injectable, OnDestroy, signal } from "@angular/core";
-import { AnyAbility, PureAbility, RawRuleOf } from "@casl/ability";
+import { AnyAbility, Ability, RawRuleOf } from "@casl/ability";
 
 @Injectable({ providedIn: 'root' })
 export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
   private readonly _rules = signal<RawRuleOf<T>[]>([]);
-  private readonly _ability = inject(PureAbility) as unknown as T;
+  private readonly _ability = inject(Ability) as unknown as T;
   private readonly _disposeAbilitySubscription: () => void;
 
   constructor() {

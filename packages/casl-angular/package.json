@@ -40,7 +40,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
-    "@casl/ability": "^4.0.0 || ^5.1.0 || ^6.0.0",
+    "@casl/ability": "^7.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0"
   },
@@ -52,7 +52,7 @@
     "@angular/core": "^21.0.0",
     "@angular/platform-browser": "^21.0.0",
     "@angular/platform-browser-dynamic": "^21.0.0",
-    "@casl/ability": "^6.0.0",
+    "@casl/ability": "workspace:*",
     "@casl/dx": "workspace:^1.0.0",
     "@types/jest": "^30.0.0",
     "jest": "^30.0.0",

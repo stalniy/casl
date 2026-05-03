@@ -1,6 +1,6 @@
 import { Component, DebugElement, inject, Input, Predicate } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
-import { createMongoAbility, PureAbility } from '@casl/ability'
+import { Ability, createMongoAbility } from '@casl/ability'
 import { AbilityServiceSignal } from '../src/public'
 import './spec_helper'
 import { createComponent } from './spec_helper'
@@ -21,7 +21,7 @@ describe('AbilityServiceSignal', () => {
     TestBed.configureTestingModule({
       providers: [
         AbilityServiceSignal,
-        { provide: PureAbility, useValue: createMongoAbility() }
+        { provide: Ability, useValue: createMongoAbility() }
       ]
     })
   }
