@@ -1,4 +1,4 @@
-import { AbilityBuilder, defineAbility, PureAbility, createMongoAbility } from '../src'
+import { AbilityBuilder, defineAbility, Ability, createMongoAbility } from '../src'
 import { Post, ruleToObject } from './spec_helper'
 
 describe('AbilityBuilder', () => {
@@ -132,7 +132,7 @@ describe('AbilityBuilder', () => {
         cannot('read', 'Book', { private: true })
       })
 
-      expect(ability).to.be.instanceof(PureAbility)
+      expect(ability).to.be.instanceof(Ability)
       expect(ability.rules.map(ruleToObject)).to.deep.equal([
         { action: 'read', subject: 'Book' },
         { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }
@@ -145,7 +145,7 @@ describe('AbilityBuilder', () => {
         cannot('read', 'Book', { private: true })
       })
 
-      expect(ability).to.be.instanceof(PureAbility)
+      expect(ability).to.be.instanceof(Ability)
       expect(ability.rules.map(ruleToObject)).to.deep.equal([
         { action: 'read', subject: 'Book' },
         { inverted: true, action: 'read', subject: 'Book', conditions: { private: true } }

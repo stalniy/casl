@@ -1,5 +1,5 @@
+export * from './createMongoAbility';
 export * from './Ability';
-export * from './PureAbility';
 export * from './AbilityBuilder';
 export * from './ForbiddenError';
 export * from './RawRule';

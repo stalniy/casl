@@ -1,8 +1,8 @@
-import { AnyMongoAbility, createMongoAbility, MongoAbility } from './Ability';
-import { ProduceGeneric } from './hkt';
-import { AbilityOptionsOf, AnyAbility } from './PureAbility';
-import { Generics, RawRuleOf } from './RuleIndex';
-import {
+import { type AnyMongoAbility, createMongoAbility, type MongoAbility } from './createMongoAbility';
+import type { ProduceGeneric } from './hkt';
+import type { AbilityOptionsOf, AnyAbility } from './Ability';
+import type { Generics, RawRuleOf } from './RuleIndex';
+import type {
   AbilityTuple, AnyClass, AnyObject, ExtractSubjectType as E, Normalize, SubjectType,
   TaggedInterface
 } from './types';

@@ -1,12 +1,12 @@
 import { expectTypeOf } from 'expect-type'
 import {
   AbilityBuilder,
-  AbilityClass, AbilityTuple, createMongoAbility, MongoAbility, PureAbility
+  AbilityClass, AbilityTuple, createMongoAbility, MongoAbility, Ability
 } from '../../src'
 
 describe('AbilityBuilder types', () => {
-  it('infers types from `PureAbility` default generics', () => {
-    const builder = new AbilityBuilder<PureAbility<AbilityTuple>>(PureAbility)
+  it('infers types from `Ability` default generics', () => {
+    const builder = new AbilityBuilder<Ability<AbilityTuple>>(Ability)
 
     builder.can('read', 'Subject')
     builder.can('read', class {})
@@ -77,7 +77,7 @@ describe('AbilityBuilder types', () => {
   })
 
   it('infers single action argument type from ClaimAbility', () => {
-    const ClaimAbility = PureAbility as AbilityClass<PureAbility<string>>
+    const ClaimAbility = Ability as AbilityClass<Ability<string>>
     // eslint-disable-next-line
     const builder = new AbilityBuilder(ClaimAbility)
     type Can = typeof builder.can

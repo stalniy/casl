@@ -1,4 +1,4 @@
-import { defineAbility, Ability, createAliasResolver, createMongoAbility, RuleOf, PureAbility } from '../src'
+import { defineAbility, Ability, createAliasResolver, createMongoAbility, RuleOf } from '../src'
 import { Post, ruleToObject } from './fixtures'
 
 describe('Ability', () => {
@@ -62,7 +62,7 @@ describe('Ability', () => {
   })
 
   it('allows to check abilities only by action', () => {
-    const ability = new PureAbility([{ action: 'read' }])
+    const ability = new Ability([{ action: 'read' }])
 
     expect(ability.can('read')).toBe(true)
   })
@@ -508,11 +508,16 @@ describe('Ability', () => {
 
     it('throws exception if 3rd argument is passed but "fieldMatchher" options was not provided', () => {
       const rules = [{ action: 'read', subject: 'Post', fields: ['title'] }]
-      expect(() => new PureAbility(rules)).toThrow(/"fieldMatcher" option/)
+      expect(() => new Ability(rules)).toThrow(/"fieldMatcher" option/)
+    })
+
+    it('throws exception if rule has conditions but "conditionsMatcher" options was not provided', () => {
+      const rules = [{ action: 'read', subject: 'Post', conditions: { authorId: 1 } }]
+      expect(() => new Ability(rules)).toThrow(/"conditionsMatcher" option/)
     })
 
     it('throws if there is a rule with "fields" property to be an empty array', () => {
-      expect(() => defineAbility(can => can('read', 'Post', []))).toThrow(/`rawRule.fields` cannot be an empty array/)
+      expect(() => defineAbility(can => can('read', 'Post', []))).toThrow(/`rawRule.fields` array cannot be empty/)
     })
 
     describe('when field patterns defined', () => {

@@ -1,47 +1,56 @@
-import { PureAbility, AbilityOptions, AbilityOptionsOf } from './PureAbility';
-import { RawRuleFrom } from './RawRule';
-import { AbilityTuple } from './types';
-import { MongoQuery, mongoQueryMatcher } from './matchers/conditions';
-import { fieldPatternMatcher } from './matchers/field';
-import { Public, RawRuleOf } from './RuleIndex';
+import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public, RawRuleOf } from './RuleIndex';
+import { Abilities, AbilityTuple, CanParameters, Subject } from './types';
+import { Rule } from './Rule';
 
-/**
- * @deprecated use createMongoAbility function instead and MongoAbility<Abilities> interface.
- * In the next major version PureAbility will be renamed to Ability and this class will be removed
- */
+export interface AbilityOptions<A extends Abilities, Conditions>
+  extends RuleIndexOptions<A, Conditions> {}
+export interface AnyAbility extends Public<Ability<any, any>> {}
+export interface AbilityOptionsOf<T extends AnyAbility> extends RuleIndexOptionsOf<T> {}
+
+export type AbilityClass<T extends AnyAbility> = new (
+  rules?: RawRuleOf<T>[],
+  options?: AbilityOptionsOf<T>
+) => T;
+
+export type CreateAbility<T extends AnyAbility> = (
+  rules?: RawRuleOf<T>[],
+  options?: AbilityOptionsOf<T>
+) => T;
+
 export class Ability<
-  A extends AbilityTuple = AbilityTuple,
-  C extends MongoQuery = MongoQuery
-> extends PureAbility<A, C> {
-  constructor(rules: RawRuleFrom<A, C>[] = [], options: AbilityOptions<A, C> = {}) {
-    super(rules, {
-      conditionsMatcher: mongoQueryMatcher,
-      fieldMatcher: fieldPatternMatcher,
-      ...options,
-    });
+  A extends Abilities = AbilityTuple,
+  Conditions = unknown
+> extends RuleIndex<A, Conditions> {
+  can(...args: CanParameters<A>): boolean;
+  can(action: string, subject?: Subject, field?: string): boolean {
+    const rule = (this as PrimitiveAbility).relevantRuleFor(action, subject, field);
+    return !!rule && !rule.inverted;
+  }
+
+  relevantRuleFor(...args: CanParameters<A>): Rule<A, Conditions> | null;
+  relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null {
+    const subjectType = this.detectSubjectType(subject);
+    const rules = (this as any).rulesFor(action, subjectType, field);
+
+    for (let i = 0, length = rules.length; i < length; i++) {
+      if (rules[i].matchesConditions(subject)) {
+        return rules[i];
+      }
+    }
+
+    return null;
+  }
+
+  cannot(...args: CanParameters<A>): boolean;
+  cannot(action: string, subject?: Subject, field?: string): boolean {
+    return !(this as PrimitiveAbility).can(action, subject, field);
   }
 }
 
-export interface AnyMongoAbility extends Public<PureAbility<any, MongoQuery>> {}
-export interface MongoAbility<
-  A extends AbilityTuple = AbilityTuple,
-  C extends MongoQuery = MongoQuery
-> extends PureAbility<A, C> {}
-
 /**
- * Creates Ability with MongoDB conditions matcher
+ * helper interface that helps to emit js methods that have static parameters
  */
-export function createMongoAbility<
-  T extends AnyMongoAbility = MongoAbility
->(rules?: RawRuleOf<T>[], options?: AbilityOptionsOf<T>): T;
-export function createMongoAbility<
-  A extends AbilityTuple = AbilityTuple,
-  C extends MongoQuery = MongoQuery
->(rules?: RawRuleFrom<A, C>[], options?: AbilityOptions<A, C>): MongoAbility<A, C>;
-export function createMongoAbility(rules: any[] = [], options = {}): AnyMongoAbility {
-  return new PureAbility(rules, {
-    conditionsMatcher: mongoQueryMatcher,
-    fieldMatcher: fieldPatternMatcher,
-    ...options,
-  });
+interface PrimitiveAbility<A extends Abilities = AbilityTuple, Conditions = unknown> {
+  can(action: string, subject?: Subject, field?: string): boolean;
+  relevantRuleFor(action: string, subject?: Subject, field?: string): Rule<A, Conditions> | null
 }

@@ -15,15 +15,16 @@ type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
 
 function validate(rule: RawRuleFrom<Abilities, any>, options: RuleOptions<any>) {
   if (Array.isArray(rule.fields) && !rule.fields.length) {
-    throw new Error('`rawRule.fields` cannot be an empty array. https://bit.ly/390miLa');
+    throw new Error('The `rawRule.fields` array cannot be empty. https://bit.ly/390miLa');
   }
 
   if (rule.fields && !options.fieldMatcher) {
-    throw new Error('You need to pass "fieldMatcher" option in order to restrict access by fields');
+    throw new Error('Cannot restrict access by fields without a "fieldMatcher" option');
   }
 
   if (rule.conditions && !options.conditionsMatcher) {
-    throw new Error('You need to pass "conditionsMatcher" option in order to restrict access by conditions');
+    throw new Error('Cannot restrict access by conditions without a "conditionsMatcher" option.' +
+      ' Please, provide a "conditionsMatcher" function to your Ability class or use "createMongoAbility" instead.');
   }
 }
 
@@ -88,7 +89,8 @@ export class Rule<A extends Abilities, C> {
       return matches.matchesAll === true || !!matches.ast && isMatchesAll(matches.ast);
     }
 
-    return this._conditionsMatcher()(object as Record<string, unknown>);
+    const matches = this._conditionsMatcher();
+    return matches(object as Record<string, unknown>);
   }
 
   matchesField(field: string | undefined): boolean {

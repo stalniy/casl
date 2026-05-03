@@ -5,7 +5,7 @@ import {
   SubjectType,
   createAliasResolver,
   MongoAbility,
-  PureAbility,
+  Ability,
   createMongoAbility,
   MongoQuery
 } from '../../src'
@@ -32,7 +32,7 @@ describe('Ability types', () => {
   })
 
   it('can be casted to `AbilityClass`', () => {
-    const AppAbility = PureAbility as AbilityClass<AppAbility>
+    const AppAbility = Ability as AbilityClass<AppAbility>
     expectTypeOf(AppAbility).toEqualTypeOf<AbilityClass<AppAbility>>()
   })
 

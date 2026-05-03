@@ -1,5 +1,5 @@
 import { CompoundCondition, Condition, buildAnd, buildOr } from '@ucast/mongo2js';
-import type { AnyAbility } from '../PureAbility';
+import type { AnyAbility } from '../Ability';
 import type { RuleOf } from '../RuleIndex';
 import type { ExtractSubjectType } from '../types';
 

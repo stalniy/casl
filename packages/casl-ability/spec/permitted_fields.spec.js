@@ -1,4 +1,4 @@
-import { defineAbility, PureAbility } from '../src'
+import { defineAbility, Ability } from '../src'
 import { permittedFieldsOf } from '../src/extra'
 import { Post } from './spec_helper'
 
@@ -8,7 +8,7 @@ describe('permittedFieldsOf', () => {
   }
 
   it('returns an empty array for `Ability` with empty rules', () => {
-    const ability = new PureAbility()
+    const ability = new Ability()
     expect(permittedFieldsOf(ability, 'read', 'Post', defaultOptions)).to.be.empty
   })
 

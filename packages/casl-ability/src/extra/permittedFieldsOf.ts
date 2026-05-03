@@ -1,4 +1,4 @@
-import { AnyAbility } from '../PureAbility';
+import { AnyAbility } from '../Ability';
 import { Rule } from '../Rule';
 import { RuleOf } from '../RuleIndex';
 import { Subject, SubjectType } from '../types';

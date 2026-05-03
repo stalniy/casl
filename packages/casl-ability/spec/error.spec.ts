@@ -1,4 +1,4 @@
-import { ForbiddenError, getDefaultErrorMessage, PureAbility, SubjectType } from '../src'
+import { ForbiddenError, getDefaultErrorMessage, Ability, SubjectType } from '../src'
 
 describe('`ForbiddenError` class', () => {
   describe('`throwUnlessCan` method', () => {
@@ -13,13 +13,13 @@ describe('`ForbiddenError` class', () => {
     })
 
     it('raises error with context information', () => {
-      let thrownError: ForbiddenError<PureAbility> | undefined
+      let thrownError: ForbiddenError<Ability> | undefined
       const { error } = setup()
 
       try {
         error.throwUnlessCan('archive', 'Post')
       } catch (abilityError) {
-        thrownError = abilityError as ForbiddenError<PureAbility>
+        thrownError = abilityError as ForbiddenError<Ability>
       }
 
       expect(thrownError!.action).toBe('archive')
@@ -51,7 +51,7 @@ describe('`ForbiddenError` class', () => {
     it('correctly extracts subject type name from class subject types', () => {
       class Post {}
 
-      const ability = new PureAbility([
+      const ability = new Ability([
         { action: 'read', subject: Post }
       ], {
         detectSubjectType: o => o.constructor as SubjectType
@@ -61,8 +61,8 @@ describe('`ForbiddenError` class', () => {
         ForbiddenError.from(ability).throwUnlessCan('update', Post)
         expect('this code').toBe('never reached')
       } catch (error) {
-        expect((error as ForbiddenError<PureAbility>).subjectType).toBe('Post')
-        expect((error as ForbiddenError<PureAbility>).message).toBe('Cannot execute "update" on "Post"')
+        expect((error as ForbiddenError<Ability>).subjectType).toBe('Post')
+        expect((error as ForbiddenError<Ability>).message).toBe('Cannot execute "update" on "Post"')
       }
     })
   })
@@ -81,7 +81,7 @@ describe('`ForbiddenError` class', () => {
   })
 
   function setup() {
-    const ability = new PureAbility([
+    const ability = new Ability([
       { action: 'read', subject: 'Post' }
     ])
     const error = ForbiddenError.from(ability)

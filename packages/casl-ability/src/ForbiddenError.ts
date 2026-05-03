@@ -1,6 +1,6 @@
-import { AnyAbility } from './PureAbility';
-import { Normalize, Subject } from './types';
-import { Generics } from './RuleIndex';
+import type { AnyAbility } from './Ability';
+import type { Normalize, Subject } from './types';
+import type { Generics } from './RuleIndex';
 import { getSubjectTypeName } from './utils';
 
 export type GetErrorMessage = (error: ForbiddenError<AnyAbility>) => string;
