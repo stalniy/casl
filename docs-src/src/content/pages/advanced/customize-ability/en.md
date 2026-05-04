@@ -3,8 +3,8 @@ title: Customize Ability
 categories: [advanced]
 order: 65
 meta:
-  keywords: customize ability, conditionsMatcher, fieldMatcher, custom operators, ucast, PureAbility
-  description: Customize CASL Ability — custom conditions matchers, field matchers, MongoDB operators, json-schema, extend PureAbility.
+  keywords: customize ability, conditionsMatcher, fieldMatcher, custom operators, ucast, Ability
+  description: Customize CASL Ability — custom conditions matchers, field matchers, MongoDB operators, json-schema, extend Ability.
 ---
 
 CASL was built with extensibility in mind and this allows you to extend conditions with custom operators, provide custom field matchers and even use your own implementation to match conditions (e.g., using functions or [json-schema])! Let's see how
@@ -76,9 +76,7 @@ By restricting operators, you not only disallow other developers to use more com
 
 ## Custom conditions matcher implementation
 
-If you want to implement custom conditions matcher, you should use `PureAbility` class instead of `createMongoAbility` factory function. `createMongoAbility` is a factory function that creates `PureAbility` instance with default values for `conditionsMatcher` and `fieldMatcher` options (i.e, mongo conditions matcher and field pattern matcher).
-
-> The prefix "Pure" has nothing to do with functional programming. It just means this class has no predefined configuration.
+If you want to implement custom conditions matcher, you should use `Ability` class instead of `createMongoAbility` factory function. `createMongoAbility` is a factory function that creates an `Ability` instance with default values for `conditionsMatcher` and `fieldMatcher` options (i.e, mongo conditions matcher and field pattern matcher).
 
 Conditions matcher is a factory function that accepts `rule.conditions` and returns a function that accepts an object and returns boolean. All these restrictions on conditions matcher is enforced by `ConditionsMatcher` generic type which you can import from `@casl/ability`.
 
@@ -86,17 +84,17 @@ Let's implement the matcher that allows to use a function as conditions matcher:
 
 ```ts
 import {
-  PureAbility,
+  Ability,
   AbilityBuilder,
-  AbilityTuple,
-  MatchConditions,
+  type AbilityTuple,
+  type MatchConditions,
 } from '@casl/ability';
 
-type AppAbility = PureAbility<AbilityTuple, MatchConditions>;
+type AppAbility = Ability<AbilityTuple, MatchConditions>;
 const lambdaMatcher = (matchConditions: MatchConditions) => matchConditions;
 
 export default function defineAbilityFor(user: any): AppAbility {
-  const { can, build } = new AbilityBuilder<AppAbility>(PureAbility);
+  const { can, build } = new AbilityBuilder<AppAbility>(Ability);
 
   can('read', 'Article', ({ authorId }) => authorId === user.id);
   can('read', 'Article', ({ status }) => ['draft', 'published'].includes(status));
@@ -111,7 +109,7 @@ We don't recommend to use functions for matching logic if you need to serialize 
 
 ## Custom field matcher
 
-Field matcher is responsible for matching fields passed as 3rd argument to `can` method of `PureAbility` instance. It is a factory function that returns a function which accepts field and returns boolean. This logic is enforced by `FieldMatcher` type from `@casl/ability`.
+Field matcher is responsible for matching fields passed as 3rd argument to `can` method of `Ability` instance. It is a factory function that returns a function which accepts field and returns boolean. This logic is enforced by `FieldMatcher` type from `@casl/ability`.
 
 > We cannot imagine a reasonable case to override field matching logic, [default implementation](../../guide/restricting-fields) should be more than enough.
 

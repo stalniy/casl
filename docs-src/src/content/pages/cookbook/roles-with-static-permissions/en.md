@@ -23,7 +23,7 @@ First of all, we need to define tables for `users` and `roles`. `users` table st
 
 > Tables' structure may be different in your application. We are going to use the simplest but sufficient structure to solve [The issue](#the-issue)
 
-As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create corresponding abilities. Using `PureAbility` instance we can guarantee that a user can do only what his role allows him to do.
+As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create corresponding abilities. Using `Ability` instance we can guarantee that a user can do only what his role allows him to do.
 
 > In the next Demo, we are not going to implement REST API as the main intention of this recipe is to solve [The issue](#the-issue).
 
@@ -153,7 +153,7 @@ export interface User {
 
 > We created `rolePermissions` object that holds our permission definitions functions instead of using regular functions. This allows us to retrieve role specific function by accessing properties of this object, this is very convenient and efficient.
 
-Finally, let's create a function that defines `PureAbility` instance for our user, let's do this in the same file:
+Finally, let's create a function that defines `Ability` instance for our user, let's do this in the same file:
 
 ```ts @{data-filename="services/appAbility.ts"}
 import { createMongoAbility, ForcedSubject, AbilityBuilder } from '@casl/ability';
@@ -234,7 +234,7 @@ export async function updateUserDetails(
 Let's go line by line in order to understand the code:
 
 1. We created `updateUserDetails` that accepts 3 arguments: 1st represents user's email who initiates the request (i.e., logged in user), 2nd is an email of a user whose details will be updated and 3rd is an object of changes.
-2. Inside the function, we find initiator user in order to create `PureAbility` instance for it.
+2. Inside the function, we find initiator user in order to create `Ability` instance for it.
 3. We also find user whose details needs to be updated, so we have his id.
 4. Using `ForbiddenError` class, we ensure that user can update own details. If not, a `ForbiddenError` will be thrown. Also pay attention that we call `subject` function. It assigns a particular subject type to a plain JavaScript object (see [subject helper](../../guide/subject-type-detection#subject-helper) for details).
 5. We call `updateUserById` function to update user details by id in the database.

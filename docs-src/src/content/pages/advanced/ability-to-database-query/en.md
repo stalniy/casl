@@ -9,7 +9,7 @@ meta:
 
 Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. `@casl/ability/extra` provides `rulesToQuery` helper function which helps to convert rules into a particular database's query. This function accepts 4 arguments:
 
-1. An instance of `PureAbility`
+1. An instance of `Ability`
 2. `action` for which you want to get rules
 3. `subjectType` which you plan to query
 4. conversion function which takes rule as the only argument and returns database query chunk

@@ -3,7 +3,7 @@ title: Claim based Authorization
 categories: [cookbook]
 order: 16
 meta:
-  keywords: claim based authorization, actions without subject, PureAbility, permissions claims
+  keywords: claim based authorization, actions without subject, Ability, permissions claims
   description: Implement claim-based authorization with CASL — actions without subjects, advantages over hand-rolled checks, when to avoid.
 ---
 
@@ -41,12 +41,12 @@ All that consumes time and resources, as a result postpones the delivery of your
 Fortunately, CASL supports claim based authorization. The example above can be represented in CASL:
 
 ```ts
-import { AbilityBuilder, PureAbility } from '@casl/ability';
+import { AbilityBuilder, Ability } from '@casl/ability';
 
-type AppAbility = PureAbility<Actions>;
+type AppAbility = Ability<Actions>;
 type Actions = 'review' | 'publish' | 'read';
 
-const { can, build } = new AbilityBuilder<AppAbility>(PureAbility);
+const { can, build } = new AbilityBuilder<AppAbility>(Ability);
 can('review');
 can('publish');
 can('read');

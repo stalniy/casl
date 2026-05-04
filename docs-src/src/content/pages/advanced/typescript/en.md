@@ -20,7 +20,7 @@ So, let's play around with them
 
 ## Permissions inference
 
-`PureAbility` class and `createMongoAbility` factory function accepts 2 **optional** generic parameters:
+`Ability` class and `createMongoAbility` factory function accepts 2 **optional** generic parameters:
 
 ```ts
 import { createMongoAbility, Subject, MongoQuery } from '@casl/ability';
@@ -31,7 +31,7 @@ type Conditions = MongoQuery;
 const ability = createMongoAbility<PossibleAbilities, Conditions>();
 ```
 
-> `Subject` is a special type that represents all possible subjects that `PureAbility` can accept. So, it's `object | string | Function | undefined`.
+> `Subject` is a special type that represents all possible subjects that `Ability` can accept. So, it's `object | string | Function | undefined`.
 
 Don't be scared by the complexity, `createMongoAbility` uses that types by default, so the example above is the same as the one below:
 
@@ -192,10 +192,10 @@ This simple pattern comes to TypeScript from Scala, and it's a way to pair toget
 `AbilityBuilder` constructor accepts the single argument which is a type of Ability we want to build:
 
 ```ts
-import { AbilityBuilder, PureAbility, createMongoAbility } from '@casl/ability';
+import { AbilityBuilder, Ability, createMongoAbility } from '@casl/ability';
 
 // we can pass custom Ability class
-const builder = new AbilityBuilder(PureAbility);
+const builder = new AbilityBuilder(Ability);
 
 // or we can pass factory function
 const builder = new AbilityBuilder(createMongoAbility);
@@ -293,7 +293,7 @@ const ability = createMongoAbility<AppAbilities>([], options);
 
 ### AnyAbility and AnyMongoAbility
 
-These 2 types represents any `PureAbility` instance and any `MongoAbility` instance. They are usually a good fit for restrictions in generic types. For example, this is how `AnyAbility` is used in `AbilityBuilder`:
+These 2 types represents any `Ability` instance and any `MongoAbility` instance. They are usually a good fit for restrictions in generic types. For example, this is how `AnyAbility` is used in `AbilityBuilder`:
 
 ```ts
 export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
@@ -306,7 +306,7 @@ export class AbilityBuilder<T extends AnyAbility = AnyAbility> {
 There are 2 types that represents built-in mongo operators:
 
 * `MongoQuery<T>` is an actual mongo query.\
-  Is used as a conditions restriction in `PureAbility` created by `createMongoAbility` factory function.
+  Is used as a conditions restriction in `Ability` created by `createMongoAbility` factory function.
 * `MongoQueryOperators<T>` represents supported MongoDB operators and it's a union of `MongoQueryFieldOperators<T>` and `MongoQueryTopLevelOperators<T>` that represent supported field and document level operators respectively
 
 ### ForcedSubject

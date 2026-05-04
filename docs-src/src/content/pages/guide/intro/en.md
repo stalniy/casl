@@ -358,12 +358,12 @@ can('read', 'all');
 ability.update(rules);
 ```
 
-To track when rules are updated, we can subscribe to `update` (before ability is updated) or `updated` (after ability is updated) events of `PureAbility` instance:
+To track when rules are updated, we can subscribe to `update` (before ability is updated) or `updated` (after ability is updated) events of `Ability` instance:
 
 ```js
 const unsubscribe = ability.on('update', ({ rules, target }) => {
   // `rules` is an array passed to `update` method
-  // `target` is a PureAbility instance that triggered event
+  // `target` is a Ability instance that triggered event
 })
 
 unsubscribe() // removes subscription

@@ -133,7 +133,7 @@ export default function defineAbilityFor(user) {
 * in apps which have static permissions (i.e., permissions are not changed by admin user but defined inside system)
 * anywhere where you use custom ability factory functions
 
-> See [Customize Ability](../../advanced/customize-ability) to learn more about `PureAbility` class.
+> See [Customize Ability](../../advanced/customize-ability) to learn more about `Ability` class.
 
 ## JSON objects
 
