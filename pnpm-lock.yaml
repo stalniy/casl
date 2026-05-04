@@ -150,8 +150,8 @@ importers:
   packages/casl-prisma:
     dependencies:
       '@ucast/core':
-        specifier: ^1.10.0
-        version: 1.10.2
+        specifier: ^2.0.0
+        version: 2.0.0
       '@ucast/js':
         specifier: ^3.0.1
         version: 3.1.0
@@ -2846,6 +2846,9 @@ packages:
 
   '@ucast/core@1.10.2':
     resolution: {integrity: sha512-ons5CwXZ/51wrUPfoduC+cO7AS1/wRb0ybpQJ9RrssossDxVy4t49QxWoWgfBDvVKsz9VXzBk9z0wqTdZ+Cq8g==}
+
+  '@ucast/core@2.0.0':
+    resolution: {integrity: sha512-4XVx6LzPXZGvnZO5jp39cm/G4UvuwvEdtmg+9+4+zl6uFkCcB7UJacvtMYeBE56GJVT99Zqy6Pii7dGJq3Kz9Q==}
 
   '@ucast/js@3.1.0':
     resolution: {integrity: sha512-eJ7yQeYtMK85UZjxoxBEbTWx6UMxEXKbjVyp+NlzrT5oMKV5Gpo/9bjTl3r7msaXTVC8iD9NJacqJ8yp7joX+Q==}
@@ -9425,6 +9428,8 @@ snapshots:
       eslint-visitor-keys: 5.0.1
 
   '@ucast/core@1.10.2': {}
+
+  '@ucast/core@2.0.0': {}
 
   '@ucast/js@3.1.0':
     dependencies:
