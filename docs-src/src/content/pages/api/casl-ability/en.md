@@ -3,13 +3,13 @@ title: "@casl/ability API"
 categories: [api]
 order: 10
 meta:
-  keywords: @casl/ability API, PureAbility, MongoAbility, defineAbility, AbilityBuilder, ForbiddenError
-  description: @casl/ability API reference — PureAbility, MongoAbility, defineAbility, AbilityBuilder, update, can, cannot, ForbiddenError.
+  keywords: @casl/ability API, Ability, MongoAbility, defineAbility, AbilityBuilder, ForbiddenError
+  description: @casl/ability API reference — Ability, MongoAbility, defineAbility, AbilityBuilder, update, can, cannot, ForbiddenError.
 ---
 
 `@casl/ability` contains 2 modules:
 
-* core module which provides `PureAbility` and other core classes
+* core module which provides `Ability` and other core classes
 
   ```ts
   import * as core from '@casl/ability';
@@ -25,11 +25,9 @@ This page describes API documentation for core package only. Check [@casl/abilit
 
 > All examples on this page uses [TypeScript](https://www.typescriptlang.org/)
 
-## PureAbility
+## Ability
 
-`PureAbility` is a base class that implements the functionality of checking permissions. The prefix "Pure" has nothing to do with functional programming. It just means this class has no predefined configuration.
-
-It is a generic class that accepts 2 parameters:
+`Ability` is a base class that implements the functionality of checking permissions. It is a generic class that accepts 2 parameters:
 
 1. `Abilities` is either a string literal type that represents possible actions or a tuple of 2 elements that represents all possible actions on all possible subjects. By default, equals to `[string, Subject]`
 2. `Conditions` is a shape of conditions. There is no restriction on this parameter, so it can be anything.
@@ -37,15 +35,15 @@ It is a generic class that accepts 2 parameters:
 For example:
 
 ```ts
-import { PureAbility, Abilities } from '@casl/ability';
+import { Ability, Abilities } from '@casl/ability';
 
-type ClaimAbility = PureAbility<string>;
-type AppAbility = PureAbility<[string, string]>;
+type ClaimAbility = Ability<string>;
+type AppAbility = Ability<[string, string]>;
 ```
 
 **See also**: [TypeScript Support](../../advanced/typescript)
 
-### PureAbility constructor
+### Ability constructor
 
 * **Parameters** (`A` is shortened from `Abilities`):
   * `rules: RawRuleFrom<A, Conditions>[] = []`
@@ -62,7 +60,7 @@ type AppAbility = PureAbility<[string, string]>;
 * **Usage**:
 
   ```ts
-  const ability = new PureAbility<['read' | 'update', 'Article']>([
+  const ability = new Ability<['read' | 'update', 'Article']>([
     { action: 'read', subject: 'Article' },
     { action: 'update', subject: 'Article' },
   ]);
@@ -71,7 +69,7 @@ type AppAbility = PureAbility<[string, string]>;
 
 ### update
 
-Updates rules of `PureAbility` instance. This method completely replaces all previously define rules with new ones.
+Updates rules of `Ability` instance. This method completely replaces all previously define rules with new ones.
 
 * **Parameters**:
   * `rules: RawRuleFrom<A, Conditions>[]`
@@ -83,14 +81,14 @@ Updates rules of `PureAbility` instance. This method completely replaces all pre
   Use it when you need to update permissions. In the common scenario, you need to do this on login, logout and when user permissions are changed.
 
   ```ts
-  import { PureAbility } from '@casl/ability';
+  import { Ability } from '@casl/ability';
 
-  const ability = new PureAbility([{ action: 'manage', subject: 'all' }]);
+  const ability = new Ability([{ action: 'manage', subject: 'all' }]);
   ability.update([]); // took back all permissions
   ```
 * **See also**: [CASL guide](../../guide/intro)
 
-### can of PureAbility
+### can of Ability
 
 Checks that the provided action and subject satisfy permissions. Depending on `Abilities` generic parameter this function accepts either single `action` argument (when `Abilities` is a string) or 3 arguments (when `Abilities` is a tuple).
 
@@ -102,27 +100,27 @@ Checks that the provided action and subject satisfy permissions. Depending on `A
 * **Usage**:
 
   ```ts
-  import { PureAbility } from '@casl/ability';
+  import { Ability } from '@casl/ability';
 
-  const claimAbility = new PureAbility<'read' | 'update'>();
+  const claimAbility = new Ability<'read' | 'update'>();
   // the 1st generic is a string, so the method accepts only single parameter
   claimAbility.can('read');
 
-  const ability = new PureAbility<['read' | 'update', 'Article']>();
+  const ability = new Ability<['read' | 'update', 'Article']>();
   // the 1st argument is a tuple, so the method accepts 2-3 parameters
   ability.can('read', 'Article');
   ```
 * **See also**: [CASL guide](../../guide/intro)
 
-### cannot of PureAbility
+### cannot of Ability
 
-This method works the same way as [can](#can-of-pure-ability) but returns inverted result.
+This method works the same way as [can](#can-of-ability) but returns inverted result.
 
 ### relevantRuleFor
 
 This method returns a rule that matches provided action, subject and field. If rule cannot be found it returns `null`. May be useful for debugging.
 
-* **Parameters**: accepts the same parameters as [can](#can-of-pure-ability)
+* **Parameters**: accepts the same parameters as [can](#can-of-ability)
 * **Returns**: `Rule<Abilities, Conditions> | null`
 * **See also**: [Debugging and testing](../../advanced/debugging-testing)
 
@@ -159,9 +157,9 @@ Allows to register event handler on specific event. Currently, only 2 events are
 * **Usage**\
   Useful for frontend frameworks integration. Usually you have a single ability instance in the app and a lot of places which need to recheck permissions when the instance's rules are changed.
 
-### rules property of PureAbility
+### rules property of Ability
 
-Returns an array of `RawRule`s passed in `PureAbility` constructor.
+Returns an array of `RawRule`s passed in `Ability` constructor.
 
 ### detectSubjectType
 
@@ -171,9 +169,9 @@ Can be used to detect subject type of object. Works for both subject types and s
   * `subject: Subject`
 * **Returns**: `string`
 
-## Ability (deprecated by createMongoAbility)
+## Ability
 
-`Ability` extends [`PureAbility`](#pure-ability). It sets default values for 2 options:
+`Ability` extends [`Ability`](#ability). It sets default values for 2 options:
 
 * `conditionsMatcher` into [`mongoQueryMatcher`](#mongo-query-matcher)
 * `fieldMatcher` into [`fieldPatternMatcher`](#field-pattern-matcher).
@@ -182,11 +180,11 @@ It also enforces `MongoQuery` restriction on the `Conditions` generic parameter.
 
 ## createMongoAbility
 
-This is a factory function that creates an instance of `PureAbility` with Mongo-like conditions to restrict access.
+This is a factory function that creates an instance of `Ability` with Mongo-like conditions to restrict access.
 
 ## AbilityBuilder
 
-This class allows to construct `PureAbility` instance in declarative way. It accepts a single generic parameter `T extends AnyAbility`. Usually, we don't need to provide it, as TypeScript will always infer it for us (just don't forget to pass class of `Ability` in constructor).
+This class allows to construct `Ability` instance in declarative way. It accepts a single generic parameter `T extends AnyAbility`. Usually, we don't need to provide it, as TypeScript will always infer it for us (just don't forget to pass class of `Ability` in constructor).
 
 ### AbilityBuilder constructor
 
@@ -203,7 +201,7 @@ This class allows to construct `PureAbility` instance in declarative way. It acc
 
 ### can of AbilityBuilder
 
-Registers a `RawRule` instance in `rules` array. Depending on the passed in generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `PureAbility` is a string) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
+Registers a `RawRule` instance in `rules` array. Depending on the passed in generic parameter, this function accepts either single `action` argument (when `Abilities` generic of `Ability` is a string) or 3 arguments (when `Abilities` is a tuple). In general it accepts 1-4 parameters.
 
 * **Parameters**: this method has 2 overloads
   * `action: string | string[]`
@@ -218,11 +216,11 @@ Registers a `RawRule` instance in `rules` array. Depending on the passed in gene
 * **Usage**:
 
   ```ts
-  import { AbilityBuilder, PureAbility, createMongoAbility, AbilityClass } from '@casl/ability';
+  import { AbilityBuilder, Ability, createMongoAbility, AbilityClass } from '@casl/ability';
 
   // action only Ability type
-  type ClaimAbility = PureAbility<'read' | 'update'>;
-  const ClaimAbility = PureAbility as AbilityClass<ClaimAbility>;
+  type ClaimAbility = Ability<'read' | 'update'>;
+  const ClaimAbility = Ability as AbilityClass<ClaimAbility>;
   const { can, build } = new AbilityBuilder(ClaimAbility);
 
   can('read');
@@ -256,7 +254,7 @@ Contains an array of `RawRule`s registered by [`can`](#can-of-ability-builder) a
 
 ## defineAbility
 
-This function allows to define [`MongoAbility`](#ability) instance in a compact form. Cannot be used to create `PureAbility` instances. It's very useful for writing tests and documentation.
+This function allows to define [`MongoAbility`](#ability) instance in a compact form. Cannot be used to create `Ability` instances. It's very useful for writing tests and documentation.
 
 * **Signature** (`T` is `TAbility`):
   * `<T extends AnyAbility>(define: DSL<T, void>, options?: AbilityOptionsOf<T>) => T`
@@ -323,7 +321,7 @@ Changes message of a particular `ForbiddenError` instance.
 
 ### throwUnlessCan
 
-Accepts the same parameters as [PureAbility's can method](#can-of-pure-ability). Throws a `ForbiddenError` if user cannot do the provided action on provided subject.
+Accepts the same parameters as [Ability's can method](#can-of-ability). Throws a `ForbiddenError` if user cannot do the provided action on provided subject.
 
 ## getDefaultErrorMessage
 
@@ -362,7 +360,7 @@ This factory function creates a matcher that matches subjects based on [MongoDB 
   * `object: Record<PropertyKey, any>`
 * **Matcher Returns** `boolean`
 * **Usage**\
-  Can be passed as `conditionsMatcher` option to `Ability` and `PureAbility` classes
+  Can be passed as `conditionsMatcher` option to `Ability` class
 
   ```ts
   import { mongoQueryMatcher } from '@casl/ability';
@@ -383,12 +381,12 @@ This is a factory of factory. It allows to extend `mongoQueryMatcher` with custo
   * `interpreters: Record<string, JsOperator>`
 * **Factory Returns** extended `mongoQueryMatcher`
 * **Usage**\
-  The result of this function can be passed as `conditionsMatcher` option to `Ability` and `PureAbility` classes.
+  The result of this function can be passed as `conditionsMatcher` option to `Ability` class.
 * **See also**: [mongoQueryMatcher API](#mongo-query-matcher), [Customize Ability](../../advanced/customize-ability)
 
 ## createAliasResolver
 
-Creates a function that resolves alias to real actions. Can be passed as `resolveAction` option to `Ability` and `PureAbility` classes.
+Creates a function that resolves alias to real actions. Can be passed as `resolveAction` option to `Ability` class.
 
 * **Parameters**:
   * `aliasMap: AliasMap`
@@ -397,7 +395,7 @@ Creates a function that resolves alias to real actions. Can be passed as `resolv
 
 ## detectSubjectType
 
-The default subject type detection logic. Can be passed as `detectSubjectType` option to `Ability` and `PureAbility` classes. Can be used to extend the default logic. The checking logic is the following:
+The default subject type detection logic. Can be passed as `detectSubjectType` option to `Ability` class. Can be used to extend the default logic. The checking logic is the following:
 
 * if `subject` is `undefined`, returns `all`
 * if `subject` is a `ForcedSubject`, returns its forced type

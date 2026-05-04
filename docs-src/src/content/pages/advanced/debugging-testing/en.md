@@ -11,7 +11,7 @@ Sometimes it may be a bit complicated to understand why some action in the app i
 
 ## Debugging
 
-`PureAbility`'s `can` and `cannot` methods return boolean result and doesn't explain the reason or which rule forbids the action. To get the rule which allows or forbids an action on a subject, you can use `relevantRuleFor` method. It accepts the same arguments as `can`:
+`Ability`'s `can` and `cannot` methods return boolean result and doesn't explain the reason or which rule forbids the action. To get the rule which allows or forbids an action on a subject, you can use `relevantRuleFor` method. It accepts the same arguments as `can`:
 
 ```js
 import { defineAbility } from '@casl/ability';
@@ -86,7 +86,7 @@ console.log(rule.reason); // Private content is protected by law
 
 ## Testing
 
-`PureAbility` instance is pure in terms of functional programming. It means that for the same rules, its `can` method returns always the same result. That's why, there is no big profit in testing CASL permissions, instead you should test rule distribution logic. **This sounds correct, but only at the first sight**. Let's consider an example:
+an `Ability` instance is pure in terms of functional programming. It means that for the same rules, its `can` method returns always the same result. That's why, there is no big profit in testing CASL permissions, instead you should test rule distribution logic. **This sounds correct, but only at the first sight**. Let's consider an example:
 
 ```js @{data-filename="defineAbility.js"}
 import { createMongoAbility, AbilityBuilder, subject } from '@casl/ability';

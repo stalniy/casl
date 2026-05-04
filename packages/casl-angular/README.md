@@ -23,7 +23,7 @@ To add pipes into your application's templates, you need to import the one you n
 ```ts @{data-filename="app.module.ts"}
 import { NgModule } from '@angular/core';
 import { AblePipe } from '@casl/angular';
-import { createMongoAbility, PureAbility } from '@casl/ability';
+import { createMongoAbility, Ability } from '@casl/ability';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import { createMongoAbility, PureAbility } from '@casl/ability';
     AblePipe
   ],
   providers: [
-    { provide: PureAbility, useValue: createMongoAbility() }
+    { provide: Ability, useValue: createMongoAbility() }
   ]
   // other properties
 })
@@ -47,14 +47,14 @@ Majority of applications that need permission checking support have something li
 Let's imagine that server returns user with a role on login:
 
 ```ts @{data-filename="Session.ts"}
-import { PureAbility, AbilityBuilder } from '@casl/ability';
+import { Ability, AbilityBuilder } from '@casl/ability';
 import { Injectable } from '@angular/core';
 
 @Injectable({ provideIn: 'root' })
 export class Session {
-  private token: string
+  #token: string
 
-  constructor(@Inject(PureAbility) private ability: MongoAbility) {}
+  constructor(@Inject(Ability) private ability: MongoAbility) {}
 
   login(details) {
     const params = { method: 'POST', body: JSON.stringify(details) };
@@ -62,7 +62,7 @@ export class Session {
       .then(response => response.json())
       .then((session) => {
         this.updateAbility(session.user);
-        this.token = session.token;
+        this.#token = session.token;
       });
   }
 
@@ -79,7 +79,7 @@ export class Session {
   }
 
   logout() {
-    this.token = null;
+    this.#token = null;
     this.ability.update([]);
   }
 }
@@ -118,7 +118,7 @@ export class LoginForm {
 
 ## Check permissions in templates using AbilityService
 
-`AbilityService` is a service that provides `ability$` observable. This observable injects provided in DI `PureAbility` instance and emits it each time its rules are changed. This allows efficiently use permissions checks, especially in case we use `ChangeDetectionStrategy.OnPush`.
+`AbilityService` is a service that provides `ability$` observable. This observable injects provided in DI `Ability` instance and emits it each time its rules are changed. This allows efficiently use permissions checks, especially in case we use `ChangeDetectionStrategy.OnPush`.
 
 Let's first see how it can be used in any component:
 
@@ -126,10 +126,12 @@ Let's first see how it can be used in any component:
 @Component({
   selector: 'my-home',
   template: `
-    <ng-container *ngIf="ability$ | async as ability">
+    @if (ability$ | async as ability) {
       <h1>Home Page</h1>
-      <button *ngIf="ability.can('create', 'Post')">Create Post</button>
-    </ng-container>
+      @if (ability.can('create', 'Post')) {
+        <button>Create Post</button>
+      }
+    }
   `
 })
 export class HomeComponent {
@@ -159,7 +161,9 @@ import { AppAbility } from './AppAbility';
   selector: 'my-home',
   template: `
       <h1>Home Page</h1>
-      <button *ngIf="can('create', 'Post')">Create Post</button>
+      @if (can('create', 'Post')) {
+        <button>Create Post</button>
+      }
   `
 })
 export class HomeComponent {
@@ -173,9 +177,9 @@ export class HomeComponent {
 To check permissions in any template you can use `AblePipe`:
 
 ```html
-<div *ngIf="'create' | able: 'Post'">
+@if ('create' | able: 'Post') {
   <a (click)="createPost()">Add Post</a>
-</div>
+}
 ```
 
 ### Why pipe and not directive?
@@ -185,35 +189,6 @@ Directive cannot be used to pass values into inputs of other components. For exa
 ```html
 <button [disabled]="!('create' | able: 'Post')">Add Post</button>
 ```
-
-### Performance considerations
-
-There are 2 pipes in `@casl/angular`:
-
-* `able` - impure pipe
-* `ablePure` - pure pipe
-
-So, when should we use which?
-
-> If you are in doubt, then use `ablePure` for action and subject type checks, and `able` for all others
-
-According to Angular documentation pure pipes are called only if their arguments are changed. This means that you **can't use mutable objects with pure pipes** because changes in that objects don't trigger pure pipe re-evaluation. But a good thing is that Angular creates only single instance of a pure pipe for the whole app and reuses it across components, this way it safes component instantiation time and memory footprint.
-
-Due to [open feature in Angular](https://github.com/angular/angular/issues/15041), we need to pass the result of `ablePure` pipe to `async` pipe. So, instead of
-
-```html
-<div *ngIf="'create' | ablePure: 'Todo'">...</div>
-```
-
-we need to write:
-
-```html
-<div *ngIf="'create' | ablePure: 'Todo' | async">...</div>
-```
-
-> `ablePure` pipe returns an `Observable<boolean>`, so `async` pipe can effectively unwrap it
-
-For apps that mutate application state, we need to use impure `able` pipe as it can detect changes in object properties. Don't worry, checks by action and subject type are very fast and are done in O(1) time. The performance of checks by action and subject object are a bit slower and depend on the amount of rules for a particular subject type and used conditions but usually this won't become a bottle neck for the app.
 
 ## TypeScript support
 
@@ -245,7 +220,7 @@ type Actions = 'create' | 'read' | 'update' | 'delete';
 type Subjects = 'Article' | 'User';
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;
-export const AppAbility = PureAbility as AbilityClass<AppAbility>;
+export const AppAbility = Ability as AbilityClass<AppAbility>;
 ```
 
 And use `AppAbility` everywhere in your app:

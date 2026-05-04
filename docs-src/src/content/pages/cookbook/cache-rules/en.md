@@ -3,7 +3,7 @@ title: Cache abilities
 categories: [cookbook]
 order: 20
 meta:
-  keywords: cache abilities, LRU cache, express middleware, PureAbility performance
+  keywords: cache abilities, LRU cache, express middleware, Ability performance
   description: Cache CASL ability instances — LRU in-memory caching and strategies when building abilities is slow or requires DB roundtrips.
 ---
 
@@ -11,7 +11,7 @@ meta:
 
 ## The issue
 
-It takes considerable amount of time or requires additional roundtrip to the database to construct a `PureAbility` instance.
+It takes considerable amount of time or requires additional roundtrip to the database to construct a `Ability` instance.
 
 Let's consider an example where user can manage own devices but **devices doesn't have** a reference to the owner. In such cases, we need to fetch all device ids in order to create a `MongoAbility` instance:
 
@@ -97,7 +97,7 @@ app.listen(3000, () => console.log('app is listening on http://localhost:3000'))
 
 ### In session storage
 
-If the application uses stored sessions and [LRU cache](#in-memory-lru-cache) doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not `PureAbility` instance? Because session storage serializes object before storing it. Rules are easily serializable and `PureAbility` instance is not, but can be created from rules.
+If the application uses stored sessions and [LRU cache](#in-memory-lru-cache) doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not `Ability` instance? Because session storage serializes object before storing it. Rules are easily serializable and `Ability` instance is not, but can be created from rules.
 
 Sessions in express usually are implemented with help of [express-session](https://www.npmjs.com/package/express-session) and [connect-redis](https://www.npmjs.com/package/connect-redis). We will do it the same way.
 
