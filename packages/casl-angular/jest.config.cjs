@@ -5,10 +5,10 @@ module.exports = {
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
   },
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: [
     'zone.js',
-    'zone.js/testing'
+    'zone.js/testing',
   ],
 };

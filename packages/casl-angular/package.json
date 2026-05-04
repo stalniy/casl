@@ -2,8 +2,8 @@
   "name": "@casl/angular",
   "version": "9.0.6",
   "description": "Angular module for CASL which makes it easy to add permissions in any Angular app",
-  "module": "./dist/esm/index.mjs",
-  "types": "./dist/types/public.d.ts",
+  "main": "./dist/esm/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/types/public.d.ts",
@@ -24,7 +24,7 @@
     "build.ngc": "ngc -p tsconfig.build.json --outDir .angular-build",
     "build.types": "dx tsc -p tsconfig.types.json",
     "build": "npm run build.prepare && npm run build.ngc && npm run build.types && dx tsdown && rm -rf .angular-build",
-    "test": "dx jest --config ./jest.config.js",
+    "test": "dx jest --config ./jest.config.cjs",
     "lint": "dx eslint src/ spec/",
     "release.prepare": "npm run lint && NODE_ENV=production npm run build && npm test",
     "release": "npm run release.prepare && pnpm publish"
