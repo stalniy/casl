@@ -1,26 +1,24 @@
 import { createMongoAbility, MongoAbility } from '@casl/ability'
 import { act, renderHook } from '@testing-library/react'
-import { createContext } from 'react'
-import { useAbility } from '../src'
+import React from 'react'
+import { AbilityProvider, useAbility } from '../src'
 
 describe('`useAbility` hook', () => {
   let ability: MongoAbility
-  let AbilityContext: React.Context<MongoAbility>
 
   beforeEach(() => {
     ability = createMongoAbility()
-    AbilityContext = createContext(ability)
   })
 
   it('provides an `Ability` instance from context', () => {
-    const { result } = renderHook(() => useAbility(AbilityContext))
+    const { result } = renderHook(() => useAbility(), { wrapper })
     expect(result.current).toBe(ability)
   })
 
   it('triggers re-render when `Ability` rules are changed', () => {
-    const component = jest.fn(() => useAbility(AbilityContext))
+    const component = jest.fn(() => useAbility())
 
-    renderHook(component)
+    renderHook(component, { wrapper })
     act(() => {
       ability.update([{ action: 'read', subject: 'Post' }])
     })
@@ -30,7 +28,7 @@ describe('`useAbility` hook', () => {
 
   it('subscribes to `Ability` instance only once', () => {
     jest.spyOn(ability, 'on')
-    const { rerender } = renderHook(() => useAbility(AbilityContext))
+    const { rerender } = renderHook(() => useAbility(), { wrapper })
 
     act(() => {
       rerender()
@@ -41,8 +39,8 @@ describe('`useAbility` hook', () => {
   })
 
   it('unsubscribes from `Ability` when component is destroyed', () => {
-    const component = jest.fn(() => useAbility(AbilityContext))
-    const { unmount } = renderHook(component)
+    const component = jest.fn(() => useAbility())
+    const { unmount } = renderHook(component, { wrapper })
 
     act(() => {
       unmount()
@@ -51,4 +49,14 @@ describe('`useAbility` hook', () => {
 
     expect(component).toHaveBeenCalledTimes(1)
   })
+
+  it('throws when used outside of `AbilityProvider`', () => {
+    expect(() => renderHook(() => useAbility())).toThrow(
+      'AbilityContext is not provided. Please make sure to wrap your component tree with <AbilityProvider>.'
+    )
+  })
+
+  function wrapper({ children }: { children: React.ReactNode }) {
+    return React.createElement(AbilityProvider, { value: ability, children })
+  }
 })

@@ -1,12 +1,14 @@
 {
   "extends": "../../tsconfig",
   "include": [
-    "src/*",
-    "spec/*"
+    "src/**/*",
+    "spec/**/*"
   ],
   "compilerOptions": {
     "jsx": "react",
     "outDir": "dist/types",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
   }
 }

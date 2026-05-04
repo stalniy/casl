@@ -4,7 +4,11 @@
 [![](https://img.shields.io/npm/dm/%40casl%2Freact.svg)](https://www.npmjs.com/package/%40casl%2Freact)
 [![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
 
-This package allows to integrate `@casl/ability` with [React] application. It provides `Can` component that allow to hide or show UI elements based on user ability to see them.
+This package integrates `@casl/ability` with [React]. It provides:
+
+* `AbilityProvider` to expose the current `Ability` instance through React context
+* declarative `<Can>` component for conditional rendering
+* `useAbility` hook for imperative checks that stay in sync with ability updates
 
 > `@casl/react` perfectly works with [React Native](https://reactnative.dev/)
 
@@ -18,7 +22,41 @@ yarn add @casl/react @casl/ability
 pnpm add @casl/react @casl/ability
 ```
 
+## Quick Start
+
+```tsx
+import { createMongoAbility } from '@casl/ability';
+import { AbilityProvider, Can, useAbility } from '@casl/react';
+
+const ability = createMongoAbility([
+  { action: 'read', subject: 'Post' },
+  { action: 'create', subject: 'Post' },
+]);
+
+export function App() {
+  return (
+    <AbilityProvider value={ability}>
+      <Can I="read" a="Post">
+        <div>List of posts</div>
+      </Can>
+      <CreatePostButton />
+    </AbilityProvider>
+  );
+}
+
+function CreatePostButton() {
+  const ability = useAbility();
+  return ability.can('create', 'Post') && (
+    <button>Create Post</button>
+  );
+}
+```
+
+Use `<Can>` for straightforward conditional rendering in JSX and `useAbility()` when the permission check is part of more complex component logic.
+
 ## Can component
+
+`<Can>` reads the current `Ability` instance from `AbilityProvider`, re-renders when rules change, and memoizes the relevant rule lookup until the ability, rules, or relevant props change.
 
 It accepts children and 6 properties:
 
@@ -45,71 +83,48 @@ It accepts children and 6 properties:
   ```jsx
   export default () => (
     <Can I="create" a="Post" passThrough>
-      {allowed => <button disabled={!allowed}>Save</button>}
+      {({ isAllowed, reason }) => (
+        <button disabled={!isAllowed} title={reason}>Save</button>
+      )}
     </Can>
   )
   ```
 
-* `ability` - an instance of `Ability` which will be used to check permissions
-* `children` - elements to hide or render. May be either a render function:
+* `children` - elements to hide or render. May be either a render function that receives `{ isAllowed, ability, reason }`:
 
   ```jsx
-  export default () => <Can I="create" a="Post" ability={ability}>
-    {() => <button onClick={this.createPost}>Create Post</button>}
+  export default () => <Can I="create" a="Post">
+    {({ isAllowed, reason }) => (
+      <button disabled={!isAllowed} title={reason}>Create Post</button>
+    )}
   </Can>
   ```
 
   or React elements:
 
   ```jsx
-  export default () => <Can I="create" a="Post" ability={ability}>
+  export default () => <Can I="create" a="Post">
     <button onClick={this.createPost}>Create Post</button>
   </Can>
   ```
 
 > it's better to pass children as a render function because it will not create additional React elements if user doesn't have ability to do some action (in the case above `create Post`)
 
-Don't be scared by the amount of properties component takes, we will talk about how to bind some of them.
+For simple visibility guards, `<Can>` keeps JSX readable. For more complex conditions, composing several checks, or passing authorization state deeper into your component tree, prefer `useAbility`.
 
-### Bind Can to a particular Ability instance
+### Provide Ability instance
 
-It'd be inconvenient to pass `ability` in every `Can` component. That's why there are 2 function which allow to bind `Can` to use a particular instance of `Ability`:
-
-* `createCanBoundTo`\
-  This function was created to support version of React < 16.4.0, those versions doesn't have [Context API][react-ctx-api]. Can be used like this:
-
-  ```js @{data-filename="Can.js"}
-  import { createCanBoundTo } from '@casl/react';
-  import ability from './ability';
-
-  export const Can = createCanBoundTo(ability);
-  ```
-* `createContextualCan`\
-  This function is created to support [React's Context API][react-ctx-api] and can be used like this:
-
-  ```js @{data-filename="Can.js"}
-  import { createContext } from 'react';
-  import { createContextualCan } from '@casl/react';
-
-  export const AbilityContext = createContext();
-  export const Can = createContextualCan(AbilityContext.Consumer);
-  ```
-
-The 2 methods are almost the same, the 2nd one is slightly better because it will allow you to provide different `Ability` instances to different parts of your app and inject ability using [`contextType` static property](https://reactjs.org/docs/context.html#classcontexttype). Choose your way based on the version of React you use.
-
-> In this guide, we will use `createContextualCan` as it covers more cases in modern React development.
-
-To finalize things, we need to provide an instance of `Ability` via `AbilityContext.Provider`:
+Wrap the part of your app that needs authorization checks with `AbilityProvider`:
 
 ```jsx @{data-filename="App.jsx"}
-import { AbilityContext } from './Can'
-import ability from './ability'
+import { AbilityProvider } from '@casl/react';
+import ability from './ability';
 
-export default function App({ props }) {
+export default function App() {
   return (
-    <AbilityContext.Provider value={ability}>
+    <AbilityProvider ability={ability}>
       <TodoApp />
-    </AbilityContext.Provider>
+    </AbilityProvider>
   )
 }
 ```
@@ -120,7 +135,7 @@ and use our `Can` component:
 
 ```jsx
 import React, { Component } from 'react'
-import { Can } from './Can'
+import { Can } from '@casl/react'
 
 export class TodoApp extends Component {
   createTodo = () => {
@@ -139,60 +154,14 @@ export class TodoApp extends Component {
 
 ### Imperative access to Ability instance
 
-Sometimes the logic in a component may be a bit complicated, so you can't use `<Can>` component. In such cases, you can use [React's `contextType` component property](https://reactjs.org/docs/context.html#classcontexttype):
-
-```jsx
-import React, { Component } from 'react'
-import { AbilityContext } from './Can'
-
-export class TodoApp extends Component {
-  createTodo = () => {
-    // logic to show new todo form
-  };
-
-  render() {
-    return (
-      <div>
-        {this.context.can('create', 'Todo') &&
-          <button onClick={this.createTodo}>Create Todo</button>}
-      </div>
-    );
-  }
-}
-
-TodoApp.contextType = AbilityContext;
-```
-
-or `useContext` hook:
-
-```jsx
-import React, { useContext } from 'react';
-import { AbilityContext } from './Can'
-
-export default () => {
-  const createTodo = () => { /* logic to show new todo form */ };
-  const ability = useContext(AbilityContext);
-
-  return (
-    <div>
-      {ability.can('create', 'Todo') &&
-        <button onClick={createTodo}>Create Todo</button>}
-    </div>
-  );
-}
-```
-
-In that case, you need to create a new `Ability` instance when you want to update user permissions (don't use `update` method, it won't trigger re-rendering in this case) or you need to force re-render the whole app.
-
-To make things easier, `@casl/react` provides `useAbility` hook that accepts `React.Context` as the only argument (the same as `useContext`), but triggers re-render in the component where you use this hook when you update `Ability` rules. The example above can be rewritten to:
+Sometimes the logic in a component is more complex than a simple visibility guard. In such cases, use `useAbility`. It reads the current ability from `AbilityProvider` and re-renders the component when ability rules change:
 
 ```jsx
 import { useAbility } from '@casl/react';
-import { AbilityContext } from './Can'
 
 export default () => {
   const createTodo = () => { /* logic to show new todo form */ };
-  const ability = useAbility(AbilityContext);
+  const ability = useAbility();
 
   return (
     <div>
@@ -200,28 +169,6 @@ export default () => {
         <button onClick={createTodo}>Create Todo</button>}
     </div>
   );
-}
-```
-
-### Usage note on React < 16.4 with TypeScript
-
-If you use TypeScript and React < 16.4 make sure to create a file `contextAPIPatch.d.ts` file with the next content:
-
-```ts
-declare module 'react' {
-  export type Consumer<T> = any;
-}
-```
-
-and include it in your `tscofig.json`, otherwise your app won't compile:
-
-```json
-{
-  // other configuration options
-  "include": [
-    "src/**/*",
-    "./contextAPIPatch.d.ts" // <-- add this line
-  ]
 }
 ```
 
@@ -270,10 +217,10 @@ Majority of applications that need permission checking support have something li
 
 Let's imagine that server returns user with a role on login:
 
-```ts @{data-filename="Login.jsx"}
+```ts @{data-filename="Login.tsx"}
 import { AbilityBuilder, Ability } from '@casl/ability';
-import React, { useState, useContext } from 'react';
-import { AbilityContext } from './Can';
+import React, { useState } from 'react';
+import { useAbility } from '@casl/react';
 
 function updateAbility(ability, user) {
   const { can, rules } = new AbilityBuilder(Ability);
@@ -290,7 +237,7 @@ function updateAbility(ability, user) {
 export default () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const ability = useContext(AbilityContext);
+  const ability = useAbility();
   const login = () => {
     const params = {
       method: 'POST',
@@ -314,7 +261,7 @@ export default () => {
 
 ## `useAbility` usage within hooks
 
-Using the return value `ability` of `const ability = useAbility(AbilityContext)` within a hook dependencies won't trigger a rerender when the rules are updated. You have to specify `ability.rules`:
+Using the return value `ability` of `const ability = useAbility()` within hook dependencies won't trigger a rerender when the rules are updated. You have to specify `ability.rules`:
 
 ```jsx
 const posts = React.useMemo(() => getPosts(ability), [ability.rules]);
@@ -335,4 +282,3 @@ If you'd like to help us sustain our community and project, consider [to become 
 
 [contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
 [React]: https://reactjs.org/
-[react-ctx-api]: https://reactjs.org/docs/context.html

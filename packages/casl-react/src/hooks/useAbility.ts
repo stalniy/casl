@@ -1,17 +1,33 @@
-import React from 'react';
-import { AnyAbility } from '@casl/ability';
+import { createElement, useContext, useCallback, useSyncExternalStore, createContext } from 'react';
+import type { AnyAbility } from '@casl/ability';
 
-export function useAbility<T extends AnyAbility>(context: React.Context<T>): T {
-  const ability = React.useContext<T>(context);
+const AbilityContext = createContext<AnyAbility | null>(null);
+const EMPTY_RULES: any[] = [];
+const noop = () => {};
 
-  const subscribe = React.useCallback(
-    (callback: () => void) => ability.on('updated', callback),
+export function AbilityProvider<T extends AnyAbility>({
+  children,
+  value,
+}: {
+  children: React.ReactNode;
+  value: T;
+}) {
+  return createElement(AbilityContext.Provider, { value }, children);
+}
+
+export function useAbility<T extends AnyAbility>(): T {
+  const ability = useContext(AbilityContext);
+  const subscribe = useCallback(
+    (callback: () => void) => ability?.on('updated', callback) || noop,
     [ability],
   );
+  const getSnapshot = useCallback(() => ability?.rules || EMPTY_RULES, [ability]);
 
-  const getSnapshot = React.useCallback(() => ability.rules, [ability]);
+  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
-  React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  if (!ability) {
+    throw new Error('AbilityContext is not provided. Please make sure to wrap your component tree with <AbilityProvider>.');
+  }
 
-  return ability;
+  return ability as T;
 }

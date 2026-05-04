@@ -1,6 +1,5 @@
-import { PureComponent, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import {
-  Unsubscribe,
   AbilityTuple,
   SubjectType,
   AnyAbility,
@@ -8,8 +7,7 @@ import {
   Abilities,
   IfString,
 } from '@casl/ability';
-
-const noop = () => {};
+import { useAbility } from './hooks/useAbility';
 
 type AbilityCanProps<
   T extends Abilities,
@@ -27,68 +25,47 @@ interface ExtraProps {
 }
 
 interface CanExtraProps<T extends AnyAbility> extends ExtraProps {
-  ability: T
-  children: ReactNode | ((isAllowed: boolean, ability: T) => ReactNode)
-}
-
-interface BoundCanExtraProps<T extends AnyAbility> extends ExtraProps {
-  ability?: T
-  children: ReactNode | ((isAllowed: boolean, ability: T) => ReactNode)
+  children: ReactNode | ((exposes: {
+    isAllowed: boolean;
+    ability: T;
+    reason: string | undefined;
+  }) => ReactNode)
 }
 
 export type CanProps<T extends AnyAbility> =
   AbilityCanProps<Generics<T>['abilities']> & CanExtraProps<T>;
-export type BoundCanProps<T extends AnyAbility> =
-  AbilityCanProps<Generics<T>['abilities']> & BoundCanExtraProps<T>;
 
-export class Can<T extends AnyAbility> extends PureComponent<CanProps<T>, { t: boolean }> {
-  private _isAllowed = false;
-  private _ability: T | null = null;
-  private _unsubscribeFromAbility: Unsubscribe = noop;
-  state = { t: true }
+function CanComponent<T extends AnyAbility>(props: CanProps<T>) {
+  const ability = useAbility();
+  const propsWithAliases = props as CanProps<T> & {
+    of?: unknown
+    a?: unknown
+    an?: unknown
+    this?: unknown
+    on?: unknown
+    I?: unknown
+    do?: unknown
+    field?: string
+  };
+  const subject =
+    propsWithAliases.of ||
+    propsWithAliases.a ||
+    propsWithAliases.an ||
+    propsWithAliases.this ||
+    propsWithAliases.on;
+  const action = propsWithAliases.I || propsWithAliases.do;
+  const field = propsWithAliases.field;
+  const rule = React.useMemo(() => {
+    return ability.relevantRuleFor(action, subject, field);
+  }, [ability, ability.rules, action, subject, field]);
+  let isAllowed = !!rule && !rule.inverted;
+  if (props.not) isAllowed = !isAllowed;
 
-  componentWillUnmount() {
-    this._unsubscribeFromAbility();
-  }
+  const elements = typeof props.children === 'function'
+    ? props.children({ isAllowed, ability: ability as T, reason: rule?.reason })
+    : props.children;
 
-  private _connectToAbility(ability?: T) {
-    if (ability === this._ability) {
-      return;
-    }
-
-    this._unsubscribeFromAbility();
-    this._ability = null;
-
-    if (ability) {
-      this._ability = ability;
-      this._unsubscribeFromAbility = ability.on('updated', () => this.setState({ t: !this.state.t }));
-    }
-  }
-
-  get allowed() {
-    return this._isAllowed;
-  }
-
-  private _canRender(): boolean {
-    const props: any = this.props;
-    const subject = props.of || props.a || props.an || props.this || props.on;
-    const can = props.not ? 'cannot' : 'can';
-
-    return props.ability[can](props.I || props.do, subject, props.field);
-  }
-
-  render() {
-    this._connectToAbility(this.props.ability);
-    this._isAllowed = this._canRender();
-    return this.props.passThrough || this._isAllowed ? this._renderChildren() : null;
-  }
-
-  private _renderChildren() {
-    const { children, ability } = this.props;
-    const elements = typeof children === 'function'
-      ? children(this._isAllowed, ability as any)
-      : children;
-
-    return elements as ReactNode;
-  }
+  return props.passThrough || isAllowed ? elements as ReactNode : null;
 }
+
+export const Can = React.memo(CanComponent) as typeof CanComponent;
