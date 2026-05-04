@@ -11,8 +11,8 @@ importers:
   packages/casl-ability:
     dependencies:
       '@ucast/mongo2js':
-        specifier: ^1.3.0
-        version: 1.4.1
+        specifier: ^2.0.0
+        version: 2.0.0
     devDependencies:
       '@casl/dx':
         specifier: workspace:^1.0.0
@@ -24,8 +24,8 @@ importers:
         specifier: ^24.0.0
         version: 24.12.2
       '@ucast/js':
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.1
       chai:
         specifier: ^4.1.0
         version: 4.5.0
@@ -150,11 +150,11 @@ importers:
   packages/casl-prisma:
     dependencies:
       '@ucast/core':
-        specifier: ^1.10.0
-        version: 1.10.2
+        specifier: ^2.0.0
+        version: 2.0.0
       '@ucast/js':
-        specifier: ^3.0.1
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.1
     devDependencies:
       '@casl/ability':
         specifier: workspace:*
@@ -2847,14 +2847,26 @@ packages:
   '@ucast/core@1.10.2':
     resolution: {integrity: sha512-ons5CwXZ/51wrUPfoduC+cO7AS1/wRb0ybpQJ9RrssossDxVy4t49QxWoWgfBDvVKsz9VXzBk9z0wqTdZ+Cq8g==}
 
+  '@ucast/core@2.0.0':
+    resolution: {integrity: sha512-4XVx6LzPXZGvnZO5jp39cm/G4UvuwvEdtmg+9+4+zl6uFkCcB7UJacvtMYeBE56GJVT99Zqy6Pii7dGJq3Kz9Q==}
+
   '@ucast/js@3.1.0':
     resolution: {integrity: sha512-eJ7yQeYtMK85UZjxoxBEbTWx6UMxEXKbjVyp+NlzrT5oMKV5Gpo/9bjTl3r7msaXTVC8iD9NJacqJ8yp7joX+Q==}
+
+  '@ucast/js@4.0.1':
+    resolution: {integrity: sha512-9O5xPBvwEWQk2WvO69Eh2WJB8QljVZ2vRVdFvfnKjlZwWXcYxp1lqLBhwXBU1AtuSgCvKhJPkXdjKJggUmAmQQ==}
 
   '@ucast/mongo2js@1.4.1':
     resolution: {integrity: sha512-9aeg5cmqwRQnKCXHN6I17wk83Rcm487bHelaG8T4vfpWneAI469wSI3Srnbu+PuZ5znWRbnwtVq9RgPL+bN6CA==}
 
+  '@ucast/mongo2js@2.0.0':
+    resolution: {integrity: sha512-vNBZzRnsfLr/TSxEoxz6W6hHQ5tmWsfEeC0nCq5z8RezC1AqIRy3cfHm8AGvlGtcn+cTSFQcZremfqnz6wm+nQ==}
+
   '@ucast/mongo@2.4.3':
     resolution: {integrity: sha512-XcI8LclrHWP83H+7H2anGCEeDq0n+12FU2mXCTz6/Tva9/9ddK/iacvvhCyW6cijAAOILmt0tWplRyRhVyZLsA==}
+
+  '@ucast/mongo@3.0.0':
+    resolution: {integrity: sha512-kwuSH+kdB4GCR0LGhy/PEDm4PCflur89AlK82kNiYD0FvsA8A/p+0sx7m+/R8mMFAlmlkAd3VXp7sM/cLLYWYg==}
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
@@ -9426,9 +9438,15 @@ snapshots:
 
   '@ucast/core@1.10.2': {}
 
+  '@ucast/core@2.0.0': {}
+
   '@ucast/js@3.1.0':
     dependencies:
       '@ucast/core': 1.10.2
+
+  '@ucast/js@4.0.1':
+    dependencies:
+      '@ucast/core': 2.0.0
 
   '@ucast/mongo2js@1.4.1':
     dependencies:
@@ -9436,9 +9454,19 @@ snapshots:
       '@ucast/js': 3.1.0
       '@ucast/mongo': 2.4.3
 
+  '@ucast/mongo2js@2.0.0':
+    dependencies:
+      '@ucast/core': 2.0.0
+      '@ucast/js': 4.0.1
+      '@ucast/mongo': 3.0.0
+
   '@ucast/mongo@2.4.3':
     dependencies:
       '@ucast/core': 1.10.2
+
+  '@ucast/mongo@3.0.0':
+    dependencies:
+      '@ucast/core': 2.0.0
 
   '@ungap/structured-clone@1.3.0': {}
 

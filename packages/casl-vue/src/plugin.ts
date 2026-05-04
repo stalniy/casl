@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import { AnyAbility, Ability } from '@casl/ability';
+import { AnyAbility, Ability, MongoAbility } from '@casl/ability';
 import { ABILITY_TOKEN } from './useAbility';
 import { reactiveAbility } from './reactiveAbility';
 
@@ -15,7 +15,7 @@ export function abilitiesPlugin(app: App, ability: AnyAbility, options?: Ability
   app.provide(ABILITY_TOKEN, reactiveAbility(ability));
 
   if (options && options.useGlobalProperties) {
-    app.config.globalProperties.$ability = ability;
+    app.config.globalProperties.$ability = ability as MongoAbility;
     app.config.globalProperties.$can = ability.can.bind(ability);
   }
 }
