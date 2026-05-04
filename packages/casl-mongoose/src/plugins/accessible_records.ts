@@ -1,4 +1,4 @@
-import { AnyMongoAbility, Generics, Normalize } from '@casl/ability';
+import type { AnyMongoAbility, Generics, Normalize } from '@casl/ability';
 import type { Document as Doc, HydratedDocument, Model, Query, QueryWithHelpers, Schema } from 'mongoose';
 import { accessibleBy } from '../accessibleBy';
 

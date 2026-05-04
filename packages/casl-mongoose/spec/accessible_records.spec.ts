@@ -1,4 +1,4 @@
-import { Ability, defineAbility, SubjectType } from '@casl/ability'
+import { MongoAbility, defineAbility, SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleBy, AccessibleRecordModel, accessibleRecordsPlugin } from '../src'
 
@@ -11,7 +11,7 @@ describe('Accessible Records Plugin', () => {
     title: String,
     state: String
   })
-  let ability: Ability
+  let ability: MongoAbility
   // eslint-disable-next-line @typescript-eslint/no-redeclare
   let Post: AccessibleRecordModel<Post>
 
@@ -37,7 +37,7 @@ describe('Accessible Records Plugin', () => {
 
   describe('`accessibleBy` method', () => {
     beforeEach(() => {
-      ability = defineAbility<Ability>((can) => {
+      ability = defineAbility<MongoAbility>((can) => {
         can('read', 'Post', { state: 'draft' })
         can('update', 'Post', { state: 'published' })
       })
@@ -90,7 +90,7 @@ describe('Accessible Records Plugin', () => {
     })
 
     it('returns query for Ability that uses classes as subject type', () => {
-      ability = defineAbility<Ability>((can) => {
+      ability = defineAbility<MongoAbility>((can) => {
         can('read', Post, { state: 'draft' })
         can('update', Post, { state: 'published' })
       }, {

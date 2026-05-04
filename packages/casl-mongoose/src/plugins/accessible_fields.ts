@@ -1,5 +1,5 @@
-import { AnyMongoAbility, Generics, Normalize, wrapArray } from '@casl/ability';
-import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from '@casl/ability/extra';
+import { type AnyMongoAbility, type Generics, type Normalize, wrapArray } from '@casl/ability';
+import { AccessibleFields, type GetSubjectTypeAllFieldsExtractor } from '@casl/ability/extra';
 import type { Document as Doc, Model, Schema } from 'mongoose';
 
 export type AccessibleFieldsOptions =

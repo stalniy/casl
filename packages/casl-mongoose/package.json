@@ -3,8 +3,6 @@
   "version": "8.0.5",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "./dist/cjs/index.cjs",
-  "module": "./dist/esm/index.mjs",
-  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -39,11 +37,11 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@casl/ability": "^6.7.0",
+    "@casl/ability": "^7.0.0",
     "mongoose": "^6.0.13 || ^7.0.0 || ^8.0.0 || ^9.0.0"
   },
   "devDependencies": {
-    "@casl/ability": "^6.0.0",
+    "@casl/ability": "workspace:*",
     "@casl/dx": "workspace:^1.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",

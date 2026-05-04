@@ -1,10 +1,16 @@
-import { AnyMongoAbility, Generics, SubjectType, Abilities, AbilityTuple, ExtractSubjectType } from '@casl/ability';
-import { rulesToQuery } from '@casl/ability/extra';
+import type { AnyMongoAbility, Generics, SubjectType, Abilities, AbilityTuple, ExtractSubjectType } from '@casl/ability';
+import { rulesToCondition } from '@casl/ability/extra';
 
 function convertToMongoQuery(rule: AnyMongoAbility['rules'][number]) {
   const conditions = rule.conditions!;
   return rule.inverted ? { $nor: [conditions] } : conditions;
 }
+
+const MONGO_QUERY_AGGREGATION = {
+  and: (conditions: unknown[]) => ({ $and: conditions }),
+  or: (conditions: unknown[]) => ({ $or: conditions }),
+  empty: () => ({})
+};
 
 export const EMPTY_RESULT_QUERY = { $expr: { $eq: [0, 1] } };
 export class AccessibleRecords<T extends SubjectType> {
@@ -17,7 +23,8 @@ export class AccessibleRecords<T extends SubjectType> {
    * In case action is not allowed, it returns `{ $expr: { $eq: [0, 1] } }`
    */
   ofType(subjectType: T): Record<string, unknown> {
-    const query = rulesToQuery(this._ability, this._action, subjectType, convertToMongoQuery);
+    const rules = this._ability.rulesFor(this._action, subjectType);
+    const query = rulesToCondition(rules, convertToMongoQuery, MONGO_QUERY_AGGREGATION);
     return query === null ? EMPTY_RESULT_QUERY : query as Record<string, unknown>;
   }
 }

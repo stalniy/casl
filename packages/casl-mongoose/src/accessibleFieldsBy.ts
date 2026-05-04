@@ -1,5 +1,5 @@
-import { AnyMongoAbility, Generics } from "@casl/ability";
-import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from "@casl/ability/extra";
+import type { AnyMongoAbility, Generics } from "@casl/ability";
+import { AccessibleFields, type GetSubjectTypeAllFieldsExtractor } from "@casl/ability/extra";
 import mongoose from 'mongoose';
 
 const getSubjectTypeAllFieldsExtractor: GetSubjectTypeAllFieldsExtractor = (type) => {
