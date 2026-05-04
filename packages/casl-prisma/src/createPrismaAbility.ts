@@ -1,17 +1,17 @@
 import {
-  AbilityOptions,
-  AbilityOptionsOf,
-  AbilityTuple,
+  type AbilityOptions,
+  type AbilityOptionsOf,
+  type AbilityTuple,
   fieldPatternMatcher,
-  PureAbility,
-  RawRuleFrom,
-  RawRuleOf
+  Ability,
+  type RawRuleFrom,
+  type RawRuleOf
 } from '@casl/ability';
 import { prismaQuery } from './prisma/prismaQuery';
-import { BasePrismaQuery } from './types';
+import type { BasePrismaQuery } from './types';
 
 export function createPrismaAbility<
-  T extends PureAbility<any, BasePrismaQuery>
+  T extends Ability<any, BasePrismaQuery>
 >(rules?: RawRuleOf<T>[], options?: AbilityOptionsOf<T>): T;
 export function createPrismaAbility<
   A extends AbilityTuple = [string, string],
@@ -19,9 +19,9 @@ export function createPrismaAbility<
 >(
   rules?: RawRuleFrom<A, C>[],
   options?: AbilityOptions<A, C>
-): PureAbility<A, C>;
-export function createPrismaAbility(rules: any[] = [], options = {}): PureAbility<any, any> {
-  return new PureAbility(rules, {
+): Ability<A, C>;
+export function createPrismaAbility(rules: any[] = [], options = {}): Ability<any, any> {
+  return new Ability(rules, {
     ...options,
     conditionsMatcher: prismaQuery,
     fieldMatcher: fieldPatternMatcher,

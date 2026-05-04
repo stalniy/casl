@@ -27,10 +27,10 @@ This package is a bit different from all others because it provides a custom `cr
 
 ```ts
 import { User, Post, Prisma } from '@prisma/client';
-import { PureAbility, AbilityBuilder, subject } from '@casl/ability';
+import { Ability, AbilityBuilder, subject } from '@casl/ability';
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
 
-type AppAbility = PureAbility<[string, Subjects<{
+type AppAbility = Ability<[string, Subjects<{
   User: User,
   Post: Post
 }>], PrismaQuery>;
@@ -186,7 +186,7 @@ type AppSubjects = 'all' | Subjects<{
   User: User
 }>; // 'User' | Model<User, 'User'>
 
-type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
+type AppAbility = Ability<[string, AppSubjects], PrismaQuery>;
 ```
 
 ## Custom PrismaClient output path (Prisma 7 default)
@@ -236,7 +236,7 @@ export type AppSubjects = Subjects<{
   Post: Post,
 }>;
 
-export type AppAbility = PureAbility<['create' | "read" | "update" | "delete", 'all' | AppSubjects], PrismaQuery>
+export type AppAbility = Ability<['create' | "read" | "update" | "delete", 'all' | AppSubjects], PrismaQuery>
 ```
 
 Use this wrapper in your app instead of importing from `@casl/prisma` directly. If you stay on the legacy `prisma-client-js` generator for Prisma 6.x compatibility, the default `@casl/prisma` entrypoint keeps working.

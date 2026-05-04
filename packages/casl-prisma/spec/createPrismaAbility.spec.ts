@@ -1,4 +1,4 @@
-import { AbilityBuilder, PureAbility, subject } from '@casl/ability'
+import { AbilityBuilder, Ability, subject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
 import { createPrismaAbility, Model as M, PrismaQuery, Subjects } from '../src'
 import { AppAbility } from './AppAbility'
@@ -52,7 +52,7 @@ describe(createPrismaAbility.name, () => {
           action: 'read',
           subject: 'all'
         }
-      ])).toBeInstanceOf(PureAbility)
+      ])).toBeInstanceOf(Ability)
     })
 
     it('provides type validation in `AbilityBuilder`', () => {
@@ -94,7 +94,7 @@ describe(createPrismaAbility.name, () => {
       type Abilities =
         | ['read', Subjects<{ User: User }>]
         | ['read' | 'update', Subjects<{ Post: Post }>]
-      type ThisAbility = PureAbility<Abilities, PrismaQuery>
+      type ThisAbility = Ability<Abilities, PrismaQuery>
       const ability = createPrismaAbility<ThisAbility>()
 
       ability.can('update', 'Post')

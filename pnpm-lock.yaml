@@ -157,8 +157,8 @@ importers:
         version: 3.1.0
     devDependencies:
       '@casl/ability':
-        specifier: ^6.0.0
-        version: 6.8.1
+        specifier: workspace:*
+        version: link:../casl-ability
       '@casl/dx':
         specifier: workspace:^1.0.0
         version: link:../dx

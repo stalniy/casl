@@ -25,28 +25,38 @@ describe('accessibleBy', () => {
     expect(query).toEqual({ OR: [] })
   })
 
-  it('wraps inverted rules in `NOT` operator', () => {
+  it('bounds allowed branches with inverted rules wrapped in `NOT`', () => {
     const query = accessibleBy(ability).ofType('Post')
 
-    expect(query.AND).toEqual([{
-      NOT: {
-        title: { startsWith: '[WIP]:' }
-      }
-    }])
-  })
-
-  it('wraps regular rules in OR and inverted ones in AND', () => {
-    const query = accessibleBy(ability).ofType('Post')
-
-    expect(query).toEqual({
+    expect(query.OR).toEqual([{
       AND: [{
+        id: 1
+      }, {
         NOT: {
           title: { startsWith: '[WIP]:' }
         }
-      }],
-      OR: [{
-        id: 1
       }]
+    }])
+  })
+
+  it('wraps all accessible branches in `OR`', () => {
+    const query = accessibleBy(ability).ofType('Post')
+
+    expect(query).toEqual({
+      OR: [
+        {
+          AND: [
+            {
+              id: 1
+            },
+            {
+              NOT: {
+                title: { startsWith: '[WIP]:' }
+              }
+            }
+          ]
+        }
+      ]
     })
   })
 })
