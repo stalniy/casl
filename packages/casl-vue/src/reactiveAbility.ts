@@ -1,10 +1,11 @@
 import { AnyAbility, SubjectType } from '@casl/ability';
 import { ref } from 'vue';
 
+const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ||
+  ((obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop));
+
 export function reactiveAbility(ability: AnyAbility) {
-  if (Object.hasOwn(ability, 'possibleRulesFor')) {
-    return ability;
-  }
+  if (hasOwn(ability, 'possibleRulesFor')) return ability;
 
   const watcher = ref(true);
   ability.on('updated', () => {

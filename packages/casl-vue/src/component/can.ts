@@ -10,40 +10,10 @@ import {
 import { ComponentCustomProperties, defineComponent } from 'vue';
 import { useAbility } from '../useAbility';
 
-type AbilityCanProps<
-  T extends Abilities,
-  Else = IfString<T, { do: T } | { I: T }>
-> = T extends AbilityTuple
-  ? { do: T[0], on: T[1], field?: string } |
-  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
-  : Else;
-
 export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
   not?: boolean,
   passThrough?: boolean
 };
-
-type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }
-  ? ComponentCustomProperties['$ability']
-  : MongoAbility;
-
-function detectSubjectProp(props: Record<string, unknown>) {
-  if (props.a !== undefined) {
-    return 'a';
-  }
-
-  if (props.this !== undefined) {
-    return 'this';
-  }
-
-  if (props.an !== undefined) {
-    return 'an';
-  }
-
-  return '';
-}
 
 export const Can = defineComponent<CanProps<VueAbility>>({
   name: 'Can',
@@ -79,17 +49,49 @@ export const Can = defineComponent<CanProps<VueAbility>>({
     const ability = useAbility<VueAbility>();
 
     return () => {
-      const isAllowed = ability.can($props[actionProp], $props[subjectProp], $props.field);
-      const canRender = props.not ? !isAllowed : isAllowed;
+      const rule = ability.relevantRuleFor($props[actionProp], $props[subjectProp], $props.field);
+      let isAllowed = !!rule && !rule.inverted;
+      if (props.not) isAllowed = !isAllowed;
 
-      if (!props.passThrough) {
-        return canRender ? slots.default!() : null;
+      if (!props.passThrough && !isAllowed) {
+        return null;
       }
 
       return slots.default!({
-        allowed: canRender,
+        allowed: isAllowed,
+        reason: rule?.reason,
         ability,
       });
     };
   }
 });
+
+type AbilityCanProps<
+  T extends Abilities,
+  Else = IfString<T, { do: T } | { I: T }>
+> = T extends AbilityTuple
+  ? { do: T[0], on: T[1], field?: string } |
+  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
+  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
+  : Else;
+
+type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }
+  ? ComponentCustomProperties['$ability']
+  : MongoAbility;
+
+function detectSubjectProp(props: Record<string, unknown>) {
+  if (props.a !== undefined) {
+    return 'a';
+  }
+
+  if (props.this !== undefined) {
+    return 'this';
+  }
+
+  if (props.an !== undefined) {
+    return 'an';
+  }
+
+  return '';
+}

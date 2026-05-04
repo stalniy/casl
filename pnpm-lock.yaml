@@ -211,8 +211,8 @@ importers:
   packages/casl-vue:
     devDependencies:
       '@casl/ability':
-        specifier: ^6.0.0
-        version: 6.7.5
+        specifier: workspace:*
+        version: link:../casl-ability
       '@casl/dx':
         specifier: workspace:^1.0.0
         version: link:../dx

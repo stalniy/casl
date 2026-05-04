@@ -6,6 +6,8 @@
   ],
   "compilerOptions": {
     "outDir": "dist/types",
-    "types": ["vue", "jest"]
+    "types": ["vue", "jest"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
   }
 }

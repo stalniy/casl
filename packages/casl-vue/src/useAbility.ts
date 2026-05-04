@@ -8,7 +8,10 @@ export function useAbility<T extends AnyAbility = MongoAbility>(): T {
   const ability = inject<T>(ABILITY_TOKEN);
 
   if (!ability) {
-    throw new Error('Cannot inject Ability instance because it was not provided');
+    throw new Error(
+      'Cannot inject Ability instance because it was not provided. ' +
+      'Did you forget to install abilitiesPlugin or call provideAbility in a parent component?'
+    );
   }
 
   return ability;

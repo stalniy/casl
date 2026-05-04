@@ -16,10 +16,10 @@ describe('Abilities plugin', () => {
     setup()
     // @ts-expect-error - we want to test the error case
     expect(() => createApp(App).use(abilitiesPlugin, undefined))
-      .toThrow(/Please provide an Ability instance/)
+      .toThrow(/Please, provide an Ability instance/)
     // @ts-expect-error - we want to test the error case
     expect(() => createApp(App).use(abilitiesPlugin, { something: 'something' }))
-      .toThrow(/Please provide an Ability instance/)
+      .toThrow(/Please, provide an Ability instance/)
   })
 
   describe('by default', () => {

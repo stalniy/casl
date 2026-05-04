@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import { AnyAbility, PureAbility } from '@casl/ability';
+import { AnyAbility, Ability } from '@casl/ability';
 import { ABILITY_TOKEN } from './useAbility';
 import { reactiveAbility } from './reactiveAbility';
 
@@ -8,8 +8,8 @@ export interface AbilityPluginOptions {
 }
 
 export function abilitiesPlugin(app: App, ability: AnyAbility, options?: AbilityPluginOptions) {
-  if (!ability || !(ability instanceof PureAbility)) {
-    throw new Error('Please provide an Ability instance to abilitiesPlugin plugin');
+  if (!ability || !(ability instanceof Ability)) {
+    throw new Error('Please, provide an Ability instance to abilitiesPlugin plugin');
   }
 
   app.provide(ABILITY_TOKEN, reactiveAbility(ability));

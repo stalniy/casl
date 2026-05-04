@@ -200,8 +200,8 @@ It accepts default slot and 5 properties:
   ```html
   <template>
     <div>
-      <Can I="delete" a="Post" passThrough v-slot="{ allowed }">
-        <button :disabled="!allowed">Delete post</button>
+      <Can I="delete" a="Post" passThrough v-slot="{ allowed, ability, reason }">
+        <button :disabled="!allowed" :title="reason">Delete post</button>
       </Can>
     </div>
   </template>
