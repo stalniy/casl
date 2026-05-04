@@ -26,7 +26,6 @@ type GetAccessibleRecords<T, TQueryHelpers, TMethods, TVirtuals> = <U extends An
 ) => QueryWithHelpers<T[], T, AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>>;
 
 export type AccessibleRecordQueryHelpers<T, TQueryHelpers = {}, TMethods = {}, TVirtuals = {}> = {
-  /** @deprecated use accessibleBy helper instead */
   accessibleBy: GetAccessibleRecords<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,
@@ -43,7 +42,6 @@ export interface AccessibleRecordModel<
   TQueryHelpers & AccessibleRecordQueryHelpers<T, TQueryHelpers, TMethods, TVirtuals>,
   TMethods,
   TVirtuals> {
-  /** @deprecated use accessibleBy helper instead */
   accessibleBy: GetAccessibleRecords<
   HydratedDocument<T, TMethods, TVirtuals>,
   TQueryHelpers,

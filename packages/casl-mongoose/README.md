@@ -88,7 +88,7 @@ async function main() {
 }
 ```
 
-Historically, `@casl/mongoose` was intended for super easy integration with [mongoose] but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS. This plugins are still shipped but deprecated and we encourage you either write own plugins on app level or use `accessibleBy` and `accessibleFieldsBy` helpers
+Historically, `@casl/mongoose` was intended for super easy integration with [mongoose] but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS.
 
 ### Accessible Records plugin
 
@@ -234,28 +234,33 @@ async function main() {
 }
 ```
 
-### Accessible Fields plugin
+### accessibleFieldsBy
 
-`accessibleFieldsPlugin` is a plugin that adds `accessibleFieldsBy` method to instance and static methods of a model and allows to retrieve all accessible fields. This is useful when we need to send only accessible part of a model in response:
+`accessibleFieldsBy` allows retrieving accessible fields for a subject type or a concrete subject instance:
+
+```ts
+import { accessibleFieldsBy } from '@casl/mongoose';
+import { Post } from './models';
+
+accessibleFieldsBy(ability).ofType('Post') // returns accessible fields for Post model
+accessibleFieldsBy(ability).ofType(Post) // also possible to pass class if classes are used for rule definition
+accessibleFieldsBy(ability).of(new Post()) // returns accessible fields for Post model
+```
+
+This helper can be used directly when we need to send only accessible part of a model in response:
 
 ```js
-const { accessibleFieldsPlugin } = require('@casl/mongoose');
-const mongoose = require('mongoose');
 const pick = require('lodash/pick');
-const ability = require('./ability');
-const app = require('./app'); // express app
-
-mongoose.plugin(accessibleFieldsPlugin);
-
+const { accessibleFieldsBy } = require('@casl/mongoose');
 const Post = require('./Post');
 
 app.get('/api/posts/:id', async (req, res) => {
   const post = await Post.accessibleBy(ability).findByPk(req.params.id);
-  res.send(pick(post, post.accessibleFieldsBy(ability))
+  res.send(pick(post, accessibleFieldsBy(ability).of(post)));
 });
 ```
 
-Method with the same name exists on Model's class. But **it's important** to understand the difference between them. Static method does not take into account conditions! It follows the same [checking logic](https://casl.js.org/v5/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
+When called with a model type, `accessibleFieldsBy` does not take instance conditions into account. It follows the same [checking logic](https://casl.js.org/v5/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
 
 ```js
 const { defineAbility } = require('@casl/ability');
@@ -267,26 +272,13 @@ const ability = defineAbility((can) => {
 });
 const post = new Post({ private: true, title: 'Private post' });
 
-Post.accessibleFieldsBy(ability); // ['title', 'description']
-post.accessibleFieldsBy(ability); // ['title']
+accessibleFieldsBy(ability).ofType(Post); // ['title', 'description']
+accessibleFieldsBy(ability).of(post); // ['title']
 ```
 
-As you can see, a static method returns all fields that can be read for all posts. At the same time, an instance method returns fields that can be read from this particular `post` instance. That's why there is no much sense (except you want to reduce traffic between app and database) to pass the result of static method into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
+As you can see, model-level access returns all fields that can be read for all posts. At the same time, instance-level access returns fields that can be read from this particular `post` instance. That's why there is usually no much sense, except reducing traffic between app and database, to pass the result of model-level access into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
 
-### accessibleFieldsBy
-
-`accessibleFieldsBy` is companion helper that allows to get only accessible fields for specific subject type of subject:
-
-```ts
-import { accessibleFieldsBy } from '@casl/mongoose';
-import { Post } from './models';
-
-accessibleFieldsBy(ability).ofType('Post') // returns accessible fields for Post model
-accessibleFieldsBy(ability).ofType(Post) // also possible to pass class if classes are used for rule definition
-accessibleFieldsBy(ability).of(new Post()) // returns accessible fields for Post model
-```
-
-This helper is pre-configured to get all fields from `Model.schema.paths`, if this is not desired or you need to restrict public fields your app work with, you need to define your own custom helper:
+This helper is pre-configured to get all fields from `Model.schema.paths`. If this is not desired, define your own custom helper:
 
 ```ts
 import { AnyMongoAbility, Generics } from "@casl/ability";
@@ -307,7 +299,7 @@ export function accessibleFieldsBy<T extends AnyMongoAbility>(
 
 ## TypeScript support in mongoose
 
-The package is written in TypeScript, this makes it easier to work with plugins and `toMongoQuery` helper because IDE provides useful hints. Let's see it in action!
+The package is written in TypeScript, this makes it easier to work with plugins and helpers because IDE provides useful hints. Let's see it in action!
 
 Suppose we have `Post` entity which can be described as:
 
@@ -345,59 +337,18 @@ Post.accessibleBy(/* parameters */)
 Post.where(/* parameters */).accessibleBy(/* parameters */);
 ```
 
-In the similar manner, we can include `accessibleFieldsPlugin`, using `AccessibleFieldsModel` and `AccessibleFieldsDocument` types:
+`accessibleFieldsBy` does not require mongoose-specific types. You can use it directly with models or documents:
 
 ```ts
-import {
-  accessibleFieldsPlugin,
-  AccessibleFieldsModel,
-  AccessibleFieldsDocument
-} from '@casl/mongoose';
-import * as mongoose from 'mongoose';
+import { accessibleFieldsBy } from '@casl/mongoose';
 
-export interface Post extends AccessibleFieldsDocument {
-  // the same Post definition from previous example
-}
+accessibleFieldsBy(ability).ofType(Post);
 
-const PostSchema = new mongoose.Schema<Post>({
-  // the same Post schema definition from previous example
-})
-
-PostSchema.plugin(accessibleFieldsPlugin);
-
-export const Post = mongoose.model<Post, AccessibleFieldsModel<Post>>('Post', PostSchema);
-
-// Now we can safely use `Post.accessibleFieldsBy` method and `post.accessibleFieldsBy`
-Post.accessibleFieldsBy(/* parameters */);
 const post = new Post();
-post.accessibleFieldsBy(/* parameters */);
+accessibleFieldsBy(ability).of(post);
 ```
 
-And if we want to include both plugins, we can use `AccessibleModel` type that provides methods from both plugins:
-
-```ts
-import {
-  accessibleFieldsPlugin,
-  accessibleRecordsPlugin,
-  AccessibleModel,
-  AccessibleFieldsDocument
-} from '@casl/mongoose';
-import * as mongoose from 'mongoose';
-
-export interface Post extends AccessibleFieldsDocument {
-  // the same Post definition from previous example
-}
-
-const PostSchema = new mongoose.Schema<Post>({
-  // the same Post schema definition from previous example
-});
-PostSchema.plugin(accessibleFieldsPlugin);
-PostSchema.plugin(accessibleRecordsPlugin);
-
-export const Post = mongoose.model<Post, AccessibleModel<Post>>('Post', PostSchema);
-```
-
-This allows us to use the both `accessibleBy` and `accessibleFieldsBy` methods safely.
+If you want model or document instance methods similar to the removed plugin, create a small app-level wrapper around `accessibleFieldsBy` that fits your own typings and field exposure rules.
 
 ## Want to help?
 
