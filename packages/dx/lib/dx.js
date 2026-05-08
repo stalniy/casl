@@ -25,7 +25,6 @@ const COMMANDS = {
   },
   eslint() {
     const args = [];
-    args.push('--parser-options', '{"project": "./tsconfig.json"}');
     args.push('-c', configPath('eslint.config.mjs'));
 
     return {

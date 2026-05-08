@@ -1,9 +1,13 @@
+import { join } from 'node:path'
 import tseslint from 'typescript-eslint';   
 import importPlugin from "eslint-plugin-import";
 import globals from "globals";
 import js from "@eslint/js"
 import stylisticJs from '@stylistic/eslint-plugin-js'
 import stylisticTs from '@stylistic/eslint-plugin-ts'
+
+const tsconfigRootDir = process.cwd()
+const project = join(tsconfigRootDir, 'tsconfig.json')
 
 export default tseslint.config(
     {
@@ -33,8 +37,8 @@ export default tseslint.config(
             ecmaVersion: 5,
             sourceType: "script",
             parserOptions: {
-                tsconfigRootDir: process.cwd(),
-                project: "./tsconfig.json",
+                tsconfigRootDir,
+                project,
             },
         },
         settings: {
