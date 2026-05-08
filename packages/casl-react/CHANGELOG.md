@@ -27,6 +27,39 @@ All notable changes to this project will be documented in this file.
 
 * exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
 
+## [7.0.0-rc.1](https://github.com/stalniy/casl/compare/@casl/react@7.0.0-rc...@casl/react@7.0.0-rc.1) (2026-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* replaces `createContextualCan` with `<AbilityProvider>`, as a result `useAbility` no longer acccept context parameter. `<Can>` component no longer accepts `ability` prop and instead relies on `useAbility`
+* drops support for react 17.x because of `useSyncExternalStore` hook
+* **deps:** now supports react ^17 and casl/ability ^4
+* removes deprecated things
+
+### chore
+
+* **deps:** update react and removes old react and casl/ability support (major) ([#998](https://github.com/stalniy/casl/issues/998)) ([44d3f40](https://github.com/stalniy/casl/commit/44d3f40cb034fbd5abfd7f7014bb28baf75ef06a))
+
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+* replaces StatelessComponent&lt;T&gt; type with FunctionComponent&lt;T&gt; ([69336ea](https://github.com/stalniy/casl/commit/69336ea7a06b9a33d29b8df6dd4b2de2f7dc087d))
+* replaces useState+useEffect with useSyncExternalStore in useAbility ([#1183](https://github.com/stalniy/casl/issues/1183)) ([01bae14](https://github.com/stalniy/casl/commit/01bae14fb0db9bee5ec47b3fad202f104308319a))
+
+
+### Code Refactoring
+
+* changes the public api of react ([#1213](https://github.com/stalniy/casl/issues/1213)) ([c81fbd7](https://github.com/stalniy/casl/commit/c81fbd7c723dd5047abaec0c140cb4169d0e5e30))
+* removes contextApiPatch.d.ts file from @casl/react to get rid of possible confusion in tools that can greedily include this file into compilation targets ([#931](https://github.com/stalniy/casl/issues/931)) ([fdff316](https://github.com/stalniy/casl/commit/fdff3161326eabf32f99d5e23c8339277f1c23f4))
+
 ## [7.0.0-rc](https://github.com/stalniy/casl/compare/@casl/react@6.0.0...@casl/react@7.0.0-rc) (2026-05-08)
 
 

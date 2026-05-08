@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0-rc.1](https://github.com/stalniy/casl/compare/@casl/vue@3.0.0-rc...@casl/vue@3.0.0-rc.1) (2026-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* converts module to ESM
+
+### Features
+
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+* exposes rule.reason in &lt;Can&gt; computed slot and updates supported version of @casl/ability ([#1214](https://github.com/stalniy/casl/issues/1214)) ([cabbdd8](https://github.com/stalniy/casl/commit/cabbdd8ef76c71888fd24f5c2aa3a49f4225790c))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+* **deps:** upgrades @ucast/* to latest version ([#1218](https://github.com/stalniy/casl/issues/1218)) ([22b00ff](https://github.com/stalniy/casl/commit/22b00ffa32b2a8106ceffd14dce087e6825c17b5))
+* fixes type for ABILITY_TOKEN in casl-vue ([#879](https://github.com/stalniy/casl/issues/879)) ([886aeb3](https://github.com/stalniy/casl/commit/886aeb3d699466d83185c950abba936e1e7d1d24))
+* force release @casl/vue ([#1114](https://github.com/stalniy/casl/issues/1114)) ([2acb2de](https://github.com/stalniy/casl/commit/2acb2de28813eac30c9c5801d6481e81dc445d2c))
+* force release @casl/vue ([#1118](https://github.com/stalniy/casl/issues/1118)) ([a8ddcbf](https://github.com/stalniy/casl/commit/a8ddcbf5727a6ef3ef8b45e703a8b89f9e60c544))
+* force release of @casl/vue ([#1117](https://github.com/stalniy/casl/issues/1117)) ([4c19fac](https://github.com/stalniy/casl/commit/4c19fac4d12d50fbf96d608bcc8ac61c95ce8cb4))
+* force vue release ([#1120](https://github.com/stalniy/casl/issues/1120)) ([60e89ba](https://github.com/stalniy/casl/commit/60e89bab1f50e6296b0654eb1ad018fd56f2b10c))
+* handles vue props aliases using "undefined" instead of "in" ([#712](https://github.com/stalniy/casl/issues/712)) ([3d85baa](https://github.com/stalniy/casl/commit/3d85baa5d594734cafe79929634f344a123bf905))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+* **vue:** makes sure Abilities `can` and `cannot` methods are bound ([86f9157](https://github.com/stalniy/casl/commit/86f91570d3e1709449cfded37c153fb21e56c474)), closes [#530](https://github.com/stalniy/casl/issues/530)
+
+
+### Code Refactoring
+
+* gets rid of deprecated Ability type and replaces it with MongoAbility ([bef46d1](https://github.com/stalniy/casl/commit/bef46d1a7d9b87ee99c342ae12559f2294c7f762))
+* gets rid of deprecated Ability type and replaces it with MongoAbility in vue package ([#951](https://github.com/stalniy/casl/issues/951)) ([bef46d1](https://github.com/stalniy/casl/commit/bef46d1a7d9b87ee99c342ae12559f2294c7f762))
+
 ## [3.0.0-rc](https://github.com/stalniy/casl/compare/@casl/vue@2.2.6...@casl/vue@3.0.0-rc) (2026-05-08)
 
 

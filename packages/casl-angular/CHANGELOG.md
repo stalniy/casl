@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.0.0-rc.1](https://github.com/stalniy/casl/compare/@casl/angular@10.0.0-rc...@casl/angular@10.0.0-rc.1) (2026-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* converts to esm module
+* * `able` pipe was updated to use `AbilityServiceSignal` and relies on angular's signals
+* **deps:** drop support for angular@13, moving to Ivy only!
+* drops support for angular < 13
+
+### chore
+
+* **deps:** update angular monorepo to v14 (major)  ([#663](https://github.com/stalniy/casl/issues/663)) ([e556f14](https://github.com/stalniy/casl/commit/e556f144229a0e6fea1eaba7556a9e3db910aabb))
+
+
+### Features
+
+* adds AbilityServiceSignal and converted pipes to standalone pipes ([#1004](https://github.com/stalniy/casl/issues/1004)) ([46122e6](https://github.com/stalniy/casl/commit/46122e6b1abb0141cd4ea83ffd609c400adf0c04))
+* Angular 13 support ([#632](https://github.com/stalniy/casl/issues/632)) ([6b86fd9](https://github.com/stalniy/casl/commit/6b86fd9e7a3bdd6bd40fea032372a826cd72c0fe))
+* **angular:** implements services that provides Ability as an Observable ([5a139b2](https://github.com/stalniy/casl/commit/5a139b2f1bb694308c7afb46ad7be6e7cb719f19))
+* exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
+* update angular to v15 ([#704](https://github.com/stalniy/casl/issues/704)) ([4f4b713](https://github.com/stalniy/casl/commit/4f4b7135942aba0b8908a0aeadc9d101678faafb))
+
+
+### Bug Fixes
+
+* changes comment to trigger release ([#855](https://github.com/stalniy/casl/issues/855)) ([f13103b](https://github.com/stalniy/casl/commit/f13103b45729264a435b6c00a7352971a15ece73))
+* debug auto release, again ([#943](https://github.com/stalniy/casl/issues/943)) ([ba1c9a0](https://github.com/stalniy/casl/commit/ba1c9a01d7b66fb691cfa88125542cd752aadfd0))
+* debug auto releasing ([#942](https://github.com/stalniy/casl/issues/942)) ([6c7ca22](https://github.com/stalniy/casl/commit/6c7ca22a89a6436b618bbe7caf674a206d047acd))
+* debug release ([#939](https://github.com/stalniy/casl/issues/939)) ([80eeb6b](https://github.com/stalniy/casl/commit/80eeb6b0fb541f3266951603aaa550d776f9cf28))
+* **deps:** update angular monorepo to v21 ([#1126](https://github.com/stalniy/casl/issues/1126)) ([e1fdac6](https://github.com/stalniy/casl/commit/e1fdac68493eaa174f09e4b8c19ab36519aca031))
+* **deps:** update dependency @types/jest to v30 ([#1133](https://github.com/stalniy/casl/issues/1133)) ([12c59ce](https://github.com/stalniy/casl/commit/12c59ce3ab717c49b980e2b3b7091c9e88e4d7e7))
+* **deps:** update dependency typescript to ~5.3.0 ([0ec328c](https://github.com/stalniy/casl/commit/0ec328cc1c291eafa932e135234af681650e9f6f))
+* **deps:** update dependency typescript to ~5.4.0 ([1092376](https://github.com/stalniy/casl/commit/10923766d5b2992744f304936e9e8ab9e17ecdf9))
+* **deps:** update dependency typescript to ~5.5.0 ([ef11301](https://github.com/stalniy/casl/commit/ef113010e37cf8311b70c549e1fd648ca19de579))
+* ensure pre-post scripts are enabled for pnpm ([#853](https://github.com/stalniy/casl/issues/853)) ([fa23801](https://github.com/stalniy/casl/commit/fa23801e81773b6c8f3393aa6340ce8a324b12dd))
+* **package:** add repository directory into package.json for all @casl/* packages ([#560](https://github.com/stalniy/casl/issues/560)) ([0ef534c](https://github.com/stalniy/casl/commit/0ef534c9df44816cd64d5142f41621034e5b70db))
+
+
+### Code Refactoring
+
+* converts to esm module ([#1215](https://github.com/stalniy/casl/issues/1215)) ([af988ae](https://github.com/stalniy/casl/commit/af988ae8d1168221c4da09c1aa0064a1823037a3))
+* removes ablePure pipe and replaces PureAbility with Ability token ([#1207](https://github.com/stalniy/casl/issues/1207)) ([2c5782d](https://github.com/stalniy/casl/commit/2c5782d5e8427ec744562b0c9bc873f715754618))
+
 ## [10.0.0-rc](https://github.com/stalniy/casl/compare/@casl/angular@9.0.6...@casl/angular@10.0.0-rc) (2026-05-08)
 
 
