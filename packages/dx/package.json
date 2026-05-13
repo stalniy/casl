@@ -22,7 +22,7 @@
     "typescript-eslint": "^8.39.0"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@stylistic/eslint-plugin-js": "^4.0.0",
     "@stylistic/eslint-plugin-ts": "^4.4.1",
     "@types/jest": "^30.0.0"
