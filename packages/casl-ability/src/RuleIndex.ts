@@ -136,6 +136,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     } as unknown as UpdateEvent<this>;
 
     this._emit('update', event);
+    this._hasPerFieldRules = false;
     this._rules = rules;
     this._indexAndAnalyzeRules(rules);
     this._emit('updated', event);
@@ -176,43 +177,49 @@ export class RuleIndex<A extends Abilities, Conditions> {
     }
   }
 
-  possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): Rule<A, Conditions>[];
+  possibleRulesFor(...args: AbilitySubjectTypeParameters<A, false>): readonly Rule<A, Conditions>[];
   possibleRulesFor(
     action: string,
     subjectType: SubjectType = this._anySubjectType
-  ): Rule<A, Conditions>[] {
+  ): readonly Rule<A, Conditions>[] {
     if (!isSubjectType(subjectType)) {
       throw new Error('"possibleRulesFor" accepts only subject types (i.e., string or class) as the 2nd parameter');
     }
 
-    const subjectRules = getOrDefault(this._indexedRules, subjectType, defaultSubjectEntry);
-    const actionRules = getOrDefault(subjectRules, action, defaultActionEntry);
+    const subjectRules = this._indexedRules.get(subjectType);
+    const actionRules = subjectRules?.get(action);
 
-    if (actionRules.merged) {
+    if (actionRules?.merged) {
       return actionRules.rules;
     }
 
-    const anyActionRules = action !== this._anyAction && subjectRules.has(this._anyAction)
-      ? subjectRules.get(this._anyAction)!.rules
+    const anyActionRules = action !== this._anyAction && !!subjectRules?.has(this._anyAction)
+      ? Object.freeze(subjectRules.get(this._anyAction)!.rules)
       : undefined;
-    let rules = mergePrioritized(actionRules.rules, anyActionRules);
+    let rules = mergePrioritized(actionRules?.rules, anyActionRules);
 
     if (subjectType !== this._anySubjectType) {
       rules = mergePrioritized(rules, (this as any).possibleRulesFor(action, this._anySubjectType));
     }
 
-    actionRules.rules = rules;
-    actionRules.merged = true;
+    if (actionRules) {
+      actionRules.rules = Object.freeze(rules) as Rule<A, Conditions>[];
+      actionRules.merged = true;
+    }
 
     return rules;
   }
 
-  rulesFor(...args: AbilitySubjectTypeParameters<A>): Rule<A, Conditions>[];
-  rulesFor(action: string, subjectType?: SubjectType, field?: string): Rule<A, Conditions>[] {
+  rulesFor(...args: AbilitySubjectTypeParameters<A>): readonly Rule<A, Conditions>[];
+  rulesFor(
+    action: string,
+    subjectType?: SubjectType,
+    field?: string
+  ): readonly Rule<A, Conditions>[] {
     const rules: Rule<A, Conditions>[] = (this as any).possibleRulesFor(action, subjectType);
 
     if (field && typeof field !== 'string') {
-      throw new Error('The 3rd, `field` parameter is expected to be a string. See https://stalniy.github.io/casl/en/api/casl-ability#can-of-pure-ability for details');
+      throw new Error('The 3rd, `field` parameter is expected to be a string. See https://casl.js.org/v6/en/api/casl-ability#can-of-ability for details');
     }
 
     if (!this._hasPerFieldRules) {

@@ -1,3 +1,4 @@
+import { createMongoAbility } from '../src'
 import { packRules, unpackRules } from '../src/extra'
 
 describe('Ability rules packing', () => {
@@ -83,6 +84,18 @@ describe('Ability rules packing', () => {
 
       expect(rules[0][5]).toBe(reason)
       expect(rules[0]).toHaveLength(6)
+    })
+
+    it('packs rules passed from Ability rulesFor method', () => {
+      const ability = createMongoAbility([
+        { action: 'read', subject: 'Post' },
+        { action: 'delete', subject: 'Post' }
+      ])
+      const rules = packRules(ability.rulesFor('read', 'Post'))
+
+      expect(rules).toEqual([
+        ['read', 'Post'],
+      ])
     })
   })
 

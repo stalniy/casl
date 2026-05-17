@@ -808,6 +808,16 @@ describe('Ability', () => {
       ])
     })
 
+    it('does not include actions from `possibleRulesFor` cache misses', () => {
+      const ability = defineAbility(can => can('read', 'Post'))
+
+      ability.possibleRulesFor('archive', 'Post')
+
+      expect(ability.actionsFor('Post')).toEqual([
+        'read',
+      ])
+    })
+
     it('returns an empty array if there are no actions for provided subject type and no actions for "all" subject type', () => {
       const ability = createMongoAbility()
 

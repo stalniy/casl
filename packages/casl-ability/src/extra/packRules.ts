@@ -15,7 +15,7 @@ export type PackRule<T extends RawRule<any, any>> =
 export type PackSubjectType<T extends SubjectType> = (type: T) => string;
 
 export function packRules<T extends RawRule<any, any>>(
-  rules: T[],
+  rules: readonly T[],
   packSubject?: PackSubjectType<T['subject']>
 ): PackRule<T>[] {
   return rules.map((rule) => {

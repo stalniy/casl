@@ -47,7 +47,7 @@ export function rulesToAST<T extends AnyAbility>(
  * @param hooks - The logical combination hooks for the target format.
  */
 export function rulesToCondition<T extends AnyAbility, R, Result>(
-  rules: RuleOf<T>[],
+  rules: readonly RuleOf<T>[],
   convert: (rule: RuleOf<T>) => R,
   hooks: {
     and: (conditions: R[]) => Result,

@@ -128,16 +128,16 @@ export function createAliasResolver(aliasMap: AliasesMap, options?: AliasResolve
   return (action: string | string[]) => expandActions(aliasMap, action, defaultAliasMerge);
 }
 
-function copyArrayTo<T>(dest: T[], target: T[], start: number) {
+function copyArrayTo<T>(dest: T[], target: readonly T[], start: number) {
   for (let i = start; i < target.length; i++) {
     dest.push(target[i]);
   }
 }
 
 export function mergePrioritized<T extends { priority: number }>(
-  array?: T[],
-  anotherArray?: T[]
-): T[] {
+  array?: readonly T[],
+  anotherArray?: readonly T[]
+): readonly T[] {
   if (!array || !array.length) {
     return anotherArray || [];
   }
