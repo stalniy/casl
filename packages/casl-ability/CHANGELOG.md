@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.0](https://github.com/stalniy/casl/compare/@casl/ability@6.8.1...@casl/ability@7.0.0) (2026-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* `.possibleRulesFor` and `.rulesFor` return `readonly Rule[]` type
+* this function is unused in userland and mostly was needed to restore ForbiddenError state in tests
+* renames PureAbility to Ability and dops default options. In order, to get the previous behavior of `Ability` class, clients are expected to use `createMongoAbility` and `MongoAbility` type
+* Ability matching now treats conditions that semantically match everything the same as rules without conditions.
+
+### Bug Fixes
+
+* defensive protection against undefined returned from rule conditions matcher ([3f0ad4b](https://github.com/stalniy/casl/commit/3f0ad4b74c3253db0191dca805a8a4e126e6ad4e))
+* **deps:** upgrades @ucast/* to latest version ([#1218](https://github.com/stalniy/casl/issues/1218)) ([22b00ff](https://github.com/stalniy/casl/commit/22b00ffa32b2a8106ceffd14dce087e6825c17b5))
+* ensure rules index cache is not polluted with not defined actions ([#1228](https://github.com/stalniy/casl/issues/1228)) ([89c19ba](https://github.com/stalniy/casl/commit/89c19ba93de0dbb11211aac5ac0c6eac1e58c637))
+* treats empty conditions object as matches all ([#1198](https://github.com/stalniy/casl/issues/1198)) ([cedc463](https://github.com/stalniy/casl/commit/cedc463d1e21a65c98f245457ea71937df19308d)), closes [#684](https://github.com/stalniy/casl/issues/684)
+
+
+### Code Refactoring
+
+* removes `getDefaultErrorMessage` exported function as unneeded ([#1206](https://github.com/stalniy/casl/issues/1206)) ([3f56353](https://github.com/stalniy/casl/commit/3f56353ba3fd76f6fe10384ad5f8941b290051e9))
+* renames PureAbility to Ability ([#1205](https://github.com/stalniy/casl/issues/1205)) ([97beee4](https://github.com/stalniy/casl/commit/97beee4ff65abe102a038a27907b6e9cae191ea3))
+
 ## [6.8.1](https://github.com/stalniy/casl/compare/@casl/ability@6.8.0...@casl/ability@6.8.1) (2026-04-20)
 
 

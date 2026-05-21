@@ -9,6 +9,27 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [2.0.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.6.2...@casl/prisma@2.0.0) (2026-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrates to @casl/ability 7.x, `PureAbility` is no longer available and `accessibleBy` produces a different shape
+* `accessibleBy` no longer throws `ForbiddenError` and it's required to add `caslExtension` to Prisma Client
+* **prisma:** The `createPrismaAbilityFor` factory has been removed. `createPrismaAbility` is now a standalone generic function rather than a pre-bound factory.
+
+### Bug Fixes
+
+* **deps:** upgrades @ucast/* to latest version ([#1218](https://github.com/stalniy/casl/issues/1218)) ([22b00ff](https://github.com/stalniy/casl/commit/22b00ffa32b2a8106ceffd14dce087e6825c17b5))
+* expose PrismaAbility type ([3aa325f](https://github.com/stalniy/casl/commit/3aa325fc99af4173156bb449e385d42e8b5c6a14))
+
+
+### Code Refactoring
+
+* migrates to @casl/ability 7.x ([#1216](https://github.com/stalniy/casl/issues/1216)) ([df9d5b6](https://github.com/stalniy/casl/commit/df9d5b62dcbcada20be8befc2aa6c10270b923bf))
+* **prisma:** simplify createPrismaAbility and remove reliance on generated types ([#1195](https://github.com/stalniy/casl/issues/1195)) ([916e7ba](https://github.com/stalniy/casl/commit/916e7baabe37f9260bb4d883d4f5cb4deb0c2e9a))
+* stops throwing ForbiddenError when casl does not have rules for action/subject pair ([#1196](https://github.com/stalniy/casl/issues/1196)) ([ee850e8](https://github.com/stalniy/casl/commit/ee850e8a566c106778217f1b7d861061db2844c3))
+
 ## [1.6.2](https://github.com/stalniy/casl/compare/@casl/prisma@1.6.1...@casl/prisma@1.6.2) (2026-04-08)
 
 

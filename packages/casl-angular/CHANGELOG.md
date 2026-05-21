@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.0.0](https://github.com/stalniy/casl/compare/@casl/angular@9.0.6...@casl/angular@10.0.0) (2026-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* converts to esm module
+* * `able` pipe was updated to use `AbilityServiceSignal` and relies on angular's signals
+
+### Code Refactoring
+
+* converts to esm module ([#1215](https://github.com/stalniy/casl/issues/1215)) ([af988ae](https://github.com/stalniy/casl/commit/af988ae8d1168221c4da09c1aa0064a1823037a3))
+* removes ablePure pipe and replaces PureAbility with Ability token ([#1207](https://github.com/stalniy/casl/issues/1207)) ([2c5782d](https://github.com/stalniy/casl/commit/2c5782d5e8427ec744562b0c9bc873f715754618))
+
 ## [9.0.6](https://github.com/stalniy/casl/compare/@casl/angular@9.0.5...@casl/angular@9.0.6) (2026-01-18)
 
 

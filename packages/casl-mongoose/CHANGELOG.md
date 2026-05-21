@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.0.0](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.5...@casl/mongoose@9.0.0) (2026-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* removes `accessibleFieldsPlugin` for mongoose, use `accessibleFieldsBy` helper instead
+* replaces rulesToQuery with rulesToCondition which produces a different query shape
+
+### Code Refactoring
+
+* migrates mongoose subpackage to @casl/ability@7.x ([#1209](https://github.com/stalniy/casl/issues/1209)) ([0664ddb](https://github.com/stalniy/casl/commit/0664ddb2f72749d6a5f96f483b597c3a29faacd1))
+* removes `accessibleFieldPlugin` for mongoose ([#1212](https://github.com/stalniy/casl/issues/1212)) ([45f5092](https://github.com/stalniy/casl/commit/45f509297d72fccbf3a8490599e709a2fc57d194))
+
 ## [8.0.5](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.4...@casl/mongoose@8.0.5) (2026-01-18)
 
 

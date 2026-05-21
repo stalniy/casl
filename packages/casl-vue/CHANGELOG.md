@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/stalniy/casl/compare/@casl/vue@2.2.6...@casl/vue@3.0.0) (2026-05-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* converts module to ESM
+
+### Features
+
+* exposes rule.reason in &lt;Can&gt; computed slot and updates supported version of @casl/ability ([#1214](https://github.com/stalniy/casl/issues/1214)) ([cabbdd8](https://github.com/stalniy/casl/commit/cabbdd8ef76c71888fd24f5c2aa3a49f4225790c))
+
+
+### Bug Fixes
+
+* **deps:** upgrades @ucast/* to latest version ([#1218](https://github.com/stalniy/casl/issues/1218)) ([22b00ff](https://github.com/stalniy/casl/commit/22b00ffa32b2a8106ceffd14dce087e6825c17b5))
+
 ## [2.2.6](https://github.com/stalniy/casl/compare/@casl/vue@2.2.5...@casl/vue@2.2.6) (2026-01-18)
 
 
