@@ -15,7 +15,46 @@
       // http://www.foo.tld/?p=/one/two&q=a=b~and~c=d#qwe
       // Note: this 404.html file must be at least 512 bytes for it to work
       // with Internet Explorer (it is currently > 512 bytes)
-      var latestVersion = '/v5';
+      function parseGithubPagesFallback(search) {
+        if (!search || search === '?') {
+          return null;
+        }
+
+        var params = {};
+        search.slice(1).split('&').forEach(function(part) {
+          var pair = part.split('=');
+          params[pair[0]] = pair.slice(1).join('=').replace(/~and~/g, '&');
+        });
+
+        return params;
+      }
+
+      function restoreGithubPagesFallback(pathname, search, hash) {
+        var currentPath = pathname;
+        var currentSearch = search;
+        var iterations = 0;
+
+        while (currentSearch && iterations < 10) {
+          var params = parseGithubPagesFallback(currentSearch);
+
+          if (!params || typeof params.p === 'undefined') {
+            break;
+          }
+
+          currentPath = currentPath.replace(/\/$/, '') + (params.p || '');
+          currentSearch = params.q ? '?' + params.q : '';
+          iterations += 1;
+        }
+
+        return currentPath + currentSearch + hash;
+      }
+
+      function getVersionBasePath(pathname, fallbackVersion) {
+        var versionMatch = pathname.match(/^\/v\d+(?=\/|$)/);
+        return versionMatch ? versionMatch[0] : fallbackVersion;
+      }
+
+      var latestVersion = '/v7';
       var oldUrls = {
         '/casl/abilities/2017/07/20/define-abilities.html': '/en/guide/define-rules',
         '/casl/abilities/2017/07/21/check-abilities.html': '/en/guide/intro',
@@ -27,17 +66,21 @@
         '/casl/abilities/2017/12/18/dialect-support.html': '/en/guide/install#explanation-of-different-builds'
       };
       var l = window.location;
-      var url = oldUrls[l.pathname] ? latestVersion + oldUrls[l.pathname] : l.pathname;
-      var basePath = /^\/v\d+\//.test(l.pathname)
-        ? l.pathname.slice(0, l.pathname.indexOf('/', 2))
-        : latestVersion;
-      var redirectUrl = basePath + '/?p=' +
-        url.slice(basePath.length).replace(/&/g, '~and~') +
-        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash;
-      console.log('matches ', l.pathname, ' as ', url, '. Uses base path ', basePath);
-      console.log('going to redirect to ', redirectUrl);
-      l.replace(redirectUrl);
+      var fallbackParams = parseGithubPagesFallback(l.search);
+
+      if (fallbackParams && typeof fallbackParams.p !== 'undefined') {
+        l.replace(restoreGithubPagesFallback(l.pathname, l.search, l.hash));
+      } else {
+        var url = oldUrls[l.pathname] ? latestVersion + oldUrls[l.pathname] : l.pathname;
+        var basePath = getVersionBasePath(l.pathname, latestVersion);
+        var redirectUrl = basePath + '/?p=' +
+          url.slice(basePath.length).replace(/&/g, '~and~') +
+          (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash;
+        console.log('matches ', l.pathname, ' as ', url, '. Uses base path ', basePath);
+        console.log('going to redirect to ', redirectUrl);
+        l.replace(redirectUrl);
+      }
     </script>
   </head>
   <body>
