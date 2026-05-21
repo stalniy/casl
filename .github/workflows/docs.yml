@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CASL_VERSION: v6
+      CASL_VERSION: v7
       SITEMAP_WEBSITE: https://casl.js.org
     steps:
     - uses: actions/checkout@v6
