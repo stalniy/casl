@@ -2,7 +2,7 @@
   "packages/casl-ability": "7.0.0",
   "packages/casl-angular": "10.0.0",
   "packages/casl-mongoose": "9.0.0",
-  "packages/casl-prisma": "2.0.0",
+  "packages/casl-prisma": "2.0.1",
   "packages/casl-react": "7.0.0",
   "packages/casl-vue": "3.0.0"
 }

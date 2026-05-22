@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [2.0.1](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.0...@casl/prisma@2.0.1) (2026-05-22)
+
+
+### Bug Fixes
+
+* uses @prisma/client/extension for extension definition ([77ec57c](https://github.com/stalniy/casl/commit/77ec57c78b185250ea3c85b6b2a541f1f861ed91))
+
 ## [2.0.0](https://github.com/stalniy/casl/compare/@casl/prisma@1.6.2...@casl/prisma@2.0.0) (2026-05-21)
 
 
