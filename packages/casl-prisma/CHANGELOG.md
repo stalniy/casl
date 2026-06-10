@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [2.0.2](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.1...@casl/prisma@2.0.2) (2026-06-10)
+
+
+### Bug Fixes
+
+* adds "bugs" metadata to all packages ([1f6c4ba](https://github.com/stalniy/casl/commit/1f6c4ba546e24fed876d7d407a958d8886d6f5de))
+
 ## [2.0.1](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.0...@casl/prisma@2.0.1) (2026-05-22)
 
 
