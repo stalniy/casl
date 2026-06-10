@@ -17,6 +17,9 @@
     "directory": "packages/casl-vue"
   },
   "homepage": "https://casl.js.org",
+  "bugs": {
+    "url": "https://github.com/stalniy/casl/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
