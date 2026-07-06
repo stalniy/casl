@@ -27,6 +27,13 @@ All notable changes to this project will be documented in this file.
 
 * exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
 
+## [7.0.1](https://github.com/stalniy/casl/compare/@casl/react@7.0.0...@casl/react@7.0.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* adds "bugs" metadata to all packages ([1f6c4ba](https://github.com/stalniy/casl/commit/1f6c4ba546e24fed876d7d407a958d8886d6f5de))
+
 ## [7.0.0](https://github.com/stalniy/casl/compare/@casl/react@6.0.0...@casl/react@7.0.0) (2026-05-21)
 
 

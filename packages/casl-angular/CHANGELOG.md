@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.0.1](https://github.com/stalniy/casl/compare/@casl/angular@10.0.0...@casl/angular@10.0.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* adds "bugs" metadata to all packages ([1f6c4ba](https://github.com/stalniy/casl/commit/1f6c4ba546e24fed876d7d407a958d8886d6f5de))
+
 ## [10.0.0](https://github.com/stalniy/casl/compare/@casl/angular@9.0.6...@casl/angular@10.0.0) (2026-05-21)
 
 

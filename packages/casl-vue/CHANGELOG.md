@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1](https://github.com/stalniy/casl/compare/@casl/vue@3.0.0...@casl/vue@3.0.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* add casl vue bugs metadata ([#1235](https://github.com/stalniy/casl/issues/1235)) ([4626cfa](https://github.com/stalniy/casl/commit/4626cfae877e83637172279e4e799aab98f0fc05))
+* adds "bugs" metadata to all packages ([1f6c4ba](https://github.com/stalniy/casl/commit/1f6c4ba546e24fed876d7d407a958d8886d6f5de))
+
 ## [3.0.0](https://github.com/stalniy/casl/compare/@casl/vue@2.2.6...@casl/vue@3.0.0) (2026-05-21)
 
 
