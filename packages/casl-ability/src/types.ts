@@ -2,7 +2,7 @@ import type { Condition } from '@ucast/mongo2js';
 import { Container, GenericFactory } from './hkt';
 
 type Fn = (...args: any[]) => any;
-export type AnyClass<ReturnType = any> = new (...args: any[]) => ReturnType;
+export type AnyClass<ReturnType = any> = abstract new (...args: any[]) => ReturnType;
 type AnyRecord = Record<PropertyKey, any>;
 
 export type AnyObject = Record<PropertyKey, unknown>;

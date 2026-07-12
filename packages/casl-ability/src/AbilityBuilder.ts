@@ -108,7 +108,7 @@ export class AbilityBuilder<T extends AnyAbility> {
     ) => this._addRule(action, subject, conditionsOrFields, conditions, true);
 
     this.build = options => (isAbilityClass(this._createAbility)
-      ? new this._createAbility(this.rules, options)
+      ? new (this._createAbility as new (...args: any[]) => T)(this.rules, options)
       : this._createAbility(this.rules, options));
   }
 
