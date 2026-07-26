@@ -48,7 +48,7 @@
     "@casl/dx": "workspace:^",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.12.2",
-    "chai": "^4.5.0",
+    "chai": "^6.0.0",
     "chai-spies": "^1.1.0",
     "mongoose": "^9.5.0"
   },
