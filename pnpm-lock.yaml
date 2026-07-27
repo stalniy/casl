@@ -40,25 +40,25 @@ importers:
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: ^21.2.8
-        version: 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(debug@4.4.3(supports-color@8.1.1))(jest-environment-jsdom@30.3.0(supports-color@8.1.1))(jest@30.3.0(@types/node@24.12.2)(supports-color@8.1.1))(jiti@2.6.1)(supports-color@8.1.1)(typescript@5.9.3)(uglify-js@3.19.3)(yaml@2.9.0)
+        version: 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(debug@4.4.3(supports-color@8.1.1))(jest-environment-jsdom@30.3.0(supports-color@8.1.1))(jest@30.3.0(@types/node@24.12.2)(supports-color@8.1.1))(jiti@2.6.1)(supports-color@8.1.1)(typescript@5.9.3)(uglify-js@3.19.3)(yaml@2.9.0)
       '@angular/common':
         specifier: ^21.2.10
-        version: 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
+        version: 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
       '@angular/compiler':
         specifier: ^21.2.10
-        version: 21.2.10
+        version: 21.2.17
       '@angular/compiler-cli':
         specifier: ^21.2.10
-        version: 21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)
+        version: 21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)
       '@angular/core':
         specifier: ^21.2.10
-        version: 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
+        version: 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
       '@angular/platform-browser':
         specifier: ^21.2.10
-        version: 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+        version: 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))
       '@angular/platform-browser-dynamic':
         specifier: ^21.2.10
-        version: 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))
+        version: 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))
       '@casl/ability':
         specifier: workspace:*
         version: link:../casl-ability
@@ -73,7 +73,7 @@ importers:
         version: 30.3.0(@types/node@24.12.2)(supports-color@8.1.1)
       jest-preset-angular:
         specifier: ^16.1.4
-        version: 16.1.4(bda04b6a3276cf4ab1ca6e944dbae0d6)
+        version: 16.1.4(f947181b27e896e03a7725e9a4635f76)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -386,8 +386,8 @@ packages:
       typescript:
         optional: true
 
-  '@angular/compiler@21.2.10':
-    resolution: {integrity: sha512-IrgdFuzzD7NTK3WQaSfowjAPxPbnTqsgR92NsOs5ZaWu3RgLl21dHThNc0BK1KwVwppLUSWmD4qePbcLW71VzQ==}
+  '@angular/compiler@21.2.17':
+    resolution: {integrity: sha512-p+NdjYiwAz9Zmu2yul0LlMXaFjMISVVa24+/MVMoKFeQeI82QE8jDywPlnOSHQHvdCcQVpS7saeEriZzX3JuBQ==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@angular/core@21.2.10':
@@ -6738,14 +6738,14 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(debug@4.4.3(supports-color@8.1.1))(jest-environment-jsdom@30.3.0(supports-color@8.1.1))(jest@30.3.0(@types/node@24.12.2)(supports-color@8.1.1))(jiti@2.6.1)(supports-color@8.1.1)(typescript@5.9.3)(uglify-js@3.19.3)(yaml@2.9.0)':
+  '@angular-devkit/build-angular@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(debug@4.4.3(supports-color@8.1.1))(jest-environment-jsdom@30.3.0(supports-color@8.1.1))(jest@30.3.0(@types/node@24.12.2)(supports-color@8.1.1))(jiti@2.6.1)(supports-color@8.1.1)(typescript@5.9.3)(uglify-js@3.19.3)(yaml@2.9.0)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2102.8(chokidar@5.0.0)
       '@angular-devkit/build-webpack': 0.2102.8(chokidar@5.0.0)(webpack-dev-server@5.2.3(debug@4.4.3(supports-color@8.1.1))(supports-color@8.1.1)(tslib@2.8.1)(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3)))(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))
       '@angular-devkit/core': 21.2.8(chokidar@5.0.0)
-      '@angular/build': 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(jiti@2.6.1)(less@4.4.2)(postcss@8.5.6)(supports-color@8.1.1)(terser@5.46.0)(tslib@2.8.1)(typescript@5.9.3)(yaml@2.9.0)
-      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)
+      '@angular/build': 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(jiti@2.6.1)(less@4.4.2)(postcss@8.5.6)(supports-color@8.1.1)(terser@5.46.0)(tslib@2.8.1)(typescript@5.9.3)(yaml@2.9.0)
+      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)
       '@babel/core': 7.29.0(supports-color@8.1.1)
       '@babel/generator': 7.29.1
       '@babel/helper-annotate-as-pure': 7.27.3
@@ -6756,7 +6756,7 @@ snapshots:
       '@babel/preset-env': 7.29.2(@babel/core@7.29.0(supports-color@8.1.1))(supports-color@8.1.1)
       '@babel/runtime': 7.29.2
       '@discoveryjs/json-ext': 0.6.3
-      '@ngtools/webpack': 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))
+      '@ngtools/webpack': 21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))
       ansi-colors: 4.1.3
       autoprefixer: 10.4.27(postcss@8.5.6)
       babel-loader: 10.0.0(@babel/core@7.29.0(supports-color@8.1.1))(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))
@@ -6797,8 +6797,8 @@ snapshots:
       webpack-merge: 6.0.1
       webpack-subresource-integrity: 5.1.0(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))
     optionalDependencies:
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))
       esbuild: 0.27.3
       jest: 30.3.0(@types/node@24.12.2)(supports-color@8.1.1)
       jest-environment-jsdom: 30.3.0(supports-color@8.1.1)
@@ -6847,12 +6847,12 @@ snapshots:
     optionalDependencies:
       chokidar: 5.0.0
 
-  '@angular/build@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(jiti@2.6.1)(less@4.4.2)(postcss@8.5.6)(supports-color@8.1.1)(terser@5.46.0)(tslib@2.8.1)(typescript@5.9.3)(yaml@2.9.0)':
+  '@angular/build@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.2)(chokidar@5.0.0)(jiti@2.6.1)(less@4.4.2)(postcss@8.5.6)(supports-color@8.1.1)(terser@5.46.0)(tslib@2.8.1)(typescript@5.9.3)(yaml@2.9.0)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2102.8(chokidar@5.0.0)
-      '@angular/compiler': 21.2.10
-      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)
+      '@angular/compiler': 21.2.17
+      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)
       '@babel/core': 7.29.0(supports-color@8.1.1)
       '@babel/helper-annotate-as-pure': 7.27.3
       '@babel/helper-split-export-declaration': 7.24.7
@@ -6881,8 +6881,8 @@ snapshots:
       vite: 7.3.2(@types/node@24.12.2)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.0)(yaml@2.9.0)
       watchpack: 2.5.1
     optionalDependencies:
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))
       less: 4.4.2
       lmdb: 3.5.1
       postcss: 8.5.6
@@ -6901,15 +6901,15 @@ snapshots:
       - tsx
       - yaml
 
-  '@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)':
+  '@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)':
     dependencies:
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  '@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)':
+  '@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)':
     dependencies:
-      '@angular/compiler': 21.2.10
+      '@angular/compiler': 21.2.17
       '@babel/core': 7.29.0(supports-color@8.1.1)
       '@jridgewell/sourcemap-codec': 1.5.5
       chokidar: 5.0.0
@@ -6923,30 +6923,30 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@angular/compiler@21.2.10':
+  '@angular/compiler@21.2.17':
     dependencies:
       tslib: 2.8.1
 
-  '@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)':
+  '@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)':
     dependencies:
       rxjs: 7.8.2
       tslib: 2.8.1
     optionalDependencies:
-      '@angular/compiler': 21.2.10
+      '@angular/compiler': 21.2.17
       zone.js: 0.16.1
 
-  '@angular/platform-browser-dynamic@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))':
+  '@angular/platform-browser-dynamic@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))':
     dependencies:
-      '@angular/common': 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
-      '@angular/compiler': 21.2.10
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
+      '@angular/common': 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
+      '@angular/compiler': 21.2.17
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))
       tslib: 2.8.1
 
-  '@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))':
+  '@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))':
     dependencies:
-      '@angular/common': 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/common': 21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2)
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
       tslib: 2.8.1
 
   '@asamuzakjp/css-color@3.2.0':
@@ -8588,9 +8588,9 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@ngtools/webpack@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))':
+  '@ngtools/webpack@21.2.8(@angular/compiler-cli@21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.105.2(esbuild@0.27.3)(uglify-js@3.19.3))':
     dependencies:
-      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)
+      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)
       typescript: 5.9.3
       webpack: 5.105.2(esbuild@0.27.3)(uglify-js@3.19.3)
 
@@ -11547,12 +11547,12 @@ snapshots:
     optionalDependencies:
       jest-resolve: 30.3.0
 
-  jest-preset-angular@16.1.4(bda04b6a3276cf4ab1ca6e944dbae0d6):
+  jest-preset-angular@16.1.4(f947181b27e896e03a7725e9a4635f76):
     dependencies:
-      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.10)(supports-color@8.1.1)(typescript@5.9.3)
-      '@angular/core': 21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)
-      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))
-      '@angular/platform-browser-dynamic': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.10)(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.10)(rxjs@7.8.2)(zone.js@0.16.1)))
+      '@angular/compiler-cli': 21.2.10(@angular/compiler@21.2.17)(supports-color@8.1.1)(typescript@5.9.3)
+      '@angular/core': 21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)
+      '@angular/platform-browser': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))
+      '@angular/platform-browser-dynamic': 21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/compiler@21.2.17)(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(@angular/platform-browser@21.2.10(@angular/common@21.2.17(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1))(rxjs@7.8.2))(@angular/core@21.2.10(@angular/compiler@21.2.17)(rxjs@7.8.2)(zone.js@0.16.1)))
       '@jest/environment-jsdom-abstract': 30.3.0(jsdom@26.1.0(supports-color@8.1.1))
       bs-logger: 0.2.6
       esbuild-wasm: 0.28.0
