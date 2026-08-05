@@ -29,8 +29,8 @@ minimumReleaseAgeExclude:
   - '@babel/plugin-transform-modules-systemjs@7.29.4'
   - brace-expansion@5.0.6
   - shell-quote@1.8.4
-  # Renovate security update: @angular/common@21.2.17
-  - "@angular/common@21.2.17"
+  # Renovate security update: @angular/common@21.2.17 || 21.2.19
+  - "@angular/common@21.2.17 || 21.2.19"
   # Renovate security update: @angular/compiler@21.2.17
   - "@angular/compiler@21.2.17"
   # Renovate security update: @angular/core@21.2.17
