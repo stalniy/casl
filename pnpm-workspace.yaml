@@ -31,8 +31,8 @@ minimumReleaseAgeExclude:
   - shell-quote@1.8.4
   # Renovate security update: @angular/common@21.2.17 || 21.2.19
   - "@angular/common@21.2.17 || 21.2.19"
-  # Renovate security update: @angular/compiler@21.2.17
-  - "@angular/compiler@21.2.17"
+  # Renovate security update: @angular/compiler@21.2.17 || 21.2.19
+  - "@angular/compiler@21.2.17 || 21.2.19"
   # Renovate security update: @angular/core@21.2.17
   - "@angular/core@21.2.17"
   # Renovate security update: mongoose@9.7.2
