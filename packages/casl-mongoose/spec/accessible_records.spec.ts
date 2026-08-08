@@ -1,4 +1,4 @@
-import { MongoAbility, defineAbility, SubjectType } from '@casl/ability'
+import { type MongoAbility, defineAbility, type SubjectType } from '@casl/ability'
 import mongoose from 'mongoose'
 import { accessibleBy, AccessibleRecordModel, accessibleRecordsPlugin } from '../src'
 
