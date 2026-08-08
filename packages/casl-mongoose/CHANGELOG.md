@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@9.0.1...@casl/mongoose@9.0.2) (2026-08-08)
+
+
+### Bug Fixes
+
+* **deps:** update eslint monorepo to v10 ([#1159](https://github.com/stalniy/casl/issues/1159)) ([5d60185](https://github.com/stalniy/casl/commit/5d6018580d66861bc36610330286feabe386bcea))
+
 ## [9.0.1](https://github.com/stalniy/casl/compare/@casl/mongoose@9.0.0...@casl/mongoose@9.0.1) (2026-06-10)
 
 
