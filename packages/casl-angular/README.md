@@ -85,7 +85,7 @@ export class Session {
 }
 ```
 
-> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`.
 
 Then use this `Session` service in `LoginComponent`:
 
