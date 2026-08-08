@@ -3,4 +3,8 @@
   "exclude": [
     "spec/**/*"
   ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "types": ["node"]
+  }
 }

@@ -9,6 +9,7 @@
     "outDir": "dist/types",
     "allowSyntheticDefaultImports": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "types": ["node", "react", "jest"]
   }
 }

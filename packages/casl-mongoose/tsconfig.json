@@ -5,6 +5,9 @@
     "spec/*"
   ],
   "compilerOptions": {
-    "outDir": "dist/types"
+    "outDir": "dist/types",
+    "rootDir": ".",
+    "types": ["node", "jest"],
+    "isolatedModules": true,
   }
 }

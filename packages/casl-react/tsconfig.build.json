@@ -4,6 +4,8 @@
     "spec/**/*"
   ],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true
+    "rootDir": "./src",
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "react"]
   }
 }

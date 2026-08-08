@@ -2,5 +2,9 @@
   "extends": "./tsconfig",
   "exclude": [
     "spec/**/*"
-  ]
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "types": ["vue"]
+  }
 }
