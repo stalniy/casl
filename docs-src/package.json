@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "build.sitemap": "node tools/sitemap.xml.js",
     "prerender": "node tools/prerender.js",
-    "lint": "../node_modules/.bin/eslint --fix --ext .js,.ts src"
+    "lint": "cd .. && packages/dx/bin/dx.js eslint docs-src/src --fix"
   },
   "dependencies": {
     "@curi/router": "^2.1.0",

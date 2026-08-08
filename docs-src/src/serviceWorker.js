@@ -5,7 +5,7 @@ const isLocalhost = location.hostname === 'localhost'
   || location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/);
 const isSupportedServiceWorker = 'serviceWorker' in navigator;
 
-const log = (...args) => console.log(...args); // eslint-disable-line no-console
+const log = (...args) => console.log(...args);
 
 function notifyAboutNewWorker(worker, config) {
   if (!worker) {

@@ -21,7 +21,7 @@ function lookup(path, config) {
 }
 
 function missingKey(path) {
-  console.warn(`missing i18n key: ${path}`); // eslint-disable-line no-console
+  console.warn(`missing i18n key: ${path}`);
   return path;
 }
 

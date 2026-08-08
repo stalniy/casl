@@ -79,14 +79,18 @@ describe('Accessible Records Plugin', () => {
     })
 
     it('has proper typing for `accessibleBy` methods', () => {
-      let expectedQueryType: mongoose.Query<mongoose.HydratedDocument<Post>[], any>
-      expectedQueryType = Post.find()
-      expectedQueryType = Post.find().accessibleBy(ability)
-      expectedQueryType = Post.find().accessibleBy(ability).accessibleBy(ability, 'update')
-      expectedQueryType = Post.accessibleBy(ability).where({ title: /test/ }).accessibleBy(ability, 'delete')
-      expectedQueryType = Post.accessibleBy(ability).find()
-      expectedQueryType = Post.accessibleBy(ability).accessibleBy(ability, 'update').find()
-      expect(expectedQueryType).not.toBeUndefined()
+      const expectQueryType = (query: mongoose.Query<mongoose.HydratedDocument<Post>[], any>) => {
+        expect(query).not.toBeUndefined()
+      }
+
+      expectQueryType(Post.find())
+      expectQueryType(Post.find().accessibleBy(ability))
+      expectQueryType(Post.find().accessibleBy(ability).accessibleBy(ability, 'update'))
+      expectQueryType(
+        Post.accessibleBy(ability).where({ title: /test/ }).accessibleBy(ability, 'delete')
+      )
+      expectQueryType(Post.accessibleBy(ability).find())
+      expectQueryType(Post.accessibleBy(ability).accessibleBy(ability, 'update').find())
     })
 
     it('returns query for Ability that uses classes as subject type', () => {
