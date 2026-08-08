@@ -3,8 +3,7 @@ import tseslint from 'typescript-eslint';
 import importPlugin from "eslint-plugin-import";
 import globals from "globals";
 import js from "@eslint/js"
-import stylisticJs from '@stylistic/eslint-plugin-js'
-import stylisticTs from '@stylistic/eslint-plugin-ts'
+import stylistic from '@stylistic/eslint-plugin'
 
 const tsconfigRootDir = process.cwd()
 const project = join(tsconfigRootDir, 'tsconfig.json')
@@ -19,8 +18,7 @@ export default tseslint.config(
     importPlugin.flatConfigs.typescript,
     {
         plugins: {
-            '@stylistic/js': stylisticJs,
-            '@stylistic/ts': stylisticTs,
+            '@stylistic': stylistic,
             '@typescript-eslint': tseslint.plugin,
         },
         rules: {
@@ -56,14 +54,14 @@ export default tseslint.config(
             "import/external-module-folders": ["node_modules", "node_modules/@types"],
         },
         rules: {
-            "@stylistic/js/max-len": ["error", {
+            "@stylistic/max-len": ["error", {
                 code: 100,
                 ignoreComments: true,
                 ignoreStrings: true,
                 ignoreTemplateLiterals: true,
             }],
 
-            "@stylistic/js/lines-between-class-members": ["error", "always", {
+            "@stylistic/lines-between-class-members": ["error", "always", {
                 exceptAfterSingleLine: true,
             }],
 
@@ -82,6 +80,17 @@ export default tseslint.config(
         },
     }, 
     {
+        files: ["docs-src/src/**/*.{js,ts}"],
+        languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: "module",
+            globals: {
+                ...globals.browser,
+                ...globals.es2021,
+            },
+        },
+    },
+    {
         files: ["**/*.spec.{js,ts}"],
         languageOptions: {
             globals: {
@@ -93,7 +102,7 @@ export default tseslint.config(
             },
         },
         rules: {
-            "@stylistic/ts/semi": ["error", "never"],
+            "@stylistic/semi": ["error", "never"],
             "@typescript-eslint/no-unused-expressions": "off",
             "import/no-extraneous-dependencies": "off",
         },

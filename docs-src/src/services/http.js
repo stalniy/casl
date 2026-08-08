@@ -39,7 +39,7 @@ function http(url, options = {}) {
       },
       body: format.parse(xhr.responseText),
     });
-    xhr.ontimeout = xhr.onerror = reject; // eslint-disable-line no-multi-assign
+    xhr.ontimeout = xhr.onerror = reject;
     xhr.send(options.data ? format.stringify(options.data) : null);
   });
 }

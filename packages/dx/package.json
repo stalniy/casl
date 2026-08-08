@@ -9,8 +9,8 @@
     "dx": "bin/dx.js"
   },
   "dependencies": {
-    "@eslint/js": "^9.39.4",
-    "eslint": "^9.39.4",
+    "@eslint/js": "^10.0.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.5.0",
     "jest": "^30.3.0",
@@ -23,8 +23,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^1.0.0",
-    "@stylistic/eslint-plugin-js": "^4.4.1",
-    "@stylistic/eslint-plugin-ts": "^4.4.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/jest": "^30.0.0"
   }
 }

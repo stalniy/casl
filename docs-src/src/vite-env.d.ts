@@ -28,7 +28,6 @@ interface ImportMetaEnv {
   readonly COMMIT_HASH?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }

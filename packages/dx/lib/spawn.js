@@ -1,15 +1,18 @@
 const child = require('child_process');
 
 function spawn(cli, args, options = {}) {
+  const env = {
+    ...process.env,
+    ...options.env,
+    FORCE_COLOR: '1',
+  };
+  delete env.NO_COLOR;
+
   return child.spawn(cli, args, {
     cwd: options.cwd || process.cwd(),
     stdio: 'inherit',
     shell: options.shell,
-    env: {
-      ...process.env,
-      ...options.env,
-      FORCE_COLOR: '1',
-    },
+    env,
   });
 }
 
