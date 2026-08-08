@@ -52,10 +52,10 @@
   "devDependencies": {
     "@casl/ability": "workspace:*",
     "@casl/dx": "workspace:^",
-    "@prisma/adapter-better-sqlite3": "^7.8.0",
-    "@prisma/client": "^7.8.0",
+    "@prisma/adapter-better-sqlite3": "^7.9.1",
+    "@prisma/client": "^7.9.1",
     "@types/jest": "^30.0.0",
-    "prisma": "^7.8.0"
+    "prisma": "^7.9.1"
   },
   "files": [
     "dist"
