@@ -42,19 +42,17 @@
   "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
+    "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0",
     "@casl/ability": "^7.0.0",
     "rxjs": "^7.5.5",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^22.0.0",
-    "@angular/common": "^21.2.10",
-    "@angular/compiler": "^21.2.10",
-    "@angular/compiler-cli": "^21.2.10",
-    "@angular/core": "^21.2.10",
-    "@angular/platform-browser": "^21.2.10",
-    "@angular/platform-browser-dynamic": "^21.2.10",
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/compiler-cli": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
     "@casl/ability": "workspace:*",
     "@casl/dx": "workspace:^",
     "@types/jest": "^30.0.0",
@@ -62,7 +60,7 @@
     "jest-preset-angular": "^17.0.0",
     "rxjs": "^7.8.2",
     "tslib": "^2.8.1",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.0",
     "zone.js": "~0.16.1"
   },
   "files": [

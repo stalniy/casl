@@ -26,6 +26,10 @@ export const createApp = (template: string) => {
 }
 
 export class Post {
+  static create<T extends Record<string, unknown>>(attrs: T): Post & T {
+    return new Post(attrs) as Post & T
+  }
+
   constructor(attrs: Record<string, unknown>) {
     Object.assign(this, attrs)
   }
@@ -36,7 +40,7 @@ export function createComponent<T extends Type<unknown>>(
   inputs?: Record<string, unknown>
 ): ComponentFixture<InstanceType<T>> {
   const cmp = TestBed.createComponent(ComponentType) as ComponentFixture<InstanceType<T>>
-  Object.assign(cmp.componentInstance, inputs)
+  Object.assign(cmp.componentInstance as object, inputs)
   cmp.detectChanges()
 
   return cmp
