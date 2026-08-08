@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.0.2](https://github.com/stalniy/casl/compare/@casl/angular@10.0.1...@casl/angular@10.0.2) (2026-08-08)
+
+
+### Bug Fixes
+
+* **deps:** update angular (major) ([#1197](https://github.com/stalniy/casl/issues/1197)) ([fc2a9cf](https://github.com/stalniy/casl/commit/fc2a9cf2e0c69fd68abb6e283b27737801938df0))
+
 ## [10.0.1](https://github.com/stalniy/casl/compare/@casl/angular@10.0.0...@casl/angular@10.0.1) (2026-06-10)
 
 

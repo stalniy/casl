@@ -1,6 +1,6 @@
 {
   "packages/casl-ability": "7.0.1",
-  "packages/casl-angular": "10.0.1",
+  "packages/casl-angular": "10.0.2",
   "packages/casl-mongoose": "9.0.1",
   "packages/casl-prisma": "2.0.2",
   "packages/casl-react": "7.0.1",
