@@ -9,17 +9,17 @@
     "dx": "bin/dx.js"
   },
   "dependencies": {
-    "@eslint/js": "^10.0.0",
-    "eslint": "^10.0.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.5.0",
-    "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
     "lint-staged": "^17.0.0",
     "ts-jest": "^29.4.12",
     "tsdown": "0.22.14",
     "typescript": "~6.0.0",
-    "typescript-eslint": "^8.59.0"
+    "typescript-eslint": "^8.65.0"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^1.0.0",
