@@ -1,5 +1,6 @@
+const { readFileSync } = require('fs');
 const { basename, dirname } = require('path');
-const getImageSize = require('image-size');
+const { imageSize: getImageSize } = require('image-size');
 
 function replaceLocalSrcWithUrl(src, options) {
   const root = options.srcRoot || '/images';
@@ -18,7 +19,7 @@ module.exports = function image(md, options = {}) {
     if (srcAttr && srcAttr[1][0] === '.') {
       if (options.size === 'auto' && env.file) {
         const imagePath = `${dirname(env.file.path)}/${srcAttr[1]}`;
-        const size = getImageSize(imagePath);
+        const size = getImageSize(readFileSync(imagePath));
 
         token.attrSet('width', size.width);
         token.attrSet('height', size.height);
