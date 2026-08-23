@@ -14,7 +14,7 @@ runs:
         echo "npm version: $(npm -v)"
     - uses: pnpm/action-setup@v6
       with:
-        version: 11.21.0
+        version: 11.22.0
         run_install: false
     - name: Get pnpm store directory
       id: pnpm-cache
