@@ -38,8 +38,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(chai@6.2.2)
       expect-type:
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.20.0
+        version: 0.20.0
 
   packages/casl-angular:
     devDependencies:
@@ -2393,8 +2393,9 @@ packages:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
     engines: {node: '>=6'}
 
-  expect-type@0.15.0:
-    resolution: {integrity: sha512-yWnriYB4e8G54M5/fAFj7rCIBiKs1HAACaY13kCz6Ku0dezjS9aMcfcdVK2X8Tv2tEV1BPz/wKfQ7WA4S/d8aA==}
+  expect-type@0.20.0:
+    resolution: {integrity: sha512-uHaC9LYNv6BcW+8SvXcwUUDCrrUxt3GSa61DFvTHj8JC+M0hekMFBwMlCarLQDk5bbpZ2vStpnQPIwRuV98YMw==}
+    engines: {node: '>=12.0.0'}
 
   expect@30.4.1:
     resolution: {integrity: sha512-PMARsyh/JtqC20HoGqlFcIlQAyqUtW4PlI1rup1uhYJtKuwAjbvWi3GQMAn+STdHum/dk8xrKfUM1+5SAwpolA==}
@@ -6413,7 +6414,7 @@ snapshots:
 
   expand-template@2.0.3: {}
 
-  expect-type@0.15.0: {}
+  expect-type@0.20.0: {}
 
   expect@30.4.1:
     dependencies:
