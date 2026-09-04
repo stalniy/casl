@@ -55,7 +55,7 @@
     "@ucast/js": "^4.0.1",
     "chai": "^6.0.0",
     "chai-spies": "^1.1.0",
-    "expect-type": "^0.15.0"
+    "expect-type": "^1.0.0"
   },
   "files": [
     "dist"
