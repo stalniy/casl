@@ -46,7 +46,7 @@ ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 
 > See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
-> If you generate Prisma Client with the Prisma 7 `prisma-client` generator, import model types from your generated client path (for example `./prisma/generated/client`) and create a small wrapper around `@casl/prisma/runtime` as shown below.
+> If you generate Prisma Client with the Prisma 7+ `prisma-client` generator, import model types from your generated client path (for example `./prisma/generated/client`) and create a small wrapper around `@casl/prisma/runtime` as shown below.
 
 ### Note on subject helper
 
@@ -65,9 +65,9 @@ Unfortunately, there is no easy way to automate this, except of adding additiona
 
 Interpreter throws a `ParsingQueryError` in cases it receives invalid parameters for query operators or if some operation is not supported.
 
-## Prisma 7 configuration
+## Prisma 7+ configuration
 
-Prisma 7 moves connection details into `prisma.config.ts` and no longer loads `.env` files automatically. Add a config next to your schema so `prisma generate` keeps working:
+Prisma 7+ moves connection details into `prisma.config.ts` and no longer loads `.env` files automatically. Add a config next to your schema so `prisma generate` keeps working:
 
 ```ts
 // prisma.config.ts
@@ -191,7 +191,7 @@ type AppAbility = Ability<[string, AppSubjects], PrismaQuery>;
 
 ## Custom PrismaClient output path (Prisma 7 default)
 
-Prisma 7's `prisma-client` generator writes the client into a custom directory, so `@prisma/client` no longer re-exports your project types. Point CASL at the generated client with a small wrapper built on `@casl/prisma/runtime`:
+Prisma 7+'s `prisma-client` generator writes the client into a custom directory, so `@prisma/client` no longer re-exports your project types. Point CASL at the generated client with a small wrapper built on `@casl/prisma/runtime`:
 
 ```prisma
 // schema.prisma
