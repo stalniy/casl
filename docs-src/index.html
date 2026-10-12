@@ -10,23 +10,24 @@
   <title>CASL - Isomorphic Authorization JavaScript library</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/app-icons/apple-touch-icon.png">
-  <link rel="icon" href="/app-icons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/app-icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/app-icons/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/app-icons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="apple-touch-icon" sizes="180x180" href="%BASE_URL%app-icons/apple-touch-icon.png">
+  <link rel="icon" href="%BASE_URL%app-icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%app-icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="%BASE_URL%app-icons/favicon-16x16.png">
+  <link rel="manifest" href="%BASE_URL%manifest.json">
+  <link rel="mask-icon" href="%BASE_URL%app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript" />
   <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library" />
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
-  <meta property="og:image" content="/app-icons/android-chrome-256x256.png" />
+  <meta property="og:image" content="%BASE_URL%app-icons/android-chrome-256x256.png" />
 
-  <link rel="stylesheet" href="/global.css">
+  <link rel="stylesheet" href="%BASE_URL%global.css">
 </head>
 <body>
+  <div id="prerender-fallback" hidden></div>
   <casl-docs></casl-docs>
 
   <script type="module" src="/src/bootstrap.js"></script>

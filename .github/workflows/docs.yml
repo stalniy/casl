@@ -43,9 +43,13 @@ jobs:
       run: LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") npm run build
     - name: Build sitemap
       working-directory: docs-src
+      env:
+        LIT_APP_PUBLIC_PATH: "/${{ env.CASL_VERSION }}"
       run: npm run build.sitemap
     - name: Prerender
       working-directory: docs-src
+      env:
+        LIT_APP_PUBLIC_PATH: "/${{ env.CASL_VERSION }}"
       run: npm run prerender
     - name: Deploy
       env:

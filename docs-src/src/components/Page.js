@@ -4,6 +4,7 @@ import { mdCss, pageCss, codeCss } from '../styles/index.js';
 import I18nElement from './I18nElement.js';
 import { interpolate, locale } from '../services/i18n.js';
 import content from '../services/content.js';
+import router from '../services/router.js';
 import { setPageMeta } from '../services/meta.js';
 import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection.js';
 
@@ -26,6 +27,7 @@ export default class Page extends I18nElement {
     super();
 
     this._page = null;
+    this._loadVersion = 0;
     this.nav = [];
     this.name = null;
     this.vars = {};
@@ -35,22 +37,76 @@ export default class Page extends I18nElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this._unwatchRouter = router.observe(() => this.requestUpdate());
     this.shadowRoot.addEventListener('click', (event) => {
       tryToNavigateElement(this.shadowRoot, event.target);
     }, false);
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._unwatchRouter?.();
+    this._unwatchRouter = null;
+  }
+
   async updated(changed) {
     if (this._page === null || changed.has('name') || changed.has('type')) {
       await this.reload();
+    } else if (this.hasAttribute('data-content-ready')) {
+      await this._publishContentReady(this._loadVersion);
     }
   }
 
   async reload() {
-    this._page = await content(this.type).load(locale(), this.name);
-    setPageMeta(this._page);
-    await this.updateComplete;
+    const loadVersion = ++this._loadVersion;
+    this.removeAttribute('data-content-ready');
+    this.removeAttribute('data-content-error');
+    let page;
+    try {
+      page = await content(this.type).load(locale(), this.name);
+      if (!page || typeof page !== 'object' || typeof page.content !== 'string') {
+        throw new TypeError(`Page "${this.name}" did not return rendered content`);
+      }
+      if (loadVersion !== this._loadVersion || !this.isConnected) return;
+      this._page = page;
+      setPageMeta(page);
+    } catch (error) {
+      if (loadVersion === this._loadVersion) this._publishContentError(error);
+      return;
+    }
+    await this._publishContentReady(loadVersion);
+  }
+
+  async _publishContentReady(loadVersion) {
+    if (!this._page || loadVersion !== this._loadVersion || !this.isConnected) return;
+    try {
+      await this.updateComplete;
+      await Promise.all(Array.from(
+        this.shadowRoot.querySelectorAll('app-link, app-page-nav'),
+        element => element.updateComplete
+      ));
+    } catch (error) {
+      if (loadVersion === this._loadVersion && this.isConnected) this._publishContentError(error, 'content update failed');
+      return;
+    }
+    if (!this._page || loadVersion !== this._loadVersion || !this.isConnected) return;
     scrollToSectionIn(this.shadowRoot);
+    this.setAttribute('data-content-ready', 'true');
+    this.dispatchEvent(new CustomEvent('content-ready', {
+      bubbles: true,
+      composed: true,
+      detail: { notFound: this.name === 'notfound' },
+    }));
+  }
+
+  _publishContentError(error, fallbackMessage = 'content request failed') {
+    const message = error.message || fallbackMessage;
+    this.setAttribute('data-content-error', message);
+    this.dispatchEvent(new CustomEvent('content-error', {
+      bubbles: true,
+      composed: true,
+      detail: { message },
+    }));
   }
 
   _renderNav() {
