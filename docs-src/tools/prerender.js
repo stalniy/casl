@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer';
 import { promisify } from 'util';
 import { dirname, resolve, join, extname, sep } from 'path';
 import { fileURLToPath } from 'url';
+import { exportMarkdown } from './markdownExport.js';
 
 const MIME_TYPES = {
   '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css',
@@ -158,6 +159,7 @@ async function waitForRouteContent(page, url) {
       throw new Error('route resolved unexpectedly to not-found content');
     }
     if (!status.renderedRoute) throw new Error(`route content did not become ready; state=${JSON.stringify(status)}`);
+    return status;
   } catch (error) {
     throw new Error(`route ${url}: ${error.message}`, { cause: error });
   }
@@ -175,9 +177,9 @@ async function renderPage({ page, iterator }, options) {
   for (const url of iterator) {
     console.log(`[fetching]: ${url}`);
     await page.goto(`${LOCAL_APP}${url}`, { waitUntil: 'domcontentloaded' });
-    await waitForRouteContent(page, url);
+    const routeState = await waitForRouteContent(page, url);
     const snapshot = await page.evaluate(getComposedSnapshot);
-    const html = await page.evaluate((content) => {
+    let html = await page.evaluate((content) => {
       const fallback = document.getElementById('prerender-fallback');
       if (!fallback) throw new Error('prerender fallback container is missing');
       fallback.innerHTML = content;
@@ -197,8 +199,35 @@ async function renderPage({ page, iterator }, options) {
       throw new Error(`route ${url}: output path escapes build directory`);
     }
     console.log(`[saving]: ${url}`);
-    await mkdir(fullPath, { recursive: true });
-    await writeFile(join(fullPath, 'index.html'), html);
+    try {
+      await mkdir(fullPath, { recursive: true });
+    } catch (error) {
+      throw new Error(`route ${url}: cannot create output directory ${fullPath}: ${error.message}`, { cause: error });
+    }
+    const markdownUrl = await exportMarkdown(url, fullPath, BASE_URL, routeState);
+    if (markdownUrl) {
+      html = await page.evaluate((href) => {
+        document.head.querySelectorAll('link[rel="alternate"][type="text/markdown"]').forEach(link => link.remove());
+        const link = document.createElement('link');
+        link.rel = 'alternate';
+        link.type = 'text/markdown';
+        link.href = href;
+        document.head.appendChild(link);
+        document.body.querySelectorAll('[data-markdown-discovery]').forEach(node => node.remove());
+        const notice = document.createElement('div');
+        notice.hidden = true;
+        notice.setAttribute('aria-hidden', 'true');
+        notice.setAttribute('data-markdown-discovery', '');
+        notice.textContent = `Markdown version of this documentation: ${href}`;
+        document.body.appendChild(notice);
+        return '<!doctype html>\n' + document.documentElement.outerHTML;
+      }, markdownUrl);
+    }
+    try {
+      await writeFile(join(fullPath, 'index.html'), html);
+    } catch (error) {
+      throw new Error(`route ${url}: cannot write HTML snapshot: ${error.message}`, { cause: error });
+    }
     console.log(`[saved]: ${url}`);
   }
 }

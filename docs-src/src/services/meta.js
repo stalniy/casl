@@ -3,6 +3,7 @@ import { t, translationExists } from './i18n.js';
 export function setTitle(title) {
   const prefix = title ? `${title} - ` : '';
   document.title = prefix + t('name');
+  setPropertyMeta('og:title', document.title);
 }
 
 function getMetaTag(name) {
@@ -17,6 +18,15 @@ function getMetaTag(name) {
   return meta;
 }
 
+function setPropertyMeta(property, content) {
+  let tags = Array.from(document.head.querySelectorAll(`meta[property="${property}"]`));
+  const meta = tags.shift() || document.createElement('meta');
+  meta.setAttribute('property', property);
+  meta.setAttribute('content', content);
+  if (!meta.isConnected) document.head.appendChild(meta);
+  tags.forEach(tag => tag.remove());
+}
+
 export function setMeta(name, content) {
   if (typeof name === 'object') {
     Object.keys(name).forEach(key => setMeta(key, name[key]));
@@ -29,6 +39,7 @@ export function setMeta(name, content) {
     : content || defaultValue;
 
   getMetaTag(name).setAttribute('content', value.replace(/[\n\r]+/g, ' '));
+  if (name === 'description') setPropertyMeta('og:description', value.replace(/[\n\r]+/g, ' '));
 }
 
 export function setRouteMeta({ response }) {

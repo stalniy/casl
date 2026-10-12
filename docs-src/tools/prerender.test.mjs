@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { cp, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
 import { execFile as execFileCallback } from 'node:child_process';
 import http from 'node:http';
 import os from 'node:os';
@@ -18,7 +18,7 @@ const routeFile = route => path.join(root, route.replace(basePath, '').replace(/
 const execFile = promisify(execFileCallback);
 const articleRoute = `${basePath}/en/guide/intro` || '/en/guide/intro';
 
-async function runPrerenderFixture({ timeout, breakEntrypoint = false, failArticle = false, missingContent = false }) {
+async function runPrerenderFixture({ timeout, breakEntrypoint = false, failArticle = false, missingContent = false, escapeMetadata = false, repeat = 1 }) {
   const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), 'casl-prerender-'));
   const dist = path.join(temporaryRoot, 'dist');
   const fixtureRoute = missingContent ? `${basePath}/en/guide/missing-readiness-fixture` : articleRoute;
@@ -37,19 +37,33 @@ async function runPrerenderFixture({ timeout, breakEntrypoint = false, failArtic
     const article = assets.find(file => file.startsWith('intro.en-') && file.endsWith('.json'));
     await writeFile(path.join(dist, 'assets/guide', article), 'null');
   }
+  if (escapeMetadata) {
+    const assets = await readdir(path.join(dist, 'assets/guide'));
+    const article = assets.find(file => file.startsWith('intro.en-') && file.endsWith('.json'));
+    const source = JSON.parse(await readFile(path.join(dist, 'assets/guide', article), 'utf8'));
+    source.title = 'A & <Test> "Title"';
+    source.meta.description = 'First line\nsecond line';
+    await writeFile(path.join(dist, 'assets/guide', article), JSON.stringify(source));
+  }
 
   try {
-    const { stdout, stderr } = await execFile(process.execPath, ['tools/prerender.js'], {
-      cwd: docsRoot,
-      timeout: 20000,
-      maxBuffer: 1024 * 1024,
-      env: {
-        ...process.env,
-        LIT_APP_PUBLIC_PATH: basePath,
-        LIT_APP_DIST_FOLDER: dist,
-        LIT_APP_RENDER_TIMEOUT_MS: String(timeout),
-      },
-    });
+    let stdout = '';
+    let stderr = '';
+    for (let run = 0; run < repeat; run += 1) {
+      const result = await execFile(process.execPath, ['tools/prerender.js'], {
+        cwd: docsRoot,
+        timeout: 20000,
+        maxBuffer: 1024 * 1024,
+        env: {
+          ...process.env,
+          LIT_APP_PUBLIC_PATH: basePath,
+          LIT_APP_DIST_FOLDER: dist,
+          LIT_APP_RENDER_TIMEOUT_MS: String(timeout),
+        },
+      });
+      stdout += result.stdout;
+      stderr += result.stderr;
+    }
     return { code: 0, stdout, stderr, snapshot, temporaryRoot };
   } catch (error) {
     return {
@@ -59,6 +73,50 @@ async function runPrerenderFixture({ timeout, breakEntrypoint = false, failArtic
       snapshot,
       temporaryRoot,
     };
+  }
+}
+
+async function runMarkdownFailureFixture({ source, files = {}, artifacts = [] }) {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), 'casl-markdown-prerender-'));
+  const isolatedRoot = path.join(temporaryRoot, 'repo');
+  const isolatedDocs = path.join(isolatedRoot, 'docs-src');
+  const dist = path.join(isolatedDocs, 'dist');
+  const route = `${basePath}/en/guide/intro`;
+  const output = path.join(dist, 'en/guide/intro');
+  await mkdir(path.join(isolatedDocs, 'tools'), { recursive: true });
+  await cp(root, dist, { recursive: true });
+  await rm(path.join(dist, 'en/guide/intro'), { recursive: true, force: true });
+  await writeFile(path.join(dist, 'sitemap.xml'), `<urlset><url><loc>https://docs.example${route}</loc></url></urlset>`);
+  await cp(path.join(docsRoot, 'tools/prerender.js'), path.join(isolatedDocs, 'tools/prerender.js'));
+  await cp(path.join(docsRoot, 'tools/markdownExport.js'), path.join(isolatedDocs, 'tools/markdownExport.js'));
+  await cp(path.join(docsRoot, 'package.json'), path.join(isolatedDocs, 'package.json'));
+  await symlink(path.join(docsRoot, 'node_modules'), path.join(isolatedDocs, 'node_modules'), 'dir');
+  if (source !== undefined) {
+    const sourceFile = path.join(isolatedDocs, 'src/content/pages/guide/intro/en.md');
+    await mkdir(path.dirname(sourceFile), { recursive: true });
+    await writeFile(sourceFile, source);
+  }
+  for (const [relative, contents] of Object.entries(files)) {
+    const target = path.join(isolatedRoot, relative);
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, contents);
+  }
+  await mkdir(output, { recursive: true });
+  for (const artifact of artifacts) {
+    const target = path.join(output, artifact.name);
+    if (artifact.directory) await mkdir(target, { recursive: true });
+    else await writeFile(target, artifact.bytes);
+  }
+  try {
+    const result = await execFile(process.execPath, ['tools/prerender.js'], {
+      cwd: isolatedDocs,
+      timeout: 20000,
+      maxBuffer: 1024 * 1024,
+      env: { ...process.env, LIT_APP_PUBLIC_PATH: basePath, LIT_APP_RENDER_TIMEOUT_MS: '12000' },
+    });
+    return { code: 0, stdout: result.stdout, stderr: result.stderr, html: path.join(output, 'index.html'), temporaryRoot };
+  } catch (error) {
+    return { code: error.code || 1, stdout: error.stdout || '', stderr: error.stderr || '', html: path.join(output, 'index.html'), temporaryRoot };
   }
 }
 
@@ -132,6 +190,80 @@ test('generated home and article snapshots expose content and native navigation 
   assert.ok(nativeLinks.some(({ href, label }) => href && label));
   assert.ok(nativeLinks.some(({ href }) => href.startsWith(`${basePath}/`) || href.startsWith('/en')),
     'native links retain the deployed version prefix or root route');
+});
+
+test('saved snapshots have final unique Open Graph metadata and route-local Markdown discovery', async (t) => {
+  const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.setJavaScriptEnabled(false);
+  const routes = [
+    'en',
+    'en/guide/intro',
+    'en/api/casl-ability',
+    'en/support-casljs',
+    'en/package/casl-prisma',
+  ];
+  for (const route of routes) {
+    const htmlPath = path.join(root, route.replace(basePath, '').replace(/^\/+|\/+$/g, ''), 'index.html');
+    const html = await readFile(htmlPath, 'utf8');
+    await page.setContent(html);
+    const metadata = await page.evaluate(() => ({
+      title: document.title,
+      description: document.querySelector('meta[name="description"]')?.content,
+      ogTitles: Array.from(document.querySelectorAll('meta[property="og:title"]'), tag => tag.content),
+      ogDescriptions: Array.from(document.querySelectorAll('meta[property="og:description"]'), tag => tag.content),
+      markdownLinks: Array.from(document.head.querySelectorAll('link[rel="alternate"][type="text/markdown"]'), link => link.getAttribute('href')),
+      notices: Array.from(document.body.querySelectorAll('[data-markdown-discovery]'), node => ({
+        text: node.textContent,
+        hidden: node.hidden,
+        ariaHidden: node.getAttribute('aria-hidden'),
+        directBodyChild: node.parentElement === document.body,
+      })),
+    }));
+    assert.deepEqual(metadata.ogTitles, [metadata.title], `${route} has one decoded Open Graph title matching document.title`);
+    assert.deepEqual(metadata.ogDescriptions, [metadata.description], `${route} has one decoded Open Graph description matching the description meta`);
+    if (route === 'en') {
+      assert.deepEqual(metadata.markdownLinks, []);
+      assert.deepEqual(metadata.notices, []);
+      assert.equal(await readFile(path.join(path.dirname(htmlPath), 'index.md')).then(() => true, () => false), false);
+    } else {
+      const pathname = `/${route}`;
+      const expected = `${basePath}${pathname}/index.md`;
+      assert.deepEqual(metadata.markdownLinks, [expected]);
+      assert.deepEqual(metadata.notices, [{
+        text: `Markdown version of this documentation: ${expected}`,
+        hidden: true,
+        ariaHidden: 'true',
+        directBodyChild: true,
+      }]);
+      await readFile(path.join(path.dirname(htmlPath), 'index.md'));
+    }
+  }
+
+  const repeated = await runPrerenderFixture({ timeout: 10000, repeat: 2 });
+  t.after(() => rm(repeated.temporaryRoot, { recursive: true, force: true }));
+  assert.equal(repeated.code, 0, repeated.stderr);
+  await page.setContent(await readFile(repeated.snapshot, 'utf8'));
+  assert.equal(await page.$$eval('meta[property="og:title"]', tags => tags.length), 1);
+  assert.equal(await page.$$eval('meta[property="og:description"]', tags => tags.length), 1);
+  assert.equal(await page.$$eval('link[rel="alternate"][type="text/markdown"]', tags => tags.length), 1);
+  assert.equal(await page.$$eval('[data-markdown-discovery]', nodes => nodes.length), 1);
+
+  const escaped = await runPrerenderFixture({ timeout: 10000, escapeMetadata: true });
+  t.after(() => rm(escaped.temporaryRoot, { recursive: true, force: true }));
+  assert.equal(escaped.code, 0, escaped.stderr);
+  await page.setContent(await readFile(escaped.snapshot, 'utf8'));
+  const escapedValues = await page.evaluate(() => ({
+    title: document.title,
+    ogTitle: document.querySelector('meta[property="og:title"]')?.content,
+    description: document.querySelector('meta[name="description"]')?.content,
+    ogDescription: document.querySelector('meta[property="og:description"]')?.content,
+  }));
+  assert.equal(escapedValues.ogTitle, escapedValues.title);
+  assert.equal(escapedValues.title, 'A & <Test> "Title" - CASL');
+  assert.equal(escapedValues.ogDescription, escapedValues.description);
+  assert.equal(escapedValues.description, 'First line second line');
 });
 
 test('browser takeover waits for route content and leaves fallback on startup failure', async (t) => {
@@ -407,5 +539,40 @@ test('prerender exits unsuccessfully without writing a snapshot on startup timeo
     if (fixture.name === 'content failure') assert.match(result.stderr, /did not return rendered content/);
     else if (fixture.name === 'not-found content') assert.match(result.stderr, /route resolved unexpectedly to not-found content/);
     else assert.match(result.stderr, /did not become ready before timeout/);
+  }
+});
+
+test('Markdown publication failures stop the command before advertising an export', async (t) => {
+  const cases = [
+    { name: 'missing page source', pattern: /cannot read Markdown source/ },
+    { name: 'missing include', source: '@include: absent.md\n', pattern: /cannot read included file .*absent\.md/ },
+    {
+      name: 'include cycle',
+      source: '@include: cycle-a.md\n',
+      files: { 'cycle-a.md': '@include: cycle-b.md\n', 'cycle-b.md': '@include: cycle-a.md\n' },
+      pattern: /include cycle/,
+    },
+    { name: 'missing local image', source: '![missing](./absent.png)\n', pattern: /cannot read image reference/ },
+    {
+      name: 'image copy collision',
+      source: '![collision](./asset.png)\n',
+      files: { 'docs-src/src/content/pages/guide/intro/asset.png': Buffer.from('source image') },
+      artifacts: [{ name: 'asset.png', bytes: Buffer.from('existing output artifact') }],
+      pattern: /image copy would overwrite another artifact/,
+    },
+    {
+      name: 'Markdown output write failure',
+      source: 'plain Markdown\n',
+      artifacts: [{ name: 'index.md', directory: true }],
+      pattern: /cannot write Markdown output/,
+    },
+  ];
+  for (const scenario of cases) {
+    const result = await runMarkdownFailureFixture(scenario);
+    t.after(() => rm(result.temporaryRoot, { recursive: true, force: true }));
+    assert.notEqual(result.code, 0, `${scenario.name} exits nonzero`);
+    assert.match(result.stderr, new RegExp(`route ${basePath.replaceAll('/', '\\/')}\\/en\\/guide\\/intro`));
+    assert.match(result.stderr, scenario.pattern, scenario.name);
+    assert.equal(await readFile(result.html).then(() => true, () => false), false, `${scenario.name} leaves no new HTML snapshot`);
   }
 });
