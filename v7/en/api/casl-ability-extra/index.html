@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>@casl/ability/extra API - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,402 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="@casl/ability/extra, rulesToQuery, rulesToAST, rulesToFields, permittedFieldsOf">
+  <meta name="description" content="@casl/ability/extra API — rulesToQuery, rulesToAST, rulesToFields, permittedFieldsOf. Helpers for DB queries and field filtering.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>API documentation</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/api/casl-ability">
+        @casl/ability API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra">
+        @casl/ability/extra API
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>@casl/ability/extra API</h1>
+        
+        <div class="description md"><h2 id="rules-to-query"><a name="rules-to-query" class="h-link" href="#"></a>rulesToQuery</h2>
+<p>This is a helper iterator function that allows to aggregate conditions from permissions into a database query.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>ability: TAbility</code></li>
+<li><code>action: string</code></li>
+<li><code>subjectType: SubjectType</code></li>
+<li><code>convert: (rule: RuleOf&lt;TAbility&gt;) =&gt; object</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> <code>null</code> if user is not allowed to run specified <code>action</code> on specified <code>subjectType</code>, otherwise returns an object of optional <code>$and</code> and <code>$or</code> fields. <code>$and</code> contains results of transformation from inverted rules and <code>$or</code> contains results of direct rules.</li>
+<li><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    , 
+      <a itemprop="url" href="/v7/en/package/casl-mongoose#accessible-records-plugin">
+        @casl/mongoose
+      </a>
+    </li>
+</ul>
+<h2 id="rules-to-ast"><a name="rules-to-ast" class="h-link" href="#"></a>rulesToAST</h2>
+<p>This function converts rules into <a href="https://github.com/stalniy/ucast" target="_blank" rel="noopener nofollow">ucast</a> AST.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>ability: TAbility</code></li>
+<li><code>action: string</code></li>
+<li><code>subjectType: SubjectType</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> <code>null</code> if user is not allowed to run specified <code>action</code> on specified <code>subjectType</code>, otherwise returns AST.</li>
+</ul>
+<h2 id="rules-to-fields"><a name="rules-to-fields" class="h-link" href="#"></a>rulesToFields</h2>
+<p>This is a helper function that allows to extract field values from <code>Ability</code> conditions. This may be useful to extract default values from permissions for a new object.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>ability: TAbility</code></li>
+<li><code>action: string</code></li>
+<li><code>subjectType: SubjectType</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> an object with values from conditions.</p>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+This function processes values of conditions that are not objects. Makes sure to call <code>ability.can</code> on resulting object:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { rulesToFields } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">public</span>: <span class="hljs-literal">true</span> });
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">title</span>: { <span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^\[Draft\]/i</span> } });
+});
+
+<span class="hljs-keyword">const</span> defaultValues = rulesToFields(ability, <span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+<span class="hljs-built_in">console</span>.log(defaultValues); <span class="hljs-comment">// { public: true, authorId: 1 }</span>
+
+<span class="hljs-keyword">const</span> newArticle = {
+  ...defaultValues,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">'...'</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">'...'</span>
+};
+</code></pre>
+</li>
+</ul>
+<h2 id="permitted-fields-of"><a name="permitted-fields-of" class="h-link" href="#"></a>permittedFieldsOf</h2>
+<p>This function returns fields of <code>subject</code> which specified <code>action</code> may be applied on. Accepts single generic parameter <code>TAbility</code> (<code>T</code> to be short).</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>ability: T</code></li>
+<li><code>action: string</code></li>
+<li><code>subject: Subject</code></li>
+<li><code>options: PermittedFieldsOptions&lt;T&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> an array of fields</p>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+This function is especially useful for backend API because it allows to filter out disallowed properties from request body (e.g., in <a href="https://expressjs.com/" target="_blank" rel="noopener nofollow">expressjs</a> middleware)</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { permittedFieldsOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
+<span class="hljs-keyword">import</span> { pick, isEmpty } <span class="hljs-keyword">from</span> <span class="hljs-string">'lodash'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>]);
+});
+
+app.patch(<span class="hljs-string">'/api/articles/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> updatableFields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, {
+    <span class="hljs-attr">fieldsFrom</span>: <span class="hljs-function"><span class="hljs-params">rule</span> =&gt;</span> rule.fields || [<span class="hljs-comment">/* list of all fields for Article */</span>]
+  });
+  <span class="hljs-keyword">const</span> changes = pick(req.body, updatableFields);
+
+  <span class="hljs-keyword">if</span> (isEmpty(changes)) {
+    res.status(<span class="hljs-number">400</span>).send({ <span class="hljs-attr">message</span>: <span class="hljs-string">'Nothing to update'</span> });
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">await</span> updateArticleById(id, changes);
+});
+</code></pre>
+<p>So, now even if user try to send fields that he is not allowed to update, <code>permittedFieldsOf</code> will filter them out!</p>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    , 
+      <a itemprop="url" href="/v7/en/package/casl-mongoose#accessible-fields-plugin">
+        @casl/mongoose
+      </a>
+    </p>
+</li>
+</ul>
+<h2 id="pack-rules"><a name="pack-rules" class="h-link" href="#"></a>packRules</h2>
+<p>This function <strong>reduces serialized rules size in 2 times</strong> (in comparison to its raw representation), by converting objects to arrays. This is useful if you plan to cache rules in <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank" rel="noopener nofollow">JWT</a> token.</p>
+<blockquote>
+<p>Don’t use result returned by packRules directly, its format is not public and may change in future versions.</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>rules: TRawRule[]</code></li>
+<li><code>packSubject?: (subjectType: SubjectType) =&gt; string</code> - we need to pass this parameter only if we use classes as subject types. It should return subject type's string representation.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> <code>PackRule&lt;TRawRule&gt;[]</code></p>
+</li>
+<li>
+<p><strong>Usage</strong></p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { packRules } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
+<span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
+
+app.post(<span class="hljs-string">'/session'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> token = jwt.sign({
+    <span class="hljs-attr">id</span>: req.user.id,
+    <span class="hljs-attr">rules</span>: packRules(defineRulesFor(req.user))
+  }, <span class="hljs-string">'jwt secret'</span>, { <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">'1d'</span> });
+
+  res.send({ token });
+});
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    , <a href="#unpack-rules"><code>unpackRules</code></a></p>
+</li>
+</ul>
+<h2 id="unpack-rules"><a name="unpack-rules" class="h-link" href="#"></a>unpackRules</h2>
+<p>This function unpacks rules previously packed by <a href="#pack-rules"><code>packRules</code></a>, so they can be consumed by <code>Ability</code> instance.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>rules: PackRule&lt;TRawRule&gt;[]</code></li>
+<li><code>unpackSubject?: (type: string) =&gt; SubjectType</code> - we need to pass this parameter only if we use classes as subject types. It should return subject type out of its string representation.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> <code>TRawRule[]</code></p>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+If backend sends packed rules, we need to use <code>unpackRules</code> before passing them into <code>Ability</code> instance:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { unpackRules } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>
+<span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginComponent</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params">params</span>)</span> {
+    <span class="hljs-keyword">return</span> http.post(<span class="hljs-string">'/session'</span>)
+      .then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> token = jwt.decode(response.token);
+        ability.update(unpackRules(token.rules))
+      });
+  }
+}
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    , <a href="#pack-rules"><code>packRules</code></a></p>
+</li>
+</ul></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/api/casl-ability">
+        
+        @casl/ability API
+      
+      </a>
+    
+    
+      
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/api/casl-ability-extra"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

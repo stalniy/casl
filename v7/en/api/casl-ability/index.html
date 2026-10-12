@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>@casl/ability API - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,774 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="@casl/ability API, Ability, MongoAbility, defineAbility, AbilityBuilder, ForbiddenError">
+  <meta name="description" content="@casl/ability API reference — Ability, MongoAbility, defineAbility, AbilityBuilder, update, can, cannot, ForbiddenError.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>API documentation</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/api/casl-ability">
+        @casl/ability API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra">
+        @casl/ability/extra API
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>@casl/ability API</h1>
+        
+        <div class="description md"><p><code>@casl/ability</code> contains 2 modules:</p>
+<ul>
+<li>
+<p>core module which provides <code>Ability</code> and other core classes</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> core <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+</code></pre>
+</li>
+<li>
+<p>extra module which provides additional helper functions</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> extra <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
+</code></pre>
+</li>
+</ul>
+<p>This page describes API documentation for core package only. Check 
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra">
+        @casl/ability/extra API
+      </a>
+     to get information about helper functions.</p>
+<blockquote>
+<p>All examples on this page uses <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener nofollow">TypeScript</a></p>
+</blockquote>
+<h2 id="ability"><a name="ability" class="h-link" href="#"></a>Ability</h2>
+<p><code>Ability</code> is a base class that implements the functionality of checking permissions. It is a generic class that accepts 2 parameters:</p>
+<ol>
+<li><code>Abilities</code> is either a string literal type that represents possible actions or a tuple of 2 elements that represents all possible actions on all possible subjects. By default, equals to <code>[string, Subject]</code></li>
+<li><code>Conditions</code> is a shape of conditions. There is no restriction on this parameter, so it can be anything.</li>
+</ol>
+<p>For example:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability, Abilities } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">type</span> ClaimAbility = Ability&lt;<span class="hljs-built_in">string</span>&gt;;
+<span class="hljs-keyword">type</span> AppAbility = Ability&lt;[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>]&gt;;
+</code></pre>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </p>
+<h3 id="ability-constructor"><a name="ability-constructor" class="h-link" href="#"></a>Ability constructor</h3>
+<ul>
+<li>
+<p><strong>Parameters</strong> (<code>A</code> is shortened from <code>Abilities</code>):</p>
+<ul>
+<li><code>rules: RawRuleFrom&lt;A, Conditions&gt;[] = []</code></li>
+<li><code>options: AbilityOptions&lt;A, Conditions&gt; = {}</code>
+<ul>
+<li><code>detectSubjectType?: (subject?: Subject) =&gt; string</code>
+allows to check 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        subject type detection
+      </a>
+     logic</li>
+<li><code>conditionsMatcher?: ConditionsMatcher&lt;Conditions&gt;</code>
+allows to change the language to match conditions. See 
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+     for details</li>
+<li><code>fieldMatcher?: FieldMatcher</code>
+allows to change the logic how fields are matched. See 
+      <a itemprop="url" href="/v7/en/advanced/customize-ability#custom-field-matcher">
+        Custom field matcher
+      </a>
+     for details</li>
+<li><code>resolveAction?: ResolveAction&lt;Normalize&lt;A&gt;[0]&gt;</code>
+allows to pass a function that resolves aliases to actions. See 
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define action aliases
+      </a>
+     for details</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;([
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'update'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
+]);
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define rules
+      </a>
+    </p>
+</li>
+</ul>
+<h3 id="update"><a name="update" class="h-link" href="#"></a>update</h3>
+<p>Updates rules of <code>Ability</code> instance. This method completely replaces all previously define rules with new ones.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>rules: RawRuleFrom&lt;A, Conditions&gt;[]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: <code>this</code></p>
+</li>
+<li>
+<p><strong>Emits</strong>:</p>
+<ul>
+<li><code>update</code> - before updating instance</li>
+<li><code>updated</code> - after instance has been updated</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+Use it when you need to update permissions. In the common scenario, you need to do this on login, logout and when user permissions are changed.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability([{ <span class="hljs-attr">action</span>: <span class="hljs-string">'manage'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'all'</span> }]);
+ability.update([]); <span class="hljs-comment">// took back all permissions</span>
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/intro">
+        CASL guide
+      </a>
+    </p>
+</li>
+</ul>
+<h3 id="can-of-ability"><a name="can-of-ability" class="h-link" href="#"></a>can of Ability</h3>
+<p>Checks that the provided action and subject satisfy permissions. Depending on <code>Abilities</code> generic parameter this function accepts either single <code>action</code> argument (when <code>Abilities</code> is a string) or 3 arguments (when <code>Abilities</code> is a tuple).</p>
+<ul>
+<li>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>action: string</code> - an action to check</li>
+<li><code>subject: Subject</code> - a subject to check</li>
+<li><code>field?: string</code> - a field to check</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: <code>boolean</code></p>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> claimAbility = <span class="hljs-keyword">new</span> Ability&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;();
+<span class="hljs-comment">// the 1st generic is a string, so the method accepts only single parameter</span>
+claimAbility.can(<span class="hljs-string">'read'</span>);
+
+<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;();
+<span class="hljs-comment">// the 1st argument is a tuple, so the method accepts 2-3 parameters</span>
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/intro">
+        CASL guide
+      </a>
+    </p>
+</li>
+</ul>
+<h3 id="cannot-of-ability"><a name="cannot-of-ability" class="h-link" href="#"></a>cannot of Ability</h3>
+<p>This method works the same way as <a href="#can-of-ability">can</a> but returns inverted result.</p>
+<h3 id="relevant-rule-for"><a name="relevant-rule-for" class="h-link" href="#"></a>relevantRuleFor</h3>
+<p>This method returns a rule that matches provided action, subject and field. If rule cannot be found it returns <code>null</code>. May be useful for debugging.</p>
+<ul>
+<li><strong>Parameters</strong>: accepts the same parameters as <a href="#can-of-ability">can</a></li>
+<li><strong>Returns</strong>: <code>Rule&lt;Abilities, Conditions&gt; | null</code></li>
+<li><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+</ul>
+<h3 id="rules-for"><a name="rules-for" class="h-link" href="#"></a>rulesFor</h3>
+<p>This method returns all registered rules for provided action, subject and field. Useful for debugging and for extensions. Contrary to <code>relevantRuleFor</code> accepts subject type as the 2nd argument or:</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>action: string</code> - an action to check</li>
+<li><code>subjectType: SubjectType</code> - a subject type to check (this one is optional if <code>Abilities</code> is a string literal type)</li>
+<li><code>field?: string</code> - a field to check</li>
+</ul>
+</li>
+<li><strong>Returns</strong>: <code>Rule&lt;Abilities, Conditions&gt;[]</code></li>
+</ul>
+<h3 id="possible-rules-for"><a name="possible-rules-for" class="h-link" href="#"></a>possibleRulesFor</h3>
+<p>Similar to <a href="#rules-for">rulesFor</a> but it accepts only up to 2 parameters (depending on the type of 1st generic parameter). Returns all possible rules ignoring field level restrictions. Useful for debugging and for extensions.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>action: string</code></li>
+<li><code>subjectType: SubjectType</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong>: <code>Rule&lt;Abilities, Conditions&gt;[]</code></li>
+</ul>
+<h3 id="on"><a name="on" class="h-link" href="#"></a>on</h3>
+<p>Allows to register event handler on specific event. Currently, only 2 events are supported:</p>
+<ul>
+<li>
+<p><code>update</code>, triggered before an instance is updated</p>
+</li>
+<li>
+<p><code>updated</code>, triggered after an instance is updated</p>
+</li>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>event: 'update' | 'updated'</code></li>
+<li><code>handler: (event: Event) =&gt; void</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: a function that removes event handler</p>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+Useful for frontend frameworks integration. Usually you have a single ability instance in the app and a lot of places which need to recheck permissions when the instance's rules are changed.</p>
+</li>
+</ul>
+<h3 id="rules-property-of-ability"><a name="rules-property-of-ability" class="h-link" href="#"></a>rules property of Ability</h3>
+<p>Returns an array of <code>RawRule</code>s passed in <code>Ability</code> constructor.</p>
+<h3 id="detect-subject-type"><a name="detect-subject-type" class="h-link" href="#"></a>detectSubjectType</h3>
+<p>Can be used to detect subject type of object. Works for both subject types and subject instances.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>subject: Subject</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong>: <code>string</code></li>
+</ul>
+<h2 id="ability"><a name="ability" class="h-link" href="#"></a>Ability</h2>
+<p><code>Ability</code> extends <a href="#ability"><code>Ability</code></a>. It sets default values for 2 options:</p>
+<ul>
+<li><code>conditionsMatcher</code> into <a href="#mongo-query-matcher"><code>mongoQueryMatcher</code></a></li>
+<li><code>fieldMatcher</code> into <a href="#field-pattern-matcher"><code>fieldPatternMatcher</code></a>.</li>
+</ul>
+<p>It also enforces <code>MongoQuery</code> restriction on the <code>Conditions</code> generic parameter. By default, it is <code>Ability&lt;Abilities, MongoQuery&gt;</code>.</p>
+<h2 id="create-mongo-ability"><a name="create-mongo-ability" class="h-link" href="#"></a>createMongoAbility</h2>
+<p>This is a factory function that creates an instance of <code>Ability</code> with Mongo-like conditions to restrict access.</p>
+<h2 id="ability-builder"><a name="ability-builder" class="h-link" href="#"></a>AbilityBuilder</h2>
+<p>This class allows to construct <code>Ability</code> instance in declarative way. It accepts a single generic parameter <code>T extends AnyAbility</code>. Usually, we don't need to provide it, as TypeScript will always infer it for us (just don't forget to pass class of <code>Ability</code> in constructor).</p>
+<h3 id="ability-builder-constructor"><a name="ability-builder-constructor" class="h-link" href="#"></a>AbilityBuilder constructor</h3>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>AbilityType: AbilityClass&lt;TAbility&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define rules
+      </a>
+    </p>
+</li>
+</ul>
+<h3 id="can-of-ability-builder"><a name="can-of-ability-builder" class="h-link" href="#"></a>can of AbilityBuilder</h3>
+<p>Registers a <code>RawRule</code> instance in <code>rules</code> array. Depending on the passed in generic parameter, this function accepts either single <code>action</code> argument (when <code>Abilities</code> generic of <code>Ability</code> is a string) or 3 arguments (when <code>Abilities</code> is a tuple). In general it accepts 1-4 parameters.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong>: this method has 2 overloads</p>
+<ul>
+<li><code>action: string | string[]</code></li>
+<li><code>subjectType: string | Function</code></li>
+<li><code>fields: string[]</code></li>
+<li><code>conditions: Conditions</code></li>
+<li><strong>and</strong></li>
+<li><code>action: string | string[]</code></li>
+<li><code>subjectType: string | Function</code></li>
+<li><code>conditions: Conditions</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> <code>RuleBuilder</code>, a class that allows to further change constructed <code>RawRule</code> (e.g., add forbidden reason).</p>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability, createMongoAbility, AbilityClass } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-comment">// action only Ability type</span>
+<span class="hljs-keyword">type</span> ClaimAbility = Ability&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;;
+<span class="hljs-keyword">const</span> ClaimAbility = Ability <span class="hljs-keyword">as</span> AbilityClass&lt;ClaimAbility&gt;;
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(ClaimAbility);
+
+can(<span class="hljs-string">'read'</span>);
+can(<span class="hljs-string">'update'</span>);
+
+<span class="hljs-comment">// or action and subject Ability type</span>
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'firstName'</span>, <span class="hljs-string">'lastName'</span>]);
+
+<span class="hljs-keyword">const</span> ability = build();
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define rules
+      </a>
+    </p>
+</li>
+</ul>
+<h3 id="cannot-of-ability-builder"><a name="cannot-of-ability-builder" class="h-link" href="#"></a>cannot of AbilityBuilder</h3>
+<p>Registers an inverted <code>RawRule</code> inside <code>AbilityBuilder</code>. Accepts the same parameters and has the same behavior as <a href="#can-of-ability-builder">can method</a>.</p>
+<h3 id="build"><a name="build" class="h-link" href="#"></a>build</h3>
+<p>Builds an instance of provided <code>Ability</code> type.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>options?: AbilityOptionsOf&lt;TAbility&gt;</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> a new <code>TAbility</code> instance</li>
+</ul>
+<h3 id="rules-property-of-ability-builder"><a name="rules-property-of-ability-builder" class="h-link" href="#"></a>rules property of AbilityBuilder</h3>
+<p>Contains an array of <code>RawRule</code>s registered by <a href="#can-of-ability-builder"><code>can</code></a> and <a href="#cannot-of-ability-builder"><code>cannot</code></a> methods.</p>
+<h2 id="define-ability"><a name="define-ability" class="h-link" href="#"></a>defineAbility</h2>
+<p>This function allows to define <a href="#ability"><code>MongoAbility</code></a> instance in a compact form. Cannot be used to create <code>Ability</code> instances. It's very useful for writing tests and documentation.</p>
+<ul>
+<li><strong>Signature</strong> (<code>T</code> is <code>TAbility</code>):
+<ul>
+<li><code>&lt;T extends AnyAbility&gt;(define: DSL&lt;T, void&gt;, options?: AbilityOptionsOf&lt;T&gt;) =&gt; T</code></li>
+<li><code>&lt;T extends AnyAbility&gt;(define: DSL&lt;T, Promise&lt;void&gt;&gt;, options?: AbilityOptionsOf&lt;T&gt;) =&gt; Promise&lt;T&gt;</code></li>
+</ul>
+</li>
+<li><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define rules
+      </a>
+    </li>
+</ul>
+<h2 id="forbidden-error"><a name="forbidden-error" class="h-link" href="#"></a>ForbiddenError</h2>
+<p>This class is useful if you want to stop execution of the next code in case if user doesn't have permission to do something. Has private <code>constructor</code>, so cannot be instantiated with <code>new</code> (in TypeScript). It's a generic class that accepts <code>TAbility</code> as a single parameter. For example:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError, defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>)
+});
+
+ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+<span class="hljs-comment">// fetch article from database</span>
+</code></pre>
+<h3 id="static-from"><a name="static-from" class="h-link" href="#"></a>static from</h3>
+<p>Creates a <code>ForbiddenError</code> instance from provided <code>Ability</code> instance.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>ability: TAbility</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> <code>ForbiddenError</code> instance</li>
+</ul>
+<h3 id="static-set-default-message"><a name="static-set-default-message" class="h-link" href="#"></a>static setDefaultMessage</h3>
+<p>Allows to change default error message for all <code>ForbiddenError</code>s. By default, the error is <code>Cannot execute "${error.action}" on "${error.subjectType}"</code></p>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>messageOrFn: string | GetErrorMessage</code> - message or function that returns string</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> void</p>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+ForbiddenError.setDefaultMessage(<span class="hljs-string">'Not authorized'</span>);
+<span class="hljs-comment">// or more verbose</span>
+ForbiddenError.setDefaultMessage(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-string">`You are not allowed to <span class="hljs-subst">${error.action}</span> on <span class="hljs-subst">${error.subjectType}</span>`</span>);
+</code></pre>
+</li>
+</ul>
+<h3 id="set-message"><a name="set-message" class="h-link" href="#"></a>setMessage</h3>
+<p>Changes message of a particular <code>ForbiddenError</code> instance.</p>
+<ul>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>message: string</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> <code>this</code></p>
+</li>
+<li>
+<p><strong>Usage</strong>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./appAbility'</span>;
+
+ForbiddenError.from(ability)
+  .setMessage(<span class="hljs-string">'You cannot update posts'</span>)
+  .throwUnlessCan(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>);
+</code></pre>
+</li>
+</ul>
+<h3 id="throw-unless-can"><a name="throw-unless-can" class="h-link" href="#"></a>throwUnlessCan</h3>
+<p>Accepts the same parameters as <a href="#can-of-ability">Ability's can method</a>. Throws a <code>ForbiddenError</code> if user cannot do the provided action on provided subject.</p>
+<h2 id="get-default-error-message"><a name="get-default-error-message" class="h-link" href="#"></a>getDefaultErrorMessage</h2>
+<p>A function that returns default error message for <code>ForbiddenError</code>. Is useful to revert back default message after setting it using <a href="#static-set-default-message"><code>ForbiddenError.setDefaultMessage</code></a>.</p>
+<h2 id="field-pattern-matcher"><a name="field-pattern-matcher" class="h-link" href="#"></a>fieldPatternMatcher</h2>
+<p>This factory function accepts an array of fields and creates a function that matches fields by patterns using wildcards (i.e., <code>*</code>). It's used as a default field matcher option in <code>Ability</code> class.</p>
+<ul>
+<li>
+<p><strong>Factory Parameters</strong>:</p>
+<ul>
+<li><code>fields: string[]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Factory Returns</strong> <code>MatchField</code></p>
+</li>
+<li>
+<p><strong>Matcher Parameters</strong>:</p>
+<ul>
+<li><code>field: string</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Matcher Returns</strong> <code>boolean</code></p>
+</li>
+<li>
+<p><strong>Usage</strong></p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { fieldPatternMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> matchField = fieldPatternMatcher([<span class="hljs-string">'name'</span>, <span class="hljs-string">'email'</span>, <span class="hljs-string">'address.**'</span>]);
+<span class="hljs-built_in">console</span>.log(matchField(<span class="hljs-string">'name'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-built_in">console</span>.log(matchField(<span class="hljs-string">'address.street'</span>)); <span class="hljs-comment">// true</span>
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: <a href="#ability">Ability API</a>, 
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting field access
+      </a>
+    , 
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </p>
+</li>
+</ul>
+<h2 id="mongo-query-matcher"><a name="mongo-query-matcher" class="h-link" href="#"></a>mongoQueryMatcher</h2>
+<p>This factory function creates a matcher that matches subjects based on <a href="http://docs.mongodb.org/manual/reference/operator/query/" target="_blank" rel="noopener nofollow">MongoDB query language</a>. It's used as a default field matcher option in <code>Ability</code> class.</p>
+<ul>
+<li>
+<p><strong>Factory Parameters</strong>:</p>
+<ul>
+<li><code>conditions: MongoQuery</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Factory Returns</strong> <code>ConditionsMatcher&lt;MongoQuery&gt;</code></p>
+</li>
+<li>
+<p><strong>Matcher Parameters</strong>:</p>
+<ul>
+<li><code>object: Record&lt;PropertyKey, any&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Matcher Returns</strong> <code>boolean</code></p>
+</li>
+<li>
+<p><strong>Usage</strong><br>
+Can be passed as <code>conditionsMatcher</code> option to <code>Ability</code> class</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { mongoQueryMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> matchConditions = mongoQueryMatcher({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-built_in">console</span>.log(matchConditions({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">2</span> })); <span class="hljs-comment">// false</span>
+<span class="hljs-built_in">console</span>.log(matchConditions({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> })); <span class="hljs-comment">// true</span>
+</code></pre>
+</li>
+<li>
+<p><strong>See also</strong>: <a href="#ability">Ability API</a>, 
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in depth
+      </a>
+    , 
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </p>
+</li>
+</ul>
+<h2 id="build-mongo-query-matcher"><a name="build-mongo-query-matcher" class="h-link" href="#"></a>buildMongoQueryMatcher</h2>
+<p>This is a factory of factory. It allows to extend <code>mongoQueryMatcher</code> with custom mongo operators. See <a href="https://github.com/stalniy/ucast" target="_blank" rel="noopener nofollow">ucast</a> for details</p>
+<ul>
+<li><strong>Factory Parameters</strong>:
+<ul>
+<li><code>parsingInstructions: Record&lt;string, ParsingInstruction&gt;</code></li>
+<li><code>interpreters: Record&lt;string, JsOperator&gt;</code></li>
+</ul>
+</li>
+<li><strong>Factory Returns</strong> extended <code>mongoQueryMatcher</code></li>
+<li><strong>Usage</strong><br>
+The result of this function can be passed as <code>conditionsMatcher</code> option to <code>Ability</code> class.</li>
+<li><strong>See also</strong>: <a href="#mongo-query-matcher">mongoQueryMatcher API</a>, 
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+</ul>
+<h2 id="create-alias-resolver"><a name="create-alias-resolver" class="h-link" href="#"></a>createAliasResolver</h2>
+<p>Creates a function that resolves alias to real actions. Can be passed as <code>resolveAction</code> option to <code>Ability</code> class.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>aliasMap: AliasMap</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> <code>(action: string | string[]) =&gt; string | string[]</code></li>
+<li><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+</ul>
+<h2 id="detect-subject-type"><a name="detect-subject-type" class="h-link" href="#"></a>detectSubjectType</h2>
+<p>The default subject type detection logic. Can be passed as <code>detectSubjectType</code> option to <code>Ability</code> class. Can be used to extend the default logic. The checking logic is the following:</p>
+<ul>
+<li>
+<p>if <code>subject</code> is <code>undefined</code>, returns <code>all</code></p>
+</li>
+<li>
+<p>if <code>subject</code> is a <code>ForcedSubject</code>, returns its forced type</p>
+</li>
+<li>
+<p>if <code>subject</code> is an object, returns <code>constructor.modelName || constructor.name</code></p>
+</li>
+<li>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>subject?: {}</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong> a string (i.e., subject type)</p>
+</li>
+<li>
+<p><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </p>
+</li>
+</ul>
+<h2 id="subject"><a name="subject" class="h-link" href="#"></a>subject</h2>
+<p>Sets subject type for a plain object. You shouldn't use this if you use classes or define custom <code>detectSubjectType</code> algorithm. Accepts 2 generic parameters <code>TSubjectType</code> and <code>TObject</code>.</p>
+<ul>
+<li><strong>Parameters</strong>:
+<ul>
+<li><code>subjectType: TSubjectType</code></li>
+<li><code>object: TObject</code></li>
+</ul>
+</li>
+<li><strong>Returns</strong> <code>TObject &amp; ForcesSubject&lt;TSubjectType&gt;</code></li>
+<li><strong>See also</strong>: 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+</ul></div>
+      </article>
+      
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra">
+        
+        @casl/ability/extra API
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/api/casl-ability"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

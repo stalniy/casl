@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Customize Ability - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,448 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="customize ability, conditionsMatcher, fieldMatcher, custom operators, ucast, Ability">
+  <meta name="description" content="Customize CASL Ability — custom conditions matchers, field matchers, MongoDB operators, json-schema, extend Ability.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Customize Ability</h1>
+        
+        <div class="description md"><p>CASL was built with extensibility in mind and this allows you to extend conditions with custom operators, provide custom field matchers and even use your own implementation to match conditions (e.g., using functions or <a href="https://json-schema.org/" target="_blank" rel="noopener nofollow">json-schema</a>)! Let's see how</p>
+<h2 id="extend-conditions-with-custom-operators"><a name="extend-conditions-with-custom-operators" class="h-link" href="#"></a>Extend conditions with custom operators</h2>
+<p>Thanks to <a href="https://github.com/stalniy/ucast" target="_blank" rel="noopener nofollow">ucast</a>, it's possible to 
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        define conditions in CASL
+      </a>
+     using MongoDB query language. Usually this is enough but sometimes you may want to restrict possible operators, add non-standard operator or one of those that is not included in CASL by default (e.g., <a href="https://docs.mongodb.com/manual/reference/operator/query/nor/" target="_blank" rel="noopener nofollow">$nor</a>).</p>
+<p>Let's see an example of how to add <code>$nor</code> operator. To do this, we will use <code>buildMongoQueryMatcher</code> helper function from <code>@casl/ability</code> package. It allows to add or override existing operators:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  createMongoAbility,
+  AbilityBuilder,
+  Abilities,
+  buildMongoQueryMatcher,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { $nor, nor } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/mongo2js'</span>;
+
+<span class="hljs-keyword">const</span> conditionsMatcher = buildMongoQueryMatcher({ $nor }, { nor });
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
+    <span class="hljs-attr">$nor</span>: [{ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> }, { <span class="hljs-attr">authorId</span>: user.id }]
+  });
+
+  <span class="hljs-keyword">return</span> build({ conditionsMatcher });
+}
+</code></pre>
+<blockquote>
+<p>We use <code>user: any</code> for the purpose of ease, you should avoid this in real apps</p>
+</blockquote>
+<p><code>buildMongoQueryMatcher</code> extends existing set of operators, so if you want to restrict available operators, you should not use it. For example, let's allow to use only <code>$eq</code> and <code>$in</code> operators:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  createMongoAbility,
+  MongoAbility,
+  AbilityBuilder,
+  Abilities,
+  MongoQueryFieldOperators,
+  ConditionsMatcher,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { $in, within, $eq, eq, createFactory, BuildMongoQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/mongo2js'</span>;
+
+<span class="hljs-keyword">type</span> RestrictedMongoQuery&lt;T&gt; = BuildMongoQuery&lt;T, Pick&lt;MongoQueryFieldOperators, <span class="hljs-string">'$eq'</span> | <span class="hljs-string">'$in'</span>&gt;&gt;;
+<span class="hljs-keyword">const</span> conditionsMatcher: ConditionsMatcher&lt;RestrictedMongoQuery&gt; = createFactory({ $in, $eq }, { <span class="hljs-attr">in</span>: within, eq });
+<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;Abilities, RestrictedMongoQuery&gt;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: user.id } });
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>] } });
+
+  <span class="hljs-keyword">return</span> build({ conditionsMatcher });
+}
+</code></pre>
+<blockquote>
+<p>Read <a href="https://github.com/stalniy/ucast/tree/main/packages/mongo2js#custom-operator" target="_blank" rel="noopener nofollow">@ucast/mongo2js docs</a> page to learn how to create custom operators.</p>
+</blockquote>
+<p>By restricting operators, you not only disallow other developers to use more complex conditions but also make your frontend bundle size smaller (thanks to bundlers with tree-shaking support).</p>
+<h2 id="custom-conditions-matcher-implementation"><a name="custom-conditions-matcher-implementation" class="h-link" href="#"></a>Custom conditions matcher implementation</h2>
+<p>If you want to implement custom conditions matcher, you should use <code>Ability</code> class instead of <code>createMongoAbility</code> factory function. <code>createMongoAbility</code> is a factory function that creates an <code>Ability</code> instance with default values for <code>conditionsMatcher</code> and <code>fieldMatcher</code> options (i.e, mongo conditions matcher and field pattern matcher).</p>
+<p>Conditions matcher is a factory function that accepts <code>rule.conditions</code> and returns a function that accepts an object and returns boolean. All these restrictions on conditions matcher is enforced by <code>ConditionsMatcher</code> generic type which you can import from <code>@casl/ability</code>.</p>
+<p>Let's implement the matcher that allows to use a function as conditions matcher:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  Ability,
+  AbilityBuilder,
+  <span class="hljs-keyword">type</span> AbilityTuple,
+  <span class="hljs-keyword">type</span> MatchConditions,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">type</span> AppAbility = Ability&lt;AbilityTuple, MatchConditions&gt;;
+<span class="hljs-keyword">const</span> lambdaMatcher = <span class="hljs-function">(<span class="hljs-params">matchConditions: MatchConditions</span>) =&gt;</span> matchConditions;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">AppAbility</span> </span>{
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(Ability);
+
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ authorId }</span>) =&gt;</span> authorId === user.id);
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ status }</span>) =&gt;</span> [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>].includes(status));
+
+  <span class="hljs-keyword">return</span> build({ <span class="hljs-attr">conditionsMatcher</span>: lambdaMatcher });
+}
+</code></pre>
+<blockquote>
+<p>Conditions matchers can be only synchronous!</p>
+</blockquote>
+<p>We don't recommend to use functions for matching logic if you need to serialize rules or convert them to a database query. The default matcher should cover majority of cases.</p>
+<h2 id="custom-field-matcher"><a name="custom-field-matcher" class="h-link" href="#"></a>Custom field matcher</h2>
+<p>Field matcher is responsible for matching fields passed as 3rd argument to <code>can</code> method of <code>Ability</code> instance. It is a factory function that returns a function which accepts field and returns boolean. This logic is enforced by <code>FieldMatcher</code> type from <code>@casl/ability</code>.</p>
+<blockquote>
+<p>We cannot imagine a reasonable case to override field matching logic, 
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        default implementation
+      </a>
+     should be more than enough.</p>
+</blockquote>
+<p>You can use this to reduce your bundle size or enforce simpler logic. For example, let's implement simple field matcher that doesn't support field patterns:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, AbilityBuilder, FieldMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fieldMatcher: FieldMatcher = <span class="hljs-function"><span class="hljs-params">fields</span> =&gt;</span> <span class="hljs-function"><span class="hljs-params">field</span> =&gt;</span> fields.includes(field);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'content'</span>]);
+
+  <span class="hljs-keyword">return</span> build({ fieldMatcher });
+}
+</code></pre></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        
+        TypeScript Support
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        
+        Debugging and testing
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/advanced/customize-ability"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

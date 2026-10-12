@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Installation - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,471 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="casl install, npm, yarn, pnpm, cdn, @casl/ability, semantic versioning, webpack, es modules">
+  <meta name="description" content="How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue), builds and Webpack.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Installation</h1>
+        
+        <div class="description md"><h2 id="requirements"><a name="requirements" class="h-link" href="#"></a>Requirements</h2>
+<p>CASL is isomorphic, so can be used in browsers and in Nodejs environments. It requires an ES2020-compatible environment or newer.</p>
+<h2 id="semantic-versioning"><a name="semantic-versioning" class="h-link" href="#"></a>Semantic Versioning</h2>
+<p>CASL follows <a href="https://semver.org/" target="_blank" rel="noopener nofollow">Semantic Versioning</a> in all its official projects. Changes can be found in <a href="https://github.com/stalniy/casl/releases" target="_blank" rel="noopener nofollow">release notes</a> or in <code>CHANGELOG.md</code> file inside each package.</p>
+<h2 id="official-packages-and-its-versions"><a name="official-packages-and-its-versions" class="h-link" href="#"></a>Official packages and its versions</h2>
+<div class="responsive"><table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        @casl/ability
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/ability" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/ability.svg" alt="@casl/ability-status"></a></td>
+<td>CASL's core package</td>
+</tr>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        @casl/mongoose
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/mongoose" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/mongoose.svg" alt="@casl/mongoose-status"></a></td>
+<td>integration with <a href="http://mongoosejs.com/" target="_blank" rel="noopener nofollow">Mongoose</a></td>
+</tr>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        @casl/prisma
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/prisma" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/prisma.svg" alt="@casl/prisma-status"></a></td>
+<td>integration with <a href="https://www.prisma.io/" target="_blank" rel="noopener nofollow">Prisma</a></td>
+</tr>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        @casl/angular
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/angular" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/angular.svg" alt="@casl/angular-status"></a></td>
+<td>integration with  <a href="https://angular.io/" target="_blank" rel="noopener nofollow">Angular</a></td>
+</tr>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        @casl/react
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/react" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/react.svg" alt="@casl/react-status"></a></td>
+<td>integration with  <a href="https://reactjs.org/" target="_blank" rel="noopener nofollow">React</a></td>
+</tr>
+<tr>
+<td>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        @casl/vue
+      </a>
+    </td>
+<td><a href="https://www.npmjs.com/package/@casl/vue" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/v/@casl/vue.svg" alt="@casl/vue-status"></a></td>
+<td>integration with  <a href="https://vuejs.org" target="_blank" rel="noopener nofollow">Vue</a></td>
+</tr>
+</tbody>
+</table>
+</div><h2 id="3rd-party-packages"><a name="3rd-party-packages" class="h-link" href="#"></a>3rd party packages</h2>
+<p>There are also 3rd party packages which we can utilize in our projects. To find them, just <a href="https://www.npmjs.com/search?q=keywords:casl" target="_blank" rel="noopener nofollow">search on NPM using "casl" keyword</a></p>
+<blockquote>
+<p>Add "casl" in <a href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json#keywords" target="_blank" rel="noopener nofollow">package.json#keywords</a> array to show up your CASL based package in that list</p>
+</blockquote>
+<h2 id="npm-yarn-pnpm"><a name="npm-yarn-pnpm" class="h-link" href="#"></a>NPM, YARN, PNPM</h2>
+<p>Installation through package manager is the recommended way to install CASL. To install the latest stable version run:</p>
+<pre><code class="hljs language-sh">npm install @casl/ability
+<span class="hljs-comment"># or</span>
+yarn add @casl/ability
+<span class="hljs-comment"># or</span>
+pnpm add @casl/ability
+</code></pre>
+<h2 id="cdn"><a name="cdn" class="h-link" href="#"></a>CDN</h2>
+<p>For prototyping or learning purposes, you can use the latest version with:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://esm.sh/@casl/ability'</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>For production, we recommend linking to a specific version number to avoid unexpected breakage from newer versions:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://esm.sh/@casl/ability@6'</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h2 id="download-and-use-esm"><a name="download-and-use-esm" class="h-link" href="#"></a>Download and use ESM</h2>
+<p>CASL no longer ships a standalone UMD build. If you want to load it without a package manager, use an ESM-capable CDN and import it from a <code>&lt;script type="module"&gt;</code>.</p>
+<h2 id="explanation-of-different-builds"><a name="explanation-of-different-builds" class="h-link" href="#"></a>Explanation of Different Builds</h2>
+<p>In the <code>dist/</code> directory of the NPM package you will find the published module builds:</p>
+<div class="responsive"><table>
+<thead>
+<tr>
+<th>Build</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esm/index.mjs</td>
+<td>ES2020+ code with ES modules support</td>
+</tr>
+<tr>
+<td>cjs/index.cjs</td>
+<td>ES2020+ code with CommonJS support</td>
+</tr>
+<tr>
+<td>types/*.d.ts</td>
+<td>TypeScript declaration files</td>
+</tr>
+</tbody>
+</table>
+</div><p>All official packages now use the same <code>dist/esm</code> and <code>dist/cjs</code> layout.</p>
+<h2 id="webpack"><a name="webpack" class="h-link" href="#"></a>Webpack</h2>
+<p>Webpack runs ESM JavaScript in a strict mode. The issue is that webpack4 reads only <code>main</code> property of <code>package.json</code> and ignores everything else in <code>resolve.mainFields</code>. All casl related packages, including ucast, distribute CommonJS file in <code>main</code> property. And this results to the next issue:</p>
+<blockquote>
+<p>ERROR in ./node_modules/@casl/ability/dist/esm/index.mjs
+Can't import the named export 'xxx' from non EcmaScript module (only default export is available)</p>
+</blockquote>
+<p>The best way to fix it is to upgrade to webpack 5 which reads <code>exports</code> property of package.json when import packages and properly and works with ESM imports. But if you stuck with webpack 4, read <a href="https://github.com/stalniy/casl/issues/427#issuecomment-757539486" target="_blank" rel="noopener nofollow">this comment</a> for possible workarounds.</p>
+<h2 id="csp-environments"><a name="csp-environments" class="h-link" href="#"></a>CSP environments</h2>
+<p>Some environments, such as Google Chrome Apps, enforce Content Security Policy (CSP), which prohibits the use of <code>new Function()</code> for evaluating expressions.</p>
+<p>CASL doesn't use any of the prohibited functions, so feel free to use it in any environments.</p>
+<h2 id="dev-build"><a name="dev-build" class="h-link" href="#"></a>Dev build</h2>
+<p><strong>Important</strong>: the built files in GitHub's <code>/dist</code> folder are not checked-in during releases. To use CASL from the latest source code on GitHub, you will have to build it yourself! Navigate your project root and run this:</p>
+<pre><code class="hljs language-sh">git <span class="hljs-built_in">clone</span> git@github.com:stalniy/casl.git
+<span class="hljs-built_in">cd</span> casl
+pnpm i -r
+<span class="hljs-built_in">cd</span> packages/casl-ability
+npm run build
+</code></pre></div>
+      </article>
+      
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/guide/intro">
+        
+        Introduction
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/guide/install"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

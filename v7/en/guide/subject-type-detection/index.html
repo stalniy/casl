@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Subject type detection - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,509 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="subject type detection, modelName, subject helper, DTO, plain objects, constructor.name">
+  <meta name="description" content="How CASL detects subject type — constructor.name, modelName, subject() helper, and custom detection for DTOs and frontend.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Subject type detection</h1>
+        
+        <div class="description md"><p>Let's consider an example:</p>
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+});
+</code></pre>
+<p>We allowed everyone to read articles, now let's test it:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">const</span> article = {};
+ability.can(<span class="hljs-string">'read'</span>, article);
+</code></pre>
+<p>What do you think the last line returns? It returns <code>false</code>, but why? Because <code>article</code> variable is not of <code>Article</code> type. Now you should have a question:</p>
+<h2 id="how-does-casl-detect-subject-type"><a name="how-does-casl-detect-subject-type" class="h-link" href="#"></a>How does CASL detect subject type?</h2>
+<p>The first thing to clarify is "what is subject type?". A subject type is basically a type of an object, in OOP class represents instance metadata and represents object metadata information.</p>
+<blockquote>
+<p>Starting from v5, CASL perceives string, function and class as a subject type. Any other type is perceived as a subject, for which CASL needs to detect subject type.</p>
+</blockquote>
+<p>When we pass an object as the 2nd argument in <code>ability.can</code>, CASL gets <code>object.constructor.modelName</code> as subject type, and fallbacks to <code>object.constructor.name</code> if <code>modelName</code> is not specified.</p>
+<p>In the example above, <code>article</code> variable contains a plain object, its constructor doesn't have <code>modelName</code>, so CASL gets its <code>constructor.name</code> as a subject type. Eventually, we get <code>Object</code>. There are no rules for <code>Object</code> subject type, that's why we got <code>false</code> when tried to check whether it's possible to read that object. So, how can we fix that example? The easiest way is to use a special class for our <code>Article</code> model:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{}
+
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article();
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p><strong>The example above won't work</strong> in production if we use minimization. To fix it, we need to set a static property on <code>Article</code> class:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title">modelName</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Article'</span>
+  }
+}
+
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article();
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>This is fine for backend where classes are naturally used to describe and encapsulate Domain Logic but not for frontend. Usually frontend deals with <a href="https://en.wikipedia.org/wiki/Data_transfer_object" target="_blank" rel="noopener nofollow">DTO</a> objects (i.e., plain js objects).</p>
+<p>CASL provides 2 options to handle DTO objects:</p>
+<ol>
+<li>Use <code>subject</code> helper.</li>
+<li>Use custom subject type detection algorithm.</li>
+</ol>
+<h2 id="subject-helper"><a name="subject-helper" class="h-link" href="#"></a>subject helper</h2>
+<p>CASL provides built-in <code>subject</code> helper which sets subject type to provided object. So, the example above we can rewrite to:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">const</span> article = {};
+ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-string">'Article'</span>, article)); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>It defines readonly non-configurable and non-enumerable <code>__caslSubjectType__</code> property on the provided DTO, so it can be used in the subject's type detection algorithm.</p>
+<blockquote>
+<p>CASL will throw an exception if you try to use <code>subject</code> helper with different subject type for an object processed by the helper previously</p>
+</blockquote>
+<p>So, now you have 2 options:</p>
+<ol>
+<li>Use <code>subject</code> helper everywhere you use <code>ability.can</code> as shown in the example above.</li>
+<li>Set subject type for all <a href="https://en.wikipedia.org/wiki/Data_transfer_object" target="_blank" rel="noopener nofollow">DTO</a>s after retrieving them from server</li>
+</ol>
+<p>So, let's see what we mean for the 2nd option:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getArticles</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'/api/articles'</span>);
+  <span class="hljs-keyword">const</span> body = <span class="hljs-keyword">await</span> response.json();
+
+  <span class="hljs-keyword">return</span> body.articles.map(<span class="hljs-function"><span class="hljs-params">article</span> =&gt;</span> subject(<span class="hljs-string">'Article'</span>, article));
+}
+</code></pre>
+<blockquote>
+<p>The 2nd approach is a bit hacky because it mixes responsibilities. Now, your services coupled with CASL. This is fine for short term or small-medium apps but should be avoided for large apps</p>
+</blockquote>
+<p>Now we can safely check permissions on articles using <code>ability.can</code> without worrying about subject's type as it was defined previously.</p>
+<p>To make a code a bit more readable, you can alias <code>subject</code> to <code>a</code> or <code>an</code> depending on the context, so the example above may look like this:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { subject <span class="hljs-keyword">as</span> an } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getArticles</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'/api/articles'</span>);
+  <span class="hljs-keyword">const</span> body = <span class="hljs-keyword">await</span> response.json();
+
+  <span class="hljs-keyword">return</span> body.articles.map(<span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> an(<span class="hljs-string">'Article'</span>, object)); <span class="hljs-comment">// read as "an Article object"</span>
+}
+</code></pre>
+<h2 id="custom-subject-type-detection"><a name="custom-subject-type-detection" class="h-link" href="#"></a>Custom subject type detection</h2>
+<p>Sometimes you will need to define your own type detection algorithm (e.g., <a href="https://graphql.org/" target="_blank" rel="noopener nofollow">GraphQL</a> provides metadata field <code>__typename</code> which returns the type of the object)</p>
+<p>For such cases, we can override built-in algorithm by providing <code>detectSubjectType</code> option:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+
+<span class="hljs-keyword">const</span> ability = build({
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> object.__typename
+});
+
+<span class="hljs-keyword">const</span> article = { <span class="hljs-attr">__typename</span>: <span class="hljs-string">'Article'</span> };
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>Custom detection function must return a subject type (either string, class or function).</p>
+<p>The same can be achieved using <code>defineAbility</code> function:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+}, {
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> object.__typename
+});
+
+<span class="hljs-keyword">const</span> article = { <span class="hljs-attr">__typename</span>: <span class="hljs-string">'Article'</span> };
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>It's important to note that <code>detectSubjectType</code> is responsible for mapping objects to their corresponding types. When we pass a class, a function or a string in <code>ability.can</code>, they are automatically perceived as a subject type and <code>detectSubjectType</code> is not called for them.</p>
+<h3 id="use-classes-as-subject-types"><a name="use-classes-as-subject-types" class="h-link" href="#"></a>Use classes as subject types</h3>
+<p>As we said before, it's common to use classes to model Domain Logic on backend. So, some of you may want to use classes as subject types in permission definition. To do this, we need a custom <code>detectSubjectType</code> function:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{}
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, Article);
+}, {
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> object.constructor
+});
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article()); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'read'</span>, Article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>Or with <code>AbilityBuilder</code>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{}
+
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+can(<span class="hljs-string">'read'</span>, Article);
+
+<span class="hljs-keyword">const</span> ability = build({
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> object.constructor
+});
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article()); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'read'</span>, Article); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>If you want to use classes in TypeScript, you need to cast <code>object.constructor</code> (read <a href="https://github.com/microsoft/TypeScript/issues/3841" target="_blank" rel="noopener nofollow">this TypeScript issue</a> for details):</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility, MongoAbility, ExtractSubjectType } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{}
+
+<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>;
+<span class="hljs-keyword">type</span> Subjects = Article | <span class="hljs-keyword">typeof</span> Article;
+<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;[Actions, Subjects]&gt;;
+
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createMongoAbility);
+
+can(<span class="hljs-string">'read'</span>, Article);
+
+<span class="hljs-keyword">const</span> ability = build({
+  <span class="hljs-comment">// if you don't use permission specific types, you can cast return value to `SubjectType` type</span>
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> <span class="hljs-built_in">object</span>.constructor <span class="hljs-keyword">as</span> ExtractSubjectType&lt;Subjects&gt;
+});
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article()); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'read'</span>, Article); <span class="hljs-comment">// true</span>
+</code></pre></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        
+        Restricting fields access
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        
+        Define Action Aliases
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/guide/subject-type-detection"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

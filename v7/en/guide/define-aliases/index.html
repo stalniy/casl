@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Define Action Aliases - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,397 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="action aliases, createAliasResolver, modify, combine actions, resolveAction">
+  <meta name="description" content="Define action aliases in CASL with createAliasResolver — combine multiple actions (e.g. modify = update + delete) for simpler permission checks.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Define Action Aliases</h1>
+        
+        <div class="description md"><p>Aliases gives a possibility to combine several actions into one. This also simplifies checks when we need to ensure that user can do both actions together (e.g., <code>delete</code> and <code>update</code>).</p>
+<p>To define an alias, we need to use <code>createAliasResolver</code> function. It accepts a single argument - aliases to actions map. For example, here we define modify alias as a combination of update and delete actions:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+
+<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+  <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>]
+});
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>);
+}, { resolveAction });
+
+ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>When you check abilities by alias, it means that user has all required actions (or doesn't have at least one), so:</p>
+<pre><code class="hljs language-js">ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>) === ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>);
+</code></pre>
+<p><strong>Be aware</strong> that aliases work only in one direction! It means that <code>modify</code> is an alias for <code>update</code> and <code>delete</code> but <code>update</code> and <code>delete</code> do not automatically form <code>modify</code> alias. To understand what this means, let's consider the same example but with different rules:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+
+<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+  <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>]
+});
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can([<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>], <span class="hljs-string">'Post'</span>);
+}, { resolveAction });
+
+ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// false &lt;---</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>We got <code>false</code> for <code>modify</code> action, even though we can <code>delete</code> and <code>update</code> a Post! Aliases are resolved once on <code>Ability</code> instantiation level or when you call <code>ability.update</code>. It was done this way in order to make <code>ability.can</code> faster.</p>
+<p>You can also define aliases on aliases, they are resolved recursively:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+
+<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+  <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>],
+  <span class="hljs-attr">access</span>: [<span class="hljs-string">'read'</span>, <span class="hljs-string">'modify'</span>]
+});
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>);
+}, { resolveAction });
+
+ability.can(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+</code></pre>
+<h2 id="invalid-usage"><a name="invalid-usage" class="h-link" href="#"></a>Invalid usage</h2>
+<p>In any environment that is not production (determined by <code>process.env.NODE_ENV</code>), <code>createAliasResolver</code> analyses passed in object and forbids to:</p>
+<ol>
+<li>Create an alias for <code>manage</code> action.<br>
+<code>manage</code> is reserved and represents any action, so there is no need to alias it (e.g., <code>createAliasResolver({ access: 'manage' })</code>).</li>
+<li>Create an alias to itself (e.g., <code>createAliasResolver({ access: 'access' })</code>).</li>
+</ol>
+<p>It doesn't detect cycles through several levels of indirection, so you need to ensure this by yourself.</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        
+        Subject type detection
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        
+        TypeScript Support
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/guide/define-aliases"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

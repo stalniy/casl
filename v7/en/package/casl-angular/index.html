@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>CASL Angular - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,541 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="casl angular, @casl/angular, Angular authorization, structural directives, pipes">
+  <meta name="description" content="CASL Angular — integrate @casl/ability with Angular. Structural directives and pipes for permission-based UI.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>CASL Angular</h1>
+        
+        <div class="description md"><h1 id="casl-angular"><a name="casl-angular" class="h-link" href="#"></a>CASL Angular</h1>
+<p><a href="https://badge.fury.io/js/%40casl%2Fangular" target="_blank" rel="noopener nofollow"><img src="https://badge.fury.io/js/%40casl%2Fangular.svg" alt="@casl/angular NPM version"></a>
+<a href="https://www.npmjs.com/package/%40casl%2Fangular" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/dm/%40casl%2Fangular.svg" alt=""></a>
+<a href="https://github.com/stalniy/casl/discussions" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/badge/Support-github%20discussions-green?style=flat&amp;link=https://github.com/stalniy/casl/discussions" alt="Support"></a></p>
+<p>This package allows to integrate <code>@casl/ability</code> with <a href="https://angular.io/" target="_blank" rel="noopener nofollow">Angular</a> application. It provides deprecated <code>AblePipe</code>, <code>AblePurePipe</code> and new <code>AbilityService</code> and <code>AbilityServiceSignal</code> to Angular templates, so you can show or hide components, buttons, etc based on user ability to see them.</p>
+<h2 id="installation"><a name="installation" class="h-link" href="#"></a>Installation</h2>
+<pre><code class="hljs language-sh">npm install @casl/angular @casl/ability
+<span class="hljs-comment"># or</span>
+yarn add @casl/angular @casl/ability
+<span class="hljs-comment"># or</span>
+pnpm add @casl/angular @casl/ability
+</code></pre>
+<h2 id="configure-app-module"><a name="configure-app-module" class="h-link" href="#"></a>Configure AppModule</h2>
+<p>To add pipes into your application's templates, you need to import the one you need</p>
+<pre><code data-filename="app.module.ts" class="language-ts"><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { AblePipe } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
+<span class="hljs-keyword">import</span> { createMongoAbility, Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-meta">@NgModule</span>({
+  <span class="hljs-attr">imports</span>: [
+    <span class="hljs-comment">// other modules</span>
+    AblePipe
+  ],
+  <span class="hljs-attr">providers</span>: [
+    { <span class="hljs-attr">provide</span>: Ability, <span class="hljs-attr">useValue</span>: createMongoAbility() }
+  ]
+  <span class="hljs-comment">// other properties</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>{}
+</code></pre>
+<blockquote>
+<p>Read <a href="https://casl.js.org/v5/en/advanced/typescript" target="_blank" rel="noopener nofollow">CASL and TypeScript</a> to get more details about <code>MongoAbility</code> type configuration.</p>
+</blockquote>
+<h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
+<p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules.</p>
+<p>Let's imagine that server returns user with a role on login:</p>
+<pre><code data-filename="Session.ts" class="language-ts"><span class="hljs-keyword">import</span> { Ability, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+<span class="hljs-meta">@Injectable</span>({ <span class="hljs-attr">provideIn</span>: <span class="hljs-string">'root'</span> })
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Session</span> </span>{
+  #token: <span class="hljs-built_in">string</span>
+
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-meta">@Inject</span>(Ability) <span class="hljs-keyword">private</span> ability: MongoAbility</span>)</span> {}
+
+  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params">details</span>)</span> {
+    <span class="hljs-keyword">const</span> params = { <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify(details) };
+    <span class="hljs-keyword">return</span> fetch(<span class="hljs-string">'path/to/api/login'</span>, params)
+      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.json())
+      .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
+        <span class="hljs-built_in">this</span>.updateAbility(session.user);
+        <span class="hljs-built_in">this</span>.#token = session.token;
+      });
+  }
+
+  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">updateAbility</span>(<span class="hljs-params">user</span>)</span> {
+    <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+    <span class="hljs-keyword">if</span> (user.role === <span class="hljs-string">'admin'</span>) {
+      can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+    } <span class="hljs-keyword">else</span> {
+      can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+    }
+
+    <span class="hljs-built_in">this</span>.ability.update(rules);
+  }
+
+  <span class="hljs-function"><span class="hljs-title">logout</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-built_in">this</span>.#token = <span class="hljs-literal">null</span>;
+    <span class="hljs-built_in">this</span>.ability.update([]);
+  }
+}
+</code></pre>
+<blockquote>
+<p>See <a href="https://casl.js.org/v5/en/guide/define-rules" target="_blank" rel="noopener nofollow">Define rules</a> to get more information of how to define <code>Ability</code>.</p>
+</blockquote>
+<p>Then use this <code>Session</code> service in <code>LoginComponent</code>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { Session } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/Session'</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">'login-form'</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    &lt;form (ngSubmit)="login()"&gt;
+      &lt;input type="email" [(ngModel)]="email" /&gt;
+      &lt;input type="password" [(ngModel)]="password" /&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+  `</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginForm</span> </span>{
+  <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>;
+  password: <span class="hljs-built_in">string</span>;
+
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> session: Session</span>)</span> {}
+
+  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">const</span> { email, password } = <span class="hljs-built_in">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.session.login({ email, password });
+  }
+}
+</code></pre>
+<h2 id="check-permissions-in-templates-using-ability-service"><a name="check-permissions-in-templates-using-ability-service" class="h-link" href="#"></a>Check permissions in templates using AbilityService</h2>
+<p><code>AbilityService</code> is a service that provides <code>ability$</code> observable. This observable injects provided in DI <code>Ability</code> instance and emits it each time its rules are changed. This allows efficiently use permissions checks, especially in case we use <code>ChangeDetectionStrategy.OnPush</code>.</p>
+<p>Let's first see how it can be used in any component:</p>
+<pre><code class="hljs language-ts"><span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">'my-home'</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    @if (ability$ | async as ability) {
+      &lt;h1&gt;Home Page&lt;/h1&gt;
+      @if (ability.can('create', 'Post')) {
+        &lt;button&gt;Create Post&lt;/button&gt;
+      }
+    }
+  `</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeComponent</span> </span>{
+  <span class="hljs-keyword">readonly</span> ability$: Observable&lt;AppAbility&gt;;
+
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">abilityService: AbilityService&lt;AppAbility&gt;</span>)</span> {
+    <span class="hljs-built_in">this</span>.ability$ = abilityService.ability$;
+  }
+}
+</code></pre>
+<p>It also can be safely used inside <code>*ngFor</code> and other directives. If we use <code>ChangeDetectionStrategy.OnPush</code>, it will give us additional performance improvements because <code>ability.can(...)</code> won't be called without a need.</p>
+<p>This approach works good from performance point of view because it creates only single subscription per component (not per check as in case of <code>ablePure</code> pipe) and doesn't require our component to use <code>Default</code> or <code>OnPush</code> strategy.</p>
+<p>But let's also see how we can do permission checks using pipes and what are performance implications of that:</p>
+<h2 id="signals-support"><a name="signals-support" class="h-link" href="#"></a>Signals support</h2>
+<p>The latest version of @casl/angular also supports new <code>signal</code>. To utilize it in your app, instead of <code>AbilityService</code> use <code>AbilityServiceSignal</code>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityServiceSignal } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
+<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">'my-home'</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+      &lt;h1&gt;Home Page&lt;/h1&gt;
+      @if (can('create', 'Post')) {
+        &lt;button&gt;Create Post&lt;/button&gt;
+      }
+  `</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeComponent</span> </span>{
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> abilityService = inject&lt;AbilityServiceSignal&lt;AppAbility&gt;&gt;(AbilityServiceSignal);
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> can = <span class="hljs-built_in">this</span>.abilityService.can;
+}
+</code></pre>
+<h2 id="check-permissions-in-templates-using-pipe-deprecated"><a name="check-permissions-in-templates-using-pipe-deprecated" class="h-link" href="#"></a>Check permissions in templates using pipe (deprecated)</h2>
+<p>To check permissions in any template you can use <code>AblePipe</code>:</p>
+<pre><code class="hljs language-html">@if ('create' | able: 'Post') {
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"createPost()"</span>&gt;</span>Add Post<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+}
+</code></pre>
+<h3 id="why-pipe-and-not-directive"><a name="why-pipe-and-not-directive" class="h-link" href="#"></a>Why pipe and not directive?</h3>
+<p>Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable a button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> [<span class="hljs-attr">disabled</span>]=<span class="hljs-string">"!('create' | able: 'Post')"</span>&gt;</span>Add Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</code></pre>
+<h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
+<p>This package is written in TypeScript, so it will warn you about wrong usage.</p>
+<p>It may be a bit tedious to use application specific abilities in Angular app because everywhere you inject <code>Ability</code> instance you will need to import its generic parameters:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { AppAbilities } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/AppAbility'</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">'todo-item'</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoItem</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">
+    <span class="hljs-keyword">private</span> ability: Ability&lt;AppAbilities&gt;
+  </span>)</span> {}
+}
+</code></pre>
+<p>To make the life easier, you can use <code>AbilityClass&lt;TAbility&gt;</code> class to utilize Companion object pattern:</p>
+<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { Ability, AbilityClass } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> Subjects = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;[Actions, Subjects]&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> AppAbility = Ability <span class="hljs-keyword">as</span> AbilityClass&lt;AppAbility&gt;;
+</code></pre>
+<p>And use <code>AppAbility</code> everywhere in your app:</p>
+<pre><code data-filename="AppModule.ts" class="language-ts"><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/AppAbility'</span>;
+
+<span class="hljs-meta">@NgModule</span>({
+  <span class="hljs-comment">// other configuration</span>
+  <span class="hljs-attr">providers</span>: [
+    { <span class="hljs-attr">provide</span>: AppAbility, <span class="hljs-attr">useValue</span>: createMongoAbility() },
+  ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>{}
+</code></pre>
+<h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>
+<p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>
+<p>If you'd like to help us sustain our community and project, consider <a href="https://opencollective.com/casljs/contribute" target="_blank" rel="noopener nofollow">to become a financial contributor on Open Collective</a></p>
+<blockquote>
+<p>See <a href="https://casl.js.org/v5/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
+</blockquote>
+<h2 id="license"><a name="license" class="h-link" href="#"></a>License</h2>
+<p><a href="http://www.opensource.org/licenses/MIT" target="_blank" rel="noopener nofollow">MIT License</a></p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        
+        CASL Mongoose
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        
+        CASL React
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/package/casl-angular"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

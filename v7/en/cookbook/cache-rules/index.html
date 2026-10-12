@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Cache abilities - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,502 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="cache abilities, LRU cache, express middleware, Ability performance">
+  <meta name="description" content="Cache CASL ability instances — LRU in-memory caching and strategies when building abilities is slow or requires DB roundtrips.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Cache abilities</h1>
+        
+        <div class="description md"><blockquote>
+<p>This recipe targets backend developers. We use <a href="https://expressjs.com/" target="_blank" rel="noopener nofollow">express</a> library in this guide, so its knowledge (or knowledge of similar framework) is required.</p>
+</blockquote>
+<h2 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h2>
+<p>It takes considerable amount of time or requires additional roundtrip to the database to construct a <code>Ability</code> instance.</p>
+<p>Let's consider an example where user can manage own devices but <strong>devices doesn't have</strong> a reference to the owner. In such cases, we need to fetch all device ids in order to create a <code>MongoAbility</code> instance:</p>
+<pre><code data-filename="defineAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility, MongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { getDevicesOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/device'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineRulesFor</span>(<span class="hljs-params">user</span>) </span>{
+  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createMongoAbility);
+
+  <span class="hljs-keyword">const</span> devices = <span class="hljs-keyword">await</span> getDevicesOf(user);
+  <span class="hljs-keyword">const</span> ids = devices.map(<span class="hljs-function"><span class="hljs-params">device</span> =&gt;</span> device.id);
+
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Device'</span>, { <span class="hljs-attr">id</span>: { <span class="hljs-attr">$in</span>: ids } });
+  <span class="hljs-comment">// other rules</span>
+
+  <span class="hljs-keyword">return</span> rules;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
+  <span class="hljs-keyword">const</span> rules = <span class="hljs-keyword">await</span> defineRulesFor(user);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AppAbility(rules);
+}
+</code></pre>
+<blockquote>
+<p>The underlying database is not important for this guide. The same principles works for any other database system.</p>
+</blockquote>
+<h2 id="the-solution"><a name="the-solution" class="h-link" href="#"></a>The solution</h2>
+<p>To speed things up, you can cache creation of the ability instance.</p>
+<h2 id="demo"><a name="demo" class="h-link" href="#"></a>Demo</h2>
+<p>There are several ways to do this:</p>
+<blockquote>
+<p>Make sure that you wrap all async express middlewares in try/catch as express 4.x doesn't support <code>Promise</code> rejections. We don't do this in the examples below for the sake of simplicity.</p>
+</blockquote>
+<h3 id="in-memory-lru-cache"><a name="in-memory-lru-cache" class="h-link" href="#"></a>In memory LRU cache</h3>
+<p><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_Recently_Used_.28LRU.29" target="_blank" rel="noopener nofollow">LRU cache</a> is a type of cache which discards least recently used entries, hence allows to store abilities for the most active users, that users who generate the highest load on your system.</p>
+<blockquote>
+<p>There is quite popular <a href="https://www.npmjs.com/package/lru-cache" target="_blank" rel="noopener nofollow">lru-cache</a> Node.js package which we will use in this guide but you can use any other implementation the same way.</p>
+</blockquote>
+<p>So, let's create a middleware that defines abilities for <code>Request</code> object:</p>
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> LruCache <span class="hljs-keyword">from</span> <span class="hljs-string">'lru-cache'</span>;
+<span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-comment">// store abilities of 1000 most active users</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ABILITIES_CACHE = <span class="hljs-keyword">new</span> LruCache(<span class="hljs-number">1000</span>);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
+  <span class="hljs-keyword">if</span> (ABILITIES_CACHE.has(req.user.id)) {
+    req.ability = ABILITIES_CACHE.get(req.user.id);
+  } <span class="hljs-keyword">else</span> {
+    req.ability = <span class="hljs-keyword">await</span> defineAbilityFor(req.user);
+    ABILITIES_CACHE.set(req.user.id, req.ability);
+  }
+
+  next();
+}
+</code></pre>
+<p>Now we can use this middleware to provide abilities for a particular user and check its permissions:</p>
+<pre><code data-filename="boot.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+
+<span class="hljs-comment">// app configuration and other middlewares</span>
+
+app.use(provideAbility);
+
+app.listen(<span class="hljs-number">3000</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'app is listening on http://localhost:3000'</span>));
+</code></pre>
+<blockquote>
+<p>Don't forget to invalidate cache when user adds or removes devices</p>
+</blockquote>
+<h3 id="in-session-storage"><a name="in-session-storage" class="h-link" href="#"></a>In session storage</h3>
+<p>If the application uses stored sessions and <a href="#in-memory-lru-cache">LRU cache</a> doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not <code>Ability</code> instance? Because session storage serializes object before storing it. Rules are easily serializable and <code>Ability</code> instance is not, but can be created from rules.</p>
+<p>Sessions in express usually are implemented with help of <a href="https://www.npmjs.com/package/express-session" target="_blank" rel="noopener nofollow">express-session</a> and <a href="https://www.npmjs.com/package/connect-redis" target="_blank" rel="noopener nofollow">connect-redis</a>. We will do it the same way.</p>
+<p>So, the only thing which is left is to implement <code>provideAbility</code> middleware that saves rules for a particular user in his session storage. Pay attention that we use <code>defineRulesFor</code> and not <code>defineAbilityFor</code> function:</p>
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
+  <span class="hljs-keyword">let</span> rules = req.session.abilityRules;
+
+  <span class="hljs-keyword">if</span> (!req.session.abilityRules) {
+    rules = <span class="hljs-keyword">await</span> defineRulesFor(req.user);
+    req.session.abilityRules = rules
+  }
+
+  req.ability = createMongoAbility(rules);
+  next();
+}
+</code></pre>
+<p>And make sure that you correctly configure express-session in your <code>app.ts</code> file. It should be something like this:</p>
+<pre><code data-filename="app.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
+<span class="hljs-keyword">import</span> session <span class="hljs-keyword">from</span> <span class="hljs-string">'express-session'</span>;
+<span class="hljs-keyword">import</span> redis <span class="hljs-keyword">from</span> <span class="hljs-string">'redis'</span>;
+<span class="hljs-keyword">import</span> createRedisStore <span class="hljs-keyword">from</span> <span class="hljs-string">'connect-redis'</span>;
+
+<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> RedisStore = createRedisStore(session);
+
+app.use(session({
+  <span class="hljs-attr">store</span>: <span class="hljs-keyword">new</span> RedisStore({ <span class="hljs-attr">client</span>: redis.createClient() }),
+  <span class="hljs-attr">secret</span>: <span class="hljs-string">'my app session secret'</span>,
+}));
+
+<span class="hljs-comment">// app configuration and other middlewares</span>
+
+app.use(provideAbility);
+</code></pre>
+<h3 id="in-jwt-token-payload"><a name="in-jwt-token-payload" class="h-link" href="#"></a>In JWT token payload</h3>
+<p>If the app uses stateless <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank" rel="noopener nofollow">JWT</a> tokens, you can embed the rules into its payload:</p>
+<pre><code data-filename="login.ts" class="language-ts"><span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params">req, res</span>) </span>{
+  <span class="hljs-keyword">const</span> token = jwt.sign({
+    <span class="hljs-attr">id</span>: req.user.id,
+    <span class="hljs-attr">rules</span>: <span class="hljs-keyword">await</span> defineRulesFor(req.user)
+  }, <span class="hljs-string">'secret'</span>, { <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">'1d'</span> })
+
+  res.send({ token })
+}
+</code></pre>
+<p>And implement <code>provideAbility</code> middleware that creates ability out of jwt token which is provided by client in <code>Authorization</code> header:</p>
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> token = req.headers.authorization;
+    <span class="hljs-keyword">const</span> { rules } = jwt.verify(token, req.app.get(<span class="hljs-string">'jwtSecret'</span>));
+
+    req.ability = createMongoAbility(rules);
+    next();
+  } <span class="hljs-keyword">catch</span> (error) {
+    next(error);
+  }
+}
+</code></pre>
+<blockquote>
+<p>You can use <code>packRules</code> and <code>unpackRules</code> to minimize rules payload size in 2 times. Check the 
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra#pack-rules">
+        API docs of @casl/ability/extra
+      </a>
+     for details</p>
+</blockquote>
+<h2 id="when-to-avoid"><a name="when-to-avoid" class="h-link" href="#"></a>When to avoid</h2>
+<p>There are few cases when you should avoid caching:</p>
+<ol>
+<li>The amount of abilities is small.</li>
+<li>The requests to the database are cached in service layer.</li>
+<li>Your permissions are dynamic and it makes hard to keep cache in sync with the datastore state.</li>
+<li>You can rethink domain model to simplify permissions logic (denormalize some entities or add additional foreign keys).</li>
+</ol>
+<h2 id="alternative-ways"><a name="alternative-ways" class="h-link" href="#"></a>Alternative ways</h2>
+<p>Another way is to rethink domain (or data) model, so that you can build abilities from the information which you load for every request (e.g., completely on <code>user</code>'s details). In the case described in <a href="#the-issue">The issue</a>, we could add <code>userId</code> field to <code>Device</code> model and that would make things work fast without additional caching.</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        
+        Claim based Authorization
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        
+        Roles with predefined permissions
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/cookbook/cache-rules"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

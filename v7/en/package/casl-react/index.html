@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>CASL React - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,580 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="casl react, @casl/react, React authorization, useAbility, Can component">
+  <meta name="description" content="CASL React — integrate @casl/ability with React. useAbility hook and Can component for declarative permission checks.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>CASL React</h1>
+        
+        <div class="description md"><h1 id="casl-react"><a name="casl-react" class="h-link" href="#"></a>CASL React</h1>
+<p><a href="https://badge.fury.io/js/%40casl%2Freact" target="_blank" rel="noopener nofollow"><img src="https://badge.fury.io/js/%40casl%2Freact.svg" alt="@casl/react NPM version"></a>
+<a href="https://www.npmjs.com/package/%40casl%2Freact" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/dm/%40casl%2Freact.svg" alt=""></a>
+<a href="https://github.com/stalniy/casl/discussions" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/badge/Support-github%20discussions-green?style=flat&amp;link=https://github.com/stalniy/casl/discussions" alt="Support"></a></p>
+<p>This package integrates <code>@casl/ability</code> with <a href="https://reactjs.org/" target="_blank" rel="noopener nofollow">React</a>. It provides:</p>
+<ul>
+<li><code>AbilityProvider</code> to expose the current <code>Ability</code> instance through React context</li>
+<li>declarative <code>&lt;Can&gt;</code> component for conditional rendering</li>
+<li><code>useAbility</code> hook for imperative checks that stay in sync with ability updates</li>
+</ul>
+<blockquote>
+<p><code>@casl/react</code> perfectly works with <a href="https://reactnative.dev/" target="_blank" rel="noopener nofollow">React Native</a></p>
+</blockquote>
+<h2 id="installation"><a name="installation" class="h-link" href="#"></a>Installation</h2>
+<pre><code class="hljs language-sh">npm install @casl/react @casl/ability
+<span class="hljs-comment"># or</span>
+yarn add @casl/react @casl/ability
+<span class="hljs-comment"># or</span>
+pnpm add @casl/react @casl/ability
+</code></pre>
+<h2 id="quick-start"><a name="quick-start" class="h-link" href="#"></a>Quick Start</h2>
+<pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { AbilityProvider, Can, useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+
+<span class="hljs-keyword">const</span> ability = createMongoAbility([
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span> },
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'create'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span> },
+]);
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{ability}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>List of posts<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">CreatePostButton</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">AbilityProvider</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CreatePostButton</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> ability = useAbility();
+  <span class="hljs-keyword">return</span> ability.can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>Use <code>&lt;Can&gt;</code> for straightforward conditional rendering in JSX and <code>useAbility()</code> when the permission check is part of more complex component logic.</p>
+<h2 id="can-component"><a name="can-component" class="h-link" href="#"></a>Can component</h2>
+<p><code>&lt;Can&gt;</code> reads the current <code>Ability</code> instance from <code>AbilityProvider</code>, re-renders when rules change, and memoizes the relevant rule lookup until the ability, rules, or relevant props change.</p>
+<p>It accepts children and 6 properties:</p>
+<ul>
+<li>
+<p><code>do</code> - name of the action (e.g., <code>read</code>, <code>update</code>). Has an alias <code>I</code></p>
+</li>
+<li>
+<p><code>on</code> - checked subject. Has <code>a</code>, <code>an</code>, <code>this</code> aliases</p>
+</li>
+<li>
+<p><code>field</code> - checked field</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> ({ post }) =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>
+  Yes, you can do this! ;)
+<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+<li>
+<p><code>not</code> - inverts ability check and show UI if user cannot do some action:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">not</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+  You are not allowed to create a post
+<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+<li>
+<p><code>passThrough</code> - renders children in spite of what <code>ability.can</code> returns. This is useful for creating custom components based on <code>Can</code>. For example, if you need to disable button based on user permissions:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span> <span class="hljs-attr">passThrough</span>&gt;</span>
+    {({ isAllowed, reason }) =&gt; (
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">{!isAllowed}</span> <span class="hljs-attr">title</span>=<span class="hljs-string">{reason}</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    )}
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+)
+</code></pre>
+</li>
+<li>
+<p><code>children</code> - elements to hide or render. May be either a render function that receives <code>{ isAllowed, ability, reason }</code>:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+  {({ isAllowed, reason }) =&gt; (
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">{!isAllowed}</span> <span class="hljs-attr">title</span>=<span class="hljs-string">{reason}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  )}
+<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+<p>or React elements:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.createPost}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>it's better to pass children as a render function because it will not create additional React elements if user doesn't have ability to do some action (in the case above <code>create Post</code>)</p>
+</blockquote>
+<p>For simple visibility guards, <code>&lt;Can&gt;</code> keeps JSX readable. For more complex conditions, composing several checks, or passing authorization state deeper into your component tree, prefer <code>useAbility</code>.</p>
+<h3 id="provide-ability-instance"><a name="provide-ability-instance" class="h-link" href="#"></a>Provide Ability instance</h3>
+<p>Wrap the part of your app that needs authorization checks with <code>AbilityProvider</code>:</p>
+<pre><code data-filename="App.jsx" class="language-jsx"><span class="hljs-keyword">import</span> { AbilityProvider } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+<span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">ability</span>=<span class="hljs-string">{ability}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">TodoApp</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">AbilityProvider</span>&gt;</span></span>
+  )
+}
+</code></pre>
+<blockquote>
+<p>See <a href="https://casl.js.org/v6/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define <code>Ability</code> instance.</p>
+</blockquote>
+<p>and use our <code>Can</code> component:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+<span class="hljs-keyword">import</span> { Can } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+  createTodo = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-comment">// implement logic to show new todo form</span>
+  };
+
+  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Todo"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.createTodo}</span>&gt;</span>Create Todo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+    )
+  }
+}
+</code></pre>
+<h3 id="imperative-access-to-ability-instance"><a name="imperative-access-to-ability-instance" class="h-link" href="#"></a>Imperative access to Ability instance</h3>
+<p>Sometimes the logic in a component is more complex than a simple visibility guard. In such cases, use <code>useAbility</code>. It reads the current ability from <code>AbilityProvider</code> and re-renders the component when ability rules change:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">const</span> createTodo = <span class="hljs-function">() =&gt;</span> { <span class="hljs-comment">/* logic to show new todo form */</span> };
+  <span class="hljs-keyword">const</span> ability = useAbility();
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      {ability.can('create', 'Todo') &amp;&amp;
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{createTodo}</span>&gt;</span>Create Todo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<h3 id="property-names-and-aliases"><a name="property-names-and-aliases" class="h-link" href="#"></a>Property names and aliases</h3>
+<p>As you can see from the code above, component name and its property names and values create an English sentence, actually a question. For example, the code below reads as <code>Can I create a Post</code>:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{...}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+<p>There are several other property aliases which allow to construct a readable question:</p>
+<ul>
+<li>
+<p>use <code>a</code> (or <code>an</code>) alias when you check by Type</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+<li>
+<p>use <code>this</code> alias instead of <code>a</code> when you check action on a particular instance. So, the question can be read as "Can I read this <em>particular</em> post?"</p>
+<pre><code class="hljs language-jsx"><span class="hljs-comment">// `this.props.post` is an instance of `Post` class (i.e., model instance)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+<li>
+<p>use <code>do</code> and <code>on</code> if you are bored and don't want to make your code more readable ;)</p>
+<pre><code class="hljs language-jsx"><span class="hljs-comment">// `this.props.post` is an instance of `Post` class (i.e., model instance)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+
+<span class="hljs-comment">// or per field check</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+</code></pre>
+</li>
+</ul>
+<h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
+<p>The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.</p>
+<h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
+<p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules. Usually you will do this in your <code>LoginComponent</code>.</p>
+<p>Let's imagine that server returns user with a role on login:</p>
+<pre><code data-filename="Login.tsx" class="language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateAbility</span>(<span class="hljs-params">ability, user</span>) </span>{
+  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(Ability);
+
+  <span class="hljs-keyword">if</span> (user.role === <span class="hljs-string">'admin'</span>) {
+    can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  } <span class="hljs-keyword">else</span> {
+    can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+  }
+
+  ability.update(rules);
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+  <span class="hljs-keyword">const</span> [username, setUsername] = useState(<span class="hljs-string">''</span>);
+  <span class="hljs-keyword">const</span> [password, setPassword] = useState(<span class="hljs-string">''</span>);
+  <span class="hljs-keyword">const</span> ability = useAbility();
+  <span class="hljs-keyword">const</span> login = <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-keyword">const</span> params = {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>,
+      <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify({ username, password })
+    };
+    <span class="hljs-keyword">return</span> fetch(<span class="hljs-string">'path/to/api/login'</span>, params)
+      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.json())
+      .then(<span class="hljs-function">(<span class="hljs-params">{ user }</span>) =&gt;</span> updateAbility(ability, user));
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+      {/* input fields */}
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{login}</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
+  );
+};
+</code></pre>
+<blockquote>
+<p>See <a href="https://casl.js.org/v6/en/guide/define-rules" target="_blank" rel="noopener nofollow">Define rules</a> to get more information of how to define <code>Ability</code></p>
+</blockquote>
+<h2 id="use-ability-usage-within-hooks"><a name="use-ability-usage-within-hooks" class="h-link" href="#"></a><code>useAbility</code> usage within hooks</h2>
+<p>Using the return value <code>ability</code> of <code>const ability = useAbility()</code> within hook dependencies won't trigger a rerender when the rules are updated. You have to specify <code>ability.rules</code>:</p>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> posts = React.useMemo(<span class="hljs-function">() =&gt;</span> getPosts(ability), [ability.rules]);
+<span class="hljs-comment">// ✅ calling ability.update will update the list of posts</span>
+</code></pre>
+<h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>
+<p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>
+<p>If you'd like to help us sustain our community and project, consider <a href="https://opencollective.com/casljs/contribute" target="_blank" rel="noopener nofollow">to become a financial contributor on Open Collective</a></p>
+<blockquote>
+<p>See <a href="https://casl.js.org/v6/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
+</blockquote>
+<h2 id="license"><a name="license" class="h-link" href="#"></a>License</h2>
+<p><a href="http://www.opensource.org/licenses/MIT" target="_blank" rel="noopener nofollow">MIT License</a></p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        
+        CASL Angular
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        
+        CASL Vue
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/package/casl-react"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

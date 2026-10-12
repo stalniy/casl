@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Introduction - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,673 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="casl, authorization, javascript, isomorphic, attribute based access control, ABAC, permissions, defineAbility, can cannot">
+  <meta name="description" content="Introduction to CASL — isomorphic JavaScript authorization library for attribute-based access control. Learn basics: actions, subjects, conditions, and fields.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Introduction</h1>
+        
+        <div class="description md"><p><a href="https://badge.fury.io/js/%40casl%2Fability" target="_blank" rel="noopener nofollow"><img src="https://badge.fury.io/js/%40casl%2Fability.svg" alt="@casl/ability NPM version"></a>
+<a href="https://www.npmjs.com/package/%40casl%2Fability" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/dm/%40casl%2Fability.svg" alt=""></a>
+<a href="https://github.com/stalniy/casl/discussions" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/badge/Support-github%20discussions-green?style=flat&amp;link=https://github.com/stalniy/casl/discussions" alt="Support"></a></p>
+<h2 id="what-is-casl"><a name="what-is-casl" class="h-link" href="#"></a>What is CASL?</h2>
+<p>CASL (pronounced /ˈkæsəl/, like <strong>castle</strong>) is an isomorphic authorization JavaScript library which restricts what resources a given client is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.</p>
+<blockquote>
+<p>CASL implements <a href="https://en.wikipedia.org/wiki/Attribute-based_access_control" target="_blank" rel="noopener nofollow">Attribute Based Access Control</a></p>
+</blockquote>
+<h2 id="getting-started"><a name="getting-started" class="h-link" href="#"></a>Getting Started</h2>
+<p>The easiest way to try out CASL.js is using the <a href="https://codesandbox.io/s/github/stalniy/casl-examples/tree/main/packages/hello-world" target="_blank" rel="noopener nofollow">Hello World example</a>. Feel free to open it in another tab and follow along as we go through some basic examples. Alternatively you can create Nodejs project and install <code>@casl/ability</code> as a dependency.</p>
+<blockquote>
+<p>The 
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation page
+      </a>
+     provides more options of installing CASL.</p>
+</blockquote>
+<h2 id="basics"><a name="basics" class="h-link" href="#"></a>Basics</h2>
+<p>CASL operates on the abilities level, that is what a user can actually do in the application. An ability itself depends on the 4 parameters (last 3 are optional):</p>
+<ol>
+<li><strong>User Action</strong><br>
+Describes what user can actually do in the app. User action is a word (usually a verb) which depends on the business logic (e.g., <code>prolong</code>, <code>read</code>). Very often it will be a list of words from CRUD - <code>create</code>, <code>read</code>, <code>update</code> and <code>delete</code>.</li>
+<li><strong>Subject</strong><br>
+The subject or subject type which you want to check user action on. Usually this is a business (or domain) entity (e.g., <code>Subscription</code>, <code>Article</code>, <code>User</code>). The relation between subject and subject type is the same as relation between an object instance and its class.</li>
+<li><strong>Fields</strong><br>
+Can be used to restrict user action only to matched subject's fields (e.g., to allow moderator to update <code>status</code> field of an <code>Article</code> and disallow to update <code>description</code> or <code>title</code>)</li>
+<li><strong>Conditions</strong><br>
+Criteria which restricts user action only to matched subjects. This is useful when you need to give a permission on specific subjects (e.g., to allow user to manage own <code>Article</code>)</li>
+</ol>
+<p>At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:</p>
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'User'</span>);
+});
+</code></pre>
+<blockquote>
+<p>CASL has sophisticated support for TypeScript but in this guide we will use JavaScript for the purpose of ease. See 
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        CASL TypeScript
+      </a>
+     for details</p>
+</blockquote>
+<p>In the example above, we have just defined a <code>MongoAbility</code> instance which permits doing anything in the app except for deleting users. As you probably guessed, <code>can</code> and <code>cannot</code> accept the same arguments but have different meanings: <code>can</code> permits an action on the specified subject and <code>cannot</code> forbids it. Both may accept up to 4 arguments (in exactly the same order as listed in <a href="#basics">concepts section</a>). In this case, <code>manage</code> and <code>delete</code> are user actions and <code>all</code> and <code>User</code> are subjects.</p>
+<blockquote>
+<p><code>manage</code> and <code>all</code> are special keywords in CASL. <code>manage</code> represents any action and <code>all</code> represents any subject.</p>
+</blockquote>
+<p>Now let's try to check permissions</p>
+<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility.js'</span>;
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'User'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'User'</span>) <span class="hljs-comment">// false</span>
+ability.cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'User'</span>) <span class="hljs-comment">// true</span>
+</code></pre>
+<p>In the example above, the <code>MongoAbility</code> instance allows us to check permissions in a pretty readable way. By the way, all these examples demonstrate checking permissions based on a subject type (i.e. an object type or class), but CASL really shines when you need to restrict objects based on their attributes (i.e. properties).</p>
+<h2 id="conditions"><a name="conditions" class="h-link" href="#"></a>Conditions</h2>
+<p>The most common requirement for mid-sized apps is the ability to limit users so that they can perform actions only on their own resources. CASL allows us to do this by passing an object of conditions as the 3rd argument to <code>can</code> and <code>cannot</code> methods on the definition step.</p>
+<p>Before diving into the details, let's first consider requirements for the permissions of a blog website. In such a blog, a user</p>
+<ul>
+<li>can <code>read</code> any <code>Article</code></li>
+<li>can <code>update</code> own <code>Article</code>'s</li>
+<li>can <code>create</code> a <code>Comment</code> for any Article</li>
+<li>can <code>update</code> own <code>Comment</code></li>
+</ul>
+<p>Let's translate this to CASL:</p>
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> (user) =&gt; defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+
+  <span class="hljs-keyword">if</span> (user.isLoggedIn) {
+    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: user.id });
+    can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Comment'</span>);
+    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Comment'</span>, { <span class="hljs-attr">authorId</span>: user.id });
+  }
+});
+</code></pre>
+<p>Do you see how real business requirements are easily translated to code? Now let's check them!</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
+<span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+<span class="hljs-keyword">const</span> article = <span class="hljs-comment">/* intentionally not defined */</span>;
+
+ability.can(<span class="hljs-string">'read'</span>, article);
+</code></pre>
+<p>As you see, you can do checks on the subject the same way you do it on the subject's type! But what does the <code>article</code> variable hold inside? How does CASL know the subject type of the object referenced by this variable?</p>
+<p>Do you remember that a subject and its type belong to each other in the same way as an object instance and its class? CASL remembers this as well and retrieves <code>article.constructor.name</code> as its subject type.</p>
+<blockquote>
+<p>Classes are natural in backend but not always makes sense in frontend development. CASL supports other ways to detect subject type, see 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+     for details.</p>
+</blockquote>
+<p>Let's get back to our example and define classes for <code>Article</code> and <code>Comment</code> entities:</p>
+<pre><code data-filename="entities.js" class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entity</span> </span>{
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">attrs</span>)</span> {
+    <span class="hljs-built_in">Object</span>.assign(<span class="hljs-built_in">this</span>, attrs);
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Entity</span> </span>{}
+</code></pre>
+<p>And this is how the example with missed <code>article</code> variable looks eventually:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+
+<span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
+<span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article();
+
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// user can read any article</span>
+</code></pre>
+<p>And few more examples just to get familiar with:</p>
+<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+
+<span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">const</span> ownArticle = <span class="hljs-keyword">new</span> Article({ <span class="hljs-attr">authorId</span>: user.id });
+<span class="hljs-keyword">const</span> anotherArticle = <span class="hljs-keyword">new</span> Article({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">2</span> });
+<span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, ownArticle) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, anotherArticle) <span class="hljs-comment">// false, we can't update articles which were not written by us</span>
+</code></pre>
+<blockquote>
+<p>Despite the fact that <code>can</code> and <code>cannot</code> functions in <code>defineAbility</code> callback are similar to <code>can</code> and <code>cannot</code> methods of <code>MongoAbility</code> class, they have completely different purposes and accept different arguments. See 
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Make <code>can</code> API less confusing
+      </a>
+     if it confuses you.</p>
+</blockquote>
+<p><strong>Pay attention</strong> that conditions object contains the same keys as the entity we want to check. This is how CASL matches entities by conditions. In our case, it just checks that <code>authorId</code> in <code>Article</code> instance equals to <code>authorId</code> in conditions object. Conditions may have several fields, in that case all fields should match (<code>AND</code> logic).</p>
+<p>But conditions are not restricted to simple equality checks! Thanks to <a href="https://github.com/stalniy/ucast" target="_blank" rel="noopener nofollow">ucast</a> <code>MongoAbility</code> instances can match objects using <a href="http://docs.mongodb.org/manual/reference/operator/query/" target="_blank" rel="noopener nofollow">MongoDB query language</a>.</p>
+<blockquote>
+<p>If you are not familiar with MongoDB query language, see 
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        CASL conditions in depth
+      </a>
+     for details</p>
+</blockquote>
+<p>You can define the same pair of action and subject with different conditions multiple times. For example, let's allow our blog users to share drafts and publish articles:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
+  <span class="hljs-keyword">return</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+    can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+    can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">sharedWith</span>: user.id });
+  });
+}
+</code></pre>
+<p>In such case, the pair of action/subject rules are combined by logical <code>OR</code>. More formally, this can be translated as "users can read Article if it's published OR users can read Article if it's not published AND shared with them".</p>
+<p>But that's not all, if you need more granular permission checks, you can define them on subject's attributes (i.e., fields)!</p>
+<h2 id="fields"><a name="fields" class="h-link" href="#"></a>Fields</h2>
+<p>Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish <code>Article</code>:</p>
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> (user) =&gt; defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">authorId</span>: user.id })
+
+  <span class="hljs-keyword">if</span> (user.isModerator) {
+    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'published'</span>])
+  }
+});
+</code></pre>
+<p>Here we defined that any user can update <code>title</code> and <code>description</code> fields of their own <code>Article</code>s and only moderators can update <code>published</code> field.</p>
+<blockquote>
+<p>If fields are not specified, a user is allowed to access any field.</p>
+</blockquote>
+<p>To check permissions use the same <code>can</code> and <code>cannot</code> methods of <code>MongoAbility</code> instance:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+
+<span class="hljs-keyword">const</span> moderator = { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">isModerator</span>: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">const</span> ownArticle = <span class="hljs-keyword">new</span> Article({ <span class="hljs-attr">authorId</span>: moderator.id });
+<span class="hljs-keyword">const</span> foreignArticle = <span class="hljs-keyword">new</span> Article({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">10</span> });
+<span class="hljs-keyword">const</span> ability = defineAbilityFor(moderator);
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, ownArticle, <span class="hljs-string">'published'</span>) <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'update'</span>, foreignArticle, <span class="hljs-string">'title'</span>) <span class="hljs-comment">// false</span>
+</code></pre>
+<blockquote>
+<p>For more complex cases, you can use nested fields and wildcards, see 
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting field access
+      </a>
+     for details</p>
+</blockquote>
+<h2 id="checking-logic"><a name="checking-logic" class="h-link" href="#"></a>Checking logic</h2>
+<p>Let's consider a simple example where user can publish articles:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> })
+});
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article({ <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+
+ability.can(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// (1)</span>
+ability.can(<span class="hljs-string">'do'</span>, <span class="hljs-string">'SomethingUndeclared'</span>); <span class="hljs-comment">// (2)</span>
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// (3)</span>
+</code></pre>
+<p>Line <code>(1)</code> returns <code>true</code> as we expected. Line <code>(2)</code> return <code>false</code> because for any unknown subject or action CASL returns <code>false</code>, by default everything is forbidden (if <code>manage</code> and <code>all</code> keywords are not used). But what would you expect line <code>(3)</code> to return? The answer may be unexpected for some of you, it returns <code>true</code> as well. <strong>Why?!</strong></p>
+<p>Let's get back to our experience for a while. Historically, majority of permissions management libs were built on top of roles or flags. So, a user either has permission or not. This can be expressed in pseudo code:</p>
+<pre><code class="hljs language-js">allow(<span class="hljs-string">'read_article'</span>);
+allow(<span class="hljs-string">'update_article'</span>);
+</code></pre>
+<p>This is interpreted as "user can read ALL articles and user can update ALL articles". So, this is "all or nothing" mindset.</p>
+<p><strong>But CASL is different!</strong> It allows us to ask different questions to our permissions. So, when you check on a</p>
+<ul>
+<li>subject, you ask "can I read THIS article?"</li>
+<li>subject type, you ask "can I read SOME article?" (i.e., at least one article)</li>
+</ul>
+<p>It's very useful when you don't have an instance to check but know its type (for example, during creation), so this allows your app to fail fast.</p>
+<blockquote>
+<p>If you do checks on a subject type, you need to check permissions one more time on the final subject, right before sending request to API or database.</p>
+</blockquote>
+<h2 id="inverted-rules"><a name="inverted-rules" class="h-link" href="#"></a>Inverted rules</h2>
+<p>This guide talk a lot about allowable permissions but nothing about disallowable ones. This is for the reason. The direct logic is much simpler to understand, and we recommend to use it whenever possible.</p>
+<p>To define an inverted rule, you need to use the 2nd argument in the callback of <code>defineAbility</code>. Let's give a user a permission to do anything but not delete:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'all'</span>);
+});
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// false</span>
+</code></pre>
+<p>As you should know direct rules are checked by logical <code>OR</code> on the other hand inverted ones are checked by logical <code>AND</code>. So, in the example above user:</p>
+<ul>
+<li>can do anything on all entities</li>
+<li>and cannot delete any entity</li>
+</ul>
+<p>When defining direct and inverted rules for the same pair of action and subject the order of rules matters: <code>cannot</code> declarations should follow after <code>can</code>, otherwise they will be overridden by <code>can</code>. For example, let's disallow to read all private objects (those that have property <code>private = true</code>):</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
+<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  cannot(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>, { <span class="hljs-attr">authorId</span>: user.id });
+});
+
+ability.can(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// false</span>
+ability.can(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">authorId</span>: user.id }); <span class="hljs-comment">// true</span>
+ability.can(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">authorId</span>: user.id, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// true!</span>
+</code></pre>
+<p>Here we got an unexpected result because direct rule is the last one. To fix the result just revert those rules and <strong>always remember to put inverted rules after the direct one!</strong></p>
+<h3 id="forbidden-reasons"><a name="forbidden-reasons" class="h-link" href="#"></a>Forbidden reasons</h3>
+<p>The good point about inverted rules is that they help to explicitly forbid particular actions. Moreover they allow to add explanation. Let's see how</p>
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+  cannot(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> })
+    .because(<span class="hljs-string">'You are not allowed to read private information'</span>);
+});
+</code></pre>
+<p>We can get this message back by checking permissions using <code>ForbiddenError</code>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+<span class="hljs-keyword">try</span> {
+  ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> })
+} <span class="hljs-keyword">catch</span> (error) {
+  <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> ForbiddenError) {
+    <span class="hljs-built_in">console</span>.log(error.message); <span class="hljs-comment">// You are not allowed to read private information</span>
+  }
+
+  <span class="hljs-keyword">throw</span> error
+}
+</code></pre>
+<blockquote>
+<p>To learn more about <code>ForbiddenError</code>, see 
+      <a itemprop="url" href="/v7/en/api#forbidden-error">
+        ForbiddenError API
+      </a>
+    </p>
+</blockquote>
+<h2 id="update-rules"><a name="update-rules" class="h-link" href="#"></a>Update rules</h2>
+<p>Sometimes, especially in frontend application development, we need to update <code>Ability</code> instance (e.g., on login or logout). To do this, we can use <code>update</code> method:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+
+ability.update([]); <span class="hljs-comment">// forbids everything</span>
+ability.update([ <span class="hljs-comment">// switch to readonly mode</span>
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'all'</span> }
+]);
+</code></pre>
+<p>Also we can use <code>AbilityBuilder</code> to create rules:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { createMongoAbility, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> ability = createMongoAbility();
+
+<span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+
+ability.update(rules);
+</code></pre>
+<p>To track when rules are updated, we can subscribe to <code>update</code> (before ability is updated) or <code>updated</code> (after ability is updated) events of <code>Ability</code> instance:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> unsubscribe = ability.on(<span class="hljs-string">'update'</span>, <span class="hljs-function">(<span class="hljs-params">{ rules, target }</span>) =&gt;</span> {
+  <span class="hljs-comment">// `rules` is an array passed to `update` method</span>
+  <span class="hljs-comment">// `target` is a Ability instance that triggered event</span>
+})
+
+unsubscribe() <span class="hljs-comment">// removes subscription</span>
+</code></pre>
+<h2 id="what-else"><a name="what-else" class="h-link" href="#"></a>What else?</h2>
+<p>CASL does not have a concept of "a role" and this makes it very powerful! As CASL allows to describe user abilities in your application, you can use it to:</p>
+<ol>
+<li>Implement <a href="https://en.wikipedia.org/wiki/Feature_toggle" target="_blank" rel="noopener nofollow">feature toggles</a><br>
+Hide unfinished feature or show it to beta testers only.</li>
+<li>Conduct <a href="https://en.wikipedia.org/wiki/A/B_testing" target="_blank" rel="noopener nofollow">A/B testing</a><br>
+Based on age, region, country or whatever hide features for some users and show for others</li>
+<li>Simple Business Logic<br>
+Disallow users to watch video if their subscription has been expired</li>
+</ol>
+<blockquote>
+<p>See 
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+     for details.</p>
+</blockquote>
+<h2 id="ready-for-more"><a name="ready-for-more" class="h-link" href="#"></a>Ready for More?</h2>
+<p>We’ve briefly introduced all the features of CASL.js core - the rest of this guide will cover them and other advanced features with much finer details, so make sure to read through it all!</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/guide/install">
+        
+        Installation
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        
+        Define Rules
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/guide/intro"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

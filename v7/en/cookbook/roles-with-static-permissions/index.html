@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Roles with predefined permissions - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,607 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="RBAC, roles, predefined permissions, role based access control, TypeScript, RDBMS">
+  <meta name="description" content="Roles with predefined permissions — RBAC recipe using CASL. Define role permissions in code, SQLite/knex demo, member vs admin.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Roles with predefined permissions</h1>
+        
+        <div class="description md"><blockquote>
+<p>This recipe targets backend developers. We use <a href="https://www.typescriptlang.org" target="_blank" rel="noopener nofollow">TypeScript</a> and <a href="https://en.wikipedia.org/wiki/Relational_database" target="_blank" rel="noopener nofollow">RDBMS</a> in this guide, so the basic knowledge of both is required.</p>
+</blockquote>
+<h2 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h2>
+<p>The application can be used by multiple users with different roles. Each role has predefined set of permissions.</p>
+<blockquote>
+<p>This is also known as <a href="https://searchsecurity.techtarget.com/definition/role-based-access-control-RBAC" target="_blank" rel="noopener nofollow">RBAC (Role based access control)</a>.</p>
+</blockquote>
+<h2 id="the-solution"><a name="the-solution" class="h-link" href="#"></a>The solution</h2>
+<p>First of all, we need to define tables for <code>users</code> and <code>roles</code>. <code>users</code> table stores <code>id</code>, <code>email</code>, <code>password</code> and <code>roleId</code>. <code>roles</code> table stores only <code>id</code> and <code>name</code>.</p>
+<blockquote>
+<p>Tables' structure may be different in your application. We are going to use the simplest but sufficient structure to solve <a href="#the-issue">The issue</a></p>
+</blockquote>
+<p>As our roles has a predefined set of permissions which are not required to be changeable in runtime, we are going to define role permissions in the code. For each role we will have a separate function. Then depending on the role name, we will call that function to define permissions and create corresponding abilities. Using <code>Ability</code> instance we can guarantee that a user can do only what his role allows him to do.</p>
+<blockquote>
+<p>In the next Demo, we are not going to implement REST API as the main intention of this recipe is to solve <a href="#the-issue">The issue</a>.</p>
+</blockquote>
+<h2 id="demo"><a name="demo" class="h-link" href="#"></a>Demo</h2>
+<p>To make things simple, we will use SQLite database. This also allows to quickly setup the demo on local machine and even run it in a browser.</p>
+<p>The demo domain is very simple, this is an app that allows to invite users. This app has 2 roles:</p>
+<ul>
+<li><code>member</code> user can
+<ul>
+<li>invite any user</li>
+<li>update information about himself</li>
+</ul>
+</li>
+<li><code>admin</code> user can
+<ul>
+<li>manage everything</li>
+</ul>
+</li>
+</ul>
+<p>In order to start, we need to create a migration script for <code>users</code> and <code>roles</code> tables and seed our database with default records. To do this, we will use <a href="http://knexjs.org/" target="_blank" rel="noopener nofollow">knex</a> SQL builder.</p>
+<blockquote>
+<p>We are not going to walk through knex's API and usage, so if you are not familiar with it, take some time to look through its documentation. Anyway, don't worry, it's quite expressive.</p>
+</blockquote>
+<details>
+<summary>Initial migration</summary>
+<pre><code data-filename="migrations/20200401110244_init.js" class="language-js"><span class="hljs-built_in">exports</span>.up = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
+  <span class="hljs-keyword">return</span> knex.schema
+    .createTable(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.increments(<span class="hljs-string">'id'</span>);
+      table.string(<span class="hljs-string">'email'</span>, <span class="hljs-number">255</span>).notNullable();
+      table.string(<span class="hljs-string">'password'</span>, <span class="hljs-number">50</span>).notNullable();
+      table.integer(<span class="hljs-string">'roleId'</span>).unsigned().notNullable();
+
+      table.foreign(<span class="hljs-string">'roleId'</span>).references(<span class="hljs-string">'id'</span>).inTable(<span class="hljs-string">'roles'</span>);
+    })
+    .createTable(<span class="hljs-string">'roles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.increments(<span class="hljs-string">'id'</span>);
+      table.string(<span class="hljs-string">'name'</span>, <span class="hljs-number">255</span>).notNullable();
+    });
+};
+
+<span class="hljs-built_in">exports</span>.down = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
+  <span class="hljs-keyword">return</span> knex.schema
+      .dropTable(<span class="hljs-string">'users'</span>)
+      .dropTable(<span class="hljs-string">'roles'</span>);
+};
+</code></pre>
+</details>
+<details>
+<summary>Initial seeds</summary>
+<pre><code data-filename="seeds/init.js" class="language-js"><span class="hljs-built_in">exports</span>.seed = <span class="hljs-keyword">async</span> (knex) =&gt; {
+  <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+    knex(<span class="hljs-string">'users'</span>).del(),
+    knex(<span class="hljs-string">'roles'</span>).del()
+  ]);
+  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'roles'</span>).insert([
+    { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'admin'</span> },
+    { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'member'</span> }
+  ]);
+  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'users'</span>).insert([
+    { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'admin@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">1</span> },
+    { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'member@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">2</span> },
+  ]);
+};
+</code></pre>
+</details>
+<p>Now, let's define all possible actions and subjects.</p>
+<h3 id="abilities"><a name="abilities" class="h-link" href="#"></a>Abilities</h3>
+<p>This app has only <code>User</code> subject, users can only <code>update</code> himself and invite other users, so:</p>
+<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, ForcedSubject, CreateAbility, MongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">const</span> actions = [<span class="hljs-string">'manage'</span>, <span class="hljs-string">'invite'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+<span class="hljs-keyword">const</span> subjects = [<span class="hljs-string">'User'</span>, <span class="hljs-string">'all'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+<span class="hljs-keyword">type</span> AppAbilities = [
+  <span class="hljs-keyword">typeof</span> actions[<span class="hljs-built_in">number</span>],
+  <span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>] | ForcedSubject&lt;Exclude&lt;<span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>], <span class="hljs-string">'all'</span>&gt;&gt;
+];
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;AppAbilities&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAppAbility = createMongoAbility <span class="hljs-keyword">as</span> CreateAbility&lt;AppAbility&gt;;
+</code></pre>
+<blockquote>
+<p>See 
+      <a itemprop="url" href="/v7/en/advanced/typescript#useful-type-helpers">
+        TypeScript support
+      </a>
+     to get details about type helpers.</p>
+</blockquote>
+<p><code>typeof actions[number]</code> converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope.</p>
+<p>Having all possible subjects and actions, we can define roles' permissions in the same file:</p>
+<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { ForcedSubject, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
+
+<span class="hljs-comment">// abilities definition from previous example</span>
+
+<span class="hljs-keyword">type</span> DefinePermissions = <span class="hljs-function">(<span class="hljs-params">user: User, builder: AbilityBuilder&lt;AppAbility&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>;
+<span class="hljs-keyword">type</span> Roles = <span class="hljs-string">'member'</span> | <span class="hljs-string">'admin'</span>;
+
+<span class="hljs-keyword">const</span> rolePermissions: Record&lt;Roles, DefinePermissions&gt; = {
+  <span class="hljs-function"><span class="hljs-title">member</span>(<span class="hljs-params">user, { can }</span>)</span> {
+    can(<span class="hljs-string">'invite'</span>, <span class="hljs-string">'User'</span>);
+    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'User'</span>, { <span class="hljs-attr">id</span>: user.id });
+  },
+  <span class="hljs-function"><span class="hljs-title">admin</span>(<span class="hljs-params">user, { can }</span>)</span> {
+    can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  }
+};
+</code></pre>
+<blockquote>
+<p>Do you see how readable this definition object is? The function signature says "member user can" and the body describes what the member user can do. Looks very similar to how we described our requirements at the beginning of <a href="#demo">Demo</a> section, don't it?</p>
+</blockquote>
+<p>We imported <code>User</code> data class in order to make our functions a bit more strongly typed, its shape is the following:</p>
+<pre><code data-filename="models/User.ts" class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> User {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">role</span>: <span class="hljs-built_in">string</span>
+}
+</code></pre>
+<blockquote>
+<p>We created <code>rolePermissions</code> object that holds our permission definitions functions instead of using regular functions. This allows us to retrieve role specific function by accessing properties of this object, this is very convenient and efficient.</p>
+</blockquote>
+<p>Finally, let's create a function that defines <code>Ability</code> instance for our user, let's do this in the same file:</p>
+<pre><code data-filename="services/appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, ForcedSubject, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
+
+<span class="hljs-comment">// abilities definition from the example above</span>
+<span class="hljs-comment">// roles definition from the example above</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: User</span>): <span class="hljs-title">AppAbility</span> </span>{
+  <span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> rolePermissions[user.role] === <span class="hljs-string">'function'</span>) {
+    rolePermissions[user.role](user, builder);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">`Trying to use unknown role "<span class="hljs-subst">${user.role}</span>"`</span>);
+  }
+
+  <span class="hljs-keyword">return</span> builder.build();
+}
+</code></pre>
+<blockquote>
+<p>We need to ensure that permissions' definition function for a particular role exists because TypeScript can't help us to ensure that roles in the database reflects our types. So, we fail fast.</p>
+</blockquote>
+<h3 id="putting-together"><a name="putting-together" class="h-link" href="#"></a>Putting together</h3>
+<p>First of all, we need a function that returns a user by its email and another one that updates a user by its id:</p>
+<pre><code data-filename="services/users.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
+<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models/User'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findUserByEmail</span>(<span class="hljs-params">email: <span class="hljs-built_in">string</span></span>) </span>{
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> db&lt;User&gt;(<span class="hljs-string">'users'</span>)
+    .select(<span class="hljs-string">'users.id'</span>, <span class="hljs-string">'users.email'</span>, { <span class="hljs-attr">role</span>: <span class="hljs-string">'roles.name'</span> })
+    .innerJoin(<span class="hljs-string">'roles'</span>, <span class="hljs-string">'roles.id'</span>, <span class="hljs-string">'users.roleId'</span>)
+    .where(<span class="hljs-string">'email'</span>, email)
+    .first();
+
+  <span class="hljs-keyword">return</span> user;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> UserChanges = Partial&lt;Exclude&lt;User, <span class="hljs-string">'role'</span> | <span class="hljs-string">'id'</span>&gt;&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateUserById</span>(<span class="hljs-params">id: <span class="hljs-built_in">number</span>, changes: UserChanges</span>) </span>{
+  <span class="hljs-keyword">await</span> db&lt;User&gt;(users)
+    .update(changes)
+    .where(<span class="hljs-string">'id'</span>, id);
+}
+</code></pre>
+<p>Now we can implement <code>updateUserDetails</code> function:</p>
+<pre><code data-filename="updateUserDetails.ts" class="language-ts"><span class="hljs-keyword">import</span> { ForbiddenError, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/appAbility'</span>;
+<span class="hljs-keyword">import</span> { findUserByEmail, updateUserById, UserChanges } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateUserDetails</span>(<span class="hljs-params">
+  <span class="hljs-comment">/** email of a user who initiates the request (i.e., logged in user) */</span>
+  initiatorEmail: <span class="hljs-built_in">string</span>,
+  <span class="hljs-comment">/** an email of user to be updated */</span>
+  userToBeUpdatedEmail: <span class="hljs-built_in">string</span>,
+  <span class="hljs-comment">/** an object of changes to be applied */</span>
+  changes: UserChanges
+</span>) </span>{
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> findUserByEmail(initiatorEmail);
+  <span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+  <span class="hljs-keyword">const</span> userToBeUpdated = userToBeUpdatedEmail === initiatorEmail
+    ? user
+    : <span class="hljs-keyword">await</span> findUserByEmail(userToBeUpdatedEmail)
+
+  ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'update'</span>, subject(<span class="hljs-string">'User'</span>, userToBeUpdated));
+  <span class="hljs-keyword">await</span> updateUserById(userToBeUpdated.id, changes);
+}
+</code></pre>
+<blockquote>
+<p>We intentionally made this function to accept both initiator and user whose details needs to be updated in order to show that permissions' logic works correctly. In real world apps, this function should accept only initiator and update his details!</p>
+</blockquote>
+<p>Let's go line by line in order to understand the code:</p>
+<ol>
+<li>We created <code>updateUserDetails</code> that accepts 3 arguments: 1st represents user's email who initiates the request (i.e., logged in user), 2nd is an email of a user whose details will be updated and 3rd is an object of changes.</li>
+<li>Inside the function, we find initiator user in order to create <code>Ability</code> instance for it.</li>
+<li>We also find user whose details needs to be updated, so we have his id.</li>
+<li>Using <code>ForbiddenError</code> class, we ensure that user can update own details. If not, a <code>ForbiddenError</code> will be thrown. Also pay attention that we call <code>subject</code> function. It assigns a particular subject type to a plain JavaScript object (see 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection#subject-helper">
+        subject helper
+      </a>
+     for details).</li>
+<li>We call <code>updateUserById</code> function to update user details by id in the database.</li>
+</ol>
+<p>To test this function, let's create a simple script:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { updateUserDetails } <span class="hljs-keyword">from</span> <span class="hljs-string">'./updateUserDetails'</span>;
+
+updateUserDetails(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'member@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
+  .then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: own details were successfully updated'</span>))
+  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> ForbiddenError) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: cannot update own details'</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">console</span>.error(error);
+    }
+  });
+
+updateUserDetails(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'admin@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
+  .then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: admin details were successfully updated'</span>))
+  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> ForbiddenError) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: admin details are NOT ALLOWED to be updated'</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">console</span>.error(error);
+    }
+  });
+</code></pre>
+<p>If you run this code, you will get:</p>
+<pre><code class="hljs">[<span class="hljs-symbol">member</span>]: <span class="hljs-link">own details were successfully updated</span>
+[<span class="hljs-symbol">member</span>]: <span class="hljs-link">admin details are NOT ALLOWED to be updated</span>
+</code></pre>
+<p>At this point, you have enough details to implement <code>inviteUser</code> function by yourself ;) So, we will just go through its logic:</p>
+<ol>
+<li><code>inviteUser</code> accepts 2 arguments: initiator's email and email of the user to be invited.</li>
+<li>Retrieve initiator user by its email.</li>
+<li>Check that initiator is allowed to invite a user.</li>
+<li>Check if the user to be invited has not been registered in the system before.</li>
+<li>If not, send an email to this user with invitation message.</li>
+</ol>
+<h3 id="conclusion"><a name="conclusion" class="h-link" href="#"></a>Conclusion</h3>
+<p>That's it! You now have a powerful role based access control powered by CASL! We hope this tutorial was helpful and made your understanding of CASL.js even better :)</p>
+<h2 id="alternative-patterns"><a name="alternative-patterns" class="h-link" href="#"></a>Alternative patterns</h2>
+<p>This pattern is very powerful and scales very good. Even if at some point in the future, you will need to allow users to change permissions dynamically (e.g., via REST API or User Interface), you can easily do this, read 
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+     recipe for details.</p>
+<p>If you need to implement claim based permissions, check 
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+     recipe.</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        
+        Cache abilities
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        
+        Roles with persisted permissions
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/cookbook/roles-with-static-permissions"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>

@@ -1,11 +1,12 @@
-<!DOCTYPE html><html><head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>Ability to database query - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -16,19 +17,448 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
+  <meta name="keywords" content="rulesToQuery, ability to database query, sequelize, filter records by permissions">
+  <meta name="description" content="Convert CASL abilities to database queries — rulesToQuery helper, Sequelize example, filter records by user permissions.">
   <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library">
   <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.">
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-CGQuqplE.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DahKJ7P9.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Ability to database query</h1>
+        
+        <div class="description md"><p>Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. <code>@casl/ability/extra</code> provides <code>rulesToQuery</code> helper function which helps to convert rules into a particular database's query. This function accepts 4 arguments:</p>
+<ol>
+<li>An instance of <code>Ability</code></li>
+<li><code>action</code> for which you want to get rules</li>
+<li><code>subjectType</code> which you plan to query</li>
+<li>conversion function which takes rule as the only argument and returns database query chunk</li>
+</ol>
+<p>The helper aggregates all query chunks into a single object that has <code>$or</code> and <code>$and</code> properties. Query chunk for direct rules are collected in <code>$or</code> array and inverted - in <code>$and</code> array. <strong>This function returns <code>null</code></strong> if the provided ability does not allow to perform the provided action on the provided subject type.</p>
+<blockquote>
+<p>See 
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        @casl/mongoose
+      </a>
+     to get details about integration with <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a></p>
+</blockquote>
+<p>To understand the logic better let's implement <strong>a basic helper</strong> for <a href="https://sequelize.org/" target="_blank" rel="noopener nofollow">sequelize</a>.</p>
+<pre><code data-filename="toSequelizeQuery.js" class="language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
+<span class="hljs-keyword">const</span> { Op } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+
+<span class="hljs-comment">/**
+ * Tricky way to walk recursively over deeply nested object.
+ * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Parameters
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbolize</span>(<span class="hljs-params">query</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(query), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keyToSymbol</span>(<span class="hljs-params">key, value</span>) </span>{
+    <span class="hljs-keyword">if</span> (key[<span class="hljs-number">0</span>] === <span class="hljs-string">'$'</span>) {
+      <span class="hljs-keyword">const</span> symbol = Op[key.slice(<span class="hljs-number">1</span>)];
+      <span class="hljs-built_in">this</span>[symbol] = value;
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">return</span> value;
+  });
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ruleToSequelize</span>(<span class="hljs-params">rule</span>) </span>{
+  <span class="hljs-keyword">return</span> rule.inverted ? { <span class="hljs-attr">$not</span>: rule.conditions } : rule.conditions;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toSequelizeQuery</span>(<span class="hljs-params">ability, subject, action</span>) </span>{
+  <span class="hljs-keyword">const</span> query = rulesToQuery(ability, action, subject, ruleToSequelize);
+  <span class="hljs-keyword">return</span> query === <span class="hljs-literal">null</span> ? query : symbolize(query);
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessibleBy</span>(<span class="hljs-params">ability, action = <span class="hljs-string">'read'</span></span>) </span>{
+  <span class="hljs-keyword">const</span> query = toSequelizeQuery(ability, action, <span class="hljs-built_in">this</span>.name);
+
+  <span class="hljs-keyword">if</span> (query === <span class="hljs-literal">null</span>) { <span class="hljs-comment">// there is no accessible records, so no need to send query to db</span>
+    <span class="hljs-keyword">return</span> [];
+  }
+
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.findAll({
+    <span class="hljs-attr">where</span>: query;
+  });
+}
+
+<span class="hljs-built_in">module</span>.exports = {
+  toSequelizeQuery,
+  accessibleBy,
+};
+</code></pre>
+<p>In this example, we used <code>rulesToQuery</code> to iterate over rules and aggregate sequelize query. <code>$not</code> operator is used to invert the result of inverted rules' conditions. As of sequelize v6, operator aliases are removed (<a href="https://github.com/sequelize/sequelize/issues/10820" target="_blank" rel="noopener nofollow">sequelize#10820</a>), so we need to convert string based keys into symbols. To do so, we used a trick of stringifying and parsing JSON object with custom <code>reviver</code> argument, which detects keys that starts with <code>$</code> and replaces them with the respective symbol.</p>
+<p>Then, we can use this function to define static method or scope in your model. Here, we will define static method because its usage looks more natural and readable than custom scope:</p>
+<pre><code data-filename="Article.js" class="language-js"><span class="hljs-keyword">const</span> { Model, DataTypes } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./toSequelizeQuery'</span>);
+
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">(<span class="hljs-params">sequelize</span>) =&gt;</span> {
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span> </span>{
+    <span class="hljs-keyword">static</span> accessibleBy = accessibleBy;
+  }
+
+  Article.init({
+    <span class="hljs-attr">title</span>: {
+      <span class="hljs-attr">type</span>: DataTypes.STRING,
+      <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">published</span>: {
+      <span class="hljs-attr">type</span>: DataTypes.BOOLEAN,
+      <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">defaultValue</span>: <span class="hljs-literal">false</span>
+    }
+    <span class="hljs-comment">// other columns' definitions</span>
+  }, {
+    sequelize,
+    <span class="hljs-attr">modelName</span>: Article.name,
+  });
+
+  <span class="hljs-keyword">return</span> Article;
+}
+</code></pre>
+<p>Now we can fetch accessible records using our static method:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { Sequelize } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
+<span class="hljs-keyword">const</span> defineArticle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Article'</span>);
+
+<span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> Sequelize(<span class="hljs-string">'sqlite::memory'</span>);
+<span class="hljs-keyword">const</span> Article = defineArticle(sequelize);
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> can(<span class="hljs-string">'read'</span>, Article, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }));
+  <span class="hljs-keyword">const</span> articles = <span class="hljs-keyword">await</span> Article.accessibleBy(ability);
+
+  <span class="hljs-built_in">console</span>.log(articles);
+}
+
+main().catch(<span class="hljs-built_in">console</span>.error);
+</code></pre>
+<p>This implementation is basic because it doesn't support joins. See <a href="https://github.com/stalniy/casl/issues/8" target="_blank" rel="noopener nofollow">#8</a> to track status of SQL support in CASL.</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing">
+        
+        Debugging and testing
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        
+        CASL Prisma
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/advanced/ability-to-database-query"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>
