@@ -46,15 +46,15 @@ const components = [
 export function bootstrap(selector) {
   const app = document.querySelector(selector);
   components.forEach(c => customElements.define(c.cName, c));
+  let routeGeneration = 0;
   router.observe(async (route) => {
+    const generation = ++routeGeneration;
     const lang = route.response.params.lang || defaultLocale;
 
-    if (locale() !== lang) {
-      await setLocale(lang);
-      app.ready = true;
-    }
-
+    if (locale() !== lang) await setLocale(lang);
+    if (generation !== routeGeneration) return;
     setRouteMeta(route);
+    app.ready = true;
   });
 
   return app;

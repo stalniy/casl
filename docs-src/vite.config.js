@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: __dirname,
-    base: PUBLIC_PATH || '/',
+    base: PUBLIC_PATH ? `${PUBLIC_PATH}/` : '/',
     publicDir: 'public',
 
     build: {

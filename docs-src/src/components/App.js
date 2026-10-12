@@ -5,20 +5,6 @@ import router from '../services/router.js';
 import watchMedia from '../hooks/watchMedia.js';
 import { t } from '../directives/i18n.js';
 
-function createNotificationsRoot() {
-  const root = document.createElement('div');
-
-  Object.assign(root.style, {
-    position: 'fixed',
-    right: '10px',
-    bottom: '10px',
-    zIndex: 50,
-    width: '320px'
-  });
-  document.body.appendChild(root);
-  return root;
-}
-
 export default class App extends LitElement {
   static cName = 'casl-docs';
   static properties = {
@@ -29,18 +15,30 @@ export default class App extends LitElement {
 
   constructor() {
     super();
+    this.addEventListener('content-error', (event) => {
+      this.setAttribute('data-content-error', event.detail?.message || event.target.getAttribute('data-content-error') || 'content request failed');
+    });
     this._route = null;
     this._notificationsRoot = null;
     this._menu = null;
     this._isMobile = false;
     this.ready = false;
+    this._routeVersion = 0;
+    this._routePath = '';
     this._unwatch = [];
+    this._publishReadiness = this._publishReadiness.bind(this);
   }
 
   connectedCallback() {
     super.connectedCallback();
     this._unwatch.push(router.observe((route) => {
+      this.ready = false;
+      this._routeVersion += 1;
       this._route = route.response;
+      this._routePath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      this.removeAttribute('data-rendered-route');
+      this.removeAttribute('data-content-error');
+      this.removeAttribute('data-content-not-found');
       this._closeMenu();
     }, { initial: true }));
     this._unwatch.push(watchMedia('(min-width: 768px)', v => this._isMobile = !v));
@@ -50,6 +48,10 @@ export default class App extends LitElement {
         console.log(import.meta.env.COMMIT_HASH || 'unknown');
       }
     }, false);
+    const timerId = setTimeout(() => console.warn(`Page did not report readiness in 10sec.`), 10_000);
+    const cancelTimer = () => clearTimeout(timerId);
+    this.addEventListener('route-ready', cancelTimer, { once: true, passive: true });
+    this._unwatch.push(cancelTimer);
   }
 
   disconnectedCallback() {
@@ -58,19 +60,28 @@ export default class App extends LitElement {
   }
 
   updated() {
-    this._menu = this._menu || this.shadowRoot.querySelector('menu-drawer');
+    this._menu ??= this.shadowRoot.querySelector('menu-drawer');
+  }
+
+  async _publishReadiness(event) {
+    const source = event.composedPath()[0];
+    if (!this.ready || !this._route || !source?.isConnected) return;
+    const routeVersion = this._routeVersion;
+    const routePath = this._routePath;
+    await this.updateComplete;
+    if (!source.isConnected || routeVersion !== this._routeVersion || routePath !== `${window.location.pathname}${window.location.search}${window.location.hash}`) return;
+
+    this.toggleAttribute('data-content-not-found', event.detail?.notFound === true);
+    this.setAttribute('data-rendered-route', routePath);
+    this.dispatchEvent(new CustomEvent('route-ready', { detail: { path: routePath } }));
   }
 
   _toggleMenu() {
-    if (this._menu) {
-      this._menu.toggle();
-    }
+    this._menu?.toggle();
   }
 
   _closeMenu() {
-    if (this._menu) {
-      this._menu.close();
-    }
+    this._menu?.close();
   }
 
   notify(message, options = {}) {
@@ -87,9 +98,7 @@ export default class App extends LitElement {
   }
 
   _renderDrawerMenu(sidebar) {
-    if (!this._isMobile) {
-      return null;
-    }
+    if (!this._isMobile) return null;
 
     return html`
       ${sidebar}
@@ -128,7 +137,7 @@ export default class App extends LitElement {
           @toggle-menu="${this._toggleMenu}"
         >
           <div slot="aside">${sidebar}</div>
-          ${cache(body.main || body)}
+          <div @content-ready="${this._publishReadiness}">${cache(body.main || body)}</div>
         </app-root>
       </menu-drawer>
     `;
@@ -149,3 +158,17 @@ App.styles = [
     }
   `
 ];
+
+function createNotificationsRoot() {
+  const root = document.createElement('div');
+
+  Object.assign(root.style, {
+    position: 'fixed',
+    right: '10px',
+    bottom: '10px',
+    zIndex: 50,
+    width: '320px'
+  });
+  document.body.appendChild(root);
+  return root;
+}

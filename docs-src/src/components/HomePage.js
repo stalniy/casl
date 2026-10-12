@@ -8,6 +8,22 @@ import features from '../partials/caslFeatures.js';
 export default class HomePage extends LitElement {
   static cName = 'home-page';
 
+  connectedCallback() {
+    super.connectedCallback();
+    this._publishVersion = (this._publishVersion || 0) + 1;
+    this._publishContentReady(this._publishVersion);
+  }
+
+  async _publishContentReady(version) {
+    await this.updateComplete;
+    await Promise.all(Array.from(
+      this.shadowRoot.querySelectorAll('app-link'),
+      link => link.updateComplete
+    ));
+    if (!this.isConnected || version !== this._publishVersion) return;
+    this.dispatchEvent(new CustomEvent('content-ready', { bubbles: true, composed: true }));
+  }
+
   render() {
     return html`
       <div class="bg">
