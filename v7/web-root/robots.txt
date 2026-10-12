@@ -2,3 +2,5 @@ User-agent: *
 Host: casl.js.org
 Sitemap: https://casl.js.org/v4/sitemap.xml
 Sitemap: https://casl.js.org/v5/sitemap.xml
+Sitemap: https://casl.js.org/v6/sitemap.xml
+Sitemap: https://casl.js.org/v7/sitemap.xml
