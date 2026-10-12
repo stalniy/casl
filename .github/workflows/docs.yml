@@ -2,7 +2,7 @@ name: Docs
 
 on:
   push:
-    branches: [master, next, docs-fix]
+    branches: [main, next, docs-fix]
     paths:
       - docs-src/**/*
       - .github/workflows/docs.yml
@@ -70,7 +70,7 @@ jobs:
         rm -rf $CASL_DOCS_ROOT
         mv docs-src/dist $CASL_DOCS_ROOT
 
-        if [ "$CURRENT_BRANCH" = "master" ]; then
+        if [ "$CURRENT_BRANCH" = "main" ]; then
           cp $CASL_DOCS_ROOT/web-root/* $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
         fi
 

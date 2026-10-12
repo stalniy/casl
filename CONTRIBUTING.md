@@ -48,10 +48,10 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   pnpm run -r build # build all packages so local deps can be linked
   ```
 
-* Make your changes in a new git branch (fork master branch):
+* Make your changes in a new git branch (fork main branch):
 
   ```sh
-  git checkout -b my-fix-branch master
+  git checkout -b my-fix-branch main
   ```
 
 * **include appropriate test cases**.
@@ -64,7 +64,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   git push origin my-fix-branch
   ```
 
-* In GitHub, send a pull request to `casl:master`.
+* In GitHub, send a pull request to `casl:main`.
 * If somebody from project contributors suggest changes then:
   * Make the required updates.
   * Re-run all test suites to ensure tests are still passing.

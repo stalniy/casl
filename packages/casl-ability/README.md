@@ -141,7 +141,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
-[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/en/guide/define-rules
 [intro]: https://stalniy.github.io/casl/en/guide/intro
 [database-integration]: https://stalniy.github.io/casl/en/package/casl-mongoose

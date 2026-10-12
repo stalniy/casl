@@ -70,7 +70,7 @@ export default function defineAbilityFor(user: any) {
 }
 ```
 
-> Read [@ucast/mongo2js docs](https://github.com/stalniy/ucast/tree/master/packages/mongo2js#custom-operator) page to learn how to create custom operators.
+> Read [@ucast/mongo2js docs](https://github.com/stalniy/ucast/tree/main/packages/mongo2js#custom-operator) page to learn how to create custom operators.
 
 By restricting operators, you not only disallow other developers to use more complex conditions but also make your frontend bundle size smaller (thanks to bundlers with tree-shaking support).
 

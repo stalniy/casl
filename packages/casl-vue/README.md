@@ -420,5 +420,5 @@ If you'd like to help us sustain our community and project, consider [to become 
 
 [MIT License](http://www.opensource.org/licenses/MIT)
 
-[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md
 [Vue 3]: https://v3.vuejs.org/guide/introduction.html

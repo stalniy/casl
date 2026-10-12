@@ -25,7 +25,7 @@ The easiest way to try out CASL.js is using the [Hello World example][example-he
 
 > The [Installation page][guide-install] provides more options of installing CASL.
 
-[example-hello-casl]: https://codesandbox.io/s/github/stalniy/casl-examples/tree/master/packages/hello-world
+[example-hello-casl]: https://codesandbox.io/s/github/stalniy/casl-examples/tree/main/packages/hello-world
 [guide-install]: ../install
 
 ## Basics

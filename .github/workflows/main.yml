@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - .github/workflows/main.yml
       - packages/**/*.{js,ts,json}

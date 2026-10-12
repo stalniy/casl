@@ -9,7 +9,7 @@
 
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
-[![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/master/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
+[![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/main/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
 [![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
 <!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
 </p>
@@ -254,7 +254,7 @@ Support this project with your organization. Your logo will show up here with a 
 
 Copyright (c) 2017-present, Sergii Stotskyi
 
-[contributing]: https://github.com/stalniy/casl/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md
 [define-abilities]: https://stalniy.github.io/casl/en/guide/define-rules
 [intro]: https://stalniy.github.io/casl/en/guide/intro
 [database-integration]: https://stalniy.github.io/casl/en/package/casl-mongoose
