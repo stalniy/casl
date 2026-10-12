@@ -145,8 +145,17 @@ export default defineConfig(({ mode }) => {
               '**/*.png',
               '**/*.svg',
             ],
-            navigateFallback: `${PUBLIC_PATH}/index.html`,
             runtimeCaching: [
+              {
+                urlPattern: ({ request }) => request.mode === 'navigate',
+                handler: 'NetworkFirst',
+                options: {
+                  cacheName: 'documentation-pages',
+                  precacheFallback: {
+                    fallbackURL: `${PUBLIC_PATH}/index.html`,
+                  },
+                },
+              },
               {
                 urlPattern: new RegExp(`${PUBLIC_PATH.replace(/\//g, '\\/')}/images/`),
                 handler: 'StaleWhileRevalidate',
