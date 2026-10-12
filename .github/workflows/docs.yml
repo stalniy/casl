@@ -69,7 +69,7 @@ jobs:
       run: |
         CASL_DOCS_ROOT="./${CASL_VERSION}"
         CURRENT_BRANCH=$(git branch --show-current)
-        cat <<- EOF > $HOME/.netrc
+        cat <<- EOF > "$HOME/.netrc"
           machine github.com
           login $GITHUB_ACTOR
           password $GITHUB_TOKEN
@@ -77,20 +77,43 @@ jobs:
           login $GITHUB_ACTOR
           password $GITHUB_TOKEN
         EOF
-        chmod 600 $HOME/.netrc
+        chmod 600 "$HOME/.netrc"
         git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
         git config --global user.name "$GITHUB_ACTOR"
         git fetch origin gh-pages
         git checkout -f gh-pages
-        rm -rf $CASL_DOCS_ROOT
-        mv docs-src/dist $CASL_DOCS_ROOT
+        rm -rf "$CASL_DOCS_ROOT"
+        mv docs-src/dist "$CASL_DOCS_ROOT"
         touch .nojekyll
 
         if [ "$CURRENT_BRANCH" = "main" ]; then
-          cp -R $CASL_DOCS_ROOT/web-root/. .
-          cp $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
+          cp -R "$CASL_DOCS_ROOT/web-root/." .
+          cp "$CASL_DOCS_ROOT/versions.txt" "$CASL_DOCS_ROOT/index.html" .
         fi
 
         git add .
         git commit -m "chore(release): deploy ${CASL_DOCS_ROOT}"
         git push --set-upstream origin gh-pages
+    - name: Prepare Pages artifact
+      run: |
+        mkdir -p "$RUNNER_TEMP/casl-pages"
+        git archive HEAD | tar -x -C "$RUNNER_TEMP/casl-pages"
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v4
+      with:
+        path: ${{ runner.temp }}/casl-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
