@@ -1,8 +1,8 @@
 import MiniSearch from 'minisearch';
-import { fetch } from './http';
-import { notFoundError } from './error';
-import { memoize } from './utils';
-import searchOptions from '../config/search';
+import { fetch } from './http.js';
+import { notFoundError } from './error.js';
+import { memoize } from './utils.js';
+import searchOptions from '../config/search.js';
 
 function markHints(result) {
   const hints = {};

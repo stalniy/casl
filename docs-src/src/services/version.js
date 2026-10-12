@@ -1,4 +1,4 @@
-import { fetch } from './http';
+import { fetch } from './http.js';
 
 export function getCurrentVersion() {
   return import.meta.env.CASL_VERSION || null;

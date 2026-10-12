@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n';
+import { t } from '../directives/i18n.js';
 import liqpayIcon from '../assets/payment-options/liqpay.svg';
 import liqpayQrCode from '../assets/payment-options/liqpay-qrcode.png';
 import monoIcon from '../assets/payment-options/monobank.png';

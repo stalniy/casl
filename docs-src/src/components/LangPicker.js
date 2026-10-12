@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit-element';
-import router from '../services/router';
+import router from '../services/router.js';
 
 export default class LangPicker extends LitElement {
   static cName = 'app-lang-picker';

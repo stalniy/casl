@@ -1,4 +1,4 @@
-import ContentType from './ContentType';
+import ContentType from './ContentType.js';
 import * as pagesDetails from '../content/pages.pages';
 
 const contentTypes = {

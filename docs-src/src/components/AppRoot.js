@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit-element';
-import gridCss from '../styles/grid';
+import gridCss from '../styles/grid.js';
 
 export default class AppRoot extends LitElement {
   static cName = 'app-root';

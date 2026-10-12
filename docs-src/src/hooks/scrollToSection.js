@@ -1,4 +1,4 @@
-import router from '../services/router';
+import router from '../services/router.js';
 
 function scrollToElement(root, id) {
   const element = root.getElementById(id);

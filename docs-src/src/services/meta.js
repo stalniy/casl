@@ -1,4 +1,4 @@
-import { t, translationExists } from './i18n';
+import { t, translationExists } from './i18n.js';
 
 export function setTitle(title) {
   const prefix = title ? `${title} - ` : '';

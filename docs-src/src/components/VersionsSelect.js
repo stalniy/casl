@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { getCurrentVersion, fetchVersions, genCurrentUrlForVersion } from '../services/version';
+import { getCurrentVersion, fetchVersions, genCurrentUrlForVersion } from '../services/version.js';
 
 function updateVersion(event) {
   window.location.href = genCurrentUrlForVersion(event.target.value);

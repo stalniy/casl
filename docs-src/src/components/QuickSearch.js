@@ -1,11 +1,11 @@
 import { LitElement, html, css } from 'lit-element';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import { t } from '../directives/i18n';
-import { locale } from '../services/i18n';
-import content from '../services/content';
-import router from '../services/router';
-import { debounce } from '../services/utils';
-import { gridCss } from '../styles';
+import { t } from '../directives/i18n.js';
+import { locale } from '../services/i18n.js';
+import content from '../services/content.js';
+import router from '../services/router.js';
+import { debounce } from '../services/utils.js';
+import { gridCss } from '../styles/index.js';
 
 const SUGGESTION_TEMPLATES = {
   dropdown(result) {

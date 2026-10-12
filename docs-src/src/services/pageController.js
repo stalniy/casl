@@ -1,5 +1,5 @@
 import { html } from 'lit-element';
-import content from './content';
+import content from './content.js';
 
 function respondWithError(error) {
   if (error.code === 'NOT_FOUND') {

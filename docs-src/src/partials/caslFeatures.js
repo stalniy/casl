@@ -1,5 +1,5 @@
 import { html, css, unsafeCSS } from 'lit-element';
-import { t, ut } from '../directives/i18n';
+import { t, ut } from '../directives/i18n.js';
 
 const features = [
   'isomorphic',

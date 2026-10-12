@@ -1,5 +1,5 @@
-import { bootstrap } from './app';
-import { register } from './serviceWorker';
+import { bootstrap } from './app.js';
+import { register } from './serviceWorker.js';
 
 window.__isAppExecuted__ = true;
 const app = bootstrap('casl-docs');

@@ -1,7 +1,7 @@
 import { directive } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { langChanged, get, translate } from 'lit-translate';
-import { d as formatDate } from '../services/i18n';
+import { d as formatDate } from '../services/i18n.js';
 
 export const d = directive((date, format) => (part) => {
   const value = formatDate(date, format);

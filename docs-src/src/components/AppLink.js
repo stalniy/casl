@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import router from '../services/router';
+import router from '../services/router.js';
 
 export default class Link extends LitElement {
   static cName = 'app-link';

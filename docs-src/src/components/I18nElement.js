@@ -1,5 +1,5 @@
 import { LitElement } from 'lit-element';
-import { listenForLangChanged, locale } from '../services/i18n';
+import { listenForLangChanged, locale } from '../services/i18n.js';
 
 export default class I18nElement extends LitElement {
   constructor() {

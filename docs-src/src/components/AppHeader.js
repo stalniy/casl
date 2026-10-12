@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n';
-import { gridCss } from '../styles';
+import { t } from '../directives/i18n.js';
+import { gridCss } from '../styles/index.js';
 import menuIcon from '../assets/icons/menu.png';
 
 export default class Header extends LitElement {

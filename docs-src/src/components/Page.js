@@ -1,11 +1,11 @@
 import { html, css } from 'lit-element';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import { mdCss, pageCss, codeCss } from '../styles';
-import I18nElement from './I18nElement';
-import { interpolate, locale } from '../services/i18n';
-import content from '../services/content';
-import { setPageMeta } from '../services/meta';
-import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection';
+import { mdCss, pageCss, codeCss } from '../styles/index.js';
+import I18nElement from './I18nElement.js';
+import { interpolate, locale } from '../services/i18n.js';
+import content from '../services/content.js';
+import { setPageMeta } from '../services/meta.js';
+import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection.js';
 
 function renderContent(page, vars) {
   return unsafeHTML(interpolate(page.content, vars));

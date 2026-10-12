@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { ut } from '../directives/i18n';
+import { ut } from '../directives/i18n.js';
 
 export default class AppNotification extends LitElement {
   static cName = 'app-notification';

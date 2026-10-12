@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import { ut } from '../directives/i18n';
-import { mdCss } from '../styles';
+import { ut } from '../directives/i18n.js';
+import { mdCss } from '../styles/index.js';
 import menu from '../config/menu.yml';
 
 const ICONS = {

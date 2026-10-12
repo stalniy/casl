@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { cache } from 'lit-html/directives/cache';
 import menu from '../config/menu.yml';
-import router from '../services/router';
-import watchMedia from '../hooks/watchMedia';
-import { t } from '../directives/i18n';
+import router from '../services/router.js';
+import watchMedia from '../hooks/watchMedia.js';
+import { t } from '../directives/i18n.js';
 
 function createNotificationsRoot() {
   const root = document.createElement('div');

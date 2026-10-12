@@ -2,10 +2,10 @@ import { prepareRoutes, createRouter } from '@curi/router';
 import { browser, createBase } from '@hickory/browser';
 import { html } from 'lit-element';
 import routesConfig from '../config/routes.yml';
-import config from '../config/app';
-import { locale, LOCALES, defaultLocale } from './i18n';
-import { loadPages, renderPage } from './pageController';
-import * as queryString from './querystring';
+import config from '../config/app.js';
+import { locale, LOCALES, defaultLocale } from './i18n.js';
+import { loadPages, renderPage } from './pageController.js';
+import * as queryString from './querystring.js';
 
 function buildPath(rawRoute) {
   if (!rawRoute.restrictions) {

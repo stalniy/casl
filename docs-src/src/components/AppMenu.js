@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n';
+import { t } from '../directives/i18n.js';
 
 function renderNavItem(item) {
   if (item.heading) {

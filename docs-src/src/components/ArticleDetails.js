@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { t, d } from '../directives/i18n';
+import { t, d } from '../directives/i18n.js';
 
 export default class ArticleDetails extends LitElement {
   static cName = 'app-article-details';

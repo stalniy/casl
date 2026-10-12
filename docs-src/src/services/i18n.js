@@ -1,6 +1,6 @@
 import { registerTranslateConfig, use, get, listenForLangChanged } from 'lit-translate';
-import { memoize } from './utils';
-import { fetch } from './http';
+import { memoize } from './utils.js';
+import { fetch } from './http.js';
 import { pages as langUrls } from '../content/app.i18n';
 
 function lookup(path, config) {
