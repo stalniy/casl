@@ -1,0 +1,379 @@
+---
+title: CASL Mongoose
+categories: [package]
+order: 110
+meta:
+  keywords: casl mongoose, @casl/mongoose, MongoDB authorization, accessibleBy, mongoose plugin
+  description: CASL Mongoose — MongoDB authorization with @casl/ability. Query only accessible records with accessibleBy and plugins.
+---
+
+# CASL Mongoose
+
+[![@casl/mongoose NPM version](https://badge.fury.io/js/%40casl%2Fmongoose.svg)](https://badge.fury.io/js/%40casl%2Fmongoose)
+[![](https://img.shields.io/npm/dm/%40casl%2Fmongoose.svg)](https://www.npmjs.com/package/%40casl%2Fmongoose)
+[![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
+
+This package integrates [CASL] and [MongoDB]. In other words, it allows to fetch records based on CASL rules from MongoDB and answer questions like: "Which records can be read?" or "Which records can be updated?".
+
+## Installation
+
+```sh
+npm install @casl/mongoose @casl/ability
+# or
+yarn add @casl/mongoose @casl/ability
+# or
+pnpm add @casl/mongoose @casl/ability
+```
+
+## Usage
+
+`@casl/mongoose` can be integrated not only with [mongoose] but also with any [MongoDB] JS driver thanks to new `accessibleBy` helper function.
+
+### `accessibleBy` helper
+
+This neat helper function allows to convert ability rules to MongoDB query and fetch only accessible records from the database. It can be used with mongoose or [MongoDB adapter][mongo-adapter]:
+
+
+#### MongoDB adapter
+
+```js
+const { accessibleBy } = require('@casl/mongoose');
+const { MongoClient } = require('mongodb');
+const ability = require('./ability');
+
+async function main() {
+  const db = await MongoClient.connect('mongodb://localhost:27017/blog');
+  let posts;
+
+  try {
+    posts = await db.collection('posts').find(accessibleBy(ability, 'update').ofType('Post'));
+  } finally {
+    db.close();
+  }
+
+  console.log(posts);
+}
+```
+
+This can also be combined with other conditions with help of `$and` operator:
+
+```js
+posts = await db.collection('posts').find({
+  $and: [
+    accessibleBy(ability, 'update').ofType('Post'),
+    { public: true }
+  ]
+});
+```
+
+**Important!**: never use spread operator (i.e., `...`) to combine conditions provided by `accessibleBy` with something else because you may accidentally overwrite properties that restrict access to particular records:
+
+```js
+// returns { authorId: 1 }
+const permissionRestrictedConditions = accessibleBy(ability, 'update').ofType('Post');
+
+// DANGER DO NOT DO THIS (see above use $and)
+const query = {
+  // This is bad and potentially wrong code
+  ...permissionRestrictedConditions,
+  authorId: 2
+};
+```
+
+In the case above, we overwrote `authorId` property and basically allowed non-authorized access to posts of author with `id = 2`
+
+If there are no permissions defined for particular action/subjectType, `accessibleBy` will return `{ $expr: { $eq: [0, 1] } }` and when it's sent to MongoDB, database will return an empty result set.
+
+#### Mongoose
+
+
+```js
+const Post = require('./Post') // mongoose model
+const ability = require('./ability') // defines Ability instance
+
+async function main() {
+  const accessiblePosts = await Post.find(accessibleBy(ability).ofType('Post'));
+  console.log(accessiblePosts);
+}
+```
+
+Historically, `@casl/mongoose` was intended for super easy integration with [mongoose] but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS.
+
+### Accessible Records plugin
+
+This plugin is deprecated, the recommended way is to use [`accessibleBy` helper function](#accessibleBy-helper).
+
+`accessibleRecordsPlugin` is a plugin which adds `accessibleBy` method to query and static methods of mongoose models. We can add this plugin globally:
+
+```js
+const { accessibleRecordsPlugin } = require('@casl/mongoose');
+const mongoose = require('mongoose');
+
+mongoose.plugin(accessibleRecordsPlugin);
+```
+
+> Make sure to add the plugin before calling `mongoose.model(...)` method. Mongoose won't add global plugins to models that where created before calling `mongoose.plugin()`.
+
+or to a particular model:
+
+```js @{data-filename="Post.js"}
+const mongoose = require('mongoose')
+const { accessibleRecordsPlugin } = require('@casl/mongoose')
+
+const Post = new mongoose.Schema({
+  title: String,
+  author: String
+})
+
+Post.plugin(accessibleRecordsPlugin)
+
+module.exports = mongoose.model('Post', Post)
+```
+
+Afterwards, we can fetch accessible records using `accessibleBy` method on `Post`:
+
+```js
+const Post = require('./Post')
+const ability = require('./ability') // defines Ability instance
+
+async function main() {
+  const accessiblePosts = await Post.accessibleBy(ability);
+  console.log(accessiblePosts);
+}
+```
+
+> See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities
+
+or on existing query instance:
+
+```js
+const Post = require('./Post');
+const ability = require('./ability');
+
+async function main() {
+  const accessiblePosts = await Post.find({ status: 'draft' })
+    .accessibleBy(ability)
+    .select('title');
+  console.log(accessiblePosts);
+}
+```
+
+`accessibleBy` returns an instance of `mongoose.Query` and that means you can chain it with any `mongoose.Query`'s method (e.g., `select`, `limit`, `sort`). By default, `accessibleBy` constructs a query based on the list of rules for `read` action but we can change this by providing the 2nd optional argument:
+
+```js
+const Post = require('./Post');
+const ability = require('./ability');
+
+async function main() {
+  const postsThatCanBeUpdated = await Post.accessibleBy(ability, 'update');
+  console.log(postsThatCanBeUpdated);
+}
+```
+
+> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://casl.js.org/v5/en/advanced/ability-to-database-query) to get insights of how it works.
+
+In case user doesn’t have permission to do a particular action, CASL will throw `ForbiddenError` and will not send request to MongoDB. It also adds `__forbiddenByCasl__: 1` condition for additional safety.
+
+For example, lets find all posts which user can delete (we haven’t defined abilities for delete):
+
+```js
+const { defineAbility } = require('@casl/ability');
+const mongoose = require('mongoose');
+const Post = require('./Post');
+
+mongoose.set('debug', true);
+
+const ability = defineAbility(can => can('read', 'Post', { private: false }));
+
+async function main() {
+  try {
+    const posts = await Post.accessibleBy(ability, 'delete');
+  } catch (error) {
+    console.log(error) // ForbiddenError;
+  }
+}
+```
+
+We can also use the resulting conditions in [aggregation pipeline](https://mongoosejs.com/docs/api.html#aggregate_Aggregate):
+
+```js
+const Post = require('./Post');
+const ability = require('./ability');
+
+async function main() {
+  const query = Post.accessibleBy(ability)
+    .where({ status: 'draft' })
+    .getQuery();
+  const result = await Post.aggregate([
+    {
+      $match: {
+        $and: [
+          query,
+          // other aggregate conditions
+        ]
+      }
+    },
+    // other pipelines here
+  ]);
+  console.log(result);
+}
+```
+
+or in [mapReduce](https://mongoosejs.com/docs/api.html#model_Model.mapReduce):
+
+```js
+const Post = require('./Post');
+const ability = require('./ability');
+
+async function main() {
+  const query = Post.accessibleBy(ability)
+    .where({ status: 'draft' })
+    .getQuery();
+  const result = await Post.mapReduce({
+    query: {
+      $and: [
+        query,
+        // other conditions
+      ]
+    },
+    map: () => emit(this.title, 1);
+    reduce: (_, items) => items.length;
+  });
+  console.log(result);
+}
+```
+
+### accessibleFieldsBy
+
+`accessibleFieldsBy` allows retrieving accessible fields for a subject type or a concrete subject instance:
+
+```ts
+import { accessibleFieldsBy } from '@casl/mongoose';
+import { Post } from './models';
+
+accessibleFieldsBy(ability).ofType('Post') // returns accessible fields for Post model
+accessibleFieldsBy(ability).ofType(Post) // also possible to pass class if classes are used for rule definition
+accessibleFieldsBy(ability).of(new Post()) // returns accessible fields for Post model
+```
+
+This helper can be used directly when we need to send only accessible part of a model in response:
+
+```js
+const pick = require('lodash/pick');
+const { accessibleFieldsBy } = require('@casl/mongoose');
+const Post = require('./Post');
+
+app.get('/api/posts/:id', async (req, res) => {
+  const post = await Post.accessibleBy(ability).findByPk(req.params.id);
+  res.send(pick(post, accessibleFieldsBy(ability).of(post)));
+});
+```
+
+When called with a model type, `accessibleFieldsBy` does not take instance conditions into account. It follows the same [checking logic](https://casl.js.org/v5/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
+
+```js
+const { defineAbility } = require('@casl/ability');
+const Post = require('./Post');
+
+const ability = defineAbility((can) => {
+  can('read', 'Post', ['title'], { private: true });
+  can('read', 'Post', ['title', 'description'], { private: false });
+});
+const post = new Post({ private: true, title: 'Private post' });
+
+accessibleFieldsBy(ability).ofType(Post); // ['title', 'description']
+accessibleFieldsBy(ability).of(post); // ['title']
+```
+
+As you can see, model-level access returns all fields that can be read for all posts. At the same time, instance-level access returns fields that can be read from this particular `post` instance. That's why there is usually no much sense, except reducing traffic between app and database, to pass the result of model-level access into `mongoose.Query`'s `select` method because eventually you will need to call `accessibleFieldsBy` on every instance.
+
+This helper is pre-configured to get all fields from `Model.schema.paths`. If this is not desired, define your own custom helper:
+
+```ts
+import { AnyMongoAbility, Generics } from "@casl/ability";
+import { AccessibleFields, GetSubjectTypeAllFieldsExtractor } from "@casl/ability/extra";
+import mongoose from 'mongoose';
+
+const getSubjectTypeAllFieldsExtractor: GetSubjectTypeAllFieldsExtractor = (type) => {
+  /** custom implementation of returning all fields */
+};
+
+export function accessibleFieldsBy<T extends AnyMongoAbility>(
+  ability: T,
+  action: Parameters<T['rulesFor']>[0] = 'read'
+): AccessibleFields<Extract<Generics<T>['abilities'], unknown[]>[1]> {
+  return new AccessibleFields(ability, action, getSubjectTypeAllFieldsExtractor);
+}
+```
+
+## TypeScript support in mongoose
+
+The package is written in TypeScript, this makes it easier to work with plugins and helpers because IDE provides useful hints. Let's see it in action!
+
+Suppose we have `Post` entity which can be described as:
+
+```ts
+import mongoose from 'mongoose';
+
+export interface Post extends mongoose.Document {
+  title: string
+  content: string
+  published: boolean
+}
+
+const PostSchema = new mongoose.Schema<Post>({
+  title: String,
+  content: String,
+  published: Boolean
+});
+
+export const Post = mongoose.model('Post', PostSchema);
+```
+
+To extend `Post` model with `accessibleBy` method it's enough to include the corresponding plugin (either globally or locally in `Post`) and use corresponding `Model` type. So, let's change the example, so it includes `accessibleRecordsPlugin`:
+
+```ts
+import { accessibleRecordsPlugin, AccessibleRecordModel } from '@casl/mongoose';
+
+// all previous code, except last line
+
+PostSchema.plugin(accessibleRecordsPlugin);
+
+export const Post = mongoose.model<Post, AccessibleRecordModel<Post>>('Post', PostSchema);
+
+// Now we can safely use `Post.accessibleBy` method.
+Post.accessibleBy(/* parameters */)
+Post.where(/* parameters */).accessibleBy(/* parameters */);
+```
+
+`accessibleFieldsBy` does not require mongoose-specific types. You can use it directly with models or documents:
+
+```ts
+import { accessibleFieldsBy } from '@casl/mongoose';
+
+accessibleFieldsBy(ability).ofType(Post);
+
+const post = new Post();
+accessibleFieldsBy(ability).of(post);
+```
+
+If you want model or document instance methods similar to the removed plugin, create a small app-level wrapper around `accessibleFieldsBy` that fits your own typings and field exposure rules.
+
+## Want to help?
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for [contributing].
+
+If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
+
+> See [Support CASL](https://casl.js.org/v5/en/support-casljs) for details
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
+[contributing]: https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md
+[mongoose]: http://mongoosejs.com/
+[mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
+[CASL]: https://github.com/stalniy/casl
+[MongoDB]: https://www.mongodb.com/
+
