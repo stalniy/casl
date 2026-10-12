@@ -13,11 +13,9 @@ on:
       - packages/casl-prisma/README.md
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Allow the deployment step to push generated files to gh-pages.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -86,9 +84,11 @@ jobs:
         git checkout -f gh-pages
         rm -rf $CASL_DOCS_ROOT
         mv docs-src/dist $CASL_DOCS_ROOT
+        touch .nojekyll
 
         if [ "$CURRENT_BRANCH" = "main" ]; then
-          cp $CASL_DOCS_ROOT/web-root/* $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
+          cp -R $CASL_DOCS_ROOT/web-root/. .
+          cp $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
         fi
 
         git add .
