@@ -7,7 +7,7 @@ settings:
 overrides:
   minimatch@3>brace-expansion: 5.0.12
   minimatch@10>brace-expansion: 5.0.12
-  postcss@8>nanoid: 6.0.1
+  postcss@8>nanoid: 6.0.2
 
 importers:
 
@@ -3315,8 +3315,8 @@ packages:
     resolution: {integrity: sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w==}
     engines: {node: '>=8.0.0'}
 
-  nanoid@6.0.1:
-    resolution: {integrity: sha512-3wVS3i51pE2pi1k5FFL/95BGfVS0kSsvDVuGXHOtxox/TywUmtgq+3qiTOTbs9J7KfHaXPiN171k/A6dBnaXFw==}
+  nanoid@6.0.2:
+    resolution: {integrity: sha512-hIvVOb9Qr1p/9CNNLOe0OlWvgx/ziTsVwKN/GDSsuArN2K0wDiafP3s0SWmsm7o2BdnyS8Z9Z64NFBUbn6ziBg==}
     engines: {node: ^22 || ^24 || >=26}
     hasBin: true
 
@@ -7740,7 +7740,7 @@ snapshots:
     dependencies:
       lru.min: 1.1.5
 
-  nanoid@6.0.1: {}
+  nanoid@6.0.2: {}
 
   napi-build-utils@2.0.0: {}
 
@@ -7918,7 +7918,7 @@ snapshots:
 
   postcss@8.5.29:
     dependencies:
-      nanoid: 6.0.1
+      nanoid: 6.0.2
       picocolors: 1.1.1
       source-map-js: 1.2.2
 
