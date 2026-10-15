@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.2](https://github.com/stalniy/casl/compare/@casl/ability@7.0.1...@casl/ability@7.0.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* prevent rulesToFields to set properties on prototype and non-objects ([#1305](https://github.com/stalniy/casl/issues/1305)) ([58242cb](https://github.com/stalniy/casl/commit/58242cb3c7911c8a89bacfb7d732701d81bc1324))
+
 ## [7.0.1](https://github.com/stalniy/casl/compare/@casl/ability@7.0.0...@casl/ability@7.0.1) (2026-06-10)
 
 
