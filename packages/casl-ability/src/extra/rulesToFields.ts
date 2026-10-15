@@ -9,7 +9,7 @@ export function rulesToFields<T extends Ability<any, AnyObject>>(
   ability: T,
   action: Parameters<T['rulesFor']>[0],
   subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,
-): AnyObject {
+): NullObject {
   return ability.rulesFor(action, subjectType)
     .reduce((values, rule) => {
       if (rule.inverted || !rule.conditions) {
@@ -25,5 +25,11 @@ export function rulesToFields<T extends Ability<any, AnyObject>>(
 
         return fields;
       }, values);
-    }, {} as AnyObject);
+    }, Object.create(null) as NullObject);
 }
+
+type NullObject = AnyObject & {
+  hasOwnProperty?: never;
+  toString?: never;
+  valueOf?: never;
+};
