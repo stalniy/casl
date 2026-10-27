@@ -1,19 +1,16 @@
-import yaml from 'js-yaml';
 import { execFile as execFileCb } from 'child_process';
-import { promisify } from 'util';
 import fs from 'fs';
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import yaml from 'js-yaml';
+import { resolve } from 'path';
+import { promisify } from 'util';
 
 const execFile = promisify(execFileCb);
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
 const readdir = promisify(fs.readdir);
 const WEBSITE = (process.env.SITEMAP_WEBSITE || 'http://localhost:8080') + (process.env.LIT_APP_PUBLIC_PATH || '');
-const CONTENT_PATH = resolve(__dirname, '../src/content');
-const DIST_PATH = resolve(__dirname, '../dist');
+const CONTENT_PATH = resolve(import.meta.dirname, '../src/content');
+const DIST_PATH = resolve(import.meta.dirname, '../dist');
 
 async function findFileByPrefix(dir, prefix) {
   const files = await readdir(dir);
@@ -26,7 +23,7 @@ async function findFileByPrefix(dir, prefix) {
   return `${dir}/${file}`;
 }
 
-const jsonCache = {};
+const jsonCache = Object.create(null);
 async function parseJSON(directory, prefix) {
   const pathToFile = `${directory}/${prefix}`;
 
@@ -159,11 +156,23 @@ async function urlEntriesFrom(route, context = {}) {
     return childrenUrls.concat(itemEntry);
   });
   const urls = await Promise.all(parseItems);
+
+  // Optional parameters also expose a route without a content ID (e.g. /en/api).
+  // Publish it so prerendering creates an entry point for the client redirect.
+  const optionalPath = details.path.replace(/\/:([\w_-]+)\?/g, '');
+  if (optionalPath !== details.path && !optionalPath.includes(':') && items.length) {
+    urls.push(urlEntry({
+      ...details,
+      path: optionalPath,
+      lastmod: await getLastModified(items[0].lastmodFrom)
+    }));
+  }
+
   return urls.flat(2);
 }
 
 async function generate() {
-  const routesPath = resolve(__dirname, '../src/config/routes.yml');
+  const routesPath = resolve(import.meta.dirname, '../src/config/routes.yml');
   const { routes } = yaml.load(fs.readFileSync(routesPath, 'utf8'));
   const requests = routes.map(route => urlEntriesFrom(route));
   const urls = await Promise.all(requests);
