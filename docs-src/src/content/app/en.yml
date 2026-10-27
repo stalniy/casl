@@ -1,9 +1,11 @@
 name: CASL
 updateAvailable: !md |
   An update is available, **click here to refresh**.
-slogan: |
-  Isomorphic Authorization
-  JavaScript library
+hero:
+  title: |-
+    Authorization
+    for entire
+    TypeScript stack
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Serhii Stotskyi](https://www.linkedin.com/in/serhii-stotskyi-b747ba23/)
@@ -43,18 +45,20 @@ buttons:
 exampleCode: !md |
   ```js
   import { createMongoAbility, AbilityBuilder } from '@casl/ability';
+  import { accessibleBy } from '@casl/mongoose';
 
-  // define abilities
+  // Define permissions once
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', ['Post', 'Comment']);
   can('manage', 'Post', { author: 'me' });
   can('create', 'Comment');
 
-  // check abilities
   const ability = build();
 
-  ability.can('read', 'Post') // true
+  // Enforce them across your application
+  ability.can('read', 'Post') // UI & API
+  accessibleBy(ability, 'update').ofType('Post') // Database conditions
   ```
 
 features:

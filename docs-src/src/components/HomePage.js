@@ -31,7 +31,9 @@ export default class HomePage extends LitElement {
           <div class="col row wrap align-start main">
             <img src="${shieldURL}" width="250" height="302" class="col col-fixed">
             <div class="col details">
-              <h1>${t('slogan')}</h1>
+              <div class="hero">
+                <h1 class="hero-title">${t('hero.title')}</h1>
+              </div>
               <div class="buttons">
                 <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
                   ${t('buttons.start')}
@@ -39,11 +41,14 @@ export default class HomePage extends LitElement {
                 <a href="${config.repoURL}" target="_blank" rel="noopener" class="btn btn-lg">
                   ${t('buttons.source')}
                 </a>
-                <github-button
-                  size="large"
-                  text="Star"
-                  theme="no-preference: dark; light: dark;"
-                ></github-button>
+                <div class="package-stats">
+                  <github-button
+                    size="large"
+                    text="Star"
+                    theme="no-preference: dark; light: dark;"
+                  ></github-button>
+                  <npm-downloads-button></npm-downloads-button>
+                </div>
               </div>
             </div>
           </div>
@@ -83,7 +88,12 @@ HomePage.styles = [
       justify-content: center;
     }
 
-    h1 {
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      margin-bottom: 0;
       white-space: pre-line;
       font-size: 2.2rem;
       font-family: "Stardos Stencil", "Helvetica Neue", Arial, sans-serif;
@@ -98,9 +108,19 @@ HomePage.styles = [
       margin-right: 5px;
     }
 
-    github-button {
-      display: block;
+    .package-stats {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       margin-top: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    github-button {
+      display: inline-flex;
     }
 
     .details {
@@ -114,6 +134,12 @@ HomePage.styles = [
     @media (min-width: 768px) {
       .main > img {
         margin-right: 30px;
+      }
+
+      .hero-title {
+        white-space: wrap;
+        max-width: 552px;
+        margin: 0 auto;
       }
     }
 
@@ -130,6 +156,11 @@ HomePage.styles = [
 
       .example code {
         font-size: .7rem;
+      }
+
+      .hero-title {
+        white-space: pre-line;
+        max-width: auto;
       }
     }
 

@@ -1,4 +1,4 @@
-import { LitElement } from 'lit-element';
+import { css, LitElement } from 'lit-element';
 import { render } from 'github-buttons';
 import config from '../config/app.js';
 
@@ -42,3 +42,12 @@ export default class GithubButton extends LitElement {
     });
   }
 }
+
+GithubButton.styles = [
+  css`
+    :host > span {
+      display: block;
+      line-height: 0;
+    }
+  `
+];

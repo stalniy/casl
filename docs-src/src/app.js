@@ -9,6 +9,7 @@ import Page from './components/Page.js';
 import PageNav from './components/PageNav.js';
 import HomePage from './components/HomePage.js';
 import GithubButton from './components/GithubButton.js';
+import NpmDownloadsButton from './components/NpmDownloadsButton.js';
 import QuickSearch from './components/QuickSearch.js';
 import LangPicker from './components/LangPicker.js';
 import OneTimeDonations from './components/OneTimeDonations.js';
@@ -35,6 +36,7 @@ const components = [
   QuickSearch,
   LangPicker,
   GithubButton,
+  NpmDownloadsButton,
   PagesByCategories,
   OneTimeDonations,
   AppNotification,
