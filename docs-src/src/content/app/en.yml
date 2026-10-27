@@ -43,6 +43,10 @@ buttons:
   start: Get Started
   source: Source code
 
+adoption:
+  title: Built with CASL
+  contribute: Using CASL? Add your project
+
 exampleCode: !md |
   ```js
   import { createMongoAbility, AbilityBuilder } from '@casl/ability';

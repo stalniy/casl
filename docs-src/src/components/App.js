@@ -150,13 +150,6 @@ App.styles = [
     :host {
       display: block;
     }
-
-    .stop-war {
-      position: fixed;
-      z-index: 1000;
-      top: 5px;
-      right: 5px;
-    }
   `
 ];
 

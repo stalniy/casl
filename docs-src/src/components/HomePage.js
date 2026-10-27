@@ -4,6 +4,7 @@ import { gridCss, btnCss, codeCss } from '../styles/index.js';
 import shieldURL from '../assets/casl-shield.png';
 import config from '../config/app.js';
 import features from '../partials/caslFeatures.js';
+import adoption from '../partials/caslAdoption.js';
 
 export default class HomePage extends LitElement {
   static cName = 'home-page';
@@ -57,6 +58,7 @@ export default class HomePage extends LitElement {
           </div>
         </header>
       </div>
+      ${adoption()}
       ${features()}
     `;
   }
@@ -66,6 +68,7 @@ HomePage.styles = [
   gridCss,
   btnCss,
   features.styles,
+  adoption.styles,
   codeCss,
   css`
     :host {

@@ -56,8 +56,7 @@ AppRoot.styles = [
       padding-right: 10px;
     }
 
-    .aside,
-    main {
+    .aside {
       padding-bottom: 30px;
     }
 

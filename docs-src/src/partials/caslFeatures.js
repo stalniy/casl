@@ -19,13 +19,19 @@ function renderFeature(feature) {
 }
 
 const template = () => html`
-  <section class="features container">${features.map(renderFeature)}</section>
+  <div class="features-band">
+    <section class="features container">${features.map(renderFeature)}</section>
+  </div>
 `;
 
 template.styles = [
   css`
+    .features-band {
+      background: #f7f7f7;
+    }
+
     .features {
-      padding: 1rem 0;
+      padding: 2rem 0;
       display: -ms-grid;
       display: grid;
       justify-content: center;
@@ -38,6 +44,7 @@ template.styles = [
     }
 
     .feature h3 {
+      margin: 0 0 1rem;
       font-size: 1.4rem;
     }
 

@@ -139,6 +139,7 @@ Page.styles = [
   css`
     :host {
       display: block;
+      padding-bottom: 30px;
     }
 
     app-page-nav {
