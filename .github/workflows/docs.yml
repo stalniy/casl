@@ -88,7 +88,8 @@ jobs:
 
         if [ "$CURRENT_BRANCH" = "main" ]; then
           cp -R "$CASL_DOCS_ROOT/web-root/." .
-          cp "$CASL_DOCS_ROOT/versions.txt" "$CASL_DOCS_ROOT/index.html" .
+          cp "$CASL_DOCS_ROOT/versions.txt" .
+          cp "$CASL_DOCS_ROOT/en/index.html" ./index.html
         fi
 
         git add .
