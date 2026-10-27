@@ -69,19 +69,24 @@ exampleCode: !md |
 features:
   isomorphic:
     title: Isomorphic
-    description: Complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
+    description: |-
+      Use the same authorization rules across frontend and backend, with integrations for popular frameworks and ORMs.
   versatile:
     title: Versatile
-    description: Easily scales between a claim based and subject/attribute based authorization.
+    description: |-
+      From simple claim-based checks to action/resource permissions, supporting both RBAC and fine-grained ABAC.
   typesafe:
     title: TypeSafe
-    description: Written in TypeScript, that makes your apps safer and developer experience more enjoyable
+    description: |-
+      TypeScript-first APIs catch mistakes early and provide a better developer experience.
   treeshakable:
     title: Tree shakable
-    description: The core is only %{size}KB mingzipped and can be even smaller!
+    description: |-
+      Just %{size}kB minified and gzipped, with tree shaking to keep bundles even smaller.
   declarative:
     title: Serializable
-    description: Allows to share permissions between UI, API and microservices
+    description: |-
+      Define permissions once. Serialize and share rules across frontend, APIs, and microservices.
 
 search:
   placeholder: Search
