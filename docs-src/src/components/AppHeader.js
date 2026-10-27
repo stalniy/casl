@@ -75,8 +75,8 @@ export default class Header extends LitElement {
     return html`
       <header>
         <div class="header-notification">
-          <p>Do you like this package?</p>
-          <a href="https://prytulafoundation.org/en/home/support_page" target="_blank">Support Ukraine 🇺🇦</a>
+          <p>🇺🇦 Stand with Ukraine — </p>
+          <a class="external" href="https://prytulafoundation.org/en/home/support_page" target="_blank">Support the Prytula Foundation</a>
         </div>
         <div class="header container">
           ${this._renderMenuToggler()}
@@ -101,6 +101,14 @@ Header.styles = [
 
     app-link {
       color: #000;
+      text-decoration: none;
+    }
+
+    .external {
+      color: #000;
+    }
+
+    .external:hover {
       text-decoration: none;
     }
 
