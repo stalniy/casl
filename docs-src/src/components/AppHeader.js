@@ -74,15 +74,13 @@ export default class Header extends LitElement {
   render() {
     return html`
       <header>
-        <div class="header-notification">
-          <p>🇺🇦 Stand with Ukraine — </p>
-          <a class="external" href="https://prytulafoundation.org/en/home/support_page" target="_blank">Support the Prytula Foundation</a>
-        </div>
         <div class="header container">
           ${this._renderMenuToggler()}
-          <div>
+          <div class="logo-container">
             <app-link to="home" class="logo">${t('name')}</app-link>
-            <versions-select></versions-select>
+            <div class="versions-picker">
+              <versions-select></versions-select>
+            </div>
           </div>
           ${this._renderControls()}
         </div>
@@ -104,34 +102,12 @@ Header.styles = [
       text-decoration: none;
     }
 
-    .external {
-      color: #000;
-    }
-
-    .external:hover {
-      text-decoration: none;
-    }
-
     .header {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 10px 0 1rem;
-    }
-
-    .header-notification {
-      background: rgba(84, 172, 237, 0.18);
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-      gap: 0;
-    }
-
-    .header-notification p {
-      margin: 0;
     }
 
     .logo {
@@ -145,6 +121,10 @@ Header.styles = [
 
     .logo:hover {
       border-bottom-color: transparent;
+    }
+
+    .logo-container {
+      display: flex;
     }
 
     .menu-toggle {
@@ -178,20 +158,14 @@ Header.styles = [
       height: auto;
     }
 
-    versions-select {
-      vertical-align: middle;
-      margin-left: -5px;
+    .versions-picker {
+      display: flex;
+      align-items: center;
     }
 
     @media (min-width: 768px) {
       .header {
         justify-content: space-between;
-      }
-
-      .header-notification {
-        flex-direction: row;
-        justify-content: center;
-        gap: 5px;
       }
 
       .logo {
@@ -203,10 +177,11 @@ Header.styles = [
         border: 1px solid #e3e3e3;
       }
 
-      versions-select {
-        vertical-align: top;
-        margin-left: -10px;
+      .versions-picker {
+        flex-direction: column;
+        gap: 4px;
       }
+
     }
   `,
 ];

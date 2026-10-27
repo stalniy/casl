@@ -39,7 +39,7 @@ export default class VersionsSelect extends LitElement {
 
 VersionsSelect.styles = css`
   :host {
-    display: inline-block;
+    display: block;
   }
 
   select {

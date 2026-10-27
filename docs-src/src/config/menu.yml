@@ -33,6 +33,9 @@ items:
     - name: blog
       url: https://sergiy-stotskiy.medium.com
 - name: support
+- name: support-ukraine
+  url: https://prytulafoundation.org/en/home/support_page
+  rel: noopener noreferrer
 
 footer:
   - icon: github
