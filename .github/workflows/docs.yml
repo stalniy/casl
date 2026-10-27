@@ -108,6 +108,9 @@ jobs:
       uses: actions/upload-pages-artifact@v4
       with:
         path: ${{ runner.temp }}/casl-pages
+    - name: Restore source checkout for action cleanup
+      if: always()
+      run: git checkout -f "$GITHUB_SHA"
 
   deploy:
     needs: build
