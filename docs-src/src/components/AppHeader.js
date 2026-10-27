@@ -8,6 +8,7 @@ export default class Header extends LitElement {
   static properties = {
     menu: { type: Object },
     theme: { type: String },
+    isContainerRestricted: { type: Boolean },
     _isCompactSearch: { type: Boolean },
   };
 
@@ -74,7 +75,7 @@ export default class Header extends LitElement {
   render() {
     return html`
       <header>
-        <div class="header container">
+        <div class="header ${this.isContainerRestricted ? 'container' : ''}">
           ${this._renderMenuToggler()}
           <div class="logo-container">
             <app-link to="home" class="logo">${t('name')}</app-link>
@@ -181,7 +182,6 @@ Header.styles = [
         flex-direction: column;
         gap: 4px;
       }
-
     }
   `,
 ];

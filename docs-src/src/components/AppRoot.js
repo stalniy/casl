@@ -7,6 +7,7 @@ export default class AppRoot extends LitElement {
     theme: { type: String },
     layout: { type: String },
     menu: { type: Object },
+    isContainerRestricted: { type: Boolean }
   };
 
   constructor() {
@@ -18,7 +19,7 @@ export default class AppRoot extends LitElement {
 
   render() {
     return html`
-      <app-header theme="${this.theme}" .menu="${this.menu}"></app-header>
+      <app-header theme="${this.theme}" .menu="${this.menu}" .isContainerRestricted="${this.isContainerRestricted}"></app-header>
       <section class="content ${this.layout === 'col-2' ? 'row' : this.layout}">
         <aside>
           <div class="aside">

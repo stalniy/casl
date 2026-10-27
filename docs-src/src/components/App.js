@@ -134,6 +134,7 @@ export default class App extends LitElement {
           theme="${this._isMobile ? 'mobile' : 'default'}"
           layout="${this._getLayout(!!sidebar)}"
           .menu="${menu}"
+          .isContainerRestricted="${this._route.name === 'home'}"
           @toggle-menu="${this._toggleMenu}"
         >
           <div slot="aside">${sidebar}</div>
