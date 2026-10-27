@@ -92,7 +92,7 @@ Menu.styles = css`
     margin: 0 0.2rem;
   }
 
-  .dropdown-container:hover .dropdown {
+  .menu-item-dropdown:hover .dropdown {
     display: block;
   }
 
@@ -144,8 +144,8 @@ Menu.styles = css`
     border-top: 1px solid #eee;
   }
 
-  .dropdown-container a,
-  .dropdown-container app-link {
+  .menu-item-dropdown a,
+  .menu-item-dropdown app-link {
     text-decoration: none;
   }
 
