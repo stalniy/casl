@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
+<html lang="en"><head>
   <!-- Start Single Page Apps for GitHub Pages -->
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CASL - Isomorphic Authorization JavaScript library</title>
+  <title>CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
@@ -18,22 +17,229 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript" />
-  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
-  <meta property="og:title" content="CASL. Isomorphic Authorization JavaScript library" />
-  <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries." />
-  <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png" />
+  <meta name="keywords" content="roles, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript">
+  <meta name="description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries. ">
+  <meta property="og:title" content="CASL">
+  <meta property="og:description" content="CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries. ">
+  <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin src="/v7/assets/index-h4feHW51.js"></script>
-  <script async nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-a6Va5WQ4.js"></script>
+  <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 </head>
 <body>
-  <div id="prerender-fallback" hidden></div>
-  <casl-docs></casl-docs>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="dropdown-container">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="dropdown-container">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="dropdown-container">
+        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="dropdown-container">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    </ul>
+      </nav></div><main>
+          
+          <div>
+      <div class="bg">
+        <header class="row wrap container">
+          <div class="col row wrap align-start main">
+            <img width="250" height="302" class="col col-fixed" src="/v7/assets/casl-shield-Czvcyms2.png">
+            <div class="col details">
+              <h1>Isomorphic Authorization
+JavaScript library
+</h1>
+              <div class="buttons">
+                
+      <a itemprop="url" href="/v7/en/guide/intro">
+        
+                  Get Started
+                
+      </a>
+    
+                <a target="_blank" rel="noopener" class="btn btn-lg" href="https://github.com/stalniy/casl">
+                  Source code
+                </a>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col col-fixed col-example">
+            <div class="example"><pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { createMongoAbility, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-comment">// define abilities</span>
+<span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+
+can(<span class="hljs-string">'read'</span>, [<span class="hljs-string">'Post'</span>, <span class="hljs-string">'Comment'</span>]);
+can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">author</span>: <span class="hljs-string">'me'</span> });
+can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Comment'</span>);
+
+<span class="hljs-comment">// check abilities</span>
+<span class="hljs-keyword">const</span> ability = build();
+
+ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>) <span class="hljs-comment">// true</span>
+</code></pre></div>
+          </div>
+        </header>
+      </div>
+      
+  <section class="features container">
+    <section class="feature">
+      <h3>Isomorphic</h3>
+      <p>Complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless</p>
+    </section>
+  
+    <section class="feature">
+      <h3>Versatile</h3>
+      <p>Easily scales between a claim based and subject/attribute based authorization.</p>
+    </section>
+  
+    <section class="feature">
+      <h3>Serializable</h3>
+      <p>Allows to share permissions between UI, API and microservices</p>
+    </section>
+  
+    <section class="feature">
+      <h3>TypeSafe</h3>
+      <p>Written in TypeScript, that makes your apps safer and developer experience more enjoyable</p>
+    </section>
+  
+    <section class="feature">
+      <h3>Tree shakable</h3>
+      <p>The core is only 6KB mingzipped and can be even smaller!</p>
+    </section>
+  </section>
+
+    </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en"></casl-docs>
 
   <div id="share-buttons"></div>
   <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>
-</body>
-</html>
+
+
+</body></html>
