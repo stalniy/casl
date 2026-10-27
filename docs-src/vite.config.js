@@ -7,11 +7,13 @@ import { content, summary } from 'rollup-plugin-content';
 import xyaml from 'xyaml-webpack-loader/rollup';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser.js';
 import { SearchIndex } from './tools/SearchIndex.js';
+import { calculateAbilitySize } from './tools/abilitySize.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, '');
+  env.LIT_APP_CASL_MIN_GZIP_SIZE = String(await calculateAbilitySize());
   const SUPPORTED_LANGS = (env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
   const PUBLIC_PATH = (env.LIT_APP_PUBLIC_PATH || '').replace(/\/$/, '');
 

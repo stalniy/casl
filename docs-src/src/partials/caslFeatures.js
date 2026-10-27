@@ -13,7 +13,9 @@ function renderFeature(feature) {
   return html`
     <section class="feature">
       <h3>${t(`features.${feature}.title`)}</h3>
-      <p>${ut(`features.${feature}.description`)}</p>
+      <p>${ut(`features.${feature}.description`, {
+        size: (Number(import.meta.env.CASL_MIN_GZIP_SIZE) / 1024).toFixed(1)
+      })}</p>
     </section>
   `;
 }

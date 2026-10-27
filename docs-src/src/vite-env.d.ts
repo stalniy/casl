@@ -26,6 +26,7 @@ interface ImportMetaEnv {
   readonly REPO_URL?: string;
   readonly CASL_VERSION?: string;
   readonly COMMIT_HASH?: string;
+  readonly CASL_MIN_GZIP_SIZE: string;
 }
 
 interface ImportMeta {

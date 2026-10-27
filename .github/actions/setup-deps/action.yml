@@ -1,4 +1,5 @@
 name: 'Setup dependencies'
+description: 'Set up Node.js and pnpm and install workspace dependencies'
 
 runs:
   using: "composite"
