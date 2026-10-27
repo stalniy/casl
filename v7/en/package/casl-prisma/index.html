@@ -4,7 +4,7 @@
   <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com https://api.npmjs.org; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self';">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>CASL Prisma - CASL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
@@ -24,22 +24,22 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-BbsgbtjG.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-jTTyRYOJ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-prisma/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
         <ul class="nav">
-      <li class="dropdown-container">
+      <li class="menu-item-dropdown">
         <a class="link">Learn</a>
         <ul class="dropdown expandable">
-      <li class="dropdown-container">
+      <li class="menu-item">
         <h4>Documentation</h4>
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/guide/intro">
         Guide
@@ -48,7 +48,7 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/api">
         API
@@ -57,12 +57,12 @@
         
       </li>
     
-      <li class="dropdown-container">
-        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl-examples">Examples</a>
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl-examples" rel="nofollow">Examples</a>
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/cookbook/intro">
         Cookbook
@@ -73,15 +73,15 @@
     </ul>
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item-dropdown">
         <a class="link">Ecosystem</a>
         <ul class="dropdown expandable">
-      <li class="dropdown-container">
+      <li class="menu-item">
         <h4>Official packages</h4>
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/package/casl-prisma">
         CASL Prisma
@@ -90,7 +90,7 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/package/casl-mongoose">
         CASL Mongoose
@@ -99,7 +99,7 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/package/casl-angular">
         CASL Angular
@@ -108,7 +108,7 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/package/casl-react">
         CASL React
@@ -117,7 +117,7 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/package/casl-vue">
         CASL Vue
@@ -126,39 +126,44 @@
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         <h4>Help</h4>
         
       </li>
     
-      <li class="dropdown-container">
-        <a target="_blank" rel="nofollow" href="https://stackoverflow.com/questions/tagged/casl">Ask a question</a>
+      <li class="menu-item">
+        <a target="_blank" href="https://stackoverflow.com/questions/tagged/casl" rel="nofollow">Ask a question</a>
         
       </li>
     
-      <li class="dropdown-container">
-        <a target="_blank" rel="nofollow" href="https://github.com/stalniy/casl/discussions">Discussions</a>
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl/discussions" rel="nofollow">Discussions</a>
         
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         <h4>News</h4>
         
       </li>
     
-      <li class="dropdown-container">
-        <a target="_blank" rel="nofollow" href="https://sergiy-stotskiy.medium.com">Blog</a>
+      <li class="menu-item">
+        <a target="_blank" href="https://sergiy-stotskiy.medium.com" rel="nofollow">Blog</a>
         
       </li>
     </ul>
       </li>
     
-      <li class="dropdown-container">
+      <li class="menu-item">
         
       <a itemprop="url" href="/v7/en/support-casljs">
         Support CASL
       </a>
     
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://prytulafoundation.org/en/home/support_page" rel="noopener noreferrer">Support Ukraine 🇺🇦</a>
         
       </li>
     </ul>
