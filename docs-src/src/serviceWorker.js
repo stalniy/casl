@@ -1,4 +1,6 @@
 // Service worker registration for Vite PWA
+import { watchRegistration, reloadOnControllerChange } from './serviceWorkerUpdates.js';
+
 const { navigator, location } = window;
 const isLocalhost = location.hostname === 'localhost'
   || location.hostname === '[::1]'
@@ -7,52 +9,31 @@ const isSupportedServiceWorker = 'serviceWorker' in navigator;
 
 const log = (...args) => console.log(...args);
 
-function notifyAboutNewWorker(worker, config) {
-  if (!worker) {
-    return;
-  }
+const UPDATE_CHECK_INTERVAL_MS = 5 * 60 * 1000;
 
-  worker.onstatechange = () => {
-    log('new worker state', worker.state);
+function checkForUpdatesWhenVisible(registration) {
+  let lastCheck = Date.now();
 
-    if (worker.state !== 'installed') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible' || Date.now() - lastCheck < UPDATE_CHECK_INTERVAL_MS) {
       return;
     }
 
-    if (navigator.serviceWorker.controller) {
-      log('New content is available and will be used when all '
-        + 'tabs for this page are closed.');
-
-      if (config && config.onUpdate) {
-        config.onUpdate(worker);
-      }
-    } else {
-      log('Content is cached for offline use.');
-
-      if (config && config.onSuccess) {
-        config.onSuccess(worker);
-      }
-    }
-  };
+    lastCheck = Date.now();
+    registration.update().catch(() => {});
+  });
 }
 
 function registerValidSW(swUrl, config) {
-  let isRefreshing = false;
+  reloadOnControllerChange(navigator.serviceWorker, () => location.reload());
 
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!isRefreshing) {
-      isRefreshing = true;
-      location.reload();
-    }
-  });
-
-  return navigator.serviceWorker.register(swUrl)
+  // sw.js itself is always revalidated by browsers; "none" also applies this
+  // to scripts imported by it. CDN caching of sw.js is outside our control.
+  return navigator.serviceWorker.register(swUrl, { updateViaCache: 'none' })
     .then((registration) => {
       log('service worker is registered');
-      registration.onupdatefound = () => notifyAboutNewWorker(
-        registration.installing,
-        config
-      );
+      watchRegistration(registration, navigator.serviceWorker, config);
+      checkForUpdatesWhenVisible(registration);
     })
     .catch((error) => {
       console.error('Error during service worker registration:', error);

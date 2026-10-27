@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import { resolve, dirname } from 'path';
+import { copyFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -16,6 +17,12 @@ export default defineConfig(async ({ mode }) => {
   env.LIT_APP_CASL_MIN_GZIP_SIZE = String(await calculateAbilitySize());
   const SUPPORTED_LANGS = (env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
   const PUBLIC_PATH = (env.LIT_APP_PUBLIC_PATH || '').replace(/\/$/, '');
+
+  // Runtime caches are shared by all documentation versions on the origin,
+  // so names are scoped by version and, for pages, by build.
+  const CACHE_SCOPE = `casl-docs${PUBLIC_PATH.replace(/\//g, '-') || '-root'}`;
+  const BUILD_ID = env.LIT_APP_COMMIT_HASH || Date.now().toString(36);
+  const PAGES_CACHE = `${CACHE_SCOPE}-pages-${BUILD_ID}`;
 
   const appEnvVars = Object.keys(env).reduce((acc, key) => {
     if (key.startsWith('LIT_APP_')) {
@@ -129,6 +136,22 @@ export default defineConfig(async ({ mode }) => {
           }
         },
       ...(mode === 'production' ? [
+        {
+          name: 'sw-app-shell',
+          apply: 'build',
+          // index.html must not be precached: precache routes are matched before
+          // runtime routes and would serve a stale document. Prerendering rewrites
+          // dist/index.html later, so the offline fallback is a pristine copy.
+          writeBundle(options) {
+            copyFileSync(resolve(options.dir, 'index.html'), resolve(options.dir, 'app-shell.html'));
+            writeFileSync(resolve(options.dir, 'sw-cleanup.js'), `self.addEventListener('activate', (event) => {
+  event.waitUntil(caches.keys().then((names) => Promise.all(names
+    .filter((name) => name.startsWith('${CACHE_SCOPE}-pages-') && name !== '${PAGES_CACHE}')
+    .map((name) => caches.delete(name)))));
+});
+`);
+          },
+        },
 
         VitePWA({
           registerType: 'prompt',
@@ -136,13 +159,15 @@ export default defineConfig(async ({ mode }) => {
           manifest: false,
           workbox: {
             cleanupOutdatedCaches: true,
+            navigateFallback: null,
+            importScripts: ['sw-cleanup.js'],
             maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             globPatterns: [
               'assets/*.json',
               'app-icons/*',
               'fonts/*',
               'manifest.json',
-              'index.html',
+              'app-shell.html',
               '**/*.js',
               '**/*.png',
               '**/*.svg',
@@ -152,9 +177,10 @@ export default defineConfig(async ({ mode }) => {
                 urlPattern: ({ request }) => request.mode === 'navigate',
                 handler: 'NetworkFirst',
                 options: {
-                  cacheName: 'documentation-pages',
+                  cacheName: PAGES_CACHE,
+                  networkTimeoutSeconds: 5,
                   precacheFallback: {
-                    fallbackURL: `${PUBLIC_PATH}/index.html`,
+                    fallbackURL: `${PUBLIC_PATH}/app-shell.html`,
                   },
                 },
               },
@@ -162,7 +188,7 @@ export default defineConfig(async ({ mode }) => {
                 urlPattern: new RegExp(`${PUBLIC_PATH.replace(/\//g, '\\/')}/images/`),
                 handler: 'StaleWhileRevalidate',
                 options: {
-                  cacheName: 'images',
+                  cacheName: `${CACHE_SCOPE}-images`,
                   expiration: {
                     maxEntries: 100,
                   },

@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "build.sitemap": "node tools/sitemap.xml.js",
     "prerender": "node tools/prerender.js",
+    "test.sw": "node --test tools/serviceWorker.test.mjs",
     "test.prerender": "npm run prerender && node --test tools/prerender.test.mjs tools/markdownExport.test.mjs",
     "lint": "cd .. && packages/dx/bin/dx.js eslint docs-src/src --fix"
   },
