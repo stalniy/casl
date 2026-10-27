@@ -47,7 +47,7 @@ import { createMongoAbility, Ability } from '@casl/ability';
 export class AppModule {}
 ```
 
-> Read [CASL and TypeScript](https://casl.js.org/v5/en/advanced/typescript) to get more details about `MongoAbility` type configuration.
+> Read [CASL and TypeScript](https://casl.js.org/v7/en/advanced/typescript) to get more details about `MongoAbility` type configuration.
 
 ## Update Ability instance
 
@@ -94,7 +94,7 @@ export class Session {
 }
 ```
 
-> See [Define rules](https://casl.js.org/v5/en/guide/define-rules) to get more information of how to define `Ability`.
+> See [Define rules](https://casl.js.org/v7/en/guide/define-rules) to get more information of how to define `Ability`.
 
 Then use this `Session` service in `LoginComponent`:
 
@@ -253,7 +253,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](https://casl.js.org/v5/en/support-casljs) for details
+> See [Support CASL](https://casl.js.org/v7/en/support-casljs) for details
 
 ## License
 

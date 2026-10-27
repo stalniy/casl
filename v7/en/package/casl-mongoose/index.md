@@ -142,7 +142,7 @@ async function main() {
 }
 ```
 
-> See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities
+> See [CASL guide](https://casl.js.org/v7/en/guide/intro) to learn how to define abilities
 
 or on existing query instance:
 
@@ -170,7 +170,7 @@ async function main() {
 }
 ```
 
-> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://casl.js.org/v5/en/advanced/ability-to-database-query) to get insights of how it works.
+> `accessibleBy` is built on top of `rulesToQuery` function from `@casl/ability/extra`. Read [Ability to database query](https://casl.js.org/v7/en/advanced/ability-to-database-query) to get insights of how it works.
 
 In case user doesn’t have permission to do a particular action, CASL will throw `ForbiddenError` and will not send request to MongoDB. It also adds `__forbiddenByCasl__: 1` condition for additional safety.
 
@@ -269,7 +269,7 @@ app.get('/api/posts/:id', async (req, res) => {
 });
 ```
 
-When called with a model type, `accessibleFieldsBy` does not take instance conditions into account. It follows the same [checking logic](https://casl.js.org/v5/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
+When called with a model type, `accessibleFieldsBy` does not take instance conditions into account. It follows the same [checking logic](https://casl.js.org/v7/en/guide/intro#checking-logic) as `Ability`'s `can` method. Let's see an example to recap:
 
 ```js
 const { defineAbility } = require('@casl/ability');
@@ -365,7 +365,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](https://casl.js.org/v5/en/support-casljs) for details
+> See [Support CASL](https://casl.js.org/v7/en/support-casljs) for details
 
 ## License
 

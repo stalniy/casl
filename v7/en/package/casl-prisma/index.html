@@ -24,7 +24,7 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-BsXxBLJd.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-h4feHW51.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-prisma/index.md"></head>
@@ -361,7 +361,7 @@ ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'
 ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-string">'Post'</span>, { <span class="hljs-attr">title</span>: <span class="hljs-string">'...'</span>, <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> })));
 </code></pre>
 <blockquote>
-<p>See <a href="https://casl.js.org/v5/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities. Everything is the same except of conditions language.</p>
+<p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities. Everything is the same except of conditions language.</p>
 </blockquote>
 <blockquote>
 <p>If you generate Prisma Client with the Prisma 7 <code>prisma-client</code> generator, import model types from your generated client path (for example <code>./prisma/generated/client</code>) and create a small wrapper around <code>@casl/prisma/runtime</code> as shown below.</p>
@@ -370,7 +370,7 @@ ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-s
 <p>Because Prisma returns DTO objects without exposing any type information on it, we need to use <code>subject</code> helper to provide that type manually, so CASL can understand what rules to apply to passed in object.</p>
 <p>Unfortunately, there is no easy way to automate this, except of adding additional column to all models. For more details, check <a href="https://github.com/prisma/prisma/issues/5315" target="_blank" rel="noopener nofollow">this issue</a>.</p>
 <blockquote>
-<p>To get more details about object type detection, please read <a href="https://casl.js.org/v5/en/guide/subject-type-detection" target="_blank" rel="noopener nofollow">CASL Subject type detection</a></p>
+<p>To get more details about object type detection, please read <a href="https://casl.js.org/v7/en/guide/subject-type-detection" target="_blank" rel="noopener nofollow">CASL Subject type detection</a></p>
 </blockquote>
 <h3 id="note-on-prisma-query-runtime-interpreter"><a name="note-on-prisma-query-runtime-interpreter" class="h-link" href="#"></a>Note on Prisma Query runtime interpreter</h3>
 <p><code>@casl/prisma</code> uses <a href="https://github.com/stalniy/ucast" target="_blank" rel="noopener nofollow">ucast</a> to interpret Prisma <a href="https://www.prisma.io/docs/orm/reference/prisma-client-reference#where" target="_blank" rel="noopener nofollow">WhereInput</a> in JavaScript runtime. However, there are few caveats:</p>
@@ -511,7 +511,7 @@ generator client {
 <p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>
 <p>If you'd like to help us sustain our community and project, consider <a href="https://opencollective.com/casljs/contribute" target="_blank" rel="noopener nofollow">to become a financial contributor on Open Collective</a></p>
 <blockquote>
-<p>See <a href="https://casl.js.org/v5/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
+<p>See <a href="https://casl.js.org/v7/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
 </blockquote>
 <h2 id="license"><a name="license" class="h-link" href="#"></a>License</h2>
 <p><a href="http://www.opensource.org/licenses/MIT" target="_blank" rel="noopener nofollow">MIT License</a></p></div>

@@ -138,7 +138,7 @@ export default function App() {
 }
 ```
 
-> See [CASL guide](https://casl.js.org/v6/en/guide/intro) to learn how to define `Ability` instance.
+> See [CASL guide](https://casl.js.org/v7/en/guide/intro) to learn how to define `Ability` instance.
 
 and use our `Can` component:
 
@@ -266,7 +266,7 @@ export default () => {
 };
 ```
 
-> See [Define rules](https://casl.js.org/v6/en/guide/define-rules) to get more information of how to define `Ability`
+> See [Define rules](https://casl.js.org/v7/en/guide/define-rules) to get more information of how to define `Ability`
 
 ## `useAbility` usage within hooks
 
@@ -283,7 +283,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](https://casl.js.org/v6/en/support-casljs) for details
+> See [Support CASL](https://casl.js.org/v7/en/support-casljs) for details
 
 ## License
 

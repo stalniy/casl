@@ -55,7 +55,7 @@ ability.can('read', 'Post');
 ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 ```
 
-> See [CASL guide](https://casl.js.org/v5/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
+> See [CASL guide](https://casl.js.org/v7/en/guide/intro) to learn how to define abilities. Everything is the same except of conditions language.
 
 > If you generate Prisma Client with the Prisma 7 `prisma-client` generator, import model types from your generated client path (for example `./prisma/generated/client`) and create a small wrapper around `@casl/prisma/runtime` as shown below.
 
@@ -65,7 +65,7 @@ Because Prisma returns DTO objects without exposing any type information on it, 
 
 Unfortunately, there is no easy way to automate this, except of adding additional column to all models. For more details, check [this issue](https://github.com/prisma/prisma/issues/5315).
 
-> To get more details about object type detection, please read [CASL Subject type detection](https://casl.js.org/v5/en/guide/subject-type-detection)
+> To get more details about object type detection, please read [CASL Subject type detection](https://casl.js.org/v7/en/guide/subject-type-detection)
 
 ### Note on Prisma Query runtime interpreter
 
@@ -258,7 +258,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 If you'd like to help us sustain our community and project, consider [to become a financial contributor on Open Collective](https://opencollective.com/casljs/contribute)
 
-> See [Support CASL](https://casl.js.org/v5/en/support-casljs) for details
+> See [Support CASL](https://casl.js.org/v7/en/support-casljs) for details
 
 ## License
 

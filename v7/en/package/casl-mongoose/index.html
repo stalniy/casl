@@ -24,7 +24,7 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-BsXxBLJd.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-h4feHW51.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-mongoose/index.md"></head>
@@ -423,7 +423,7 @@ Post.plugin(accessibleRecordsPlugin)
 }
 </code></pre>
 <blockquote>
-<p>See <a href="https://casl.js.org/v5/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities</p>
+<p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities</p>
 </blockquote>
 <p>or on existing query instance:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
@@ -446,7 +446,7 @@ Post.plugin(accessibleRecordsPlugin)
 }
 </code></pre>
 <blockquote>
-<p><code>accessibleBy</code> is built on top of <code>rulesToQuery</code> function from <code>@casl/ability/extra</code>. Read <a href="https://casl.js.org/v5/en/advanced/ability-to-database-query" target="_blank" rel="noopener nofollow">Ability to database query</a> to get insights of how it works.</p>
+<p><code>accessibleBy</code> is built on top of <code>rulesToQuery</code> function from <code>@casl/ability/extra</code>. Read <a href="https://casl.js.org/v7/en/advanced/ability-to-database-query" target="_blank" rel="noopener nofollow">Ability to database query</a> to get insights of how it works.</p>
 </blockquote>
 <p>In case user doesn’t have permission to do a particular action, CASL will throw <code>ForbiddenError</code> and will not send request to MongoDB. It also adds <code>__forbiddenByCasl__: 1</code> condition for additional safety.</p>
 <p>For example, lets find all posts which user can delete (we haven’t defined abilities for delete):</p>
@@ -528,7 +528,7 @@ app.get(<span class="hljs-string">'/api/posts/:id'</span>, <span class="hljs-key
   res.send(pick(post, accessibleFieldsBy(ability).of(post)));
 });
 </code></pre>
-<p>When called with a model type, <code>accessibleFieldsBy</code> does not take instance conditions into account. It follows the same <a href="https://casl.js.org/v5/en/guide/intro#checking-logic" target="_blank" rel="noopener nofollow">checking logic</a> as <code>Ability</code>'s <code>can</code> method. Let's see an example to recap:</p>
+<p>When called with a model type, <code>accessibleFieldsBy</code> does not take instance conditions into account. It follows the same <a href="https://casl.js.org/v7/en/guide/intro#checking-logic" target="_blank" rel="noopener nofollow">checking logic</a> as <code>Ability</code>'s <code>can</code> method. Let's see an example to recap:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
 <span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 
@@ -603,7 +603,7 @@ accessibleFieldsBy(ability).of(post);
 <p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>
 <p>If you'd like to help us sustain our community and project, consider <a href="https://opencollective.com/casljs/contribute" target="_blank" rel="noopener nofollow">to become a financial contributor on Open Collective</a></p>
 <blockquote>
-<p>See <a href="https://casl.js.org/v5/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
+<p>See <a href="https://casl.js.org/v7/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
 </blockquote>
 <h2 id="license"><a name="license" class="h-link" href="#"></a>License</h2>
 <p><a href="http://www.opensource.org/licenses/MIT" target="_blank" rel="noopener nofollow">MIT License</a></p></div>
