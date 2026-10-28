@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BiccFuBv.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-Cn52tPJT.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="731be22">
+  <meta name="casl-build" content="eb4896b">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/typescript/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -448,6 +448,140 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 <p>To learn more, read docs for a complementary package for of your choice</p>
 </blockquote>
 <p>But even this is not the end and you can go even further!</p>
+<h2 id="configuring-subject-resolution"><a name="configuring-subject-resolution" class="h-link" href="#"></a>Configuring subject resolution</h2>
+<p>The third generic parameter of <code>Ability</code> and <code>MongoAbility</code> is <strong>optional</strong>. Omit it when using CASL's standard subject type detection; it defaults to <code>DefaultSubject</code>, which preserves the inference described above. You only need to specify it when customizing subject type detection and its TypeScript inference.</p>
+<p>For custom detection based on a discriminator property, use <code>TaggedSubject&lt;Key&gt;</code>. You can specify the object types without repeating their names:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">MongoQuery</span>, <span class="hljs-title class_">TaggedSubject</span>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-attr">kind</span>: <span class="hljs-string">'Article'</span>;
+  <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">authorId</span>: <span class="hljs-built_in">number</span>;
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
+  <span class="hljs-attr">kind</span>: <span class="hljs-string">'User'</span>;
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;
+  [<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-title class_">Article</span>] | [<span class="hljs-string">'read'</span>, <span class="hljs-title class_">User</span>],
+  <span class="hljs-title class_">MongoQuery</span>,
+  <span class="hljs-title class_">TaggedSubject</span>&lt;<span class="hljs-string">'kind'</span>&gt;
+&gt;;
+
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">'Alice'</span> });
+<span class="hljs-comment">// builder.can('update', 'User'); // error: User only supports read</span>
+<span class="hljs-comment">// builder.can('read', 'Article', { name: 'Alice' }); // error: Article has no name</span>
+
+<span class="hljs-keyword">const</span> ability = builder.<span class="hljs-title function_">build</span>({
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> <span class="hljs-built_in">object</span>.<span class="hljs-property">kind</span>
+});
+
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">kind</span>: <span class="hljs-string">'Article'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Example'</span>, <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
+</code></pre>
+<p>The resolver is a TypeScript type and does not configure runtime detection. Supply a matching <code>detectSubjectType</code> option when using a custom discriminator. <code>TaggedSubject</code> without a key uses <code>__caslSubjectType__</code>, the property set by the <code>subject()</code> helper.</p>
+<p>The configured resolver also applies to React and Vue <code>Can</code> props, Angular services and pipes, and Mongoose's <code>accessibleBy</code> and <code>accessibleFieldsBy</code> helpers. These integrations accept the same subject names and instances as the ability's permission checks.</p>
+<p>For Prisma, <code>PrismaAbility&lt;Abilities, PrismaQuery, Resolver&gt;</code> accepts the same optional third generic parameter. Pass this ability type to <code>createPrismaAbility&lt;AppAbility&gt;()</code> or <code>AbilityBuilder&lt;AppAbility&gt;</code>; <code>accessibleBy(ability).ofType(...)</code> infers model names using its resolver. You can also pass all three generic parameters directly to <code>createPrismaAbility</code>.</p>
+<p>When writing your own integrations, <code>SubjectResolver</code> is the resolver constraint and <code>ResolveSubjects&lt;Subjects, Resolver&gt;</code> produces the accepted subject names and instances. Both types are exported from <code>@casl/ability</code>. Use <code>Generics&lt;AppAbility&gt;['subjectResolver']</code> to retrieve an ability's configured resolver.</p>
+<p>A union such as <code>TaggedSubject&lt;'kind' | '__typename' | BuiltinSubjectKey&gt;</code> supports multiple discriminator properties. <code>BuiltinSubjectKey</code> is exported from <code>@casl/ability</code> and represents <code>__caslSubjectType__</code>. Names from all configured properties are included; the union does not define runtime precedence when an object has multiple tags.</p>
+<p>If you want to customize inference to derive instances from class types alone, use <code>ClassSubject</code>. This is optional: the default resolver already supports classes and their instances as described above. <code>ClassSubject</code> also supports classes with protected or private constructors and abstract classes:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">ClassSubject</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">MongoQuery</span>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">readonly</span> <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span></span>) {}
+
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(title);
+  }
+}
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[<span class="hljs-string">'read'</span>, <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Article</span>], <span class="hljs-title class_">MongoQuery</span>, <span class="hljs-title class_">ClassSubject</span>&gt;;
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span>, { <span class="hljs-attr">title</span>: <span class="hljs-string">'Public'</span> });
+
+<span class="hljs-keyword">const</span> ability = builder.<span class="hljs-title function_">build</span>();
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span>.<span class="hljs-title function_">create</span>(<span class="hljs-string">'Public'</span>)); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>Class rules use CASL's existing runtime class detection, so this example needs no custom detector.</p>
+<p>If a static factory defines the public object type, use <code>FactorySubject&lt;'create'&gt;</code> to infer that factory's return type instead of the class prototype. The method name defaults to <code>create</code>; pass another key for factories such as <code>FactorySubject&lt;'from'&gt;</code>.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility, <span class="hljs-title class_">FactorySubject</span>, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">MongoQuery</span>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserView</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> {
+  <span class="hljs-keyword">protected</span> <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">readonly</span> <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>, <span class="hljs-keyword">readonly</span> <span class="hljs-attr">internalId</span>: <span class="hljs-built_in">number</span></span>) {}
+
+  <span class="hljs-keyword">static</span> <span class="hljs-title function_">create</span>(<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">UserView</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title function_">this</span>(name, <span class="hljs-number">1</span>);
+  }
+}
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[<span class="hljs-string">'read'</span>, <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">User</span>], <span class="hljs-title class_">MongoQuery</span>, <span class="hljs-title class_">FactorySubject</span>&lt;<span class="hljs-string">'create'</span>&gt;&gt;;
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">User</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">'Alice'</span> });
+<span class="hljs-comment">// builder.can('read', User, { internalId: 1 }); // error: UserView has no internalId</span>
+
+<span class="hljs-keyword">const</span> ability = builder.<span class="hljs-title function_">build</span>();
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">User</span>.<span class="hljs-title function_">create</span>(<span class="hljs-string">'Alice'</span>)); <span class="hljs-comment">// true</span>
+</code></pre>
+<p>The class remains the rule's subject type. If the factory returns an object with a different constructor, supply a <code>detectSubjectType</code> function that maps the returned object back to that class. The resolver only infers types; it does not call the factory or configure runtime detection.</p>
+<p>For other relationships, define a custom resolver. For example, objects might store their subject name in nested metadata:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Container</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">MongoQuery</span>,
+  <span class="hljs-title class_">SubjectResolverFactory</span>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ResourceName</span>&lt;S&gt; = S <span class="hljs-keyword">extends</span> { <span class="hljs-attr">meta</span>: { <span class="hljs-attr">resource</span>: infer N <span class="hljs-keyword">extends</span> <span class="hljs-built_in">string</span> } }
+  ? N
+  : <span class="hljs-built_in">never</span>;
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ResourceResolution</span>&lt;S, <span class="hljs-title class_">Name</span>&gt; = {
+  <span class="hljs-attr">subject</span>: <span class="hljs-title class_">Extract</span>&lt;S, <span class="hljs-built_in">object</span>&gt; | <span class="hljs-title class_">ResourceName</span>&lt;S&gt;;
+  <span class="hljs-attr">subjectType</span>: <span class="hljs-title class_">ResourceName</span>&lt;S&gt;;
+  <span class="hljs-attr">instance</span>: <span class="hljs-title class_">Extract</span>&lt;S, { <span class="hljs-attr">meta</span>: { <span class="hljs-attr">resource</span>: <span class="hljs-title class_">Name</span> } }&gt;;
+};
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">ResourceResolver</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SubjectResolverFactory</span> {
+  <span class="hljs-attr">produce</span>: <span class="hljs-title class_">ResourceResolution</span>&lt;<span class="hljs-variable language_">this</span>[<span class="hljs-number">0</span>], <span class="hljs-variable language_">this</span>[<span class="hljs-number">1</span>]&gt;;
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-attr">meta</span>: { <span class="hljs-attr">resource</span>: <span class="hljs-string">'Article'</span> };
+  <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
+  <span class="hljs-attr">meta</span>: { <span class="hljs-attr">resource</span>: <span class="hljs-string">'User'</span> };
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>;
+}
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;
+  [<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span> | <span class="hljs-title class_">User</span>], <span class="hljs-title class_">MongoQuery</span>, <span class="hljs-title class_">Container</span>&lt;<span class="hljs-title class_">ResourceResolver</span>&gt;
+&gt;;
+
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">title</span>: <span class="hljs-string">'Public'</span> });
+builder.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">'Alice'</span> });
+<span class="hljs-comment">// builder.can('read', 'Article', { name: 'Alice' }); // error: Article has no name</span>
+
+<span class="hljs-keyword">const</span> ability = builder.<span class="hljs-title function_">build</span>({
+  <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function"><span class="hljs-params">object</span> =&gt;</span> <span class="hljs-built_in">object</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">resource</span>
+});
+
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, { <span class="hljs-attr">meta</span>: { <span class="hljs-attr">resource</span>: <span class="hljs-string">'Article'</span> }, <span class="hljs-attr">title</span>: <span class="hljs-string">'Public'</span> }); <span class="hljs-comment">// true</span>
+</code></pre>
 <h2 id="safer-permissions-inference"><a name="safer-permissions-inference" class="h-link" href="#"></a>Safer permissions inference</h2>
 <p>For the most cases the suggested approach above should be enough but if you prefer to ensure extreme type safety, you can define dependencies between actions and subjects. For example, user can only read information about users in your app and nothing more but can manage articles:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;

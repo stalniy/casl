@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BiccFuBv.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-Cn52tPJT.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="731be22">
+  <meta name="casl-build" content="eb4896b">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/subject-type-detection/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -437,6 +437,11 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
 </code></pre>
 <p>Custom detection function must return a subject type (either string, class or function).</p>
+<p>For TypeScript applications, the optional third generic parameter of <code>Ability</code> and <code>MongoAbility</code> lets you align type inference with custom detection. See 
+      <a itemprop="url" href="/v7/en/advanced/typescript#configuring-subject-resolution">
+        Configuring subject resolution
+      </a>
+     for <code>TaggedSubject</code>, <code>ClassSubject</code>, and custom resolver examples.</p>
 <p>The same can be achieved using <code>defineAbility</code> function:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
