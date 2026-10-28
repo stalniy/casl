@@ -1,6 +1,6 @@
 import { execFile as execFileCb } from 'child_process';
 import fs from 'fs';
-import yaml from 'js-yaml';
+import { load as parseYaml } from 'js-yaml';
 import { resolve } from 'path';
 import { promisify } from 'util';
 
@@ -173,7 +173,7 @@ async function urlEntriesFrom(route, context = {}) {
 
 async function generate() {
   const routesPath = resolve(import.meta.dirname, '../src/config/routes.yml');
-  const { routes } = yaml.load(fs.readFileSync(routesPath, 'utf8'));
+  const { routes } = parseYaml(fs.readFileSync(routesPath, 'utf8'));
   const requests = routes.map(route => urlEntriesFrom(route));
   const urls = await Promise.all(requests);
   const content = `

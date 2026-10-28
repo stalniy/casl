@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { content, summary } from 'rollup-plugin-content';
-import xyaml from 'xyaml-webpack-loader/rollup';
+import { yaml as xyaml } from 'xyaml-webpack-loader/rollup';
 import { parsexYaml, parseFrontMatter, markdownOptions } from './tools/contentParser.js';
 import { SearchIndex } from './tools/SearchIndex.js';
 import { calculateAbilitySize } from './tools/abilitySize.js';

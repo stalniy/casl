@@ -1,4 +1,4 @@
-module.exports = (md, config = {}) => {
+export default (md, config = {}) => {
   const cssClass = config.cssClass || 'responsive';
 
   md.renderer.rules.table_open = (tokens, idx, options, env, self) => `<div class="${cssClass}">${self.renderToken(tokens, idx, options)}`;

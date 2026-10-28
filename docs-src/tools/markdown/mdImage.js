@@ -1,13 +1,8 @@
-const { readFileSync } = require('fs');
-const { basename, dirname } = require('path');
-const { imageSize: getImageSize } = require('image-size');
+import { readFileSync } from 'node:fs';
+import { basename, dirname } from 'node:path';
+import { imageSize as getImageSize } from 'image-size';
 
-function replaceLocalSrcWithUrl(src, options) {
-  const root = options.srcRoot || '/images';
-  return `${root}/${basename(src)}`;
-}
-
-module.exports = function image(md, options = {}) {
+export default function mdImageSize(md, options = {}) {
   const normalizeSrc = options.normalizeSrc || replaceLocalSrcWithUrl;
   const renderImage = md.renderer.rules.image;
 
@@ -30,4 +25,9 @@ module.exports = function image(md, options = {}) {
 
     return renderImage(tokens, idx, params, env, self);
   };
-};
+}
+
+function replaceLocalSrcWithUrl(src, options) {
+  const root = options.srcRoot || '/images';
+  return `${root}/${basename(src)}`;
+}

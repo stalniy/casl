@@ -1,5 +1,5 @@
-const { normalize: normalizePath, dirname } = require('path');
-const fs = require('fs');
+import { normalize as normalizePath, dirname } from 'node:path';
+import fs from 'node:fs';
 
 function isExternalUrl(url) {
   return url.startsWith('https://') || url.startsWith('http://');

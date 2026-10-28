@@ -1,24 +1,27 @@
-import { parse, getOrCreateMdParser } from 'xyaml-webpack-loader/parser';
-import matter from 'gray-matter';
 import slugify from '@sindresorhus/slugify';
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import mdHighlights from 'markdown-it-highlightjs';
+import mdInclude from 'markdown-it-include';
+import { resolve } from 'path';
+import { getOrCreateMdParser, parse } from 'xyaml-webpack-loader/parser';
+import { extractFrontMatter } from './frontMatter.js';
+import mdHeadingAnchors from './markdown/mdHeadingAnchors.js';
+import mdImage from './markdown/mdImage.js';
+import mdLink from './markdown/mdLink.js';
+import mdTableContainer from './markdown/mdTableContainer.js';
 
 export const markdownOptions = {
-  use: {
-    'markdown-it-highlightjs': {},
-    'markdown-it-headinganchor': {
+  use: [
+    [mdHighlights, {}],
+    [mdHeadingAnchors, {
       anchorClass: 'h-link',
       slugify,
-    },
-    'markdown-it-include': {
-      root: resolve(__dirname, '..', '..'),
+    }],
+    [mdInclude, {
+      root: resolve(import.meta.dirname, '..', '..'),
       bracesAreOptional: true,
       includeRe: /@include:(\s+[\w._/-]+)/
-    },
-    [`${__dirname}/mdLink.cjs`]: {
+    }],
+    [mdLink, {
       external: {
         target: '_blank',
         rel: 'noopener nofollow'
@@ -26,32 +29,27 @@ export const markdownOptions = {
       local: {
         tagName: 'app-link'
       }
-    },
-    [`${__dirname}/mdImage.cjs`]: {
+    }],
+    [mdImage, {
       size: 'auto',
       srcRoot: `${process.env.LIT_APP_PUBLIC_PATH || ''}/images`
-    },
-    [`${__dirname}/mdTableContainer.cjs`]: {}
-  }
+    }],
+    [mdTableContainer, {}]
+  ]
 };
 
 const xyamlOptions = { markdown: markdownOptions };
 
 export const parsexYaml = content => parse(content, xyamlOptions);
 
-const grayMatterOptions = {
-  language: 'xyaml',
-  engines: { xyaml: parsexYaml }
-};
-
 export function parseFrontMatter(source, context) {
-  const file = matter(source, grayMatterOptions);
+  const file = extractFrontMatter(source);
   const parser = getOrCreateMdParser(markdownOptions);
   const content = parser.render(file.content, context).trim();
   const headings = content.match(/<h(\d)[^>]*>(?:.+?)<\/h\1>/g) || [];
 
   return {
-    ...file.data,
+    ...(file.frontMatter ? parsexYaml(file.frontMatter) : {}),
     content,
     headings: headings.map((h) => {
       const idIndex = h.indexOf(' id="');

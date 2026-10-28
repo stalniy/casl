@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import xyamlParser from 'xyaml-webpack-loader/parser.js';
+import * as xyamlParser from 'xyaml-webpack-loader/parser';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const pagesRoot = path.join(import.meta.dirname, '../src/content/pages');
