@@ -67,6 +67,9 @@ test('dev server preserves offline documents while a service worker update waits
   await page.setJavaScriptEnabled(true);
   await page.goto(visited);
   await waitForUpdatePrompt(page);
+  // Chrome can request favicons after load. Let subresource fetches finish
+  // before skipWaiting stops the active worker, so they cannot restart it.
+  await page.waitForNetworkIdle();
   const beforeActivation = navigations;
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'load' }),
