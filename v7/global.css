@@ -1,3 +1,9 @@
+/* The flattened snapshot has no Shadow DOM styles. Keep it for no-JS readers
+   without painting it while the styled application starts. */
+#prerender-fallback {
+  display: none;
+}
+
 html, body {
   margin: 0;
   padding: 0;
