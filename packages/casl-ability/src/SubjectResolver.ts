@@ -62,6 +62,20 @@ interface ClassSubjectFactory extends SubjectResolverFactory {
 /** Resolves class identity and instances, including non-public and abstract constructors. */
 export type ClassSubject = Container<ClassSubjectFactory>;
 
+type FactoryInstance<S, K extends PropertyKey> =
+  S extends Record<K, (...args: any[]) => infer I> ? Extract<I, object> : never;
+type FactoryResolution<S extends Subject, Name, K extends PropertyKey> = {
+  subject: S | FactoryInstance<S, K>
+  subjectType: Extract<S, SubjectType>
+  instance: FactoryInstance<Name, K>
+};
+interface FactorySubjectFactory<K extends PropertyKey> extends SubjectResolverFactory {
+  produce: FactoryResolution<Extract<this[0], Subject>, this[1], K>
+}
+
+/** Resolves class identity and object instances from a static factory's return type. */
+export type FactorySubject<K extends PropertyKey = 'create'> = Container<FactorySubjectFactory<K>>;
+
 type DefaultInstance<S, Name> = Name extends SubjectClass | ClassLike
   ? InstanceOfClass<Name>
   : Name extends (...args: any[]) => infer O

@@ -197,6 +197,12 @@ ability.can('read', { kind: 'Article', title: 'Example', authorId: 1 });
 
 The resolver is a TypeScript type and does not configure runtime detection. Supply a matching `detectSubjectType` option when using a custom discriminator. `TaggedSubject` without a key uses `__caslSubjectType__`, the property set by the `subject()` helper.
 
+The configured resolver also applies to React and Vue `Can` props, Angular services and pipes, and Mongoose's `accessibleBy` and `accessibleFieldsBy` helpers. These integrations accept the same subject names and instances as the ability's permission checks.
+
+For Prisma, `PrismaAbility<Abilities, PrismaQuery, Resolver>` accepts the same optional third generic parameter. Pass this ability type to `createPrismaAbility<AppAbility>()` or `AbilityBuilder<AppAbility>`; `accessibleBy(ability).ofType(...)` infers model names using its resolver. You can also pass all three generic parameters directly to `createPrismaAbility`.
+
+When writing your own integrations, `SubjectResolver` is the resolver constraint and `ResolveSubjects<Subjects, Resolver>` produces the accepted subject names and instances. Both types are exported from `@casl/ability`. Use `Generics<AppAbility>['subjectResolver']` to retrieve an ability's configured resolver.
+
 A union such as `TaggedSubject<'kind' | '__typename' | BuiltinSubjectKey>` supports multiple discriminator properties. `BuiltinSubjectKey` is exported from `@casl/ability` and represents `__caslSubjectType__`. Names from all configured properties are included; the union does not define runtime precedence when an object has multiple tags.
 
 If you want to customize inference to derive instances from class types alone, use `ClassSubject`. This is optional: the default resolver already supports classes and their instances as described above. `ClassSubject` also supports classes with protected or private constructors and abstract classes:
@@ -223,6 +229,36 @@ ability.can('read', Article.create('Public')); // true
 ```
 
 Class rules use CASL's existing runtime class detection, so this example needs no custom detector.
+
+If a static factory defines the public object type, use `FactorySubject<'create'>` to infer that factory's return type instead of the class prototype. The method name defaults to `create`; pass another key for factories such as `FactorySubject<'from'>`.
+
+```ts
+import {
+  AbilityBuilder, createMongoAbility, FactorySubject, MongoAbility, MongoQuery
+} from '@casl/ability';
+
+interface UserView {
+  name: string;
+}
+
+class User {
+  protected constructor(readonly name: string, readonly internalId: number) {}
+
+  static create(name: string): UserView {
+    return new this(name, 1);
+  }
+}
+
+type AppAbility = MongoAbility<['read', typeof User], MongoQuery, FactorySubject<'create'>>;
+const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+builder.can('read', User, { name: 'Alice' });
+// builder.can('read', User, { internalId: 1 }); // error: UserView has no internalId
+
+const ability = builder.build();
+ability.can('read', User.create('Alice')); // true
+```
+
+The class remains the rule's subject type. If the factory returns an object with a different constructor, supply a `detectSubjectType` function that maps the returned object back to that class. The resolver only infers types; it does not call the factory or configure runtime detection.
 
 For other relationships, define a custom resolver. For example, objects might store their subject name in nested metadata:
 

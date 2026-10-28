@@ -2,6 +2,9 @@ export type {
   BuiltinSubjectKey,
   ClassSubject,
   DefaultSubject,
+  FactorySubject,
+  ResolveSubjects,
+  SubjectResolver,
   SubjectResolverFactory,
   TaggedSubject,
 } from './SubjectResolver';

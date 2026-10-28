@@ -12,6 +12,7 @@ import {
   type Container,
   type DefaultSubject,
   type ExtractSubjectType,
+  type FactorySubject,
   type ForcedSubject,
   type Generics,
   type MongoAbility,
@@ -201,6 +202,78 @@ describe('subject resolvers', () => {
       expect(ability.can('read', PrivateArticle.create('private'))).toBe(false)
       expect(ability.can('read', ProtectedArticle.create('public'))).toBe(false)
       expect(ability.detectSubjectType(PrivateArticle.create('public'))).toBe(PrivateArticle)
+    })
+  })
+
+  describe('FactorySubject', () => {
+    interface UserView { name: string }
+    interface ArticleView { title: string }
+    class User {
+      protected constructor(readonly name: string, readonly internalId: number) {}
+
+      static create(name: string): UserView {
+        return new this(name, 1)
+      }
+    }
+    class Article {
+      private constructor(readonly title: string, readonly internalId: number) {}
+
+      static create(title: string): ArticleView {
+        return new Article(title, 1)
+      }
+    }
+    type Classes = typeof User | typeof Article
+    type AppAbility = MongoAbility<
+      ['read' | 'update', typeof Article] | ['read', typeof User], MongoQuery, FactorySubject
+    >
+
+    it('uses public factory return types instead of class prototypes', () => {
+      expectTypeOf<ResolveInstance<Classes, typeof User, FactorySubject>>()
+        .toEqualTypeOf<UserView>()
+      expectTypeOf<ResolveInstance<Classes, typeof Article, FactorySubject>>()
+        .toEqualTypeOf<ArticleView>()
+      expectTypeOf<ResolveSubjects<Classes, FactorySubject>>()
+        .toEqualTypeOf<Classes | UserView | ArticleView>()
+      const builder = new AbilityBuilder<AppAbility>(createMongoAbility)
+      builder.can('read', User, { name: 'Alice' })
+      builder.can('update', Article, 'title', { title: 'public' })
+      // @ts-expect-error conditions use the factory return type, not the prototype
+      builder.can('read', User, { internalId: 1 })
+      // @ts-expect-error fields explicitly constrained to the factory return type
+      builder.can<UserView, keyof UserView>('read', User, 'internalId')
+      // @ts-expect-error factory result fields remain strictly typed
+      builder.can('read', Article, { title: 1 })
+      // @ts-expect-error User only supports read
+      builder.can('update', User)
+    })
+
+    it('checks objects produced by protected and private constructor factories', () => {
+      const builder = new AbilityBuilder<AppAbility>(createMongoAbility)
+      builder.can('read', User, { name: 'Alice' })
+      builder.can('read', Article, { title: 'public' })
+      const ability = builder.build()
+      expect(ability.can('read', User.create('Alice'))).toBe(true)
+      expect(ability.can('read', User.create('Bob'))).toBe(false)
+      expect(ability.can('read', Article.create('public'))).toBe(true)
+      expect(ability.can('read', Article.create('private'))).toBe(false)
+    })
+
+    it('supports a custom factory name and products with a different constructor', () => {
+      class UserFactory {
+        private constructor(readonly internalId: number) {}
+
+        static from(name: string) {
+          return { name }
+        }
+      }
+      type AppAbility = MongoAbility<['read', typeof UserFactory], MongoQuery, FactorySubject<'from'>>
+      const builder = new AbilityBuilder<AppAbility>(createMongoAbility)
+      builder.can('read', UserFactory, { name: 'Alice' })
+      const ability = builder.build({ detectSubjectType: () => UserFactory })
+      expect(ability.can('read', UserFactory.from('Alice'))).toBe(true)
+      expect(ability.can('read', UserFactory.from('Bob'))).toBe(false)
+      expectTypeOf<ResolveInstance<typeof UserFactory, typeof UserFactory, FactorySubject>>()
+        .toBeNever()
     })
   })
 

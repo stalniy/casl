@@ -8,6 +8,8 @@ type AnyRecord = Record<PropertyKey, any>;
 
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectClass<N extends string = string> = AnyClass & { modelName?: N };
+
+/** @deprecated use FactorySubject or custom subject type resolver instead */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export type ClassLike<N extends string = string> = Function & { prototype: any; modelName?: N };
 export type SubjectType = string | SubjectClass | ClassLike;
