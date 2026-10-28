@@ -20,6 +20,15 @@ test('dev server preserves offline documents while a service worker update waits
   t.after(() => browser.close());
   const page = await browser.newPage();
   await page.setCacheEnabled(false);
+  // Analytics and sharing requests must not keep waitForNetworkIdle pending.
+  const network = await page.createCDPSession();
+  await network.send('Network.enable');
+  await network.send('Network.setBlockedURLs', {
+    urlPatterns: [
+      { urlPattern: `${server.origin}/*`, block: false },
+      { urlPattern: '*://*:*/*', block: true },
+    ],
+  });
   let navigations = 0;
   page.on('request', request => {
     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) navigations += 1;
