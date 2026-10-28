@@ -1,11 +1,9 @@
-import { Prisma } from '@prisma/client/extension';
-
 /**
  * This is needed because Prisma doesn't reliably mock empty OR condition:
  * https://github.com/prisma/prisma/issues/17367
  */
 export function createCaslExtension() {
-  return Prisma.defineExtension({
+  return defineExtension({
     name: 'casl',
     query: {
       $allModels: {
@@ -28,6 +26,29 @@ export function createCaslExtension() {
       },
     },
   });
+}
+
+function defineExtension(extension: CaslExtension) {
+  return <TPrisma extends PrismaClient>(client: TPrisma): TPrisma =>
+    client.$extends(extension) as TPrisma;
+}
+
+type QueryArgs = Record<string, unknown>;
+
+interface CaslExtension {
+  name: string;
+  query: {
+    $allModels: {
+      $allOperations(options: {
+        args: QueryArgs;
+        query(args: QueryArgs): Promise<any>;
+      }): Promise<any>;
+    };
+  };
+}
+
+interface PrismaClient {
+  $extends(extension: CaslExtension): any;
 }
 
 function hasEmptyCondition(rawWhere: unknown): boolean {

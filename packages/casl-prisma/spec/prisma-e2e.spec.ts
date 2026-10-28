@@ -4,6 +4,23 @@ import { accessibleBy, createCaslExtension, createPrismaAbility, WhereInput } fr
 import { AppAbility } from './AppAbility'
 
 describe('Prisma E2E', () => {
+  it('preserves client extensions and selected model fields', async () => {
+    const { prisma: basePrisma } = await setup()
+    const prisma = basePrisma.$extends({
+      client: {
+        greeting: () => 'hello'
+      }
+    }).$extends(createCaslExtension())
+
+    const users: { id: number }[] = await prisma.user.findMany({
+      select: { id: true }
+    })
+
+    expect(prisma.greeting()).toBe('hello')
+    expect(users).toHaveLength(5)
+    expect(users[0]).toEqual({ id: expect.any(Number) })
+  })
+
   describe('intercepts all operations to return hardcoded values', () => {
     describe.each([
       {
