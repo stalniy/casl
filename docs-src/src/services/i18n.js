@@ -33,7 +33,7 @@ export function interpolate(string, vars) {
 
 const i18n = registerTranslateConfig({
   async loader(lang) {
-    const response = await fetch(langUrls[lang].default);
+    const response = await fetch(langUrls[lang].default, { absoluteUrl: true });
     return response.body;
   },
   lookup,

@@ -53,7 +53,7 @@ export function fetch(rawUrl, options = {}) {
     return http(url, options);
   }
 
-  inflightRequests[url] = inflightRequests[url] || http(url, options);
+  inflightRequests[url] ??= http(url, options);
 
   if (options.cache === true) {
     return inflightRequests[url];

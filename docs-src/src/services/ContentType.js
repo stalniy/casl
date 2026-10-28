@@ -52,12 +52,12 @@ export default class Content {
       throw notFoundError(`Page with ${name} is not found`);
     }
 
-    const response = await fetch(url);
+    const response = await fetch(url, { absoluteUrl: true });
     return response.body;
   }
 
   async _getSummary(locale) {
-    const response = await fetch(this._summaries[locale]);
+    const response = await fetch(this._summaries[locale], { absoluteUrl: true });
     return response.body;
   }
 
@@ -112,7 +112,7 @@ export default class Content {
 
   async _loadSearchIndex(locale) {
     const indexUrl = this._searchIndexes[locale];
-    const response = await fetch(indexUrl);
+    const response = await fetch(indexUrl, { absoluteUrl: true });
     return MiniSearch.loadJS(response.body, searchOptions);
   }
 
