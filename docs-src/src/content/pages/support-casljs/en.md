@@ -4,7 +4,7 @@ categories: [support]
 hidden: true
 meta:
   keywords: casl.js, financial support, opencollective, funding, recurring pledges, donate, sponsor
-  description: Support CASL.js development — one-time donations and recurring pledges via OpenCollective and Patreon. Sponsor the project.
+  description: Support CASL.js development — one-time donations and recurring pledges via GitHub Sponsors, OpenCollective and Patreon. Sponsor the project.
 ---
 
 CASL.js is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support CASL.js development via the following methods:
@@ -20,6 +20,7 @@ We accept donations through these channels:
 Recurring pledges come with exclusive perks, e.g. having your name listed in the CASL GitHub repository, have your company logo placed on this website, personal consultation or project support through live chat or screen-sharing.
 
 Get more details about different options to
+* [become a backer or sponsor via GitHub Sponsors](https://github.com/sponsors/stalniy)
 * [become a backer or sponsor via OpenCollective](https://opencollective.com/casljs)
 * [become a backer or sponsor via Patreon](https://patreon.com/sstotskyi)
 

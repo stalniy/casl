@@ -1,90 +1,39 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n.js';
-import liqpayIcon from '../assets/payment-options/liqpay.svg';
-import liqpayQrCode from '../assets/payment-options/liqpay-qrcode.png';
-import monoIcon from '../assets/payment-options/monobank.png';
-import monoQrCode from '../assets/payment-options/monobank-qrcode.svg';
-
-const PAYMENT_OPTIONS = {
-  liqpay: {
-    icon: liqpayIcon,
-    image: liqpayQrCode
-  },
-  mono: {
-    icon: monoIcon,
-    image: monoQrCode,
-  }
-};
-const PAYMENT_NAMES = Object.keys(PAYMENT_OPTIONS);
-
-function renderPaymentOption(name) {
-  const option = PAYMENT_OPTIONS[name];
-
-  if (!option) {
-    console.warn(`Cannot find configuration for ${name} payment option`);
-    return null;
-  }
-
-  let content;
-
-  if (option.image) {
-    content = html`<img src="${option.image}">`;
-  }
-
-  return html`<div class="selected">${content}</div>`;
-}
+import { mdCss } from '../styles/index.js';
 
 export default class OneTimeDonations extends LitElement {
   static cName = 'one-time-donations';
-  static properties = {
-    selected: { type: String }
-  };
-
-  constructor() {
-    super();
-    this.selected = '';
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    if (PAYMENT_NAMES.length === 1) {
-      this.selected = PAYMENT_NAMES[0];
-    }
-  }
-
-  _setSelected({ target }) {
-    if (target.tagName !== 'IMG') {
-      this.selected = '';
-      return;
-    }
-
-    this.selected = target.getAttribute('data-name');
-  }
 
   render() {
     return html`
-      <div class="options" @click=${this._setSelected}>
-        ${PAYMENT_NAMES.map(name => html`
-          <img src="${PAYMENT_OPTIONS[name].icon}" alt="${t(`payment.${name}`)}" data-name="${name}">
-        `)}
+      <div class="options md">
+        <a href="https://github.com/sponsors/stalniy" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 21.35 10.55 20.03C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.98 5.98 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z" />
+          </svg>
+          GitHub Sponsors
+        </a>
       </div>
-      ${this.selected ? renderPaymentOption(this.selected) : ''}
     `;
   }
 }
 
-OneTimeDonations.styles = css`
-  .options {
-    margin: 20px 0;
-  }
+OneTimeDonations.styles = [
+  mdCss,
+  css`
+    .options {
+      margin: 20px 0;
+    }
 
-  .options img {
-    margin: 10px;
-    cursor: pointer
-  }
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .selected {
-    text-align: center;
-  }
-`;
+    svg {
+      color: #db61a2;
+      flex-shrink: 0;
+    }
+  `,
+];
