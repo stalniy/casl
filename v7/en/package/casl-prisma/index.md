@@ -38,13 +38,13 @@ This package is a bit different from all others because it provides a custom `cr
 
 ```ts
 import { User, Post, Prisma } from '@prisma/client';
-import { Ability, AbilityBuilder, subject } from '@casl/ability';
-import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
+import { Ability, AbilityBuilder, subject, type ForcedSubject, type TaggedSubject } from '@casl/ability';
+import { createPrismaAbility, PrismaQuery } from '@casl/prisma';
 
-type AppAbility = Ability<[string, Subjects<{
-  User: User,
-  Post: Post
-}>], PrismaQuery>;
+type AppSubjects =
+  | User & ForcedSubject<'User'>
+  | Post & ForcedSubject<'Post'>
+type AppAbility = Ability<[string, AppSubjects], PrismaQuery, TaggedSubject>;
 const { can, cannot, build } = new AbilityBuilder<AppAbility>(createPrismaAbility);
 
 can('read', 'Post', { authorId: 1 });
@@ -60,6 +60,14 @@ ability.can('read', subject('Post', { title: '...', authorId: 1 })));
 > If you generate Prisma Client with the Prisma 7 `prisma-client` generator, import model types from your generated client path (for example `./prisma/generated/client`) and create a small wrapper around `@casl/prisma/runtime` as shown below.
 
 ### Note on subject helper
+
+`ForcedSubject<'Post'>` declares the tag on an object. When your subject union contains only tagged object types, you must specify `TaggedSubject` as the third generic parameter of `Ability` or `PrismaAbility` to also accept subject names such as `'Post'` in permission checks:
+
+```ts
+type AppAbility = Ability<[string, AppSubjects], PrismaQuery, TaggedSubject>;
+```
+
+`TaggedSubject` uses `__caslSubjectType__` by default, matching the `subject` helper. If you omit the third generic parameter, `DefaultSubject` preserves the existing behavior: include both the names and the tagged object types explicitly, for example `Ability<[string, 'User' | 'Post' | AppSubjects], PrismaQuery>`.
 
 Because Prisma returns DTO objects without exposing any type information on it, we need to use `subject` helper to provide that type manually, so CASL can understand what rules to apply to passed in object.
 
@@ -167,37 +175,11 @@ It's a generic type that provides `Prisma.ModelWhereInput` in generic way. We ne
 
 ```ts
 import type { User } from '@prisma/client';
-import type { Model, PrismaQuery } from '@casl/prisma';
+import type { ForcedSubject } from '@casl/ability';
+import type { PrismaQuery } from '@casl/prisma';
 
 // almost the same as Prisma.UserWhereInput except that it's a higher order type
-type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
-```
-
-### Model
-
-Just gives a name to a model. That name is stored using `ForcedSubject<TName>` helper from `@casl/ability`. To use a separate column or another strategy to name models, don't use this helper because it only works in combination with `subject` helper.
-
-### Subjects
-
-Creates a union of all possible subjects out of passed in object:
-
-```ts
-import { User } from '@prisma/client';
-import { Subjects } from '@casl/prisma';
-
-type AppSubjects = Subjects<{
-  User: User
-}>; // 'User' | Model<User, 'User'>
-```
-
-To support rule definition for `all`, we just need to explicitly do it:
-
-```ts
-type AppSubjects = 'all' | Subjects<{
-  User: User
-}>; // 'User' | Model<User, 'User'>
-
-type AppAbility = Ability<[string, AppSubjects], PrismaQuery>;
+type UserWhereInput = PrismaQuery<User & ForcedSubject<'User'>>;
 ```
 
 ## Custom PrismaClient output path (Prisma 7 default)
@@ -229,25 +211,24 @@ import {
   createPrismaAbility,
   ParsingQueryError,
   prismaQuery,
-  type Model,
   type PrismaQueryOf,
-  type Subjects,
   type WhereInputOf,
 } from '@casl/prisma/runtime';
+import type { Ability, ForcedSubject, TaggedSubject } from "@casl/ability";
 import type { Prisma, Post, User } from './generated/client';
 
 export { accessibleBy, createPrismaAbility, ParsingQueryError, prismaQuery };
 
-export type PrismaQuery<T extends Model<any, any> = Model<any, any>> =
+export type PrismaQuery<T extends ForcedSubject<any> = ForcedSubject<any>> =
   PrismaQueryOf<Prisma.TypeMap, T>;
 export type WhereInput<TModelName extends Prisma.ModelName> =
   WhereInputOf<Prisma.TypeMap, TModelName>;
-export type AppSubjects = Subjects<{
-  User: User,
-  Post: Post,
-}>;
+export type AppSubjects =
+  | User & ForcedSubject<'User'>
+  | Post & ForcedSubject<'Post'>
+;
 
-export type AppAbility = Ability<['create' | "read" | "update" | "delete", 'all' | AppSubjects], PrismaQuery>
+export type AppAbility = Ability<['create' | "read" | "update" | "delete", 'all' | AppSubjects], PrismaQuery, TaggedSubject>
 ```
 
 Use this wrapper in your app instead of importing from `@casl/prisma` directly. If you stay on the legacy `prisma-client-js` generator for Prisma 6.x compatibility, the default `@casl/prisma` entrypoint keeps working.
