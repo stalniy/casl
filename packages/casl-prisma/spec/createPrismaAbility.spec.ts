@@ -1,6 +1,6 @@
-import { AbilityBuilder, Ability, subject } from '@casl/ability'
+import { AbilityBuilder, Ability, subject, ForcedSubject, TaggedSubject } from '@casl/ability'
 import { User, Post, Prisma } from '@prisma/client'
-import { createPrismaAbility, Model as M, PrismaQuery, Subjects } from '../src'
+import { createPrismaAbility, PrismaQuery } from '../src'
 import { AppAbility } from './AppAbility'
 
 describe(createPrismaAbility.name, () => {
@@ -83,7 +83,7 @@ describe(createPrismaAbility.name, () => {
     })
 
     it('uses Prisma types when building `PrismaQuery<TModel>` type', () => {
-      type ExpectTrue = Prisma.UserWhereInput extends PrismaQuery<M<User, 'User'>>
+      type ExpectTrue = Prisma.UserWhereInput extends PrismaQuery<User & ForcedSubject<'User'>>
         ? true
         : false
 
@@ -92,15 +92,25 @@ describe(createPrismaAbility.name, () => {
 
     it('supports per subject actions', () => {
       type Abilities =
-        | ['read', Subjects<{ User: User }>]
-        | ['read' | 'update', Subjects<{ Post: Post }>]
-      type ThisAbility = Ability<Abilities, PrismaQuery>
-      const ability = createPrismaAbility<ThisAbility>()
+        | ['read', User & ForcedSubject<'User'>]
+        | ['read' | 'update', Post & ForcedSubject<'Post'>]
+      type ThisAbility = Ability<Abilities, PrismaQuery, TaggedSubject>
+      const { can, build } = new AbilityBuilder<ThisAbility>(createPrismaAbility)
+      can('read', 'User', { firstName: 'John' })
+      can('update', 'Post', { title: 'public' })
+      const ability = build()
 
-      ability.can('update', 'Post')
+      expect(ability.can('read', 'User')).toBe(true)
+      expect(ability.can('update', 'Post')).toBe(true)
+      expect(ability.can('update', subject('Post', { title: 'public' } as Post))).toBe(true)
+      expect(ability.can('update', subject('Post', { title: 'private' } as Post))).toBe(false)
 
-      // @ts-expect-error
+      // @ts-expect-error User only supports read
       ability.can('update', 'User')
+      // @ts-expect-error unknown subject name
+      ability.can('read', '')
+      // @ts-expect-error referencing User property in Post conditions
+      can('update', 'Post', { age: 1 })
     })
   })
 })
