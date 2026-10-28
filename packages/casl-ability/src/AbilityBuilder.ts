@@ -42,19 +42,19 @@ type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
 type ActionOf<T extends AnyAbility, S extends SubjectType> = ActionFrom<Generics<T>['abilities'], S>;
 type SubjectTypeOf<T extends AnyAbility> = E<Normalize<Generics<T>['abilities']>[1]>;
 
-type SimpleCanParams<T extends AnyAbility> = Parameters<(
+type SimpleCanParams<T extends AnyAbility> = [
   action: Generics<T>['abilities'] | Generics<T>['abilities'][]
-) => 0>;
+];
 type BuilderCanParameters<
   S extends SubjectType,
   I extends InstanceOf<T, S>,
   T extends AnyAbility
 > = Generics<T>['abilities'] extends AbilityTuple
-  ? Parameters<(
+  ? [
     action: ActionOf<T, S> | ActionOf<T, S>[],
     subject: S | S[],
     conditions?: ConditionsOf<T, I>
-  ) => 0>
+  ]
   : SimpleCanParams<T>;
 
 type BuilderCanParametersWithFields<
@@ -63,12 +63,12 @@ type BuilderCanParametersWithFields<
   F extends string,
   T extends AnyAbility
 > = Generics<T>['abilities'] extends AbilityTuple
-  ? Parameters<(
+  ? [
     action: ActionOf<T, S> | ActionOf<T, S>[],
     subject: S | S[],
     fields?: F | F[],
     conditions?: ConditionsOf<T, I>
-  ) => 0>
+  ]
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 
