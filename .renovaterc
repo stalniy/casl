@@ -1,6 +1,5 @@
 {
   "extends": ["config:recommended"],
-  "ignorePaths": ["**/docs-src/**"],
   "rangeStrategy": "replace",
   "separateMinorPatch": false,
   "ignoreUnstable": true,
