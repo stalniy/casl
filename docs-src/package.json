@@ -18,9 +18,9 @@
   "dependencies": {
     "@curi/router": "^2.1.0",
     "@hickory/browser": "^2.1.0",
-    "lit-element": "^2.5.1",
-    "lit-html": "^1.4.1",
-    "lit-translate": "^1.1.22",
+    "lit-element": "^4.2.2",
+    "lit-html": "^3.3.3",
+    "lit-translate": "^2.0.1",
     "menu-drawer.js": "^1.3.0",
     "minisearch": "^7.0.0"
   },
@@ -45,6 +45,9 @@
     "xyaml-webpack-loader": "^0.8.0"
   },
   "overrides": {
+    "lit-translate": {
+      "lit": "^3.3.3"
+    },
     "path-to-regexp": "3.3.0"
   }
 }

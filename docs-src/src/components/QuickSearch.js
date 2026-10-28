@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { t } from '../directives/i18n.js';
 import { locale } from '../services/i18n.js';
 import content from '../services/content.js';

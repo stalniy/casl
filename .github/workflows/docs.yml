@@ -66,7 +66,9 @@ jobs:
       run: npm install
     - name: Test
       working-directory: docs-src
-      run: npm run test
+      run: |
+        npx puppeteer browsers install chrome
+        npm run test
     - name: Build documentation
       working-directory: docs-src
       env:

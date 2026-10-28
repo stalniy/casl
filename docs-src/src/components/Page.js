@@ -1,5 +1,5 @@
 import { html, css } from 'lit-element';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { mdCss, pageCss, codeCss } from '../styles/index.js';
 import I18nElement from './I18nElement.js';
 import { interpolate, locale } from '../services/i18n.js';

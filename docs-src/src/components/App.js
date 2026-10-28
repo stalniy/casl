@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { cache } from 'lit-html/directives/cache';
+import { cache } from 'lit-html/directives/cache.js';
 import menu from '../config/menu.yml';
 import router from '../services/router.js';
 import watchMedia from '../hooks/watchMedia.js';
