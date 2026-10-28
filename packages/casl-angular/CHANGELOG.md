@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.1.0](https://github.com/stalniy/casl/compare/@casl/angular@10.0.3...@casl/angular@10.1.0) (2026-10-28)
+
+
+### Features
+
+* propagate subject type resolver ([#1323](https://github.com/stalniy/casl/issues/1323)) ([790580c](https://github.com/stalniy/casl/commit/790580c314634f6ce5a529eb45ec7a9a123e85d3))
+
 ## [10.0.3](https://github.com/stalniy/casl/compare/@casl/angular@10.0.2...@casl/angular@10.0.3) (2026-08-08)
 
 
