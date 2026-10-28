@@ -7,6 +7,10 @@ import stylistic from '@stylistic/eslint-plugin'
 
 const tsconfigRootDir = process.cwd()
 const project = join(tsconfigRootDir, 'tsconfig.json')
+const restrictedImportPatterns = [{
+    group: ['**/dist/*'],
+    message: 'Do not import compiled sources directly',
+}]
 
 export default tseslint.config(
     {
@@ -72,13 +76,25 @@ export default tseslint.config(
             "@typescript-eslint/no-explicit-any": "off",
             "@typescript-eslint/no-use-before-define": "off",
             "no-restricted-imports": ["error", {
-                "patterns": [{
-                    "group": ["**/dist/*"],
-                    "message": "Do not import compiled sources directly"
-                }]
+                "patterns": restrictedImportPatterns
             }]
         },
     }, 
+    {
+        files: ['**/src/**/*.{ts,js}'],
+        rules: {
+            'no-restricted-imports': ['error', {
+                patterns: [
+                    ...restrictedImportPatterns,
+                    {
+                        group: ['@prisma/client', '@prisma/client/**'],
+                        allowTypeImports: true,
+                        message: 'Use type-only imports to keep Prisma Client out of runtime bundles.',
+                    },
+                ],
+            }],
+        },
+    },
     {
         files: ["docs-src/src/**/*.{js,ts}"],
         languageOptions: {
