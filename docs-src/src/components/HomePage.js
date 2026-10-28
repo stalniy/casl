@@ -43,11 +43,7 @@ export default class HomePage extends LitElement {
                   ${t('buttons.source')}
                 </a>
                 <div class="package-stats">
-                  <github-button
-                    size="large"
-                    text="Star"
-                    theme="no-preference: dark; light: dark;"
-                  ></github-button>
+                  <github-button></github-button>
                   <npm-downloads-button></npm-downloads-button>
                 </div>
               </div>
@@ -120,10 +116,6 @@ HomePage.styles = [
       margin-top: 10px;
       margin-left: auto;
       margin-right: auto;
-    }
-
-    github-button {
-      display: inline-flex;
     }
 
     .details {

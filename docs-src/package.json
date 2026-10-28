@@ -18,7 +18,6 @@
   "dependencies": {
     "@curi/router": "^2.1.0",
     "@hickory/browser": "^2.1.0",
-    "github-buttons": "^2.7.0",
     "lit-element": "^2.2.1",
     "lit-html": "^1.2.1",
     "lit-translate": "^1.1.22",
@@ -27,7 +26,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@sindresorhus/slugify": "1.1.2",
+    "@sindresorhus/slugify": "^3.0.1",
     "gray-matter": "^4.0.2",
     "highlight.js": "^11.0.0",
     "image-size": "^2.0.2",
