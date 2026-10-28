@@ -35,7 +35,7 @@
     "puppeteer": "^25.5.0",
     "rollup-plugin-content": "0.8.3",
     "vite": "^8.3.4",
-    "vite-plugin-pwa": "^1.3.0",
+    "vite-plugin-pwa": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
     "workbox-expiration": "^7.0.0",
     "workbox-precaching": "^7.0.0",
