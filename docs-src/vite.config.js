@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import { resolve, dirname } from 'path';
-import { copyFileSync, writeFileSync } from 'fs';
+import { copyFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -18,11 +18,8 @@ export default defineConfig(async ({ mode }) => {
   const SUPPORTED_LANGS = (env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
   const PUBLIC_PATH = (env.LIT_APP_PUBLIC_PATH || '').replace(/\/$/, '');
 
-  // Runtime caches are shared by all documentation versions on the origin,
-  // so names are scoped by version and, for pages, by build.
-  const CACHE_SCOPE = `casl-docs${PUBLIC_PATH.replace(/\//g, '-') || '-root'}`;
+  const PWA_DEV_ENABLED = env.LIT_APP_PWA_DEV === 'true';
   const BUILD_ID = env.LIT_APP_COMMIT_HASH || Date.now().toString(36);
-  const PAGES_CACHE = `${CACHE_SCOPE}-pages-${BUILD_ID}`;
 
   const appEnvVars = Object.keys(env).reduce((acc, key) => {
     if (key.startsWith('LIT_APP_')) {
@@ -50,6 +47,8 @@ export default defineConfig(async ({ mode }) => {
       ...appEnvVars,
       'import.meta.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
       'import.meta.env.BASE_URL_PATH': JSON.stringify(PUBLIC_PATH),
+      'import.meta.env.DOCS_BUILD_ID': JSON.stringify(BUILD_ID),
+      'import.meta.env.PWA_DEV_ENABLED': JSON.stringify(PWA_DEV_ENABLED),
     },
 
     resolve: {
@@ -135,32 +134,33 @@ export default defineConfig(async ({ mode }) => {
             ]
           }
         },
-      ...(mode === 'production' ? [
+      ...(mode === 'production' || PWA_DEV_ENABLED ? [
         {
           name: 'sw-app-shell',
-          apply: 'build',
+          transformIndexHtml() {
+            return [{ tag: 'meta', attrs: { name: 'casl-build', content: BUILD_ID }, injectTo: 'head' }];
+          },
           // index.html must not be precached: precache routes are matched before
           // runtime routes and would serve a stale document. Prerendering rewrites
           // dist/index.html later, so the offline fallback is a pristine copy.
           writeBundle(options) {
             copyFileSync(resolve(options.dir, 'index.html'), resolve(options.dir, 'app-shell.html'));
-            writeFileSync(resolve(options.dir, 'sw-cleanup.js'), `self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((names) => Promise.all(names
-    .filter((name) => name.startsWith('${CACHE_SCOPE}-pages-') && name !== '${PAGES_CACHE}')
-    .map((name) => caches.delete(name)))));
-});
-`);
           },
         },
 
         VitePWA({
+          strategies: 'injectManifest',
+          srcDir: 'src',
+          filename: 'sw.js',
           registerType: 'prompt',
           injectRegister: null,
           manifest: false,
-          workbox: {
-            cleanupOutdatedCaches: true,
-            navigateFallback: null,
-            importScripts: ['sw-cleanup.js'],
+          devOptions: {
+            enabled: PWA_DEV_ENABLED,
+            type: 'module',
+            navigateFallback: `${PUBLIC_PATH}/app-shell.html`,
+          },
+          injectManifest: {
             maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             globPatterns: [
               'assets/*.json',
@@ -172,29 +172,6 @@ export default defineConfig(async ({ mode }) => {
               '**/*.png',
               '**/*.svg',
             ],
-            runtimeCaching: [
-              {
-                urlPattern: ({ request }) => request.mode === 'navigate',
-                handler: 'NetworkFirst',
-                options: {
-                  cacheName: PAGES_CACHE,
-                  networkTimeoutSeconds: 5,
-                  precacheFallback: {
-                    fallbackURL: `${PUBLIC_PATH}/app-shell.html`,
-                  },
-                },
-              },
-              {
-                urlPattern: new RegExp(`${PUBLIC_PATH.replace(/\//g, '\\/')}/images/`),
-                handler: 'StaleWhileRevalidate',
-                options: {
-                  cacheName: `${CACHE_SCOPE}-images`,
-                  expiration: {
-                    maxEntries: 100,
-                  },
-                },
-              },
-            ],
           },
         }),
       ] : []),
@@ -202,7 +179,8 @@ export default defineConfig(async ({ mode }) => {
 
     server: {
       port: 8080,
-      open: true,
+      open: !PWA_DEV_ENABLED,
+      hmr: PWA_DEV_ENABLED ? false : undefined,
     },
   };
 });
