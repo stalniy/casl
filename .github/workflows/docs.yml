@@ -1,6 +1,7 @@
 name: Docs
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, next, docs-fix]
     paths:
@@ -15,7 +16,20 @@ on:
       - packages/casl-vue/README.md
       - packages/casl-angular/README.md
       - packages/casl-prisma/README.md
-  workflow_dispatch:
+  pull_request:
+    branches: [main, next, docs-fix]
+    paths:
+      - docs-src/**/*
+      - .github/workflows/docs.yml
+      - .github/actions/setup-deps/action.yml
+      - packages/casl-ability/**
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - packages/casl-mongoose/README.md
+      - packages/casl-react/README.md
+      - packages/casl-vue/README.md
+      - packages/casl-angular/README.md
+      - packages/casl-prisma/README.md
 
 # Allow the deployment step to push generated files to gh-pages.
 permissions:
@@ -24,7 +38,7 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'deploy' }}"
   cancel-in-progress: false
 
 jobs:
@@ -71,6 +85,7 @@ jobs:
         LIT_APP_PUBLIC_PATH: "/${{ env.CASL_VERSION }}"
       run: npm run prerender
     - name: Deploy
+      if: github.event_name != 'pull_request'
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         GITHUB_ACTOR: docs
@@ -104,10 +119,12 @@ jobs:
         git commit -m "chore(release): deploy ${CASL_DOCS_ROOT}"
         git push --set-upstream origin gh-pages
     - name: Prepare Pages artifact
+      if: github.event_name != 'pull_request'
       run: |
         mkdir -p "$RUNNER_TEMP/casl-pages"
         git archive HEAD | tar -x -C "$RUNNER_TEMP/casl-pages"
     - name: Upload Pages artifact
+      if: github.event_name != 'pull_request'
       uses: actions/upload-pages-artifact@v4
       with:
         path: ${{ runner.temp }}/casl-pages
@@ -117,6 +134,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
