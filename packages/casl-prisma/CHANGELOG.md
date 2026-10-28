@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [2.1.0](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.2...@casl/prisma@2.1.0) (2026-10-28)
+
+
+### Features
+
+* avoid loading Prisma Client when importing @casl/prisma/runtime ([#1318](https://github.com/stalniy/casl/issues/1318)) ([f33b88e](https://github.com/stalniy/casl/commit/f33b88ee7c20eaeb5b7de3f3d3091bc26d7e4a01))
+
 ## [2.0.2](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.1...@casl/prisma@2.0.2) (2026-06-10)
 
 
