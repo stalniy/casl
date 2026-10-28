@@ -153,6 +153,125 @@ Moreover, the same behavior also works in complementary packages! So, you will g
 
 But even this is not the end and you can go even further!
 
+## Configuring subject resolution
+
+The third generic parameter of `Ability` and `MongoAbility` is **optional**. Omit it when using CASL's standard subject type detection; it defaults to `DefaultSubject`, which preserves the inference described above. You only need to specify it when customizing subject type detection and its TypeScript inference.
+
+For custom detection based on a discriminator property, use `TaggedSubject<Key>`. You can specify the object types without repeating their names:
+
+```ts
+import {
+  AbilityBuilder, createMongoAbility, MongoAbility, MongoQuery, TaggedSubject
+} from '@casl/ability';
+
+interface Article {
+  kind: 'Article';
+  title: string;
+  authorId: number;
+}
+
+interface User {
+  kind: 'User';
+  name: string;
+}
+
+type AppAbility = MongoAbility<
+  ['read' | 'update', Article] | ['read', User],
+  MongoQuery,
+  TaggedSubject<'kind'>
+>;
+
+const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+builder.can('read', 'Article', { authorId: 1 });
+builder.can('read', 'User', { name: 'Alice' });
+// builder.can('update', 'User'); // error: User only supports read
+// builder.can('read', 'Article', { name: 'Alice' }); // error: Article has no name
+
+const ability = builder.build({
+  detectSubjectType: object => object.kind
+});
+
+ability.can('read', 'Article');
+ability.can('read', { kind: 'Article', title: 'Example', authorId: 1 });
+```
+
+The resolver is a TypeScript type and does not configure runtime detection. Supply a matching `detectSubjectType` option when using a custom discriminator. `TaggedSubject` without a key uses `__caslSubjectType__`, the property set by the `subject()` helper.
+
+A union such as `TaggedSubject<'kind' | '__typename' | BuiltinSubjectKey>` supports multiple discriminator properties. `BuiltinSubjectKey` is exported from `@casl/ability` and represents `__caslSubjectType__`. Names from all configured properties are included; the union does not define runtime precedence when an object has multiple tags.
+
+If you want to customize inference to derive instances from class types alone, use `ClassSubject`. This is optional: the default resolver already supports classes and their instances as described above. `ClassSubject` also supports classes with protected or private constructors and abstract classes:
+
+```ts
+import {
+  AbilityBuilder, ClassSubject, createMongoAbility, MongoAbility, MongoQuery
+} from '@casl/ability';
+
+class Article {
+  private constructor(readonly title: string) {}
+
+  static create(title: string) {
+    return new Article(title);
+  }
+}
+
+type AppAbility = MongoAbility<['read', typeof Article], MongoQuery, ClassSubject>;
+const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+builder.can('read', Article, { title: 'Public' });
+
+const ability = builder.build();
+ability.can('read', Article.create('Public')); // true
+```
+
+Class rules use CASL's existing runtime class detection, so this example needs no custom detector.
+
+For other relationships, define a custom resolver. For example, objects might store their subject name in nested metadata:
+
+```ts
+import {
+  AbilityBuilder, Container, createMongoAbility, MongoAbility, MongoQuery,
+  SubjectResolverFactory
+} from '@casl/ability';
+
+type ResourceName<S> = S extends { meta: { resource: infer N extends string } }
+  ? N
+  : never;
+
+type ResourceResolution<S, Name> = {
+  subject: Extract<S, object> | ResourceName<S>;
+  subjectType: ResourceName<S>;
+  instance: Extract<S, { meta: { resource: Name } }>;
+};
+
+interface ResourceResolver extends SubjectResolverFactory {
+  produce: ResourceResolution<this[0], this[1]>;
+}
+
+interface Article {
+  meta: { resource: 'Article' };
+  title: string;
+}
+
+interface User {
+  meta: { resource: 'User' };
+  name: string;
+}
+
+type AppAbility = MongoAbility<
+  ['read', Article | User], MongoQuery, Container<ResourceResolver>
+>;
+
+const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+builder.can('read', 'Article', { title: 'Public' });
+builder.can('read', 'User', { name: 'Alice' });
+// builder.can('read', 'Article', { name: 'Alice' }); // error: Article has no name
+
+const ability = builder.build({
+  detectSubjectType: object => object.meta.resource
+});
+
+ability.can('read', { meta: { resource: 'Article' }, title: 'Public' }); // true
+```
+
 ## Safer permissions inference
 
 For the most cases the suggested approach above should be enough but if you prefer to ensure extreme type safety, you can define dependencies between actions and subjects. For example, user can only read information about users in your app and nothing more but can manage articles:

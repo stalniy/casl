@@ -1,3 +1,4 @@
+import type { DefaultSubject, SubjectResolver } from './SubjectResolver';
 import { SubjectType, AbilityTypes, AbilityTupleType, Abilities, ToAbilityTypes } from './types';
 
 interface BaseRawRule<Conditions> {
@@ -23,4 +24,5 @@ type DefineRule<T extends AbilityTypes, C, Else = ClaimRawRule<Extract<T, string
   T extends AbilityTupleType ? SubjectRawRule<T[0], T[1], C> : Else;
 
 export type RawRule<T extends AbilityTypes = AbilityTupleType, C = unknown> = DefineRule<T, C>;
-export type RawRuleFrom<T extends Abilities, C> = RawRule<ToAbilityTypes<T>, C>;
+export type RawRuleFrom<T extends Abilities, C, R extends SubjectResolver = DefaultSubject> =
+  RawRule<ToAbilityTypes<T, R>, C>;

@@ -5,7 +5,7 @@ import { setByPath } from '../utils';
 /**
  * Extracts rules condition values into an object of default values
  */
-export function rulesToFields<T extends Ability<any, AnyObject>>(
+export function rulesToFields<T extends Ability<any, AnyObject, any>>(
   ability: T,
   action: Parameters<T['rulesFor']>[0],
   subjectType: ExtractSubjectType<Parameters<T['rulesFor']>[1]>,

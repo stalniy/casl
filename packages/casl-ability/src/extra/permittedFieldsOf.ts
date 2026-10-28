@@ -3,7 +3,7 @@ import { Rule } from '../Rule';
 import { RuleOf } from '../RuleIndex';
 import { Subject, SubjectType } from '../types';
 
-export type GetRuleFields<R extends Rule<any, any>> = (rule: R) => string[];
+export type GetRuleFields<R extends Rule<any, any, any>> = (rule: R) => string[];
 
 export interface PermittedFieldsOptions<T extends AnyAbility> {
   fieldsFrom: GetRuleFields<RuleOf<T>>
