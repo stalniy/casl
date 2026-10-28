@@ -23,6 +23,8 @@ declare module '*.pages' {
 interface ImportMetaEnv {
   readonly SUPPORTED_LANGS: string[];
   readonly BASE_URL_PATH: string;
+  readonly DOCS_BUILD_ID: string;
+  readonly PWA_DEV_ENABLED: boolean;
   readonly REPO_URL?: string;
   readonly CASL_VERSION?: string;
   readonly COMMIT_HASH?: string;

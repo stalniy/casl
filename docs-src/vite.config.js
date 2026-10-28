@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import { resolve, dirname } from 'path';
+import { copyFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -16,6 +17,9 @@ export default defineConfig(async ({ mode }) => {
   env.LIT_APP_CASL_MIN_GZIP_SIZE = String(await calculateAbilitySize());
   const SUPPORTED_LANGS = (env.LIT_APP_SUPPORTED_LANGS || 'en').split(',');
   const PUBLIC_PATH = (env.LIT_APP_PUBLIC_PATH || '').replace(/\/$/, '');
+
+  const PWA_DEV_ENABLED = env.LIT_APP_PWA_DEV === 'true';
+  const BUILD_ID = env.LIT_APP_COMMIT_HASH || Date.now().toString(36);
 
   const appEnvVars = Object.keys(env).reduce((acc, key) => {
     if (key.startsWith('LIT_APP_')) {
@@ -43,6 +47,8 @@ export default defineConfig(async ({ mode }) => {
       ...appEnvVars,
       'import.meta.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
       'import.meta.env.BASE_URL_PATH': JSON.stringify(PUBLIC_PATH),
+      'import.meta.env.DOCS_BUILD_ID': JSON.stringify(BUILD_ID),
+      'import.meta.env.PWA_DEV_ENABLED': JSON.stringify(PWA_DEV_ENABLED),
     },
 
     resolve: {
@@ -128,46 +134,43 @@ export default defineConfig(async ({ mode }) => {
             ]
           }
         },
-      ...(mode === 'production' ? [
+      ...(mode === 'production' || PWA_DEV_ENABLED ? [
+        {
+          name: 'sw-app-shell',
+          transformIndexHtml() {
+            return [{ tag: 'meta', attrs: { name: 'casl-build', content: BUILD_ID }, injectTo: 'head' }];
+          },
+          // index.html must not be precached: precache routes are matched before
+          // runtime routes and would serve a stale document. Prerendering rewrites
+          // dist/index.html later, so the offline fallback is a pristine copy.
+          writeBundle(options) {
+            copyFileSync(resolve(options.dir, 'index.html'), resolve(options.dir, 'app-shell.html'));
+          },
+        },
 
         VitePWA({
+          strategies: 'injectManifest',
+          srcDir: 'src',
+          filename: 'sw.js',
           registerType: 'prompt',
           injectRegister: null,
           manifest: false,
-          workbox: {
-            cleanupOutdatedCaches: true,
+          devOptions: {
+            enabled: PWA_DEV_ENABLED,
+            type: 'module',
+            navigateFallback: `${PUBLIC_PATH}/app-shell.html`,
+          },
+          injectManifest: {
             maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             globPatterns: [
               'assets/*.json',
               'app-icons/*',
               'fonts/*',
               'manifest.json',
-              'index.html',
+              'app-shell.html',
               '**/*.js',
               '**/*.png',
               '**/*.svg',
-            ],
-            runtimeCaching: [
-              {
-                urlPattern: ({ request }) => request.mode === 'navigate',
-                handler: 'NetworkFirst',
-                options: {
-                  cacheName: 'documentation-pages',
-                  precacheFallback: {
-                    fallbackURL: `${PUBLIC_PATH}/index.html`,
-                  },
-                },
-              },
-              {
-                urlPattern: new RegExp(`${PUBLIC_PATH.replace(/\//g, '\\/')}/images/`),
-                handler: 'StaleWhileRevalidate',
-                options: {
-                  cacheName: 'images',
-                  expiration: {
-                    maxEntries: 100,
-                  },
-                },
-              },
             ],
           },
         }),
@@ -176,7 +179,8 @@ export default defineConfig(async ({ mode }) => {
 
     server: {
       port: 8080,
-      open: true,
+      open: !PWA_DEV_ENABLED,
+      hmr: PWA_DEV_ENABLED ? false : undefined,
     },
   };
 });

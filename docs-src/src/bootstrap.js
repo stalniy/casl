@@ -11,11 +11,9 @@ app.addEventListener('route-ready', ({ detail }) => {
   fallback.setAttribute('inert', '');
 });
 register({
-  onUpdate(worker) {
+  onUpdate(update) {
     app.notify('updateAvailable', {
-      onClick() {
-        worker.postMessage({ type: 'SKIP_WAITING' });
-      }
+      onClick: update
     });
   }
 });

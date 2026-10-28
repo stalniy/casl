@@ -50,6 +50,9 @@ jobs:
     - name: Install deps
       working-directory: docs-src
       run: npm install
+    - name: Test
+      working-directory: docs-src
+      run: npm run test
     - name: Build documentation
       working-directory: docs-src
       env:
