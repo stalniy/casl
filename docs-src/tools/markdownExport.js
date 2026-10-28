@@ -4,11 +4,8 @@ import { createHash } from 'node:crypto';
 import * as xyamlParser from 'xyaml-webpack-loader/parser';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
-const pagesRoot = path.join(import.meta.dirname, '../src/content/pages');
 const includePattern = /@include:(\s+[\w._/-]+)/g;
-const markdown = xyamlParser.getOrCreateMdParser({
-  use: { 'markdown-it-headinganchor': false, 'markdown-it-attrs': false },
-});
+const markdown = xyamlParser.getOrCreateMdParser();
 const tableRule = markdown.block.ruler.getRules('').find(rule => rule.name === 'table');
 markdown.block.ruler.at('table', function captureTableCellSources(state, startLine, endLine, silent) {
   const tokenStart = state.tokens.length;
