@@ -1,4 +1,4 @@
-import type { AnyMongoAbility, Generics, SubjectType, Abilities, AbilityTuple, ExtractSubjectType } from '@casl/ability';
+import type { AnyMongoAbility, Generics, SubjectType, Abilities, AbilityTuple, ExtractSubjectType, SubjectResolver } from '@casl/ability';
 import { rulesToCondition } from '@casl/ability/extra';
 
 function convertToMongoQuery(rule: AnyMongoAbility['rules'][number]) {
@@ -29,8 +29,8 @@ export class AccessibleRecords<T extends SubjectType> {
   }
 }
 
-type SubjectTypes<T extends Abilities> = T extends AbilityTuple
-  ? ExtractSubjectType<T[1]>
+type SubjectTypes<T extends Abilities, R extends SubjectResolver> = T extends AbilityTuple
+  ? ExtractSubjectType<T[1], R>
   : never;
 
 /**
@@ -39,6 +39,6 @@ type SubjectTypes<T extends Abilities> = T extends AbilityTuple
 export function accessibleBy<T extends AnyMongoAbility>(
   ability: T,
   action: Parameters<T['rulesFor']>[0] = 'read'
-): AccessibleRecords<SubjectTypes<Generics<T>['abilities']>> {
+): AccessibleRecords<SubjectTypes<Generics<T>['abilities'], Generics<T>['subjectResolver']>> {
   return new AccessibleRecords(ability, action);
 }

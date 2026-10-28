@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import type { Abilities, Ability } from '@casl/ability';
+import type { Abilities, Ability, DefaultSubject, SubjectResolver } from '@casl/ability';
 
 import type { PrismaModel, PrismaQueryFactory, PrismaTypes } from './runtime';
 
@@ -9,5 +9,8 @@ export type WhereInput<TModelName extends Prisma.ModelName> =
   PrismaTypes<Prisma.TypeMap>['WhereInput'][TModelName];
 export type PrismaQuery<T extends PrismaModel = PrismaModel> =
   PrismaQueryFactory<Prisma.TypeMap, T>;
-export type PrismaAbility<T extends Abilities, TConditions extends PrismaQuery = PrismaQuery> =
-  Ability<T, TConditions>;
+export type PrismaAbility<
+  T extends Abilities,
+  TConditions extends PrismaQuery = PrismaQuery,
+  R extends SubjectResolver = DefaultSubject
+> = Ability<T, TConditions, R>;

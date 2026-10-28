@@ -1,9 +1,55 @@
 import React from 'react'
-import { defineAbility, MongoAbility } from '@casl/ability'
+import { ClassSubject, defineAbility, MongoAbility, MongoQuery, TaggedSubject } from '@casl/ability'
 import { AbilityProvider, Can, CanProps } from '../src'
 import { act, render, screen } from '@testing-library/react'
 
 describe('`Can` component', () => {
+  it('resolves custom subject names and preserves per-subject actions', () => {
+    type Post = { resource: 'Post', title: string }
+    type User = { resource: 'User', name: string }
+    type AppAbility = MongoAbility<['read' | 'update', Post] | ['read', User], MongoQuery, TaggedSubject<'resource'>>
+    const customAbility = defineAbility<AppAbility>(can => {
+      can('read', 'Post', { title: 'public' })
+    }, { detectSubjectType: object => object.resource })
+    const props: CanProps<AppAbility>[] = [
+      { I: 'read', a: 'Post', children: <span>name</span> },
+      { I: 'read', an: 'Post', children: <span>alias</span> },
+      { do: 'read', on: 'Post', children: <span>on name</span> },
+      { I: 'read', this: { resource: 'Post', title: 'public' }, children: <span>instance</span> },
+      { do: 'read', on: { resource: 'Post', title: 'private' }, children: <span>hidden</span> }
+    ]
+    render(<AbilityProvider value={customAbility}>
+      {props.map((value, index) => <Can<AppAbility> key={index} {...value} />)}
+    </AbilityProvider>)
+
+    expect(screen.queryByText('name')).toBeTruthy()
+    expect(screen.queryByText('alias')).toBeTruthy()
+    expect(screen.queryByText('on name')).toBeTruthy()
+    expect(screen.queryByText('instance')).toBeTruthy()
+    expect(screen.queryByText('hidden')).toBeFalsy()
+    // @ts-expect-error User only supports read
+    const invalidAction: CanProps<AppAbility> = { I: 'update', a: 'User', children: null }
+    // @ts-expect-error unknown subject name
+    const invalidSubject: CanProps<AppAbility> = { I: 'read', a: 'Comment', children: null }
+    expect(invalidAction).toBeDefined()
+    expect(invalidSubject).toBeDefined()
+  })
+
+  it('derives class instance props from ClassSubject', () => {
+    class Post {
+      constructor(readonly title: string) {}
+    }
+    type AppAbility = MongoAbility<['read', typeof Post], MongoQuery, ClassSubject>
+    const customAbility = defineAbility<AppAbility>(can => can('read', Post, { title: 'public' }))
+    render(<AbilityProvider value={customAbility}>
+      <Can<AppAbility> I="read" this={new Post('public')}>instance</Can>
+      <Can<AppAbility> do="read" on={new Post('private')}>hidden</Can>
+    </AbilityProvider>)
+
+    expect(screen.queryByText('instance')).toBeTruthy()
+    expect(screen.queryByText('hidden')).toBeFalsy()
+  })
+
   let ability: MongoAbility
 
   beforeEach(() => {

@@ -1,8 +1,52 @@
 import { createApp, h, nextTick, VNode } from 'vue'
-import { defineAbility, MongoAbility, subject } from '@casl/ability'
-import { abilitiesPlugin, Can } from '../src'
+import { AnyAbility, ClassSubject, defineAbility, MongoAbility, MongoQuery, subject, TaggedSubject } from '@casl/ability'
+import { abilitiesPlugin, Can, CanProps } from '../src'
 
 describe('`Can` component', () => {
+  it('resolves custom subject names and preserves per-subject actions', () => {
+    type Post = { resource: 'Post', title: string }
+    type User = { resource: 'User', name: string }
+    type AppAbility = MongoAbility<['read' | 'update', Post] | ['read', User], MongoQuery, TaggedSubject<'resource'>>
+    const ability = defineAbility<AppAbility>(can => {
+      can('read', 'Post', { title: 'public' })
+    }, { detectSubjectType: object => object.resource })
+    const props: CanProps<AppAbility>[] = [
+      { I: 'read', a: 'Post' },
+      { I: 'read', an: 'Post' },
+      { do: 'read', on: 'Post' },
+      { I: 'read', this: { resource: 'Post', title: 'public' } },
+      { do: 'read', on: { resource: 'Post', title: 'private' } }
+    ]
+    const { root } = render(() => h('div', props.map(value => h(Can, value, {
+      default: () => h('span', 'allowed')
+    }))), ability)
+
+    expect(root.querySelectorAll('span')).toHaveLength(4)
+    // @ts-expect-error User only supports read
+    const invalidAction: CanProps<AppAbility> = { I: 'update', a: 'User' }
+    // @ts-expect-error unknown subject name
+    const invalidSubject: CanProps<AppAbility> = { I: 'read', a: 'Comment' }
+    expect(invalidAction).toBeDefined()
+    expect(invalidSubject).toBeDefined()
+  })
+
+  it('derives class instance props from ClassSubject', () => {
+    class Post {
+      constructor(readonly title: string) {}
+    }
+    type AppAbility = MongoAbility<['read', typeof Post], MongoQuery, ClassSubject>
+    const ability = defineAbility<AppAbility>(can => can('read', Post, { title: 'public' }))
+    const props: CanProps<AppAbility>[] = [
+      { I: 'read', this: new Post('public') },
+      { do: 'read', on: new Post('private') }
+    ]
+    const { root } = render(() => h('div', props.map(value => h(Can, value, {
+      default: () => h('span', 'allowed')
+    }))), ability)
+
+    expect(root.querySelectorAll('span')).toHaveLength(1)
+  })
+
   it('renders all children if `Ability` instance allows to do an action', () => {
     const { root } = render(`
       <Can I="read" a="Plugin">
@@ -139,7 +183,7 @@ describe('`Can` component', () => {
     })
   })
 
-  function render(template: string | (() => VNode), appAbility: MongoAbility | null = null) {
+  function render(template: string | (() => VNode), appAbility: AnyAbility | null = null) {
     const App = typeof template === 'function'
       ? {
           name: 'App',

@@ -1,4 +1,4 @@
-import { MongoAbility, createMongoAbility, defineAbility } from "@casl/ability"
+import { ClassSubject, MongoAbility, MongoQuery, TaggedSubject, createMongoAbility, defineAbility } from "@casl/ability"
 import { accessibleFieldsBy } from "../src"
 import mongoose from "mongoose"
 
@@ -15,6 +15,35 @@ describe('accessibleFieldsBy', () => {
     title: String,
     state: String,
   }))
+
+  it('resolves custom subject names and instances for field queries', () => {
+    type TaggedPost = { resource: 'Post', title: string }
+    type CustomAbility = MongoAbility<['read', TaggedPost], MongoQuery, TaggedSubject<'resource'>>
+    const ability = defineAbility<CustomAbility>(can => {
+      can('read', 'Post', 'title', { title: 'public' })
+    }, { detectSubjectType: object => object.resource })
+    const fields = accessibleFieldsBy(ability)
+
+    expect(fields.ofType('Post')).toEqual(['title'])
+    expect(fields.of({ resource: 'Post', title: 'public' })).toEqual(['title'])
+    expect(fields.of({ resource: 'Post', title: 'private' })).toEqual([])
+    // @ts-expect-error instances must carry the configured discriminator
+    fields.of({ title: 'public' })
+    // @ts-expect-error subject names must use ofType
+    fields.of('Post')
+  })
+
+  it('derives model instances when using ClassSubject', () => {
+    type CustomAbility = MongoAbility<['read', typeof Post], MongoQuery, ClassSubject>
+    const ability = defineAbility<CustomAbility>(can => {
+      can('read', Post, 'title', { state: 'public' })
+    })
+    const fields = accessibleFieldsBy(ability)
+
+    expect(fields.ofType(Post)).toEqual(['title'])
+    expect(fields.of(new Post({ state: 'public' }))).toEqual(['title'])
+    expect(fields.of(new Post({ state: 'draft' }))).toEqual([])
+  })
 
   describe('when subject type is a mongoose model', () => {
     testWithSubjectType(Post, Post)

@@ -1,4 +1,4 @@
-import type { AnyMongoAbility, Generics } from "@casl/ability";
+import type { AnyMongoAbility, Generics, ResolveSubjects } from "@casl/ability";
 import { AccessibleFields, type GetSubjectTypeAllFieldsExtractor } from "@casl/ability/extra";
 import mongoose from 'mongoose';
 
@@ -11,6 +11,6 @@ const getSubjectTypeAllFieldsExtractor: GetSubjectTypeAllFieldsExtractor = (type
 export function accessibleFieldsBy<T extends AnyMongoAbility>(
   ability: T,
   action: Parameters<T['rulesFor']>[0] = 'read'
-): AccessibleFields<Extract<Generics<T>['abilities'], unknown[]>[1]> {
+): AccessibleFields<ResolveSubjects<Extract<Generics<T>['abilities'], unknown[]>[1], Generics<T>['subjectResolver']>> {
   return new AccessibleFields(ability, action, getSubjectTypeAllFieldsExtractor);
 }

@@ -6,17 +6,20 @@ import {
   Generics,
   Abilities,
   IfString,
+  ResolveSubjects,
+  SubjectResolver,
 } from '@casl/ability';
 import { useAbility } from './hooks/useAbility';
 
 type AbilityCanProps<
   T extends Abilities,
+  R extends SubjectResolver,
   Else = IfString<T, { do: T } | { I: T }>
 > = T extends AbilityTuple
-  ? { do: T[0], on: T[1], field?: string } |
-  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
+  ? { do: T[0], on: ResolveSubjects<T[1], R>, field?: string } |
+  { I: T[0], a: Extract<ResolveSubjects<T[1], R>, SubjectType>, field?: string } |
+  { I: T[0], an: Extract<ResolveSubjects<T[1], R>, SubjectType>, field?: string } |
+  { I: T[0], this: Exclude<ResolveSubjects<T[1], R>, SubjectType>, field?: string }
   : Else;
 
 interface ExtraProps {
@@ -33,7 +36,7 @@ interface CanExtraProps<T extends AnyAbility> extends ExtraProps {
 }
 
 export type CanProps<T extends AnyAbility> =
-  AbilityCanProps<Generics<T>['abilities']> & CanExtraProps<T>;
+  AbilityCanProps<Generics<T>['abilities'], Generics<T>['subjectResolver']> & CanExtraProps<T>;
 
 function CanComponent<T extends AnyAbility>(props: CanProps<T>) {
   const ability = useAbility();
