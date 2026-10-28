@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-react/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -351,16 +352,16 @@ pnpm add @casl/react @casl/ability
 </code></pre>
 <h2 id="quick-start"><a name="quick-start" class="h-link" href="#"></a>Quick Start</h2>
 <pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { AbilityProvider, Can, useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityProvider</span>, <span class="hljs-title class_">Can</span>, useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility([
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">createMongoAbility</span>([
   { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span> },
   { <span class="hljs-attr">action</span>: <span class="hljs-string">'create'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span> },
 ]);
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{ability}</span>&gt;</span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{ability}</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>List of posts<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span>
@@ -369,10 +370,10 @@ pnpm add @casl/react @casl/ability
   );
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CreatePostButton</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> ability = useAbility();
-  <span class="hljs-keyword">return</span> ability.can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">CreatePostButton</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">useAbility</span>();
+  <span class="hljs-keyword">return</span> ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
   );
 }
 </code></pre>
@@ -389,22 +390,22 @@ pnpm add @casl/react @casl/ability
 </li>
 <li>
 <p><code>field</code> - checked field</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> ({ post }) =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> ({ post }) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>
   Yes, you can do this! ;)
 <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 </li>
 <li>
 <p><code>not</code> - inverts ability check and show UI if user cannot do some action:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">not</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">not</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
   You are not allowed to create a post
 <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 </li>
 <li>
 <p><code>passThrough</code> - renders children in spite of what <code>ability.can</code> returns. This is useful for creating custom components based on <code>Can</code>. For example, if you need to disable button based on user permissions:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; (
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span> <span class="hljs-attr">passThrough</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; (
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span> <span class="hljs-attr">passThrough</span>&gt;</span>
     {({ isAllowed, reason }) =&gt; (
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">{!isAllowed}</span> <span class="hljs-attr">title</span>=<span class="hljs-string">{reason}</span>&gt;</span>Save<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
     )}
@@ -414,14 +415,14 @@ pnpm add @casl/react @casl/ability
 </li>
 <li>
 <p><code>children</code> - elements to hide or render. May be either a render function that receives <code>{ isAllowed, ability, reason }</code>:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
   {({ isAllowed, reason }) =&gt; (
     <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">{!isAllowed}</span> <span class="hljs-attr">title</span>=<span class="hljs-string">{reason}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
   )}
 <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 <p>or React elements:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.createPost}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
@@ -433,12 +434,12 @@ pnpm add @casl/react @casl/ability
 <p>For simple visibility guards, <code>&lt;Can&gt;</code> keeps JSX readable. For more complex conditions, composing several checks, or passing authorization state deeper into your component tree, prefer <code>useAbility</code>.</p>
 <h3 id="provide-ability-instance"><a name="provide-ability-instance" class="h-link" href="#"></a>Provide Ability instance</h3>
 <p>Wrap the part of your app that needs authorization checks with <code>AbilityProvider</code>:</p>
-<pre><code data-filename="App.jsx" class="language-jsx"><span class="hljs-keyword">import</span> { AbilityProvider } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityProvider</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 <span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">ability</span>=<span class="hljs-string">{ability}</span>&gt;</span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">AbilityProvider</span> <span class="hljs-attr">ability</span>=<span class="hljs-string">{ability}</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">TodoApp</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">AbilityProvider</span>&gt;</span></span>
   )
@@ -448,17 +449,17 @@ pnpm add @casl/react @casl/ability
 <p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define <code>Ability</code> instance.</p>
 </blockquote>
 <p>and use our <code>Can</code> component:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
-<span class="hljs-keyword">import</span> { Can } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span>, { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Can</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TodoApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Component</span> {
   createTodo = <span class="hljs-function">() =&gt;</span> {
     <span class="hljs-comment">// implement logic to show new todo form</span>
   };
 
-  <span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
     <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Todo"</span>&gt;</span>
+      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Todo"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.createTodo}</span>&gt;</span>Create Todo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
     )
@@ -469,12 +470,12 @@ pnpm add @casl/react @casl/ability
 <p>Sometimes the logic in a component is more complex than a simple visibility guard. In such cases, use <code>useAbility</code>. It reads the current ability from <code>AbilityProvider</code> and re-renders the component when ability rules change:</p>
 <pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
-  <span class="hljs-keyword">const</span> createTodo = <span class="hljs-function">() =&gt;</span> { <span class="hljs-comment">/* logic to show new todo form */</span> };
-  <span class="hljs-keyword">const</span> ability = useAbility();
+<span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; {
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">createTodo</span> = (<span class="hljs-params"></span>) =&gt; { <span class="hljs-comment">/* logic to show new todo form */</span> };
+  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">useAbility</span>();
 
   <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
       {ability.can('create', 'Todo') &amp;&amp;
         <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{createTodo}</span>&gt;</span>Create Todo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>}
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
@@ -483,7 +484,7 @@ pnpm add @casl/react @casl/ability
 </code></pre>
 <h3 id="property-names-and-aliases"><a name="property-names-and-aliases" class="h-link" href="#"></a>Property names and aliases</h3>
 <p>As you can see from the code above, component name and its property names and values create an English sentence, actually a question. For example, the code below reads as <code>Can I create a Post</code>:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"create"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{...}</span>&gt;</span>Create Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
@@ -491,22 +492,22 @@ pnpm add @casl/react @casl/ability
 <ul>
 <li>
 <p>use <code>a</code> (or <code>an</code>) alias when you check by Type</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"Post"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 </li>
 <li>
 <p>use <code>this</code> alias instead of <code>a</code> when you check action on a particular instance. So, the question can be read as "Can I read this <em>particular</em> post?"</p>
 <pre><code class="hljs language-jsx"><span class="hljs-comment">// `this.props.post` is an instance of `Post` class (i.e., model instance)</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+<span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">I</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">this</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 </li>
 <li>
 <p>use <code>do</code> and <code>on</code> if you are bored and don't want to make your code more readable ;)</p>
 <pre><code class="hljs language-jsx"><span class="hljs-comment">// `this.props.post` is an instance of `Post` class (i.e., model instance)</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+<span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 
 <span class="hljs-comment">// or per field check</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
+<span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Can</span> <span class="hljs-attr">do</span>=<span class="hljs-string">"read"</span> <span class="hljs-attr">on</span>=<span class="hljs-string">{this.props.post}</span> <span class="hljs-attr">field</span>=<span class="hljs-string">"title"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">Can</span>&gt;</span></span>
 </code></pre>
 </li>
 </ul>
@@ -515,38 +516,38 @@ pnpm add @casl/react @casl/ability
 <h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
 <p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules. Usually you will do this in your <code>LoginComponent</code>.</p>
 <p>Let's imagine that server returns user with a role on login:</p>
-<pre><code data-filename="Login.tsx" class="language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span>, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateAbility</span>(<span class="hljs-params">ability, user</span>) </span>{
-  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(Ability);
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">updateAbility</span>(<span class="hljs-params">ability, user</span>) {
+  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(<span class="hljs-title class_">Ability</span>);
 
-  <span class="hljs-keyword">if</span> (user.role === <span class="hljs-string">'admin'</span>) {
-    can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  <span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'admin'</span>) {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
   } <span class="hljs-keyword">else</span> {
-    can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
   }
 
-  ability.update(rules);
+  ability.<span class="hljs-title function_">update</span>(rules);
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
-  <span class="hljs-keyword">const</span> [username, setUsername] = useState(<span class="hljs-string">''</span>);
-  <span class="hljs-keyword">const</span> [password, setPassword] = useState(<span class="hljs-string">''</span>);
-  <span class="hljs-keyword">const</span> ability = useAbility();
-  <span class="hljs-keyword">const</span> login = <span class="hljs-function">() =&gt;</span> {
+<span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> () =&gt; {
+  <span class="hljs-keyword">const</span> [username, setUsername] = <span class="hljs-title function_">useState</span>(<span class="hljs-string">''</span>);
+  <span class="hljs-keyword">const</span> [password, setPassword] = <span class="hljs-title function_">useState</span>(<span class="hljs-string">''</span>);
+  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">useAbility</span>();
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">login</span> = (<span class="hljs-params"></span>) =&gt; {
     <span class="hljs-keyword">const</span> params = {
       <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>,
-      <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify({ username, password })
+      <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ username, password })
     };
-    <span class="hljs-keyword">return</span> fetch(<span class="hljs-string">'path/to/api/login'</span>, params)
-      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.json())
-      .then(<span class="hljs-function">(<span class="hljs-params">{ user }</span>) =&gt;</span> updateAbility(ability, user));
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'path/to/api/login'</span>, params)
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.<span class="hljs-title function_">json</span>())
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ user }</span>) =&gt;</span> <span class="hljs-title function_">updateAbility</span>(ability, user));
   };
 
   <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
       {/* input fields */}
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{login}</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span>
@@ -558,7 +559,7 @@ pnpm add @casl/react @casl/ability
 </blockquote>
 <h2 id="use-ability-usage-within-hooks"><a name="use-ability-usage-within-hooks" class="h-link" href="#"></a><code>useAbility</code> usage within hooks</h2>
 <p>Using the return value <code>ability</code> of <code>const ability = useAbility()</code> within hook dependencies won't trigger a rerender when the rules are updated. You have to specify <code>ability.rules</code>:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> posts = React.useMemo(<span class="hljs-function">() =&gt;</span> getPosts(ability), [ability.rules]);
+<pre><code class="hljs language-jsx"><span class="hljs-keyword">const</span> posts = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">useMemo</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">getPosts</span>(ability), [ability.<span class="hljs-property">rules</span>]);
 <span class="hljs-comment">// ✅ calling ability.update will update the list of posts</span>
 </code></pre>
 <h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>

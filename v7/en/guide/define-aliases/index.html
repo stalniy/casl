@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/define-aliases/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -333,50 +334,50 @@
 <p>To define an alias, we need to use <code>createAliasResolver</code> function. It accepts a single argument - aliases to actions map. For example, here we define modify alias as a combination of update and delete actions:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+<span class="hljs-keyword">const</span> resolveAction = <span class="hljs-title function_">createAliasResolver</span>({
   <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>]
 });
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>);
 }, { resolveAction });
 
-ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <p>When you check abilities by alias, it means that user has all required actions (or doesn't have at least one), so:</p>
-<pre><code class="hljs language-js">ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>) === ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>);
+<pre><code class="hljs language-js">ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>) === ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>) &amp;&amp; ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>);
 </code></pre>
 <p><strong>Be aware</strong> that aliases work only in one direction! It means that <code>modify</code> is an alias for <code>update</code> and <code>delete</code> but <code>update</code> and <code>delete</code> do not automatically form <code>modify</code> alias. To understand what this means, let's consider the same example but with different rules:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+<span class="hljs-keyword">const</span> resolveAction = <span class="hljs-title function_">createAliasResolver</span>({
   <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>]
 });
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can([<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>], <span class="hljs-string">'Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>([<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>], <span class="hljs-string">'Post'</span>);
 }, { resolveAction });
 
-ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// false &lt;---</span>
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// false &lt;---</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <p>We got <code>false</code> for <code>modify</code> action, even though we can <code>delete</code> and <code>update</code> a Post! Aliases are resolved once on <code>Ability</code> instantiation level or when you call <code>ability.update</code>. It was done this way in order to make <code>ability.can</code> faster.</p>
 <p>You can also define aliases on aliases, they are resolved recursively:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, createAliasResolver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">const</span> resolveAction = createAliasResolver({
+<span class="hljs-keyword">const</span> resolveAction = <span class="hljs-title function_">createAliasResolver</span>({
   <span class="hljs-attr">modify</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>],
   <span class="hljs-attr">access</span>: [<span class="hljs-string">'read'</span>, <span class="hljs-string">'modify'</span>]
 });
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>);
 }, { resolveAction });
 
-ability.can(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'access'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'modify'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <h2 id="invalid-usage"><a name="invalid-usage" class="h-link" href="#"></a>Invalid usage</h2>
 <p>In any environment that is not production (determined by <code>process.env.NODE_ENV</code>), <code>createAliasResolver</code> analyses passed in object and forbids to:</p>

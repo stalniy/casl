@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/claim-authorization/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -332,11 +333,11 @@
         <div class="description md"><h2 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h2>
 <p>You need to implement simple authorization (i.e., permission management) logic based on claims (or actions). In other words, you have action (or a claim) but don't have the concept of "subject" on which this action can be applied (or it's not important in your app). This concept is very similar to <a href="https://en.wikipedia.org/wiki/Claims-based_identity" target="_blank" rel="noopener nofollow">claim based identity</a>.</p>
 <p>The easiest way to achieve this is to create an array of all possible actions (or claims) and check if a claim exists on the user object:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> ACTIONS = [<span class="hljs-string">'review'</span>, <span class="hljs-string">'publish'</span>, <span class="hljs-string">'read'</span>];
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">ACTIONS</span> = [<span class="hljs-string">'review'</span>, <span class="hljs-string">'publish'</span>, <span class="hljs-string">'read'</span>];
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">publishArticle</span>(<span class="hljs-params">article, user</span>) </span>{
-  <span class="hljs-keyword">if</span> (!user.permissions.includes(<span class="hljs-string">'publish'</span>)) {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'You cannot publish articles'</span>);
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">publishArticle</span>(<span class="hljs-params">article, user</span>) {
+  <span class="hljs-keyword">if</span> (!user.<span class="hljs-property">permissions</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">'publish'</span>)) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'You cannot publish articles'</span>);
   }
 
   <span class="hljs-comment">// logic to publish article</span>
@@ -354,21 +355,21 @@ The world constantly changes, the same way your business requirements changes. I
 <p>All that consumes time and resources, as a result postpones the delivery of your product.</p>
 <h2 id="the-solution"><a name="the-solution" class="h-link" href="#"></a>The solution</h2>
 <p>Fortunately, CASL supports claim based authorization. The example above can be represented in CASL:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> AppAbility = Ability&lt;Actions&gt;;
-<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'review'</span> | <span class="hljs-string">'publish'</span> | <span class="hljs-string">'read'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-title class_">Actions</span>&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Actions</span> = <span class="hljs-string">'review'</span> | <span class="hljs-string">'publish'</span> | <span class="hljs-string">'read'</span>;
 
-<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(Ability);
-can(<span class="hljs-string">'review'</span>);
-can(<span class="hljs-string">'publish'</span>);
-can(<span class="hljs-string">'read'</span>);
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(<span class="hljs-title class_">Ability</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'review'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'publish'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>);
 
-<span class="hljs-keyword">const</span> ability = build();
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">build</span>();
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">publishArticle</span>(<span class="hljs-params">article: <span class="hljs-built_in">object</span>, ability: AppAbility</span>) </span>{
-  <span class="hljs-keyword">if</span> (ability.cannot(<span class="hljs-string">'publish'</span>)) {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'You cannot publish articles'</span>);
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">publishArticle</span>(<span class="hljs-params"><span class="hljs-attr">article</span>: <span class="hljs-built_in">object</span>, <span class="hljs-attr">ability</span>: <span class="hljs-title class_">AppAbility</span></span>) {
+  <span class="hljs-keyword">if</span> (ability.<span class="hljs-title function_">cannot</span>(<span class="hljs-string">'publish'</span>)) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'You cannot publish articles'</span>);
   }
 
   <span class="hljs-comment">// logic to publish article</span>

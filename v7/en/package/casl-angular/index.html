@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-angular/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -343,21 +344,21 @@ pnpm add @casl/angular @casl/ability
 </code></pre>
 <h2 id="configure-app-module"><a name="configure-app-module" class="h-link" href="#"></a>Configure AppModule</h2>
 <p>To add pipes into your application's templates, you need to import the one you need</p>
-<pre><code data-filename="app.module.ts" class="language-ts"><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
-<span class="hljs-keyword">import</span> { AblePipe } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
-<span class="hljs-keyword">import</span> { createMongoAbility, Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">NgModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AblePipe</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
+<span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-meta">@NgModule</span>({
   <span class="hljs-attr">imports</span>: [
     <span class="hljs-comment">// other modules</span>
-    AblePipe
+    <span class="hljs-title class_">AblePipe</span>
   ],
   <span class="hljs-attr">providers</span>: [
-    { <span class="hljs-attr">provide</span>: Ability, <span class="hljs-attr">useValue</span>: createMongoAbility() }
+    { <span class="hljs-attr">provide</span>: <span class="hljs-title class_">Ability</span>, <span class="hljs-attr">useValue</span>: <span class="hljs-title function_">createMongoAbility</span>() }
   ]
   <span class="hljs-comment">// other properties</span>
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>{}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> {}
 </code></pre>
 <blockquote>
 <p>Read <a href="https://casl.js.org/v7/en/advanced/typescript" target="_blank" rel="noopener nofollow">CASL and TypeScript</a> to get more details about <code>MongoAbility</code> type configuration.</p>
@@ -365,40 +366,40 @@ pnpm add @casl/angular @casl/ability
 <h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
 <p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules.</p>
 <p>Let's imagine that server returns user with a role on login:</p>
-<pre><code data-filename="Session.ts" class="language-ts"><span class="hljs-keyword">import</span> { Ability, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { Injectable } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Injectable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
 
 <span class="hljs-meta">@Injectable</span>({ <span class="hljs-attr">provideIn</span>: <span class="hljs-string">'root'</span> })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Session</span> </span>{
-  #token: <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Session</span> {
+  #<span class="hljs-attr">token</span>: <span class="hljs-built_in">string</span>
 
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-meta">@Inject</span>(Ability) <span class="hljs-keyword">private</span> ability: MongoAbility</span>)</span> {}
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-meta">@Inject</span>(Ability) <span class="hljs-keyword">private</span> <span class="hljs-attr">ability</span>: <span class="hljs-title class_">MongoAbility</span></span>) {}
 
-  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params">details</span>)</span> {
-    <span class="hljs-keyword">const</span> params = { <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify(details) };
-    <span class="hljs-keyword">return</span> fetch(<span class="hljs-string">'path/to/api/login'</span>, params)
-      .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.json())
-      .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
-        <span class="hljs-built_in">this</span>.updateAbility(session.user);
-        <span class="hljs-built_in">this</span>.#token = session.token;
+  <span class="hljs-title function_">login</span>(<span class="hljs-params">details</span>) {
+    <span class="hljs-keyword">const</span> params = { <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(details) };
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'path/to/api/login'</span>, params)
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.<span class="hljs-title function_">json</span>())
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateAbility</span>(session.<span class="hljs-property">user</span>);
+        <span class="hljs-variable language_">this</span>.#token = session.<span class="hljs-property">token</span>;
       });
   }
 
-  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-title">updateAbility</span>(<span class="hljs-params">user</span>)</span> {
-    <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+  <span class="hljs-keyword">private</span> <span class="hljs-title function_">updateAbility</span>(<span class="hljs-params">user</span>) {
+    <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-    <span class="hljs-keyword">if</span> (user.role === <span class="hljs-string">'admin'</span>) {
-      can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+    <span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'admin'</span>) {
+      <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
     } <span class="hljs-keyword">else</span> {
-      can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+      <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
     }
 
-    <span class="hljs-built_in">this</span>.ability.update(rules);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">ability</span>.<span class="hljs-title function_">update</span>(rules);
   }
 
-  <span class="hljs-function"><span class="hljs-title">logout</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-built_in">this</span>.#token = <span class="hljs-literal">null</span>;
-    <span class="hljs-built_in">this</span>.ability.update([]);
+  <span class="hljs-title function_">logout</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.#token = <span class="hljs-literal">null</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">ability</span>.<span class="hljs-title function_">update</span>([]);
   }
 }
 </code></pre>
@@ -406,8 +407,8 @@ pnpm add @casl/angular @casl/ability
 <p>See <a href="https://casl.js.org/v7/en/guide/define-rules" target="_blank" rel="noopener nofollow">Define rules</a> to get more information of how to define <code>Ability</code>.</p>
 </blockquote>
 <p>Then use this <code>Session</code> service in <code>LoginComponent</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
-<span class="hljs-keyword">import</span> { Session } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/Session'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Session</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/Session'</span>;
 
 <span class="hljs-meta">@Component</span>({
   <span class="hljs-attr">selector</span>: <span class="hljs-string">'login-form'</span>,
@@ -419,15 +420,15 @@ pnpm add @casl/angular @casl/ability
     &lt;/form&gt;
   `</span>
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginForm</span> </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LoginForm</span> {
   <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>;
-  password: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>;
 
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> session: Session</span>)</span> {}
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> <span class="hljs-attr">session</span>: <span class="hljs-title class_">Session</span></span>) {}
 
-  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-keyword">const</span> { email, password } = <span class="hljs-built_in">this</span>;
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.session.login({ email, password });
+  <span class="hljs-title function_">login</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> { email, password } = <span class="hljs-variable language_">this</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">session</span>.<span class="hljs-title function_">login</span>({ email, password });
   }
 }
 </code></pre>
@@ -445,11 +446,11 @@ pnpm add @casl/angular @casl/ability
     }
   `</span>
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeComponent</span> </span>{
-  <span class="hljs-keyword">readonly</span> ability$: Observable&lt;AppAbility&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HomeComponent</span> {
+  <span class="hljs-keyword">readonly</span> <span class="hljs-attr">ability$</span>: <span class="hljs-title class_">Observable</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;;
 
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">abilityService: AbilityService&lt;AppAbility&gt;</span>)</span> {
-    <span class="hljs-built_in">this</span>.ability$ = abilityService.ability$;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"><span class="hljs-attr">abilityService</span>: <span class="hljs-title class_">AbilityService</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">ability$</span> = abilityService.<span class="hljs-property">ability$</span>;
   }
 }
 </code></pre>
@@ -458,8 +459,8 @@ pnpm add @casl/angular @casl/ability
 <p>But let's also see how we can do permission checks using pipes and what are performance implications of that:</p>
 <h2 id="signals-support"><a name="signals-support" class="h-link" href="#"></a>Signals support</h2>
 <p>The latest version of @casl/angular also supports new <code>signal</code>. To utilize it in your app, instead of <code>AbilityService</code> use <code>AbilityServiceSignal</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityServiceSignal } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityServiceSignal</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
 
 <span class="hljs-meta">@Component</span>({
   <span class="hljs-attr">selector</span>: <span class="hljs-string">'my-home'</span>,
@@ -470,9 +471,9 @@ pnpm add @casl/angular @casl/ability
       }
   `</span>
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeComponent</span> </span>{
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> abilityService = inject&lt;AbilityServiceSignal&lt;AppAbility&gt;&gt;(AbilityServiceSignal);
-  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> can = <span class="hljs-built_in">this</span>.abilityService.can;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HomeComponent</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> abilityService = inject&lt;<span class="hljs-title class_">AbilityServiceSignal</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;&gt;(<span class="hljs-title class_">AbilityServiceSignal</span>);
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> can = <span class="hljs-variable language_">this</span>.<span class="hljs-property">abilityService</span>.<span class="hljs-property">can</span>;
 }
 </code></pre>
 <h2 id="check-permissions-in-templates-using-pipe-deprecated"><a name="check-permissions-in-templates-using-pipe-deprecated" class="h-link" href="#"></a>Check permissions in templates using pipe (deprecated)</h2>
@@ -488,39 +489,39 @@ pnpm add @casl/angular @casl/ability
 <h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
 <p>This package is written in TypeScript, so it will warn you about wrong usage.</p>
 <p>It may be a bit tedious to use application specific abilities in Angular app because everywhere you inject <code>Ability</code> instance you will need to import its generic parameters:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
-<span class="hljs-keyword">import</span> { AppAbilities } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/AppAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbilities</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/AppAbility'</span>;
 
 <span class="hljs-meta">@Component</span>({
   <span class="hljs-attr">selector</span>: <span class="hljs-string">'todo-item'</span>
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoItem</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">
-    <span class="hljs-keyword">private</span> ability: Ability&lt;AppAbilities&gt;
-  </span>)</span> {}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TodoItem</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+    <span class="hljs-keyword">private</span> <span class="hljs-attr">ability</span>: <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-title class_">AppAbilities</span>&gt;
+  </span>) {}
 }
 </code></pre>
 <p>To make the life easier, you can use <code>AbilityClass&lt;TAbility&gt;</code> class to utilize Companion object pattern:</p>
-<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { Ability, AbilityClass } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span>, <span class="hljs-title class_">AbilityClass</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Subjects = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Actions</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Subjects</span> = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;[Actions, Subjects]&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> AppAbility = Ability <span class="hljs-keyword">as</span> AbilityClass&lt;AppAbility&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[<span class="hljs-title class_">Actions</span>, <span class="hljs-title class_">Subjects</span>]&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">AbilityClass</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;;
 </code></pre>
 <p>And use <code>AppAbility</code> everywhere in your app:</p>
-<pre><code data-filename="AppModule.ts" class="language-ts"><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/AppAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">NgModule</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/AppAbility'</span>;
 
 <span class="hljs-meta">@NgModule</span>({
   <span class="hljs-comment">// other configuration</span>
   <span class="hljs-attr">providers</span>: [
-    { <span class="hljs-attr">provide</span>: AppAbility, <span class="hljs-attr">useValue</span>: createMongoAbility() },
+    { <span class="hljs-attr">provide</span>: <span class="hljs-title class_">AppAbility</span>, <span class="hljs-attr">useValue</span>: <span class="hljs-title function_">createMongoAbility</span>() },
   ]
 })
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>{}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppModule</span> {}
 </code></pre>
 <h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>
 <p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>

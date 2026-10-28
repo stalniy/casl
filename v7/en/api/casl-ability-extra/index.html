@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/api/casl-ability-extra/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -248,14 +249,14 @@ This function processes values of conditions that are not objects. Makes sure to
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { rulesToFields } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">public</span>: <span class="hljs-literal">true</span> });
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">title</span>: { <span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^\[Draft\]/i</span> } });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">public</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">title</span>: { <span class="hljs-attr">$regex</span>: <span class="hljs-regexp">/^\[Draft\]/i</span> } });
 });
 
-<span class="hljs-keyword">const</span> defaultValues = rulesToFields(ability, <span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
-<span class="hljs-built_in">console</span>.log(defaultValues); <span class="hljs-comment">// { public: true, authorId: 1 }</span>
+<span class="hljs-keyword">const</span> defaultValues = <span class="hljs-title function_">rulesToFields</span>(ability, <span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(defaultValues); <span class="hljs-comment">// { public: true, authorId: 1 }</span>
 
 <span class="hljs-keyword">const</span> newArticle = {
   ...defaultValues,
@@ -287,23 +288,23 @@ This function is especially useful for backend API because it allows to filter o
 <span class="hljs-keyword">import</span> { permittedFieldsOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
 <span class="hljs-keyword">import</span> { pick, isEmpty } <span class="hljs-keyword">from</span> <span class="hljs-string">'lodash'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
-  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>]);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>]);
 });
 
-app.patch(<span class="hljs-string">'/api/articles/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
-  <span class="hljs-keyword">const</span> updatableFields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, {
-    <span class="hljs-attr">fieldsFrom</span>: <span class="hljs-function"><span class="hljs-params">rule</span> =&gt;</span> rule.fields || [<span class="hljs-comment">/* list of all fields for Article */</span>]
+app.<span class="hljs-title function_">patch</span>(<span class="hljs-string">'/api/articles/:id'</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> updatableFields = <span class="hljs-title function_">permittedFieldsOf</span>(ability, <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, {
+    <span class="hljs-attr">fieldsFrom</span>: <span class="hljs-function"><span class="hljs-params">rule</span> =&gt;</span> rule.<span class="hljs-property">fields</span> || [<span class="hljs-comment">/* list of all fields for Article */</span>]
   });
-  <span class="hljs-keyword">const</span> changes = pick(req.body, updatableFields);
+  <span class="hljs-keyword">const</span> changes = <span class="hljs-title function_">pick</span>(req.<span class="hljs-property">body</span>, updatableFields);
 
-  <span class="hljs-keyword">if</span> (isEmpty(changes)) {
-    res.status(<span class="hljs-number">400</span>).send({ <span class="hljs-attr">message</span>: <span class="hljs-string">'Nothing to update'</span> });
+  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isEmpty</span>(changes)) {
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>({ <span class="hljs-attr">message</span>: <span class="hljs-string">'Nothing to update'</span> });
     <span class="hljs-keyword">return</span>;
   }
 
-  <span class="hljs-keyword">await</span> updateArticleById(id, changes);
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">updateArticleById</span>(id, changes);
 });
 </code></pre>
 <p>So, now even if user try to send fields that he is not allowed to update, <code>permittedFieldsOf</code> will filter them out!</p>
@@ -342,13 +343,13 @@ app.patch(<span class="hljs-string">'/api/articles/:id'</span>, <span class="hlj
 <span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
 
-app.post(<span class="hljs-string">'/session'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> token = jwt.sign({
-    <span class="hljs-attr">id</span>: req.user.id,
-    <span class="hljs-attr">rules</span>: packRules(defineRulesFor(req.user))
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">'/session'</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> token = jwt.<span class="hljs-title function_">sign</span>({
+    <span class="hljs-attr">id</span>: req.<span class="hljs-property">user</span>.<span class="hljs-property">id</span>,
+    <span class="hljs-attr">rules</span>: <span class="hljs-title function_">packRules</span>(<span class="hljs-title function_">defineRulesFor</span>(req.<span class="hljs-property">user</span>))
   }, <span class="hljs-string">'jwt secret'</span>, { <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">'1d'</span> });
 
-  res.send({ token });
+  res.<span class="hljs-title function_">send</span>({ token });
 });
 </code></pre>
 </li>
@@ -380,12 +381,12 @@ If backend sends packed rules, we need to use <code>unpackRules</code> before pa
 <span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginComponent</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params">params</span>)</span> {
-    <span class="hljs-keyword">return</span> http.post(<span class="hljs-string">'/session'</span>)
-      .then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
-        <span class="hljs-keyword">const</span> token = jwt.decode(response.token);
-        ability.update(unpackRules(token.rules))
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LoginComponent</span> {
+  <span class="hljs-title function_">login</span>(<span class="hljs-params">params</span>) {
+    <span class="hljs-keyword">return</span> http.<span class="hljs-title function_">post</span>(<span class="hljs-string">'/session'</span>)
+      .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> token = jwt.<span class="hljs-title function_">decode</span>(response.<span class="hljs-property">token</span>);
+        ability.<span class="hljs-title function_">update</span>(<span class="hljs-title function_">unpackRules</span>(token.<span class="hljs-property">rules</span>))
       });
   }
 }

@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/roles-with-persisted-permissions/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -388,64 +389,64 @@
 <p>You can find the migration and seeds below:</p>
 <details>
 <summary>Initial migration</summary>
-<pre><code data-filename="migrations/20200401110234_init.js" class="language-js"><span class="hljs-built_in">exports</span>.up = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
-  <span class="hljs-keyword">return</span> knex.schema
-    .createTable(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
-      table.increments(<span class="hljs-string">'id'</span>);
-      table.string(<span class="hljs-string">'email'</span>, <span class="hljs-number">255</span>).notNullable();
-      table.string(<span class="hljs-string">'password'</span>, <span class="hljs-number">50</span>).notNullable();
-      table.integer(<span class="hljs-string">'roleId'</span>).unsigned().notNullable();
+<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+  <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
+    .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'email'</span>, <span class="hljs-number">255</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'password'</span>, <span class="hljs-number">50</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">integer</span>(<span class="hljs-string">'roleId'</span>).<span class="hljs-title function_">unsigned</span>().<span class="hljs-title function_">notNullable</span>();
 
-      table.foreign(<span class="hljs-string">'roleId'</span>).references(<span class="hljs-string">'id'</span>).inTable(<span class="hljs-string">'roles'</span>);
+      table.<span class="hljs-title function_">foreign</span>(<span class="hljs-string">'roleId'</span>).<span class="hljs-title function_">references</span>(<span class="hljs-string">'id'</span>).<span class="hljs-title function_">inTable</span>(<span class="hljs-string">'roles'</span>);
     })
-    .createTable(<span class="hljs-string">'articles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
-      table.increments(<span class="hljs-string">'id'</span>);
-      table.string(<span class="hljs-string">'title'</span>, <span class="hljs-number">255</span>).notNullable();
-      table.string(<span class="hljs-string">'description'</span>).notNullable();
-      table.integer(<span class="hljs-string">'authorId'</span>).unsigned().notNullable();
+    .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'articles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'title'</span>, <span class="hljs-number">255</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'description'</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">integer</span>(<span class="hljs-string">'authorId'</span>).<span class="hljs-title function_">unsigned</span>().<span class="hljs-title function_">notNullable</span>();
 
-      table.foreign(<span class="hljs-string">'authorId'</span>).references(<span class="hljs-string">'id'</span>).inTable(<span class="hljs-string">'users'</span>);
+      table.<span class="hljs-title function_">foreign</span>(<span class="hljs-string">'authorId'</span>).<span class="hljs-title function_">references</span>(<span class="hljs-string">'id'</span>).<span class="hljs-title function_">inTable</span>(<span class="hljs-string">'users'</span>);
     })
-    .createTable(<span class="hljs-string">'roles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
-      table.increments(<span class="hljs-string">'id'</span>);
-      table.string(<span class="hljs-string">'name'</span>, <span class="hljs-number">255</span>).notNullable();
-      table.json(<span class="hljs-string">'permissions'</span>).notNullable();
+    .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'roles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'name'</span>, <span class="hljs-number">255</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">json</span>(<span class="hljs-string">'permissions'</span>).<span class="hljs-title function_">notNullable</span>();
     });
 };
 
-<span class="hljs-built_in">exports</span>.down = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
-  <span class="hljs-keyword">return</span> knex.schema
-      .dropTable(<span class="hljs-string">'users'</span>)
-      .dropTable(<span class="hljs-string">'articles'</span>)
-      .dropTable(<span class="hljs-string">'roles'</span>);
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">down</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+  <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
+      .<span class="hljs-title function_">dropTable</span>(<span class="hljs-string">'users'</span>)
+      .<span class="hljs-title function_">dropTable</span>(<span class="hljs-string">'articles'</span>)
+      .<span class="hljs-title function_">dropTable</span>(<span class="hljs-string">'roles'</span>);
 };
 </code></pre>
 </details>
 <p>and initial seed:</p>
-<pre><code data-filename="seeds/init.js" class="language-js"><span class="hljs-built_in">exports</span>.seed = <span class="hljs-keyword">async</span> (knex) =&gt; {
-  <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
-    knex(<span class="hljs-string">'users'</span>).del(),
-    knex(<span class="hljs-string">'roles'</span>).del()
+<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
+  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">del</span>(),
+    <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">del</span>()
   ]);
 
-  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'roles'</span>).insert([
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">insert</span>([
     {
       <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
       <span class="hljs-attr">name</span>: <span class="hljs-string">'admin'</span>,
-      <span class="hljs-attr">permissions</span>: <span class="hljs-built_in">JSON</span>.stringify([
+      <span class="hljs-attr">permissions</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>([
         { <span class="hljs-attr">action</span>: <span class="hljs-string">'manage'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'all'</span> }
       ])
     },
     {
       <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>,
       <span class="hljs-attr">name</span>: <span class="hljs-string">'member'</span>,
-      <span class="hljs-attr">permissions</span>: <span class="hljs-built_in">JSON</span>.stringify([
+      <span class="hljs-attr">permissions</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>([
         { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
         { <span class="hljs-attr">action</span>: <span class="hljs-string">'manage'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span>, <span class="hljs-attr">conditions</span>: { <span class="hljs-attr">authorId</span>: <span class="hljs-string">'${user.id}'</span> } },
       ])
     }
   ]);
-  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'users'</span>).insert([
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">insert</span>([
     { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'admin@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">1</span> },
     { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'member@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">2</span> },
   ]);
@@ -455,17 +456,17 @@
 <p>We used <code>${user.id}</code> in <code>conditions</code> property of permissions. This is just a placeholder which we will replace it later with the id of a particular user.</p>
 </blockquote>
 <p>Now, let's define all possible actions and subjects:</p>
-<pre><code data-filename="services/appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, MongoAbility, RawRuleOf, ForcedSubject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">RawRuleOf</span>, <span class="hljs-title class_">ForcedSubject</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> actions = [<span class="hljs-string">'manage'</span>, <span class="hljs-string">'create'</span>, <span class="hljs-string">'read'</span>, <span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> subjects = [<span class="hljs-string">'Article'</span>, <span class="hljs-string">'all'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> Abilities = [
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Abilities</span> = [
   <span class="hljs-keyword">typeof</span> actions[<span class="hljs-built_in">number</span>],
-  <span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>] | ForcedSubject&lt;Exclude&lt;<span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>], <span class="hljs-string">'all'</span>&gt;&gt;
+  <span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>] | <span class="hljs-title class_">ForcedSubject</span>&lt;<span class="hljs-title class_">Exclude</span>&lt;<span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>], <span class="hljs-string">'all'</span>&gt;&gt;
 ];
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;Abilities&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAbility = <span class="hljs-function">(<span class="hljs-params">rules: RawRuleOf&lt;AppAbility&gt;[]</span>) =&gt;</span> createMongoAbility&lt;AppAbility&gt;(rules);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">Abilities</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">createAbility</span> = (<span class="hljs-params"><span class="hljs-attr">rules</span>: <span class="hljs-title class_">RawRuleOf</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;[]</span>) =&gt; createMongoAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;(rules);
 </code></pre>
 <blockquote>
 <p>See 
@@ -479,18 +480,18 @@
 <h3 id="services"><a name="services" class="h-link" href="#"></a>Services</h3>
 <p>We need to create 2 services: one to fetch <code>users</code> and another to manage <code>articles</code>.</p>
 <p>Let's start from a function that will allow us to fetch a single user by some conditions from the database. This function also will prepare user's permissions, so we can directly pass them in <code>createAbility</code> function:</p>
-<pre><code data-filename="services/users.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 <span class="hljs-keyword">import</span> interpolate <span class="hljs-keyword">from</span> <span class="hljs-string">'../helpers/interpolate'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findBy</span>(<span class="hljs-params">where: Partial&lt;Record&lt;keyof User, <span class="hljs-built_in">any</span>&gt;&gt;</span>) </span>{
-  <span class="hljs-keyword">const</span> { permissions, ...user } = <span class="hljs-keyword">await</span> db&lt;User&gt;(<span class="hljs-string">'users'</span>)
-    .innerJoin(<span class="hljs-string">'roles'</span>, <span class="hljs-string">'users.roleId'</span>, <span class="hljs-string">'roles.id'</span>)
-    .select(<span class="hljs-string">'users.id'</span>, <span class="hljs-string">'users.email'</span>, <span class="hljs-string">'roles.permissions'</span>, { <span class="hljs-attr">role</span>: <span class="hljs-string">'roles.name'</span> })
-    .where(where)
-    .first();
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findBy</span>(<span class="hljs-params"><span class="hljs-attr">where</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Record</span>&lt;keyof <span class="hljs-title class_">User</span>, <span class="hljs-built_in">any</span>&gt;&gt;</span>) {
+  <span class="hljs-keyword">const</span> { permissions, ...user } = <span class="hljs-keyword">await</span> db&lt;<span class="hljs-title class_">User</span>&gt;(<span class="hljs-string">'users'</span>)
+    .<span class="hljs-title function_">innerJoin</span>(<span class="hljs-string">'roles'</span>, <span class="hljs-string">'users.roleId'</span>, <span class="hljs-string">'roles.id'</span>)
+    .<span class="hljs-title function_">select</span>(<span class="hljs-string">'users.id'</span>, <span class="hljs-string">'users.email'</span>, <span class="hljs-string">'roles.permissions'</span>, { <span class="hljs-attr">role</span>: <span class="hljs-string">'roles.name'</span> })
+    .<span class="hljs-title function_">where</span>(where)
+    .<span class="hljs-title function_">first</span>();
 
-  user.permissions = interpolate(permissions, { user });
+  user.<span class="hljs-property">permissions</span> = <span class="hljs-title function_">interpolate</span>(permissions, { user });
 
   <span class="hljs-keyword">return</span> user;
 }
@@ -502,14 +503,14 @@
 </li>
 <li>
 <p>we import <code>User</code>, this is just an interface for users that has the next shape:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { RawRuleOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">RawRuleOf</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/appAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> User {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">role</span>: <span class="hljs-built_in">string</span>
-  <span class="hljs-attr">permissions</span>: RawRuleOf&lt;AppAbility&gt;[]
+  <span class="hljs-attr">permissions</span>: <span class="hljs-title class_">RawRuleOf</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;[]
 }
 </code></pre>
 <p>As you can see, its permissions property has the type that <code>Ability</code> instance accepts in the first parameter. This was done intentionally to simplify ability creation.</p>
@@ -522,18 +523,18 @@
 </li>
 </ul>
 <p>The service for articles is more complicated, it will check users' ability to do a particular action on the provided article instance. For the sake of simplicity, we'll show only <code>create</code> function (all the rest are similar):</p>
-<pre><code data-filename="services/articles.ts" class="language-ts"><span class="hljs-keyword">import</span> { ForbiddenError, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./appAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./appAbility'</span>;
 <span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
-<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/Article'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/Article'</span>;
 
-<span class="hljs-keyword">const</span> articles = <span class="hljs-function">() =&gt;</span> db&lt;Article&gt;(<span class="hljs-string">'articles'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">articles</span> = (<span class="hljs-params"></span>) =&gt; db&lt;<span class="hljs-title class_">Article</span>&gt;(<span class="hljs-string">'articles'</span>);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span>(<span class="hljs-params">ability: AppAbility, partialArticle: Omit&lt;Article, <span class="hljs-string">'id'</span>&gt;</span>) </span>{
-  ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'create'</span>, subject(<span class="hljs-string">'Article'</span>, partialArticle));
-  <span class="hljs-keyword">const</span> [id] = <span class="hljs-keyword">await</span> articles().insert(partialArticle);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">create</span>(<span class="hljs-params"><span class="hljs-attr">ability</span>: <span class="hljs-title class_">AppAbility</span>, <span class="hljs-attr">partialArticle</span>: <span class="hljs-title class_">Omit</span>&lt;<span class="hljs-title class_">Article</span>, <span class="hljs-string">'id'</span>&gt;</span>) {
+  <span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">from</span>(ability).<span class="hljs-title function_">throwUnlessCan</span>(<span class="hljs-string">'create'</span>, <span class="hljs-title function_">subject</span>(<span class="hljs-string">'Article'</span>, partialArticle));
+  <span class="hljs-keyword">const</span> [id] = <span class="hljs-keyword">await</span> <span class="hljs-title function_">articles</span>().<span class="hljs-title function_">insert</span>(partialArticle);
 
-  <span class="hljs-keyword">return</span> { id, ...partialArticle } <span class="hljs-keyword">as</span> Article;
+  <span class="hljs-keyword">return</span> { id, ...partialArticle } <span class="hljs-keyword">as</span> <span class="hljs-title class_">Article</span>;
 }
 
 <span class="hljs-comment">// other functions</span>
@@ -547,7 +548,7 @@
      for details.</p>
 </blockquote>
 <p><code>Article</code> is an interface that enforces the shape of our articles:</p>
-<pre><code data-filename="models/Article.ts" class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Article {
+<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span>
@@ -557,37 +558,37 @@
 <p>Now, when service layer is finished, we can put it together!</p>
 <h3 id="putting-together"><a name="putting-together" class="h-link" href="#"></a>Putting together</h3>
 <p>We need to start from connecting things together, to do so we need to fetch users and create <code>Ability</code> instances for each one:</p>
-<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-keyword">import</span> { findBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { findBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
 <span class="hljs-keyword">import</span> { createAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/appAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> [admin, author] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
-    findBy({ <span class="hljs-attr">email</span>: <span class="hljs-string">'admin@casl.io'</span> }),
-    findBy({ <span class="hljs-attr">email</span>: <span class="hljs-string">'member@casl.io'</span> }),
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> [admin, author] = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    <span class="hljs-title function_">findBy</span>({ <span class="hljs-attr">email</span>: <span class="hljs-string">'admin@casl.io'</span> }),
+    <span class="hljs-title function_">findBy</span>({ <span class="hljs-attr">email</span>: <span class="hljs-string">'member@casl.io'</span> }),
   ]);
 
-  <span class="hljs-keyword">const</span> adminAbility = createAbility(admin!.permissions);
-  <span class="hljs-keyword">const</span> authorAbility = createAbility(author!.permissions);
+  <span class="hljs-keyword">const</span> adminAbility = <span class="hljs-title function_">createAbility</span>(admin!.<span class="hljs-property">permissions</span>);
+  <span class="hljs-keyword">const</span> authorAbility = <span class="hljs-title function_">createAbility</span>(author!.<span class="hljs-property">permissions</span>);
 
   <span class="hljs-comment">// the rest of the code</span>
 }
 </code></pre>
 <p>We also need to create 2 articles, one that is written by admin and another by author:</p>
-<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-comment">// imports here</span>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// imports here</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
   <span class="hljs-comment">// fetch users &amp; create ability instances</span>
 
   <span class="hljs-keyword">const</span> adminArticle = {
     <span class="hljs-attr">title</span>: <span class="hljs-string">'CASl and TypeScript'</span>,
     <span class="hljs-attr">description</span>: <span class="hljs-string">'Is very powerful'</span>,
-    <span class="hljs-attr">authorId</span>: admin!.id
+    <span class="hljs-attr">authorId</span>: admin!.<span class="hljs-property">id</span>
   };
 
   <span class="hljs-keyword">const</span> authorArticle = {
     <span class="hljs-attr">title</span>: <span class="hljs-string">'CASl and TypeScript'</span>,
     <span class="hljs-attr">description</span>: <span class="hljs-string">'Is very powerful'</span>,
-    <span class="hljs-attr">authorId</span>: author!.id
+    <span class="hljs-attr">authorId</span>: author!.<span class="hljs-property">id</span>
   };
 
   <span class="hljs-comment">// the rest of the code</span>
@@ -598,31 +599,31 @@
 <li><code>admin</code> user should be able to create article in spite of who wrote it</li>
 <li><code>member</code> user should be able to only create articles that were written by him</li>
 </ul>
-<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-comment">// other imports here</span>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// other imports here</span>
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> articles <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/articles'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">await</span> articles.create(adminAbility, adminArticle);
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[admin]: created article written by himself'</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">await</span> articles.<span class="hljs-title function_">create</span>(adminAbility, adminArticle);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[admin]: created article written by himself'</span>)
 
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">await</span> articles.create(authorAbility, adminArticle);
+    <span class="hljs-keyword">await</span> articles.<span class="hljs-title function_">create</span>(authorAbility, adminArticle);
   } <span class="hljs-keyword">catch</span> (error) {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: cannot create an article written by admin'</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[member]: cannot create an article written by admin'</span>);
   }
 
-  <span class="hljs-keyword">await</span> articles.create(adminAbility, authorArticle);
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[admin]: created article written by author'</span>);
+  <span class="hljs-keyword">await</span> articles.<span class="hljs-title function_">create</span>(adminAbility, authorArticle);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[admin]: created article written by author'</span>);
 
-  <span class="hljs-keyword">await</span> articles.create(authorAbility, authorArticle);
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[author]: created article written by himself'</span>);
+  <span class="hljs-keyword">await</span> articles.<span class="hljs-title function_">create</span>(authorAbility, authorArticle);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[author]: created article written by himself'</span>);
 
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'\nAll articles '</span>);
-  <span class="hljs-keyword">const</span> rawArticles = <span class="hljs-keyword">await</span> articles.find();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'\nAll articles '</span>);
+  <span class="hljs-keyword">const</span> rawArticles = <span class="hljs-keyword">await</span> articles.<span class="hljs-title function_">find</span>();
 
-  rawArticles.forEach(<span class="hljs-function">(<span class="hljs-params">article</span>) =&gt;</span> {
-    <span class="hljs-keyword">const</span> prefix = article.authorId === admin!.id ? <span class="hljs-string">'[admin]'</span> : <span class="hljs-string">'[author]'</span>;
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${prefix}</span>: <span class="hljs-subst">${article.title}</span>`</span>);
+  rawArticles.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">article</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> prefix = article.<span class="hljs-property">authorId</span> === admin!.<span class="hljs-property">id</span> ? <span class="hljs-string">'[admin]'</span> : <span class="hljs-string">'[author]'</span>;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${prefix}</span>: <span class="hljs-subst">${article.title}</span>`</span>);
   });
 }
 </code></pre>
@@ -640,21 +641,21 @@ All articles
 [author]: CASl and TypeScript
 </code></pre>
 <p>Everything works as we it should! Now let's allow members to create any article. To do so, we need to update permissions of <code>member</code> role and we will do this using <a href="http://knexjs.org/" target="_blank" rel="noopener nofollow">knex</a>:</p>
-<pre><code data-filename="updateMemberRole.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
 
-db(<span class="hljs-string">'roles'</span>)
-  .update({
-    <span class="hljs-attr">permissions</span>: <span class="hljs-built_in">JSON</span>.stringify([
+<span class="hljs-title function_">db</span>(<span class="hljs-string">'roles'</span>)
+  .<span class="hljs-title function_">update</span>({
+    <span class="hljs-attr">permissions</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>([
       { <span class="hljs-attr">action</span>: [<span class="hljs-string">'read'</span>, <span class="hljs-string">'create'</span>], <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
       { <span class="hljs-attr">action</span>: [<span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>], <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span>, <span class="hljs-attr">conditions</span>: { <span class="hljs-attr">authorId</span>: <span class="hljs-string">'${user.id}'</span>} },
     ])
   })
-  .where(<span class="hljs-string">'name'</span>, <span class="hljs-string">'member'</span>)
-  .then(<span class="hljs-function">() =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Permissions of "member" role has been updated'</span>);
-    <span class="hljs-keyword">return</span> db.destroy();
+  .<span class="hljs-title function_">where</span>(<span class="hljs-string">'name'</span>, <span class="hljs-string">'member'</span>)
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Permissions of "member" role has been updated'</span>);
+    <span class="hljs-keyword">return</span> db.<span class="hljs-title function_">destroy</span>();
   })
-  .catch(<span class="hljs-built_in">console</span>.error);
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
 </code></pre>
 <p>After updating member's permissions and running <code>main</code> function again, we got this results:</p>
 <pre><code class="hljs language-sh">$ npm start

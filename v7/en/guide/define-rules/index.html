@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/define-rules/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -341,26 +342,26 @@
 <h3 id="define-ability-example"><a name="define-ability-example" class="h-link" href="#"></a>defineAbility example</h3>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-  cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+  <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
 });
 </code></pre>
 <p>You can pass multiple actions, subjects and fields in the single <code>can</code> (or <code>cannot</code>) function. So, instead of</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>);
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Comment'</span>);
-  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Comment'</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Comment'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Comment'</span>);
 });
 </code></pre>
 <p>you can do:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
-  can([<span class="hljs-string">'read'</span>, <span class="hljs-string">'update'</span>], [<span class="hljs-string">'Post'</span>, <span class="hljs-string">'Comment'</span>]);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>([<span class="hljs-string">'read'</span>, <span class="hljs-string">'update'</span>], [<span class="hljs-string">'Post'</span>, <span class="hljs-string">'Comment'</span>]);
 });
 </code></pre>
 <blockquote>
@@ -398,30 +399,30 @@
 <p>This class implements <code>can</code> and <code>cannot</code> functions, that makes possible to write rules using <a href="https://en.wikipedia.org/wiki/Domain-specific_language" target="_blank" rel="noopener nofollow">DSL</a> syntax. <strong>This is the recommended way to define rules using DSL syntax</strong></p>
 <h3 id="ability-builder-example"><a name="ability-builder-example" class="h-link" href="#"></a>AbilityBuilder example</h3>
 <p><a href="#defineability-example">defineAbility example</a> written using <code>AbilityBuilder</code> class looks a bit more wordy:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+<span class="hljs-title function_">cannot</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> build();
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">build</span>();
 </code></pre>
 <p>But it allows to define rules without additional nesting, this is especially important when you build rules based on conditional logic:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  <span class="hljs-keyword">if</span> (user.isAdmin) {
-    can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>); <span class="hljs-comment">// read-write access to everything</span>
+  <span class="hljs-keyword">if</span> (user.<span class="hljs-property">isAdmin</span>) {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>); <span class="hljs-comment">// read-write access to everything</span>
   } <span class="hljs-keyword">else</span> {
-    can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>) <span class="hljs-comment">// read-only access to everything</span>
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>) <span class="hljs-comment">// read-only access to everything</span>
   }
 
-  cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
 
-  <span class="hljs-keyword">return</span> build();
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>();
 }
 </code></pre>
 <blockquote>
@@ -432,14 +433,14 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
     </p>
 </blockquote>
 <p>For more advanced cases, it's possible to use <code>rules</code> property of <code>AbilityBuilder</code> and create <code>MongoAbility</code> instance manually:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> { can, cannot, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> { can, cannot, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
   <span class="hljs-comment">// defined permissions</span>
 
-  <span class="hljs-keyword">return</span> createMongoAbility(rules);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">createMongoAbility</span>(rules);
 }
 </code></pre>
 <h3 id="when-to-use-ability-builder"><a name="when-to-use-ability-builder" class="h-link" href="#"></a>When to use AbilityBuilder</h3>
@@ -467,7 +468,7 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
 <p>The same example using <code>JSON</code>:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createMongoAbility([
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">createMongoAbility</span>([
   {
     <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>,
     <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span>
@@ -483,17 +484,17 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
 <p>Pay attention to the <code>inverted</code> field, it indicates that a rule is an inverted one (i.e., forbids something).</p>
 <h3 id="the-shape-of-raw-rule"><a name="the-shape-of-raw-rule" class="h-link" href="#"></a>The shape of raw rule</h3>
 <p>The simplified version (without generics) of raw rule shape in <a href="http://www.typescriptlang.org/" target="_blank" rel="noopener nofollow">TypeScript</a> looks like this:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">interface</span> RawRule {
+<pre><code class="hljs language-ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">RawRule</span> {
   <span class="hljs-attr">action</span>: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[]
-  subject?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[]
+  <span class="hljs-attr">subject</span>?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[]
   <span class="hljs-comment">/** an array of fields to which user has (or not) access */</span>
-  fields?: <span class="hljs-built_in">string</span>[]
+  <span class="hljs-attr">fields</span>?: <span class="hljs-built_in">string</span>[]
   <span class="hljs-comment">/** an object of conditions which restricts the rule scope */</span>
-  conditions?: <span class="hljs-built_in">any</span>
+  <span class="hljs-attr">conditions</span>?: <span class="hljs-built_in">any</span>
   <span class="hljs-comment">/** indicates whether rule allows or forbids something */</span>
-  inverted?: <span class="hljs-built_in">boolean</span>
+  <span class="hljs-attr">inverted</span>?: <span class="hljs-built_in">boolean</span>
   <span class="hljs-comment">/** message which explains why rule is forbidden */</span>
-  reason?: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">reason</span>?: <span class="hljs-built_in">string</span>
 }
 </code></pre>
 <p>Don't worry if you are not familiar with TypeScript, you still have time to learn it ;) Kidding, or not?</p>
@@ -510,18 +511,18 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
 <p>You can define the same pair of action and subject with different conditions multiple times. For example:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">status</span>: <span class="hljs-string">'review'</span> });
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">status</span>: <span class="hljs-string">'review'</span> });
 });
 </code></pre>
 <p>In such case, the pair of action/subject rules are combined by logical <code>OR</code>. More formally this can be translated as "users can read Article if it's published OR users can read Article if it's not published AND in review status".</p>
 <p>But be careful, because <code>OR</code> logic returns <code>true</code> if one of its expressions are <code>true</code>, so the next code will always return <code>true</code>, even for articles that were not published:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// (2)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// (2)</span>
 });
 </code></pre>
 <p>More formally this code can be read as "can read any article OR can read published articles". As you see, the first statement always valid, so the <code>(2)</code> <code>can</code> with conditions has no effect.</p>
@@ -529,9 +530,9 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
 <p>Let's change the example above to disallow reading unpublished articles:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// direct rule</span>
-  cannot(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">false</span> }); <span class="hljs-comment">// inverted rule</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// direct rule</span>
+  <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">false</span> }); <span class="hljs-comment">// inverted rule</span>
 });
 </code></pre>
 <p>This is read as "can read any article AND cannot read unpublished articles".</p>
@@ -547,19 +548,19 @@ cannot(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Pos
 <p>You can remember this rule as: <strong>Give permissions, don't take them away</strong></p>
 </blockquote>
 <p>So, are there a valid usecases for inverted rules? <strong>Yes</strong>! They work very well when are not combined with regular rules and defined explicitly to express why particular action on particular subject was forbidden, for example:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbility</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> hasPaidSubscription = <span class="hljs-keyword">await</span> user.hasPaidSubscription();
-  <span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> hasPaidSubscription = <span class="hljs-keyword">await</span> user.<span class="hljs-title function_">hasPaidSubscription</span>();
+  <span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
   <span class="hljs-keyword">if</span> (hasPaidSubscription) {
-    can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'BlogPost'</span>);
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'BlogPost'</span>);
   } <span class="hljs-keyword">else</span> {
-    cannot(<span class="hljs-string">'create'</span>, <span class="hljs-string">'BlogPost'</span>).because(<span class="hljs-string">'You have not paid for monthly subscription'</span>);
+    <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'BlogPost'</span>).<span class="hljs-title function_">because</span>(<span class="hljs-string">'You have not paid for monthly subscription'</span>);
   }
 
-  <span class="hljs-keyword">return</span> build()
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>()
 }
 </code></pre></div>
       </article>

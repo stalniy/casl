@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/roles-with-static-permissions/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -368,41 +369,41 @@
 </blockquote>
 <details>
 <summary>Initial migration</summary>
-<pre><code data-filename="migrations/20200401110244_init.js" class="language-js"><span class="hljs-built_in">exports</span>.up = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
-  <span class="hljs-keyword">return</span> knex.schema
-    .createTable(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
-      table.increments(<span class="hljs-string">'id'</span>);
-      table.string(<span class="hljs-string">'email'</span>, <span class="hljs-number">255</span>).notNullable();
-      table.string(<span class="hljs-string">'password'</span>, <span class="hljs-number">50</span>).notNullable();
-      table.integer(<span class="hljs-string">'roleId'</span>).unsigned().notNullable();
+<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+  <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
+    .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'email'</span>, <span class="hljs-number">255</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'password'</span>, <span class="hljs-number">50</span>).<span class="hljs-title function_">notNullable</span>();
+      table.<span class="hljs-title function_">integer</span>(<span class="hljs-string">'roleId'</span>).<span class="hljs-title function_">unsigned</span>().<span class="hljs-title function_">notNullable</span>();
 
-      table.foreign(<span class="hljs-string">'roleId'</span>).references(<span class="hljs-string">'id'</span>).inTable(<span class="hljs-string">'roles'</span>);
+      table.<span class="hljs-title function_">foreign</span>(<span class="hljs-string">'roleId'</span>).<span class="hljs-title function_">references</span>(<span class="hljs-string">'id'</span>).<span class="hljs-title function_">inTable</span>(<span class="hljs-string">'roles'</span>);
     })
-    .createTable(<span class="hljs-string">'roles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
-      table.increments(<span class="hljs-string">'id'</span>);
-      table.string(<span class="hljs-string">'name'</span>, <span class="hljs-number">255</span>).notNullable();
+    .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'roles'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
+      table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
+      table.<span class="hljs-title function_">string</span>(<span class="hljs-string">'name'</span>, <span class="hljs-number">255</span>).<span class="hljs-title function_">notNullable</span>();
     });
 };
 
-<span class="hljs-built_in">exports</span>.down = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) </span>{
-  <span class="hljs-keyword">return</span> knex.schema
-      .dropTable(<span class="hljs-string">'users'</span>)
-      .dropTable(<span class="hljs-string">'roles'</span>);
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">down</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+  <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
+      .<span class="hljs-title function_">dropTable</span>(<span class="hljs-string">'users'</span>)
+      .<span class="hljs-title function_">dropTable</span>(<span class="hljs-string">'roles'</span>);
 };
 </code></pre>
 </details>
 <details>
 <summary>Initial seeds</summary>
-<pre><code data-filename="seeds/init.js" class="language-js"><span class="hljs-built_in">exports</span>.seed = <span class="hljs-keyword">async</span> (knex) =&gt; {
-  <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
-    knex(<span class="hljs-string">'users'</span>).del(),
-    knex(<span class="hljs-string">'roles'</span>).del()
+<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
+  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">del</span>(),
+    <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">del</span>()
   ]);
-  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'roles'</span>).insert([
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">insert</span>([
     { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'admin'</span> },
     { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'member'</span> }
   ]);
-  <span class="hljs-keyword">await</span> knex(<span class="hljs-string">'users'</span>).insert([
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">insert</span>([
     { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'admin@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">1</span> },
     { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">email</span>: <span class="hljs-string">'member@casl.io'</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">'123456'</span>, <span class="hljs-attr">roleId</span>: <span class="hljs-number">2</span> },
   ]);
@@ -412,17 +413,17 @@
 <p>Now, let's define all possible actions and subjects.</p>
 <h3 id="abilities"><a name="abilities" class="h-link" href="#"></a>Abilities</h3>
 <p>This app has only <code>User</code> subject, users can only <code>update</code> himself and invite other users, so:</p>
-<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, ForcedSubject, CreateAbility, MongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">CreateAbility</span>, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">const</span> actions = [<span class="hljs-string">'manage'</span>, <span class="hljs-string">'invite'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
 <span class="hljs-keyword">const</span> subjects = [<span class="hljs-string">'User'</span>, <span class="hljs-string">'all'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
-<span class="hljs-keyword">type</span> AppAbilities = [
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbilities</span> = [
   <span class="hljs-keyword">typeof</span> actions[<span class="hljs-built_in">number</span>],
-  <span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>] | ForcedSubject&lt;Exclude&lt;<span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>], <span class="hljs-string">'all'</span>&gt;&gt;
+  <span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>] | <span class="hljs-title class_">ForcedSubject</span>&lt;<span class="hljs-title class_">Exclude</span>&lt;<span class="hljs-keyword">typeof</span> subjects[<span class="hljs-built_in">number</span>], <span class="hljs-string">'all'</span>&gt;&gt;
 ];
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;AppAbilities&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAppAbility = createMongoAbility <span class="hljs-keyword">as</span> CreateAbility&lt;AppAbility&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">AppAbilities</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAppAbility = createMongoAbility <span class="hljs-keyword">as</span> <span class="hljs-title class_">CreateAbility</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;;
 </code></pre>
 <blockquote>
 <p>See 
@@ -433,21 +434,21 @@
 </blockquote>
 <p><code>typeof actions[number]</code> converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope.</p>
 <p>Having all possible subjects and actions, we can define roles' permissions in the same file:</p>
-<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { ForcedSubject, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 
 <span class="hljs-comment">// abilities definition from previous example</span>
 
-<span class="hljs-keyword">type</span> DefinePermissions = <span class="hljs-function">(<span class="hljs-params">user: User, builder: AbilityBuilder&lt;AppAbility&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>;
-<span class="hljs-keyword">type</span> Roles = <span class="hljs-string">'member'</span> | <span class="hljs-string">'admin'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">DefinePermissions</span> = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-title class_">User</span>, <span class="hljs-attr">builder</span>: <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;</span>) =&gt;</span> <span class="hljs-built_in">void</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Roles</span> = <span class="hljs-string">'member'</span> | <span class="hljs-string">'admin'</span>;
 
-<span class="hljs-keyword">const</span> rolePermissions: Record&lt;Roles, DefinePermissions&gt; = {
-  <span class="hljs-function"><span class="hljs-title">member</span>(<span class="hljs-params">user, { can }</span>)</span> {
-    can(<span class="hljs-string">'invite'</span>, <span class="hljs-string">'User'</span>);
-    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'User'</span>, { <span class="hljs-attr">id</span>: user.id });
+<span class="hljs-keyword">const</span> <span class="hljs-attr">rolePermissions</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-title class_">Roles</span>, <span class="hljs-title class_">DefinePermissions</span>&gt; = {
+  <span class="hljs-title function_">member</span>(<span class="hljs-params">user, { can }</span>) {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'invite'</span>, <span class="hljs-string">'User'</span>);
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'User'</span>, { <span class="hljs-attr">id</span>: user.<span class="hljs-property">id</span> });
   },
-  <span class="hljs-function"><span class="hljs-title">admin</span>(<span class="hljs-params">user, { can }</span>)</span> {
-    can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+  <span class="hljs-title function_">admin</span>(<span class="hljs-params">user, { can }</span>) {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
   }
 };
 </code></pre>
@@ -455,7 +456,7 @@
 <p>Do you see how readable this definition object is? The function signature says "member user can" and the body describes what the member user can do. Looks very similar to how we described our requirements at the beginning of <a href="#demo">Demo</a> section, don't it?</p>
 </blockquote>
 <p>We imported <code>User</code> data class in order to make our functions a bit more strongly typed, its shape is the following:</p>
-<pre><code data-filename="models/User.ts" class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> User {
+<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>
@@ -466,22 +467,22 @@
 <p>We created <code>rolePermissions</code> object that holds our permission definitions functions instead of using regular functions. This allows us to retrieve role specific function by accessing properties of this object, this is very convenient and efficient.</p>
 </blockquote>
 <p>Finally, let's create a function that defines <code>Ability</code> instance for our user, let's do this in the same file:</p>
-<pre><code data-filename="services/appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, ForcedSubject, AbilityBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 
 <span class="hljs-comment">// abilities definition from the example above</span>
 <span class="hljs-comment">// roles definition from the example above</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: User</span>): <span class="hljs-title">AppAbility</span> </span>{
-  <span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-title class_">User</span></span>): <span class="hljs-title class_">AppAbility</span> {
+  <span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> rolePermissions[user.role] === <span class="hljs-string">'function'</span>) {
-    rolePermissions[user.role](user, builder);
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> rolePermissions[user.<span class="hljs-property">role</span>] === <span class="hljs-string">'function'</span>) {
+    rolePermissions[user.<span class="hljs-property">role</span>](user, builder);
   } <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">`Trying to use unknown role "<span class="hljs-subst">${user.role}</span>"`</span>);
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Trying to use unknown role "<span class="hljs-subst">${user.role}</span>"`</span>);
   }
 
-  <span class="hljs-keyword">return</span> builder.build();
+  <span class="hljs-keyword">return</span> builder.<span class="hljs-title function_">build</span>();
 }
 </code></pre>
 <blockquote>
@@ -489,47 +490,47 @@
 </blockquote>
 <h3 id="putting-together"><a name="putting-together" class="h-link" href="#"></a>Putting together</h3>
 <p>First of all, we need a function that returns a user by its email and another one that updates a user by its id:</p>
-<pre><code data-filename="services/users.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models/User'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models/User'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findUserByEmail</span>(<span class="hljs-params">email: <span class="hljs-built_in">string</span></span>) </span>{
-  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> db&lt;User&gt;(<span class="hljs-string">'users'</span>)
-    .select(<span class="hljs-string">'users.id'</span>, <span class="hljs-string">'users.email'</span>, { <span class="hljs-attr">role</span>: <span class="hljs-string">'roles.name'</span> })
-    .innerJoin(<span class="hljs-string">'roles'</span>, <span class="hljs-string">'roles.id'</span>, <span class="hljs-string">'users.roleId'</span>)
-    .where(<span class="hljs-string">'email'</span>, email)
-    .first();
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findUserByEmail</span>(<span class="hljs-params"><span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span></span>) {
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> db&lt;<span class="hljs-title class_">User</span>&gt;(<span class="hljs-string">'users'</span>)
+    .<span class="hljs-title function_">select</span>(<span class="hljs-string">'users.id'</span>, <span class="hljs-string">'users.email'</span>, { <span class="hljs-attr">role</span>: <span class="hljs-string">'roles.name'</span> })
+    .<span class="hljs-title function_">innerJoin</span>(<span class="hljs-string">'roles'</span>, <span class="hljs-string">'roles.id'</span>, <span class="hljs-string">'users.roleId'</span>)
+    .<span class="hljs-title function_">where</span>(<span class="hljs-string">'email'</span>, email)
+    .<span class="hljs-title function_">first</span>();
 
   <span class="hljs-keyword">return</span> user;
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> UserChanges = Partial&lt;Exclude&lt;User, <span class="hljs-string">'role'</span> | <span class="hljs-string">'id'</span>&gt;&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateUserById</span>(<span class="hljs-params">id: <span class="hljs-built_in">number</span>, changes: UserChanges</span>) </span>{
-  <span class="hljs-keyword">await</span> db&lt;User&gt;(users)
-    .update(changes)
-    .where(<span class="hljs-string">'id'</span>, id);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">UserChanges</span> = <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Exclude</span>&lt;<span class="hljs-title class_">User</span>, <span class="hljs-string">'role'</span> | <span class="hljs-string">'id'</span>&gt;&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">updateUserById</span>(<span class="hljs-params"><span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">changes</span>: <span class="hljs-title class_">UserChanges</span></span>) {
+  <span class="hljs-keyword">await</span> db&lt;<span class="hljs-title class_">User</span>&gt;(users)
+    .<span class="hljs-title function_">update</span>(changes)
+    .<span class="hljs-title function_">where</span>(<span class="hljs-string">'id'</span>, id);
 }
 </code></pre>
 <p>Now we can implement <code>updateUserDetails</code> function:</p>
-<pre><code data-filename="updateUserDetails.ts" class="language-ts"><span class="hljs-keyword">import</span> { ForbiddenError, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/appAbility'</span>;
-<span class="hljs-keyword">import</span> { findUserByEmail, updateUserById, UserChanges } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
+<span class="hljs-keyword">import</span> { findUserByEmail, updateUserById, <span class="hljs-title class_">UserChanges</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateUserDetails</span>(<span class="hljs-params">
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">updateUserDetails</span>(<span class="hljs-params">
   <span class="hljs-comment">/** email of a user who initiates the request (i.e., logged in user) */</span>
-  initiatorEmail: <span class="hljs-built_in">string</span>,
+  <span class="hljs-attr">initiatorEmail</span>: <span class="hljs-built_in">string</span>,
   <span class="hljs-comment">/** an email of user to be updated */</span>
-  userToBeUpdatedEmail: <span class="hljs-built_in">string</span>,
+  <span class="hljs-attr">userToBeUpdatedEmail</span>: <span class="hljs-built_in">string</span>,
   <span class="hljs-comment">/** an object of changes to be applied */</span>
-  changes: UserChanges
-</span>) </span>{
-  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> findUserByEmail(initiatorEmail);
-  <span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+  <span class="hljs-attr">changes</span>: <span class="hljs-title class_">UserChanges</span>
+</span>) {
+  <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> <span class="hljs-title function_">findUserByEmail</span>(initiatorEmail);
+  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbilityFor</span>(user);
   <span class="hljs-keyword">const</span> userToBeUpdated = userToBeUpdatedEmail === initiatorEmail
     ? user
-    : <span class="hljs-keyword">await</span> findUserByEmail(userToBeUpdatedEmail)
+    : <span class="hljs-keyword">await</span> <span class="hljs-title function_">findUserByEmail</span>(userToBeUpdatedEmail)
 
-  ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'update'</span>, subject(<span class="hljs-string">'User'</span>, userToBeUpdated));
-  <span class="hljs-keyword">await</span> updateUserById(userToBeUpdated.id, changes);
+  <span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">from</span>(ability).<span class="hljs-title function_">throwUnlessCan</span>(<span class="hljs-string">'update'</span>, <span class="hljs-title function_">subject</span>(<span class="hljs-string">'User'</span>, userToBeUpdated));
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">updateUserById</span>(userToBeUpdated.<span class="hljs-property">id</span>, changes);
 }
 </code></pre>
 <blockquote>
@@ -548,26 +549,26 @@
 <li>We call <code>updateUserById</code> function to update user details by id in the database.</li>
 </ol>
 <p>To test this function, let's create a simple script:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { updateUserDetails } <span class="hljs-keyword">from</span> <span class="hljs-string">'./updateUserDetails'</span>;
 
-updateUserDetails(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'member@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
-  .then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: own details were successfully updated'</span>))
-  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> ForbiddenError) {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: cannot update own details'</span>);
+<span class="hljs-title function_">updateUserDetails</span>(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'member@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[member]: own details were successfully updated'</span>))
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">ForbiddenError</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[member]: cannot update own details'</span>);
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-built_in">console</span>.error(error);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
     }
   });
 
-updateUserDetails(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'admin@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
-  .then(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: admin details were successfully updated'</span>))
-  .catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> ForbiddenError) {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'[member]: admin details are NOT ALLOWED to be updated'</span>);
+<span class="hljs-title function_">updateUserDetails</span>(<span class="hljs-string">'member@casl.io'</span>, <span class="hljs-string">'admin@casl.io'</span>, { <span class="hljs-attr">password</span>: <span class="hljs-string">'654321'</span> })
+  .<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[member]: admin details were successfully updated'</span>))
+  .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">ForbiddenError</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'[member]: admin details are NOT ALLOWED to be updated'</span>);
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-built_in">console</span>.error(error);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
     }
   });
 </code></pre>

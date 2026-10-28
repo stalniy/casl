@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/ability-to-database-query/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -345,18 +346,18 @@
      to get details about integration with <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a></p>
 </blockquote>
 <p>To understand the logic better let's implement <strong>a basic helper</strong> for <a href="https://sequelize.org/" target="_blank" rel="noopener nofollow">sequelize</a>.</p>
-<pre><code data-filename="toSequelizeQuery.js" class="language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
-<span class="hljs-keyword">const</span> { Op } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Op</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
 
 <span class="hljs-comment">/**
  * Tricky way to walk recursively over deeply nested object.
  * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Parameters
  */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbolize</span>(<span class="hljs-params">query</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(query), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">keyToSymbol</span>(<span class="hljs-params">key, value</span>) </span>{
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">symbolize</span>(<span class="hljs-params">query</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(query), <span class="hljs-keyword">function</span> <span class="hljs-title function_">keyToSymbol</span>(<span class="hljs-params">key, value</span>) {
     <span class="hljs-keyword">if</span> (key[<span class="hljs-number">0</span>] === <span class="hljs-string">'$'</span>) {
-      <span class="hljs-keyword">const</span> symbol = Op[key.slice(<span class="hljs-number">1</span>)];
-      <span class="hljs-built_in">this</span>[symbol] = value;
+      <span class="hljs-keyword">const</span> symbol = <span class="hljs-title class_">Op</span>[key.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>)];
+      <span class="hljs-variable language_">this</span>[symbol] = value;
       <span class="hljs-keyword">return</span>;
     }
 
@@ -364,77 +365,77 @@
   });
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ruleToSequelize</span>(<span class="hljs-params">rule</span>) </span>{
-  <span class="hljs-keyword">return</span> rule.inverted ? { <span class="hljs-attr">$not</span>: rule.conditions } : rule.conditions;
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">ruleToSequelize</span>(<span class="hljs-params">rule</span>) {
+  <span class="hljs-keyword">return</span> rule.<span class="hljs-property">inverted</span> ? { <span class="hljs-attr">$not</span>: rule.<span class="hljs-property">conditions</span> } : rule.<span class="hljs-property">conditions</span>;
 }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toSequelizeQuery</span>(<span class="hljs-params">ability, subject, action</span>) </span>{
-  <span class="hljs-keyword">const</span> query = rulesToQuery(ability, action, subject, ruleToSequelize);
-  <span class="hljs-keyword">return</span> query === <span class="hljs-literal">null</span> ? query : symbolize(query);
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">toSequelizeQuery</span>(<span class="hljs-params">ability, subject, action</span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title function_">rulesToQuery</span>(ability, action, subject, ruleToSequelize);
+  <span class="hljs-keyword">return</span> query === <span class="hljs-literal">null</span> ? query : <span class="hljs-title function_">symbolize</span>(query);
 }
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessibleBy</span>(<span class="hljs-params">ability, action = <span class="hljs-string">'read'</span></span>) </span>{
-  <span class="hljs-keyword">const</span> query = toSequelizeQuery(ability, action, <span class="hljs-built_in">this</span>.name);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">accessibleBy</span>(<span class="hljs-params">ability, action = <span class="hljs-string">'read'</span></span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title function_">toSequelizeQuery</span>(ability, action, <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>);
 
   <span class="hljs-keyword">if</span> (query === <span class="hljs-literal">null</span>) { <span class="hljs-comment">// there is no accessible records, so no need to send query to db</span>
     <span class="hljs-keyword">return</span> [];
   }
 
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.findAll({
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">findAll</span>({
     <span class="hljs-attr">where</span>: query;
   });
 }
 
-<span class="hljs-built_in">module</span>.exports = {
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
   toSequelizeQuery,
   accessibleBy,
 };
 </code></pre>
 <p>In this example, we used <code>rulesToQuery</code> to iterate over rules and aggregate sequelize query. <code>$not</code> operator is used to invert the result of inverted rules' conditions. As of sequelize v6, operator aliases are removed (<a href="https://github.com/sequelize/sequelize/issues/10820" target="_blank" rel="noopener nofollow">sequelize#10820</a>), so we need to convert string based keys into symbols. To do so, we used a trick of stringifying and parsing JSON object with custom <code>reviver</code> argument, which detects keys that starts with <code>$</code> and replaces them with the respective symbol.</p>
 <p>Then, we can use this function to define static method or scope in your model. Here, we will define static method because its usage looks more natural and readable than custom scope:</p>
-<pre><code data-filename="Article.js" class="language-js"><span class="hljs-keyword">const</span> { Model, DataTypes } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">DataTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
 <span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./toSequelizeQuery'</span>);
 
-<span class="hljs-built_in">module</span>.exports = <span class="hljs-function">(<span class="hljs-params">sequelize</span>) =&gt;</span> {
-  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span> </span>{
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-function">(<span class="hljs-params">sequelize</span>) =&gt;</span> {
+  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Model</span> {
     <span class="hljs-keyword">static</span> accessibleBy = accessibleBy;
   }
 
-  Article.init({
+  <span class="hljs-title class_">Article</span>.<span class="hljs-title function_">init</span>({
     <span class="hljs-attr">title</span>: {
-      <span class="hljs-attr">type</span>: DataTypes.STRING,
+      <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-property">STRING</span>,
       <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>
     },
     <span class="hljs-attr">published</span>: {
-      <span class="hljs-attr">type</span>: DataTypes.BOOLEAN,
+      <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-property">BOOLEAN</span>,
       <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>,
       <span class="hljs-attr">defaultValue</span>: <span class="hljs-literal">false</span>
     }
     <span class="hljs-comment">// other columns' definitions</span>
   }, {
     sequelize,
-    <span class="hljs-attr">modelName</span>: Article.name,
+    <span class="hljs-attr">modelName</span>: <span class="hljs-title class_">Article</span>.<span class="hljs-property">name</span>,
   });
 
-  <span class="hljs-keyword">return</span> Article;
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Article</span>;
 }
 </code></pre>
 <p>Now we can fetch accessible records using our static method:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { Sequelize } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Sequelize</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
 <span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
 <span class="hljs-keyword">const</span> defineArticle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Article'</span>);
 
-<span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> Sequelize(<span class="hljs-string">'sqlite::memory'</span>);
-<span class="hljs-keyword">const</span> Article = defineArticle(sequelize);
+<span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">'sqlite::memory'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Article</span> = <span class="hljs-title function_">defineArticle</span>(sequelize);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> can(<span class="hljs-string">'read'</span>, Article, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }));
-  <span class="hljs-keyword">const</span> articles = <span class="hljs-keyword">await</span> Article.accessibleBy(ability);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }));
+  <span class="hljs-keyword">const</span> articles = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Article</span>.<span class="hljs-title function_">accessibleBy</span>(ability);
 
-  <span class="hljs-built_in">console</span>.log(articles);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(articles);
 }
 
-main().catch(<span class="hljs-built_in">console</span>.error);
+<span class="hljs-title function_">main</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
 </code></pre>
 <p>This implementation is basic because it doesn't support joins. See <a href="https://github.com/stalniy/casl/issues/8" target="_blank" rel="noopener nofollow">#8</a> to track status of SQL support in CASL.</p></div>
       </article>

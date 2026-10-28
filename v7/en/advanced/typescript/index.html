@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/typescript/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -341,12 +342,12 @@
 </blockquote>
 <h2 id="permissions-inference"><a name="permissions-inference" class="h-link" href="#"></a>Permissions inference</h2>
 <p><code>Ability</code> class and <code>createMongoAbility</code> factory function accepts 2 <strong>optional</strong> generic parameters:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, Subject, MongoQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">Subject</span>, <span class="hljs-title class_">MongoQuery</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> PossibleAbilities = [<span class="hljs-built_in">string</span>, Subject];
-<span class="hljs-keyword">type</span> Conditions = MongoQuery;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PossibleAbilities</span> = [<span class="hljs-built_in">string</span>, <span class="hljs-title class_">Subject</span>];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Conditions</span> = <span class="hljs-title class_">MongoQuery</span>;
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;PossibleAbilities, Conditions&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;<span class="hljs-title class_">PossibleAbilities</span>, <span class="hljs-title class_">Conditions</span>&gt;();
 </code></pre>
 <blockquote>
 <p><code>Subject</code> is a special type that represents all possible subjects that <code>Ability</code> can accept. So, it's <code>object | string | Function | undefined</code>.</p>
@@ -354,7 +355,7 @@
 <p>Don't be scared by the complexity, <code>createMongoAbility</code> uses that types by default, so the example above is the same as the one below:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> createMongoAbility();
+<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> <span class="hljs-title function_">createMongoAbility</span>();
 </code></pre>
 <p>These types are enough to protect you from passing wrong arguments but you can go further and make them even stricter. To illustrate how, let's consider a blog application, which has <code>User</code>, <code>Article</code> and <code>Comment</code> entities with the next user's permissions:</p>
 <ul>
@@ -364,10 +365,10 @@
 <p>So, let's translate this to CASL by specifying all possible actions and all possible subjects as generic parameters:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Subjects = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'Comment'</span> | <span class="hljs-string">'User'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Actions</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Subjects</span> = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'Comment'</span> | <span class="hljs-string">'User'</span>;
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[Actions, Subjects]&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[<span class="hljs-title class_">Actions</span>, <span class="hljs-title class_">Subjects</span>]&gt;();
 </code></pre>
 <p>If we try to type <code>ability.can(</code> in <a href="https://code.visualstudio.com/" target="_blank" rel="noopener nofollow">VSCode</a> (or other TypeScript supported IDEs), it provides hints:</p>
 <p><img src="/v7/images/casl-action-hints.png" alt="CASL TypeScript action hints" width="626" height="124"></p>
@@ -379,50 +380,50 @@
 <p>You can also specify interfaces as subjects:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">interface</span> Article {
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">content</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">authorId</span>: <span class="hljs-built_in">number</span>
 }
 
-<span class="hljs-keyword">interface</span> User {
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
 }
 
-<span class="hljs-keyword">interface</span> Comment {
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Comment</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">content</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">authorId</span>: <span class="hljs-built_in">number</span>
 }
 
-<span class="hljs-keyword">type</span> Action = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Subject = Article | Comment | User | <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span> | <span class="hljs-string">'Comment'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Action</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Subject</span> = <span class="hljs-title class_">Article</span> | <span class="hljs-title class_">Comment</span> | <span class="hljs-title class_">User</span> | <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span> | <span class="hljs-string">'Comment'</span>;
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[Action, Subject]&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[<span class="hljs-title class_">Action</span>, <span class="hljs-title class_">Subject</span>]&gt;();
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
-ability.can(<span class="hljs-string">'write'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// error because non-existing action name</span>
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Coment'</span>) <span class="hljs-comment">// error because of typo</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'write'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// error because non-existing action name</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Coment'</span>) <span class="hljs-comment">// error because of typo</span>
 </code></pre>
 <p>and classes:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">content</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">authorId</span>: <span class="hljs-built_in">number</span>
 }
 
-<span class="hljs-keyword">type</span> Action = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Subject = <span class="hljs-keyword">typeof</span> Article | Article;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Action</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Subject</span> = <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Article</span> | <span class="hljs-title class_">Article</span>;
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[Action, Subject]&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;[<span class="hljs-title class_">Action</span>, <span class="hljs-title class_">Subject</span>]&gt;();
 
-ability.can(<span class="hljs-string">'read'</span>, Article);
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-keyword">new</span> Article());
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>());
 </code></pre>
 <p>This may be a bit routine to specify all possible subject types, especially if you have more than 3 of them. To make it easier, CASL provide <code>InferSubjects</code> typescript helper which can infer subjects from <a href="https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions" target="_blank" rel="noopener nofollow">tagged union</a>s (this helper checks <code>kind</code> and special <code>__caslSubjectType__</code> properties in order to determine the tag)</p>
 <blockquote>
@@ -448,36 +449,36 @@ ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-keyword
 <p>For the most cases the suggested approach above should be enough but if you prefer to ensure extreme type safety, you can define dependencies between actions and subjects. For example, user can only read information about users in your app and nothing more but can manage articles:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> CRUD = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Abilities = [<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>] | [CRUD, <span class="hljs-string">'Article'</span>];
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">CRUD</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Abilities</span> = [<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>] | [<span class="hljs-variable constant_">CRUD</span>, <span class="hljs-string">'Article'</span>];
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;Abilities&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;<span class="hljs-title class_">Abilities</span>&gt;();
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>);
-ability.can(<span class="hljs-string">'create'</span>, <span class="hljs-string">'User'</span>); <span class="hljs-comment">// build time error! because it's not allowed to create users</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'User'</span>); <span class="hljs-comment">// build time error! because it's not allowed to create users</span>
 </code></pre>
 <h2 id="application-ability"><a name="application-ability" class="h-link" href="#"></a>Application Ability</h2>
 <p>From the first sight, it looks like that in order to use safer generic parameters, your app's code will become more complicated and this is true. But there is an escape hatch - <strong>Companion object pattern</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { MongoAbility, createMongoAbility, CreateAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span>, createMongoAbility, <span class="hljs-title class_">CreateAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> CRUD = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Abilities = [<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>] | [CRUD, <span class="hljs-string">'Article'</span>];
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;Abilities&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">CRUD</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Abilities</span> = [<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>] | [<span class="hljs-variable constant_">CRUD</span>, <span class="hljs-string">'Article'</span>];
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">Abilities</span>&gt;;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAppAbility = createMongoAbility <span class="hljs-keyword">as</span> CreateAbility&lt;AppAbility&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createAppAbility = createMongoAbility <span class="hljs-keyword">as</span> <span class="hljs-title class_">CreateAbility</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;;
 <span class="hljs-comment">// or you can just call whenever you need</span>
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;AppAbility&gt;();
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;();
 </code></pre>
 <p>This simple pattern comes to TypeScript from Scala, and it's a way to pair together types and objects. In TypeScript, values and types live in a separate namespaces, this allows to use the same name for a type and a class. TypeScript understands which one to use based on the context.</p>
 <h2 id="ability-builder-type-inference"><a name="ability-builder-type-inference" class="h-link" href="#"></a>AbilityBuilder type inference</h2>
 <p><code>AbilityBuilder</code> constructor accepts the single argument which is a type of Ability we want to build:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-comment">// we can pass custom Ability class</span>
-<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> AbilityBuilder(Ability);
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(<span class="hljs-title class_">Ability</span>);
 
 <span class="hljs-comment">// or we can pass factory function</span>
-<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">const</span> builder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 </code></pre>
 <blockquote>
 <p>Starting from v5, <code>AbilityBuilder</code> accepts required parameter, <code>Ability</code> class to build or ability factory function</p>
@@ -495,9 +496,9 @@ ability.can(<span class="hljs-string">'create'</span>, <span class="hljs-string"
 <p>The cool thing is that all that safety is subject type dependent! Try to pass <code>User</code> subject type in place of <code>Post</code> and see it by yourself!</p>
 <h3 id="nested-fields-with-dot-notation"><a name="nested-fields-with-dot-notation" class="h-link" href="#"></a>Nested fields with dot notation</h3>
 <p>If we need to define conditions based on nested fields, we can do this by defining a separate interface:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { MongoAbility, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">interface</span> User {
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
   <span class="hljs-attr">kind</span>: <span class="hljs-string">'User'</span>
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
@@ -507,33 +508,33 @@ ability.can(<span class="hljs-string">'create'</span>, <span class="hljs-string"
   }
 }
 
-<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;[<span class="hljs-string">'read'</span>, User | <span class="hljs-string">'User'</span>]&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[<span class="hljs-string">'read'</span>, <span class="hljs-title class_">User</span> | <span class="hljs-string">'User'</span>]&gt;;
 
-<span class="hljs-keyword">const</span> { can } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createMongoAbility);
+<span class="hljs-keyword">const</span> { can } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
 
-<span class="hljs-keyword">type</span> FlatUser = User &amp; {
-  <span class="hljs-string">'address.street'</span>: User[<span class="hljs-string">'address'</span>][<span class="hljs-string">'street'</span>]
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">FlatUser</span> = <span class="hljs-title class_">User</span> &amp; {
+  <span class="hljs-string">'address.street'</span>: <span class="hljs-title class_">User</span>[<span class="hljs-string">'address'</span>][<span class="hljs-string">'street'</span>]
 };
 
-can&lt;FlatUser&gt;(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-string">'address.street'</span>: <span class="hljs-string">'test'</span> });
+can&lt;<span class="hljs-title class_">FlatUser</span>&gt;(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-string">'address.street'</span>: <span class="hljs-string">'test'</span> });
 <span class="hljs-comment">// It also works for fields</span>
-can&lt;FlatUser&gt;(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'address.street'</span>], { <span class="hljs-string">'address.street'</span>: <span class="hljs-string">'test'</span> })
+can&lt;<span class="hljs-title class_">FlatUser</span>&gt;(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'address.street'</span>], { <span class="hljs-string">'address.street'</span>: <span class="hljs-string">'test'</span> })
 </code></pre>
 <h2 id="useful-type-helpers"><a name="useful-type-helpers" class="h-link" href="#"></a>Useful type helpers</h2>
 <h3 id="raw-rule"><a name="raw-rule" class="h-link" href="#"></a>RawRule</h3>
 <p>Sometimes you may need to create <code>RawRule</code>s manually (or fetch them from db). In that case, you will need to type them explicitly. Use <code>RawRuleOf&lt;AppAbility&gt;</code> in case if you have type for <code>AppAbility</code> or <code>RawRuleFrom&lt;Abilities, Conditions&gt;</code> otherwise.</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { MongoAbility, RawRuleOf, RawRuleFrom, MongoQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">RawRuleOf</span>, <span class="hljs-title class_">RawRuleFrom</span>, <span class="hljs-title class_">MongoQuery</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> AppAbilities = [<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>];
-<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;AppAbilities&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbilities</span> = [<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">AppAbilities</span>&gt;;
 
-<span class="hljs-keyword">const</span> rawRules: RawRuleOf&lt;AppAbility&gt;[] = [
+<span class="hljs-keyword">const</span> <span class="hljs-attr">rawRules</span>: <span class="hljs-title class_">RawRuleOf</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;[] = [
   { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> }
 ];
 
 <span class="hljs-comment">// or</span>
-<span class="hljs-keyword">type</span> AppRawRule = RawRuleFrom&lt;AppAbilities, MongoQuery&gt;;
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRulesFromDb</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">AppRawRule</span>[]&gt; </span>{
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppRawRule</span> = <span class="hljs-title class_">RawRuleFrom</span>&lt;<span class="hljs-title class_">AppAbilities</span>, <span class="hljs-title class_">MongoQuery</span>&gt;;
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getRulesFromDb</span>(<span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">AppRawRule</span>[]&gt; {
   <span class="hljs-comment">// implementation</span>
 }
 </code></pre>
@@ -541,19 +542,19 @@ can&lt;FlatUser&gt;(<span class="hljs-string">'read'</span>, <span class="hljs-s
 <p>Similar to <code>RawRule</code> helpers, there is a helper <code>RuleOf&lt;AppAbility&gt;</code> for <code>Rule&lt;Abilities, Conditions&gt;</code>. It's very unlikely that you will need to work with this types on application layer.</p>
 <h3 id="ability-options-of"><a name="ability-options-of" class="h-link" href="#"></a>AbilityOptionsOf</h3>
 <p>Similar to <code>RawRule</code>, if you don't want to explicitly use <code>AbilityOptions&lt;Abilities, Conditions&gt;</code>, you can use <code>AbilityOptionsOf&lt;AppAbility&gt;</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityOptionsOf, MongoAbility, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityOptionsOf</span>, <span class="hljs-title class_">MongoAbility</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> AppAbilities = [<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>];
-<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;AppAbilities&gt;;
-<span class="hljs-keyword">const</span> options: AbilityOptionsOf&lt;AppAbility&gt; = {
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbilities</span> = [<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>];
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">AppAbilities</span>&gt;;
+<span class="hljs-keyword">const</span> <span class="hljs-attr">options</span>: <span class="hljs-title class_">AbilityOptionsOf</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt; = {
   <span class="hljs-attr">detectSubjectType</span>: <span class="hljs-function">(<span class="hljs-params">subject</span>) =&gt;</span> <span class="hljs-comment">/* custom implementation */</span>
 };
 
-<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;AppAbilities&gt;([], options);
+<span class="hljs-keyword">const</span> ability = createMongoAbility&lt;<span class="hljs-title class_">AppAbilities</span>&gt;([], options);
 </code></pre>
 <h3 id="any-ability-and-any-mongo-ability"><a name="any-ability-and-any-mongo-ability" class="h-link" href="#"></a>AnyAbility and AnyMongoAbility</h3>
 <p>These 2 types represents any <code>Ability</code> instance and any <code>MongoAbility</code> instance. They are usually a good fit for restrictions in generic types. For example, this is how <code>AnyAbility</code> is used in <code>AbilityBuilder</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbilityBuilder</span>&lt;<span class="hljs-title">T</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyAbility</span> </span>= AnyAbility&gt; {
+<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AnyAbility</span> = <span class="hljs-title class_">AnyAbility</span>&gt; {
   <span class="hljs-comment">// implementation details</span>
 }
 </code></pre>

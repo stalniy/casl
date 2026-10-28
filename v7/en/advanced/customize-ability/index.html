@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/customize-ability/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -339,22 +340,22 @@
 <p>Let's see an example of how to add <code>$nor</code> operator. To do this, we will use <code>buildMongoQueryMatcher</code> helper function from <code>@casl/ability</code> package. It allows to add or override existing operators:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
   createMongoAbility,
-  AbilityBuilder,
-  Abilities,
+  <span class="hljs-title class_">AbilityBuilder</span>,
+  <span class="hljs-title class_">Abilities</span>,
   buildMongoQueryMatcher,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { $nor, nor } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/mongo2js'</span>;
 
-<span class="hljs-keyword">const</span> conditionsMatcher = buildMongoQueryMatcher({ $nor }, { nor });
+<span class="hljs-keyword">const</span> conditionsMatcher = <span class="hljs-title function_">buildMongoQueryMatcher</span>({ $nor }, { nor });
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
-  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
-    <span class="hljs-attr">$nor</span>: [{ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> }, { <span class="hljs-attr">authorId</span>: user.id }]
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
+    <span class="hljs-attr">$nor</span>: [{ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> }, { <span class="hljs-attr">authorId</span>: user.<span class="hljs-property">id</span> }]
   });
 
-  <span class="hljs-keyword">return</span> build({ conditionsMatcher });
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>({ conditionsMatcher });
 }
 </code></pre>
 <blockquote>
@@ -363,25 +364,25 @@
 <p><code>buildMongoQueryMatcher</code> extends existing set of operators, so if you want to restrict available operators, you should not use it. For example, let's allow to use only <code>$eq</code> and <code>$in</code> operators:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
   createMongoAbility,
-  MongoAbility,
-  AbilityBuilder,
-  Abilities,
-  MongoQueryFieldOperators,
-  ConditionsMatcher,
+  <span class="hljs-title class_">MongoAbility</span>,
+  <span class="hljs-title class_">AbilityBuilder</span>,
+  <span class="hljs-title class_">Abilities</span>,
+  <span class="hljs-title class_">MongoQueryFieldOperators</span>,
+  <span class="hljs-title class_">ConditionsMatcher</span>,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { $in, within, $eq, eq, createFactory, BuildMongoQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/mongo2js'</span>;
+<span class="hljs-keyword">import</span> { $in, within, $eq, eq, createFactory, <span class="hljs-title class_">BuildMongoQuery</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/mongo2js'</span>;
 
-<span class="hljs-keyword">type</span> RestrictedMongoQuery&lt;T&gt; = BuildMongoQuery&lt;T, Pick&lt;MongoQueryFieldOperators, <span class="hljs-string">'$eq'</span> | <span class="hljs-string">'$in'</span>&gt;&gt;;
-<span class="hljs-keyword">const</span> conditionsMatcher: ConditionsMatcher&lt;RestrictedMongoQuery&gt; = createFactory({ $in, $eq }, { <span class="hljs-attr">in</span>: within, eq });
-<span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;Abilities, RestrictedMongoQuery&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">RestrictedMongoQuery</span>&lt;T&gt; = <span class="hljs-title class_">BuildMongoQuery</span>&lt;T, <span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">MongoQueryFieldOperators</span>, <span class="hljs-string">'$eq'</span> | <span class="hljs-string">'$in'</span>&gt;&gt;;
+<span class="hljs-keyword">const</span> <span class="hljs-attr">conditionsMatcher</span>: <span class="hljs-title class_">ConditionsMatcher</span>&lt;<span class="hljs-title class_">RestrictedMongoQuery</span>&gt; = <span class="hljs-title function_">createFactory</span>({ $in, $eq }, { <span class="hljs-attr">in</span>: within, eq });
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;<span class="hljs-title class_">Abilities</span>, <span class="hljs-title class_">RestrictedMongoQuery</span>&gt;;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
-  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: user.id } });
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>] } });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: user.<span class="hljs-property">id</span> } });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>] } });
 
-  <span class="hljs-keyword">return</span> build({ conditionsMatcher });
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>({ conditionsMatcher });
 }
 </code></pre>
 <blockquote>
@@ -393,22 +394,22 @@
 <p>Conditions matcher is a factory function that accepts <code>rule.conditions</code> and returns a function that accepts an object and returns boolean. All these restrictions on conditions matcher is enforced by <code>ConditionsMatcher</code> generic type which you can import from <code>@casl/ability</code>.</p>
 <p>Let's implement the matcher that allows to use a function as conditions matcher:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> {
-  Ability,
-  AbilityBuilder,
-  <span class="hljs-keyword">type</span> AbilityTuple,
-  <span class="hljs-keyword">type</span> MatchConditions,
+  <span class="hljs-title class_">Ability</span>,
+  <span class="hljs-title class_">AbilityBuilder</span>,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">AbilityTuple</span>,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">MatchConditions</span>,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> AppAbility = Ability&lt;AbilityTuple, MatchConditions&gt;;
-<span class="hljs-keyword">const</span> lambdaMatcher = <span class="hljs-function">(<span class="hljs-params">matchConditions: MatchConditions</span>) =&gt;</span> matchConditions;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-title class_">AbilityTuple</span>, <span class="hljs-title class_">MatchConditions</span>&gt;;
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">lambdaMatcher</span> = (<span class="hljs-params"><span class="hljs-attr">matchConditions</span>: <span class="hljs-title class_">MatchConditions</span></span>) =&gt; matchConditions;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>): <span class="hljs-title">AppAbility</span> </span>{
-  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(Ability);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-built_in">any</span></span>): <span class="hljs-title class_">AppAbility</span> {
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(<span class="hljs-title class_">Ability</span>);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ authorId }</span>) =&gt;</span> authorId === user.id);
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ status }</span>) =&gt;</span> [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>].includes(status));
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ authorId }</span>) =&gt;</span> authorId === user.<span class="hljs-property">id</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-function">(<span class="hljs-params">{ status }</span>) =&gt;</span> [<span class="hljs-string">'draft'</span>, <span class="hljs-string">'published'</span>].<span class="hljs-title function_">includes</span>(status));
 
-  <span class="hljs-keyword">return</span> build({ <span class="hljs-attr">conditionsMatcher</span>: lambdaMatcher });
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>({ <span class="hljs-attr">conditionsMatcher</span>: lambdaMatcher });
 }
 </code></pre>
 <blockquote>
@@ -425,16 +426,16 @@
      should be more than enough.</p>
 </blockquote>
 <p>You can use this to reduce your bundle size or enforce simpler logic. For example, let's implement simple field matcher that doesn't support field patterns:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, AbilityBuilder, FieldMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">FieldMatcher</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fieldMatcher: FieldMatcher = <span class="hljs-function"><span class="hljs-params">fields</span> =&gt;</span> <span class="hljs-function"><span class="hljs-params">field</span> =&gt;</span> fields.includes(field);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">fieldMatcher</span>: <span class="hljs-title class_">FieldMatcher</span> = <span class="hljs-function"><span class="hljs-params">fields</span> =&gt;</span> <span class="hljs-function"><span class="hljs-params">field</span> =&gt;</span> fields.<span class="hljs-title function_">includes</span>(field);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user: <span class="hljs-built_in">any</span></span>) </span>{
-  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: <span class="hljs-built_in">any</span></span>) {
+  <span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'content'</span>]);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'content'</span>]);
 
-  <span class="hljs-keyword">return</span> build({ fieldMatcher });
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">build</span>({ fieldMatcher });
 }
 </code></pre></div>
       </article>

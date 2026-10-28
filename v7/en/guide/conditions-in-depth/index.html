@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/conditions-in-depth/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -333,17 +334,17 @@
 <p>Don't worry, if you are not familiar with MongoDB query language. We will go through some of its operators in this guide. But before we start, let's see how useful it may be by creating simple article scheduling logic, that allows to read articles only if their <code>createdAt</code> is in the past:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> today = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().setHours(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+<span class="hljs-keyword">const</span> today = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">setHours</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">createdAt</span>: { <span class="hljs-attr">$lte</span>: today } })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">createdAt</span>: { <span class="hljs-attr">$lte</span>: today } })
 });
 </code></pre>
 <p>Or let's allow to read articles that are in <code>review</code> or <code>published</code>:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'review'</span>, <span class="hljs-string">'published'</span>] } })
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'review'</span>, <span class="hljs-string">'published'</span>] } })
 });
 </code></pre>
 <p>Do you see the power it brings?</p>
@@ -407,20 +408,20 @@ Checks nested elements shape. Use <code>$elemMatch</code> operator to specify mu
     .</p>
 <h2 id="checking-logic-in-casl"><a name="checking-logic-in-casl" class="h-link" href="#"></a>Checking logic in CASL</h2>
 <p>When you define rules with conditions, the last are converted to functions that checks whether object matches specified MongoDB query. Let's see an example:</p>
-<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defaultAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defaultAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defaultAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
-    <span class="hljs-attr">createdAt</span>: { <span class="hljs-attr">$lte</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>() },
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defaultAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
+    <span class="hljs-attr">createdAt</span>: { <span class="hljs-attr">$lte</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>() },
     <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'review'</span>, <span class="hljs-string">'published'</span>] }
   })
 });
 </code></pre>
 <p>The example above says that article can be read if it's in review or published and its creation date is in the past or today. Before starting let's define simple class that represents <code>Article</code> entity.</p>
-<pre><code data-filename="entities.js" class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">status, createdAt</span>)</span> {
-    <span class="hljs-built_in">this</span>.status = status;
-    <span class="hljs-built_in">this</span>.createdAt = createdAt;
+<pre><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">status, createdAt</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> = status;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">createdAt</span> = createdAt;
   }
 }
 </code></pre>
@@ -433,15 +434,15 @@ Checks nested elements shape. Use <code>$elemMatch</code> operator to specify mu
 </blockquote>
 <p>Now we can test which articles user can read:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
-<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
 
-<span class="hljs-keyword">const</span> today = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().setHours(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+<span class="hljs-keyword">const</span> today = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">setHours</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
 <span class="hljs-keyword">const</span> tomorrow = <span class="hljs-comment">/* logic to calculate date for tomorrow */</span> ;
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'review'</span>, today)) <span class="hljs-comment">// (1), true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'published'</span>, today)) <span class="hljs-comment">// (2), true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'draft'</span>, today)) <span class="hljs-comment">// (3), false</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'review'</span>, tomorrow)) <span class="hljs-comment">// (4), false</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'review'</span>, today)) <span class="hljs-comment">// (1), true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'published'</span>, today)) <span class="hljs-comment">// (2), true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'draft'</span>, today)) <span class="hljs-comment">// (3), false</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'review'</span>, tomorrow)) <span class="hljs-comment">// (4), false</span>
 </code></pre>
 <p><code>(1)</code> and <code>(2)</code> returns <code>true</code> because article's status is one of the specified and <code>today</code> less then the specified value in conditions.
 <code>(3)</code> fails because article's status is not listed inside <code>$in</code> operator and <code>(4)</code> fails because article's <code>createdAt</code> is in future.</p>
@@ -452,101 +453,101 @@ ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-keyword">
 <p>Suppose we have an <code>Article</code> object which has a property <code>status</code>. We want to restrict the user to access only articles that are in few specific statuses.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'published'</span>, <span class="hljs-string">'inReview'</span>] } });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">status</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'published'</span>, <span class="hljs-string">'inReview'</span>] } });
 });
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">title, status</span>)</span> {
-    <span class="hljs-built_in">this</span>.title = title;
-    <span class="hljs-built_in">this</span>.status = status;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, status</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> = status;
   }
 }
 
-<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'CASL'</span>, <span class="hljs-string">'published'</span>);
-<span class="hljs-built_in">console</span>.log(ability.can(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'CASL'</span>, <span class="hljs-string">'published'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
 </code></pre>
 <h3 id="match-specified-item-in-an-array-property"><a name="match-specified-item-in-an-array-property" class="h-link" href="#"></a>Match specified item in an array property</h3>
 <p>Suppose we have an <code>Article</code> object which has a property <code>categories</code>. We want to restrict the user to access only articles in one specified category.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">categories</span>: <span class="hljs-string">'javascript'</span> });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">categories</span>: <span class="hljs-string">'javascript'</span> });
 });
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">title, categories</span>)</span> {
-    <span class="hljs-built_in">this</span>.title = title;
-    <span class="hljs-built_in">this</span>.categories = categories;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, categories</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">categories</span> = categories;
   }
 }
 
-<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'CASL'</span>, [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'acl'</span>]);
-<span class="hljs-built_in">console</span>.log(ability.can(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'CASL'</span>, [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'acl'</span>]);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
 </code></pre>
 <h3 id="match-one-of-few-items-in-an-array-property"><a name="match-one-of-few-items-in-an-array-property" class="h-link" href="#"></a>Match one of few items in an array property</h3>
 <p>Suppose we have an <code>Article</code> object which has a property <code>categories</code>. We want to restrict the user to access only articles in few specified categories.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">categories</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'frontend'</span>] } });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">categories</span>: { <span class="hljs-attr">$in</span>: [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'frontend'</span>] } });
 });
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">title, categories</span>)</span> {
-    <span class="hljs-built_in">this</span>.title = title;
-    <span class="hljs-built_in">this</span>.categories = categories;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, categories</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">categories</span> = categories;
   }
 }
 
-<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'CASL'</span>, [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'acl'</span>]);
-<span class="hljs-built_in">console</span>.log(ability.can(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> article = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'CASL'</span>, [<span class="hljs-string">'javascript'</span>, <span class="hljs-string">'acl'</span>]);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article)); <span class="hljs-comment">// true</span>
 </code></pre>
 <h3 id="match-nested-property-value"><a name="match-nested-property-value" class="h-link" href="#"></a>Match nested property value</h3>
 <p>Suppose we have an <code>Address</code> object which has property <code>country</code> which is an object of 2 fields: <code>isoCode</code> and <code>name</code>. We want to restrict user to access only those addresses that are located in the specified country.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Address'</span>, { <span class="hljs-string">'country.isoCode'</span>: <span class="hljs-string">'UA'</span> });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Address'</span>, { <span class="hljs-string">'country.isoCode'</span>: <span class="hljs-string">'UA'</span> });
 });
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Address</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">isoCode, name</span>)</span> {
-    <span class="hljs-built_in">this</span>.country = {
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Address</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">isoCode, name</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">country</span> = {
       <span class="hljs-attr">isoCode</span>: isoCode,
       <span class="hljs-attr">name</span>: name,
     }
   }
 }
 
-<span class="hljs-keyword">const</span> address = <span class="hljs-keyword">new</span> Address(<span class="hljs-string">'UA'</span>, <span class="hljs-string">'Ukraine'</span>);
-<span class="hljs-built_in">console</span>.log(ability.can(<span class="hljs-string">'read'</span>, address)); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> address = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Address</span>(<span class="hljs-string">'UA'</span>, <span class="hljs-string">'Ukraine'</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, address)); <span class="hljs-comment">// true</span>
 </code></pre>
 <h3 id="match-several-properties-of-a-nested-array-property"><a name="match-several-properties-of-a-nested-array-property" class="h-link" href="#"></a>Match several properties of a nested array property</h3>
 <p>Suppose we have a wishlist of products in some e-shop and we want to share wishlist item to somebody else and give him <code>update</code> permission.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'WishlistItem'</span>, {
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'WishlistItem'</span>, {
     <span class="hljs-attr">sharedWith</span>: {
-      <span class="hljs-attr">$elemMatch</span>: { <span class="hljs-attr">permission</span>: <span class="hljs-string">'update'</span>, <span class="hljs-attr">userId</span>: user.id }
+      <span class="hljs-attr">$elemMatch</span>: { <span class="hljs-attr">permission</span>: <span class="hljs-string">'update'</span>, <span class="hljs-attr">userId</span>: user.<span class="hljs-property">id</span> }
     }
   });
 });
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WishlistItem</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">title, sharedWith</span>)</span> {
-    <span class="hljs-built_in">this</span>.title = title;
-    <span class="hljs-built_in">this</span>.sharedWith = sharedWith;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">WishlistItem</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, sharedWith</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">sharedWith</span> = sharedWith;
   }
 }
 
-<span class="hljs-keyword">const</span> wishlistItem = <span class="hljs-keyword">new</span> WishlistItem(<span class="hljs-string">'CASL in Action'</span>, [
+<span class="hljs-keyword">const</span> wishlistItem = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WishlistItem</span>(<span class="hljs-string">'CASL in Action'</span>, [
   { <span class="hljs-attr">permission</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">userId</span>: <span class="hljs-number">2</span> },
   { <span class="hljs-attr">permission</span>: <span class="hljs-string">'update'</span>, <span class="hljs-attr">userId</span>: <span class="hljs-number">1</span> },
 ]);
-ability.can(<span class="hljs-string">'update'</span>, wishlistItem); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, wishlistItem); <span class="hljs-comment">// true</span>
 </code></pre></div>
       </article>
       

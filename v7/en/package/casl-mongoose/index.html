@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-mongoose/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -347,33 +348,33 @@ pnpm add @casl/mongoose @casl/ability
 <p>This neat helper function allows to convert ability rules to MongoDB query and fetch only accessible records from the database. It can be used with mongoose or <a href="https://mongodb.github.io/node-mongodb-native/" target="_blank" rel="noopener nofollow">MongoDB adapter</a>:</p>
 <h4 id="mongo-db-adapter"><a name="mongo-db-adapter" class="h-link" href="#"></a>MongoDB adapter</h4>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
-<span class="hljs-keyword">const</span> { MongoClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">MongoClient</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>);
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> db = <span class="hljs-keyword">await</span> MongoClient.connect(<span class="hljs-string">'mongodb://localhost:27017/blog'</span>);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoClient</span>.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://localhost:27017/blog'</span>);
   <span class="hljs-keyword">let</span> posts;
 
   <span class="hljs-keyword">try</span> {
-    posts = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">'posts'</span>).find(accessibleBy(ability, <span class="hljs-string">'update'</span>).ofType(<span class="hljs-string">'Post'</span>));
+    posts = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'posts'</span>).<span class="hljs-title function_">find</span>(<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>));
   } <span class="hljs-keyword">finally</span> {
-    db.close();
+    db.<span class="hljs-title function_">close</span>();
   }
 
-  <span class="hljs-built_in">console</span>.log(posts);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(posts);
 }
 </code></pre>
 <p>This can also be combined with other conditions with help of <code>$and</code> operator:</p>
-<pre><code class="hljs language-js">posts = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">'posts'</span>).find({
+<pre><code class="hljs language-js">posts = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'posts'</span>).<span class="hljs-title function_">find</span>({
   <span class="hljs-attr">$and</span>: [
-    accessibleBy(ability, <span class="hljs-string">'update'</span>).ofType(<span class="hljs-string">'Post'</span>),
+    <span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>),
     { <span class="hljs-attr">public</span>: <span class="hljs-literal">true</span> }
   ]
 });
 </code></pre>
 <p><strong>Important!</strong>: never use spread operator (i.e., <code>...</code>) to combine conditions provided by <code>accessibleBy</code> with something else because you may accidentally overwrite properties that restrict access to particular records:</p>
 <pre><code class="hljs language-js"><span class="hljs-comment">// returns { authorId: 1 }</span>
-<span class="hljs-keyword">const</span> permissionRestrictedConditions = accessibleBy(ability, <span class="hljs-string">'update'</span>).ofType(<span class="hljs-string">'Post'</span>);
+<span class="hljs-keyword">const</span> permissionRestrictedConditions = <span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>);
 
 <span class="hljs-comment">// DANGER DO NOT DO THIS (see above use $and)</span>
 <span class="hljs-keyword">const</span> query = {
@@ -385,12 +386,12 @@ pnpm add @casl/mongoose @casl/ability
 <p>In the case above, we overwrote <code>authorId</code> property and basically allowed non-authorized access to posts of author with <code>id = 2</code></p>
 <p>If there are no permissions defined for particular action/subjectType, <code>accessibleBy</code> will return <code>{ $expr: { $eq: [0, 1] } }</code> and when it's sent to MongoDB, database will return an empty result set.</p>
 <h4 id="mongoose"><a name="mongoose" class="h-link" href="#"></a>Mongoose</h4>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>) <span class="hljs-comment">// mongoose model</span>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>) <span class="hljs-comment">// mongoose model</span>
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>) <span class="hljs-comment">// defines Ability instance</span>
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> Post.find(accessibleBy(ability).ofType(<span class="hljs-string">'Post'</span>));
-  <span class="hljs-built_in">console</span>.log(accessiblePosts);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">find</span>(<span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>));
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
 }
 </code></pre>
 <p>Historically, <code>@casl/mongoose</code> was intended for super easy integration with <a href="http://mongoosejs.com/" target="_blank" rel="noopener nofollow">mongoose</a> but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS.</p>
@@ -400,54 +401,54 @@ pnpm add @casl/mongoose @casl/ability
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { accessibleRecordsPlugin } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
 <span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
 
-mongoose.plugin(accessibleRecordsPlugin);
+mongoose.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin);
 </code></pre>
 <blockquote>
 <p>Make sure to add the plugin before calling <code>mongoose.model(...)</code> method. Mongoose won't add global plugins to models that where created before calling <code>mongoose.plugin()</code>.</p>
 </blockquote>
 <p>or to a particular model:</p>
-<pre><code data-filename="Post.js" class="language-js"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>)
 <span class="hljs-keyword">const</span> { accessibleRecordsPlugin } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>)
 
-<span class="hljs-keyword">const</span> Post = <span class="hljs-keyword">new</span> mongoose.Schema({
-  <span class="hljs-attr">title</span>: <span class="hljs-built_in">String</span>,
-  <span class="hljs-attr">author</span>: <span class="hljs-built_in">String</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-keyword">new</span> mongoose.<span class="hljs-title class_">Schema</span>({
+  <span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">author</span>: <span class="hljs-title class_">String</span>
 })
 
-Post.plugin(accessibleRecordsPlugin)
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin)
 
-<span class="hljs-built_in">module</span>.exports = mongoose.model(<span class="hljs-string">'Post'</span>, Post)
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">Post</span>)
 </code></pre>
 <p>Afterwards, we can fetch accessible records using <code>accessibleBy</code> method on <code>Post</code>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>)
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>) <span class="hljs-comment">// defines Ability instance</span>
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> Post.accessibleBy(ability);
-  <span class="hljs-built_in">console</span>.log(accessiblePosts);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
 }
 </code></pre>
 <blockquote>
 <p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities</p>
 </blockquote>
 <p>or on existing query instance:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> Post.find({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
-    .accessibleBy(ability)
-    .select(<span class="hljs-string">'title'</span>);
-  <span class="hljs-built_in">console</span>.log(accessiblePosts);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">select</span>(<span class="hljs-string">'title'</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
 }
 </code></pre>
 <p><code>accessibleBy</code> returns an instance of <code>mongoose.Query</code> and that means you can chain it with any <code>mongoose.Query</code>'s method (e.g., <code>select</code>, <code>limit</code>, <code>sort</code>). By default, <code>accessibleBy</code> constructs a query based on the list of rules for <code>read</code> action but we can change this by providing the 2nd optional argument:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> postsThatCanBeUpdated = <span class="hljs-keyword">await</span> Post.accessibleBy(ability, <span class="hljs-string">'update'</span>);
-  <span class="hljs-built_in">console</span>.log(postsThatCanBeUpdated);
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> postsThatCanBeUpdated = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(postsThatCanBeUpdated);
 }
 </code></pre>
 <blockquote>
@@ -457,29 +458,29 @@ Post.plugin(accessibleRecordsPlugin)
 <p>For example, lets find all posts which user can delete (we haven’t defined abilities for delete):</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
 <span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
-<span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 
-mongoose.set(<span class="hljs-string">'debug'</span>, <span class="hljs-literal">true</span>);
+mongoose.<span class="hljs-title function_">set</span>(<span class="hljs-string">'debug'</span>, <span class="hljs-literal">true</span>);
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> }));
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> }));
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> Post.accessibleBy(ability, <span class="hljs-string">'delete'</span>);
+    <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'delete'</span>);
   } <span class="hljs-keyword">catch</span> (error) {
-    <span class="hljs-built_in">console</span>.log(error) <span class="hljs-comment">// ForbiddenError;</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(error) <span class="hljs-comment">// ForbiddenError;</span>
   }
 }
 </code></pre>
 <p>We can also use the resulting conditions in <a href="https://mongoosejs.com/docs/api.html#aggregate_Aggregate" target="_blank" rel="noopener nofollow">aggregation pipeline</a>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> query = Post.accessibleBy(ability)
-    .where({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
-    .getQuery();
-  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> Post.aggregate([
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">where</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">getQuery</span>();
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">aggregate</span>([
     {
       <span class="hljs-attr">$match</span>: {
         <span class="hljs-attr">$and</span>: [
@@ -490,77 +491,77 @@ mongoose.set(<span class="hljs-string">'debug'</span>, <span class="hljs-literal
     },
     <span class="hljs-comment">// other pipelines here</span>
   ]);
-  <span class="hljs-built_in">console</span>.log(result);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);
 }
 </code></pre>
 <p>or in <a href="https://mongoosejs.com/docs/api.html#model_Model.mapReduce" target="_blank" rel="noopener nofollow">mapReduce</a>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 <span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> query = Post.accessibleBy(ability)
-    .where({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
-    .getQuery();
-  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> Post.mapReduce({
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">where</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">getQuery</span>();
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">mapReduce</span>({
     <span class="hljs-attr">query</span>: {
       <span class="hljs-attr">$and</span>: [
         query,
         <span class="hljs-comment">// other conditions</span>
       ]
     },
-    <span class="hljs-attr">map</span>: <span class="hljs-function">() =&gt;</span> emit(<span class="hljs-built_in">this</span>.title, <span class="hljs-number">1</span>);
-    reduce: <span class="hljs-function">(<span class="hljs-params">_, items</span>) =&gt;</span> items.length;
+    <span class="hljs-attr">map</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">emit</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-attr">reduce</span>: <span class="hljs-function">(<span class="hljs-params">_, items</span>) =&gt;</span> items.<span class="hljs-property">length</span>;
   });
-  <span class="hljs-built_in">console</span>.log(result);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);
 }
 </code></pre>
 <h3 id="accessible-fields-by"><a name="accessible-fields-by" class="h-link" href="#"></a>accessibleFieldsBy</h3>
 <p><code>accessibleFieldsBy</code> allows retrieving accessible fields for a subject type or a concrete subject instance:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleFieldsBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
-<span class="hljs-keyword">import</span> { Post } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Post</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models'</span>;
 
-accessibleFieldsBy(ability).ofType(<span class="hljs-string">'Post'</span>) <span class="hljs-comment">// returns accessible fields for Post model</span>
-accessibleFieldsBy(ability).ofType(Post) <span class="hljs-comment">// also possible to pass class if classes are used for rule definition</span>
-accessibleFieldsBy(ability).of(<span class="hljs-keyword">new</span> Post()) <span class="hljs-comment">// returns accessible fields for Post model</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>) <span class="hljs-comment">// returns accessible fields for Post model</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>) <span class="hljs-comment">// also possible to pass class if classes are used for rule definition</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>()) <span class="hljs-comment">// returns accessible fields for Post model</span>
 </code></pre>
 <p>This helper can be used directly when we need to send only accessible part of a model in response:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> pick = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash/pick'</span>);
 <span class="hljs-keyword">const</span> { accessibleFieldsBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
-<span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 
-app.get(<span class="hljs-string">'/api/posts/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
-  <span class="hljs-keyword">const</span> post = <span class="hljs-keyword">await</span> Post.accessibleBy(ability).findByPk(req.params.id);
-  res.send(pick(post, accessibleFieldsBy(ability).of(post)));
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">'/api/posts/:id'</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> post = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">findByPk</span>(req.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>);
+  res.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">pick</span>(post, <span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post)));
 });
 </code></pre>
 <p>When called with a model type, <code>accessibleFieldsBy</code> does not take instance conditions into account. It follows the same <a href="https://casl.js.org/v7/en/guide/intro#checking-logic" target="_blank" rel="noopener nofollow">checking logic</a> as <code>Ability</code>'s <code>can</code> method. Let's see an example to recap:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
-<span class="hljs-keyword">const</span> Post = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> });
 });
-<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> Post({ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Private post'</span> });
+<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>({ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Private post'</span> });
 
-accessibleFieldsBy(ability).ofType(Post); <span class="hljs-comment">// ['title', 'description']</span>
-accessibleFieldsBy(ability).of(post); <span class="hljs-comment">// ['title']</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>); <span class="hljs-comment">// ['title', 'description']</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post); <span class="hljs-comment">// ['title']</span>
 </code></pre>
 <p>As you can see, model-level access returns all fields that can be read for all posts. At the same time, instance-level access returns fields that can be read from this particular <code>post</code> instance. That's why there is usually no much sense, except reducing traffic between app and database, to pass the result of model-level access into <code>mongoose.Query</code>'s <code>select</code> method because eventually you will need to call <code>accessibleFieldsBy</code> on every instance.</p>
 <p>This helper is pre-configured to get all fields from <code>Model.schema.paths</code>. If this is not desired, define your own custom helper:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AnyMongoAbility, Generics } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability"</span>;
-<span class="hljs-keyword">import</span> { AccessibleFields, GetSubjectTypeAllFieldsExtractor } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability/extra"</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AnyMongoAbility</span>, <span class="hljs-title class_">Generics</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AccessibleFields</span>, <span class="hljs-title class_">GetSubjectTypeAllFieldsExtractor</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability/extra"</span>;
 <span class="hljs-keyword">import</span> mongoose <span class="hljs-keyword">from</span> <span class="hljs-string">'mongoose'</span>;
 
-<span class="hljs-keyword">const</span> getSubjectTypeAllFieldsExtractor: GetSubjectTypeAllFieldsExtractor = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">type</span></span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> <span class="hljs-attr">getSubjectTypeAllFieldsExtractor</span>: <span class="hljs-title class_">GetSubjectTypeAllFieldsExtractor</span> = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">type</span></span>) =&gt;</span> {
   <span class="hljs-comment">/** custom implementation of returning all fields */</span>
 };
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accessibleFieldsBy</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">AnyMongoAbility</span>&gt;(<span class="hljs-params">
-  ability: T,
-  action: Parameters&lt;T[<span class="hljs-string">'rulesFor'</span>]&gt;[<span class="hljs-number">0</span>] = <span class="hljs-string">'read'</span>
-</span>): <span class="hljs-title">AccessibleFields</span>&lt;<span class="hljs-title">Extract</span>&lt;<span class="hljs-title">Generics</span>&lt;<span class="hljs-title">T</span>&gt;['<span class="hljs-title">abilities</span>'], <span class="hljs-title">unknown</span>[]&gt;[1]&gt; </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AccessibleFields(ability, action, getSubjectTypeAllFieldsExtractor);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> accessibleFieldsBy&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AnyMongoAbility</span>&gt;(
+  <span class="hljs-attr">ability</span>: T,
+  <span class="hljs-attr">action</span>: <span class="hljs-title class_">Parameters</span>&lt;T[<span class="hljs-string">'rulesFor'</span>]&gt;[<span class="hljs-number">0</span>] = <span class="hljs-string">'read'</span>
+): <span class="hljs-title class_">AccessibleFields</span>&lt;<span class="hljs-title class_">Extract</span>&lt;<span class="hljs-title class_">Generics</span>&lt;T&gt;[<span class="hljs-string">'abilities'</span>], <span class="hljs-built_in">unknown</span>[]&gt;[<span class="hljs-number">1</span>]&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccessibleFields</span>(ability, action, getSubjectTypeAllFieldsExtractor);
 }
 </code></pre>
 <h2 id="type-script-support-in-mongoose"><a name="type-script-support-in-mongoose" class="h-link" href="#"></a>TypeScript support in mongoose</h2>
@@ -568,40 +569,40 @@ accessibleFieldsBy(ability).of(post); <span class="hljs-comment">// ['title']</s
 <p>Suppose we have <code>Post</code> entity which can be described as:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> mongoose <span class="hljs-keyword">from</span> <span class="hljs-string">'mongoose'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Post <span class="hljs-keyword">extends</span> mongoose.Document {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Post</span> <span class="hljs-keyword">extends</span> mongoose.<span class="hljs-title class_">Document</span> {
   <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">content</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">published</span>: <span class="hljs-built_in">boolean</span>
 }
 
-<span class="hljs-keyword">const</span> PostSchema = <span class="hljs-keyword">new</span> mongoose.Schema&lt;Post&gt;({
-  <span class="hljs-attr">title</span>: <span class="hljs-built_in">String</span>,
-  <span class="hljs-attr">content</span>: <span class="hljs-built_in">String</span>,
-  <span class="hljs-attr">published</span>: <span class="hljs-built_in">Boolean</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">PostSchema</span> = <span class="hljs-keyword">new</span> mongoose.<span class="hljs-property">Schema</span>&lt;<span class="hljs-title class_">Post</span>&gt;({
+  <span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">content</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">published</span>: <span class="hljs-title class_">Boolean</span>
 });
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Post = mongoose.model(<span class="hljs-string">'Post'</span>, PostSchema);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">PostSchema</span>);
 </code></pre>
 <p>To extend <code>Post</code> model with <code>accessibleBy</code> method it's enough to include the corresponding plugin (either globally or locally in <code>Post</code>) and use corresponding <code>Model</code> type. So, let's change the example, so it includes <code>accessibleRecordsPlugin</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleRecordsPlugin, AccessibleRecordModel } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleRecordsPlugin, <span class="hljs-title class_">AccessibleRecordModel</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
 
 <span class="hljs-comment">// all previous code, except last line</span>
 
-PostSchema.plugin(accessibleRecordsPlugin);
+<span class="hljs-title class_">PostSchema</span>.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Post = mongoose.model&lt;Post, AccessibleRecordModel&lt;Post&gt;&gt;(<span class="hljs-string">'Post'</span>, PostSchema);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = mongoose.<span class="hljs-property">model</span>&lt;<span class="hljs-title class_">Post</span>, <span class="hljs-title class_">AccessibleRecordModel</span>&lt;<span class="hljs-title class_">Post</span>&gt;&gt;(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">PostSchema</span>);
 
 <span class="hljs-comment">// Now we can safely use `Post.accessibleBy` method.</span>
-Post.accessibleBy(<span class="hljs-comment">/* parameters */</span>)
-Post.where(<span class="hljs-comment">/* parameters */</span>).accessibleBy(<span class="hljs-comment">/* parameters */</span>);
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(<span class="hljs-comment">/* parameters */</span>)
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">where</span>(<span class="hljs-comment">/* parameters */</span>).<span class="hljs-title function_">accessibleBy</span>(<span class="hljs-comment">/* parameters */</span>);
 </code></pre>
 <p><code>accessibleFieldsBy</code> does not require mongoose-specific types. You can use it directly with models or documents:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleFieldsBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
 
-accessibleFieldsBy(ability).ofType(Post);
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>);
 
-<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> Post();
-accessibleFieldsBy(ability).of(post);
+<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>();
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post);
 </code></pre>
 <p>If you want model or document instance methods similar to the removed plugin, create a small app-level wrapper around <code>accessibleFieldsBy</code> that fits your own typings and field exposure rules.</p>
 <h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>

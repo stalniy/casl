@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-vue/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -358,11 +359,11 @@ pnpm add @casl/vue@1.x @casl/ability
 <span class="hljs-keyword">import</span> { abilitiesPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 <span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/ability'</span>;
 
-createApp()
-  .use(abilitiesPlugin, ability, {
+<span class="hljs-title function_">createApp</span>()
+  .<span class="hljs-title function_">use</span>(abilitiesPlugin, ability, {
     <span class="hljs-attr">useGlobalProperties</span>: <span class="hljs-literal">true</span>
   })
-  .mount(<span class="hljs-string">'#app'</span>);
+  .<span class="hljs-title function_">mount</span>(<span class="hljs-string">'#app'</span>);
 </code></pre>
 <p>Later, we can use either <code>$ability</code> or <code>$can</code> method in any component:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
@@ -372,9 +373,9 @@ createApp()
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 </code></pre>
 <p><code>globalProperties</code> is the same concept as global variables which may make life a bit more complicated because any component has access to them (i.e., implicit dependency) and we need to ensure they don't introduce name collisions by prefixing them. So, instead of exposing <code>$ability</code> and <code>$can</code> as globals, we can use <a href="https://v3.vuejs.org/guide/component-provide-inject.html" target="_blank" rel="noopener nofollow">provide/inject API</a> to inject <code>$ability</code>:</p>
-<pre><code class="hljs language-js">createApp()
-  .use(abilitiesPlugin, ability)
-  .mount(<span class="hljs-string">'#app'</span>);
+<pre><code class="hljs language-js"><span class="hljs-title function_">createApp</span>()
+  .<span class="hljs-title function_">use</span>(abilitiesPlugin, ability)
+  .<span class="hljs-title function_">mount</span>(<span class="hljs-string">'#app'</span>);
 </code></pre>
 <p>And to inject an <code>Ability</code> instance in a component, we can use <code>ABILITY_TOKEN</code>:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
@@ -385,12 +386,12 @@ createApp()
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-<span class="hljs-keyword">import</span> { ABILITY_TOKEN } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">ABILITY_TOKEN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">inject</span>: {
-    <span class="hljs-attr">$ability</span>: { <span class="hljs-attr">from</span>: ABILITY_TOKEN }
+    <span class="hljs-attr">$ability</span>: { <span class="hljs-attr">from</span>: <span class="hljs-variable constant_">ABILITY_TOKEN</span> }
   }
 }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -404,13 +405,13 @@ createApp()
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
 <span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-function"><span class="hljs-title">setup</span>(<span class="hljs-params"></span>)</span> {
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
     <span class="hljs-comment">// some code</span>
-    <span class="hljs-keyword">const</span> { can } = useAbility();
+    <span class="hljs-keyword">const</span> { can } = <span class="hljs-title function_">useAbility</span>();
 
     <span class="hljs-keyword">return</span> {
       <span class="hljs-comment">// other props</span>
@@ -426,17 +427,17 @@ createApp()
   <span class="hljs-comment">&lt;!-- a template --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
 <span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 <span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-function"><span class="hljs-title">setup</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-keyword">const</span> myCustomAbility = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> myCustomAbility = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
       <span class="hljs-comment">// ...</span>
     });
 
-    provideAbility(myCustomAbility)
+    <span class="hljs-title function_">provideAbility</span>(myCustomAbility)
   }
 }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -447,12 +448,12 @@ createApp()
 <h3 id="can-component"><a name="can-component" class="h-link" href="#"></a>Can component</h3>
 <p>There is an alternative way we can check permissions in the app, by using <code>Can</code> component. <code>Can</code> component is not registered by the plugin, so we can decide whether we want to use component or <code>v-if</code> + <code>$can</code> method. Also, this helps tree shaking to remove it if we decide to not use it.</p>
 <p>To register component globally, we can use global API (we can also register component locally in components that use it):</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { Can, abilitiesPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Can</span>, abilitiesPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 
-createApp()
-  .use(abilitiesPlugin, ability)
-  .component(Can.name, Can) <span class="hljs-comment">// component registration</span>
-  .mount(<span class="hljs-string">'#app'</span>);
+<span class="hljs-title function_">createApp</span>()
+  .<span class="hljs-title function_">use</span>(abilitiesPlugin, ability)
+  .<span class="hljs-title function_">component</span>(<span class="hljs-title class_">Can</span>.<span class="hljs-property">name</span>, <span class="hljs-title class_">Can</span>) <span class="hljs-comment">// component registration</span>
+  .<span class="hljs-title function_">mount</span>(<span class="hljs-string">'#app'</span>);
 </code></pre>
 <p>And this is how we can use it:</p>
 <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
@@ -551,63 +552,63 @@ createApp()
 <h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
 <p>The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.</p>
 <p>There are few ways to use TypeScript in a Vue app, depending on your preferences. But let's first define our <code>AppAbility</code> type:</p>
-<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { MongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> Actions = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
-<span class="hljs-keyword">type</span> Subjects = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Actions</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Subjects</span> = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility&lt;[Actions, Subjects]&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[<span class="hljs-title class_">Actions</span>, <span class="hljs-title class_">Subjects</span>]&gt;;
 </code></pre>
 <h3 id="augment-vue-types"><a name="augment-vue-types" class="h-link" href="#"></a>Augment Vue types</h3>
 <p>There is no other way for TypeScript to know types of global properties without augmentation. To do this, let's add <code>src/shims-ability.d.ts</code> file with the next content:</p>
-<pre><code data-filename="shims-ability.d.ts" class="language-ts"><span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>
 
-<span class="hljs-keyword">declare</span> <span class="hljs-built_in">module</span> <span class="hljs-string">'vue'</span> {
-  <span class="hljs-keyword">interface</span> ComponentCustomProperties {
-    <span class="hljs-attr">$ability</span>: AppAbility;
-    $can(<span class="hljs-built_in">this</span>: <span class="hljs-built_in">this</span>, ...args: Parameters&lt;<span class="hljs-built_in">this</span>[<span class="hljs-string">'$ability'</span>][<span class="hljs-string">'can'</span>]&gt;): <span class="hljs-built_in">boolean</span>;
+<span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">'vue'</span> {
+  <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ComponentCustomProperties</span> {
+    <span class="hljs-attr">$ability</span>: <span class="hljs-title class_">AppAbility</span>;
+    $can(<span class="hljs-attr">this</span>: <span class="hljs-variable language_">this</span>, ...<span class="hljs-attr">args</span>: <span class="hljs-title class_">Parameters</span>&lt;<span class="hljs-variable language_">this</span>[<span class="hljs-string">'$ability'</span>][<span class="hljs-string">'can'</span>]&gt;): <span class="hljs-built_in">boolean</span>;
   }
 }
 </code></pre>
 <h3 id="composition-api"><a name="composition-api" class="h-link" href="#"></a>Composition API</h3>
 <p>With composition API, we don't need to augment Vue types and can use <code>useAbility</code> hook:</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-function"><span class="hljs-title">setup</span>(<span class="hljs-params">props</span>)</span> {
-    <span class="hljs-keyword">const</span> { can } = useAbility&lt;AppAbility&gt;();
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params">props</span>) {
+    <span class="hljs-keyword">const</span> { can } = useAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;();
 
-    <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>) ? <span class="hljs-string">'Yes'</span> : <span class="hljs-string">'No'</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>) ? <span class="hljs-string">'Yes'</span> : <span class="hljs-string">'No'</span>;
   }
 }
 </code></pre>
 <p>Additionally, we can create a separate <code>useAppAbility</code> hook, so we don't need to import <code>useAbility</code> and <code>AppAbility</code> in every component we want to check permissions but instead just import a single hook:</p>
-<pre><code data-filename="hooks/useAppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'../AppAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../AppAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> useAppAbility = <span class="hljs-function">() =&gt;</span> useAbility&lt;AppAbility&gt;();
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">useAppAbility</span> = (<span class="hljs-params"></span>) =&gt; useAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;();
 </code></pre>
 <h3 id="options-api"><a name="options-api" class="h-link" href="#"></a>Options API</h3>
 <p>It's also possible to use <code>@casl/vue</code> and TypeScript with options API. By default, <code>ABILITY_TOKEN</code> is typed as <code>InjectionKey&lt;Ability&gt;</code>, to cast it to <code>InjectionKey&lt;AppAbility&gt;</code>, we need to use a separate variable:</p>
-<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { InjectionKey } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
-<span class="hljs-keyword">import</span> { ABILITY_TOKEN } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">InjectionKey</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">ABILITY_TOKEN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 
 <span class="hljs-comment">// previous content that defines `AppAbility`</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> TOKEN = ABILITY_TOKEN <span class="hljs-keyword">as</span> InjectionKey&lt;AppAbility&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">TOKEN</span> = <span class="hljs-variable constant_">ABILITY_TOKEN</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">InjectionKey</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;;
 </code></pre>
 <p>and now, when we inject <code>AppAbility</code> instance, we will have the correct types:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"ts"</span>&gt;</span><span class="javascript">
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"ts"</span>&gt;</span><span class="language-javascript">
 <span class="hljs-keyword">import</span> { defineComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
-<span class="hljs-keyword">import</span> { TOKEN } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">TOKEN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineComponent({
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineComponent</span>({
   <span class="hljs-attr">inject</span>: {
-    <span class="hljs-attr">ability</span>: { <span class="hljs-attr">from</span>: TOKEN }
+    <span class="hljs-attr">ability</span>: { <span class="hljs-attr">from</span>: <span class="hljs-variable constant_">TOKEN</span> }
   },
-  <span class="hljs-function"><span class="hljs-title">created</span>(<span class="hljs-params"></span>)</span> {
-    <span class="hljs-built_in">this</span>.ability <span class="hljs-comment">// AppAbility instance</span>
+  <span class="hljs-title function_">created</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">ability</span> <span class="hljs-comment">// AppAbility instance</span>
   }
 });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -618,7 +619,7 @@ createApp()
 <h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
 <p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules. Usually you will do this in your <code>LoginComponent</code>.</p>
 <p>Let's imagine that server returns user with a role on login:</p>
-<pre><code data-filename="Login.vue" class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">form</span> @<span class="hljs-attr">submit.prevent</span>=<span class="hljs-string">"login"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"email"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"password"</span> /&gt;</span>
@@ -626,39 +627,39 @@ createApp()
   <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-<span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { ABILITY_TOKEN } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
-<span class="hljs-keyword">import</span> { AppAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'../ability'</span>;
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">ABILITY_TOKEN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">name</span>: <span class="hljs-string">'LoginForm'</span>,
   <span class="hljs-attr">inject</span>: {
-    <span class="hljs-attr">$ability</span>: { <span class="hljs-attr">from</span>: ABILITY_TOKEN }
+    <span class="hljs-attr">$ability</span>: { <span class="hljs-attr">from</span>: <span class="hljs-variable constant_">ABILITY_TOKEN</span> }
   },
   <span class="hljs-attr">data</span>: <span class="hljs-function">() =&gt;</span> ({
     <span class="hljs-attr">email</span>: <span class="hljs-string">''</span>,
     <span class="hljs-attr">password</span>: <span class="hljs-string">''</span>
   }),
   <span class="hljs-attr">methods</span>: {
-    <span class="hljs-function"><span class="hljs-title">login</span>(<span class="hljs-params"></span>)</span> {
-      <span class="hljs-keyword">const</span> { email, password } = <span class="hljs-built_in">this</span>;
-      <span class="hljs-keyword">const</span> params = { <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify({ email, password }) };
+    <span class="hljs-title function_">login</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">const</span> { email, password } = <span class="hljs-variable language_">this</span>;
+      <span class="hljs-keyword">const</span> params = { <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>, <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ email, password }) };
 
-      <span class="hljs-keyword">return</span> fetch(<span class="hljs-string">'path/to/api/login'</span>, params)
-        .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.json())
-        .then(<span class="hljs-function">(<span class="hljs-params">{ user }</span>) =&gt;</span> <span class="hljs-built_in">this</span>.updateAbility(user));
+      <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'path/to/api/login'</span>, params)
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> response.<span class="hljs-title function_">json</span>())
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ user }</span>) =&gt;</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateAbility</span>(user));
     },
-    <span class="hljs-function"><span class="hljs-title">updateAbility</span>(<span class="hljs-params">user</span>)</span> {
-      <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createMongoAbility);
+    <span class="hljs-title function_">updateAbility</span>(<span class="hljs-params">user</span>) {
+      <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
 
-      <span class="hljs-keyword">if</span> (user.role === <span class="hljs-string">'admin'</span>) {
-        can(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
+      <span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'admin'</span>) {
+        <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
       } <span class="hljs-keyword">else</span> {
-        can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
+        <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);
       }
 
-      <span class="hljs-built_in">this</span>.$ability.update(rules);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">$ability</span>.<span class="hljs-title function_">update</span>(rules);
     }
   }
 };

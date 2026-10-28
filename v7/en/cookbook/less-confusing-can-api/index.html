@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/less-confusing-can-api/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -335,13 +336,13 @@
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-comment">// define abilities</span>
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-  cannot(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+  <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
 });
 
 <span class="hljs-comment">// check abilities</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
 </code></pre>
 <p><strong>The main disadvantage</strong> is that you need to remember the context and differences between function signatures of 
       <a itemprop="url" href="/v7/en/guide/intro">
@@ -353,27 +354,27 @@ ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-comment">// define abilities</span>
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">allow, forbid</span>) =&gt;</span> {
-  allow(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-  forbid(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">allow, forbid</span>) =&gt;</span> {
+  <span class="hljs-title function_">allow</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+  <span class="hljs-title function_">forbid</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
 });
 
 <span class="hljs-comment">// check abilities</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
 </code></pre>
 <p>The same example using pure <code>AbilityBuilder</code> can be written in similar way using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Assigning_to_new_variable_names" target="_blank" rel="noopener nofollow">object-destructuring</a>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-comment">// define abilities</span>
-<span class="hljs-keyword">const</span> { <span class="hljs-attr">can</span>: allow, <span class="hljs-attr">cannot</span>: forbid, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">const</span> { <span class="hljs-attr">can</span>: allow, <span class="hljs-attr">cannot</span>: forbid, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-allow(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-forbid(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-title function_">allow</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+<span class="hljs-title function_">forbid</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
 
-<span class="hljs-keyword">const</span> ability = build();
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">build</span>();
 
 <span class="hljs-comment">// check abilities</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
 </code></pre>
 <p><strong>The main advantage</strong> is that everybody clearly sees that <code>allow</code> and <code>can</code> are different methods and potentially may have different signatures (because they different!).</p>
 <blockquote>

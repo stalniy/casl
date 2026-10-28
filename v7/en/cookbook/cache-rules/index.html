@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/cache-rules/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -335,26 +336,26 @@
 <h2 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h2>
 <p>It takes considerable amount of time or requires additional roundtrip to the database to construct a <code>Ability</code> instance.</p>
 <p>Let's consider an example where user can manage own devices but <strong>devices doesn't have</strong> a reference to the owner. In such cases, we need to fetch all device ids in order to create a <code>MongoAbility</code> instance:</p>
-<pre><code data-filename="defineAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility, MongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { getDevicesOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/device'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = MongoAbility;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineRulesFor</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineRulesFor</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createMongoAbility);
 
-  <span class="hljs-keyword">const</span> devices = <span class="hljs-keyword">await</span> getDevicesOf(user);
-  <span class="hljs-keyword">const</span> ids = devices.map(<span class="hljs-function"><span class="hljs-params">device</span> =&gt;</span> device.id);
+  <span class="hljs-keyword">const</span> devices = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getDevicesOf</span>(user);
+  <span class="hljs-keyword">const</span> ids = devices.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">device</span> =&gt;</span> device.<span class="hljs-property">id</span>);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Device'</span>, { <span class="hljs-attr">id</span>: { <span class="hljs-attr">$in</span>: ids } });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Device'</span>, { <span class="hljs-attr">id</span>: { <span class="hljs-attr">$in</span>: ids } });
   <span class="hljs-comment">// other rules</span>
 
   <span class="hljs-keyword">return</span> rules;
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> rules = <span class="hljs-keyword">await</span> defineRulesFor(user);
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AppAbility(rules);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> rules = <span class="hljs-keyword">await</span> <span class="hljs-title function_">defineRulesFor</span>(user);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AppAbility</span>(rules);
 }
 </code></pre>
 <blockquote>
@@ -373,34 +374,34 @@
 <p>There is quite popular <a href="https://www.npmjs.com/package/lru-cache" target="_blank" rel="noopener nofollow">lru-cache</a> Node.js package which we will use in this guide but you can use any other implementation the same way.</p>
 </blockquote>
 <p>So, let's create a middleware that defines abilities for <code>Request</code> object:</p>
-<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> LruCache <span class="hljs-keyword">from</span> <span class="hljs-string">'lru-cache'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LruCache</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'lru-cache'</span>;
 <span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
 <span class="hljs-comment">// store abilities of 1000 most active users</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ABILITIES_CACHE = <span class="hljs-keyword">new</span> LruCache(<span class="hljs-number">1000</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">ABILITIES_CACHE</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LruCache</span>(<span class="hljs-number">1000</span>);
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
-  <span class="hljs-keyword">if</span> (ABILITIES_CACHE.has(req.user.id)) {
-    req.ability = ABILITIES_CACHE.get(req.user.id);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">provideAbility</span>(<span class="hljs-params">req, res, next</span>) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">ABILITIES_CACHE</span>.<span class="hljs-title function_">has</span>(req.<span class="hljs-property">user</span>.<span class="hljs-property">id</span>)) {
+    req.<span class="hljs-property">ability</span> = <span class="hljs-variable constant_">ABILITIES_CACHE</span>.<span class="hljs-title function_">get</span>(req.<span class="hljs-property">user</span>.<span class="hljs-property">id</span>);
   } <span class="hljs-keyword">else</span> {
-    req.ability = <span class="hljs-keyword">await</span> defineAbilityFor(req.user);
-    ABILITIES_CACHE.set(req.user.id, req.ability);
+    req.<span class="hljs-property">ability</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">defineAbilityFor</span>(req.<span class="hljs-property">user</span>);
+    <span class="hljs-variable constant_">ABILITIES_CACHE</span>.<span class="hljs-title function_">set</span>(req.<span class="hljs-property">user</span>.<span class="hljs-property">id</span>, req.<span class="hljs-property">ability</span>);
   }
 
-  next();
+  <span class="hljs-title function_">next</span>();
 }
 </code></pre>
 <p>Now we can use this middleware to provide abilities for a particular user and check its permissions:</p>
-<pre><code data-filename="boot.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
 <span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
 
-<span class="hljs-keyword">const</span> app = express();
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
 
 <span class="hljs-comment">// app configuration and other middlewares</span>
 
-app.use(provideAbility);
+app.<span class="hljs-title function_">use</span>(provideAbility);
 
-app.listen(<span class="hljs-number">3000</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'app is listening on http://localhost:3000'</span>));
+app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'app is listening on http://localhost:3000'</span>));
 </code></pre>
 <blockquote>
 <p>Don't forget to invalidate cache when user adds or removes devices</p>
@@ -409,68 +410,68 @@ app.listen(<span class="hljs-number">3000</span>, <span class="hljs-function">()
 <p>If the application uses stored sessions and <a href="#in-memory-lru-cache">LRU cache</a> doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not <code>Ability</code> instance? Because session storage serializes object before storing it. Rules are easily serializable and <code>Ability</code> instance is not, but can be created from rules.</p>
 <p>Sessions in express usually are implemented with help of <a href="https://www.npmjs.com/package/express-session" target="_blank" rel="noopener nofollow">express-session</a> and <a href="https://www.npmjs.com/package/connect-redis" target="_blank" rel="noopener nofollow">connect-redis</a>. We will do it the same way.</p>
 <p>So, the only thing which is left is to implement <code>provideAbility</code> middleware that saves rules for a particular user in his session storage. Pay attention that we use <code>defineRulesFor</code> and not <code>defineAbilityFor</code> function:</p>
-<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
-  <span class="hljs-keyword">let</span> rules = req.session.abilityRules;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">provideAbility</span>(<span class="hljs-params">req, res, next</span>) {
+  <span class="hljs-keyword">let</span> rules = req.<span class="hljs-property">session</span>.<span class="hljs-property">abilityRules</span>;
 
-  <span class="hljs-keyword">if</span> (!req.session.abilityRules) {
-    rules = <span class="hljs-keyword">await</span> defineRulesFor(req.user);
-    req.session.abilityRules = rules
+  <span class="hljs-keyword">if</span> (!req.<span class="hljs-property">session</span>.<span class="hljs-property">abilityRules</span>) {
+    rules = <span class="hljs-keyword">await</span> <span class="hljs-title function_">defineRulesFor</span>(req.<span class="hljs-property">user</span>);
+    req.<span class="hljs-property">session</span>.<span class="hljs-property">abilityRules</span> = rules
   }
 
-  req.ability = createMongoAbility(rules);
-  next();
+  req.<span class="hljs-property">ability</span> = <span class="hljs-title function_">createMongoAbility</span>(rules);
+  <span class="hljs-title function_">next</span>();
 }
 </code></pre>
 <p>And make sure that you correctly configure express-session in your <code>app.ts</code> file. It should be something like this:</p>
-<pre><code data-filename="app.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
 <span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
 <span class="hljs-keyword">import</span> session <span class="hljs-keyword">from</span> <span class="hljs-string">'express-session'</span>;
 <span class="hljs-keyword">import</span> redis <span class="hljs-keyword">from</span> <span class="hljs-string">'redis'</span>;
 <span class="hljs-keyword">import</span> createRedisStore <span class="hljs-keyword">from</span> <span class="hljs-string">'connect-redis'</span>;
 
-<span class="hljs-keyword">const</span> app = express();
-<span class="hljs-keyword">const</span> RedisStore = createRedisStore(session);
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">RedisStore</span> = <span class="hljs-title function_">createRedisStore</span>(session);
 
-app.use(session({
-  <span class="hljs-attr">store</span>: <span class="hljs-keyword">new</span> RedisStore({ <span class="hljs-attr">client</span>: redis.createClient() }),
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">session</span>({
+  <span class="hljs-attr">store</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">RedisStore</span>({ <span class="hljs-attr">client</span>: redis.<span class="hljs-title function_">createClient</span>() }),
   <span class="hljs-attr">secret</span>: <span class="hljs-string">'my app session secret'</span>,
 }));
 
 <span class="hljs-comment">// app configuration and other middlewares</span>
 
-app.use(provideAbility);
+app.<span class="hljs-title function_">use</span>(provideAbility);
 </code></pre>
 <h3 id="in-jwt-token-payload"><a name="in-jwt-token-payload" class="h-link" href="#"></a>In JWT token payload</h3>
 <p>If the app uses stateless <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank" rel="noopener nofollow">JWT</a> tokens, you can embed the rules into its payload:</p>
-<pre><code data-filename="login.ts" class="language-ts"><span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params">req, res</span>) </span>{
-  <span class="hljs-keyword">const</span> token = jwt.sign({
-    <span class="hljs-attr">id</span>: req.user.id,
-    <span class="hljs-attr">rules</span>: <span class="hljs-keyword">await</span> defineRulesFor(req.user)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">req, res</span>) {
+  <span class="hljs-keyword">const</span> token = jwt.<span class="hljs-title function_">sign</span>({
+    <span class="hljs-attr">id</span>: req.<span class="hljs-property">user</span>.<span class="hljs-property">id</span>,
+    <span class="hljs-attr">rules</span>: <span class="hljs-keyword">await</span> <span class="hljs-title function_">defineRulesFor</span>(req.<span class="hljs-property">user</span>)
   }, <span class="hljs-string">'secret'</span>, { <span class="hljs-attr">expiresIn</span>: <span class="hljs-string">'1d'</span> })
 
-  res.send({ token })
+  res.<span class="hljs-title function_">send</span>({ token })
 }
 </code></pre>
 <p>And implement <code>provideAbility</code> middleware that creates ability out of jwt token which is provided by client in <code>Authorization</code> header:</p>
-<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provideAbility</span>(<span class="hljs-params">req, res, next</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">provideAbility</span>(<span class="hljs-params">req, res, next</span>) {
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> token = req.headers.authorization;
-    <span class="hljs-keyword">const</span> { rules } = jwt.verify(token, req.app.get(<span class="hljs-string">'jwtSecret'</span>));
+    <span class="hljs-keyword">const</span> token = req.<span class="hljs-property">headers</span>.<span class="hljs-property">authorization</span>;
+    <span class="hljs-keyword">const</span> { rules } = jwt.<span class="hljs-title function_">verify</span>(token, req.<span class="hljs-property">app</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">'jwtSecret'</span>));
 
-    req.ability = createMongoAbility(rules);
-    next();
+    req.<span class="hljs-property">ability</span> = <span class="hljs-title function_">createMongoAbility</span>(rules);
+    <span class="hljs-title function_">next</span>();
   } <span class="hljs-keyword">catch</span> (error) {
-    next(error);
+    <span class="hljs-title function_">next</span>(error);
   }
 }
 </code></pre>

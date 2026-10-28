@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/restricting-fields/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -330,19 +331,19 @@
         <h1>Restricting fields access</h1>
         
         <div class="description md"><p>Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish <code>Article</code>:</p>
-<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defineAbilityFor</span>(<span class="hljs-params">user</span>) </span>{
-  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params">user</span>) {
+  <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
-  can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">authorId</span>: user.id });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">authorId</span>: user.<span class="hljs-property">id</span> });
 
-  <span class="hljs-keyword">if</span> (user.isModerator) {
-    can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'published'</span>]);
+  <span class="hljs-keyword">if</span> (user.<span class="hljs-property">isModerator</span>) {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, [<span class="hljs-string">'published'</span>]);
   }
 
-  <span class="hljs-keyword">return</span> createMongoAbility(rules);
+  <span class="hljs-keyword">return</span> <span class="hljs-title function_">createMongoAbility</span>(rules);
 }
 </code></pre>
 <p>Now we can check permissions on fields:</p>
@@ -351,31 +352,31 @@
 <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
 <span class="hljs-keyword">const</span> moderator = { <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">isModerator</span>: <span class="hljs-literal">true</span> };
 
-defineAbilityFor(user).can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>); <span class="hljs-comment">// false</span>
-defineAbilityFor(moderator).can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>); <span class="hljs-comment">// true</span>
+<span class="hljs-title function_">defineAbilityFor</span>(user).<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>); <span class="hljs-comment">// false</span>
+<span class="hljs-title function_">defineAbilityFor</span>(moderator).<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <p><strong>Be attentive when you define rules for fields with conditions</strong>, the result of the check will be different depending on whether you pass a subject or subject type! To illustrate the difference let's define a simple class:</p>
-<pre><code data-filename="entities.js" class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span> </span>{
-  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">title, description, authorId</span>)</span> {
-    <span class="hljs-built_in">this</span>.title = title;
-    <span class="hljs-built_in">this</span>.description = description;
-    <span class="hljs-built_in">this</span>.authorId = authorId;
-    <span class="hljs-built_in">this</span>.published = <span class="hljs-literal">false</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, description, authorId</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">description</span> = description;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">authorId</span> = authorId;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">published</span> = <span class="hljs-literal">false</span>;
   }
 }
 </code></pre>
 <p>And let's check permissions:</p>
-<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
-<span class="hljs-keyword">import</span> { Article } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
 
 <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
-<span class="hljs-keyword">const</span> ownArticle = <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'CASL in Action'</span>, <span class="hljs-string">''</span>, user.id);
-<span class="hljs-keyword">const</span> anotherArticle = <span class="hljs-keyword">new</span> Article(<span class="hljs-string">'CASL in Vue apps'</span>, <span class="hljs-string">''</span>, <span class="hljs-number">2</span>);
-<span class="hljs-keyword">const</span> ability = defineAbilityFor(user);
+<span class="hljs-keyword">const</span> ownArticle = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'CASL in Action'</span>, <span class="hljs-string">''</span>, user.<span class="hljs-property">id</span>);
+<span class="hljs-keyword">const</span> anotherArticle = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Article</span>(<span class="hljs-string">'CASL in Vue apps'</span>, <span class="hljs-string">''</span>, <span class="hljs-number">2</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbilityFor</span>(user);
 
-ability.can(<span class="hljs-string">'update'</span>, ownArticle, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'update'</span>, anotherArticle, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// false</span>
-ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// true!</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, ownArticle, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, anotherArticle, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// false</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'title'</span>); <span class="hljs-comment">// true!</span>
 </code></pre>
 <p>So, the last check returned <code>true</code> and at the first sight it seems wrong! But it's not. Similarly to 
       <a itemprop="url" href="/v7/en/guide/intro#checking-logic">
@@ -391,14 +392,14 @@ ability.can(<span class="hljs-string">'update'</span>, <span class="hljs-string"
 
 <span class="hljs-comment">// the same code from app.js, the example above</span>
 
-<span class="hljs-keyword">const</span> ARTICLE_FIELDS = [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>, <span class="hljs-string">'authorId'</span>, <span class="hljs-string">'published'</span>];
-<span class="hljs-keyword">const</span> options = { <span class="hljs-attr">fieldsFrom</span>: <span class="hljs-function"><span class="hljs-params">rule</span> =&gt;</span> rule.fields || ARTICLE_FIELDS };
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">ARTICLE_FIELDS</span> = [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>, <span class="hljs-string">'authorId'</span>, <span class="hljs-string">'published'</span>];
+<span class="hljs-keyword">const</span> options = { <span class="hljs-attr">fieldsFrom</span>: <span class="hljs-function"><span class="hljs-params">rule</span> =&gt;</span> rule.<span class="hljs-property">fields</span> || <span class="hljs-variable constant_">ARTICLE_FIELDS</span> };
 
-<span class="hljs-keyword">let</span> fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, ownArticle, options); <span class="hljs-comment">// ['title', 'description']</span>
-fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, anotherArticle, options); <span class="hljs-comment">// []</span>
-fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, options); <span class="hljs-comment">// ['title', 'description'] !</span>
+<span class="hljs-keyword">let</span> fields = <span class="hljs-title function_">permittedFieldsOf</span>(ability, <span class="hljs-string">'update'</span>, ownArticle, options); <span class="hljs-comment">// ['title', 'description']</span>
+fields = <span class="hljs-title function_">permittedFieldsOf</span>(ability, <span class="hljs-string">'update'</span>, anotherArticle, options); <span class="hljs-comment">// []</span>
+fields = <span class="hljs-title function_">permittedFieldsOf</span>(ability, <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, options); <span class="hljs-comment">// ['title', 'description'] !</span>
 
-<span class="hljs-keyword">if</span> (fields.includes(<span class="hljs-string">'published'</span>)) {
+<span class="hljs-keyword">if</span> (fields.<span class="hljs-title function_">includes</span>(<span class="hljs-string">'published'</span>)) {
   <span class="hljs-comment">// do something if can update published field</span>
 }
 </code></pre>
@@ -417,8 +418,8 @@ fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, <
   <span class="hljs-attr">description</span>: <span class="hljs-string">'powerful'</span>,
   <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// only moderators are allowed to change this field!</span>
 };
-<span class="hljs-keyword">const</span> fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, ownArticle, options);
-<span class="hljs-keyword">const</span> rawArticle = pick(reqBody, fields); <span class="hljs-comment">// { title: 'CASL', description: 'powerful' }</span>
+<span class="hljs-keyword">const</span> fields = <span class="hljs-title function_">permittedFieldsOf</span>(ability, <span class="hljs-string">'update'</span>, ownArticle, options);
+<span class="hljs-keyword">const</span> rawArticle = <span class="hljs-title function_">pick</span>(reqBody, fields); <span class="hljs-comment">// { title: 'CASL', description: 'powerful' }</span>
 </code></pre>
 <p>Thanks to this, users, who try to send attributes, won't be able to overcome permissions' restrictions.</p>
 <blockquote>
@@ -432,43 +433,43 @@ fields = permittedFieldsOf(ability, <span class="hljs-string">'update'</span>, <
 <p>CASL allows you to define permissions on nested fields, to do this just use dot notation, for example:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.city'</span>, <span class="hljs-string">'address.street'</span>]);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.city'</span>, <span class="hljs-string">'address.street'</span>]);
 });
 </code></pre>
 <h2 id="field-patterns"><a name="field-patterns" class="h-link" href="#"></a>Field patterns</h2>
 <p>It's also possible to define permissions for fields using patterns. You can use <code>*</code> to match any symbol except dot (i.e., <code>.</code>) and <code>**</code> to match any symbol. For example, you want to allow access to all fields of a nested field (in spite of the nesting level):</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.**'</span>]);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.**'</span>]);
 });
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.street'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.city.name'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.street'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.city.name'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <p>Or you can give access to only first level of nested fields:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.*'</span>]);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'address.*'</span>]);
 });
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.street'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.city.name'</span>); <span class="hljs-comment">// false</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.street'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'address.city.name'</span>); <span class="hljs-comment">// false</span>
 </code></pre>
 <p>Or you can give access to top level fields using pattern. Suppose <code>User</code> instance has multiple fields for street like <code>street1</code>, <code>street2</code>, etc:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'street*'</span>]);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'street*'</span>]);
 });
 
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street1'</span>); <span class="hljs-comment">// true</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street2'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street1'</span>); <span class="hljs-comment">// true</span>
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, <span class="hljs-string">'street2'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <h3 id="field-patterns-table"><a name="field-patterns-table" class="h-link" href="#"></a>Field patterns table</h3>
 <div class="responsive"><table>

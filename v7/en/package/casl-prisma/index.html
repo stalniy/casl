@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-prisma/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -348,22 +349,22 @@ pnpm add @casl/prisma @casl/ability
 <p><code>@casl/prisma</code> requires Prisma Client 4.16.0 or later. Prisma Client extensions are used by the <code>createCaslExtension</code> helper which is important to add to Prisma Client!</p>
 <h2 id="usage"><a name="usage" class="h-link" href="#"></a>Usage</h2>
 <p>This package is a bit different from all others because it provides a custom <code>createPrismaAbility</code> factory function that is configured to check permissions using Prisma <a href="https://www.prisma.io/docs/orm/reference/prisma-client-reference#where" target="_blank" rel="noopener nofollow">WhereInput</a>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { User, Post, Prisma } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
-<span class="hljs-keyword">import</span> { Ability, AbilityBuilder, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
-<span class="hljs-keyword">import</span> { createPrismaAbility, PrismaQuery, Subjects } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span>, <span class="hljs-title class_">Post</span>, <span class="hljs-title class_">Prisma</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span>, <span class="hljs-title class_">AbilityBuilder</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> { createPrismaAbility, <span class="hljs-title class_">PrismaQuery</span>, <span class="hljs-title class_">Subjects</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
 
-<span class="hljs-keyword">type</span> AppAbility = Ability&lt;[<span class="hljs-built_in">string</span>, Subjects&lt;{
-  <span class="hljs-attr">User</span>: User,
-  <span class="hljs-attr">Post</span>: Post
-}&gt;], PrismaQuery&gt;;
-<span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> AbilityBuilder&lt;AppAbility&gt;(createPrismaAbility);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-built_in">string</span>, <span class="hljs-title class_">Subjects</span>&lt;{
+  <span class="hljs-title class_">User</span>: <span class="hljs-title class_">User</span>,
+  <span class="hljs-title class_">Post</span>: <span class="hljs-title class_">Post</span>
+}&gt;], <span class="hljs-title class_">PrismaQuery</span>&gt;;
+<span class="hljs-keyword">const</span> { can, cannot, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;(createPrismaAbility);
 
-can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
-cannot(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">title</span>: { <span class="hljs-attr">startsWith</span>: <span class="hljs-string">'[WIP]:'</span> } });
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> });
+<span class="hljs-title function_">cannot</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">title</span>: { <span class="hljs-attr">startsWith</span>: <span class="hljs-string">'[WIP]:'</span> } });
 
-<span class="hljs-keyword">const</span> ability = build();
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
-ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-string">'Post'</span>, { <span class="hljs-attr">title</span>: <span class="hljs-string">'...'</span>, <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> })));
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">build</span>();
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title function_">subject</span>(<span class="hljs-string">'Post'</span>, { <span class="hljs-attr">title</span>: <span class="hljs-string">'...'</span>, <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span> })));
 </code></pre>
 <blockquote>
 <p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities. Everything is the same except of conditions language.</p>
@@ -391,11 +392,11 @@ ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-s
 <span class="hljs-keyword">import</span> <span class="hljs-string">'dotenv/config'</span>;
 <span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">'prisma/config'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
   <span class="hljs-attr">schema</span>: <span class="hljs-string">'./schema.prisma'</span>,
   <span class="hljs-attr">datasource</span>: {
     <span class="hljs-comment">// fall back to a local URL so generate does not fail in CI</span>
-    <span class="hljs-attr">url</span>: process.env.DATABASE_URL ?? <span class="hljs-string">'postgresql://postgres:postgres@localhost:5432/postgres'</span>,
+    <span class="hljs-attr">url</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">DATABASE_URL</span> ?? <span class="hljs-string">'postgresql://postgres:postgres@localhost:5432/postgres'</span>,
   },
 });
 </code></pre>
@@ -404,17 +405,17 @@ ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-s
 <p>One nice feature of <a href="https://prisma.io/" target="_blank" rel="noopener nofollow">Prisma</a> and <a href="https://github.com/stalniy/casl" target="_blank" rel="noopener nofollow">CASL</a> integration is that we can get all records from the database our user has access to. To do this, just use <code>accessibleBy</code> helper function:</p>
 <pre><code class="hljs language-ts"><span class="hljs-comment">// ability is a PrismaAbility instance created in the example above</span>
 
-<span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> prisma.post.findMany({
-  <span class="hljs-attr">where</span>: accessibleBy(ability).ofType(<span class="hljs-string">'Post'</span>)
+<span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> prisma.<span class="hljs-property">post</span>.<span class="hljs-title function_">findMany</span>({
+  <span class="hljs-attr">where</span>: <span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>)
 });
 </code></pre>
 <p>That function accepts <code>Ability</code> instance and <code>action</code> (defaults to <code>read</code>), returns an instance of <code>AccessibleRecords</code> with an <code>ofType</code> method which accepts Prisma model name and returns an object aggregated from permission rules <code>WhereInput</code>.</p>
 <p><strong>Important</strong>: in case user doesn't have ability to access any posts, <code>.ofType</code> returns a special empty condition. If you pass it directly to Prisma Client without <code>createCaslExtension</code>, Prisma rejects the query because the condition contains an internal marker field. This makes denied access fail closed.</p>
 <p>To combine this with business logic conditions, just use <code>AND</code>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> prisma.post.findMany({
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> prisma.<span class="hljs-property">post</span>.<span class="hljs-title function_">findMany</span>({
   <span class="hljs-attr">where</span>: {
     <span class="hljs-attr">AND</span>: [
-      accessibleBy(ability).ofType(<span class="hljs-string">'Post'</span>),
+      <span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>),
       { <span class="hljs-comment">/* business related conditions */</span> }
     ]
   }
@@ -425,14 +426,14 @@ ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-s
 <p><code>createCaslExtension</code> addresses <a href="https://github.com/stalniy/casl/issues/794" target="_blank" rel="noopener nofollow">this issue</a> by letting Prisma Client handle CASL's empty conditions as empty query results instead of throwing forbidden error.</p>
 <p><strong>Important:</strong> make sure to add this extension to the Prisma Client instance you use for CASL-protected queries. Otherwise, some CASL restrictions may not be applied correctly.</p>
 <p>Add it as any other regular extension:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { PrismaClient } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">PrismaClient</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
 <span class="hljs-keyword">import</span> { createCaslExtension } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
 
-<span class="hljs-keyword">const</span> prisma = <span class="hljs-keyword">new</span> PrismaClient().$extends(createCaslExtension());
+<span class="hljs-keyword">const</span> prisma = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrismaClient</span>().$extends(<span class="hljs-title function_">createCaslExtension</span>());
 </code></pre>
 <p>With this extension, operations with an empty CASL condition return the same kind of "no records" result Prisma users usually expect:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> prisma.post.findMany({
-  <span class="hljs-attr">where</span>: accessibleBy(ability).ofType(<span class="hljs-string">'Post'</span>)
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> prisma.<span class="hljs-property">post</span>.<span class="hljs-title function_">findMany</span>({
+  <span class="hljs-attr">where</span>: <span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>)
 });
 <span class="hljs-comment">// posts === []</span>
 </code></pre>
@@ -445,29 +446,29 @@ ability.can(<span class="hljs-string">'read'</span>, subject(<span class="hljs-s
 <p>Additionally, there are several helpers that makes it easy to work with Prisma and CASL:</p>
 <h3 id="prisma-query"><a name="prisma-query" class="h-link" href="#"></a>PrismaQuery</h3>
 <p>It's a generic type that provides <code>Prisma.ModelWhereInput</code> in generic way. We need to pass inside a named model:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { Model, PrismaQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">PrismaQuery</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
 
 <span class="hljs-comment">// almost the same as Prisma.UserWhereInput except that it's a higher order type</span>
-<span class="hljs-keyword">type</span> UserWhereInput = PrismaQuery&lt;Model&lt;User, <span class="hljs-string">'User'</span>&gt;&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">UserWhereInput</span> = <span class="hljs-title class_">PrismaQuery</span>&lt;<span class="hljs-title class_">Model</span>&lt;<span class="hljs-title class_">User</span>, <span class="hljs-string">'User'</span>&gt;&gt;;
 </code></pre>
 <h3 id="model"><a name="model" class="h-link" href="#"></a>Model</h3>
 <p>Just gives a name to a model. That name is stored using <code>ForcedSubject&lt;TName&gt;</code> helper from <code>@casl/ability</code>. To use a separate column or another strategy to name models, don't use this helper because it only works in combination with <code>subject</code> helper.</p>
 <h3 id="subjects"><a name="subjects" class="h-link" href="#"></a>Subjects</h3>
 <p>Creates a union of all possible subjects out of passed in object:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
-<span class="hljs-keyword">import</span> { Subjects } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@prisma/client'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Subjects</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma'</span>;
 
-<span class="hljs-keyword">type</span> AppSubjects = Subjects&lt;{
-  <span class="hljs-attr">User</span>: User
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppSubjects</span> = <span class="hljs-title class_">Subjects</span>&lt;{
+  <span class="hljs-title class_">User</span>: <span class="hljs-title class_">User</span>
 }&gt;; <span class="hljs-comment">// 'User' | Model&lt;User, 'User'&gt;</span>
 </code></pre>
 <p>To support rule definition for <code>all</code>, we just need to explicitly do it:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">type</span> AppSubjects = <span class="hljs-string">'all'</span> | Subjects&lt;{
-  <span class="hljs-attr">User</span>: User
+<pre><code class="hljs language-ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">AppSubjects</span> = <span class="hljs-string">'all'</span> | <span class="hljs-title class_">Subjects</span>&lt;{
+  <span class="hljs-title class_">User</span>: <span class="hljs-title class_">User</span>
 }&gt;; <span class="hljs-comment">// 'User' | Model&lt;User, 'User'&gt;</span>
 
-<span class="hljs-keyword">type</span> AppAbility = Ability&lt;[<span class="hljs-built_in">string</span>, AppSubjects], PrismaQuery&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-built_in">string</span>, <span class="hljs-title class_">AppSubjects</span>], <span class="hljs-title class_">PrismaQuery</span>&gt;;
 </code></pre>
 <h2 id="custom-prisma-client-output-path-prisma-7-default"><a name="custom-prisma-client-output-path-prisma-7-default" class="h-link" href="#"></a>Custom PrismaClient output path (Prisma 7 default)</h2>
 <p>Prisma 7's <code>prisma-client</code> generator writes the client into a custom directory, so <code>@prisma/client</code> no longer re-exports your project types. Point CASL at the generated client with a small wrapper built on <code>@casl/prisma/runtime</code>:</p>
@@ -480,36 +481,36 @@ generator client {
 <pre><code class="hljs language-ts"><span class="hljs-comment">// prisma.config.ts</span>
 <span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">'prisma/config'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>({
   <span class="hljs-attr">schema</span>: <span class="hljs-string">'./schema.prisma'</span>,
-  <span class="hljs-attr">datasource</span>: { <span class="hljs-attr">url</span>: process.env.DATABASE_URL! },
+  <span class="hljs-attr">datasource</span>: { <span class="hljs-attr">url</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">DATABASE_URL</span>! },
 });
 </code></pre>
 <pre><code class="hljs language-ts"><span class="hljs-comment">// src/casl-prisma.ts</span>
 <span class="hljs-keyword">import</span> {
   accessibleBy,
   createPrismaAbility,
-  ParsingQueryError,
+  <span class="hljs-title class_">ParsingQueryError</span>,
   prismaQuery,
-  <span class="hljs-keyword">type</span> Model,
-  <span class="hljs-keyword">type</span> PrismaQueryOf,
-  <span class="hljs-keyword">type</span> Subjects,
-  <span class="hljs-keyword">type</span> WhereInputOf,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">Model</span>,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">PrismaQueryOf</span>,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">Subjects</span>,
+  <span class="hljs-keyword">type</span> <span class="hljs-title class_">WhereInputOf</span>,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/prisma/runtime'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { Prisma, Post, User } <span class="hljs-keyword">from</span> <span class="hljs-string">'./generated/client'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Prisma</span>, <span class="hljs-title class_">Post</span>, <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./generated/client'</span>;
 
-<span class="hljs-keyword">export</span> { accessibleBy, createPrismaAbility, ParsingQueryError, prismaQuery };
+<span class="hljs-keyword">export</span> { accessibleBy, createPrismaAbility, <span class="hljs-title class_">ParsingQueryError</span>, prismaQuery };
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> PrismaQuery&lt;T <span class="hljs-keyword">extends</span> Model&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt; = Model&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt;&gt; =
-  PrismaQueryOf&lt;Prisma.TypeMap, T&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> WhereInput&lt;TModelName <span class="hljs-keyword">extends</span> Prisma.ModelName&gt; =
-  WhereInputOf&lt;Prisma.TypeMap, TModelName&gt;;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppSubjects = Subjects&lt;{
-  <span class="hljs-attr">User</span>: User,
-  <span class="hljs-attr">Post</span>: Post,
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">PrismaQuery</span>&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Model</span>&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt; = <span class="hljs-title class_">Model</span>&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt;&gt; =
+  <span class="hljs-title class_">PrismaQueryOf</span>&lt;<span class="hljs-title class_">Prisma</span>.<span class="hljs-property">TypeMap</span>, T&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">WhereInput</span>&lt;<span class="hljs-title class_">TModelName</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Prisma</span>.<span class="hljs-property">ModelName</span>&gt; =
+  <span class="hljs-title class_">WhereInputOf</span>&lt;<span class="hljs-title class_">Prisma</span>.<span class="hljs-property">TypeMap</span>, <span class="hljs-title class_">TModelName</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppSubjects</span> = <span class="hljs-title class_">Subjects</span>&lt;{
+  <span class="hljs-title class_">User</span>: <span class="hljs-title class_">User</span>,
+  <span class="hljs-title class_">Post</span>: <span class="hljs-title class_">Post</span>,
 }&gt;;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> AppAbility = Ability&lt;[<span class="hljs-string">'create'</span> | <span class="hljs-string">"read"</span> | <span class="hljs-string">"update"</span> | <span class="hljs-string">"delete"</span>, <span class="hljs-string">'all'</span> | AppSubjects], PrismaQuery&gt;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-string">'create'</span> | <span class="hljs-string">"read"</span> | <span class="hljs-string">"update"</span> | <span class="hljs-string">"delete"</span>, <span class="hljs-string">'all'</span> | <span class="hljs-title class_">AppSubjects</span>], <span class="hljs-title class_">PrismaQuery</span>&gt;
 </code></pre>
 <p>Use this wrapper in your app instead of importing from <code>@casl/prisma</code> directly. If you stay on the legacy <code>prisma-client-js</code> generator for Prisma 6.x compatibility, the default <code>@casl/prisma</code> entrypoint keeps working.</p>
 <h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>

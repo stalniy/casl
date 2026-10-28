@@ -24,9 +24,10 @@
   <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
 
   <link rel="stylesheet" href="/v7/global.css">
-  <script type="module" crossorigin="" src="/v7/assets/index-D4flQHWK.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DLyoQ8fQ.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="3301c12">
 <link rel="alternate" type="text/markdown" href="/v7/en/api/casl-ability/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -222,10 +223,10 @@
 <li><code>Conditions</code> is a shape of conditions. There is no restriction on this parameter, so it can be anything.</li>
 </ol>
 <p>For example:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability, Abilities } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span>, <span class="hljs-title class_">Abilities</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">type</span> ClaimAbility = Ability&lt;<span class="hljs-built_in">string</span>&gt;;
-<span class="hljs-keyword">type</span> AppAbility = Ability&lt;[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>]&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ClaimAbility</span> = <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-built_in">string</span>&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-built_in">string</span>, <span class="hljs-built_in">string</span>]&gt;;
 </code></pre>
 <p><strong>See also</strong>: 
       <a itemprop="url" href="/v7/en/advanced/typescript">
@@ -270,7 +271,7 @@ allows to pass a function that resolves aliases to actions. See
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;([
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;([
   { <span class="hljs-attr">action</span>: <span class="hljs-string">'read'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
   { <span class="hljs-attr">action</span>: <span class="hljs-string">'update'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Article'</span> },
 ]);
@@ -306,10 +307,10 @@ allows to pass a function that resolves aliases to actions. See
 <li>
 <p><strong>Usage</strong><br>
 Use it when you need to update permissions. In the common scenario, you need to do this on login, logout and when user permissions are changed.</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability([{ <span class="hljs-attr">action</span>: <span class="hljs-string">'manage'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'all'</span> }]);
-ability.update([]); <span class="hljs-comment">// took back all permissions</span>
+<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Ability</span>([{ <span class="hljs-attr">action</span>: <span class="hljs-string">'manage'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'all'</span> }]);
+ability.<span class="hljs-title function_">update</span>([]); <span class="hljs-comment">// took back all permissions</span>
 </code></pre>
 </li>
 <li>
@@ -336,15 +337,15 @@ ability.update([]); <span class="hljs-comment">// took back all permissions</spa
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { Ability } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> claimAbility = <span class="hljs-keyword">new</span> Ability&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;();
+<span class="hljs-keyword">const</span> claimAbility = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;();
 <span class="hljs-comment">// the 1st generic is a string, so the method accepts only single parameter</span>
-claimAbility.can(<span class="hljs-string">'read'</span>);
+claimAbility.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>);
 
-<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> Ability&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;();
+<span class="hljs-keyword">const</span> ability = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Ability</span>&lt;[<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>]&gt;();
 <span class="hljs-comment">// the 1st argument is a tuple, so the method accepts 2-3 parameters</span>
-ability.can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
 </code></pre>
 </li>
 <li>
@@ -448,9 +449,9 @@ Useful for frontend frameworks integration. Usually you have a single ability in
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 </code></pre>
 </li>
 <li>
@@ -482,23 +483,23 @@ Useful for frontend frameworks integration. Usually you have a single ability in
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { AbilityBuilder, Ability, createMongoAbility, AbilityClass } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span>, createMongoAbility, <span class="hljs-title class_">AbilityClass</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-comment">// action only Ability type</span>
-<span class="hljs-keyword">type</span> ClaimAbility = Ability&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;;
-<span class="hljs-keyword">const</span> ClaimAbility = Ability <span class="hljs-keyword">as</span> AbilityClass&lt;ClaimAbility&gt;;
-<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(ClaimAbility);
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ClaimAbility</span> = <span class="hljs-title class_">Ability</span>&lt;<span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span>&gt;;
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">ClaimAbility</span> = <span class="hljs-title class_">Ability</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">AbilityClass</span>&lt;<span class="hljs-title class_">ClaimAbility</span>&gt;;
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(<span class="hljs-title class_">ClaimAbility</span>);
 
-can(<span class="hljs-string">'read'</span>);
-can(<span class="hljs-string">'update'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>);
 
 <span class="hljs-comment">// or action and subject Ability type</span>
-<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> AbilityBuilder(createMongoAbility);
+<span class="hljs-keyword">const</span> { can, build } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
 
-can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
-can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'firstName'</span>, <span class="hljs-string">'lastName'</span>]);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>, [<span class="hljs-string">'firstName'</span>, <span class="hljs-string">'lastName'</span>]);
 
-<span class="hljs-keyword">const</span> ability = build();
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">build</span>();
 </code></pre>
 </li>
 <li>
@@ -540,13 +541,13 @@ can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</s
 </ul>
 <h2 id="forbidden-error"><a name="forbidden-error" class="h-link" href="#"></a>ForbiddenError</h2>
 <p>This class is useful if you want to stop execution of the next code in case if user doesn't have permission to do something. Has private <code>constructor</code>, so cannot be instantiated with <code>new</code> (in TypeScript). It's a generic class that accepts <code>TAbility</code> as a single parameter. For example:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError, defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> ability = defineAbility(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
-  can(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>)
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>)
 });
 
-ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
+<span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">from</span>(ability).<span class="hljs-title function_">throwUnlessCan</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
 <span class="hljs-comment">// fetch article from database</span>
 </code></pre>
 <h3 id="static-from"><a name="static-from" class="h-link" href="#"></a>static from</h3>
@@ -573,11 +574,11 @@ ForbiddenError.from(ability).throwUnlessCan(<span class="hljs-string">'read'</sp
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-ForbiddenError.setDefaultMessage(<span class="hljs-string">'Not authorized'</span>);
+<span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">setDefaultMessage</span>(<span class="hljs-string">'Not authorized'</span>);
 <span class="hljs-comment">// or more verbose</span>
-ForbiddenError.setDefaultMessage(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-string">`You are not allowed to <span class="hljs-subst">${error.action}</span> on <span class="hljs-subst">${error.subjectType}</span>`</span>);
+<span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">setDefaultMessage</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-string">`You are not allowed to <span class="hljs-subst">${error.action}</span> on <span class="hljs-subst">${error.subjectType}</span>`</span>);
 </code></pre>
 </li>
 </ul>
@@ -595,12 +596,12 @@ ForbiddenError.setDefaultMessage(<span class="hljs-function"><span class="hljs-p
 </li>
 <li>
 <p><strong>Usage</strong>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { ForbiddenError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./appAbility'</span>;
 
-ForbiddenError.from(ability)
-  .setMessage(<span class="hljs-string">'You cannot update posts'</span>)
-  .throwUnlessCan(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>);
+<span class="hljs-title class_">ForbiddenError</span>.<span class="hljs-title function_">from</span>(ability)
+  .<span class="hljs-title function_">setMessage</span>(<span class="hljs-string">'You cannot update posts'</span>)
+  .<span class="hljs-title function_">throwUnlessCan</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>);
 </code></pre>
 </li>
 </ul>
@@ -633,9 +634,9 @@ ForbiddenError.from(ability)
 <p><strong>Usage</strong></p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { fieldPatternMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> matchField = fieldPatternMatcher([<span class="hljs-string">'name'</span>, <span class="hljs-string">'email'</span>, <span class="hljs-string">'address.**'</span>]);
-<span class="hljs-built_in">console</span>.log(matchField(<span class="hljs-string">'name'</span>)); <span class="hljs-comment">// true</span>
-<span class="hljs-built_in">console</span>.log(matchField(<span class="hljs-string">'address.street'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> matchField = <span class="hljs-title function_">fieldPatternMatcher</span>([<span class="hljs-string">'name'</span>, <span class="hljs-string">'email'</span>, <span class="hljs-string">'address.**'</span>]);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">matchField</span>(<span class="hljs-string">'name'</span>)); <span class="hljs-comment">// true</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">matchField</span>(<span class="hljs-string">'address.street'</span>)); <span class="hljs-comment">// true</span>
 </code></pre>
 </li>
 <li>
@@ -676,9 +677,9 @@ ForbiddenError.from(ability)
 Can be passed as <code>conditionsMatcher</code> option to <code>Ability</code> class</p>
 <pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { mongoQueryMatcher } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
-<span class="hljs-keyword">const</span> matchConditions = mongoQueryMatcher({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
-<span class="hljs-built_in">console</span>.log(matchConditions({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">2</span> })); <span class="hljs-comment">// false</span>
-<span class="hljs-built_in">console</span>.log(matchConditions({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> })); <span class="hljs-comment">// true</span>
+<span class="hljs-keyword">const</span> matchConditions = <span class="hljs-title function_">mongoQueryMatcher</span>({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">matchConditions</span>({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">2</span> })); <span class="hljs-comment">// false</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">matchConditions</span>({ <span class="hljs-attr">authorId</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> })); <span class="hljs-comment">// true</span>
 </code></pre>
 </li>
 <li>
