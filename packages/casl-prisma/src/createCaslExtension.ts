@@ -1,11 +1,15 @@
-import { Prisma } from '@prisma/client/extension';
+import type { Prisma } from '@prisma/client/extension';
+
+// Keep Prisma's extension types without loading its runtime when evaluating rules.
+const defineExtension: typeof Prisma.defineExtension =
+  extension => client => client.$extends(extension);
 
 /**
  * This is needed because Prisma doesn't reliably mock empty OR condition:
  * https://github.com/prisma/prisma/issues/17367
  */
 export function createCaslExtension() {
-  return Prisma.defineExtension({
+  return defineExtension({
     name: 'casl',
     query: {
       $allModels: {
