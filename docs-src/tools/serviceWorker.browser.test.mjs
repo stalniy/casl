@@ -12,7 +12,11 @@ const basePath = '/v7';
 test('dev server preserves offline documents while a service worker update waits', { timeout: 180000 }, async (t) => {
   let server = await startDevServer('browser-test-A');
   t.after(() => server.stop());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    // Ubuntu CI runners cannot sandbox Puppeteer's downloaded Chrome.
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   t.after(() => browser.close());
   const page = await browser.newPage();
   await page.setCacheEnabled(false);
