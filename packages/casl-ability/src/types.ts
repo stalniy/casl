@@ -7,7 +7,9 @@ type AnyRecord = Record<PropertyKey, any>;
 
 export type AnyObject = Record<PropertyKey, unknown>;
 export type SubjectClass<N extends string = string> = AnyClass & { modelName?: N };
-export type SubjectType = string | SubjectClass;
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+export type ClassLike<N extends string = string> = Function & { prototype: any; modelName?: N };
+export type SubjectType = string | SubjectClass | ClassLike;
 export type Subject = AnyRecord | SubjectType;
 export type AbilityTuple<X extends string = string, Y extends Subject = Subject> = [X, Y];
 export type Abilities = AbilityTuple | string;
@@ -42,13 +44,16 @@ export type CanParameters<T extends Abilities, IncludeField extends boolean = tr
   >;
 export type ExtractSubjectType<S extends Subject> = Extract<S, SubjectType> | TagName<S>;
 
-type SubjectClassWithCustomName<T> = AnyClass & { modelName: T };
+type SubjectClassWithCustomName<T> = (SubjectClass | ClassLike) & { modelName: T };
+export type InstanceOfClass<T> = T extends AnyClass<infer I>
+  ? I
+  : T extends { prototype: infer I } ? I : never;
 export type InferSubjects<T, IncludeTagName extends boolean = false> =
   T | (
-    T extends AnyClass<infer I>
-      ? I | (
+    T extends SubjectClass | ClassLike
+      ? InstanceOfClass<T> | (
         IncludeTagName extends true
-          ? T extends SubjectClassWithCustomName<infer Name> ? Name : TagName<I>
+          ? T extends SubjectClassWithCustomName<infer Name> ? Name : TagName<InstanceOfClass<T>>
           : never
       )
       : TagName<T>
