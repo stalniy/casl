@@ -1,10 +1,10 @@
+import type { ResolveInstance, SubjectResolver } from './SubjectResolver';
 import { type AnyMongoAbility, createMongoAbility, type MongoAbility } from './createMongoAbility';
 import type { ProduceGeneric } from './hkt';
 import type { AbilityOptionsOf, AnyAbility } from './Ability';
 import type { Generics, RawRuleOf } from './RuleIndex';
 import type {
-  AbilityTuple, AnyClass, AnyObject, ExtractSubjectType as E, Normalize, SubjectType,
-  TaggedInterface, InstanceOfClass, SubjectClass, ClassLike
+  AbilityTuple, AnyClass, ExtractSubjectType as E, Normalize, SubjectType
 } from './types';
 
 function isAbilityClass(factory: AbilityFactory<any>): factory is AnyClass {
@@ -25,36 +25,32 @@ class RuleBuilder<T extends AnyAbility> {
 }
 
 type AbilityFactory<T extends AnyAbility> = AnyClass<T> | ((rules?: any[], options?: any) => T);
-type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends SubjectClass | ClassLike
-  ? InstanceOfClass<S>
-  : S extends (...args: any[]) => infer O
-    ? O
-    : S extends string
-      ? Exclude<Normalize<Generics<T>['abilities']>[1], SubjectType> extends TaggedInterface<string>
-        ? Extract<Normalize<Generics<T>['abilities']>[1], TaggedInterface<S>>
-        : AnyObject
-      : never;
+type InstanceOf<T extends AnyAbility, S extends SubjectType> = ResolveInstance<
+  Normalize<Generics<T>['abilities']>[1], S, Generics<T>['subjectResolver']
+>;
 type ConditionsOf<T extends AnyAbility, I extends {}> =
   ProduceGeneric<Generics<T>['conditions'], I>;
-type ActionFrom<T extends AbilityTuple, S extends SubjectType> = T extends any
-  ? S extends Extract<T[1], SubjectType> ? T[0] : never
+type ActionFrom<
+  T extends AbilityTuple, S extends SubjectType, R extends SubjectResolver
+> = T extends any
+  ? S extends E<T[1], R> ? T[0] : never
   : never;
-type ActionOf<T extends AnyAbility, S extends SubjectType> = ActionFrom<Generics<T>['abilities'], S>;
-type SubjectTypeOf<T extends AnyAbility> = E<Normalize<Generics<T>['abilities']>[1]>;
+type ActionOf<T extends AnyAbility, S extends SubjectType> = ActionFrom<Generics<T>['abilities'], S, Generics<T>['subjectResolver']>;
+type SubjectTypeOf<T extends AnyAbility> = E<Normalize<Generics<T>['abilities']>[1], Generics<T>['subjectResolver']>;
 
-type SimpleCanParams<T extends AnyAbility> = Parameters<(
+type SimpleCanParams<T extends AnyAbility> = [
   action: Generics<T>['abilities'] | Generics<T>['abilities'][]
-) => 0>;
+];
 type BuilderCanParameters<
   S extends SubjectType,
   I extends InstanceOf<T, S>,
   T extends AnyAbility
 > = Generics<T>['abilities'] extends AbilityTuple
-  ? Parameters<(
+  ? [
     action: ActionOf<T, S> | ActionOf<T, S>[],
     subject: S | S[],
     conditions?: ConditionsOf<T, I>
-  ) => 0>
+  ]
   : SimpleCanParams<T>;
 
 type BuilderCanParametersWithFields<
@@ -63,12 +59,12 @@ type BuilderCanParametersWithFields<
   F extends string,
   T extends AnyAbility
 > = Generics<T>['abilities'] extends AbilityTuple
-  ? Parameters<(
+  ? [
     action: ActionOf<T, S> | ActionOf<T, S>[],
     subject: S | S[],
     fields?: F | F[],
     conditions?: ConditionsOf<T, I>
-  ) => 0>
+  ]
   : SimpleCanParams<T>;
 type Keys<T> = string & keyof T;
 

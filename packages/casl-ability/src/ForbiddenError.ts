@@ -1,3 +1,4 @@
+import type { ResolveSubjects } from './SubjectResolver';
 import type { AnyAbility } from './Ability';
 import type { Normalize, Subject } from './types';
 import type { Generics } from './RuleIndex';
@@ -14,7 +15,7 @@ NativeError.prototype = Object.create(Error.prototype);
 export class ForbiddenError<T extends AnyAbility> extends NativeError {
   public readonly ability!: T;
   public action!: Normalize<Generics<T>['abilities']>[0];
-  public subject!: Generics<T>['abilities'][1];
+  public subject!: ResolveSubjects<Normalize<Generics<T>['abilities']>[1], Generics<T>['subjectResolver']>;
   public field?: string;
   public subjectType!: string;
 

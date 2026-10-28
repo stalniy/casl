@@ -1,3 +1,4 @@
+import { BuiltinSubjectKey } from './SubjectResolver';
 import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
 const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ||
@@ -31,7 +32,7 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
   }
 }
 
-const TYPE_FIELD = '__caslSubjectType__';
+const TYPE_FIELD: BuiltinSubjectKey = '__caslSubjectType__';
 export function setSubjectType<
   T extends string,
   U extends Record<PropertyKey, any>

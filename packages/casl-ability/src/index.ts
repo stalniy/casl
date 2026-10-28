@@ -1,3 +1,13 @@
+export type {
+  BuiltinSubjectKey,
+  ClassSubject,
+  DefaultSubject,
+  FactorySubject,
+  ResolveSubjects,
+  SubjectResolver,
+  SubjectResolverFactory,
+  TaggedSubject,
+} from './SubjectResolver';
 export * from './createMongoAbility';
 export * from './Ability';
 export * from './AbilityBuilder';

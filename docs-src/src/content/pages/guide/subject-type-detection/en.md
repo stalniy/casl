@@ -150,6 +150,8 @@ ability.can('read', article); // true
 
 Custom detection function must return a subject type (either string, class or function).
 
+For TypeScript applications, the optional third generic parameter of `Ability` and `MongoAbility` lets you align type inference with custom detection. See [Configuring subject resolution](../../advanced/typescript#configuring-subject-resolution) for `TaggedSubject`, `ClassSubject`, and custom resolver examples.
+
 The same can be achieved using `defineAbility` function:
 
 ```js

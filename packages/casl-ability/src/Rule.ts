@@ -1,3 +1,4 @@
+import type { DefaultSubject, ResolveSubjects, SubjectResolver } from './SubjectResolver';
 import { wrapArray, isSubjectType } from './utils';
 import {
   MatchConditions,
@@ -11,7 +12,7 @@ import {
 import type { RawRule, RawRuleFrom } from './RawRule';
 import type { Condition } from '@ucast/mongo2js';
 
-type Tuple<A extends Abilities> = Normalize<ToAbilityTypes<A>>;
+type Tuple<A extends Abilities, R extends SubjectResolver> = Normalize<ToAbilityTypes<A, R>>;
 
 function validate(rule: RawRuleFrom<Abilities, any>, options: RuleOptions<any>) {
   if (Array.isArray(rule.fields) && !rule.fields.length) {
@@ -34,21 +35,21 @@ export interface RuleOptions<Conditions> {
   resolveAction(action: string | string[]): string | string[]
 }
 
-export class Rule<A extends Abilities, C> {
+export class Rule<A extends Abilities, C, R extends SubjectResolver = DefaultSubject> {
   private _matchConditions: MatchConditions | undefined;
   private _matchField: MatchField<string> | undefined;
   private readonly _options!: RuleOptions<C>;
-  public readonly action!: Tuple<A>[0] | Tuple<A>[0][];
-  public readonly subject!: Tuple<A>[1] | Tuple<A>[1][];
+  public readonly action!: Tuple<A, R>[0] | Tuple<A, R>[0][];
+  public readonly subject!: Tuple<A, R>[1] | Tuple<A, R>[1][];
   public readonly inverted!: boolean;
   public readonly conditions!: C | undefined;
   public readonly fields!: string[] | undefined;
   public readonly reason!: string | undefined;
-  public readonly origin!: RawRule<ToAbilityTypes<A>, C>;
+  public readonly origin!: RawRule<ToAbilityTypes<A, R>, C>;
   public readonly priority!: number;
 
   constructor(
-    rule: RawRule<ToAbilityTypes<A>, C>,
+    rule: RawRule<ToAbilityTypes<A, R>, C>,
     options: RuleOptions<C>,
     priority = 0
   ) {
@@ -78,7 +79,7 @@ export class Rule<A extends Abilities, C> {
     return matches ? matches.ast : undefined;
   }
 
-  matchesConditions(object: Normalize<A>[1] | undefined): boolean {
+  matchesConditions(object: ResolveSubjects<Normalize<A>[1], R> | undefined): boolean {
     if (!this.conditions) {
       return true;
     }
