@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.3](https://github.com/stalniy/casl/compare/@casl/ability@7.0.2...@casl/ability@7.0.3) (2026-10-28)
+
+
+### Bug Fixes
+
+* adds possibility to infer instance of class with abstract/private/protected constructor ([#1320](https://github.com/stalniy/casl/issues/1320)) ([08978e9](https://github.com/stalniy/casl/commit/08978e96b3c356bc0fc2329ec1adc08feb72ac5a)), closes [#995](https://github.com/stalniy/casl/issues/995)
+
 ## [7.0.2](https://github.com/stalniy/casl/compare/@casl/ability@7.0.1...@casl/ability@7.0.2) (2026-10-15)
 
 
