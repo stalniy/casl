@@ -27,6 +27,13 @@ All notable changes to this project will be documented in this file.
 
 * exports types to support TS ES6 modules ([c818b1a](https://github.com/stalniy/casl/commit/c818b1a84cee6dc2ad78be72db4d1afe0f95b3f1)), closes [#668](https://github.com/stalniy/casl/issues/668)
 
+## [7.1.0](https://github.com/stalniy/casl/compare/@casl/react@7.0.1...@casl/react@7.1.0) (2026-10-28)
+
+
+### Features
+
+* propagate subject type resolver ([#1323](https://github.com/stalniy/casl/issues/1323)) ([790580c](https://github.com/stalniy/casl/commit/790580c314634f6ce5a529eb45ec7a9a123e85d3))
+
 ## [7.0.1](https://github.com/stalniy/casl/compare/@casl/react@7.0.0...@casl/react@7.0.1) (2026-06-10)
 
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [9.1.0](https://github.com/stalniy/casl/compare/@casl/mongoose@9.0.2...@casl/mongoose@9.1.0) (2026-10-28)
+
+
+### Features
+
+* propagate subject type resolver ([#1323](https://github.com/stalniy/casl/issues/1323)) ([790580c](https://github.com/stalniy/casl/commit/790580c314634f6ce5a529eb45ec7a9a123e85d3))
+
 ## [9.0.2](https://github.com/stalniy/casl/compare/@casl/mongoose@9.0.1...@casl/mongoose@9.0.2) (2026-08-08)
 
 

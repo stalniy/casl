@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0](https://github.com/stalniy/casl/compare/@casl/vue@3.0.1...@casl/vue@3.1.0) (2026-10-28)
+
+
+### Features
+
+* propagate subject type resolver ([#1323](https://github.com/stalniy/casl/issues/1323)) ([790580c](https://github.com/stalniy/casl/commit/790580c314634f6ce5a529eb45ec7a9a123e85d3))
+
 ## [3.0.1](https://github.com/stalniy/casl/compare/@casl/vue@3.0.0...@casl/vue@3.0.1) (2026-06-10)
 
 

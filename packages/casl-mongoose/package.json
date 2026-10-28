@@ -1,6 +1,6 @@
 {
   "name": "@casl/mongoose",
-  "version": "9.0.2",
+  "version": "9.1.0",
   "description": "Allows to query accessible records from MongoDB based on CASL rules",
   "main": "./dist/cjs/index.cjs",
   "exports": {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.0](https://github.com/stalniy/casl/compare/@casl/ability@7.0.3...@casl/ability@7.1.0) (2026-10-28)
+
+
+### Features
+
+* adds support for custom subject type detection types ([#1321](https://github.com/stalniy/casl/issues/1321)) ([eb4896b](https://github.com/stalniy/casl/commit/eb4896b93a6a8074dbf08c385de58b7b3be52233))
+
 ## [7.0.3](https://github.com/stalniy/casl/compare/@casl/ability@7.0.2...@casl/ability@7.0.3) (2026-10-28)
 
 

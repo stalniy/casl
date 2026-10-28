@@ -9,6 +9,14 @@ All notable changes to this project will be documented in this file.
 
 * adds prisma7 support ([#1087](https://github.com/stalniy/casl/issues/1087)) ([8e818c2](https://github.com/stalniy/casl/commit/8e818c297592eea78f038dbabd9d03fef36fd57e))
 
+## [2.2.0](https://github.com/stalniy/casl/compare/@casl/prisma@2.1.0...@casl/prisma@2.2.0) (2026-10-28)
+
+
+### Features
+
+* adds support for custom subject type detection types ([#1321](https://github.com/stalniy/casl/issues/1321)) ([eb4896b](https://github.com/stalniy/casl/commit/eb4896b93a6a8074dbf08c385de58b7b3be52233))
+* propagate subject type resolver ([#1323](https://github.com/stalniy/casl/issues/1323)) ([790580c](https://github.com/stalniy/casl/commit/790580c314634f6ce5a529eb45ec7a9a123e85d3))
+
 ## [2.1.0](https://github.com/stalniy/casl/compare/@casl/prisma@2.0.2...@casl/prisma@2.1.0) (2026-10-28)
 
 
