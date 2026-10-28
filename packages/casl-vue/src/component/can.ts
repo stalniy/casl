@@ -5,12 +5,14 @@ import {
   Generics,
   IfString,
   MongoAbility,
+  ResolveSubjects,
+  SubjectResolver,
   SubjectType
 } from '@casl/ability';
 import { ComponentCustomProperties, defineComponent } from 'vue';
 import { useAbility } from '../useAbility';
 
-export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities']> & {
+export type CanProps<T extends AnyAbility> = AbilityCanProps<Generics<T>['abilities'], Generics<T>['subjectResolver']> & {
   not?: boolean,
   passThrough?: boolean
 };
@@ -68,12 +70,13 @@ export const Can = defineComponent<CanProps<VueAbility>>({
 
 type AbilityCanProps<
   T extends Abilities,
+  R extends SubjectResolver,
   Else = IfString<T, { do: T } | { I: T }>
 > = T extends AbilityTuple
-  ? { do: T[0], on: T[1], field?: string } |
-  { I: T[0], a: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], an: Extract<T[1], SubjectType>, field?: string } |
-  { I: T[0], this: Exclude<T[1], SubjectType>, field?: string }
+  ? { do: T[0], on: ResolveSubjects<T[1], R>, field?: string } |
+  { I: T[0], a: Extract<ResolveSubjects<T[1], R>, SubjectType>, field?: string } |
+  { I: T[0], an: Extract<ResolveSubjects<T[1], R>, SubjectType>, field?: string } |
+  { I: T[0], this: Exclude<ResolveSubjects<T[1], R>, SubjectType>, field?: string }
   : Else;
 
 type VueAbility = ComponentCustomProperties extends { $ability: AnyAbility }

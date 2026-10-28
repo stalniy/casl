@@ -2,7 +2,7 @@ import { Ability, Generics, Normalize, ExtractSubjectType } from '@casl/ability'
 import { rulesToCondition } from '@casl/ability/extra';
 import { BasePrismaQuery, InferPrismaTypes } from './types';
 
-function convertToPrismaQuery(rule: Ability<any, BasePrismaQuery>['rules'][number]) {
+function convertToPrismaQuery(rule: Ability<any, BasePrismaQuery, any>['rules'][number]) {
   return rule.inverted ? { NOT: rule.conditions } : rule.conditions;
 }
 
@@ -12,16 +12,16 @@ const PRISMA_QUERY_AGGREGATION = {
   empty: () => ({})
 };
 
-type ModelName<TAbility extends Ability<any, BasePrismaQuery>> = Extract<
+type ModelName<TAbility extends Ability<any, BasePrismaQuery, any>> = Extract<
   keyof InferPrismaTypes<Generics<TAbility>['conditions']>['WhereInput'],
   string
 >;
-type SubjectType<TAbility extends Ability<any, BasePrismaQuery>> = Extract<
-  ExtractSubjectType<Normalize<Generics<TAbility>['abilities']>[1]>,
+type SubjectType<TAbility extends Ability<any, BasePrismaQuery, any>> = Extract<
+  ExtractSubjectType<Normalize<Generics<TAbility>['abilities']>[1], Generics<TAbility>['subjectResolver']>,
   ModelName<TAbility>
 >;
 
-export class AccessibleRecords<TAbility extends Ability<any, BasePrismaQuery>> {
+export class AccessibleRecords<TAbility extends Ability<any, BasePrismaQuery, any>> {
   constructor(
     private readonly _ability: TAbility,
     private readonly _action: string
@@ -38,7 +38,7 @@ export class AccessibleRecords<TAbility extends Ability<any, BasePrismaQuery>> {
   }
 }
 
-export function accessibleBy<TAbility extends Ability<any, BasePrismaQuery>>(
+export function accessibleBy<TAbility extends Ability<any, BasePrismaQuery, any>>(
   ability: TAbility,
   action: TAbility["rules"][number]["action"] & string = "read"
 ): AccessibleRecords<TAbility> {

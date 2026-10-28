@@ -1,7 +1,21 @@
-import { MongoAbility, defineAbility } from "@casl/ability"
+import { MongoAbility, MongoQuery, TaggedSubject, defineAbility } from "@casl/ability"
 import { accessibleBy } from "../src"
 
 describe('accessibleBy', () => {
+  it('infers subject names from the configured discriminator', () => {
+    type TaggedPost = { resource: 'Post', title: string }
+    type CustomAbility = MongoAbility<['read', TaggedPost], MongoQuery, TaggedSubject<'resource'>>
+    const ability = defineAbility<CustomAbility>(can => {
+      can('read', 'Post', { title: 'public' })
+    }, { detectSubjectType: object => object.resource })
+
+    expect(accessibleBy(ability).ofType('Post')).toEqual({ $or: [{ title: 'public' }] })
+    // @ts-expect-error unknown resolved subject name
+    accessibleBy(ability).ofType('User')
+    // @ts-expect-error update is not an ability action
+    accessibleBy(ability, 'update')
+  })
+
   type AppAbility = MongoAbility<[string, Post['kind'] | Post]>
   interface Post {
     kind: 'Post';

@@ -9,7 +9,9 @@ export const prismaQuery = createTranslatorFactory(
   interpretPrismaQuery as AnyInterpreter
 );
 
+/** @deprecated use `T & ForcedSubject<TName>` directly */
 export type Model<T, TName extends string> = T & ForcedSubject<TName>;
+/** @deprecated use union of `T & ForcedSubject<TName>` directly */
 export type Subjects<T extends Partial<Record<string, Record<string, unknown>>>> =
   | keyof T
   | { [K in keyof T]: Model<T[K], K & string> }[keyof T];
