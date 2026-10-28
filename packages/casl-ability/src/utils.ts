@@ -52,7 +52,7 @@ export const isSubjectType = (value: unknown): value is SubjectType => {
   return type === 'string' || type === 'function';
 };
 
-const getSubjectClassName = (value: SubjectClass) => value.modelName || value.name;
+const getSubjectClassName = (value: Exclude<SubjectType, string>) => value.modelName || value.name;
 export function getSubjectTypeName(value: SubjectType) {
   return typeof value === 'string' ? value : getSubjectClassName(value);
 }

@@ -4,7 +4,7 @@ import type { AbilityOptionsOf, AnyAbility } from './Ability';
 import type { Generics, RawRuleOf } from './RuleIndex';
 import type {
   AbilityTuple, AnyClass, AnyObject, ExtractSubjectType as E, Normalize, SubjectType,
-  TaggedInterface
+  TaggedInterface, InstanceOfClass, SubjectClass, ClassLike
 } from './types';
 
 function isAbilityClass(factory: AbilityFactory<any>): factory is AnyClass {
@@ -25,8 +25,8 @@ class RuleBuilder<T extends AnyAbility> {
 }
 
 type AbilityFactory<T extends AnyAbility> = AnyClass<T> | ((rules?: any[], options?: any) => T);
-type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends AnyClass<infer R>
-  ? R
+type InstanceOf<T extends AnyAbility, S extends SubjectType> = S extends SubjectClass | ClassLike
+  ? InstanceOfClass<S>
   : S extends (...args: any[]) => infer O
     ? O
     : S extends string
