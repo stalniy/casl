@@ -1,9 +1,11 @@
-import { join } from 'node:path'
-import tseslint from 'typescript-eslint';   
+import js from "@eslint/js";
+import stylistic from '@stylistic/eslint-plugin';
 import importPlugin from "eslint-plugin-import";
+import { defineConfig } from 'eslint/config';
 import globals from "globals";
-import js from "@eslint/js"
-import stylistic from '@stylistic/eslint-plugin'
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import tseslint from 'typescript-eslint';
 
 const tsconfigRootDir = process.cwd()
 const project = join(tsconfigRootDir, 'tsconfig.json')
@@ -12,7 +14,7 @@ const restrictedImportPatterns = [{
     message: 'Do not import compiled sources directly',
 }]
 
-export default tseslint.config(
+export default defineConfig(
     {
         ignores: ['**/dist/**'],
     },
@@ -79,9 +81,11 @@ export default tseslint.config(
                 "patterns": restrictedImportPatterns
             }]
         },
-    }, 
+    },
     {
-        files: ['**/src/**/*.{ts,js}'],
+        basePath: fileURLToPath(new URL('../../casl-prisma/', import.meta.url)),
+        files: ['src/**/*.{ts,js}'],
+        ignores: ['src/index.ts'],
         rules: {
             'no-restricted-imports': ['error', {
                 patterns: [
