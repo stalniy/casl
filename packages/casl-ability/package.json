@@ -51,7 +51,7 @@
   "devDependencies": {
     "@casl/dx": "workspace:^",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.12.2",
+    "@types/node": "^26.0.0",
     "@ucast/js": "^4.0.1",
     "chai": "^6.0.0",
     "chai-spies": "^1.1.0",
