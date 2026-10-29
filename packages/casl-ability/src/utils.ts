@@ -1,8 +1,9 @@
 import { BuiltinSubjectKey } from './SubjectResolver';
 import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
-const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ||
-  ((obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop));
+const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ?? ((hasOwnProperty) =>
+  (object: object, key: PropertyKey) => hasOwnProperty(object, key)
+)(Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty));
 
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];

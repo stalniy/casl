@@ -26,6 +26,7 @@ export type {
   Normalize,
   IfString,
   AbilityParameters,
+  CanParametersForAction,
   CanParameters,
   ExtractSubjectType,
   InferSubjects,

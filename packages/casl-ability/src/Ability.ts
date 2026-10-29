@@ -1,7 +1,7 @@
-import type { DefaultSubject, SubjectResolver } from './SubjectResolver';
-import { RuleIndex, RuleIndexOptions, RuleIndexOptionsOf, Public, RawRuleOf } from './RuleIndex';
-import { Abilities, AbilityTuple, CanParameters, Subject, SubjectType } from './types';
 import { Rule } from './Rule';
+import { type Public, type RawRuleOf, RuleIndex, type RuleIndexOptions, type RuleIndexOptionsOf } from './RuleIndex';
+import type { DefaultSubject, SubjectResolver } from './SubjectResolver';
+import type { Abilities, AbilityActions, AbilityTuple, CanParametersForAction, Subject, SubjectType } from './types';
 
 export interface AbilityOptions<
   A extends Abilities, Conditions, R extends SubjectResolver = DefaultSubject
@@ -25,18 +25,20 @@ export class Ability<
   Conditions = unknown,
   R extends SubjectResolver = DefaultSubject
 > extends RuleIndex<A, Conditions, R> {
-  can(...args: CanParameters<A, true, R>): boolean;
+  can<Action extends AbilityActions<A>>(...args: CanParametersForAction<Action, A, R>): boolean;
   can(action: string, subject?: Subject, field?: string): boolean {
     const rule = (this as PrimitiveAbility).relevantRuleFor(action, subject, field);
     return !!rule && !rule.inverted;
   }
 
-  relevantRuleFor(...args: CanParameters<A, true, R>): Rule<A, Conditions, R> | null;
+  relevantRuleFor<Action extends AbilityActions<A>>(
+    ...args: CanParametersForAction<Action, A, R>
+  ): Rule<A, Conditions, R> | null;
   relevantRuleFor(
     action: string, subject?: Subject, field?: string
   ): Rule<A, Conditions, R> | null {
     const subjectType = (this as PrimitiveAbility).detectSubjectType(subject);
-    const rules = (this as any).rulesFor(action, subjectType, field);
+    const rules: Rule<A, Conditions, R>[] = (this as any).rulesFor(action, subjectType, field);
 
     for (let i = 0, length = rules.length; i < length; i++) {
       if (rules[i].matchesConditions(subject)) {
@@ -47,7 +49,7 @@ export class Ability<
     return null;
   }
 
-  cannot(...args: CanParameters<A, true, R>): boolean;
+  cannot<Action extends AbilityActions<A>>(...args: CanParametersForAction<Action, A, R>): boolean;
   cannot(action: string, subject?: Subject, field?: string): boolean {
     return !(this as PrimitiveAbility).can(action, subject, field);
   }

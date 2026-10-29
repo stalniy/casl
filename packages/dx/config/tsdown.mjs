@@ -26,8 +26,6 @@ const sharedConfig = {
   ],
 };
 
-console.log('here?')
-
 export default defineConfig([
   {
     ...sharedConfig,

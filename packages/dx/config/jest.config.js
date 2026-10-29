@@ -1,3 +1,5 @@
+const tsJest = ['ts-jest', { compiler: require.resolve('typescript') }];
+
 module.exports = {
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
@@ -13,7 +15,7 @@ module.exports = {
     '<rootDir>/spec/**/*.spec.{ts,tsx,js}'
   ],
   transform: {
-    '^.+\\.[t|j]sx?$': 'ts-jest',
-    '^.+\\.m?js$': 'ts-jest',
+    '^.+\\.[t|j]sx?$': tsJest,
+    '^.+\\.m?js$': tsJest,
   },
 };

@@ -5,7 +5,6 @@ import {
   Abilities,
   Normalize,
   SubjectType,
-  AbilityParameters,
   AbilityTuple,
   ExtractSubjectType
 } from './types';
@@ -85,16 +84,11 @@ const defaultSubjectEntry = () => new Map<string, ReturnType<typeof defaultActio
 
 type AbilitySubjectTypeParameters<
   T extends Abilities, R extends SubjectResolver, IncludeField extends boolean = true
-> =
-  AbilityParameters<
-  T,
-  T extends AbilityTuple
-    ? IncludeField extends true
-      ? (action: T[0], subject: ExtractSubjectType<T[1], R>, field?: string) => 0
-      : (action: T[0], subject: ExtractSubjectType<T[1], R>) => 0
-    : never,
-  (action: Extract<T, string>) => 0
-  >;
+> = T extends AbilityTuple
+  ? IncludeField extends true
+    ? [action: T[0], subject: ExtractSubjectType<T[1], R>, field?: string]
+    : [action: T[0], subject: ExtractSubjectType<T[1], R>]
+  : [action: Extract<T, string>];
 
 export class RuleIndex<
   A extends Abilities, Conditions, R extends SubjectResolver = DefaultSubject
