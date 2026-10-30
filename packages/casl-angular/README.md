@@ -172,6 +172,76 @@ export class HomeComponent {
 }
 ```
 
+### Explain permission checks with `whyCan` and `whyCannot`
+
+`AbilityServiceSignal` `whyCan` and `whyCannot` methods help to answer the question of why action is allowed or defined:
+
+```ts
+const abilityService = inject<AbilityServiceSignal<AppAbility>>(AbilityServiceSignal);
+
+abilityService.update([
+  { action: 'create', subject: 'Post', reason: 'You can create posts' },
+  {
+    inverted: true,
+    action: 'delete',
+    subject: 'Post',
+    reason: 'Only administrators can delete posts'
+  }
+]);
+
+abilityService.whyCan('create', 'Post'); // { reason: 'You can create posts' }
+abilityService.whyCan('delete', 'Post'); // null
+abilityService.whyCannot('delete', 'Post'); // { reason: 'Only administrators can delete posts' }
+abilityService.whyCan('update', 'Post'); // null
+abilityService.whyCannot('update', 'Post'); // { reason: undefined }
+abilityService.whyCannot('create', 'Post'); // null
+```
+
+Expose these methods to templates the same way as `can` and use them like this:
+
+```html
+@if (whyCannot('delete', 'Post'); as forbidden) {
+  <span>{{ forbidden.reason || 'You cannot delete posts' }}</span>
+} @else {
+  <button (click)="deletePost()">Delete Post</button>
+}
+```
+
+A matching inverted rule without a reason returns an object with `reason: undefined` when the method's condition is met. This keeps a denial truthy even when no explanation is available.
+
+### Create permission signals with `defer*` methods
+
+The `defer*` methods return computed signals. Each argument (action, subject, or optional field) can be a plain value or a signal. The returned signal recalculates when the ability's rules or any signal argument changes.
+
+Create these signals once, for example in component field initializers, and read them in the template:
+
+```ts
+import { Component, inject, input } from '@angular/core';
+import { AbilityServiceSignal } from '@casl/angular';
+import type { AppAbility } from './AppAbility';
+
+@Component({
+  selector: 'post-action',
+  template: `
+    @if (whyCannotPerformAction(); as forbidden) {
+      <p>{{ forbidden.reason || 'This action is forbidden' }}</p>
+    } @else {
+      <button>Perform action</button>
+    }
+  `
+})
+export class PostActionComponent {
+  private readonly abilityService = inject<AbilityServiceSignal<AppAbility>>(AbilityServiceSignal);
+  readonly action = input.required<'create' | 'delete'>();
+
+  protected readonly whyCannotPerformAction = this.abilityService.deferWhyCannot(this.action, 'Post');
+}
+```
+
+The parent supplies the action, for example `<post-action [action]="'delete'" />`. The permission signal updates whenever that input changes.
+
+Pass the signal itself (`this.action`) to track its changes. Passing its current value (`this.action()`) fixes that argument to the value it had when the deferred check was created. The `deferWhy*` methods preserve the `null` and missing-reason behavior of `why*` methods; use `deferCan` or `deferCannot` when you only need a boolean permission check.
+
 ## Check permissions in templates using pipe (deprecated)
 
 To check permissions in any template you can use `AblePipe`:
@@ -180,14 +250,6 @@ To check permissions in any template you can use `AblePipe`:
 @if ('create' | able: 'Post') {
   <a (click)="createPost()">Add Post</a>
 }
-```
-
-### Why pipe and not directive?
-
-Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable a button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:
-
-```html
-<button [disabled]="!('create' | able: 'Post')">Add Post</button>
 ```
 
 ## TypeScript support
