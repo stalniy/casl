@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [10.2.0](https://github.com/stalniy/casl/compare/@casl/angular@10.1.0...@casl/angular@10.2.0) (2026-10-30)
+
+
+### Features
+
+* adds why* and defer* methods to AbilityServiceSignal ([#1188](https://github.com/stalniy/casl/issues/1188)) ([974561d](https://github.com/stalniy/casl/commit/974561d3ccd7782e4605dfc838469123351f21b2))
+
 ## [10.1.0](https://github.com/stalniy/casl/compare/@casl/angular@10.0.3...@casl/angular@10.1.0) (2026-10-28)
 
 
