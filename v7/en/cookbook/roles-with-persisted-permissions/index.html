@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/roles-with-persisted-permissions/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -392,7 +392,7 @@
 <p>You can find the migration and seeds below:</p>
 <details>
 <summary>Initial migration</summary>
-<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+<pre><code data-filename="migrations/20200401110234_init.js" class="language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
   <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
     .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
       table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
@@ -426,7 +426,7 @@
 </code></pre>
 </details>
 <p>and initial seed:</p>
-<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
+<pre><code data-filename="seeds/init.js" class="language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
   <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
     <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">del</span>(),
     <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">del</span>()
@@ -459,7 +459,7 @@
 <p>We used <code>${user.id}</code> in <code>conditions</code> property of permissions. This is just a placeholder which we will replace it later with the id of a particular user.</p>
 </blockquote>
 <p>Now, let's define all possible actions and subjects:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">RawRuleOf</span>, <span class="hljs-title class_">ForcedSubject</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="services/appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">MongoAbility</span>, <span class="hljs-title class_">RawRuleOf</span>, <span class="hljs-title class_">ForcedSubject</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> actions = [<span class="hljs-string">'manage'</span>, <span class="hljs-string">'create'</span>, <span class="hljs-string">'read'</span>, <span class="hljs-string">'update'</span>, <span class="hljs-string">'delete'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> subjects = [<span class="hljs-string">'Article'</span>, <span class="hljs-string">'all'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
@@ -483,7 +483,7 @@
 <h3 id="services"><a name="services" class="h-link" href="#"></a>Services</h3>
 <p>We need to create 2 services: one to fetch <code>users</code> and another to manage <code>articles</code>.</p>
 <p>Let's start from a function that will allow us to fetch a single user by some conditions from the database. This function also will prepare user's permissions, so we can directly pass them in <code>createAbility</code> function:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
+<pre><code data-filename="services/users.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 <span class="hljs-keyword">import</span> interpolate <span class="hljs-keyword">from</span> <span class="hljs-string">'../helpers/interpolate'</span>;
 
@@ -526,7 +526,7 @@
 </li>
 </ul>
 <p>The service for articles is more complicated, it will check users' ability to do a particular action on the provided article instance. For the sake of simplicity, we'll show only <code>create</code> function (all the rest are similar):</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="services/articles.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./appAbility'</span>;
 <span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'../db'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/Article'</span>;
@@ -551,7 +551,7 @@
      for details.</p>
 </blockquote>
 <p><code>Article</code> is an interface that enforces the shape of our articles:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
+<pre><code data-filename="models/Article.ts" class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span>
@@ -561,7 +561,7 @@
 <p>Now, when service layer is finished, we can put it together!</p>
 <h3 id="putting-together"><a name="putting-together" class="h-link" href="#"></a>Putting together</h3>
 <p>We need to start from connecting things together, to do so we need to fetch users and create <code>Ability</code> instances for each one:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { findBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
+<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-keyword">import</span> { findBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
 <span class="hljs-keyword">import</span> { createAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/appAbility'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
@@ -577,7 +577,7 @@
 }
 </code></pre>
 <p>We also need to create 2 articles, one that is written by admin and another by author:</p>
-<pre><code class="hljs language-ts"><span class="hljs-comment">// imports here</span>
+<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-comment">// imports here</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
   <span class="hljs-comment">// fetch users &amp; create ability instances</span>
@@ -602,7 +602,7 @@
 <li><code>admin</code> user should be able to create article in spite of who wrote it</li>
 <li><code>member</code> user should be able to only create articles that were written by him</li>
 </ul>
-<pre><code class="hljs language-ts"><span class="hljs-comment">// other imports here</span>
+<pre><code data-filename="main.ts" class="language-ts"><span class="hljs-comment">// other imports here</span>
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> articles <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/articles'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
@@ -644,7 +644,7 @@ All articles
 [author]: CASl and TypeScript
 </code></pre>
 <p>Everything works as we it should! Now let's allow members to create any article. To do so, we need to update permissions of <code>member</code> role and we will do this using <a href="http://knexjs.org/" target="_blank" rel="noopener nofollow">knex</a>:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
+<pre><code data-filename="updateMemberRole.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
 
 <span class="hljs-title function_">db</span>(<span class="hljs-string">'roles'</span>)
   .<span class="hljs-title function_">update</span>({

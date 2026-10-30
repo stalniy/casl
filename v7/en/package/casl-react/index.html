@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-react/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -437,7 +437,7 @@ pnpm add @casl/react @casl/ability
 <p>For simple visibility guards, <code>&lt;Can&gt;</code> keeps JSX readable. For more complex conditions, composing several checks, or passing authorization state deeper into your component tree, prefer <code>useAbility</code>.</p>
 <h3 id="provide-ability-instance"><a name="provide-ability-instance" class="h-link" href="#"></a>Provide Ability instance</h3>
 <p>Wrap the part of your app that needs authorization checks with <code>AbilityProvider</code>:</p>
-<pre><code class="hljs language-jsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityProvider</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
+<pre><code data-filename="App.jsx" class="language-jsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityProvider</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 <span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
@@ -519,7 +519,7 @@ pnpm add @casl/react @casl/ability
 <h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
 <p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules. Usually you will do this in your <code>LoginComponent</code>.</p>
 <p>Let's imagine that server returns user with a role on login:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="Login.tsx" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, <span class="hljs-title class_">Ability</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span>, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/react'</span>;
 

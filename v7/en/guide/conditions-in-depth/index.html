@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/conditions-in-depth/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -411,7 +411,7 @@ Checks nested elements shape. Use <code>$elemMatch</code> operator to specify mu
     .</p>
 <h2 id="checking-logic-in-casl"><a name="checking-logic-in-casl" class="h-link" href="#"></a>Checking logic in CASL</h2>
 <p>When you define rules with conditions, the last are converted to functions that checks whether object matches specified MongoDB query. Let's see an example:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defaultAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defaultAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defaultAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
   <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, {
@@ -421,7 +421,7 @@ Checks nested elements shape. Use <code>$elemMatch</code> operator to specify mu
 });
 </code></pre>
 <p>The example above says that article can be read if it's in review or published and its creation date is in the past or today. Before starting let's define simple class that represents <code>Article</code> entity.</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+<pre><code data-filename="entities.js" class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">status, createdAt</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">status</span> = status;
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">createdAt</span> = createdAt;

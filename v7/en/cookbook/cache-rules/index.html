@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/cache-rules/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -339,7 +339,7 @@
 <h2 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h2>
 <p>It takes considerable amount of time or requires additional roundtrip to the database to construct a <code>Ability</code> instance.</p>
 <p>Let's consider an example where user can manage own devices but <strong>devices doesn't have</strong> a reference to the owner. In such cases, we need to fetch all device ids in order to create a <code>MongoAbility</code> instance:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { getDevicesOf } <span class="hljs-keyword">from</span> <span class="hljs-string">'../services/device'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>;
@@ -377,7 +377,7 @@
 <p>There is quite popular <a href="https://www.npmjs.com/package/lru-cache" target="_blank" rel="noopener nofollow">lru-cache</a> Node.js package which we will use in this guide but you can use any other implementation the same way.</p>
 </blockquote>
 <p>So, let's create a middleware that defines abilities for <code>Request</code> object:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LruCache</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'lru-cache'</span>;
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">LruCache</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'lru-cache'</span>;
 <span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
 <span class="hljs-comment">// store abilities of 1000 most active users</span>
@@ -395,7 +395,7 @@
 }
 </code></pre>
 <p>Now we can use this middleware to provide abilities for a particular user and check its permissions:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<pre><code data-filename="boot.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
 <span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
 
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
@@ -413,7 +413,7 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3
 <p>If the application uses stored sessions and <a href="#in-memory-lru-cache">LRU cache</a> doesn't satisfy your needs, you can store abilities in user's session (e.g., Redis, Memcached). Why do we store rules and not <code>Ability</code> instance? Because session storage serializes object before storing it. Rules are easily serializable and <code>Ability</code> instance is not, but can be created from rules.</p>
 <p>Sessions in express usually are implemented with help of <a href="https://www.npmjs.com/package/express-session" target="_blank" rel="noopener nofollow">express-session</a> and <a href="https://www.npmjs.com/package/connect-redis" target="_blank" rel="noopener nofollow">connect-redis</a>. We will do it the same way.</p>
 <p>So, the only thing which is left is to implement <code>provideAbility</code> middleware that saves rules for a particular user in his session storage. Pay attention that we use <code>defineRulesFor</code> and not <code>defineAbilityFor</code> function:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">provideAbility</span>(<span class="hljs-params">req, res, next</span>) {
@@ -429,7 +429,7 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3
 }
 </code></pre>
 <p>And make sure that you correctly configure express-session in your <code>app.ts</code> file. It should be something like this:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
+<pre><code data-filename="app.ts" class="language-ts"><span class="hljs-keyword">import</span> { provideAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'./provideAbility'</span>;
 <span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">'express'</span>;
 <span class="hljs-keyword">import</span> session <span class="hljs-keyword">from</span> <span class="hljs-string">'express-session'</span>;
 <span class="hljs-keyword">import</span> redis <span class="hljs-keyword">from</span> <span class="hljs-string">'redis'</span>;
@@ -449,7 +449,7 @@ app.<span class="hljs-title function_">use</span>(provideAbility);
 </code></pre>
 <h3 id="in-jwt-token-payload"><a name="in-jwt-token-payload" class="h-link" href="#"></a>In JWT token payload</h3>
 <p>If the app uses stateless <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank" rel="noopener nofollow">JWT</a> tokens, you can embed the rules into its payload:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
+<pre><code data-filename="login.ts" class="language-ts"><span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">req, res</span>) {
@@ -462,7 +462,7 @@ app.<span class="hljs-title function_">use</span>(provideAbility);
 }
 </code></pre>
 <p>And implement <code>provideAbility</code> middleware that creates ability out of jwt token which is provided by client in <code>Authorization</code> header:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="provideAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> jwt <span class="hljs-keyword">from</span> <span class="hljs-string">'jsonwebtoken'</span>;
 <span class="hljs-keyword">import</span> { defineRulesFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 

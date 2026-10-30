@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/roles-with-static-permissions/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -372,7 +372,7 @@
 </blockquote>
 <details>
 <summary>Initial migration</summary>
-<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
+<pre><code data-filename="migrations/20200401110244_init.js" class="language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">up</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">knex</span>) {
   <span class="hljs-keyword">return</span> knex.<span class="hljs-property">schema</span>
     .<span class="hljs-title function_">createTable</span>(<span class="hljs-string">'users'</span>, <span class="hljs-function">(<span class="hljs-params">table</span>) =&gt;</span> {
       table.<span class="hljs-title function_">increments</span>(<span class="hljs-string">'id'</span>);
@@ -397,7 +397,7 @@
 </details>
 <details>
 <summary>Initial seeds</summary>
-<pre><code class="hljs language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
+<pre><code data-filename="seeds/init.js" class="language-js"><span class="hljs-built_in">exports</span>.<span class="hljs-property">seed</span> = <span class="hljs-title function_">async</span> (knex) =&gt; {
   <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
     <span class="hljs-title function_">knex</span>(<span class="hljs-string">'users'</span>).<span class="hljs-title function_">del</span>(),
     <span class="hljs-title function_">knex</span>(<span class="hljs-string">'roles'</span>).<span class="hljs-title function_">del</span>()
@@ -416,7 +416,7 @@
 <p>Now, let's define all possible actions and subjects.</p>
 <h3 id="abilities"><a name="abilities" class="h-link" href="#"></a>Abilities</h3>
 <p>This app has only <code>User</code> subject, users can only <code>update</code> himself and invite other users, so:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">CreateAbility</span>, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">CreateAbility</span>, <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">const</span> actions = [<span class="hljs-string">'manage'</span>, <span class="hljs-string">'invite'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
 <span class="hljs-keyword">const</span> subjects = [<span class="hljs-string">'User'</span>, <span class="hljs-string">'all'</span>] <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
@@ -437,7 +437,7 @@
 </blockquote>
 <p><code>typeof actions[number]</code> converts readonly array into union of its values, this allows to reuse actions and subjects defined in value scope inside type scope.</p>
 <p>Having all possible subjects and actions, we can define roles' permissions in the same file:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 
 <span class="hljs-comment">// abilities definition from previous example</span>
@@ -459,7 +459,7 @@
 <p>Do you see how readable this definition object is? The function signature says "member user can" and the body describes what the member user can do. Looks very similar to how we described our requirements at the beginning of <a href="#demo">Demo</a> section, don't it?</p>
 </blockquote>
 <p>We imported <code>User</code> data class in order to make our functions a bit more strongly typed, its shape is the following:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
+<pre><code data-filename="models/User.ts" class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> {
   <span class="hljs-attr">id</span>: <span class="hljs-built_in">number</span>
   <span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span>
   <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span>
@@ -470,7 +470,7 @@
 <p>We created <code>rolePermissions</code> object that holds our permission definitions functions instead of using regular functions. This allows us to retrieve role specific function by accessing properties of this object, this is very convenient and efficient.</p>
 </blockquote>
 <p>Finally, let's create a function that defines <code>Ability</code> instance for our user, let's do this in the same file:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="services/appAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-title class_">AbilityBuilder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../models/User'</span>;
 
 <span class="hljs-comment">// abilities definition from the example above</span>
@@ -493,7 +493,7 @@
 </blockquote>
 <h3 id="putting-together"><a name="putting-together" class="h-link" href="#"></a>Putting together</h3>
 <p>First of all, we need a function that returns a user by its email and another one that updates a user by its id:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
+<pre><code data-filename="services/users.ts" class="language-ts"><span class="hljs-keyword">import</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./db'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">User</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models/User'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findUserByEmail</span>(<span class="hljs-params"><span class="hljs-attr">email</span>: <span class="hljs-built_in">string</span></span>) {
@@ -514,7 +514,7 @@
 }
 </code></pre>
 <p>Now we can implement <code>updateUserDetails</code> function:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="updateUserDetails.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ForbiddenError</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 <span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/appAbility'</span>;
 <span class="hljs-keyword">import</span> { findUserByEmail, updateUserById, <span class="hljs-title class_">UserChanges</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./services/users'</span>;
 

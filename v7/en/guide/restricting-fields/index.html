@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/restricting-fields/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -334,7 +334,7 @@
         <h1>Restricting fields access</h1>
         
         <div class="description md"><p>Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish <code>Article</code>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityBuilder</span>, createMongoAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params">user</span>) {
   <span class="hljs-keyword">const</span> { can, rules } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbilityBuilder</span>(createMongoAbility);
@@ -359,7 +359,7 @@
 <span class="hljs-title function_">defineAbilityFor</span>(moderator).<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>, <span class="hljs-string">'published'</span>); <span class="hljs-comment">// true</span>
 </code></pre>
 <p><strong>Be attentive when you define rules for fields with conditions</strong>, the result of the check will be different depending on whether you pass a subject or subject type! To illustrate the difference let's define a simple class:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
+<pre><code data-filename="entities.js" class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">title, description, authorId</span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span> = title;
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">description</span> = description;
@@ -369,7 +369,7 @@
 }
 </code></pre>
 <p>And let's check permissions:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
 
 <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };

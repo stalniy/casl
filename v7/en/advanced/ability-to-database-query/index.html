@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/ability-to-database-query/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -349,7 +349,7 @@
      to get details about integration with <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a></p>
 </blockquote>
 <p>To understand the logic better let's implement <strong>a basic helper</strong> for <a href="https://sequelize.org/" target="_blank" rel="noopener nofollow">sequelize</a>.</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
+<pre><code data-filename="toSequelizeQuery.js" class="language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
 <span class="hljs-keyword">const</span> { <span class="hljs-title class_">Op</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
 
 <span class="hljs-comment">/**
@@ -396,7 +396,7 @@
 </code></pre>
 <p>In this example, we used <code>rulesToQuery</code> to iterate over rules and aggregate sequelize query. <code>$not</code> operator is used to invert the result of inverted rules' conditions. As of sequelize v6, operator aliases are removed (<a href="https://github.com/sequelize/sequelize/issues/10820" target="_blank" rel="noopener nofollow">sequelize#10820</a>), so we need to convert string based keys into symbols. To do so, we used a trick of stringifying and parsing JSON object with custom <code>reviver</code> argument, which detects keys that starts with <code>$</code> and replaces them with the respective symbol.</p>
 <p>Then, we can use this function to define static method or scope in your model. Here, we will define static method because its usage looks more natural and readable than custom scope:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">DataTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
+<pre><code data-filename="Article.js" class="language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">DataTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
 <span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./toSequelizeQuery'</span>);
 
 <span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-function">(<span class="hljs-params">sequelize</span>) =&gt;</span> {

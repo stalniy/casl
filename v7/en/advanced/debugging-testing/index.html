@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/debugging-testing/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -348,7 +348,7 @@
 <pre><code class="hljs language-js"><span class="hljs-keyword">const</span> rule = ability.<span class="hljs-title function_">relevantRuleFor</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Article'</span>); <span class="hljs-comment">// null</span>
 </code></pre>
 <p>This method is especially helpful when you use combination of direct rules with conditions and inverted rules:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> article = subject.<span class="hljs-title function_">bind</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'Article'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span> };
@@ -384,7 +384,7 @@
 <blockquote>
 <p>Forbidden reasons doesn't support direct rules. See <a href="https://github.com/stalniy/casl/issues/264" target="_blank" rel="noopener nofollow">#264</a> to track the status of this feature</p>
 </blockquote>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbilityWithReasons.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> article = subject.<span class="hljs-title function_">bind</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'Article'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
@@ -402,7 +402,7 @@
 </code></pre>
 <h2 id="testing"><a name="testing" class="h-link" href="#"></a>Testing</h2>
 <p>an <code>Ability</code> instance is pure in terms of functional programming. It means that for the same rules, its <code>can</code> method returns always the same result. That's why, there is no big profit in testing CASL permissions, instead you should test rule distribution logic. <strong>This sounds correct, but only at the first sight</strong>. Let's consider an example:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">AbilityBuilder</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { createMongoAbility, <span class="hljs-title class_">AbilityBuilder</span>, subject } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> article = subject.<span class="hljs-title function_">bind</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">'Article'</span>);
 

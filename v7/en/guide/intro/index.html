@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/intro/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -363,7 +363,7 @@ Can be used to restrict user action only to matched subject's fields (e.g., to a
 Criteria which restricts user action only to matched subjects. This is useful when you need to give a permission on specific subjects (e.g., to allow user to manage own <code>Article</code>)</li>
 </ol>
 <p>At the core of CASL is a system that enables us to declaratively define and check user permissions using clear javascript syntax:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
   <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'all'</span>);
@@ -382,7 +382,7 @@ Criteria which restricts user action only to matched subjects. This is useful wh
 <p><code>manage</code> and <code>all</code> are special keywords in CASL. <code>manage</code> represents any action and <code>all</code> represents any subject.</p>
 </blockquote>
 <p>Now let's try to check permissions</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility.js'</span>;
+<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility.js'</span>;
 
 ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>) <span class="hljs-comment">// true</span>
 ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'User'</span>) <span class="hljs-comment">// true</span>
@@ -401,7 +401,7 @@ ability.<span class="hljs-title function_">cannot</span>(<span class="hljs-strin
 <li>can <code>update</code> own <code>Comment</code></li>
 </ul>
 <p>Let's translate this to CASL:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> (user) =&gt; <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
   <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
@@ -432,7 +432,7 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
      for details.</p>
 </blockquote>
 <p>Let's get back to our example and define classes for <code>Article</code> and <code>Comment</code> entities:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Entity</span> {
+<pre><code data-filename="entities.js" class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Entity</span> {
   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">attrs</span>) {
     <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<span class="hljs-variable language_">this</span>, attrs);
   }
@@ -451,7 +451,7 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// user can read any article</span>
 </code></pre>
 <p>And few more examples just to get familiar with:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
+<pre><code data-filename="app.js" class="language-js"><span class="hljs-keyword">import</span> defineAbilityFor <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./entities'</span>;
 
 <span class="hljs-keyword">const</span> user = { <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">isLoggedIn</span>: <span class="hljs-literal">true</span> };
@@ -494,7 +494,7 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 <p>But that's not all, if you need more granular permission checks, you can define them on subject's attributes (i.e., fields)!</p>
 <h2 id="fields"><a name="fields" class="h-link" href="#"></a>Fields</h2>
 <p>Sometimes you may need to restrict which fields a user can access. For example, let's allow only moderators to publish <code>Article</code>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-title function_">default</span> (user) =&gt; <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
   <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>);
@@ -591,7 +591,7 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 <p>Here we got an unexpected result because direct rule is the last one. To fix the result just revert those rules and <strong>always remember to put inverted rules after the direct one!</strong></p>
 <h3 id="forbidden-reasons"><a name="forbidden-reasons" class="h-link" href="#"></a>Forbidden reasons</h3>
 <p>The good point about inverted rules is that they help to explicitly forbid particular actions. Moreover they allow to add explanation. Let's see how</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="defineAbility.js" class="language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
   <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'all'</span>);

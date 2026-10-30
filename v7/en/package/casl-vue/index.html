@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BeJEah2h.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DkHqbsgy.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="d6095b5">
+  <meta name="casl-build" content="2dcc828">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-vue/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -555,7 +555,7 @@ pnpm add @casl/vue@1.x @casl/ability
 <h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
 <p>The package is written in TypeScript, so don't worry that you need to keep all the properties and aliases in mind. If you use TypeScript, your IDE will suggest you the correct usage and TypeScript will warn you if you make a mistake.</p>
 <p>There are few ways to use TypeScript in a Vue app, depending on your preferences. But let's first define our <code>AppAbility</code> type:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">type</span> <span class="hljs-title class_">Actions</span> = <span class="hljs-string">'create'</span> | <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
 <span class="hljs-keyword">type</span> <span class="hljs-title class_">Subjects</span> = <span class="hljs-string">'Article'</span> | <span class="hljs-string">'User'</span>
@@ -564,7 +564,7 @@ pnpm add @casl/vue@1.x @casl/ability
 </code></pre>
 <h3 id="augment-vue-types"><a name="augment-vue-types" class="h-link" href="#"></a>Augment Vue types</h3>
 <p>There is no other way for TypeScript to know types of global properties without augmentation. To do this, let's add <code>src/shims-ability.d.ts</code> file with the next content:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>
+<pre><code data-filename="shims-ability.d.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>
 
 <span class="hljs-keyword">declare</span> <span class="hljs-variable language_">module</span> <span class="hljs-string">'vue'</span> {
   <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ComponentCustomProperties</span> {
@@ -587,14 +587,14 @@ pnpm add @casl/vue@1.x @casl/ability
 }
 </code></pre>
 <p>Additionally, we can create a separate <code>useAppAbility</code> hook, so we don't need to import <code>useAbility</code> and <code>AppAbility</code> in every component we want to check permissions but instead just import a single hook:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
+<pre><code data-filename="hooks/useAppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { useAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'../AppAbility'</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">useAppAbility</span> = (<span class="hljs-params"></span>) =&gt; useAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;();
 </code></pre>
 <h3 id="options-api"><a name="options-api" class="h-link" href="#"></a>Options API</h3>
 <p>It's also possible to use <code>@casl/vue</code> and TypeScript with options API. By default, <code>ABILITY_TOKEN</code> is typed as <code>InjectionKey&lt;Ability&gt;</code>, to cast it to <code>InjectionKey&lt;AppAbility&gt;</code>, we need to use a separate variable:</p>
-<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">InjectionKey</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+<pre><code data-filename="AppAbility.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">InjectionKey</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-variable constant_">ABILITY_TOKEN</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/vue'</span>;
 
 <span class="hljs-comment">// previous content that defines `AppAbility`</span>
@@ -622,7 +622,7 @@ pnpm add @casl/vue@1.x @casl/ability
 <h2 id="update-ability-instance"><a name="update-ability-instance" class="h-link" href="#"></a>Update Ability instance</h2>
 <p>Majority of applications that need permission checking support have something like <code>AuthService</code> or <code>LoginService</code> or <code>Session</code> service (name it as you wish) which is responsible for user login/logout functionality. Whenever user login (and logout), we need to update <code>Ability</code> instance with new rules. Usually you will do this in your <code>LoginComponent</code>.</p>
 <p>Let's imagine that server returns user with a role on login:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+<pre><code data-filename="Login.vue" class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">form</span> @<span class="hljs-attr">submit.prevent</span>=<span class="hljs-string">"login"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"email"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"password"</span> /&gt;</span>
