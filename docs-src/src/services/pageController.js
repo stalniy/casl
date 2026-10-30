@@ -50,6 +50,8 @@ export const respondWithPage = render => ({ match, error, resolved }) => {
     return {
       redirect: {
         name: 'page',
+        query: match.location.query,
+        hash: match.location.hash,
         params: {
           id: resolved.redirectTo,
           lang: match.params.lang,
