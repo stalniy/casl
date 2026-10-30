@@ -51,6 +51,10 @@ interface PrismaClient {
   $extends(extension: CaslExtension): any;
 }
 
+const hasOwn: (o: object, v: PropertyKey) => boolean = Object.hasOwn ?? ((hasOwnProperty) =>
+  (object: object, key: PropertyKey) => hasOwnProperty(object, key)
+)(Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty));
+
 function hasEmptyCondition(rawWhere: unknown): boolean {
   if (!rawWhere || typeof rawWhere !== 'object') return false;
 
@@ -68,7 +72,7 @@ function hasEmptyCondition(rawWhere: unknown): boolean {
   }
 
   for (const key in where) {
-    if (!Object.hasOwn(where, key)) continue;
+    if (!hasOwn(where, key)) continue;
     const value = where[key];
     if (value && typeof value === 'object' && hasEmptyCondition(value)) {
       return true;

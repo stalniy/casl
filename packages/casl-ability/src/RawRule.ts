@@ -20,7 +20,7 @@ export interface SubjectRawRule<A extends string, S extends SubjectType, C> exte
   subject: S | S[]
 }
 
-type DefineRule<T extends AbilityTypes, C, Else = ClaimRawRule<Extract<T, string>>> =
+type DefineRule<T extends AbilityTypes, C, Else = ClaimRawRule<T & string>> =
   T extends AbilityTupleType ? SubjectRawRule<T[0], T[1], C> : Else;
 
 export type RawRule<T extends AbilityTypes = AbilityTupleType, C = unknown> = DefineRule<T, C>;

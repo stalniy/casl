@@ -19,12 +19,12 @@ export type Abilities = AbilityTuple | string;
 
 type DefaultAbilityTypes<T extends Abilities> = T extends AbilityTuple
   ? AbilityTupleType<T[0], Extract<T[1], SubjectType> | TagName<T[1]>>
-  : Extract<T, string>;
+  : T & string;
 export type ToAbilityTypes<T extends Abilities, R extends SubjectResolver = DefaultSubject> =
   R extends DefaultSubject ? DefaultAbilityTypes<T> : ResolvedAbilityTypes<T, R>;
 type ResolvedAbilityTypes<T extends Abilities, R extends SubjectResolver> = T extends AbilityTuple
   ? AbilityTupleType<T[0], ExtractSubjectType<T[1], R>>
-  : Extract<T, string>;
+  : T & string;
 
 export type AbilityTupleType<
   T extends string = string,
@@ -32,14 +32,43 @@ export type AbilityTupleType<
 > = [T, U];
 export type AbilityTypes = string | AbilityTupleType;
 export type Normalize<T extends Abilities> = T extends AbilityTuple ? T : [T, string];
+export type AbilityActions<T extends Abilities> = Normalize<T>[0];
 
 export type IfString<T, U> = T extends string ? U : never;
+/** @deprecated use CanParametersForAction or reference Ability['can'] directly */
 export type AbilityParameters<
   T extends Abilities,
   TupleFunction extends Fn,
   StringFunction extends Fn = () => 0,
   Else = IfString<T, Parameters<StringFunction>>
 > = T extends AbilityTuple ? Parameters<TupleFunction> : Else;
+
+export type CanParametersForAction<
+  Action extends AbilityActions<T>,
+  T extends Abilities,
+  R extends SubjectResolver = DefaultSubject,
+  IncludeField extends boolean = true,
+> = [action: Action, ...RestCanParameters<T, Action, R, IncludeField>];
+
+type RestCanParameters<
+  T extends Abilities,
+  Action extends Normalize<T>[0],
+  R extends SubjectResolver = DefaultSubject,
+  IncludeField extends boolean = true,
+> = { // eslint-disable-line @typescript-eslint/consistent-indexed-object-style
+  // Match Action below because mapped keys collapse literal actions alongside string.
+  [K in T[0]]: T extends string
+    ? Action extends T
+      ? []
+      : never
+    : Action extends T[0]
+      ? IncludeField extends true
+        ? [subject: ResolveSubjects<T[1], R>, field?: string]
+        : [subject: ResolveSubjects<T[1], R>]
+      : never
+}[Action];
+
+/** @deprecated use CanParametersForAction or reference Ability['can'] directly */
 export type CanParameters<
   T extends Abilities,
   IncludeField extends boolean = true,
@@ -60,6 +89,10 @@ type SubjectClassWithCustomName<T> = (SubjectClass | ClassLike) & { modelName: T
 export type InstanceOfClass<T> = T extends AnyClass<infer I>
   ? I
   : T extends { prototype: infer I } ? I : never;
+
+/**
+ * @deprecated direct usage during Ability configuration is not needed anymore.
+ *             Otherwise use ResolveSubjects or ExtractSubjectType instead. */
 export type InferSubjects<T, IncludeTagName extends boolean = false> =
   T | (
     T extends SubjectClass | ClassLike
@@ -73,7 +106,7 @@ export type InferSubjects<T, IncludeTagName extends boolean = false> =
 
 export type ForcedSubject<T> = Readonly<Record<BuiltinSubjectKey, T>>
 
-/** @deprecated use DefaultSubject, TaggedSubjector ClassSubject instead */
+/** @deprecated use DefaultSubject, TaggedSubject or ClassSubject instead */
 export type TaggedInterface<T extends string> = ForcedSubject<T> |
 { readonly kind: T } |
 { readonly __typename: T };
