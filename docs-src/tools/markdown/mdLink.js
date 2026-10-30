@@ -53,7 +53,7 @@ function toCustomLink(token, hrefIndex, options, env) {
   });
 }
 
-module.exports = (md, config = {}) => {
+export default (md, config = {}) => {
   let isInAppLink = false;
   const isInAppUrl = config.isInAppUrl || isLocalUrl;
 

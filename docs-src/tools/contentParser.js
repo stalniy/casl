@@ -1,6 +1,7 @@
 import slugify from '@sindresorhus/slugify';
 import mdHighlights from 'markdown-it-highlightjs';
 import mdInclude from 'markdown-it-include';
+import mdAttrs from 'markdown-it-attrs';
 import { resolve } from 'path';
 import { getOrCreateMdParser, parse } from 'xyaml-webpack-loader/parser';
 import { extractFrontMatter } from './frontMatter.js';
@@ -11,6 +12,7 @@ import mdTableContainer from './markdown/mdTableContainer.js';
 
 export const markdownOptions = {
   use: [
+    [mdAttrs, { leftDelimiter: '@{', rightDelimiter: '}', fenceAttrsOnPre: false }],
     [mdHighlights, {}],
     [mdHeadingAnchors, {
       anchorClass: 'h-link',

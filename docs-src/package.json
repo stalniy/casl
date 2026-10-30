@@ -30,6 +30,7 @@
     "highlight.js": "^11.12.0",
     "image-size": "^2.0.2",
     "js-yaml": "^5.5.0",
+    "markdown-it-attrs": "^5.0.1",
     "markdown-it-highlightjs": "^4.3.0",
     "markdown-it-include": "^2.0.0",
     "puppeteer": "^25.5.0",
