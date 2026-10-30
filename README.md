@@ -1,14 +1,12 @@
 # CASL
 
-## Do you like this package?
-
-[Support Ukraine 🇺🇦](https://prytulafoundation.org/en/home/support_page)
+[Stand with Ukraine 🇺🇦](https://prytulafoundation.org/en/home/support_page)
 
 <p align="center">
   <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs-src/src/assets/shield.png" alt="CASL logo"></a>
 
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
-![build](https://github.com/stalniy/casl/workflows/CI/badge.svg)
+![build](https://github.com/stalniy/casl/actions/workflows/main.yml/badge.svg?branch=main&event=push)
 [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/main/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
 [![Support](https://img.shields.io/badge/Support-github%20discussions-green?style=flat&link=https://github.com/stalniy/casl/discussions)](https://github.com/stalniy/casl/discussions)
 <!-- [![CASL Code Climate](https://codeclimate.com/github/stalniy/casl/badges/gpa.svg)](https://codeclimate.com/github/stalniy/casl) -->
