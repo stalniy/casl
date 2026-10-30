@@ -22,11 +22,11 @@ export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
     return this._ability;
   }
 
-  can = (...args: Parameters<T['can']>): boolean => {
+  can: T['can'] = (...args) => {
     return this._getReactiveAbility().can(...args);
   };
 
-  cannot = (...args: Parameters<T['can']>): boolean => {
+  cannot: T['cannot'] = (...args) => {
     return !this.can(...args);
   };
 
@@ -40,15 +40,14 @@ export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
 
   whyCan = (...args: Parameters<T['can']>): ResultWithReason | null => {
     const rule = this._getReactiveAbility().relevantRuleFor(...args);
-    if (!rule) return null;
-    return { result: !rule.inverted, reason: rule.reason };
+    if (!rule || rule.inverted) return null;
+    return { reason: rule.reason };
   };
 
   whyCannot = (...args: Parameters<T['can']>): ResultWithReason | null => {
-    const result = this.whyCan(...args);
-    if (!result) return null;
-    result.result = !result.result;
-    return result;
+    const rule = this._getReactiveAbility().relevantRuleFor(...args);
+    if (rule && !rule.inverted) return null;
+    return { reason: rule?.reason };
   };
 
   deferWhyCan(...args: WithSignals<Parameters<T['can']>>): Signal<ResultWithReason | null> {
@@ -65,11 +64,15 @@ export class AbilityServiceSignal<T extends AnyAbility> implements OnDestroy {
 }
 
 export interface ResultWithReason {
-  result: boolean;
   reason: string | undefined;
 }
 
 type WithSignals<T extends any[]> = { [K in keyof T]: T[K] | Signal<T[K]> };
 function unwrapSignals<T extends any[]>(args: WithSignals<T>): T {
-  return args.map(arg => isSignal(arg) ? arg() : arg) as T;
+  const values = new Array(args.length) as T;
+  for (let i = 0, length = args.length; i < length; i++) {
+    const arg = args[i];
+    values[i] = isSignal(arg) ? arg() : arg;
+  }
+  return values;
 }

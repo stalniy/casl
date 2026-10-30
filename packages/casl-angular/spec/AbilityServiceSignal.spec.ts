@@ -1,4 +1,4 @@
-import { Component, DebugElement, inject, Input, Predicate, signal, Type } from '@angular/core'
+import { Component, DebugElement, inject, input, Input, Predicate, signal, Type } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
 import { Ability, createMongoAbility, MongoAbility, MongoQuery, TaggedSubject } from '@casl/ability'
 import { firstValueFrom } from 'rxjs'
@@ -85,48 +85,54 @@ describe('AbilityServiceSignal', () => {
       const { abilityService } = setup()
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'allowed by policy' }])
       const result = abilityService.whyCan('read', 'Article')
-      expect(result).toEqual({ result: true, reason: 'allowed by policy' })
+      expect(result).toEqual({ reason: 'allowed by policy' })
     })
 
     it('returns result with undefined reason when rule has no reason', () => {
       const { abilityService } = setup()
       abilityService.update([{ action: 'read', subject: 'Article' }])
       const result = abilityService.whyCan('read', 'Article')
-      expect(result).toEqual({ result: true, reason: undefined })
+      expect(result).toEqual({ reason: undefined })
     })
 
-    it('returns result false for inverted rule', () => {
+    it('returns null for an inverted rule', () => {
       const { abilityService } = setup()
       abilityService.update([
         { action: 'manage', subject: 'all' },
         { action: 'delete', subject: 'Article', inverted: true, reason: 'forbidden' }
       ])
       const result = abilityService.whyCan('delete', 'Article')
-      expect(result).toEqual({ result: false, reason: 'forbidden' })
+      expect(result).toBeNull()
     })
   })
 
   describe('whyCannot', () => {
-    it('returns null when no relevant rule exists', () => {
+    it('returns an object when an inverted rule has no reason', () => {
       const { abilityService } = setup()
-      expect(abilityService.whyCannot('read', 'Article')).toBeNull()
+      abilityService.update([{ action: 'delete', subject: 'Article', inverted: true }])
+      expect(abilityService.whyCannot('delete', 'Article')).toEqual({ reason: undefined })
     })
 
-    it('returns inverted result compared to whyCan', () => {
+    it('returns undefined reason when no relevant rule exists', () => {
+      const { abilityService } = setup()
+      expect(abilityService.whyCannot('read', 'Article')).toEqual({ reason: undefined })
+    })
+
+    it('returns null when a rule allows the action', () => {
       const { abilityService } = setup()
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'allowed by policy' }])
       const result = abilityService.whyCannot('read', 'Article')
-      expect(result).toEqual({ result: false, reason: 'allowed by policy' })
+      expect(result).toBeNull()
     })
 
-    it('returns result true for inverted rule', () => {
+    it('returns the reason for an inverted rule', () => {
       const { abilityService } = setup()
       abilityService.update([
         { action: 'manage', subject: 'all' },
         { action: 'delete', subject: 'Article', inverted: true, reason: 'forbidden' }
       ])
       const result = abilityService.whyCannot('delete', 'Article')
-      expect(result).toEqual({ result: true, reason: 'forbidden' })
+      expect(result).toEqual({ reason: 'forbidden' })
     })
   })
 
@@ -181,7 +187,13 @@ describe('AbilityServiceSignal', () => {
       expect(result()).toBeNull()
 
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'test' }])
-      expect(result()).toEqual({ result: true, reason: 'test' })
+      expect(result()).toEqual({ reason: 'test' })
+
+      abilityService.update([{ action: 'read', subject: 'Article', inverted: true }])
+      expect(result()).toBeNull()
+
+      abilityService.update([])
+      expect(result()).toBeNull()
     })
 
     it('accepts signal arguments', () => {
@@ -189,7 +201,7 @@ describe('AbilityServiceSignal', () => {
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'test' }])
       const action = signal<'read' | 'delete'>('read')
       const result = abilityService.deferWhyCan(action, 'Article')
-      expect(result()).toEqual({ result: true, reason: 'test' })
+      expect(result()).toEqual({ reason: 'test' })
 
       action.set('delete')
       expect(result()).toBeNull()
@@ -200,10 +212,18 @@ describe('AbilityServiceSignal', () => {
     it('returns a signal that reflects whyCannot result', () => {
       const { abilityService } = setup()
       const result = abilityService.deferWhyCannot('read', 'Article')
-      expect(result()).toBeNull()
+      expect(result()).toEqual({ reason: undefined })
 
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'test' }])
-      expect(result()).toEqual({ result: false, reason: 'test' })
+      expect(result()).toBeNull()
+
+      abilityService.update([
+        { action: 'read', subject: 'Article', inverted: true, reason: 'forbidden' }
+      ])
+      expect(result()).toEqual({ reason: 'forbidden' })
+
+      abilityService.update([])
+      expect(result()).toEqual({ reason: undefined })
     })
 
     it('accepts signal arguments', () => {
@@ -211,10 +231,10 @@ describe('AbilityServiceSignal', () => {
       abilityService.update([{ action: 'read', subject: 'Article', reason: 'test' }])
       const action = signal<'read' | 'delete'>('read')
       const result = abilityService.deferWhyCannot(action, 'Article')
-      expect(result()).toEqual({ result: false, reason: 'test' })
+      expect(result()).toBeNull()
 
       action.set('delete')
-      expect(result()).toBeNull()
+      expect(result()).toEqual({ reason: undefined })
     })
   })
 
@@ -251,6 +271,51 @@ describe('AbilityServiceSignal', () => {
   })
 
   describe('template integration', () => {
+    it('tracks a required action input in a deferred permission check', () => {
+      const { abilityService } = setup()
+      abilityService.update([
+        { action: 'read', subject: 'Article' },
+        { action: 'delete', subject: 'Article', inverted: true, reason: 'Only administrators' }
+      ])
+      const fixture = TestBed.createComponent(InputReasonApp)
+      const element: HTMLElement = fixture.nativeElement
+      fixture.componentRef.setInput('action', 'read')
+      fixture.detectChanges()
+      expect(element.querySelector('button')).not.toBeNull()
+      expect(element.querySelector('span')).toBeNull()
+
+      fixture.componentRef.setInput('action', 'delete')
+      fixture.detectChanges()
+      expect(element.querySelector('button')).toBeNull()
+      expect(element.querySelector('span')?.textContent).toBe('Only administrators')
+    })
+
+    it('shows the denial reason or the allowed branch using a single if', () => {
+      const { abilityService } = setup()
+      const fixture = createComponent(ReasonApp)
+      const element: HTMLElement = fixture.nativeElement
+
+      expect(element.querySelector('button')).toBeNull()
+      expect(element.querySelector('span')?.textContent).toBe('Permission denied')
+
+      abilityService.update([{ action: 'delete', subject: 'Article' }])
+      fixture.detectChanges()
+      expect(element.querySelector('button')?.textContent).toBe('Delete')
+      expect(element.querySelector('span')).toBeNull()
+
+      abilityService.update([
+        { action: 'delete', subject: 'Article', inverted: true, reason: 'Only administrators' }
+      ])
+      fixture.detectChanges()
+      expect(element.querySelector('button')).toBeNull()
+      expect(element.querySelector('span')?.textContent).toBe('Only administrators')
+
+      abilityService.update([{ action: 'delete', subject: 'Article', inverted: true }])
+      fixture.detectChanges()
+      expect(element.querySelector('button')).toBeNull()
+      expect(element.querySelector('span')?.textContent).toBe('Permission denied')
+    })
+
     it('allows to use its `can` method in template', async () => {
       setup()
       const fixture = createComponent(App, { role: 'admin' })
@@ -264,6 +329,39 @@ describe('AbilityServiceSignal', () => {
   })
 
   type AppAbility = MongoAbility<['read' | 'manage' | 'delete', 'all' | 'Article' | { kind: 'Article'; id: number }]>
+  @Component({
+    selector: 'input-reason-app',
+    standalone: true,
+    template: `
+      @if (denial(); as forbidden) {
+        <span>{{ forbidden.reason || 'Permission denied' }}</span>
+      } @else {
+        <button>Perform action</button>
+      }
+    `
+  })
+  class InputReasonApp {
+    private readonly abilityService = inject<AbilityServiceSignal<AppAbility>>(AbilityServiceSignal)
+    readonly action = input.required<'read' | 'delete'>()
+    protected readonly denial = this.abilityService.deferWhyCannot(this.action, 'Article')
+  }
+
+  @Component({
+    selector: 'reason-app',
+    standalone: true,
+    template: `
+      @if (whyCannot('delete', 'Article'); as forbidden) {
+        <span>{{ forbidden.reason || 'Permission denied' }}</span>
+      } @else {
+        <button>Delete</button>
+      }
+    `
+  })
+  class ReasonApp {
+    private readonly abilityService = inject<AbilityServiceSignal<AppAbility>>(AbilityServiceSignal)
+    protected readonly whyCannot = this.abilityService.whyCannot
+  }
+
   function setup() {
     const ability = createMongoAbility<AppAbility>()
     TestBed.configureTestingModule({
