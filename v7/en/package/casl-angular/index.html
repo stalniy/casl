@@ -27,10 +27,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-DB2rNjKN.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DcmoZiVo.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
-  <meta name="casl-build" content="5d74012">
+  <meta name="casl-build" content="974561d">
 <link rel="alternate" type="text/markdown" href="/v7/en/package/casl-angular/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -479,15 +479,66 @@ pnpm add @casl/angular @casl/ability
   <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> can = <span class="hljs-variable language_">this</span>.<span class="hljs-property">abilityService</span>.<span class="hljs-property">can</span>;
 }
 </code></pre>
+<h3 id="explain-permission-checks-with-why-can-and-why-cannot"><a name="explain-permission-checks-with-why-can-and-why-cannot" class="h-link" href="#"></a>Explain permission checks with <code>whyCan</code> and <code>whyCannot</code></h3>
+<p><code>AbilityServiceSignal</code> <code>whyCan</code> and <code>whyCannot</code> methods help to answer the question of why action is allowed or defined:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">const</span> abilityService = inject&lt;<span class="hljs-title class_">AbilityServiceSignal</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;&gt;(<span class="hljs-title class_">AbilityServiceSignal</span>);
+
+abilityService.<span class="hljs-title function_">update</span>([
+  { <span class="hljs-attr">action</span>: <span class="hljs-string">'create'</span>, <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span>, <span class="hljs-attr">reason</span>: <span class="hljs-string">'You can create posts'</span> },
+  {
+    <span class="hljs-attr">inverted</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">action</span>: <span class="hljs-string">'delete'</span>,
+    <span class="hljs-attr">subject</span>: <span class="hljs-string">'Post'</span>,
+    <span class="hljs-attr">reason</span>: <span class="hljs-string">'Only administrators can delete posts'</span>
+  }
+]);
+
+abilityService.<span class="hljs-title function_">whyCan</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// { reason: 'You can create posts' }</span>
+abilityService.<span class="hljs-title function_">whyCan</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// null</span>
+abilityService.<span class="hljs-title function_">whyCannot</span>(<span class="hljs-string">'delete'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// { reason: 'Only administrators can delete posts' }</span>
+abilityService.<span class="hljs-title function_">whyCan</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// null</span>
+abilityService.<span class="hljs-title function_">whyCannot</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// { reason: undefined }</span>
+abilityService.<span class="hljs-title function_">whyCannot</span>(<span class="hljs-string">'create'</span>, <span class="hljs-string">'Post'</span>); <span class="hljs-comment">// null</span>
+</code></pre>
+<p>Expose these methods to templates the same way as <code>can</code> and use them like this:</p>
+<pre><code class="hljs language-html">@if (whyCannot('delete', 'Post'); as forbidden) {
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{{ forbidden.reason || 'You cannot delete posts' }}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+} @else {
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"deletePost()"</span>&gt;</span>Delete Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+}
+</code></pre>
+<p>A matching inverted rule without a reason returns an object with <code>reason: undefined</code> when the method's condition is met. This keeps a denial truthy even when no explanation is available.</p>
+<h3 id="create-permission-signals-with-defer-methods"><a name="create-permission-signals-with-defer-methods" class="h-link" href="#"></a>Create permission signals with <code>defer*</code> methods</h3>
+<p>The <code>defer*</code> methods return computed signals. Each argument (action, subject, or optional field) can be a plain value or a signal. The returned signal recalculates when the ability's rules or any signal argument changes.</p>
+<p>Create these signals once, for example in component field initializers, and read them in the template:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Component</span>, inject, input } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AbilityServiceSignal</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/angular'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./AppAbility'</span>;
+
+<span class="hljs-meta">@Component</span>({
+  <span class="hljs-attr">selector</span>: <span class="hljs-string">'post-action'</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">`
+    @if (whyCannotPerformAction(); as forbidden) {
+      &lt;p&gt;{{ forbidden.reason || 'This action is forbidden' }}&lt;/p&gt;
+    } @else {
+      &lt;button&gt;Perform action&lt;/button&gt;
+    }
+  `</span>
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PostActionComponent</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> abilityService = inject&lt;<span class="hljs-title class_">AbilityServiceSignal</span>&lt;<span class="hljs-title class_">AppAbility</span>&gt;&gt;(<span class="hljs-title class_">AbilityServiceSignal</span>);
+  <span class="hljs-keyword">readonly</span> action = input.<span class="hljs-property">required</span>&lt;<span class="hljs-string">'create'</span> | <span class="hljs-string">'delete'</span>&gt;();
+
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">readonly</span> whyCannotPerformAction = <span class="hljs-variable language_">this</span>.<span class="hljs-property">abilityService</span>.<span class="hljs-title function_">deferWhyCannot</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">action</span>, <span class="hljs-string">'Post'</span>);
+}
+</code></pre>
+<p>The parent supplies the action, for example <code>&lt;post-action [action]="'delete'" /&gt;</code>. The permission signal updates whenever that input changes.</p>
+<p>Pass the signal itself (<code>this.action</code>) to track its changes. Passing its current value (<code>this.action()</code>) fixes that argument to the value it had when the deferred check was created. The <code>deferWhy*</code> methods preserve the <code>null</code> and missing-reason behavior of <code>why*</code> methods; use <code>deferCan</code> or <code>deferCannot</code> when you only need a boolean permission check.</p>
 <h2 id="check-permissions-in-templates-using-pipe-deprecated"><a name="check-permissions-in-templates-using-pipe-deprecated" class="h-link" href="#"></a>Check permissions in templates using pipe (deprecated)</h2>
 <p>To check permissions in any template you can use <code>AblePipe</code>:</p>
 <pre><code class="hljs language-html">@if ('create' | able: 'Post') {
   <span class="hljs-tag">&lt;<span class="hljs-name">a</span> (<span class="hljs-attr">click</span>)=<span class="hljs-string">"createPost()"</span>&gt;</span>Add Post<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
 }
-</code></pre>
-<h3 id="why-pipe-and-not-directive"><a name="why-pipe-and-not-directive" class="h-link" href="#"></a>Why pipe and not directive?</h3>
-<p>Directive cannot be used to pass values into inputs of other components. For example, we need to enable or disable a button based on user's ability to create a post. With directive we cannot do this but we can do this with pipe:</p>
-<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> [<span class="hljs-attr">disabled</span>]=<span class="hljs-string">"!('create' | able: 'Post')"</span>&gt;</span>Add Post<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h2 id="type-script-support"><a name="type-script-support" class="h-link" href="#"></a>TypeScript support</h2>
 <p>This package is written in TypeScript, so it will warn you about wrong usage.</p>
