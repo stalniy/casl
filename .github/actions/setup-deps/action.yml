@@ -6,12 +6,11 @@ runs:
   steps:
     - uses: actions/setup-node@v6
       with:
-        node-version: 24
+        node-version: 12.17.0
         package-manager-cache: false
-    - uses: pnpm/action-setup@v6
-      with:
-        version: 6.35.1
-        run_install: false
+    - name: Install pnpm
+      shell: bash
+      run: npm install --global pnpm@6.35.1
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash
