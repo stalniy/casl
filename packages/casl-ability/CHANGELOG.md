@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [7.1.1](https://github.com/stalniy/casl/compare/@casl/ability@7.1.0...@casl/ability@7.1.1) (2026-10-31)
 
 
-### Bug Fixes
+### Security Fixes
 
 * adds enforced subject type validation ([#1328](https://github.com/stalniy/casl/issues/1328)) ([63f0c44](https://github.com/stalniy/casl/commit/63f0c448eb5cb59ab1520a4177fe29af6e802c66))
 
