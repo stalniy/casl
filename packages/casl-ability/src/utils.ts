@@ -1,5 +1,10 @@
 import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
+type HasOwn = (o: Record<PropertyKey, unknown>, prop: PropertyKey) => boolean;
+const hasOwn: HasOwn = (Object as any).hasOwn ?? (hasOwnProperty => (
+  (object: object, key: PropertyKey) => hasOwnProperty(object, key)
+))(Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty));
+
 export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
 }
@@ -22,19 +27,36 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 }
 
 const TYPE_FIELD = '__caslSubjectType__';
+const TYPE_FIELD_SYMBOL = Symbol('caslSubjectType');
+type SubjectTypeTag = {
+  [TYPE_FIELD]?: unknown;
+  [TYPE_FIELD_SYMBOL]?: unknown;
+};
+
 export function setSubjectType<
   T extends string,
   U extends Record<PropertyKey, any>
 >(type: T, object: U): U & ForcedSubject<T> {
   if (object) {
-    if (!object.hasOwnProperty(TYPE_FIELD)) {
+    if (!hasOwn(object, TYPE_FIELD)) {
       Object.defineProperty(object, TYPE_FIELD, { value: type });
-    } else if (type !== object[TYPE_FIELD]) {
+      Object.defineProperty(object, TYPE_FIELD_SYMBOL, { value: type });
+    } else if (
+      type !== object[TYPE_FIELD] || type !== (object as SubjectTypeTag)[TYPE_FIELD_SYMBOL]
+    ) {
       throw new Error(`Trying to cast object to subject type ${type} but previously it was casted to ${object[TYPE_FIELD]}`);
     }
   }
 
   return object as U & ForcedSubject<T>;
+}
+
+export function validateEnforcedSubjectType(value: unknown): void {
+  const object = value as SubjectTypeTag;
+  if (hasOwn(object, TYPE_FIELD) && object[TYPE_FIELD] !== object[TYPE_FIELD_SYMBOL]) {
+    throw new Error(`Untrusted subject type value "${object[TYPE_FIELD]}".`
+      + ' Use "subject" helper to set the subject type.');
+  }
 }
 
 export const isSubjectType = (value: unknown): value is SubjectType => {
@@ -48,7 +70,7 @@ export const getSubjectTypeName = (value: SubjectType) => {
 };
 
 export function detectSubjectType(subject: Exclude<Subject, SubjectType>): string {
-  if (subject.hasOwnProperty(TYPE_FIELD)) {
+  if (hasOwn(subject, TYPE_FIELD)) {
     return (subject as any)[TYPE_FIELD];
   }
 
@@ -63,7 +85,7 @@ function expandActions(aliasMap: AliasesMap, rawActions: string | string[], merg
   while (i < actions.length) {
     const action = actions[i++];
 
-    if (aliasMap.hasOwnProperty(action)) {
+    if (hasOwn(aliasMap, action)) {
       actions = merge(actions, aliasMap[action]);
     }
   }

@@ -9,6 +9,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "settings": {
+    "import/parsers": null
+  },
   "rules": {
     "max-len": ["error", {
       "code": 100,
