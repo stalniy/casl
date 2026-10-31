@@ -71,7 +71,14 @@ export type InferSubjects<T, IncludeTagName extends boolean = false> =
       : TagName<T>
   );
 
-export type ForcedSubject<T> = Readonly<Record<BuiltinSubjectKey, T>>
+type WithBuiltinSubjectKey<
+  T extends Record<BuiltinSubjectKey, unknown>
+> = T;
+
+export type ForcedSubject<T> = WithBuiltinSubjectKey<{
+  /** @deprecated Internal implementation detail. Use subject() helper instead. */
+  readonly __caslSubjectType__: T;
+}>;
 
 /** @deprecated use DefaultSubject, TaggedSubjector ClassSubject instead */
 export type TaggedInterface<T extends string> = ForcedSubject<T> |
