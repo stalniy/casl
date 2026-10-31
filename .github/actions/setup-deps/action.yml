@@ -1,11 +1,16 @@
 name: 'Setup dependencies'
 
+inputs:
+  node-version:
+    description: Node.js version to install
+    default: '24'
+
 runs:
   using: "composite"
   steps:
     - uses: actions/setup-node@v6
       with:
-        node-version: 24
+        node-version: ${{ inputs.node-version }}
         package-manager-cache: false
     - name: Node & npm versions
       shell: bash
