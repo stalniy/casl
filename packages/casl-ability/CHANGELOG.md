@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [5.4.5](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@5.4.5) (2026-10-31)
+## [5.4.6](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@5.4.6) (2026-10-31)
 
 
 ### Security Fixes
