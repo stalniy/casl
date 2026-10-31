@@ -45,15 +45,15 @@ jobs:
           echo "$PATHS_RELEASED" | jq -r '.[]' | while IFS= read -r p; do
             pnpm --filter "./$p" run release.prepare
           done
-      # Must switch to node 22.14 which supports OIDC because older versions doesn't.
+      # Trusted publishing requires at least node 22.14 and npm 11.5.1
       - uses: actions/setup-node@v6
         with:
-          node-version: '22.14.0'
+          node-version: '24.21.0'
           package-manager-cache: false
       - name: Publish packages
         env:
           PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
         run: |
           echo "$PATHS_RELEASED" | jq -r '.[]' | while IFS= read -r p; do
-            (cd $p && pnpm publish --publish-branch ability-5.x --tag ability-5x);
+            (cd "$p" && pnpm publish --publish-branch ability-5.x --tag ability-5x);
           done
