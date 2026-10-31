@@ -4,7 +4,7 @@ description: Install the dependencies for the ability 5.x release toolchain
 inputs:
   node-version:
     description: Node.js version to install
-    default: '22.14.0'
+    default: '12.17.0'
 
 runs:
   using: composite

@@ -36,8 +36,8 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: ./.github/actions/setup-deps
-        with:
-          node-version: '12.17.0'
+        # with:
+        #   node-version: '12.17.0'
       - name: Prepare packages
         env:
           PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
