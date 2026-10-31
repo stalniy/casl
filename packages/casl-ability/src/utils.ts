@@ -18,7 +18,10 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
     lastKey = keys.pop()!;
     ref = keys.reduce((res, prop) => {
       if (FORBIDDEN_PROPERTIES.has(prop)) return res;
-      res[prop] = res[prop] || {};
+      const value = hasOwn(res, prop) ? res[prop] : undefined;
+      res[prop] = value && typeof value === 'object' && !Array.isArray(value)
+        ? value
+        : Object.create(null);
       return res[prop] as AnyObject;
     }, object);
   }
