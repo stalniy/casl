@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.8.3](https://github.com/stalniy/casl/compare/@casl/ability@6.8.2...@casl/ability@6.8.3) (2026-10-31)
+
+
+### Security Fixes
+
+* port proto pollution fix from 7.x ([#1336](https://github.com/stalniy/casl/issues/1336)) ([d661122](https://github.com/stalniy/casl/commit/d66112203ae377881be869e86a8d3e9152bb1bc1))
+
 ## [6.8.2](https://github.com/stalniy/casl/compare/@casl/ability@6.8.1...@casl/ability@6.8.2) (2026-10-31)
 
 
