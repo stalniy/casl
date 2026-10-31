@@ -71,6 +71,9 @@ export function rulesToAST<T extends AnyAbility>(
   return buildAnd(query.$and);
 }
 
+/**
+ * Extracts rules condition values into an object of default values
+ */
 export function rulesToFields<T extends PureAbility<any, AnyObject>>(
   ability: T,
   action: Parameters<T['rulesFor']>[0],
@@ -91,7 +94,7 @@ export function rulesToFields<T extends PureAbility<any, AnyObject>>(
 
         return fields;
       }, values);
-    }, {} as AnyObject);
+    }, Object.create(null) as AnyObject);
 }
 
 export type GetRuleFields<R extends Rule<any, any>> = (rule: R) => string[];

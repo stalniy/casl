@@ -1,7 +1,7 @@
 import { AnyObject, Subject, SubjectType, SubjectClass, ForcedSubject, AliasesMap } from './types';
 
 type HasOwn = (o: Record<PropertyKey, unknown>, prop: PropertyKey) => boolean;
-const hasOwn: HasOwn = (Object as any).hasOwn ?? (hasOwnProperty => (
+const hasOwn: HasOwn = (Object as any).hasOwn || (hasOwnProperty => (
   (object: object, key: PropertyKey) => hasOwnProperty(object, key)
 ))(Object.prototype.hasOwnProperty.call.bind(Object.prototype.hasOwnProperty));
 
@@ -9,6 +9,7 @@ export function wrapArray<T>(value: T[] | T): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
+const FORBIDDEN_PROPERTIES = new Set(['__proto__', 'constructor', 'prototype']);
 export function setByPath(object: AnyObject, path: string, value: unknown): void {
   let ref = object;
   let lastKey = path;
@@ -18,12 +19,18 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 
     lastKey = keys.pop()!;
     ref = keys.reduce((res, prop) => {
-      res[prop] = res[prop] || {};
+      if (FORBIDDEN_PROPERTIES.has(prop)) return res;
+      const propValue = hasOwn(res, prop) ? res[prop] : undefined;
+      res[prop] = propValue && typeof propValue === 'object' && !Array.isArray(propValue)
+        ? propValue
+        : Object.create(null);
       return res[prop] as AnyObject;
     }, object);
   }
 
-  ref[lastKey] = value;
+  if (!FORBIDDEN_PROPERTIES.has(lastKey)) {
+    ref[lastKey] = value;
+  }
 }
 
 const TYPE_FIELD = '__caslSubjectType__';

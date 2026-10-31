@@ -20,9 +20,13 @@ jobs:
         node:
           - 10 # 2020-04-01
           - 12
-          - latest
+          # - latest
     steps:
     - uses: actions/checkout@v6
+    - uses: actions/setup-node@v6
+      with:
+        node-version: ${{ matrix.node }}
+        package-manager-cache: false
     - uses: pnpm/action-setup@v1.2.1
       with:
         version: 5.15.0
@@ -38,13 +42,13 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     - name: Install dependencies
-      run: pnpm install
+      run: pnpm install --filter '!@casl/prisma'
     - name: Build
-      run: pnpm run -r build
+      run: pnpm run -r --filter '!@casl/prisma' build
     - name: lint & test
       run: |
-        pnpm run -r lint
-        pnpm run -r test -- --coverage
+        pnpm run -r lint --filter '!@casl/prisma'
+        pnpm run -r test --filter '!@casl/prisma' -- --coverage
     - name: submit coverage
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

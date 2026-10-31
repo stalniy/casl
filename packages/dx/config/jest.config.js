@@ -2,6 +2,9 @@ module.exports = {
   rootDir: process.cwd(),
   coverageDirectory: './coverage',
   testEnvironment: 'node',
+  setupFiles: [
+    `${__dirname}/../lib/jest.setup.js`
+  ],
   coverageReporters: [
     'lcov',
     'text'
