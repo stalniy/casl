@@ -36,10 +36,8 @@
     "build": "npm run build.types && npm run build.core && npm run build.extra",
     "lint": "dx eslint src/ spec/",
     "test": "dx jest --config ../dx/config/jest.chai.config.js",
-    "prerelease": "npm run lint && npm test && NODE_ENV=production npm run build",
-    "release": "dx semantic-release",
-    "preb": "echo 'pre'",
-    "b": "echo 123"
+    "release.prepare": "npm run lint && npm test && NODE_ENV=production npm run build",
+    "release": "npm run release.prepare && pnpm publish --publish-branch ability-5.x --tag ability-5x"
   },
   "keywords": [
     "permissions",

@@ -1,0 +1,25 @@
+name: Setup dependencies
+description: Install the dependencies for the ability 5.x release toolchain
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        package-manager-cache: false
+    - uses: pnpm/action-setup@v6
+      with:
+        version: 6.35.1
+        run_install: false
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: echo "STORE_PATH=$(pnpm store path)" >> "$GITHUB_OUTPUT"
+    - uses: actions/cache@v5
+      with:
+        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-ability-5x-${{ hashFiles('pnpm-lock.yaml') }}
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
