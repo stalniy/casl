@@ -25,5 +25,11 @@ export function rulesToFields<T extends PureAbility<any, AnyObject>>(
 
         return fields;
       }, values);
-    }, {} as AnyObject);
+    }, Object.create(null) as NullObject);
 }
+
+type NullObject = AnyObject & {
+  hasOwnProperty?: never;
+  toString?: never;
+  valueOf?: never;
+};
