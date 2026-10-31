@@ -40,6 +40,12 @@ describe('Ability', () => {
     expect(ability.cannot('read', 'Post')).to.be.false
   })
 
+  it('throws if enforced subject type was not set by "subject" helper', () => {
+    ability = new Ability()
+    expect(() => ability.can('read', JSON.parse('{"__caslSubjectType__":"Article"}')))
+      .to.throw(/Untrusted subject type/i)
+  })
+
   it('lists all rules', () => {
     ability = defineAbility((can, cannot) => {
       can('crud', 'all')

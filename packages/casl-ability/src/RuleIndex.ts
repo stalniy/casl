@@ -8,7 +8,7 @@ import {
   AbilityTuple,
   ExtractSubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, validateEnforcedSubjectType } from './utils';
 import { LinkedItem, linkedItem, unlinkItem, cloneLinkedItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
@@ -116,7 +116,7 @@ export class RuleIndex<A extends Abilities, Conditions> {
     };
     this._anyAction = options.anyAction || 'manage';
     this._anySubjectType = options.anySubjectType || 'all';
-    this._detectSubjectType = options.detectSubjectType || detectSubjectType;
+    this._detectSubjectType = options.detectSubjectType || (detectSubjectType as unknown as Required<RuleIndexOptions<A, Conditions>>['detectSubjectType']);
     this._rules = rules;
     this._indexedRules = this._buildIndexFor(rules);
   }
@@ -126,8 +126,9 @@ export class RuleIndex<A extends Abilities, Conditions> {
   }
 
   detectSubjectType(object?: Normalize<A>[1]): ExtractSubjectType<Normalize<A>[1]> {
-    if (isSubjectType(object)) return object;
-    if (!object) return this._anySubjectType;
+    if (isSubjectType(object)) return object as ExtractSubjectType<Normalize<A>[1]>;
+    if (!object) return this._anySubjectType as ExtractSubjectType<Normalize<A>[1]>;
+    validateEnforcedSubjectType(object);
     return this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
   }
 

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "separate-pull-requests": false,
+  "tag-separator": "@",
+  "include-component-in-tag": true,
+  "include-v-in-tag": false,
+  "bootstrap-sha": "1be8035e308903ca416bd632018673b8b46a14c5",
+  "packages": {
+    "packages/casl-ability": {
+      "package-name": "@casl/ability",
+      "component": "@casl/ability",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
