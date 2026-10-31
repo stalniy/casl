@@ -9,7 +9,7 @@ import {
   AbilityTuple,
   ExtractSubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY, filterWithLazyAllocation } from './utils';
+import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY, filterWithLazyAllocation, validateEnforcedSubjectType } from './utils';
 import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 
 export interface RuleIndexOptions<
@@ -138,6 +138,7 @@ export class RuleIndex<
   ): ExtractSubjectType<Normalize<A>[1], R> {
     if (isSubjectType(object)) return object as ExtractSubjectType<Normalize<A>[1], R>;
     if (!object) return this._anySubjectType as ExtractSubjectType<Normalize<A>[1], R>;
+    validateEnforcedSubjectType(object);
     return this._detectSubjectType(
       object as Exclude<ResolveSubjects<Normalize<A>[1], R>, SubjectType>
     );

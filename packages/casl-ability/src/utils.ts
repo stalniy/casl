@@ -33,6 +33,7 @@ export function setByPath(object: AnyObject, path: string, value: unknown): void
 }
 
 const TYPE_FIELD: BuiltinSubjectKey = '__caslSubjectType__';
+const TYPE_FIELD_SYMBOL = Symbol();
 export function setSubjectType<
   T extends string,
   U extends Record<PropertyKey, any>
@@ -40,12 +41,20 @@ export function setSubjectType<
   if (object) {
     if (!hasOwn(object, TYPE_FIELD)) {
       Object.defineProperty(object, TYPE_FIELD, { value: type });
-    } else if (type !== object[TYPE_FIELD]) {
+      Object.defineProperty(object, TYPE_FIELD_SYMBOL, { value: type });
+    } else if (type !== object[TYPE_FIELD] || type !== object[TYPE_FIELD_SYMBOL]) {
       throw new Error(`Trying to cast object to subject type ${type} but previously it was casted to ${object[TYPE_FIELD]}`);
     }
   }
 
   return object as U & ForcedSubject<T>;
+}
+
+export function validateEnforcedSubjectType(object: Record<PropertyKey, any>): void {
+  if (hasOwn(object, TYPE_FIELD) && object[TYPE_FIELD] !== object[TYPE_FIELD_SYMBOL]) {
+    throw new Error(`Untrusted subject type value "${object[TYPE_FIELD]}".` +
+      ` Use "subject" helper to set the subject type.`);
+  }
 }
 
 export const isSubjectType = (value: unknown): value is SubjectType => {
