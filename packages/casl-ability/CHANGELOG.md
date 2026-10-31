@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.4.5](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@5.4.5) (2026-10-31)
+
+
+### Security Fixes
+
+* adds enforced subject type validation ([#1332](https://github.com/stalniy/casl/issues/1332)) ([dced9db](https://github.com/stalniy/casl/commit/dced9db849c8313d50dbae952e67c3cec37c7b56))
+* port proto pollution fix to ability-5.x ([#1334](https://github.com/stalniy/casl/issues/1334)) ([f529957](https://github.com/stalniy/casl/commit/f529957f8fcb70c1dd40ecd0af0e685019d61d09))
+
 ## [5.4.4](https://github.com/stalniy/casl/compare/@casl/ability@5.4.3...@casl/ability@5.4.4) (2022-05-28)
 
 
