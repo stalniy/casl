@@ -48,7 +48,7 @@ jobs:
       # Must switch to node 22.14 which supports OIDC because older versions doesn't.
       - uses: actions/setup-node@v6
         with:
-          node-version: ${{ inputs.node-version }}
+          node-version: '22.14.0'
           package-manager-cache: false
       - name: Publish packages
         env:
