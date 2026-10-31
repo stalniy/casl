@@ -37,11 +37,23 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/setup-deps
         with:
-          node-version: '22.14.0'
+          node-version: '12.17.0'
+      - name: Prepare packages
+        env:
+          PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
+        run: |
+          echo "$PATHS_RELEASED" | jq -r '.[]' | while IFS= read -r p; do
+            pnpm --filter "./$p" run release.prepare
+          done
+      # Must switch to node 22.14 which supports OIDC because older versions doesn't.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          package-manager-cache: false
       - name: Publish packages
         env:
           PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
         run: |
           echo "$PATHS_RELEASED" | jq -r '.[]' | while IFS= read -r p; do
-            pnpm --filter "./$p" run release
+            (cd $p && pnpm publish --publish-branch ability-5.x --tag ability-5x);
           done
