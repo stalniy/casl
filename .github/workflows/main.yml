@@ -30,6 +30,8 @@ jobs:
         ref: ${{ github.sha }}
         fetch-depth: 2
     - uses: ./.github/actions/setup-deps
+      with:
+        node-version: ${{ matrix.node }}
     - name: Get base sha
       id: base-commit
       run: |

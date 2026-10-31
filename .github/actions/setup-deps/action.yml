@@ -1,12 +1,17 @@
 name: 'Setup dependencies'
 description: 'Set up Node.js and pnpm and install workspace dependencies'
 
+inputs:
+  node-version:
+    description: Node.js version to install
+    default: '26'
+
 runs:
   using: "composite"
   steps:
     - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
-        node-version: 26
+        node-version: ${{ inputs.node-version }}
         package-manager-cache: false
     - name: Node & npm versions
       shell: bash
