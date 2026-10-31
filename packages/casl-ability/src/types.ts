@@ -55,6 +55,10 @@ export type InferSubjects<T, IncludeTagName extends boolean = false> =
   );
 
 export interface ForcedSubject<T> {
+  /**
+   * @deprecated DO NOT USE THIS property,
+   *             it's internal details that can change at any time!
+   */
   readonly __caslSubjectType__: T;
 }
 

@@ -81,6 +81,11 @@ describe('Ability', () => {
     expect(ability.can('read', '*')).toBe(true)
   })
 
+  it('throws if enforced subject type was not set by "subject" helper', () => {
+    const ability = new Ability()
+    expect(() => ability.can('read', JSON.parse('{"__caslSubjectType__":"Article"}'))).toThrow(/Untrusted subject type/i)
+  })
+
   describe('by default', () => {
     it('allows to perform specified actions on target instance', () => {
       const ability = setup()
