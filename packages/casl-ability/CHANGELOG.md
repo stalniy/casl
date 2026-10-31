@@ -2,15 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [5.4.7](https://github.com/stalniy/casl/compare/@casl/ability@5.4.6...@casl/ability@5.4.7) (2026-10-31)
-
-
-### Bug Fixes
-
-* trigger release ([7619f6d](https://github.com/stalniy/casl/commit/7619f6d819767ece19be4b01e7e948ae1d9fdc42))
-
-## [5.4.6](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@5.4.6) (2026-10-31)
-
+## [5.4.7](https://github.com/stalniy/casl/compare/@casl/ability@5.4.4...@casl/ability@5.4.7) (2026-10-31)
 
 ### Security Fixes
 
