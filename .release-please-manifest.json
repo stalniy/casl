@@ -1,5 +1,5 @@
 {
-  "packages/casl-ability": "7.1.0",
+  "packages/casl-ability": "7.1.1",
   "packages/casl-angular": "10.2.0",
   "packages/casl-mongoose": "9.1.0",
   "packages/casl-prisma": "2.2.0",
