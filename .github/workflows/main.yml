@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main, ability-6.x]
     paths:
       - .github/workflows/main.yml
       - packages/**/*.{js,ts,json}
@@ -10,6 +10,7 @@ on:
       - .eslintrc
       - tools/**/*
   pull_request:
+    branches: [main, ability-6.x]
 
 jobs:
   build:

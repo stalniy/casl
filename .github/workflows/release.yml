@@ -2,7 +2,9 @@ name: release-please
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
+      - ability-6.x
   workflow_dispatch:
 
 jobs:
@@ -19,6 +21,7 @@ jobs:
         id: release-pl
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref_name }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
   publish:
