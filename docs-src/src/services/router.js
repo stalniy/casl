@@ -1,4 +1,5 @@
-import { prepareRoutes, createRouter } from '@curi/router';
+import { createRouter } from '@curi/router';
+import { compile } from 'path-to-regexp';
 import { browser, createBase } from '@hickory/browser';
 import { html } from 'lit-element';
 import routesConfig from '../config/routes.yml';
@@ -6,57 +7,7 @@ import config from '../config/app.js';
 import { locale, LOCALES, defaultLocale } from './i18n.js';
 import { loadPages, renderPage } from './pageController.js';
 import * as queryString from './querystring.js';
-
-function buildPath(rawRoute) {
-  if (!rawRoute.restrictions) {
-    return rawRoute.path;
-  }
-
-  return rawRoute.path.replace(/:([\w_-]+)(\?)?/g, (_, name, questionMark = '') => {
-    const restriction = rawRoute.restrictions[name];
-    return restriction ? `:${name}(${restriction})${questionMark}` : name + questionMark;
-  });
-}
-
-function buildRoutes(rawRoutes, controllers) {
-  return rawRoutes.map((rawRoute) => {
-    const buildController = controllers[rawRoute.controller];
-
-    if (!buildController) {
-      throw new Error(`Did you forget to specify controller for route "${rawRoute.name}"?`);
-    }
-
-    const route = {
-      name: rawRoute.name,
-      path: buildPath(rawRoute),
-      ...buildController(rawRoute),
-    };
-
-    if (rawRoute.meta && rawRoute.meta.encode === false) {
-      route.pathOptions = {
-        compile: { encode: x => x }
-      };
-    }
-
-    if (rawRoute.children) {
-      route.children = buildRoutes(rawRoute.children, controllers);
-    }
-
-    return route;
-  });
-}
-
-function interpolate(template, object) {
-  let hasMissing = false;
-  const result = template.replace(/:([\w_-]+)\??/g, (_, name) => {
-    if (!object[name] || object[name] === 'undefined') {
-      hasMissing = true;
-    }
-    return object[name];
-  });
-
-  return hasMissing ? null : result;
-}
+import { buildRoutes, prepareRestrictedRoutes } from './routeConfig.js';
 
 const routes = buildRoutes(routesConfig.routes, {
   Home: () => ({
@@ -68,19 +19,21 @@ const routes = buildRoutes(routesConfig.routes, {
   }),
   Page(route) {
     const categories = route.meta ? route.meta.categories : [];
+    const toContentId = compile(route.path, { encode: false });
 
     return {
       resolve: loadPages(({ params }) => ({
         ...params,
         categories,
-        id: interpolate(route.path, params),
+        id: route.path.includes('*id') && !params.id ? null : toContentId(params),
       })),
       respond: renderPage,
     };
   }
 }).concat({
   name: 'notFound',
-  path: '(.*)',
+  path: '{*path}',
+  pathOptions: { compile: { encode: false } },
   respond({ match }) {
     const { pathname } = match.location;
     const index = pathname.indexOf('/', 1);
@@ -98,7 +51,7 @@ const routes = buildRoutes(routesConfig.routes, {
     };
   }
 });
-const router = createRouter(browser, prepareRoutes(routes), {
+const router = createRouter(browser, prepareRestrictedRoutes(routes), {
   history: {
     base: config.baseUrl ? createBase(config.baseUrl) : undefined,
     query: queryString

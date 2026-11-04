@@ -10,11 +10,12 @@ routes:
       provider: langs
     children:
       - name: api
-        path: api/:id?
+        path: 'api{/*id}'
         restrictions:
           id: '[\w/-]+'
         controller: Page
         meta:
+          encode: false
           categories: [api]
           ignoreIdPrefix: true
         sitemap:
@@ -29,7 +30,7 @@ routes:
           changefreq: yearly
           provider: route
       - name: page
-        path: :id
+        path: '*id'
         restrictions:
           id: '[\w/-]+'
         controller: Page

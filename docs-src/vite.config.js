@@ -57,7 +57,22 @@ export default defineConfig(async ({ mode }) => {
       },
     },
 
+    // Keep Curi's import visible to the compatibility resolver in development.
+    optimizeDeps: {
+      exclude: ['@curi/router'],
+    },
+
     plugins: [
+      {
+        name: 'curi-path-to-regexp',
+        enforce: 'pre',
+        resolveId(source, importer) {
+          // Substitute Curi's legacy API without intercepting the shim's v9 import.
+          if (source === 'path-to-regexp' && importer?.includes('/@curi/router/')) {
+            return resolve(__dirname, 'src/services/curiPathToRegexp.js');
+          }
+        },
+      },
       xyaml({
         markdown: markdownOptions,
         esm: true,

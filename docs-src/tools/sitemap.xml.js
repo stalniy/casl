@@ -3,6 +3,7 @@ import fs from 'fs';
 import { load as parseYaml } from 'js-yaml';
 import { resolve } from 'path';
 import { promisify } from 'util';
+import { compile } from 'path-to-regexp';
 
 const execFile = promisify(execFileCb);
 const writeFile = promisify(fs.writeFile);
@@ -79,7 +80,7 @@ const sitemapEntriesProviders = {
 };
 
 function getSitemapEntriesProviderFor(route) {
-  const hasPlaceholders = route.path.includes(':');
+  const hasPlaceholders = /[:*]/.test(route.path);
   const entriesProvider = route.sitemap ? route.sitemap.provider : null;
 
   if (hasPlaceholders && !entriesProvider) {
@@ -135,9 +136,9 @@ async function urlEntriesFrom(route, context = {}) {
     items = [{ doc: {}, lastmodFrom: route.sitemap.lastmodFrom }];
   }
 
-  const regexp = /:([\w_-]+)\??/g
+  const toPath = compile(details.path, { encode: false });
   const parseItems = items.map(async ({ doc, lastmodFrom }) => {
-    const path = details.path.replace(regexp, (_, prop) => doc[prop]);
+    const path = toPath(doc);
     const itemEntry = urlEntry({
       ...details,
       path,
@@ -159,11 +160,10 @@ async function urlEntriesFrom(route, context = {}) {
 
   // Optional parameters also expose a route without a content ID (e.g. /en/api).
   // Publish it so prerendering creates an entry point for the client redirect.
-  const optionalPath = details.path.replace(/\/:([\w_-]+)\?/g, '');
-  if (optionalPath !== details.path && !optionalPath.includes(':') && items.length) {
+  if (details.path.includes('{') && items.length) {
     urls.push(urlEntry({
       ...details,
-      path: optionalPath,
+      path: toPath({}),
       lastmod: await getLastModified(items[0].lastmodFrom)
     }));
   }
