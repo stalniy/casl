@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en"><head>
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://tally.so 'nonce-sharethis' 'nonce-gha' 'nonce-safari-fix' https://www.googletagmanager.com https://*.google-analytics.com https://*.sharethis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://*.sharethis.com https://api.github.com https://api.npmjs.org; font-src 'self'; frame-src https://tally.so; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CASL Consulting — Authorization Architecture &amp; Implementation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
+  <link rel="icon" href="/v7/app-icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/v7/app-icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/v7/app-icons/favicon-16x16.png">
+  <link rel="manifest" href="/v7/manifest.json">
+  <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="keywords" content="CASL consulting, authorization architecture, RBAC, ABAC, ReBAC">
+  <meta name="description" content="Authorization architecture and implementation from our consulting team. Pragmatic guidance for RBAC, ABAC, ReBAC, multi-tenant permissions, and maintainable access control.">
+  <meta property="og:title" content="CASL Consulting — Authorization Architecture &amp; Implementation">
+  <meta property="og:description" content="Authorization architecture and implementation from our consulting team. Pragmatic guidance for RBAC, ABAC, ReBAC, multi-tenant permissions, and maintainable access control.">
+  <meta property="og:image" content="/v7/app-icons/android-chrome-256x256.png">
+
+  <link rel="stylesheet" href="/v7/global.css">
+  <noscript>
+    <style>#prerender-fallback:not([hidden]){display:block}</style>
+  </noscript>
+  <script type="module" crossorigin="" src="/v7/assets/index-CIDVflxx.js"></script>
+  <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
+  <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-19088556-6');</script>
+  <meta name="casl-build" content="5b4cc3a">
+<script src="https://tally.so/widgets/embed.js" async=""></script></head>
+<body>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="menu-item-dropdown">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/guide/intro">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/api">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl-examples" rel="nofollow">Examples</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://stackoverflow.com/questions/tagged/casl" rel="nofollow">Ask a question</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl/discussions" rel="nofollow">Discussions</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://sergiy-stotskiy.medium.com" rel="nofollow">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/consulting">
+        Consulting
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Support</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/support-casljs">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://prytulafoundation.org/en/home/support_page" rel="noopener noreferrer">Support Ukraine 🇺🇦</a>
+        
+      </li>
+    </ul>
+      </li>
+    </ul>
+      </nav></div><main>
+          
+          <div>
+      <article>
+        <p class="page-eyebrow">CASL CONSULTING / ARCHITECTURE &amp; IMPLEMENTATION</p>
+        <h1 class="page-title">Authorization that grows with your product</h1>
+        <div class="description md">
+          <div class="consulting">
+            <div class="consulting-hero">
+              <div class="lead">From simple permissions to complex authorization architectures.</div>
+              <div>Get expert guidance from a team combining CASL’s creator with backend and platform expertise — from architecture decisions to production implementation.</div>
+              <p><a class="btn" href="https://tally.so/r/jeZRK9">Discuss your architecture</a></p>
+            </div>
+            <h2 id="nearly-a-decade-of-authorization-expertise">Nearly a decade of authorization expertise</h2>
+            <div class="proof-metrics">
+              <p><a href="https://github.com/stalniy/casl/commit/8694688a3b87ea9f2806b93ae6ba7b3b613012c5" target="_blank" rel="noopener nofollow"><strong>Since 2017</strong><span>Open-source development</span></a></p>
+              <p><a href="https://api.npmjs.org/downloads/point/last-month/@casl/ability" target="_blank" rel="noopener nofollow"><strong>7M+</strong><span>Monthly npm downloads</span></a></p>
+              <p><a href="https://github.com/stalniy/casl/stargazers" target="_blank" rel="noopener nofollow"><strong>7,000+</strong><span>GitHub stars</span></a></p>
+            </div>
+            <section class="adoption-proof" aria-labelledby="casl-adoption-title">
+              <h3 id="casl-adoption-title">Built with CASL</h3>
+              <div class="adoption-logos">
+                <a href="https://github.com/strapi/strapi/blob/develop/docs/docs/docs/01-core/admin/02-permissions/01-how-they-work.mdx" target="_blank" rel="noopener nofollow">
+                  <img width="876" height="212" src="/v7/assets/consulting-strapi-6x7linao.svg" alt="Strapi">
+                </a>
+                <a href="https://docs.meshery.io/reference/extensibility/authorization/" target="_blank" rel="noopener nofollow">
+                  <img width="444" height="72" src="/v7/assets/consulting-meshery-DW27FMe1.svg" alt="Meshery">
+                </a>
+              </div>
+              <ul class="adoption-text-projects">
+                
+                  <li>
+                    
+                    <a target="_blank" rel="noopener noreferrer" href="https://infisical.com/">Infisical</a>
+                  </li>
+                
+                  <li>
+                    <span aria-hidden="true">·</span>
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.lightdash.com/">Lightdash</a>
+                  </li>
+                
+                  <li>
+                    <span aria-hidden="true">·</span>
+                    <a target="_blank" rel="noopener noreferrer" href="https://tooljet.com/">ToolJet</a>
+                  </li>
+                
+                  <li>
+                    <span aria-hidden="true">·</span>
+                    <a target="_blank" rel="noopener noreferrer" href="https://automatisch.io/">Automatisch</a>
+                  </li>
+                
+              </ul>
+            </section>
+            <div class="ecosystem-recognition">
+              <section aria-labelledby="ecosystem-recognition-title">
+                <h3 id="ecosystem-recognition-title">CASL &amp; UCAST across the ecosystem</h3>
+                <ul class="ecosystem-links">
+                  <li><a href="https://www.openpolicyagent.org/docs/rest-api#compile-api" target="_blank" rel="noopener nofollow">Open Policy Agent</a> — Policy compilation to UCAST</li>
+                  <li><a href="https://www.cerbos.dev/ecosystem/ucast" target="_blank" rel="noopener nofollow">Cerbos</a> — Authorization-aware data filtering</li>
+                  <li><a href="https://docs.permit.io/integrations/feature-flagging/casl/" target="_blank" rel="noopener nofollow">Permit.io</a> — Frontend permission checks</li>
+                  <li><a href="https://docs.nestjs.com/v7/security/authorization#integrating-casl" target="_blank" rel="noopener nofollow">NestJS</a> — Official authorization guide</li>
+                </ul>
+              </section>
+              <figure class="ucast-flow">
+                <figcaption>From authorization policies to database queries</figcaption>
+                <div class="filter-flow" role="img" aria-label="Supported OPA policy conditions represented as UCAST, then translated by an integration into a data filter">
+                  <span>OPA / Rego</span>
+                  <b aria-hidden="true">→</b>
+                  <span class="highlight-node">UCAST</span>
+                  <b aria-hidden="true">→</b>
+                  <span>Database query filter</span>
+                </div>
+                <p>Authorization doesn't end at API checks. UCAST enables policy-derived conditions to be translated into database filters.</p>
+              </figure>
+            </div>
+            <h2 id="authorization-becomes-architecture">Authorization becomes architecture</h2>
+            <div class="architecture-comparison">
+              <figure class="architecture before">
+                <figcaption><span class="eyebrow">BEFORE</span><strong>Scattered checks. Drifting decisions.</strong></figcaption>
+                <div class="layer-grid scattered">
+                  <div class="layer">Frontend<code>roles.includes('admin')</code></div>
+                  <div class="layer">API<code>user.tenantId === tenantId</code></div>
+                  <div class="layer">Services<code>roles.includes('admin')</code></div>
+                  <div class="layer">Database queries<code>WHERE tenant_id = ?</code></div>
+                </div>
+                <p class="caption">Four independently implemented authorization checks</p>
+              </figure>
+              <figure class="architecture after">
+                <figcaption><span class="eyebrow">AFTER</span><strong>Define once. Apply consistently.</strong></figcaption>
+                <div class="policy-model"><pre><code class="hljs language-js"><span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Project'</span>, {
+  <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span>
+})
+</code></pre></div>
+                <div class="layer-grid consistent">
+                  <div class="layer ui-layer">
+                    Frontend
+                    <small>UI visibility</small>
+                    <code>ability.can(<wbr>'update',<wbr> project)</code>
+                  </div>
+                  <div class="layer">
+                    API
+                    <small>Request authorization</small>
+                    <code>ability.can(<wbr>'update',<wbr> project)</code>
+                  </div>
+                  <div class="layer">
+                    Services / jobs
+                    <small>Operation enforcement</small>
+                    <code>ability.can(<wbr>'update',<wbr> project)</code>
+                  </div>
+                  <div class="layer">
+                    Database queries
+                    <small>Accessible records · @casl/prisma</small>
+                    <code>accessibleBy(ability, 'update')<wbr>.ofType(<wbr>'Project')</code>
+                  </div>
+                </div>
+                <p class="caption">One permission model. Consistent enforcement across your stack</p>
+              </figure>
+            </div>
+            <h2 id="a-path-from-simple-claims-to-relationships">A path from simple claims to relationships</h2>
+            <p class="section-intro">Add precision as your product evolves. Select a stage to explore.</p>
+            
+      <div role="tablist" aria-label="Authorization models">
+        
+          <button type="button" role="tab" aria-controls="stage-panel" id="stage-0" aria-selected="true" tabindex="0">
+            <span class="number" aria-hidden="true">01</span>
+            <span>Claims</span>
+          </button>
+        
+          <button type="button" role="tab" aria-controls="stage-panel" id="stage-1" aria-selected="false" tabindex="-1">
+            <span class="number" aria-hidden="true">02</span>
+            <span>Actions / Subjects</span>
+          </button>
+        
+          <button type="button" role="tab" aria-controls="stage-panel" id="stage-2" aria-selected="false" tabindex="-1">
+            <span class="number" aria-hidden="true">03</span>
+            <span>RBAC</span>
+          </button>
+        
+          <button type="button" role="tab" aria-controls="stage-panel" id="stage-3" aria-selected="false" tabindex="-1">
+            <span class="number" aria-hidden="true">04</span>
+            <span>ABAC</span>
+          </button>
+        
+          <button type="button" role="tab" aria-controls="stage-panel" id="stage-4" aria-selected="false" tabindex="-1">
+            <span class="number" aria-hidden="true">05</span>
+            <span>ReBAC</span>
+          </button>
+        
+      </div>
+      <div id="stage-panel" role="tabpanel" tabindex="0" aria-labelledby="stage-0">
+        
+              <section data-title="Claims" data-active="" aria-hidden="false">
+                <div class="stage-heading"><span class="eyebrow">01 / A CAPABILITY</span>
+                  <h3>Claims</h3></div>
+                <p>Start with feature access or simple capabilities expressed as actions.</p>
+                <pre><code class="hljs language-ts"><span class="hljs-title function_">can</span>(<span class="hljs-string">'read:project'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'update:project'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'manage:workspace'</span>);
+</code></pre>
+                <p class="stage-detail">A stable API for simple permissions, ready to gain resource context when you need it.</p>
+              </section>
+              <section data-title="Actions / Subjects" hidden="" inert="" aria-hidden="true">
+                <div class="stage-heading"><span class="eyebrow">02 / ADD A RESOURCE</span>
+                  <h3>Actions / Subjects</h3></div>
+                <p>Give every layer a shared vocabulary: what action, on which resource?</p>
+                <pre><code class="hljs language-ts"><span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Project'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Project'</span>);
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'Workspace'</span>);
+</code></pre>
+                <p class="stage-detail">The same capability vocabulary now distinguishes articles, projects, and workspaces.</p>
+              </section>
+              <section data-title="RBAC" hidden="" inert="" aria-hidden="true">
+                <div class="stage-heading"><span class="eyebrow">03 / GROUP PERMISSIONS</span>
+                  <h3>RBAC</h3></div>
+                <p>Map roles to rules once, instead of scattering role checks across features.</p>
+                <pre><code class="hljs language-ts"><span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Project'</span>);
+<span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'projectAdmin'</span>) <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Project'</span>);
+<span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'workspaceAdmin'</span>) <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'Workspace'</span>);
+</code></pre>
+                <p class="stage-detail">Roles become bundles of action/resource permissions.</p>
+              </section>
+              <section data-title="ABAC" hidden="" inert="" aria-hidden="true">
+                <div class="stage-heading"><span class="eyebrow">04 / ADD CONTEXT</span>
+                  <h3>ABAC</h3></div>
+                <p>Refine permissions with ownership, tenant identity, or resource state.</p>
+                <pre><code class="hljs language-ts"><span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Project'</span>, { <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span> });
+<span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'projectAdmin'</span>) {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Project'</span>, { <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span> });
+}
+<span class="hljs-keyword">if</span> (user.<span class="hljs-property">role</span> === <span class="hljs-string">'workspaceAdmin'</span>) {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'Workspace'</span>, { <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span> });
+}
+</code></pre>
+                <p class="stage-detail">Roles can still grant permissions; attributes constrain which records those grants cover.</p>
+              </section>
+              <section data-title="ReBAC" hidden="" inert="" aria-hidden="true">
+                <div class="stage-heading"><span class="eyebrow">05 / FOLLOW RELATIONSHIPS</span>
+                  <div class="row space-between">
+                    <h3>ReBAC</h3>
+                    <div class="rebac-approaches" role="radiogroup" aria-label="Relationship implementation">
+                    
+                      <label>
+                        <input type="radio" name="rebac-approach" aria-controls="rebac-example" value="denormalized">
+                        <span>Denormalized</span>
+                      </label>
+                    
+                      <label>
+                        <input type="radio" name="rebac-approach" aria-controls="rebac-example" value="sql">
+                        <span>SQL relations</span>
+                      </label>
+                    
+                    </div>
+                  </div>
+                </div>
+                <p>Add workspace membership and resource administrator relationships on top of tenant isolation.</p>
+                <div id="rebac-example">
+                  <pre><code class="hljs language-ts"><span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Project'</span>, {
+  <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span>,
+  <span class="hljs-attr">workspaceMemberIds</span>: { <span class="hljs-attr">$in</span>: [user.<span class="hljs-property">id</span>] }
+});
+
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'update'</span>, <span class="hljs-string">'Project'</span>, {
+  <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span>,
+  <span class="hljs-attr">projectAdminIds</span>: { <span class="hljs-attr">$in</span>: [user.<span class="hljs-property">id</span>] }
+});
+
+<span class="hljs-title function_">can</span>(<span class="hljs-string">'manage'</span>, <span class="hljs-string">'Workspace'</span>, {
+  <span class="hljs-attr">tenantId</span>: user.<span class="hljs-property">tenantId</span>,
+  <span class="hljs-attr">workspaceAdminIds</span>: { <span class="hljs-attr">$in</span>: [user.<span class="hljs-property">id</span>] }
+});
+</code></pre>
+                  <p class="stage-detail"><strong>Denormalized:</strong> Fast, local permission checks. Requires keeping derived membership attributes synchronized.</p>
+                </div>
+              </section>
+            
+      </div>
+    
+            <p class="caption">Complementary models, not mandatory migrations. RBAC, ABAC, and relationship-derived permissions can coexist.</p>
+            <h2 id="expertise-where-your-team-needs-it">Expertise where your team needs it</h2>
+            <div class="engagement-comparison">
+              <div class="engagement">
+                <p class="eyebrow">YOU IMPLEMENT</p>
+                <h3>Architecture &amp; Advisory</h3>
+                <p>Specialized guidance for your authorization architecture.</p>
+                <ol class="engagement-steps">
+                  <li><strong>Assessment</strong><span>Architecture, risks, policy correctness</span></li>
+                  <li><strong>System design</strong><span>Roles, attributes, tenants, enforcement</span></li>
+                  <li><strong>Migration roadmap</strong><span>Diagrams, testing strategy, next steps</span></li></ol>
+                <p class="engagement-outcome">A validated authorization model, technical recommendations, and an actionable implementation roadmap.</p>
+              </div>
+              <div class="engagement implementation">
+                <p class="eyebrow">WE IMPLEMENT</p>
+                <h3>Architecture &amp; Implementation</h3>
+                <p>From architecture decisions to production code.</p>
+                <ol class="engagement-steps">
+                  <li><strong>Architecture</strong><span>Model design and enforcement boundaries</span></li>
+                  <li><strong>Integration</strong><span>Backend, frontend, SQL filtering</span></li>
+                  <li><strong>Testing &amp; rollout</strong><span>Validation, performance, incremental migration</span></li></ol>
+                <p class="engagement-outcome">Authorization architecture implemented, integrated, and validated with your team.</p>
+              </div>
+            </div>
+            <p><strong>Flexible B2B engagements</strong><br>
+              Architecture reviews, advisory, and hands-on implementation under a B2B services agreement. Available for scoped projects or ongoing collaboration.</p>
+            <h2 id="work-directly-with-experienced-engineers">Work directly with experienced engineers</h2>
+            <div class="team-summary">
+              <div class="team-profile">
+                <div class="team-portrait">
+                  <img width="104" height="104" loading="lazy" decoding="async" src="/v7/assets/creator-photo-DkdobRBc.jpeg" alt="Serhii Stotskyi">
+                </div>
+                <div>
+                  <h3><a href="https://www.linkedin.com/in/sstotskyi/" target="_blank" rel="noopener nofollow">Serhii Stotskyi</a></h3>
+                  <p class="team-role">Authorization Architecture · CASL &amp; UCAST Creator</p>
+                  <p>Creator and maintainer of CASL and UCAST, with over 18 years of software engineering experience. Specializing in authorization architecture, policy correctness, and maintainable software design.</p>
+                </div>
+              </div>
+              <div class="team-profile">
+                <div class="team-portrait">
+                  <img class="engineer-portrait" width="104" height="104" loading="lazy" decoding="async" src="/v7/assets/engineer-photo-BUNqpLSe.jpeg" alt="Iaroslav Gryshaiev">
+                </div>
+                <div>
+                  <h3><a href="https://www.linkedin.com/in/igryshaiev/" target="_blank" rel="noopener nofollow">Iaroslav Gryshaiev</a></h3>
+                  <p class="team-role">Authorization &amp; Backend Engineer</p>
+                  <p>Experienced backend and platform engineer who has implemented CASL across multiple projects. Combines hands-on authorization experience with expertise in backend architecture, distributed systems, and production infrastructure.</p>
+                </div>
+              </div>
+            </div>
+            <div class="team-collaboration">
+              <h3>Direct collaboration. From architecture to production code.</h3>
+              <p>Each engagement is led by an experienced engineer, with complementary expertise available when needed.</p>
+            </div>
+            <div class="consulting-contact">
+              <h2 id="a-clearer-path-for-your-authorization-architecture">Let's solve your authorization challenges.</h2>
+              <p>Tell us what you're building, what isn't working, or where your authorization architecture needs to evolve.</p>
+              <p><a class="btn" href="https://tally.so/r/jeZRK9">Discuss your architecture</a></p>
+              <p class="caption">B2B consulting · Remote · Project-based or ongoing</p>
+            </div>
+        </div></div>
+      </article>
+    </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/consulting"></casl-docs>
+
+  <div id="share-buttons"></div>
+  <script nonce="sharethis" src="//platform-api.sharethis.com/js/sharethis.js#property=5a81a42dd4d59e0012e89863"></script>
+
+
+</body></html>

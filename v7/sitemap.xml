@@ -2,6 +2,13 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       
   <url>
+    <loc>https://casl.js.org/v7/en/consulting</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://casl.js.org/v7/en/api/casl-ability</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
@@ -37,14 +44,14 @@
   </url>
 
   <url>
-    <loc>https://casl.js.org/v7/en/guide/intro</loc>
+    <loc>https://casl.js.org/v7/en/cookbook/intro</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
-    <loc>https://casl.js.org/v7/en/cookbook/intro</loc>
+    <loc>https://casl.js.org/v7/en/guide/intro</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
@@ -65,13 +72,6 @@
   </url>
 
   <url>
-    <loc>https://casl.js.org/v7/en/guide/define-rules</loc>
-    <lastmod>2026-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1</priority>
-  </url>
-
-  <url>
     <loc>https://casl.js.org/v7/en/cookbook/cache-rules</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
@@ -80,6 +80,13 @@
 
   <url>
     <loc>https://casl.js.org/v7/en/cookbook/roles-with-static-permissions</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1</priority>
+  </url>
+
+  <url>
+    <loc>https://casl.js.org/v7/en/guide/define-rules</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
