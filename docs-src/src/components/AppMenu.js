@@ -84,12 +84,8 @@ Menu.styles = css`
     margin: 0 1rem;
   }
 
-  .menu-item-dropdown + .menu-item {
-    margin-left: 0.5rem;
-  }
-
   .menu-item {
-    margin: 0 0.2rem;
+    margin: 0 1rem;
   }
 
   .menu-item-dropdown:hover .dropdown {
@@ -189,6 +185,10 @@ Menu.styles = css`
   @media(min-width: 768px) {
     ul {
       white-space: nowrap;
+    }
+
+    .menu-item-dropdown + .menu-item {
+      margin-right: 0;
     }
   }
 `;
