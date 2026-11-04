@@ -108,7 +108,7 @@ export default class App extends LitElement {
   }
 
   _getLayout(sidebar) {
-    if (this._route.name === 'home') {
+    if (this._route.name === 'home' || this._route.name === 'consulting') {
       return '';
     }
 

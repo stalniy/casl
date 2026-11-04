@@ -17,6 +17,13 @@ const routes = buildRoutes(routesConfig.routes, {
       }
     })
   }),
+  Consulting: () => ({
+    respond: () => ({
+      body: {
+        main: html`<consulting-page></consulting-page>`
+      }
+    })
+  }),
   Page(route) {
     const categories = route.meta ? route.meta.categories : [];
     const toContentId = compile(route.path, { encode: false });
