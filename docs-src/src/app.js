@@ -8,6 +8,9 @@ import ArticleDetails from './components/ArticleDetails.js';
 import Page from './components/Page.js';
 import PageNav from './components/PageNav.js';
 import HomePage from './components/HomePage.js';
+import ConsultingCta from './components/ConsultingCta.js';
+import ConsultingPage from './components/ConsultingPage.js';
+import AuthorizationTimeline from './components/AuthorizationTimeline.js';
 import GithubButton from './components/GithubButton.js';
 import NpmDownloadsButton from './components/NpmDownloadsButton.js';
 import QuickSearch from './components/QuickSearch.js';
@@ -32,6 +35,9 @@ const components = [
   ArticleDetails,
   Page,
   HomePage,
+  ConsultingCta,
+  ConsultingPage,
+  AuthorizationTimeline,
   PageNav,
   QuickSearch,
   LangPicker,

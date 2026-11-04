@@ -21,6 +21,7 @@ declare module '*.pages' {
 }
 
 interface ImportMetaEnv {
+  readonly TALLY_FORM_ID: string;
   readonly SUPPORTED_LANGS: string[];
   readonly BASE_URL_PATH: string;
   readonly DOCS_BUILD_ID: string;

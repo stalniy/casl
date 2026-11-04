@@ -18,6 +18,20 @@ async function fixture(t) {
 
 const routeState = { routeName: 'page', routeParams: { lang: 'en', id: 'sample' } };
 
+test('exports the support route under a versioned public path', async (t) => {
+  const f = await fixture(t);
+  const source = '# Support CASL\n';
+  await mkdir(path.join(f.pages, 'support-casljs'), { recursive: true });
+  await writeFile(path.join(f.pages, 'support-casljs/en.md'), source);
+  const supportRoute = { routeName: 'support-casl', routeParams: { lang: 'en' } };
+
+  assert.equal(await exportMarkdown('/v7/en/support-casljs', f.output, '/v7', supportRoute, {
+    repoRoot: f.root,
+    pagesRoot: f.pages,
+  }), '/v7/en/support-casljs/index.md');
+  assert.equal(await readFile(path.join(f.output, 'index.md'), 'utf8'), source);
+});
+
 test('expands nested includes from their own directories and keeps front matter and CRLF source bytes', async (t) => {
   const f = await fixture(t);
   const source = '---\r\ntitle: Test\r\nmeta:\r\n  description: "one\r\n    two"\r\n---\r\nBefore\r\n@include: fixtures/top.md\r\n@include: fixtures/top.md\r\nAfter\r\n';

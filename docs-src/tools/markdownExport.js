@@ -105,12 +105,12 @@ markdown.inline.ruler.at('html_inline', function captureHtmlSource(state, silent
 });
 
 function pageIdentity(url, routeState) {
-  if (routeState?.routeName === 'home') return null;
+  if (['home', 'consulting'].includes(routeState?.routeName)) return null;
   const params = routeState?.routeParams;
   if (params?.lang && params?.id) {
     return { locale: params.lang, id: routeState.routeName === 'api' ? `api/${params.id}` : params.id };
   }
-  if (params?.lang && routeState?.routeName === 'support') return { locale: params.lang, id: 'support-casljs' };
+  if (params?.lang && routeState?.routeName === 'support-casl') return { locale: params.lang, id: 'support-casljs' };
   const parts = new URL(url, 'http://localhost').pathname.split('/').filter(Boolean);
   if (parts.length < 2) return null;
   const [locale, ...routeParts] = parts;
@@ -606,7 +606,7 @@ export async function exportMarkdown(url, outputDirectory, basePath = '', routeS
   const sourcePages = path.resolve(roots.pagesRoot || path.join(root, 'docs-src/src/content/pages'));
   const identity = pageIdentity(url, routeState);
   if (!identity) {
-    if (routeState?.routeName === 'home') return null;
+    if (['home', 'consulting'].includes(routeState?.routeName)) return null;
     throw new Error(`route ${url}: cannot map route to a Markdown source identity`);
   }
   const sourcePath = path.resolve(sourcePages, identity.id, `${identity.locale}.md`);

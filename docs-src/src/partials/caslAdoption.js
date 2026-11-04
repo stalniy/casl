@@ -3,7 +3,7 @@ import { t } from '../directives/i18n.js';
 
 // Official SVGs and their provenance/licenses live in public/project-logos.
 // Adoption references are recorded alongside entries for future maintainer review.
-const projects = [
+export const projects = [
   // https://github.com/strapi/strapi/blob/develop/docs/docs/docs/01-core/admin/02-permissions/01-how-they-work.mdx
   { name: 'Strapi', url: 'https://strapi.io/', logo: 'strapi.svg' },
   // https://github.com/Infisical/infisical/blob/main/backend/package.json

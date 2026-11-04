@@ -32,10 +32,14 @@ items:
     - heading: news
     - name: blog
       url: https://sergiy-stotskiy.medium.com
+- name: consulting
 - name: support
-- name: support-ukraine
-  url: https://prytulafoundation.org/en/home/support_page
-  rel: noopener noreferrer
+  route: false
+  children:
+    - name: support-casl
+    - name: support-ukraine
+      url: https://prytulafoundation.org/en/home/support_page
+      rel: noopener noreferrer
 
 footer:
   - icon: github

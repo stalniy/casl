@@ -1,4 +1,4 @@
-import { t, translationExists } from './i18n.js';
+import { t, translationExists, defaultLocale } from './i18n.js';
 
 export function setTitle(title) {
   const prefix = title ? `${title} - ` : '';
@@ -46,7 +46,7 @@ export function setRouteMeta({ response }) {
   const html = document.documentElement;
 
   if (html.lang !== response.params.lang) {
-    html.lang = response.params.lang;
+    html.lang = response.params.lang || defaultLocale;
   }
 
   const prefix = `meta.${response.name}`;
@@ -67,7 +67,12 @@ export function setRouteMeta({ response }) {
 export function setPageMeta(page) {
   const meta = page.meta || {};
 
-  setTitle(page.title);
+  if (meta.title) {
+    document.title = meta.title;
+    setPropertyMeta('og:title', document.title);
+  } else {
+    setTitle(page.title);
+  }
   setMeta('keywords', meta.keywords || '');
   setMeta('description', meta.description || '');
   updateShareButtons();

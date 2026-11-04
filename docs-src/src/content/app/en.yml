@@ -36,7 +36,9 @@ menu:
   chat: Discussions
   news: News
   blog: Blog
-  support: Support CASL
+  consulting: Consulting
+  support: Support
+  support-casl: Support CASL
   support-ukraine: Support Ukraine 🇺🇦
 
 buttons:
@@ -107,3 +109,234 @@ meta:
   keywords: roles, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript
   description: |
     CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
+
+
+consulting:
+  hero:
+    title: Authorization that grows with your product
+    eyebrow: CASL CONSULTING / ARCHITECTURE & IMPLEMENTATION
+    lead: From simple permissions to complex authorization architectures.
+    support: |-
+      Get expert guidance from a team combining CASL’s creator with backend and platform expertise — from architecture decisions to production implementation.
+  cta: Discuss your architecture
+  proof:
+    title: Nearly a decade of authorization expertise
+    since: Since 2017
+    longevityLabel: Open-source development
+    downloads: 7M+
+    downloadsLabel: Monthly npm downloads
+    stars: 7,000+
+    starsLabel: GitHub stars
+    adoptionTitle: Built with CASL
+    ecosystemTitle: CASL & UCAST across the ecosystem
+    flowTitle: From authorization policies to database queries
+    flowDescription: Authorization doesn't end at API checks. UCAST enables policy-derived conditions to be translated into database filters.
+    openPolicyAgent: Open Policy Agent
+    opaRelationship: Policy compilation to UCAST
+    cerbos: Cerbos
+    cerbosRelationship: Authorization-aware data filtering
+    permitIo: Permit.io
+    permitRelationship: Frontend permission checks
+    nestjs: NestJS
+    nestjsRelationship: Official authorization guide
+    strapi: Strapi
+    meshery: Meshery
+    flowLabel: Supported OPA policy conditions represented as UCAST, then translated by an integration into a data filter
+    opaRego: OPA / Rego
+    ucast: UCAST
+    dataFilter: Database query filter
+    flowCaption: >-
+      Authorization doesn't end at API checks. UCAST enables policy-derived conditions to be translated into database filters.
+  problem:
+    title: Authorization becomes architecture
+    before: BEFORE
+    beforeTitle: Scattered checks. Drifting decisions.
+    beforeSharedModel: !md |-
+      ```ts
+
+      // 4 independently implemented authorization checks
+
+      ```
+    frontend: Frontend
+    api: API
+    services: Services
+    databaseQueries: Database queries
+    beforeCaption: Four independently implemented authorization checks
+    after: AFTER
+    afterTitle: Define once. Apply consistently.
+    sharedModel: !md |
+      ```js
+      can('update', 'Project', {
+        tenantId: user.tenantId
+      })
+      ```
+    uiVisibilityOnly: UI visibility
+    enforceRequests: Request authorization
+    servicesJobs: Services / jobs
+    enforceOperations: Operation enforcement
+    filterAccessibleRecords: Accessible records · @casl/prisma
+    afterCaption: One permission model. Consistent enforcement across your stack
+    takeaway: One permission model. Consistent enforcement across your stack.
+    takeawaySupport: >-
+      Keep UI permissions aligned with backend enforcement and database filtering — without introducing a dedicated authorization service unless your requirements demand one.
+  evolution:
+    title: A path from simple claims to relationships
+    intro: Add precision as your product evolves. Select a stage to explore.
+    modelsLabel: Authorization models
+    claims:
+      title: Claims
+      eyebrow: 01 / A CAPABILITY
+      description: Start with feature access or simple capabilities expressed as actions.
+      example: !md |
+        ```ts
+        can('read:project');
+        can('update:project');
+        can('manage:workspace');
+        ```
+      detail: A stable API for simple permissions, ready to gain resource context when you need it.
+    actions:
+      title: Actions / Subjects
+      eyebrow: 02 / ADD A RESOURCE
+      description: 'Give every layer a shared vocabulary: what action, on which resource?'
+      example: !md |
+        ```ts
+        can('read', 'Project');
+        can('update', 'Project');
+        can('manage', 'Workspace');
+        ```
+      detail: The same capability vocabulary now distinguishes articles, projects, and workspaces.
+    rbac:
+      title: RBAC
+      eyebrow: 03 / GROUP PERMISSIONS
+      description: Map roles to rules once, instead of scattering role checks across features.
+      example: !md |
+        ```ts
+        can('read', 'Project');
+        if (user.role === 'projectAdmin') can('update', 'Project');
+        if (user.role === 'workspaceAdmin') can('manage', 'Workspace');
+        ```
+      detail: Roles become bundles of action/resource permissions.
+    abac:
+      title: ABAC
+      eyebrow: 04 / ADD CONTEXT
+      description: Refine permissions with ownership, tenant identity, or resource state.
+      example: !md |
+        ```ts
+        can('read', 'Project', { tenantId: user.tenantId });
+        if (user.role === 'projectAdmin') {
+          can('update', 'Project', { tenantId: user.tenantId });
+        }
+        if (user.role === 'workspaceAdmin') {
+          can('manage', 'Workspace', { tenantId: user.tenantId });
+        }
+        ```
+      detail: Roles can still grant permissions; attributes constrain which records those grants cover.
+    rebac:
+      title: ReBAC
+      eyebrow: 05 / FOLLOW RELATIONSHIPS
+      description: Add workspace membership and resource administrator relationships on top of tenant isolation.
+      approachesLabel: Relationship implementation
+      denormalized:
+        label: Denormalized
+        example: !md |
+          ```ts
+          can('read', 'Project', {
+            tenantId: user.tenantId,
+            workspaceMemberIds: { $in: [user.id] }
+          });
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            projectAdminIds: { $in: [user.id] }
+          });
+
+          can('manage', 'Workspace', {
+            tenantId: user.tenantId,
+            workspaceAdminIds: { $in: [user.id] }
+          });
+          ```
+        detail: !md |-
+          **Denormalized:** Fast, local permission checks. Requires keeping derived membership attributes synchronized.
+      sql:
+        label: SQL relations
+        example: !md |
+          ```ts
+          can('read', 'Project', {
+            tenantId: user.tenantId,
+            workspace: {
+              is: {
+                memberships: { some: { userId: user.id } }
+              }
+            }
+          });
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            memberships: {
+              some: { userId: user.id, role: 'projectAdmin' }
+            }
+          });
+
+          can('manage', 'Workspace', {
+            tenantId: user.tenantId,
+            memberships: {
+              some: { userId: user.id, role: 'workspaceAdmin' }
+            }
+          });
+          ```
+        detail: !md |-
+          **SQL relations:** Evaluate permissions through existing database relationships with @casl/prisma. No duplicated membership lists.
+    caption: >-
+      Complementary models, not mandatory migrations. RBAC, ABAC, and relationship-derived permissions can
+      coexist.
+  engagements:
+    title: Expertise where your team needs it
+    advisoryEyebrow: YOU IMPLEMENT
+    advisoryTitle: Architecture & Advisory
+    advisoryIntro: Specialized guidance for your authorization architecture.
+    assessment: Assessment
+    assessmentDescription: Architecture, risks, policy correctness
+    systemDesign: System design
+    designDescription: Roles, attributes, tenants, enforcement
+    migrationRoadmap: Migration roadmap
+    roadmapDescription: Diagrams, testing strategy, next steps
+    advisoryOutcome: A validated authorization model, technical recommendations, and an actionable implementation roadmap.
+    implementationEyebrow: WE IMPLEMENT
+    implementationTitle: Architecture & Implementation
+    implementationIntro: From architecture decisions to production code.
+    architecture: Architecture
+    architectureDescription: Model design and enforcement boundaries
+    integration: Integration
+    integrationDescription: Backend, frontend, SQL filtering
+    testingRollout: Testing & rollout
+    rolloutDescription: Validation, performance, incremental migration
+    implementationOutcome: Authorization architecture implemented, integrated, and validated with your team.
+    b2bTitle: Flexible B2B engagements
+    b2bDescription: >-
+      Architecture reviews, advisory, and hands-on implementation under a B2B services agreement.
+      Available for scoped projects or ongoing collaboration.
+  team:
+    title: Work directly with experienced engineers
+    creatorName: Serhii Stotskyi
+    creatorRole: Authorization Architecture · CASL & UCAST Creator
+    creatorDescription: >-
+      Creator and maintainer of CASL and UCAST, with over 18 years of software engineering experience.
+      Specializing in authorization architecture, policy correctness, and maintainable software design.
+    engineerName: Iaroslav Gryshaiev
+    engineerRole: Authorization & Backend Engineer
+    engineerDescription: >-
+      Experienced backend and platform engineer who has implemented CASL across multiple projects. Combines hands-on authorization experience with expertise in backend architecture, distributed systems, and production infrastructure.
+    collaborationTitle: Direct collaboration. From architecture to production code.
+    collaborationDescription: >-
+      Each engagement is led by an experienced engineer, with complementary expertise available when needed.
+  contact:
+    title: Let's solve your authorization challenges.
+    description: >-
+      Tell us what you're building, what isn't working, or where your authorization architecture needs to evolve.
+    engagementMetadata: B2B consulting · Remote · Project-based or ongoing
+  meta:
+    title: CASL Consulting — Authorization Architecture & Implementation
+    keywords: CASL consulting, authorization architecture, RBAC, ABAC, ReBAC
+    description: >-
+      Authorization architecture and implementation from our consulting team. Pragmatic guidance for RBAC, ABAC,
+      ReBAC, multi-tenant permissions, and maintainable access control.
