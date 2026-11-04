@@ -23,7 +23,7 @@ jobs:
           - 20 # 2026-05-26
           - 22 # 2026-12-07
           - 24 # 2027-06-16
-          - latest
+          - '*'
     steps:
     - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       with:
