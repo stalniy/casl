@@ -31,7 +31,7 @@ runs:
     - name: Cache dependencies
       uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
-        cache-name: casl-deps
+        cache-name: casl-deps-${{ inputs.node-version }}
       with:
         path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
