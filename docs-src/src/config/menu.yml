@@ -30,6 +30,8 @@ items:
     - name: chat
       url: https://github.com/stalniy/casl/discussions
     - heading: news
+    - name: tweeter
+      url: https://twitter.com/sergiy_stotskiy
     - name: blog
       url: https://sergiy-stotskiy.medium.com
 - name: consulting
