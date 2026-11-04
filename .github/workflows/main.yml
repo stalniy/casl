@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         option:
-          - node-version: 20 # 2026-05-26
           - node-version: 22 # 2026-12-07
           - node-version: 24 # 2027-06-16
           - node-version: 26 # 2029-04-30
