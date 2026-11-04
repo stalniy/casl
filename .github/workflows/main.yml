@@ -19,11 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node:
-          - 20 # 2026-05-26
-          - 22 # 2026-12-07
-          - 24 # 2027-06-16
-          - '*'
+        option:
+          - node-version: 20 # 2026-05-26
+          - node-version: 22 # 2026-12-07
+          - node-version: 24 # 2027-06-16
+          - node-version: 26 # 2029-04-30
+            submit-coverage: true
+          - node-version: '*'
     steps:
     - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       with:
@@ -31,7 +33,7 @@ jobs:
         fetch-depth: 2
     - uses: ./.github/actions/setup-deps
       with:
-        node-version: ${{ matrix.node }}
+        node-version: ${{ matrix.option.node-version }}
     - name: Get base sha
       id: base-commit
       run: |
@@ -58,7 +60,7 @@ jobs:
           pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
         fi
     - name: Submit coverage
-      if: matrix.node == 'latest'
+      if: matrix.option.submit-coverage == true
       uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
       with:
         fail_ci_if_error: true
