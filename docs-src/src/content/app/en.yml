@@ -115,7 +115,8 @@ meta:
 consulting:
   hero:
     title: Authorization that grows with your product
-    eyebrow: CASL CONSULTING / ARCHITECTURE & IMPLEMENTATION
+    eyebrow: CASL CONSULTING
+    eyebrowDetail: ARCHITECTURE & IMPLEMENTATION
     lead: From simple permissions to complex authorization architectures.
     support: |-
       Get expert guidance from a team combining CASL’s creator with backend and platform expertise — from architecture decisions to production implementation.
@@ -301,7 +302,7 @@ consulting:
     designDescription: Roles, attributes, tenants, enforcement
     migrationRoadmap: Migration roadmap
     roadmapDescription: Diagrams, testing strategy, next steps
-    advisoryOutcome: A validated authorization model, technical recommendations, and an actionable implementation roadmap.
+    advisoryOutcome: A reviewed authorization model, technical recommendations, and an actionable implementation roadmap.
     implementationEyebrow: WE IMPLEMENT
     implementationTitle: Architecture & Implementation
     implementationIntro: From architecture decisions to production code.
@@ -312,22 +313,17 @@ consulting:
     testingRollout: Testing & rollout
     rolloutDescription: Validation, performance, incremental migration
     implementationOutcome: Authorization architecture implemented, integrated, and validated with your team.
-    b2bTitle: Flexible B2B engagements
-    b2bDescription: >-
-      Architecture reviews, advisory, and hands-on implementation under a B2B services agreement.
-      Available for scoped projects or ongoing collaboration.
+    b2bTerms: Flexible B2B contracts · Remote · Project-based or ongoing
   team:
     title: Work directly with experienced engineers
     creatorName: Serhii Stotskyi
     creatorRole: Authorization Architecture · CASL & UCAST Creator
     creatorDescription: >-
-      Creator and maintainer of CASL and UCAST, with over 18 years of software engineering experience.
-      Specializing in authorization architecture, policy correctness, and maintainable software design.
+      Creator and maintainer of CASL and UCAST, with 18+ years of engineering experience. Focused on authorization architecture, correctness, and maintainable software design.
     engineerName: Iaroslav Gryshaiev
     engineerRole: Authorization & Backend Engineer
     engineerDescription: >-
-      Experienced backend and platform engineer who has implemented CASL across multiple projects. Combines hands-on authorization experience with expertise in backend architecture, distributed systems, and production infrastructure.
-    collaborationTitle: Direct collaboration. From architecture to production code.
+      Experienced backend and platform engineer who has implemented CASL across multiple projects. Specializes in authorization integration, distributed systems, and production infrastructure.
     collaborationDescription: >-
       Each engagement is led by an experienced engineer, with complementary expertise available when needed.
   contact:
