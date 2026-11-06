@@ -53,8 +53,8 @@ export function setRouteMeta({ response }) {
 
   if (translationExists(prefix)) {
     setTitle(t(`${prefix}.title`));
-    setMeta('keywords', t(`${prefix}.keywords`));
-    setMeta('description', t(`${prefix}.description`));
+    setMeta('keywords', translationExists(`${prefix}.keywords`) ? t(`${prefix}.keywords`) : undefined);
+    setMeta('description', translationExists(`${prefix}.description`) ? t(`${prefix}.description`) : undefined);
   } else {
     setTitle();
     setMeta('keywords');

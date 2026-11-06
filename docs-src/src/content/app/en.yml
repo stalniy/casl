@@ -107,11 +107,11 @@ payment:
   liqpay: Liqpay
 
 meta:
+  keywords: roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript, typescript authorization
+  description: |
+    Define permissions once. Enforce them across frontend, APIs, and databases. TypeScript-first authorization with RBAC and ABAC support.
   home:
     title: CASL — Authorization for the Entire TypeScript Stack
-    keywords: roles management, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript, typescript authorization
-    description: |
-      Define permissions once. Enforce them across frontend, APIs, and databases. TypeScript-first authorization with RBAC and ABAC support.
 
 consulting:
   hero:
