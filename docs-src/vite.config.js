@@ -105,7 +105,7 @@ export default defineConfig(async ({ mode }) => {
           {
             src: 'src/content/**/*.{png,jpeg,jpg,svg,gif}',
             dest: 'images',
-            flatten: true,
+            rename: { stripBase: true },
           },
           {
             src: '../funding.json',
