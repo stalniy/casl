@@ -1,0 +1,76 @@
+{
+  "$schema": "https://fundingjson.org/schema/v1.1.0.json",
+  "version": "v1.0.0",
+  "entity": {
+    "type": "individual",
+    "role": "maintainer",
+    "name": "Serhii Stotskyi",
+    "email": "sergiy.stotskiy@gmail.com",
+    "description": "Creator and maintainer of CASL, an MIT-licensed TypeScript authorization library.",
+    "webpageUrl": {
+      "url": "https://github.com/stalniy"
+    }
+  },
+  "projects": [
+    {
+      "guid": "casl",
+      "name": "CASL",
+      "description": "An isomorphic authorization library for JavaScript and TypeScript that makes it easy to manage and share permissions across UI components, API services, and database queries. Includes integrations for React, Vue, Angular, Mongoose, and Prisma.",
+      "webpageUrl": {
+        "url": "https://github.com/stalniy/casl#readme"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/stalniy/casl"
+      },
+      "licenses": ["spdx:MIT"],
+      "tags": ["javascript", "typescript", "authorization", "permissions", "security", "developer-tools"]
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "github-sponsors",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/stalniy",
+        "description": "Support CASL with one-time donations or recurring sponsorships through GitHub Sponsors."
+      },
+      {
+        "guid": "open-collective",
+        "type": "payment-provider",
+        "address": "https://opencollective.com/casljs",
+        "description": "Support CASL with one-time donations or recurring pledges through Open Collective."
+      }
+    ],
+    "plans": [
+      {
+        "guid": "casl-development",
+        "status": "active",
+        "name": "CASL development",
+        "amount": 25000,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": ["github-sponsors"]
+      },
+      {
+        "guid": "monthly-support",
+        "status": "active",
+        "name": "Monthly support",
+        "description": "The goal is to raise this money per month collectively to fund ongoing maintenance, security, new features, integrations, documentation, and community support. Contributions of any size are welcome.",
+        "amount": 2500,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": ["open-collective", "github-sponsors"]
+      },
+      {
+        "guid": "one-time-donation",
+        "status": "active",
+        "name": "One-time donation",
+        "description": "Make a one-time contribution of any amount to support CASL development.",
+        "amount": 0,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": ["open-collective", "github-sponsors"]
+      }
+    ]
+  }
+}
