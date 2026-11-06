@@ -107,6 +107,10 @@ export default defineConfig(async ({ mode }) => {
             dest: 'images',
             flatten: true,
           },
+          {
+            src: '../funding.json',
+            dest: 'funding.json'
+          }
         ],
       }),
        {
