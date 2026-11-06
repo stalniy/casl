@@ -17,7 +17,7 @@
       "name": "CASL",
       "description": "An isomorphic authorization library for JavaScript and TypeScript that makes it easy to manage and share permissions across UI components, API services, and database queries. Includes integrations for React, Vue, Angular, Mongoose, and Prisma.",
       "webpageUrl": {
-        "url": "https://github.com/stalniy/casl#readme"
+        "url": "https://casl.js.org/"
       },
       "repositoryUrl": {
         "url": "https://github.com/stalniy/casl"

@@ -6,6 +6,7 @@ on:
     branches: [main, next, docs-fix]
     paths:
       - docs-src/**/*
+      - funding.json
       - .github/workflows/docs.yml
       - .github/actions/setup-deps/action.yml
       - packages/casl-ability/**
