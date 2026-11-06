@@ -125,7 +125,7 @@ export default class App extends LitElement {
     }
 
     const { body } = this._route;
-    const sidebar = body.sidebar ? cache(body.sidebar) : '';
+    const sidebar = body?.sidebar ? cache(body.sidebar) : '';
 
     return html`
       <menu-drawer ?disabled="${!this._isMobile}">
