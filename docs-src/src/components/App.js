@@ -126,6 +126,7 @@ export default class App extends LitElement {
 
     const { body } = this._route;
     const sidebar = body?.sidebar ? cache(body.sidebar) : '';
+    const main = body?.main || body;
 
     return html`
       <menu-drawer ?disabled="${!this._isMobile}">
@@ -138,7 +139,7 @@ export default class App extends LitElement {
           @toggle-menu="${this._toggleMenu}"
         >
           <div slot="aside">${sidebar}</div>
-          <div @content-ready="${this._publishReadiness}">${cache(body.main || body)}</div>
+          <div @content-ready="${this._publishReadiness}">${main ? cache(main) : null}</div>
         </app-root>
       </menu-drawer>
     `;
