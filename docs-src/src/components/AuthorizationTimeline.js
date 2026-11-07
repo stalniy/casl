@@ -39,7 +39,7 @@ export default class AuthorizationTimeline extends LitElement {
 
   _activateStage(index, focus = false) {
     this._select(index, focus);
-    window.gtag?.('event', 'consulting_stage_select', {
+    window.umami?.track('consulting_stage_select', {
       stage: this._stages[index].dataset.stage,
     });
   }

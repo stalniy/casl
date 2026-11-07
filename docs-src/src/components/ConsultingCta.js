@@ -18,7 +18,7 @@ export default class ConsultingCta extends LitElement {
   }
 
   _openInquiry(event) {
-    window.gtag?.('event', 'consulting_cta_click', {
+    window.umami?.track('consulting_cta_click', {
       cta_location: this.getAttribute('location'),
     });
     if (!window.Tally?.openPopup) return;

@@ -134,7 +134,7 @@ export default class QuickSearch extends LitElement {
           hash: heading.id,
         }))];
       });
-      window.gtag?.('event', 'search', {
+      window.umami?.track('search', {
         search_term: query,
         result_count: results.length,
       });
