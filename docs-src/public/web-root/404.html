@@ -71,10 +71,14 @@
       if (fallbackParams && typeof fallbackParams.p !== 'undefined') {
         l.replace(restoreGithubPagesFallback(l.pathname, l.search, l.hash));
       } else {
-        var url = oldUrls[l.pathname] ? latestVersion + oldUrls[l.pathname] : l.pathname;
-        var basePath = getVersionBasePath(l.pathname, latestVersion);
+        var legacyPath = l.pathname.indexOf('/abilities/') === 0 ? '/casl' + l.pathname : l.pathname;
+        var url = oldUrls[legacyPath] ? latestVersion + oldUrls[legacyPath] : l.pathname;
+        var basePath = getVersionBasePath(url, latestVersion);
+        var relativePath = url === basePath || url.indexOf(basePath + '/') === 0
+          ? url.slice(basePath.length)
+          : url;
         var redirectUrl = basePath + '/?p=' +
-          url.slice(basePath.length).replace(/&/g, '~and~') +
+          relativePath.replace(/&/g, '~and~') +
           (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
           l.hash;
         console.log('matches ', l.pathname, ' as ', url, '. Uses base path ', basePath);
