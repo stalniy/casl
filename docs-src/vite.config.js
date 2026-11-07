@@ -124,22 +124,12 @@ export default defineConfig(async ({ mode }) => {
               {
                 tag: 'script',
                 attrs: {
-                  async: true,
-                  nonce: 'gha',
-                  src: `https://www.googletagmanager.com/gtag/js?id=${env.LIT_APP_GA_ID}`
+                  nonce: 'umami',
+                  defer: '',
+                  src: 'https://cloud.umami.is/script.js',
+                  'data-website-id': env.LIT_APP_UMAMI_ID
                 },
-                injectTo: 'head',
-              },
-              {
-                tag: 'script',
-                attrs: {
-                  nonce: 'gha',
-                },
-                children: 'window.dataLayer = window.dataLayer || [];' +
-                  'function gtag(){dataLayer.push(arguments);}' +
-                  'gtag(\'js\', new Date());' +
-                  `gtag('config', '${env.LIT_APP_GA_ID}');`,
-                injectTo: 'head',
+                injectTo: 'head'
               },
               {
                 tag: 'script',
@@ -149,7 +139,6 @@ export default defineConfig(async ({ mode }) => {
                 },
                 injectTo: 'body',
               }
-
             ]
           }
         },
