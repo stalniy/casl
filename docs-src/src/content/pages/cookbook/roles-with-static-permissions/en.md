@@ -292,3 +292,7 @@ This pattern is very powerful and scales very good. Even if at some point in the
 If you need to implement claim based permissions, check [Claim based Authorization](../claim-authorization) recipe.
 
 [knex]: http://knexjs.org/
+
+## Discussion
+
+Have questions or an alternative approach? [Discuss this recipe on GitHub](https://github.com/stalniy/casl/discussions/1356?category=cookbook).

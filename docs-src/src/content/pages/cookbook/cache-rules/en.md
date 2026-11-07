@@ -194,3 +194,7 @@ There are few cases when you should avoid caching:
 ## Alternative ways
 
 Another way is to rethink domain (or data) model, so that you can build abilities from the information which you load for every request (e.g., completely on `user`'s details). In the case described in [The issue](#the-issue), we could add `userId` field to `Device` model and that would make things work fast without additional caching.
+
+## Discussion
+
+Have questions or an alternative approach? [Discuss this recipe on GitHub](https://github.com/stalniy/casl/discussions/1352?category=cookbook).
