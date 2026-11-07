@@ -71,3 +71,7 @@ ability.can('read', 'Post');
 This approach really makes it easy to work with CASL for junior developers and those who prefers explicit code over conventions or context. If contextual code doesn't bother you, you can avoid this.
 
 [object-destructuring]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Assigning_to_new_variable_names
+
+## Discussion
+
+Have questions or an alternative approach? [Discuss this recipe on GitHub](https://github.com/stalniy/casl/discussions/1354?category=cookbook).

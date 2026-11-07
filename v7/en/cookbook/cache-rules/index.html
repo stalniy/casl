@@ -33,10 +33,10 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-BUX5kKbI.js"></script>
+  <script type="module" crossorigin="" src="/v7/assets/index-DWNbM6tO.js"></script>
   <script async="" nonce="gha" src="https://www.googletagmanager.com/gtag/js?id=G-XCMTX5DE5N"></script>
   <script nonce="gha">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-XCMTX5DE5N');</script>
-  <meta name="casl-build" content="48d18b7">
+  <meta name="casl-build" content="9007cd3">
 <link rel="alternate" type="text/markdown" href="/v7/en/cookbook/cache-rules/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -519,7 +519,9 @@ app.<span class="hljs-title function_">use</span>(provideAbility);
 <li>You can rethink domain model to simplify permissions logic (denormalize some entities or add additional foreign keys).</li>
 </ol>
 <h2 id="alternative-ways"><a name="alternative-ways" class="h-link" href="#"></a>Alternative ways</h2>
-<p>Another way is to rethink domain (or data) model, so that you can build abilities from the information which you load for every request (e.g., completely on <code>user</code>'s details). In the case described in <a href="#the-issue">The issue</a>, we could add <code>userId</code> field to <code>Device</code> model and that would make things work fast without additional caching.</p></div>
+<p>Another way is to rethink domain (or data) model, so that you can build abilities from the information which you load for every request (e.g., completely on <code>user</code>'s details). In the case described in <a href="#the-issue">The issue</a>, we could add <code>userId</code> field to <code>Device</code> model and that would make things work fast without additional caching.</p>
+<h2 id="discussion"><a name="discussion" class="h-link" href="#"></a>Discussion</h2>
+<p>Have questions or an alternative approach? <a href="https://github.com/stalniy/casl/discussions/1352?category=cookbook" target="_blank" rel="noopener nofollow">Discuss this recipe on GitHub</a>.</p></div>
       </article>
       
       
