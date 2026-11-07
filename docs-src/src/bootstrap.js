@@ -17,7 +17,3 @@ register({
     });
   }
 });
-
-window.onShareThisLoaded = () => {
-  window.__sharethis__.config['sticky-share-buttons'].id = 'share-buttons';
-}

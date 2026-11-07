@@ -76,6 +76,18 @@ export default class App extends LitElement {
     this.dispatchEvent(new CustomEvent('route-ready', { detail: { path: routePath } }));
   }
 
+  async _share() {
+    try {
+      await navigator.share({
+        title: document.title,
+        text: document.head.querySelector('meta[name="description"]')?.content || '',
+        url: window.location.href,
+      });
+    } catch (error) {
+      if (error.name !== 'AbortError') console.error('Unable to share page', error);
+    }
+  }
+
   _toggleMenu() {
     this._menu?.toggle();
   }
@@ -142,6 +154,27 @@ export default class App extends LitElement {
           <div @content-ready="${this._publishReadiness}">${main ? cache(main) : null}</div>
         </app-root>
       </menu-drawer>
+      <div class="floating-actions">
+        ${typeof navigator.share === 'function' ? html`
+          <button type="button" class="action share" @click="${this._share}"
+            aria-label="${t('buttons.share')}" title="${t('buttons.share')}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"></path>
+            </svg>
+          </button>
+        ` : null}
+        <a class="action question" href="https://github.com/stalniy/casl/discussions/categories/q-a"
+          target="_blank" rel="noopener noreferrer"
+          aria-label="${t('buttons.askQuestion')}" title="${t('buttons.askQuestion')}">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 3V11.5A8.5 8.5 0 0 1 9.5 3h3a8.5 8.5 0 0 1 8.5 8.5Z"></path>
+            <path d="M8.5 8a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4m0 3h.01"></path>
+          </svg>
+        </a>
+      </div>
     `;
   }
 }
@@ -150,6 +183,59 @@ App.styles = [
   css`
     :host {
       display: block;
+    }
+
+    .floating-actions {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #444c56;
+      border-right: 0;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border: 0;
+      background: #202428;
+      color: #fff;
+      font: 600 16px/1.5 "Helvetica Neue", Arial, sans-serif;
+      cursor: pointer;
+    }
+
+    .action + .action {
+      border-top: 1px solid #444c56;
+    }
+
+    .action:hover,
+    .action:focus-visible {
+      color: #58a6ff;
+    }
+
+    .action:focus-visible {
+      outline: 2px solid #58a6ff;
+      outline-offset: -3px;
+    }
+
+    .action svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
   `
 ];

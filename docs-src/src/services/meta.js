@@ -60,8 +60,6 @@ export function setRouteMeta({ response }) {
     setMeta('keywords');
     setMeta('description');
   }
-
-  updateShareButtons();
 }
 
 export function setPageMeta(page) {
@@ -75,15 +73,4 @@ export function setPageMeta(page) {
   }
   setMeta('keywords', meta.keywords || '');
   setMeta('description', meta.description || '');
-  updateShareButtons();
-}
-
-export const SHARE_BUTTONS_ID = 'share-buttons';
-let shareButtons;
-function updateShareButtons() {
-  if (!window.__sharethis__) return;
-  shareButtons ??= document.getElementById(SHARE_BUTTONS_ID);
-  shareButtons.setAttribute('data-url', window.location.href);
-  shareButtons.setAttribute('data-title', document.title);
-  shareButtons.setAttribute('data-description', getMetaTag('description').getAttribute('content'));
 }

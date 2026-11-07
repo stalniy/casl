@@ -114,7 +114,7 @@ export default defineConfig(async ({ mode }) => {
         ],
       }),
        {
-          name: 'inject-sharethis',
+          name: 'inject-analytics',
           /**
            *
            * @returns {HtmlTagDescriptor[]}
@@ -130,14 +130,6 @@ export default defineConfig(async ({ mode }) => {
                   'data-website-id': env.LIT_APP_UMAMI_ID
                 },
                 injectTo: 'head'
-              },
-              {
-                tag: 'script',
-                attrs: {
-                  nonce: 'sharethis',
-                  src: env.SHARETHIS_SRC
-                },
-                injectTo: 'body',
               }
             ]
           }
