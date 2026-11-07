@@ -37,6 +37,13 @@
   </url>
 
   <url>
+    <loc>https://casl.js.org/v7/en/privacy</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
     <loc>https://casl.js.org/v7/en/guide/install</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
