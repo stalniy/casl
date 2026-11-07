@@ -35,6 +35,10 @@ items:
     - name: blog
       url: https://sergiy-stotskiy.medium.com
 - name: consulting
+- name: about
+  route: false
+  children:
+    - name: privacy
 - name: support
   route: false
   children:

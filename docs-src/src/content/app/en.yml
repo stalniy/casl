@@ -1,4 +1,5 @@
 name: CASL
+privacy: Privacy
 updateAvailable: !md |
   An update is available, **click here to refresh**.
 hero:
@@ -17,6 +18,8 @@ oldVersionAlert: !md |
 menu:
   root: Menu
   api: API
+  about: About
+  privacy: Privacy Policy
 
   learn: Learn
   docs: Documentation
