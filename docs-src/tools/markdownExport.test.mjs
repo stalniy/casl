@@ -18,6 +18,20 @@ async function fixture(t) {
 
 const routeState = { routeName: 'page', routeParams: { lang: 'en', id: 'sample' } };
 
+test('exports the privacy route under a versioned public path', async (t) => {
+  const f = await fixture(t);
+  const source = '# Privacy policy\n';
+  await mkdir(path.join(f.pages, 'privacy'), { recursive: true });
+  await writeFile(path.join(f.pages, 'privacy/en.md'), source);
+  const privacyRoute = { routeName: 'privacy', routeParams: { lang: 'en' } };
+
+  assert.equal(await exportMarkdown('/v7/en/privacy', f.output, '/v7', privacyRoute, {
+    repoRoot: f.root,
+    pagesRoot: f.pages,
+  }), '/v7/en/privacy/index.md');
+  assert.equal(await readFile(path.join(f.output, 'index.md'), 'utf8'), source);
+});
+
 test('exports the support route under a versioned public path', async (t) => {
   const f = await fixture(t);
   const source = '# Support CASL\n';

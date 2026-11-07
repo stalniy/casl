@@ -111,6 +111,7 @@ function pageIdentity(url, routeState) {
     return { locale: params.lang, id: routeState.routeName === 'api' ? `api/${params.id}` : params.id };
   }
   if (params?.lang && routeState?.routeName === 'support-casl') return { locale: params.lang, id: 'support-casljs' };
+  if (params?.lang && routeState?.routeName === 'privacy') return { locale: params.lang, id: 'privacy' };
   const parts = new URL(url, 'http://localhost').pathname.split('/').filter(Boolean);
   if (parts.length < 2) return null;
   const [locale, ...routeParts] = parts;
