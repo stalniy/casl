@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import { trackEvent } from '../services/analytics.js';
 
 // The parent supplies localized content; this component provides tab navigation.
 export default class AuthorizationTimeline extends LitElement {
@@ -39,7 +40,7 @@ export default class AuthorizationTimeline extends LitElement {
 
   _activateStage(index, focus = false) {
     this._select(index, focus);
-    window.umami?.track('consulting_stage_select', {
+    trackEvent('consulting_stage_select', {
       stage: this._stages[index].dataset.stage,
     });
   }

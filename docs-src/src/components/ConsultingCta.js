@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { btnCss } from '../styles/index.js';
 import { t } from '../directives/i18n.js';
+import { trackEvent } from '../services/analytics.js';
 
 const formId = import.meta.env.TALLY_FORM_ID;
 
@@ -18,7 +19,7 @@ export default class ConsultingCta extends LitElement {
   }
 
   _openInquiry(event) {
-    window.umami?.track('consulting_cta_click', {
+    trackEvent('consulting_cta_click', {
       cta_location: this.getAttribute('location'),
     });
     if (!window.Tally?.openPopup) return;

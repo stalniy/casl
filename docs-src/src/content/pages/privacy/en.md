@@ -18,6 +18,8 @@ We use **Umami Cloud** to understand which documentation people read, how well s
 
 Umami collects pageviews, page URLs and titles, referring URLs, browser and operating system information, device information, language, and approximate location. Network requests also expose your IP address to the service. Umami's web tracker does not use cookies.
 
+Analytics is off by default. We load Umami and send analytics events only after you select **Accept analytics**. You can select **Reject analytics** and continue using the documentation, or change your choice through **Analytics preferences** in the footer. Withdrawing consent stops future tracking; it does not automatically delete previously collected records.
+
 We also send these custom events:
 
 | Interaction | Additional information sent |
@@ -50,13 +52,13 @@ If you follow links to GitHub, social networks, sponsorship platforms, or other 
 
 The website uses a service worker and browser caches to make documentation available offline and speed up loading. It also stores public GitHub star counts and npm download counts locally. Those counts are refreshed after 24 hours; stored entries can remain until replaced or cleared.
 
+We remember your analytics choice in local storage for 180 days, after which we ask again. If browser storage is unavailable, your choice applies only to the current page visit. This preference is used to honor your decision, not to track you.
+
 You can remove this data through your browser's site-data settings. Clearing it may remove offline documentation and cause the website to download content again.
 
 ## Purposes and legal bases
 
-Where the GDPR applies, we rely on our legitimate interests in delivering and securing the website and improving its documentation, subject to your rights and applicable tracking rules. For consulting inquiries, we process information to take steps at your request before entering a contract, or on our legitimate interest in responding to business correspondence.
-
-A legitimate-interest basis under the GDPR does not replace consent where separate tracking rules require it. This privacy policy is information about processing, not a request for consent.
+Where the GDPR applies, we rely on your consent for analytics. We rely on our legitimate interests in delivering and securing the website for its operation. For consulting inquiries, we process information to take steps at your request before entering a contract, or on our legitimate interest in responding to business correspondence.
 
 ## Retention and international processing
 

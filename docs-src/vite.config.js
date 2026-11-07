@@ -113,27 +113,6 @@ export default defineConfig(async ({ mode }) => {
           }
         ],
       }),
-       {
-          name: 'inject-analytics',
-          /**
-           *
-           * @returns {HtmlTagDescriptor[]}
-           */
-          transformIndexHtml() {
-            return [
-              {
-                tag: 'script',
-                attrs: {
-                  nonce: 'umami',
-                  defer: '',
-                  src: 'https://cloud.umami.is/script.js',
-                  'data-website-id': env.LIT_APP_UMAMI_ID
-                },
-                injectTo: 'head'
-              }
-            ]
-          }
-        },
       ...(mode === 'production' || PWA_DEV_ENABLED ? [
         {
           name: 'sw-app-shell',

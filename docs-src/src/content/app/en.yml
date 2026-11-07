@@ -1,5 +1,11 @@
 name: CASL
 privacy: Privacy
+analyticsConsent:
+  title: Help improve the documentation
+  description: Allow cookieless analytics to measure page visits, search terms, and consulting interactions? Analytics stays off unless you accept. You can change your choice in the footer.
+  accept: Accept analytics
+  reject: Reject analytics
+  settings: Analytics preferences
 updateAvailable: !md |
   An update is available, **click here to refresh**.
 hero:

@@ -154,6 +154,7 @@ export default class App extends LitElement {
           <div @content-ready="${this._publishReadiness}">${main ? cache(main) : null}</div>
         </app-root>
       </menu-drawer>
+      <analytics-consent></analytics-consent>
       <div class="floating-actions">
         ${typeof navigator.share === 'function' ? html`
           <button type="button" class="action share" @click="${this._share}"

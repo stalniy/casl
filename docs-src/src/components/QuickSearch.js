@@ -5,6 +5,7 @@ import { locale } from '../services/i18n.js';
 import content from '../services/content.js';
 import router from '../services/router.js';
 import { debounce } from '../services/utils.js';
+import { trackEvent } from '../services/analytics.js';
 
 const RECOMMENDATIONS = [
   { id: 'guide/intro', label: 'menu.guide' },
@@ -134,7 +135,7 @@ export default class QuickSearch extends LitElement {
           hash: heading.id,
         }))];
       });
-      window.umami?.track('search', {
+      trackEvent('search', {
         search_term: query,
         result_count: results.length,
       });

@@ -1,5 +1,6 @@
 import App from './components/App.js';
 import AppRoot from './components/AppRoot.js';
+import AnalyticsConsent from './components/AnalyticsConsent.js';
 import AppFooter from './components/AppFooter.js';
 import AppHeader from './components/AppHeader.js';
 import AppLink from './components/AppLink.js';
@@ -28,6 +29,7 @@ import { setRouteMeta } from './services/meta.js';
 const components = [
   App,
   AppRoot,
+  AnalyticsConsent,
   AppFooter,
   AppHeader,
   AppLink,

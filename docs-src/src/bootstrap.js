@@ -1,7 +1,9 @@
 import { bootstrap } from './app.js';
 import { register } from './serviceWorker.js';
+import { initializeAnalytics } from './services/analytics.js';
 
 window.__isAppExecuted__ = true;
+initializeAnalytics();
 const app = bootstrap('casl-docs');
 const fallback = document.getElementById('prerender-fallback');
 app.addEventListener('route-ready', ({ detail }) => {
