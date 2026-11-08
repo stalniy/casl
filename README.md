@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://stalniy.github.io/casl/" target="_blank" rel="noopener noreferrer"><img width="150" src="docs-src/src/assets/shield.png" alt="CASL logo"></a>
 
+[![](https://img.shields.io/npm/dm/%40casl%2Fability.svg)](https://www.npmjs.com/package/%40casl%2Fability)
 [![Financial Contributors on Open Collective](https://opencollective.com/casljs/all/badge.svg?label=financial+contributors)](https://opencollective.com/casljs)
 ![build](https://github.com/stalniy/casl/actions/workflows/main.yml/badge.svg?branch=main&event=push)
 [![CASL codecov](https://codecov.io/gh/stalniy/casl/branch/main/graph/badge.svg)](https://codecov.io/gh/stalniy/casl)
