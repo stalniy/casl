@@ -143,7 +143,8 @@ consulting:
     lead: From simple permissions to complex authorization architectures.
     support: |-
       Get expert guidance from a team combining CASL’s creator with backend and platform expertise — from architecture decisions to production implementation.
-  cta: Discuss your architecture
+  cta: Book a 15-minute intro call
+  inquiryCta: Prefer to write? Describe your project
   proof:
     title: Nearly a decade of authorization expertise
     since: Since 2017
@@ -352,7 +353,7 @@ consulting:
   contact:
     title: Let's solve your authorization challenges.
     description: >-
-      Tell us what you're building, what isn't working, or where your authorization architecture needs to evolve.
+      Book a 15-minute intro call to discuss your authorization challenges and whether our paid consulting is a fit for your team.
     engagementMetadata: B2B consulting · Remote · Project-based or ongoing
   meta:
     title: CASL Consulting — Authorization Architecture & Implementation

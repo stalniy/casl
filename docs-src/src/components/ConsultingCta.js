@@ -19,9 +19,7 @@ export default class ConsultingCta extends LitElement {
   }
 
   _openInquiry(event) {
-    trackEvent('consulting_cta_click', {
-      cta_location: this.getAttribute('location'),
-    });
+    this._trackClick('inquiry');
     if (!window.Tally?.openPopup) return;
     event.preventDefault();
     window.Tally.openPopup(formId, {
@@ -32,8 +30,18 @@ export default class ConsultingCta extends LitElement {
     });
   }
 
+  _trackClick(type) {
+    trackEvent('consulting_cta_click', {
+      cta_location: this.getAttribute('location'),
+      cta_type: type,
+    });
+  }
+
   render() {
-    return html`<a class="btn" href="https://tally.so/r/${formId}" @click="${this._openInquiry}">${t('consulting.cta')}</a>`;
+    return html`
+      <a class="btn" href="https://cal.com/sstotskyi/15min" @click="${() => this._trackClick('booking')}">${t('consulting.cta')}</a>
+      <a class="inquiry" href="https://tally.so/r/${formId}" @click="${this._openInquiry}">${t('consulting.inquiryCta')}</a>
+    `;
   }
 }
 
@@ -52,4 +60,12 @@ ConsultingCta.styles = [btnCss, css`
   }
   .btn:hover { background: #175d82; border-color: #175d82; }
   .btn:focus-visible { outline: 3px solid #175d82; outline-offset: 4px; }
+  .inquiry {
+    display: block;
+    margin-top: 12px;
+    color: #175d82;
+    font-size: .85rem;
+    text-align: center;
+  }
+  .inquiry:focus-visible { outline: 3px solid #175d82; outline-offset: 4px; }
 `];
