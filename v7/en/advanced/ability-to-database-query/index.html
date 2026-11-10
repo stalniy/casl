@@ -17,11 +17,11 @@
   <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
-  <meta name="keywords" content="rulesToQuery, ability to database query, sequelize, filter records by permissions">
-  <meta name="description" content="Convert CASL abilities to database queries — rulesToQuery helper, Sequelize example, filter records by user permissions.">
+  <meta name="keywords" content="rulesToAST, ability to database query, &quot;@ucast/sql&quot;, SQL, PostgreSQL, drizzle-orm, filter records by permissions">
+  <meta name="description" content="Convert CASL abilities to SQL queries with rulesToAST and @ucast/sql. Filter database records by permissions using PostgreSQL or Drizzle ORM.">
 
   <meta property="og:title" content="Ability to database query - CASL">
-  <meta property="og:description" content="Convert CASL abilities to database queries — rulesToQuery helper, Sequelize example, filter records by user permissions.">
+  <meta property="og:description" content="Convert CASL abilities to SQL queries with rulesToAST and @ucast/sql. Filter database records by permissions using PostgreSQL or Drizzle ORM.">
   <meta property="og:image" content="/v7/app-icons/casl-social.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -33,8 +33,8 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-CsczaUeU.js"></script>
-  <meta name="casl-build" content="ff5f433">
+  <script type="module" crossorigin="" src="/v7/assets/index-DDmkpwhm.js"></script>
+  <meta name="casl-build" content="64aff4a">
 <link rel="alternate" type="text/markdown" href="/v7/en/advanced/ability-to-database-query/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -370,114 +370,115 @@
       <article itemscope="" itemtype="http://schema.org/Article">
         <h1>Ability to database query</h1>
         
-        <div class="description md"><p>Sometimes you need to restrict which records are returned from the database based on what the user is able to do in the app. <code>@casl/ability/extra</code> provides <code>rulesToQuery</code> helper function which helps to convert rules into a particular database's query. This function accepts 4 arguments:</p>
-<ol>
-<li>An instance of <code>Ability</code></li>
-<li><code>action</code> for which you want to get rules</li>
-<li><code>subjectType</code> which you plan to query</li>
-<li>conversion function which takes rule as the only argument and returns database query chunk</li>
-</ol>
-<p>The helper aggregates all query chunks into a single object that has <code>$or</code> and <code>$and</code> properties. Query chunk for direct rules are collected in <code>$or</code> array and inverted - in <code>$and</code> array. <strong>This function returns <code>null</code></strong> if the provided ability does not allow to perform the provided action on the provided subject type.</p>
+        <div class="description md"><p>Quite often applications need to fetch accessible records from the database based on what the user is able to do in the app. For SQL databases, CASL rules can be converted to SQL WHERE condtions by using 
+      <a itemprop="url" href="/v7/en/api/casl-ability-extra#rules-to-ast">
+        <code>rulesToAST</code>
+      </a>
+     from <code>@casl/ability/extra</code> and <a href="https://github.com/stalniy/ucast/tree/main/packages/sql" target="_blank" rel="noopener nofollow">@ucast/sql</a>.</p>
+<p><code>@ucast/sql</code> generates a raw SQL string, separating actual SQL query and bound parameters, and out of the box support several major Nodejs ORMs, including <a href="https://github.com/stalniy/ucast/tree/main/packages/sql#integrations" target="_blank" rel="noopener nofollow">TypeORM, MikroORM, Drizzle ORM, Sequelize, and Objection.js</a>.</p>
 <blockquote>
-<p>See 
+<p>For MongoDB see 
       <a itemprop="url" href="/v7/en/package/casl-mongoose">
         @casl/mongoose
       </a>
-     to get details about integration with <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a></p>
+     and for Prisma - 
+      <a itemprop="url" href="/v7/en/package/casl-prisma">
+        @casl/prisma
+      </a>
+    .</p>
 </blockquote>
-<p>To understand the logic better let's implement <strong>a basic helper</strong> for <a href="https://sequelize.org/" target="_blank" rel="noopener nofollow">sequelize</a>.</p>
-<pre><code data-filename="toSequelizeQuery.js" class="language-js"><span class="hljs-keyword">const</span> { rulesToQuery } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability/extra'</span>);
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Op</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
-
-<span class="hljs-comment">/**
- * Tricky way to walk recursively over deeply nested object.
- * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Parameters
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">symbolize</span>(<span class="hljs-params">query</span>) {
-  <span class="hljs-keyword">return</span> <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(query), <span class="hljs-keyword">function</span> <span class="hljs-title function_">keyToSymbol</span>(<span class="hljs-params">key, value</span>) {
-    <span class="hljs-keyword">if</span> (key[<span class="hljs-number">0</span>] === <span class="hljs-string">'$'</span>) {
-      <span class="hljs-keyword">const</span> symbol = <span class="hljs-title class_">Op</span>[key.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>)];
-      <span class="hljs-variable language_">this</span>[symbol] = value;
-      <span class="hljs-keyword">return</span>;
-    }
-
-    <span class="hljs-keyword">return</span> value;
-  });
-}
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">ruleToSequelize</span>(<span class="hljs-params">rule</span>) {
-  <span class="hljs-keyword">return</span> rule.<span class="hljs-property">inverted</span> ? { <span class="hljs-attr">$not</span>: rule.<span class="hljs-property">conditions</span> } : rule.<span class="hljs-property">conditions</span>;
-}
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">toSequelizeQuery</span>(<span class="hljs-params">ability, subject, action</span>) {
-  <span class="hljs-keyword">const</span> query = <span class="hljs-title function_">rulesToQuery</span>(ability, action, subject, ruleToSequelize);
-  <span class="hljs-keyword">return</span> query === <span class="hljs-literal">null</span> ? query : <span class="hljs-title function_">symbolize</span>(query);
-}
-
-<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">accessibleBy</span>(<span class="hljs-params">ability, action = <span class="hljs-string">'read'</span></span>) {
-  <span class="hljs-keyword">const</span> query = <span class="hljs-title function_">toSequelizeQuery</span>(ability, action, <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>);
-
-  <span class="hljs-keyword">if</span> (query === <span class="hljs-literal">null</span>) { <span class="hljs-comment">// there is no accessible records, so no need to send query to db</span>
-    <span class="hljs-keyword">return</span> [];
-  }
-
-  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">findAll</span>({
-    <span class="hljs-attr">where</span>: query;
-  });
-}
-
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  toSequelizeQuery,
-  accessibleBy,
-};
+<p>Check <a href="https://github.com/stalniy/ucast/tree/main/packages/sql" target="_blank" rel="noopener nofollow">@ucast/sql documentation</a> for more detail, in this guide we will see how to integrate it with <a href="https://orm.drizzle.team/" target="_blank" rel="noopener nofollow">drizzle-orm</a>.</p>
+<h2 id="integrate-casl-with-drizzle-orm"><a name="integrate-casl-with-drizzle-orm" class="h-link" href="#"></a>Integrate CASL with Drizzle ORM</h2>
+<p><code>@ucast/sql</code> uses drizzle ORM metadata to map properties and relations into correct database columns. At first, we need to install dependencies. <code>@ucast/sql</code> supports <code>&gt;=0.36.2 &lt;1.0.0 and ^1.0.0-rc.1</code>.</p>
+<pre><code class="hljs language-sh">npm install pg drizzle-orm @ucast/sql
+npm install --save-dev typescript @types/pg
 </code></pre>
-<p>In this example, we used <code>rulesToQuery</code> to iterate over rules and aggregate sequelize query. <code>$not</code> operator is used to invert the result of inverted rules' conditions. As of sequelize v6, operator aliases are removed (<a href="https://github.com/sequelize/sequelize/issues/10820" target="_blank" rel="noopener nofollow">sequelize#10820</a>), so we need to convert string based keys into symbols. To do so, we used a trick of stringifying and parsing JSON object with custom <code>reviver</code> argument, which detects keys that starts with <code>$</code> and replaces them with the respective symbol.</p>
-<p>Then, we can use this function to define static method or scope in your model. Here, we will define static method because its usage looks more natural and readable than custom scope:</p>
-<pre><code data-filename="Article.js" class="language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Model</span>, <span class="hljs-title class_">DataTypes</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
-<span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./toSequelizeQuery'</span>);
+<blockquote>
+<p>On this page, we describe how to integrate CASL with drizzle v0.x. If you are using v1, please check <a href="https://github.com/stalniy/ucast/blob/main/packages/sql/README.md#drizzle-orm" target="_blank" rel="noopener nofollow">@ucast/sql documentation</a></p>
+</blockquote>
+<p>First, define the ability's action and subject types. In this example, users can read published articles and their own drafts, but cannot read archived articles:</p>
+<pre><code data-filename="defineAbilityFor.ts" class="language-ts"><span class="hljs-keyword">import</span> { defineAbility, <span class="hljs-keyword">type</span> <span class="hljs-title class_">ForcedSubject</span>, <span class="hljs-keyword">type</span> <span class="hljs-title class_">MongoAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Article</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./drizzle-orm.ts'</span>;
 
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-function">(<span class="hljs-params">sequelize</span>) =&gt;</span> {
-  <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Model</span> {
-    <span class="hljs-keyword">static</span> accessibleBy = accessibleBy;
-  }
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Action</span> = <span class="hljs-string">'read'</span> | <span class="hljs-string">'update'</span> | <span class="hljs-string">'delete'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AppAbility</span> = <span class="hljs-title class_">MongoAbility</span>&lt;[
+  <span class="hljs-title class_">Action</span>,
+  <span class="hljs-string">'Article'</span> | (<span class="hljs-title class_">Article</span> &amp; <span class="hljs-title class_">ForcedSubject</span>&lt;<span class="hljs-string">'Article'</span>&gt;),
+]&gt;;
 
-  <span class="hljs-title class_">Article</span>.<span class="hljs-title function_">init</span>({
-    <span class="hljs-attr">title</span>: {
-      <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-property">STRING</span>,
-      <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>
-    },
-    <span class="hljs-attr">published</span>: {
-      <span class="hljs-attr">type</span>: <span class="hljs-title class_">DataTypes</span>.<span class="hljs-property">BOOLEAN</span>,
-      <span class="hljs-attr">allowNull</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">defaultValue</span>: <span class="hljs-literal">false</span>
-    }
-    <span class="hljs-comment">// other columns' definitions</span>
-  }, {
-    sequelize,
-    <span class="hljs-attr">modelName</span>: <span class="hljs-title class_">Article</span>.<span class="hljs-property">name</span>,
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">defineAbilityFor</span>(<span class="hljs-params"><span class="hljs-attr">user</span>: { id: <span class="hljs-built_in">number</span> }</span>): <span class="hljs-title class_">AppAbility</span> {
+  <span class="hljs-keyword">return</span> defineAbility&lt;<span class="hljs-title class_">AppAbility</span>&gt;(<span class="hljs-function">(<span class="hljs-params">can, cannot</span>) =&gt;</span> {
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> });
+    <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">authorId</span>: user.<span class="hljs-property">id</span> });
+    <span class="hljs-title function_">cannot</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Article'</span>, { <span class="hljs-attr">archived</span>: <span class="hljs-literal">true</span> });
   });
-
-  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Article</span>;
 }
 </code></pre>
-<p>Now we can fetch accessible records using our static method:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Sequelize</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'sequelize'</span>);
-<span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
-<span class="hljs-keyword">const</span> defineArticle = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Article'</span>);
+<p>Use Drizzle's inferred row type for the query result and <code>NodePgDatabase</code> for the database connection:</p>
+<pre><code data-filename="drizzle-orm.ts" class="language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-built_in">boolean</span>, integer, pgTable, text } <span class="hljs-keyword">from</span> <span class="hljs-string">'drizzle-orm/pg-core'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">NodePgDatabase</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'drizzle-orm/node-postgres'</span>;
+<span class="hljs-keyword">import</span> { rulesToAST } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability/extra'</span>;
+<span class="hljs-keyword">import</span> { createDrizzleInterpreter } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ucast/sql/drizzle-orm/v0.x'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">Action</span>, <span class="hljs-title class_">AppAbility</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbilityFor.ts'</span>;
 
-<span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Sequelize</span>(<span class="hljs-string">'sqlite::memory'</span>);
-<span class="hljs-keyword">const</span> <span class="hljs-title class_">Article</span> = <span class="hljs-title function_">defineArticle</span>(sequelize);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> articles = <span class="hljs-title function_">pgTable</span>(<span class="hljs-string">'articles'</span>, {
+  <span class="hljs-attr">id</span>: <span class="hljs-title function_">integer</span>(<span class="hljs-string">'id'</span>).<span class="hljs-title function_">primaryKey</span>().<span class="hljs-title function_">generatedAlwaysAsIdentity</span>(),
+  <span class="hljs-attr">title</span>: <span class="hljs-title function_">text</span>(<span class="hljs-string">'title'</span>).<span class="hljs-title function_">notNull</span>(),
+  <span class="hljs-attr">authorId</span>: <span class="hljs-title function_">integer</span>(<span class="hljs-string">'author_id'</span>).<span class="hljs-title function_">notNull</span>(),
+  <span class="hljs-attr">published</span>: <span class="hljs-title function_">boolean</span>(<span class="hljs-string">'published'</span>).<span class="hljs-title function_">notNull</span>().<span class="hljs-title function_">default</span>(<span class="hljs-literal">false</span>),
+  <span class="hljs-attr">archived</span>: <span class="hljs-title function_">boolean</span>(<span class="hljs-string">'archived'</span>).<span class="hljs-title function_">notNull</span>().<span class="hljs-title function_">default</span>(<span class="hljs-literal">false</span>),
+});
 
-<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-title class_">Article</span>, { <span class="hljs-attr">published</span>: <span class="hljs-literal">true</span> }));
-  <span class="hljs-keyword">const</span> articles = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Article</span>.<span class="hljs-title function_">accessibleBy</span>(ability);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">Article</span> = <span class="hljs-keyword">typeof</span> articles.<span class="hljs-property">$inferSelect</span>;
 
+<span class="hljs-keyword">const</span> toDrizzleSQL = <span class="hljs-title function_">createDrizzleInterpreter</span>({
+  <span class="hljs-attr">schema</span>: {
+    <span class="hljs-comment">// map CASL's subject type to drizzle table but not strictly required</span>
+    <span class="hljs-title class_">Article</span>: articles
+  }
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">findAccessibleArticles</span>(<span class="hljs-params">
+  <span class="hljs-attr">db</span>: <span class="hljs-title class_">NodePgDatabase</span>,
+  <span class="hljs-attr">ability</span>: <span class="hljs-title class_">AppAbility</span>,
+  <span class="hljs-attr">action</span>: <span class="hljs-title class_">Action</span> = <span class="hljs-string">'read'</span>,
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Article</span>[]&gt; {
+  <span class="hljs-keyword">const</span> ast = <span class="hljs-title function_">rulesToAST</span>(ability, action, <span class="hljs-string">'Article'</span>);
+  <span class="hljs-keyword">if</span> (ast === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> []; <span class="hljs-comment">// has no access</span>
+
+  <span class="hljs-keyword">const</span> query = db.<span class="hljs-title function_">select</span>().<span class="hljs-title function_">from</span>(articles);
+
+  <span class="hljs-keyword">if</span> (ast.<span class="hljs-property">operator</span> === <span class="hljs-string">'and'</span> &amp;&amp; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(ast.<span class="hljs-property">value</span>) &amp;&amp; ast.<span class="hljs-property">value</span>.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+    <span class="hljs-comment">// has non-conditional access</span>
+    <span class="hljs-keyword">return</span> query;
+  }
+
+  <span class="hljs-keyword">return</span> query.<span class="hljs-title function_">where</span>(<span class="hljs-title function_">toDrizzleSQL</span>(ast, <span class="hljs-string">'Article'</span>));
+}
+</code></pre>
+<p>The interpreter returns a native Drizzle SQL predicate. It maps <code>authorId</code> to <code>author_id</code> using the table definition, and Drizzle binds the values when executing the query. Then we can do:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Pool</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'pg'</span>;
+<span class="hljs-keyword">import</span> { drizzle } <span class="hljs-keyword">from</span> <span class="hljs-string">'drizzle-orm/node-postgres'</span>;
+<span class="hljs-keyword">import</span> { defineAbilityFor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbilityFor.ts'</span>;
+<span class="hljs-keyword">import</span> { findAccessibleArticles } <span class="hljs-keyword">from</span> <span class="hljs-string">'./drizzle-orm.ts'</span>;
+
+<span class="hljs-keyword">const</span> pool = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Pool</span>();
+<span class="hljs-keyword">const</span> db = <span class="hljs-title function_">drizzle</span>(pool);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbilityFor</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">42</span> });
+
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">const</span> articles = <span class="hljs-keyword">await</span> <span class="hljs-title function_">findAccessibleArticles</span>(db, ability);
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(articles);
+} <span class="hljs-keyword">finally</span> {
+  <span class="hljs-keyword">await</span> pool.<span class="hljs-title function_">end</span>();
 }
-
-<span class="hljs-title function_">main</span>().<span class="hljs-title function_">catch</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">error</span>);
 </code></pre>
-<p>This implementation is basic because it doesn't support joins. See <a href="https://github.com/stalniy/casl/issues/8" target="_blank" rel="noopener nofollow">#8</a> to track status of SQL support in CASL.</p></div>
+<h2 id="supported-conditions"><a name="supported-conditions" class="h-link" href="#"></a>Supported conditions</h2>
+<p>Use conditions supported by both your ability's conditions matcher and the SQL interpreter. For example, equality, comparisons, membership, and logical operators can be translated into SQL. <a href="https://casl.js.org/v7/en/advanced/customize-ability#custom-conditions-matcher-implementation" target="_blank" rel="noopener nofollow">Custom conditions matchers</a> can also work with <code>@ucast/sql</code> if they expose a UCAST-compatible AST whose operators have SQL interpreters.</p>
+<blockquote>
+<p>SQL uses three-valued logic for nullable columns. In particular, negating a comparison does not include rows where that column is <code>NULL</code>. Define explicit rules for nullable values when needed and check them against your database schema.</p>
+</blockquote>
+<p>For relation conditions, column mappings, custom operators, and other SQL dialects, see the <a href="https://github.com/stalniy/ucast/tree/main/packages/sql" target="_blank" rel="noopener nofollow">@ucast/sql documentation</a>. Relation queries require suitable metadata and condition operators.</p></div>
       </article>
       
       
