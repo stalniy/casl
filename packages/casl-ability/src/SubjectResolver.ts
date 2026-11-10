@@ -27,7 +27,7 @@ export type ResolveInstance<
 > =
   Resolve<S, R, Name>['instance'];
 
-type TagName<S, K extends PropertyKey> = S extends unknown
+type TagName<S, K extends PropertyKey> = S extends object
   ? Extract<S[Extract<keyof S, K>], string>
   : never;
 type TaggedInstance<S, Name, K extends PropertyKey> = S extends unknown
