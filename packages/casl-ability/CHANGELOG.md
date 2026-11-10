@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.2](https://github.com/stalniy/casl/compare/@casl/ability@7.1.1...@casl/ability@7.1.2) (2026-11-10)
+
+
+### Bug Fixes
+
+* changes TaggedSubject to infer subject type without widening type ([#1360](https://github.com/stalniy/casl/issues/1360)) ([27d2701](https://github.com/stalniy/casl/commit/27d27011e920e5dfc7adf14de87edc83e8b177d1))
+
 ## [7.1.1](https://github.com/stalniy/casl/compare/@casl/ability@7.1.0...@casl/ability@7.1.1) (2026-10-31)
 
 
