@@ -26,6 +26,18 @@ import type { ResolveInstance, ResolveSubjects } from '../../src/SubjectResolver
 
 describe('subject resolvers', () => {
   describe('TaggedSubject', () => {
+    it('preserves explicit subject names alongside tagged records', () => {
+      type UserRecord = { id: string; kind: string } & ForcedSubject<'User'>
+      type Subjects = 'User' | 'Project' | UserRecord
+      expectTypeOf<ExtractSubjectType<Subjects, TaggedSubject<BuiltinSubjectKey>>>()
+        .toEqualTypeOf<'User' | 'Project'>()
+      expectTypeOf<ResolveSubjects<Subjects, TaggedSubject>>().toEqualTypeOf<Subjects>()
+      expectTypeOf<ExtractSubjectType<'User' | 'Project', TaggedSubject>>()
+        .toEqualTypeOf<'User' | 'Project'>()
+      expectTypeOf<ExtractSubjectType<Subjects, TaggedSubject<'missing'>>>()
+        .toEqualTypeOf<'User' | 'Project'>()
+    })
+
     type Permissions =
       | ['read' | 'update', Article]
       | ['read', User]
