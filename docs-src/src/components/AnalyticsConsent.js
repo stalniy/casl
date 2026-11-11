@@ -1,7 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { t } from '../directives/i18n.js';
 import {
-  analyticsConsent, observeAnalyticsConsent, setAnalyticsConsent,
+  analyticsConsent,
+  observeAnalyticsConsent,
+  setAnalyticsConsent,
 } from '../services/analytics.js';
 
 export default class AnalyticsConsent extends LitElement {
@@ -47,8 +49,8 @@ export default class AnalyticsConsent extends LitElement {
           <p>${t('analyticsConsent.description')} <app-link to="privacy">${t('menu.privacy')}</app-link></p>
         </div>
         <div class="actions">
-          <button type="button" @click="${() => this._choose('rejected')}">${t('analyticsConsent.reject')}</button>
-          <button type="button" @click="${() => this._choose('accepted')}">${t('analyticsConsent.accept')}</button>
+          <button type="button" class="reject-btn" @click="${() => this._choose('rejected')}">${t('analyticsConsent.reject')}</button>
+          <button type="button" class="accept-btn" @click="${() => this._choose('accepted')}">${t('analyticsConsent.accept')}</button>
         </div>
       </section>
     `;
@@ -62,9 +64,25 @@ AnalyticsConsent.styles = css`
   p { margin: 0; line-height: 1.5; }
   app-link { color: #175d82; text-decoration: underline; }
   .actions { display: flex; gap: 12px; flex-shrink: 0; }
-  button { padding: 12px 16px; border: 1px solid #175d82; border-radius: 6px; background: #fff; color: #175d82; font: inherit; cursor: pointer; }
-  button:hover { background: #eff4f7; }
+  button {
+    padding: 12px 16px;
+    border: 1px solid #202428;
+    border-radius: 6px;
+    background-color: #202428;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+  }
+  .accept-btn:hover {
+    background-color: #34383C;
+  }
+  .reject-btn {
+    background-color: #fff;
+    color: #202428;
+  }
+  .reject-btn:hover { background: #eff4f7; }
   button:focus-visible { outline: 3px solid #175d82; outline-offset: 3px; }
+
   @media (max-width: 767px) {
     section { flex-direction: column; align-items: stretch; gap: 16px; padding: 16px; max-height: calc(100dvh - 64px); overflow: auto; }
     .actions { flex-wrap: wrap; }
