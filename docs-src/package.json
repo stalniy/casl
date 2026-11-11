@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@sindresorhus/slugify": "^3.0.1",
+    "@sindresorhus/slugify": "^4.0.0",
     "highlight.js": "^11.12.0",
     "image-size": "^2.0.2",
     "js-yaml": "^5.5.0",
