@@ -7,7 +7,10 @@ import router from '../services/router.js';
 import { debounce } from '../services/utils.js';
 import { trackEvent } from '../services/analytics.js';
 
+const EXAMPLES = { url: 'https://github.com/stalniy/casl-examples', label: 'menu.examples' };
+
 const RECOMMENDATIONS = [
+  EXAMPLES,
   { id: 'guide/intro', label: 'menu.guide' },
   { id: 'advanced/ability-to-database-query', label: 'search.databaseQuery' },
   { id: 'cookbook/intro', label: 'menu.cookbook' },
@@ -135,9 +138,13 @@ export default class QuickSearch extends LitElement {
           hash: heading.id,
         }))];
       });
+      const matchesExamples = query.toLowerCase().split(/\s+/)
+        .some(term => 'example'.startsWith(term));
+      if (matchesExamples) this._suggestions = [EXAMPLES, ...this._suggestions];
+
       trackEvent('search', {
         search_term: query,
-        result_count: results.length,
+        result_count: results.length + Number(matchesExamples),
       });
     } catch {
       if (!this._open || requestId !== this._requestId) return;
@@ -163,7 +170,7 @@ export default class QuickSearch extends LitElement {
   }
 
   _url(item) {
-    return router.url({ name: 'page', params: item.doc || { id: item.id }, hash: item.hash });
+    return item.url || router.url({ name: 'page', params: item.doc || { id: item.id }, hash: item.hash });
   }
 
   _dialogKeydown(event) {
@@ -203,6 +210,10 @@ export default class QuickSearch extends LitElement {
     event.preventDefault();
     const url = this._url(item);
     this._close();
+    if (item.url) {
+      window.location.assign(url);
+      return;
+    }
     router.navigate({ url });
   }
 
@@ -213,7 +224,7 @@ export default class QuickSearch extends LitElement {
     return html`
       <div class="results" id="search-results" role="listbox" aria-label="${t('search.results')}">
         ${items.map((item, index) => html`
-          ${!recommended && item.category !== items[index - 1]?.category ? html`
+          ${!recommended && item.category && item.category !== items[index - 1]?.category ? html`
             <h2 role="presentation">${t(`categories.${item.category}`)}</h2>
           ` : ''}
           <a id="search-result-${index}" role="option" tabindex="-1"
@@ -225,6 +236,16 @@ export default class QuickSearch extends LitElement {
             <span>
               ${item.parent ? html`<small>${item.parent}</small>` : ''}
               ${item.label ? t(item.label) : unsafeHTML(item.title)}
+              ${item.url ? html`
+                <span role="img" aria-label="${t('search.externalLink')}"
+                  title="${t('search.externalLink')}">
+                  <svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3M9 2h5v5M14 2 7 9" />
+                  </svg>
+                </span>
+              ` : ''}
             </span>
             <span class="enter" aria-hidden="true">↵</span>
           </a>
@@ -291,6 +312,7 @@ QuickSearch.styles = css`
   .trigger:hover { background: #f5f6f8; }
   .compact .shortcut { display: none; }
   svg { flex-shrink: 0; fill: currentColor; }
+  .external-link-icon { fill: none; vertical-align: -.1em; }
   dialog {
     box-sizing: border-box;
     width: min(640px, calc(100% - 40px));

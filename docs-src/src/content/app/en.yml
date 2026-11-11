@@ -117,6 +117,7 @@ search:
   resultCount: '%{count} results'
   recommendations: Explore the documentation
   databaseQuery: Ability to database query
+  externalLink: External link
   navigate: to navigate
   select: to select
   dismiss: to close
