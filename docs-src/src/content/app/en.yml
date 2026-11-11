@@ -58,8 +58,12 @@ buttons:
   source: Source code
 
 adoption:
-  title: Built with CASL
-  contribute: Using CASL? Add your project
+  title: Adoption & Ecosystem
+  subtitle: From reusable libraries to real-world applications.
+  githubDependents: GitHub repositories
+  npmDependents: Dependent npm packages
+  projects: Real-world projects using CASL
+  contribute: Using CASL? Showcase your project
 
 exampleCode: !md |
   ```js
@@ -149,11 +153,12 @@ consulting:
     title: Nearly a decade of authorization expertise
     since: Since 2017
     longevityLabel: Open-source development
-    downloads: 7M+
+    downloads: 8M+
     downloadsLabel: Monthly npm downloads
     stars: 7,000+
     starsLabel: GitHub stars
-    adoptionTitle: Built with CASL
+    adoptionTitle: Proven in Real-World Applications
+    adoptionDescription: CASL is used in real-world applications, from developer tools to complex multi-tenant platforms.
     ecosystemTitle: CASL & UCAST across the ecosystem
     flowTitle: From authorization policies to database queries
     flowDescription: Authorization doesn't end at API checks. UCAST enables policy-derived conditions to be translated into database filters.

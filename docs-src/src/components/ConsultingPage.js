@@ -7,8 +7,6 @@ import { projects as caslProjects } from '../partials/caslAdoption.js';
 import { setPageMeta } from '../services/meta.js';
 import router from '../services/router.js';
 import { tryToNavigateElement, scrollToSectionIn } from '../hooks/scrollToSection.js';
-import logoStrapi from '../assets/consulting/consulting-strapi.svg';
-import logoMeshery from '../assets/consulting/consulting-meshery.svg';
 import creatorPhoto from '../assets/consulting/creator-photo.jpeg';
 import engineerPhoto from '../assets/consulting/engineer-photo.jpeg';
 
@@ -153,16 +151,9 @@ export default class ConsultingPage extends I18nElement {
             </div>
             <section class="adoption-proof" aria-labelledby="casl-adoption-title">
               <h3 id="casl-adoption-title">${t('consulting.proof.adoptionTitle')}</h3>
-              <div class="adoption-logos">
-                <a href="https://github.com/strapi/strapi/blob/develop/docs/docs/packages/core/admin/permissions/01-how-they-work.md" target="_blank" rel="noopener nofollow">
-                  <img src="${logoStrapi}" alt="${t('consulting.proof.strapi')}" width="876" height="212">
-                </a>
-                <a href="https://docs.meshery.io/reference/extensibility/authorization/" target="_blank" rel="noopener nofollow">
-                  <img src="${logoMeshery}" alt="${t('consulting.proof.meshery')}" width="444" height="72">
-                </a>
-              </div>
+              <div class="lead">${t('consulting.proof.adoptionDescription')}</div>
               <ul class="adoption-text-projects">
-                ${caslProjects.filter(project => !project.logo).map((project, index) => html`
+                ${caslProjects.map((project, index) => html`
                   <li>
                     ${index ? html`<span aria-hidden="true">·</span>` : ''}
                     <a href="${project.url}" target="_blank" rel="noopener noreferrer">${project.name}</a>
@@ -397,7 +388,9 @@ ConsultingPage.styles = [
   .consulting .caption { font-size: .82rem; color: #52616c; line-height: 1.5; }
   .consulting .eyebrow { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .1em; color: #526575; margin-bottom: 10px; }
   .consulting .consulting-hero { max-width: 850px; }
-  .consulting .consulting-hero .lead {
+
+  .adoption-proof .lead,
+  .consulting-hero .lead {
     font-size: 1.1rem;
     color: #435764;
     margin-bottom: 8px;
@@ -421,10 +414,13 @@ ConsultingPage.styles = [
   .consulting .adoption-logos { display: grid; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; padding: 16px 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .consulting .adoption-logos a { display: flex; align-items: center; justify-content: center; flex: 0 1 220px; max-width: 100%; min-height: 44px; min-width: 0; }
   .consulting .adoption-logos img { display: block; width: auto; max-width: 100%; height: clamp(20px, 5.5vw, 28px); object-fit: contain; }
-  .consulting .adoption-text-projects { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem .5rem; padding: 0; margin: 0 0 24px; list-style: none; color: #555; font-size: .9375rem; }
+  .consulting .adoption-text-projects { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: .35rem .5rem; padding: 0; margin: 0 0 24px; list-style: none; color: #555; font-size: .9375rem; }
   .consulting .adoption-text-projects li { display: flex; align-items: center; gap: .5rem; }
   .consulting .adoption-text-projects a { color: inherit; text-decoration: none; }
   .consulting .adoption-text-projects a:hover { text-decoration: underline; }
+  .adoption-proof .lead {
+    margin-top: 10px;
+  }
   .consulting .ecosystem-recognition { display: grid; grid-template-columns: 1fr; gap: 24px; padding-top: 24px; border-top: 1px solid #d9e2e8; }
   .consulting .ecosystem-recognition h3, .consulting .ucast-flow figcaption { font-size: 1rem; font-weight: 600; color: #526575; margin: 0 0 12px; line-height: 1.4; }
   .consulting .ecosystem-links { list-style: none; padding: 0; margin: 0; font-size: .82rem; color: #52616c; line-height: 1.6; }
