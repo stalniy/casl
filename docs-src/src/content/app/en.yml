@@ -2,7 +2,7 @@ name: CASL
 privacy: Privacy
 analyticsConsent:
   title: Help improve the documentation
-  description: Allow cookieless analytics to measure page visits, search terms, and consulting interactions? Analytics stays off unless you accept. You can change your choice in the footer.
+  description: Allow cookieless analytics to measure page visits, search terms, video engagement, and consulting interactions? Analytics stays off unless you accept. You can change your choice in the footer.
   accept: Accept
   reject: Reject
   settings: Analytics preferences
@@ -56,6 +56,13 @@ buttons:
   askQuestion: Ask a question
   start: Get Started
   source: Source code
+
+video:
+  title: Why CASL?
+  close: Close
+  unsupported: Your browser does not support inline video.
+  error: The video could not be loaded.
+  fallback: Open or download the video
 
 adoption:
   title: Adoption & Ecosystem

@@ -39,6 +39,7 @@ export default class HomePage extends LitElement {
                 <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
                   ${t('buttons.start')}
                 </app-link>
+                <why-casl-video></why-casl-video>
                 <a href="${config.repoURL}" target="_blank" rel="noopener" class="btn btn-lg">
                   ${t('buttons.source')}
                 </a>
@@ -105,7 +106,13 @@ HomePage.styles = [
 
     .buttons app-link {
       margin-right: 5px;
+      background: #273849;
+      border-color: #273849;
+      color: #fff;
     }
+
+    .buttons > * { margin-bottom: 8px; vertical-align: middle; }
+    .buttons app-link:focus-visible { outline: 3px solid #81a2be; outline-offset: 3px; }
 
     .package-stats {
       display: flex;
