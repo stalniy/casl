@@ -19,18 +19,6 @@ on:
       - packages/casl-prisma/README.md
   pull_request:
     branches: [main, next, docs-fix]
-    paths:
-      - docs-src/**/*
-      - .github/workflows/docs.yml
-      - .github/actions/setup-deps/action.yml
-      - packages/casl-ability/**
-      - pnpm-lock.yaml
-      - pnpm-workspace.yaml
-      - packages/casl-mongoose/README.md
-      - packages/casl-react/README.md
-      - packages/casl-vue/README.md
-      - packages/casl-angular/README.md
-      - packages/casl-prisma/README.md
 
 # Keep the default token read-only; only the job that pushes generated files
 # to gh-pages needs write access.
@@ -44,7 +32,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs || steps.non-pr.outputs.docs }}
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        fetch-depth: 0
+    - name: Check documentation paths
+      id: filter
+      if: github.event_name == 'pull_request'
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        changed=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+        if printf '%s\n' "$changed" | grep -Eq '^(docs-src/|funding\.json$|\.github/workflows/docs\.yml$|\.github/actions/setup-deps/action\.yml$|packages/casl-ability/|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|packages/casl-(mongoose/README\.md|react/README\.md|vue/README\.md|angular/README\.md|prisma/README\.md)$)'; then
+          echo "docs=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "docs=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Include non-PR builds
+      id: non-pr
+      if: github.event_name != 'pull_request'
+      run: echo "docs=true" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
