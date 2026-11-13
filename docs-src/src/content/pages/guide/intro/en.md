@@ -115,6 +115,8 @@ As you see, you can do checks on the subject the same way you do it on the subje
 
 Do you remember that a subject and its type belong to each other in the same way as an object instance and its class? CASL remembers this as well and retrieves `article.constructor.name` as its subject type.
 
+> **Warning:** Built-in detection ignores an own `constructor` property. When populating class instances from untrusted input, validate which properties can be copied so that input cannot overwrite `constructor`. For plain objects, use the [`subject` helper](../subject-type-detection#subject-helper) with a type chosen by trusted application code.
+
 > Classes are natural in backend but not always makes sense in frontend development. CASL supports other ways to detect subject type, see [Subject type detection](../subject-type-detection) for details.
 
 Let's get back to our example and define classes for `Article` and `Comment` entities:

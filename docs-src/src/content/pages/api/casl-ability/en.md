@@ -399,7 +399,10 @@ The default subject type detection logic. Can be passed as `detectSubjectType` o
 
 * if `subject` is `undefined`, returns `all`
 * if `subject` is a `ForcedSubject`, returns its forced type
-* if `subject` is an object, returns `constructor.modelName || constructor.name`
+* if `subject` is an object with an own `constructor` property and no forced type, returns `Object.name` (`"Object"`)
+* otherwise, uses the inherited constructor and returns `constructor.modelName || constructor.name`
+
+> **Warning:** Custom `detectSubjectType` functions replace the built-in detection logic. Reading `object.constructor` directly trusts an own property that can be supplied in untrusted JSON. Use the `subject` helper with a type chosen by trusted application code for plain objects. See [Custom subject type detection](../../guide/subject-type-detection#custom-subject-type-detection).
 
 * **Parameters**:
   * `subject?: {}`
