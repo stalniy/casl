@@ -86,14 +86,14 @@
   </url>
 
   <url>
-    <loc>https://casl.js.org/v7/en/guide/define-rules</loc>
+    <loc>https://casl.js.org/v7/en/cookbook/roles-with-static-permissions</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
-    <loc>https://casl.js.org/v7/en/cookbook/roles-with-static-permissions</loc>
+    <loc>https://casl.js.org/v7/en/guide/define-rules</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1</priority>
