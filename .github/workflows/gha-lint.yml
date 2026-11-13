@@ -16,6 +16,7 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 0
+        persist-credentials: false
     - name: Check workflow paths
       id: filter
       env:
@@ -28,7 +29,8 @@ jobs:
           echo "has_changes=false" >> "$GITHUB_OUTPUT"
         fi
 
-  zizmor:
+  gha-lint:
+    name: GHA Lint
     needs: changes
     if: needs.changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
