@@ -1,15 +1,15 @@
-import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
+import { Rule, RuleOptions } from './Rule';
+import { cloneLinkedItem, LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
 import {
   Abilities,
-  Normalize,
-  SubjectType,
   AbilityParameters,
   AbilityTuple,
-  ExtractSubjectType
+  ExtractSubjectType,
+  Normalize,
+  SubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, validateEnforcedSubjectType } from './utils';
-import { LinkedItem, linkedItem, unlinkItem, cloneLinkedItem } from './structures/LinkedItem';
+import { detectSubjectType, getOrDefault, identity, isSubjectType, mergePrioritized, wrapArray } from './utils';
 
 export interface RuleIndexOptions<A extends Abilities, C> extends Partial<RuleOptions<C>> {
   detectSubjectType?(
@@ -128,7 +128,6 @@ export class RuleIndex<A extends Abilities, Conditions> {
   detectSubjectType(object?: Normalize<A>[1]): ExtractSubjectType<Normalize<A>[1]> {
     if (isSubjectType(object)) return object as ExtractSubjectType<Normalize<A>[1]>;
     if (!object) return this._anySubjectType as ExtractSubjectType<Normalize<A>[1]>;
-    validateEnforcedSubjectType(object);
     return this._detectSubjectType(object as Exclude<Normalize<A>[1], SubjectType>);
   }
 

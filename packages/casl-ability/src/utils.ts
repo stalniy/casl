@@ -76,12 +76,19 @@ export const getSubjectTypeName = (value: SubjectType) => {
   return typeof value === 'string' ? value : getSubjectClassName(value);
 };
 
-export function detectSubjectType(subject: Exclude<Subject, SubjectType>): string {
-  if (hasOwn(subject, TYPE_FIELD)) {
-    return (subject as any)[TYPE_FIELD];
+const getSubjectConstructor = (object: Record<string, any>): SubjectClass => {
+  return !object || hasOwn(object, 'constructor')
+    ? Object
+    : object.constructor as SubjectClass;
+};
+
+export function detectSubjectType(object: Exclude<Subject, SubjectType>): string {
+  if (hasOwn(object, TYPE_FIELD)) {
+    validateEnforcedSubjectType(object);
+    return object[TYPE_FIELD];
   }
 
-  return getSubjectClassName(subject.constructor as SubjectClass);
+  return getSubjectClassName(getSubjectConstructor(object));
 }
 
 type AliasMerge = (actions: string[], action: string | string[]) => string[];

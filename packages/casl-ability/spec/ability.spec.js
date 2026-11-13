@@ -46,6 +46,17 @@ describe('Ability', () => {
       .to.throw(/Untrusted subject type/i)
   })
 
+  it('does not use an own `constructor` property to detect a subject type', () => {
+    ability = new Ability([
+      { action: 'update', subject: 'Post', conditions: { ownerId: 42 } },
+      { action: 'update', subject: 'Comment' },
+    ])
+    const spoofed = JSON.parse('{"constructor":{"modelName":"Comment"},"ownerId":999}')
+
+    expect(ability.can('update', spoofed)).to.be.false
+    expect(ability.can('update', JSON.parse('{"constructor":{"name":"Comment"},"ownerId":999}'))).to.be.false
+  })
+
   it('lists all rules', () => {
     ability = defineAbility((can, cannot) => {
       can('crud', 'all')
