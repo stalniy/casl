@@ -3,7 +3,6 @@ name: release-please
 on:
   push:
     branches: [main, next]
-  workflow_dispatch:
 
 jobs:
   release:
@@ -15,7 +14,9 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         id: release-pl
         with:
@@ -31,14 +32,26 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: ./.github/actions/setup-deps
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify release commit
+        shell: bash
+        run: | # shell
+          git fetch --no-tags origin main
+
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Release commit is not on main"
+            exit 1
+          fi
+      - uses: $/.github/actions/setup-deps
       - name: Publish packages
         env:
           RELEASE_DIST_TAG: ${{ github.ref_name == 'next' && 'next' || 'latest' }}
           RELEASE_PUBLISH_BRANCH: ${{ github.ref_name }}
-        run: |
+          PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
+        run: | # shell
           pnpm run --dir packages/casl-ability build
-          for p in $(echo '${{ needs.release.outputs.paths_released }}' | jq -r '.[]'); do
+          while IFS= read -r p; do
             pnpm -r --filter "./$p" release
-          done
+          done < <(jq -r '.[]' <<<"$PATHS_RELEASED")

@@ -3,7 +3,7 @@ name: Docs
 on:
   workflow_dispatch:
   push:
-    branches: [main, next, docs-fix]
+    branches: [main, next]
     paths:
       - docs-src/**/*
       - funding.json
@@ -32,9 +32,10 @@ on:
       - packages/casl-angular/README.md
       - packages/casl-prisma/README.md
 
-# Allow the deployment step to push generated files to gh-pages.
+# Keep the default token read-only; only the job that pushes generated files
+# to gh-pages needs write access.
 permissions:
-  contents: write
+  contents: read
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -45,12 +46,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       CASL_VERSION: v7
       SITEMAP_WEBSITE: https://casl.js.org
     steps:
-    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-    - uses: ./.github/actions/setup-deps
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: $/.github/actions/setup-deps
     - name: Cache dependencies
       uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
