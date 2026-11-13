@@ -33,8 +33,8 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-DFdgpSX1.js"></script>
-  <meta name="casl-build" content="1ab9176">
+  <script type="module" crossorigin="" src="/v7/assets/index-Ctv5lYRa.js"></script>
+  <meta name="casl-build" content="9aa80c1">
 <link rel="alternate" type="text/markdown" href="/v7/en/api/casl-ability/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -770,31 +770,30 @@ The result of this function can be passed as <code>conditionsMatcher</code> opti
 <h2 id="detect-subject-type"><a name="detect-subject-type" class="h-link" href="#"></a>detectSubjectType</h2>
 <p>The default subject type detection logic. Can be passed as <code>detectSubjectType</code> option to <code>Ability</code> class. Can be used to extend the default logic. The checking logic is the following:</p>
 <ul>
-<li>
-<p>if <code>subject</code> is <code>undefined</code>, returns <code>all</code></p>
-</li>
-<li>
-<p>if <code>subject</code> is a <code>ForcedSubject</code>, returns its forced type</p>
-</li>
-<li>
-<p>if <code>subject</code> is an object, returns <code>constructor.modelName || constructor.name</code></p>
-</li>
-<li>
-<p><strong>Parameters</strong>:</p>
+<li>if <code>subject</code> is <code>undefined</code>, returns <code>all</code></li>
+<li>if <code>subject</code> is a <code>ForcedSubject</code>, returns its forced type</li>
+<li>if <code>subject</code> is an object with an own <code>constructor</code> property and no forced type, returns <code>Object.name</code> (<code>"Object"</code>)</li>
+<li>otherwise, uses the inherited constructor and returns <code>constructor.modelName || constructor.name</code></li>
+</ul>
+<blockquote>
+<p><strong>Warning:</strong> Custom <code>detectSubjectType</code> functions replace the built-in detection logic. Reading <code>object.constructor</code> directly trusts an own property that can be supplied in untrusted JSON. Use the <code>subject</code> helper with a type chosen by trusted application code for plain objects. See 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection#custom-subject-type-detection">
+        Custom subject type detection
+      </a>
+    .</p>
+</blockquote>
+<ul>
+<li><strong>Parameters</strong>:
 <ul>
 <li><code>subject?: {}</code></li>
 </ul>
 </li>
-<li>
-<p><strong>Returns</strong> a string (i.e., subject type)</p>
-</li>
-<li>
-<p><strong>See also</strong>: 
+<li><strong>Returns</strong> a string (i.e., subject type)</li>
+<li><strong>See also</strong>: 
       <a itemprop="url" href="/v7/en/guide/subject-type-detection">
         Subject type detection
       </a>
-    </p>
-</li>
+    </li>
 </ul>
 <h2 id="subject"><a name="subject" class="h-link" href="#"></a>subject</h2>
 <p>Sets subject type for a plain object. You shouldn't use this if you use classes or define custom <code>detectSubjectType</code> algorithm. Accepts 2 generic parameters <code>TSubjectType</code> and <code>TObject</code>.</p>

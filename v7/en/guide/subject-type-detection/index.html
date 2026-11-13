@@ -33,8 +33,8 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-DFdgpSX1.js"></script>
-  <meta name="casl-build" content="1ab9176">
+  <script type="module" crossorigin="" src="/v7/assets/index-Ctv5lYRa.js"></script>
+  <meta name="casl-build" content="9aa80c1">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/subject-type-detection/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -344,14 +344,14 @@
     </li>
             
               <li>
-      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
-        Roles with predefined permissions
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
       </a>
     </li>
             
               <li>
-      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
-        Cache abilities
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
       </a>
     </li>
             
@@ -389,7 +389,10 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 <blockquote>
 <p>Starting from v5, CASL perceives string, function and class as a subject type. Any other type is perceived as a subject, for which CASL needs to detect subject type.</p>
 </blockquote>
-<p>When we pass an object as the 2nd argument in <code>ability.can</code>, CASL gets <code>object.constructor.modelName</code> as subject type, and fallbacks to <code>object.constructor.name</code> if <code>modelName</code> is not specified.</p>
+<p>When we pass an object as the 2nd argument in <code>ability.can</code>, CASL uses its inherited constructor's <code>modelName</code> as subject type, and falls back to the constructor's <code>name</code> if <code>modelName</code> is not specified. An own <code>constructor</code> property is ignored and the object is treated as an <code>Object</code> unless its type was set using the <code>subject</code> helper.</p>
+<blockquote>
+<p><strong>Warning:</strong> Request bodies and other untrusted objects can contain their own <code>constructor</code> property. Do not use that property to determine which permissions apply. For plain objects, use <code>subject('Article', object)</code> with a type chosen by trusted application code, rather than a type supplied by the request.</p>
+</blockquote>
 <p>In the example above, <code>article</code> variable contains a plain object, its constructor doesn't have <code>modelName</code>, so CASL gets its <code>constructor.name</code> as a subject type. Eventually, we get <code>Object</code>. There are no rules for <code>Object</code> subject type, that's why we got <code>false</code> when tried to check whether it's possible to read that object. So, how can we fix that example? The easiest way is to use a special class for our <code>Article</code> model:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> ability <span class="hljs-keyword">from</span> <span class="hljs-string">'./defineAbility'</span>;
 
@@ -474,6 +477,9 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, article); <span class="hljs-comment">// true</span>
 </code></pre>
 <p>Custom detection function must return a subject type (either string, class or function).</p>
+<blockquote>
+<p><strong>Warning:</strong> A custom <code>detectSubjectType</code> function replaces the built-in detection logic, including its safeguards. Only trust type metadata such as <code>__typename</code> when its value comes from a trusted source. An attacker-controlled value can select another subject's rules.</p>
+</blockquote>
 <p>For TypeScript applications, the optional third generic parameter of <code>Ability</code> and <code>MongoAbility</code> lets you align type inference with custom detection. See 
       <a itemprop="url" href="/v7/en/advanced/typescript#configuring-subject-resolution">
         Configuring subject resolution
@@ -494,6 +500,9 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 <p>It's important to note that <code>detectSubjectType</code> is responsible for mapping objects to their corresponding types. When we pass a class, a function or a string in <code>ability.can</code>, they are automatically perceived as a subject type and <code>detectSubjectType</code> is not called for them.</p>
 <h3 id="use-classes-as-subject-types"><a name="use-classes-as-subject-types" class="h-link" href="#"></a>Use classes as subject types</h3>
 <p>As we said before, it's common to use classes to model Domain Logic on backend. So, some of you may want to use classes as subject types in permission definition. To do this, we need a custom <code>detectSubjectType</code> function:</p>
+<blockquote>
+<p><strong>Warning:</strong> The <code>object.constructor</code> detectors below assume trusted class instances. Unlike built-in detection, they read an own <code>constructor</code> property if one exists. Do not use them with untrusted plain objects or instances populated by copying untrusted properties, which can overwrite <code>constructor</code>. Prefer built-in class detection when possible, or validate the source of the constructor in your custom detector.</p>
+</blockquote>
 <pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { defineAbility } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/ability'</span>;
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span> {}

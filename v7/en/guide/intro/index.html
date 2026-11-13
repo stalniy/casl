@@ -33,8 +33,8 @@
   <noscript>
     <style>#prerender-fallback:not([hidden]){display:block}</style>
   </noscript>
-  <script type="module" crossorigin="" src="/v7/assets/index-DFdgpSX1.js"></script>
-  <meta name="casl-build" content="1ab9176">
+  <script type="module" crossorigin="" src="/v7/assets/index-Ctv5lYRa.js"></script>
+  <meta name="casl-build" content="9aa80c1">
 <link rel="alternate" type="text/markdown" href="/v7/en/guide/intro/index.md"></head>
 <body>
   <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
@@ -344,14 +344,14 @@
     </li>
             
               <li>
-      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
-        Roles with predefined permissions
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
+        Cache abilities
       </a>
     </li>
             
               <li>
-      <a itemprop="url" href="/v7/en/cookbook/cache-rules">
-        Cache abilities
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions">
+        Roles with predefined permissions
       </a>
     </li>
             
@@ -461,6 +461,13 @@ ability.<span class="hljs-title function_">can</span>(<span class="hljs-string">
 </code></pre>
 <p>As you see, you can do checks on the subject the same way you do it on the subject's type! But what does the <code>article</code> variable hold inside? How does CASL know the subject type of the object referenced by this variable?</p>
 <p>Do you remember that a subject and its type belong to each other in the same way as an object instance and its class? CASL remembers this as well and retrieves <code>article.constructor.name</code> as its subject type.</p>
+<blockquote>
+<p><strong>Warning:</strong> Built-in detection ignores an own <code>constructor</code> property. When populating class instances from untrusted input, validate which properties can be copied so that input cannot overwrite <code>constructor</code>. For plain objects, use the 
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection#subject-helper">
+        <code>subject</code> helper
+      </a>
+     with a type chosen by trusted application code.</p>
+</blockquote>
 <blockquote>
 <p>Classes are natural in backend but not always makes sense in frontend development. CASL supports other ways to detect subject type, see 
       <a itemprop="url" href="/v7/en/guide/subject-type-detection">

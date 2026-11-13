@@ -34,7 +34,9 @@ The first thing to clarify is "what is subject type?". A subject type is basical
 
 > Starting from v5, CASL perceives string, function and class as a subject type. Any other type is perceived as a subject, for which CASL needs to detect subject type.
 
-When we pass an object as the 2nd argument in `ability.can`, CASL gets `object.constructor.modelName` as subject type, and fallbacks to `object.constructor.name` if `modelName` is not specified.
+When we pass an object as the 2nd argument in `ability.can`, CASL uses its inherited constructor's `modelName` as subject type, and falls back to the constructor's `name` if `modelName` is not specified. An own `constructor` property is ignored and the object is treated as an `Object` unless its type was set using the `subject` helper.
+
+> **Warning:** Request bodies and other untrusted objects can contain their own `constructor` property. Do not use that property to determine which permissions apply. For plain objects, use `subject('Article', object)` with a type chosen by trusted application code, rather than a type supplied by the request.
 
 In the example above, `article` variable contains a plain object, its constructor doesn't have `modelName`, so CASL gets its `constructor.name` as a subject type. Eventually, we get `Object`. There are no rules for `Object` subject type, that's why we got `false` when tried to check whether it's possible to read that object. So, how can we fix that example? The easiest way is to use a special class for our `Article` model:
 
@@ -150,6 +152,8 @@ ability.can('read', article); // true
 
 Custom detection function must return a subject type (either string, class or function).
 
+> **Warning:** A custom `detectSubjectType` function replaces the built-in detection logic, including its safeguards. Only trust type metadata such as `__typename` when its value comes from a trusted source. An attacker-controlled value can select another subject's rules.
+
 For TypeScript applications, the optional third generic parameter of `Ability` and `MongoAbility` lets you align type inference with custom detection. See [Configuring subject resolution](../../advanced/typescript#configuring-subject-resolution) for `TaggedSubject`, `ClassSubject`, and custom resolver examples.
 
 The same can be achieved using `defineAbility` function:
@@ -172,6 +176,8 @@ It's important to note that `detectSubjectType` is responsible for mapping objec
 ### Use classes as subject types
 
 As we said before, it's common to use classes to model Domain Logic on backend. So, some of you may want to use classes as subject types in permission definition. To do this, we need a custom `detectSubjectType` function:
+
+> **Warning:** The `object.constructor` detectors below assume trusted class instances. Unlike built-in detection, they read an own `constructor` property if one exists. Do not use them with untrusted plain objects or instances populated by copying untrusted properties, which can overwrite `constructor`. Prefer built-in class detection when possible, or validate the source of the constructor in your custom detector.
 
 ```js
 import { defineAbility } from '@casl/ability';
