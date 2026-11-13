@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.3](https://github.com/stalniy/casl/compare/@casl/ability@7.1.2...@casl/ability@7.1.3) (2026-11-13)
+
+
+### Bug Fixes
+
+* prevent usage of direct constructor property to detect subject type ([#1371](https://github.com/stalniy/casl/issues/1371)) ([a9d2817](https://github.com/stalniy/casl/commit/a9d281762df2333a24ea991636bd9f5ea2d102c3))
+
 ## [7.1.2](https://github.com/stalniy/casl/compare/@casl/ability@7.1.1...@casl/ability@7.1.2) (2026-11-10)
 
 
