@@ -61,7 +61,7 @@ adoption:
   title: Adoption & Ecosystem
   subtitle: From reusable libraries to real-world applications.
   githubDependents: GitHub repositories
-  npmDependents: Dependent npm packages
+  npmDependents: NPM packages
   projects: Real-world projects using CASL
   contribute: Using CASL? Showcase your project
 
