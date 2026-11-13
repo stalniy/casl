@@ -2,14 +2,16 @@ import type { AnyMongoAbility, Generics, Normalize } from '@casl/ability';
 import type { Document as Doc, HydratedDocument, Model, Query, QueryWithHelpers, Schema } from 'mongoose';
 import { accessibleBy } from '../accessibleBy';
 
+const DUMMY_MODELS = new WeakMap<Model<any>, object>();
 function accessibleRecords<T extends AnyMongoAbility>(
   baseQuery: Query<any, any>,
   ability: T,
   action?: Normalize<Generics<T>['abilities']>[0]
 ): QueryWithHelpers<Doc, Doc> {
-  const subjectType = ability.detectSubjectType({
-    constructor: baseQuery.model
-  });
+  if (!DUMMY_MODELS.has(baseQuery.model)) {
+    DUMMY_MODELS.set(baseQuery.model, Object.create(baseQuery.model.prototype));
+  }
+  const subjectType = ability.detectSubjectType(DUMMY_MODELS.get(baseQuery.model));
 
   if (!subjectType) {
     throw new TypeError(`Cannot detect subject type of "${baseQuery.model.modelName}" to return accessible records`);

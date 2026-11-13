@@ -1,16 +1,16 @@
-import type { DefaultSubject, ResolveSubjects, SubjectResolver } from './SubjectResolver';
-import { Rule, RuleOptions } from './Rule';
 import { RawRuleFrom } from './RawRule';
+import { Rule, RuleOptions } from './Rule';
+import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
+import type { DefaultSubject, ResolveSubjects, SubjectResolver } from './SubjectResolver';
 import {
   Abilities,
-  Normalize,
-  SubjectType,
   AbilityParameters,
   AbilityTuple,
-  ExtractSubjectType
+  ExtractSubjectType,
+  Normalize,
+  SubjectType
 } from './types';
-import { wrapArray, detectSubjectType, mergePrioritized, getOrDefault, identity, isSubjectType, DETECT_SUBJECT_TYPE_STRATEGY, filterWithLazyAllocation, validateEnforcedSubjectType } from './utils';
-import { LinkedItem, linkedItem, unlinkItem } from './structures/LinkedItem';
+import { DETECT_SUBJECT_TYPE_STRATEGY, detectSubjectType, filterWithLazyAllocation, getOrDefault, identity, isSubjectType, mergePrioritized, wrapArray } from './utils';
 
 export interface RuleIndexOptions<
   A extends Abilities, C, R extends SubjectResolver = DefaultSubject
@@ -138,7 +138,6 @@ export class RuleIndex<
   ): ExtractSubjectType<Normalize<A>[1], R> {
     if (isSubjectType(object)) return object as ExtractSubjectType<Normalize<A>[1], R>;
     if (!object) return this._anySubjectType as ExtractSubjectType<Normalize<A>[1], R>;
-    validateEnforcedSubjectType(object);
     return this._detectSubjectType(
       object as Exclude<ResolveSubjects<Normalize<A>[1], R>, SubjectType>
     );
