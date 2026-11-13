@@ -63,16 +63,23 @@ export function getSubjectTypeName(value: SubjectType) {
   return typeof value === 'string' ? value : getSubjectClassName(value);
 }
 
+const getSubjectConstructor = (object: object): SubjectClass => {
+  return !object || hasOwn(object, 'constructor')
+    ? Object
+    : object.constructor as SubjectClass;
+};
+
 export function detectSubjectType(object: Exclude<Subject, SubjectType>): string {
   if (hasOwn(object, TYPE_FIELD)) {
+    validateEnforcedSubjectType(object);
     return object[TYPE_FIELD];
   }
 
-  return getSubjectClassName(object.constructor as SubjectClass);
+  return getSubjectClassName(getSubjectConstructor(object));
 }
 
 export const DETECT_SUBJECT_TYPE_STRATEGY = {
-  function: (object: Exclude<Subject, SubjectType>) => object.constructor as SubjectClass,
+  function: getSubjectConstructor,
   string: detectSubjectType
 };
 

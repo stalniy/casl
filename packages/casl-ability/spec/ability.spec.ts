@@ -86,6 +86,17 @@ describe('Ability', () => {
     expect(() => ability.can('read', JSON.parse('{"__caslSubjectType__":"Article"}'))).toThrow(/Untrusted subject type/i)
   })
 
+  it('does not use an own `constructor` property to detect a subject type', () => {
+    const ability = createMongoAbility([
+      { action: 'update', subject: 'Post', conditions: { ownerId: 42 } },
+      { action: 'update', subject: 'Comment' },
+    ])
+    const spoofed = JSON.parse('{"constructor":{"modelName":"Comment"},"ownerId":999}')
+
+    expect(ability.can('update', spoofed)).toBe(false)
+    expect(ability.can('update', JSON.parse('{"constructor":{"name":"Comment"},"ownerId":999}'))).toBe(false)
+  })
+
   describe('by default', () => {
     it('allows to perform specified actions on target instance', () => {
       const ability = setup()
