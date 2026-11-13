@@ -30,7 +30,7 @@
     "test": "dx jest --config ./jest.config.cjs",
     "lint": "dx eslint src/ spec/",
     "release.prepare": "npm run lint && NODE_ENV=production npm run build && npm test",
-    "release": "npm run release.prepare && pnpm publish --tag \"$RELEASE_DIST_TAG\" --publish-branch \"$RELEASE_PUBLISH_BRANCH\""
+    "release": "pnpm publish --tag \"$RELEASE_DIST_TAG\" --publish-branch \"$RELEASE_PUBLISH_BRANCH\""
   },
   "keywords": [
     "casl",

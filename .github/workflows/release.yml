@@ -24,10 +24,35 @@ jobs:
           target-branch: ${{ github.ref_name }}
           config-file: ${{ github.ref_name == 'next' && 'release-please-config-next.json' || 'release-please-config.json' }}
           manifest-file: ${{ github.ref_name == 'next' && '.release-please-manifest-next.json' || '.release-please-manifest.json' }}
-  publish:
+  build:
     runs-on: ubuntu-latest
     needs: release
     if: ${{ needs.release.outputs.paths_released && needs.release.outputs.paths_released != '[]' }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-deps
+      - name: Prepare packages
+        env:
+          PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
+        run: | # shell
+          pnpm run --dir packages/casl-ability build
+          while IFS= read -r p; do
+            pnpm -r --filter "./$p" release.prepare
+            pnpm --dir "$p" pack --out "$GITHUB_WORKSPACE/release-packages/${p##*/}.tgz"
+          done < <(jq -r '.[]' <<<"$PATHS_RELEASED")
+      - name: Upload built packages
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: release-packages
+          path: release-packages/*.tgz
+          if-no-files-found: error
+  publish:
+    runs-on: ubuntu-latest
+    needs: [release, build]
     permissions:
       contents: read
       id-token: write
@@ -44,14 +69,26 @@ jobs:
             echo "::error::Release commit is not on main"
             exit 1
           fi
-      - uses: $/.github/actions/setup-deps
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '26'
+          package-manager-cache: false
+          check-latest: true
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        with:
+          version: 12.17.0
+          run_install: false
+      - name: Download built packages
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: release-packages
+          path: release-packages
       - name: Publish packages
         env:
           RELEASE_DIST_TAG: ${{ github.ref_name == 'next' && 'next' || 'latest' }}
           RELEASE_PUBLISH_BRANCH: ${{ github.ref_name }}
           PATHS_RELEASED: ${{ needs.release.outputs.paths_released }}
         run: | # shell
-          pnpm run --dir packages/casl-ability build
           while IFS= read -r p; do
-            pnpm -r --filter "./$p" release
+            pnpm --config.verify-deps-before-run=false -r --filter "./$p" release "$GITHUB_WORKSPACE/release-packages/${p##*/}.tgz"
           done < <(jq -r '.[]' <<<"$PATHS_RELEASED")
