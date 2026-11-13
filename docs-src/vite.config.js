@@ -142,7 +142,7 @@ export default defineConfig(async ({ mode }) => {
           injectManifest: {
             maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
             globPatterns: [
-              'assets/*.json',
+              'assets/**/*.json',
               'app-icons/*',
               'fonts/*',
               'manifest.json',
@@ -150,6 +150,7 @@ export default defineConfig(async ({ mode }) => {
               '**/*.js',
               '**/*.png',
               '**/*.svg',
+              'global.css'
             ],
           },
         }),

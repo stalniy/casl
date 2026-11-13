@@ -49,6 +49,16 @@
   "overrides": {
     "lit-translate": {
       "lit": "^3.3.3"
+    },
+    "@curi/router": {
+      "path-to-regexp": "^9.0.0"
+    },
+    "@curi/types": {
+      "path-to-regexp": "^9.0.0"
+    },
+    "workbox-build": {
+      "@trickfilm400/rollup-plugin-off-main-thread": "^4.0.0",
+      "glob": "14.0.4"
     }
   }
 }
