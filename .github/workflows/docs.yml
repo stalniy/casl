@@ -41,6 +41,7 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 0
+        persist-credentials: false
     - name: Check documentation paths
       id: filter
       if: github.event_name == 'pull_request'
@@ -60,6 +61,7 @@ jobs:
       run: echo "docs=true" >> "$GITHUB_OUTPUT"
 
   build:
+    name: Build docs
     needs: changes
     if: needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
