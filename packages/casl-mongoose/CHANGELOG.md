@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [8.0.6](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.5...@casl/mongoose@8.0.6) (2026-11-13)
+
+
+### Bug Fixes
+
+* prevent usage of direct constructor property to detect subject type ([#1370](https://github.com/stalniy/casl/issues/1370)) ([582573a](https://github.com/stalniy/casl/commit/582573af89e71aa502e82bb3eab527510937833d))
+
 ## [8.0.5](https://github.com/stalniy/casl/compare/@casl/mongoose@8.0.4...@casl/mongoose@8.0.5) (2026-01-18)
 
 
