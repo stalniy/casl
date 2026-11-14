@@ -100,7 +100,19 @@ features:
 
 search:
   placeholder: Search
-  noMatch: No information found for your query
+  noMatch: No matches found. Try another search or explore these pages.
+  title: Search documentation
+  close: Close
+  loading: Searching…
+  error: Search is unavailable. Explore these pages or try again.
+  results: Search results
+  resultCount: '%{count} results'
+  recommendations: Explore the documentation
+  databaseQuery: Ability to database query
+  externalLink: External link
+  navigate: to navigate
+  select: to select
+  dismiss: to close
 
 categories:
   guide: Guide
