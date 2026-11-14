@@ -131,6 +131,7 @@ export default class App extends LitElement {
           ${cache(body.main || body)}
         </app-root>
       </menu-drawer>
+      <analytics-consent></analytics-consent>
     `;
   }
 }

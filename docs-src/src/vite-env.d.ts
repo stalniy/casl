@@ -21,6 +21,7 @@ declare module '*.pages' {
 }
 
 interface ImportMetaEnv {
+  readonly UMAMI_ID?: string;
   readonly SUPPORTED_LANGS: string[];
   readonly BASE_URL_PATH: string;
   readonly REPO_URL?: string;

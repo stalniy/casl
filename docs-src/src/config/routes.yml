@@ -28,6 +28,13 @@ routes:
           priority: 1
           changefreq: yearly
           provider: route
+      - name: privacy
+        path: privacy
+        controller: Page
+        sitemap:
+          priority: 0.3
+          changefreq: yearly
+          provider: route
       - name: page
         path: :id
         restrictions:
