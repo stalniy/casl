@@ -1,9 +1,13 @@
 name: CASL
 updateAvailable: !md |
   An update is available, **click here to refresh**.
-slogan: |
-  Isomorphic Authorization
-  JavaScript library
+hero:
+  heading: AUTHORIZATION FOR THE ENTIRE TYPESCRIPT STACK
+  title: |-
+    Define permissions once.
+    Enforce them everywhere.
+  description: |-
+    Authorization across your frontend, backend, and database. One shared policy model, without additional infrastructure.
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Sergii Stotskyi](https://www.linkedin.com/in/sergii-stotskyi-b747ba23/)
@@ -44,36 +48,43 @@ buttons:
 exampleCode: !md |
   ```js
   import { Ability, AbilityBuilder } from '@casl/ability';
+  import { toMongoQuery } from '@casl/mongoose';
 
-  // define abilities
-  const { can, cannot, rules } = new AbilityBuilder();
+  // Define permissions once
+  const { can, cannot, build } = new AbilityBuilder(Ability);
 
   can('read', ['Post', 'Comment']);
   can('manage', 'Post', { author: 'me' });
   can('create', 'Comment');
 
-  // check abilities
-  const ability = new Ability(rules);
+  const ability = build();
 
-  ability.can('read', 'Post') // true
+  // Enforce them across your application
+  ability.can('read', 'Post') // UI & API
+  toMongoQuery(ability, 'Post', 'update') // Database conditions
   ```
 
 features:
   isomorphic:
     title: Isomorphic
-    description: Complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
+    description: |-
+      Use the same authorization rules across frontend and backend, with integrations for popular frameworks and ORMs.
   versatile:
     title: Versatile
-    description: Easily scales between a claim based and subject/attribute based authorization.
+    description: |-
+      From simple claim-based checks to action/resource permissions, supporting both RBAC and fine-grained ABAC.
   typesafe:
     title: TypeSafe
-    description: Written in TypeScript, that makes your apps safer and developer experience more enjoyable
+    description: |-
+      TypeScript-first APIs catch mistakes early and provide a better developer experience.
   treeshakable:
     title: Tree shakable
-    description: The core is only 6KB mingzipped and can be even smaller!
+    description: |-
+      Just 6kB minified and gzipped, with tree shaking to keep bundles even smaller.
   declarative:
     title: Serializable
-    description: Allows to share permissions between UI, API and microservices
+    description: |-
+      Define permissions once. Serialize and share rules across frontend, APIs, and microservices.
 
 search:
   placeholder: Search
@@ -94,3 +105,18 @@ meta:
   keywords: roles, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript
   description: |
     CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
+
+video:
+  title: Why CASL?
+  close: Close
+  unsupported: Your browser does not support inline video.
+  error: The video could not be loaded.
+  fallback: Open or download the video
+
+adoption:
+  title: By the numbers
+  projectsTitle: Built with CASL
+  githubDependents: GitHub repositories
+  npmDependents: NPM packages
+  projects: Real-world projects using CASL
+  contribute: Using CASL? Showcase your project

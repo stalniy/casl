@@ -1,5 +1,5 @@
 import { html, css, unsafeCSS } from 'lit-element';
-import { t, ut } from '../directives/i18n';
+import { t, ut } from '../directives/i18n.js';
 
 const features = [
   'isomorphic',
@@ -19,25 +19,26 @@ function renderFeature(feature) {
 }
 
 const template = () => html`
-  <section class="features container">${features.map(renderFeature)}</section>
+  <section class="features">${features.map(renderFeature)}</section>
 `;
 
 template.styles = [
   css`
     .features {
-      padding: 1rem 0;
       display: -ms-grid;
       display: grid;
       justify-content: center;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       -ms-grid-columns: ${unsafeCSS(features.map(() => 'minmax(200px, 1fr)').join(' '))};
+      column-gap: 1rem;
     }
 
     .feature {
-      padding: 1rem;
+      padding: 1rem 0;
     }
 
     .feature h3 {
+      margin: 0 0 1rem;
       font-size: 1.4rem;
     }
 
