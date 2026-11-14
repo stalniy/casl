@@ -47,10 +47,13 @@ items:
       url: https://prytulafoundation.org/en/home/support_page
       rel: noopener noreferrer
 
-footer:
+social:
   - icon: github
+    label: GitHub
     url: https://github.com/stalniy/casl
-  - icon: twitter
-    url: https://twitter.com/sergiy_stotskiy
+  - icon: x
+    label: X
+    url: https://x.com/sergiy_stotskiy
   - icon: medium
-    url: https://sergiy-stotskiy.medium.com
+    label: Medium
+    url: https://sstotskiy.medium.com
