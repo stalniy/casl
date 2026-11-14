@@ -187,7 +187,13 @@ Menu.styles = css`
     }
 
     .menu-item-dropdown + .menu-item {
-      margin-right: 0;
+      margin-right: calc(var(--app-menu-item-margin, 1rem) - 3px);
+    }
+  }
+
+  @media(min-width: 1024px) {
+    .menu-item-dropdown + .menu-item {
+      margin-right: var(--app-menu-item-margin, 1rem);
     }
   }
 `;
