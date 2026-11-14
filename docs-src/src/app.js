@@ -1,3 +1,5 @@
+import NpmDownloadsButton from './components/NpmDownloadsButton.js';
+import WhyCaslVideo from './components/WhyCaslVideo.js';
 import 'core-js/modules/web.immediate';
 import App from './components/App';
 import AppRoot from './components/AppRoot';
@@ -23,6 +25,8 @@ import router from './services/router';
 import { setRouteMeta } from './services/meta';
 
 const components = [
+  NpmDownloadsButton,
+  WhyCaslVideo,
   App,
   AppRoot,
   AppFooter,
