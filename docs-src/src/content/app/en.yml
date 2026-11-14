@@ -14,7 +14,7 @@ hero:
     Define permissions once.
     Enforce them everywhere.
   description: |-
-    Authorization across your frontend, backend, and database. One shared policy model, without additional infrastructure.
+    One authorization model for frontend, backend, and database. No extra infrastructure.
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Serhii Stotskyi](https://www.linkedin.com/in/serhii-stotskyi-b747ba23/)

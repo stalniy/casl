@@ -143,11 +143,11 @@ Header.styles = [
       align-items: center;
     }
 
-    @media (min-width: 768px) and (max-width: 1023px) {
-      app-menu {
-        --app-menu-item-margin: 6px;
-      }
+    app-menu {
+      --app-menu-item-margin: 6px;
+    }
 
+    @media (min-width: 768px) and (max-width: 1023px) {
       app-social-links {
         margin-left: 8px;
         padding-left: 8px;

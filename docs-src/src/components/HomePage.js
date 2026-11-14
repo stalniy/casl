@@ -114,12 +114,11 @@ HomePage.styles = [
 
     .hero-title {
       font-size: clamp(30px, 3vw, 43px);
-      line-height: 1.07;
       letter-spacing: -.055em;
-      margin-bottom: 24px;
       font-weight: 650;
       color: #214e70;
       white-space: pre-line;
+      margin: 0;
     }
 
     .hero-title::first-line {
@@ -138,6 +137,10 @@ HomePage.styles = [
       font: 11px / 1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
       letter-spacing: .09em;
       margin: 0;
+    }
+
+    .hero .eyebrow {
+      display: none;
     }
 
     .buttons {
@@ -175,7 +178,7 @@ HomePage.styles = [
     }
 
     .example code {
-      font-size: clamp(.7rem, 0.7vw, 0.9rem);
+      font-size: clamp(.7rem, 0.75vw, 0.9rem);
     }
 
     .capabilities {
@@ -209,7 +212,8 @@ HomePage.styles = [
         margin-top: 40px;
       }
 
-      .eyebrow {
+      .hero .eyebrow {
+        display: block;
         margin-bottom: 22px;
       }
 
@@ -223,11 +227,11 @@ HomePage.styles = [
       }
 
       .hero-title {
-        margin-top: 0;
+        line-height: 1.07;
       }
     }
 
-    @media (min-width: 1030px) {
+    @media (min-width: 1024px) {
       .main {
         text-align: left;
       }
@@ -235,7 +239,7 @@ HomePage.styles = [
       .col-example {
         display: block;
         overflow-x: auto;
-        flex-basis: 40%;
+        flex-basis: 50%;
       }
 
       .hero-title {

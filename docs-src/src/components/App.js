@@ -196,7 +196,7 @@ App.styles = [
     .floating-actions {
       position: fixed;
       right: 0;
-      top: 50%;
+      bottom: 0;
       transform: translateY(-50%);
       z-index: 40;
       display: flex;
