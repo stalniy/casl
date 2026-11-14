@@ -33,9 +33,9 @@ items:
       url: https://github.com/stalniy/casl/discussions
     - heading: news
     - name: tweeter
-      url: https://twitter.com/sergiy_stotskiy
+      url: https://x.com/sergiy_stotskiy
     - name: blog
-      url: https://sergiy-stotskiy.medium.com
+      url: https://sstotskiy.medium.com
 - name: consulting
   url: https://casl.js.org/en/consulting
   rel: noopener noreferrer
@@ -53,10 +53,13 @@ items:
       url: https://prytulafoundation.org/en/home/support_page
       rel: noopener noreferrer
 
-footer:
+social:
   - icon: github
+    label: GitHub
     url: https://github.com/stalniy/casl
-  - icon: twitter
-    url: https://twitter.com/sergiy_stotskiy
+  - icon: x
+    label: X
+    url: https://x.com/sergiy_stotskiy
   - icon: medium
-    url: https://sergiy-stotskiy.medium.com
+    label: Medium
+    url: https://sstotskiy.medium.com
