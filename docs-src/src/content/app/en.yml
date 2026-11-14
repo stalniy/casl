@@ -25,6 +25,7 @@ oldVersionAlert: !md |
 
 menu:
   root: Menu
+  consulting: Consulting
   about: About
   privacy: Privacy Policy
   api: API
