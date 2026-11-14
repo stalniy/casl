@@ -9,10 +9,12 @@ analyticsConsent:
 updateAvailable: !md |
   An update is available, **click here to refresh**.
 hero:
+  heading: AUTHORIZATION FOR THE ENTIRE TYPESCRIPT STACK
   title: |-
-    Authorization
-    for the entire
-    TypeScript stack
+    Define permissions once.
+    Enforce them everywhere.
+  description: |-
+    Authorization across your frontend, backend, and database. One shared policy model, without additional infrastructure.
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Serhii Stotskyi](https://www.linkedin.com/in/serhii-stotskyi-b747ba23/)
