@@ -1,4 +1,2 @@
 { "number": "v4" }
 { "number": "v5" }
-{ "number": "v6" }
-{ "number": "v7" }
