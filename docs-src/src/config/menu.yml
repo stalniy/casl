@@ -37,7 +37,7 @@ items:
     - name: blog
       url: https://sergiy-stotskiy.medium.com
 - name: consulting
-  url: https://casl.js.org/v7/en/consulting
+  url: https://casl.js.org/en/consulting
   rel: noopener noreferrer
 - name: about
   route: false
