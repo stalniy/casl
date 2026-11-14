@@ -62,6 +62,13 @@ export default class HomePage extends LitElement {
           ${features()}
         </div>
       </section>
+      <section class="capabilities container">
+        <p class="eyebrow">${t('home.evolution.heading')}</p>
+        <h2>${t('home.evolution.title')}</h2>
+        <p class="capabilities-intro">${t('home.evolution.subtitle')}</p>
+        <authorization-examples></authorization-examples>
+        <p class="capabilities-note">${t('home.evolution.note')}</p>
+      </section>
     `;
   }
 }
@@ -169,6 +176,19 @@ HomePage.styles = [
     .example code {
       font-size: clamp(.7rem, 0.7vw, 0.9rem);
     }
+
+    .capabilities {
+      padding-block: 20px;
+      border-top: 1px solid #ced9e0;
+      padding: 1.5rem 1rem;
+    }
+
+    .capabilities h2,
+    .features-brand h2 {
+      margin-bottom: 12px;
+    }
+    .capabilities-intro { max-width: 760px; color: #506575; line-height: 1.6; margin: 0; }
+    .capabilities-note { color: #526575; font-size: .9rem; line-height: 1.6; margin: 16px 0 0; }
 
     .features-brand {
       background: #f7f7f7;

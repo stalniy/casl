@@ -49,6 +49,7 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <style>${
   globalCSS
     .replace(/~@\//g, publicPath)
+    .replace(/url\("fonts\//g, `url("${publicPath}fonts/`)
     .replace(/[\n\r]+ */g, '')
     .replace(/([:;,]) +/, '$1')
 }</style>
