@@ -35,7 +35,7 @@ jobs:
         ref: ${{ github.sha }}
         fetch-depth: 2
         persist-credentials: false
-    - uses: ./.github/actions/setup-deps
+    - uses: $/.github/actions/setup-deps
       with:
         node-version: ${{ matrix.option.node-version }}
     - name: Get base sha
