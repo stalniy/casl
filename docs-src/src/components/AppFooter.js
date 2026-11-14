@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
-import { ut } from '../directives/i18n';
+import { t, ut } from '../directives/i18n';
+import { openAnalyticsPreferences } from '../services/analytics.js';
 import { mdCss } from '../styles';
 import menu from '../config/menu.yml';
 
@@ -30,6 +31,7 @@ export default class Footer extends LitElement {
         `)}
       </p>
       <p class="copyright md">${ut('copyright', { year: this.year })}</p>
+      <p><app-link to="privacy">${t('menu.privacy')}</app-link> · <button type="button" @click="${openAnalyticsPreferences}">${t('analyticsConsent.settings')}</button></p>
     `;
   }
 }
@@ -52,6 +54,21 @@ Footer.styles = [
 
     .copyright {
       white-space: pre-line;
+    }
+
+    button {
+      background: transparent;
+      border: 0;
+      padding: 8px;
+      color: inherit;
+      font: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    button:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
     }
 
     .links svg {

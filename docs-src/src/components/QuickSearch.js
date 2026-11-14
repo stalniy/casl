@@ -3,6 +3,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { t } from '../directives/i18n';
 import { locale } from '../services/i18n';
 import content from '../services/content';
+import { trackEvent } from '../services/analytics.js';
 import router from '../services/router';
 import { debounce } from '../services/utils';
 import { gridCss } from '../styles';
@@ -140,9 +141,11 @@ export default class QuickSearch extends LitElement {
       return;
     }
 
-    const results = await content('page').search(locale(), this.value, {
+    const query = this.value;
+    const results = await content('page').search(locale(), query, {
       prefix: true
     });
+    trackEvent('search', { search_term: query, result_count: results.length });
     const suggestions = results.reduce((groups, result) => {
       const category = result.doc.categories[0];
 

@@ -1,7 +1,9 @@
 import { bootstrap } from './app';
 import { register } from './serviceWorker';
+import { initializeAnalytics } from './services/analytics.js';
 
 window.__isAppExecuted__ = true;
+initializeAnalytics();
 const app = bootstrap('casl-docs');
 register({
   onUpdate(worker) {
