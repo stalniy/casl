@@ -43,7 +43,7 @@ items:
   route: false
   children:
     - name: privacy
-      url: https://casl.js.org/v7/en/privacy
+      url: https://casl.js.org/en/privacy
       rel: noopener noreferrer
 - name: support
   route: false
