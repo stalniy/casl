@@ -26,9 +26,10 @@ export default class Header extends LitElement {
   _renderControls() {
     if (this.theme === 'default') {
       return html`
-        <div class="row align-center">
+        <div class="controls row align-center">
           <app-quick-search></app-quick-search>
           <app-menu .items="${this.menu.items}"></app-menu>
+          <app-social-links></app-social-links>
         </div>
       `;
     }
@@ -82,9 +83,16 @@ Header.styles = [
     .header {
       position: relative;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
       padding: 0 10px 0 1rem;
+    }
+
+    .controls {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 100%;
     }
 
     .logo {
@@ -98,6 +106,12 @@ Header.styles = [
 
     .logo:hover {
       border-bottom-color: transparent;
+    }
+
+    app-social-links {
+      margin-left: 16px;
+      padding-left: 12px;
+      border-left: 1px solid #e3e3e3;
     }
 
     .menu-toggle {
@@ -124,6 +138,17 @@ Header.styles = [
     versions-select {
       vertical-align: middle;
       margin-left: -5px;
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      app-menu {
+        --app-menu-item-margin: 5px;
+      }
+
+      app-social-links {
+        margin-left: 8px;
+        padding-left: 8px;
+      }
     }
 
     @media (min-width: 768px) {
