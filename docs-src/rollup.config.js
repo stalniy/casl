@@ -170,6 +170,7 @@ export default {
       preventAssignment: true,
       values: {
         ...getAppEnvVars(process.env),
+        'process.env.UMAMI_ID': JSON.stringify(process.env.LIT_APP_UMAMI_ID || ''),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'process.env.SUPPORTED_LANGS': JSON.stringify(SUPPORTED_LANGS),
         'process.env.BASE_URL': JSON.stringify(PUBLIC_PATH),
@@ -179,7 +180,6 @@ export default {
       title: process.env.LIT_APP_TITLE,
       publicPath: `${PUBLIC_PATH}/`,
       template: indexHTML({
-        analyticsId: process.env.LIT_APP_GA_ID,
         sharethis: process.env.SHARETHIS_SRC,
       }),
       attributes: {
