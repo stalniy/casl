@@ -16,7 +16,8 @@ runs:
         check-latest: true
     - name: Install pnpm
       shell: bash
-      run: npm install --global pnpm@6.35.1
+      # The pinned, bundled pnpm CLI supports legacy Node; the current action installer does not.
+      run: npm install --global pnpm@6.35.1 # zizmor: ignore[adhoc-packages]
     - name: Get pnpm store directory
       id: pnpm-cache
       shell: bash

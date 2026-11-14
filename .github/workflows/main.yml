@@ -38,7 +38,8 @@ jobs:
         node-version: ${{ matrix.option.node-version }}
         package-manager-cache: false
     - name: Install pnpm
-      run: npm install --global pnpm@5.15.0
+      # The pinned, bundled pnpm CLI supports legacy Node; the current action installer does not.
+      run: npm install --global pnpm@5.15.0 # zizmor: ignore[adhoc-packages]
     - name: Cache dependencies
       uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
