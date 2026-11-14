@@ -15,7 +15,7 @@ function notifyAboutNewWorker(worker, config) {
     return;
   }
 
-  worker.onstatechange = () => {
+  const onStateChange = () => {
     log('new worker state', worker.state);
 
     if (worker.state !== 'installed') {
@@ -37,6 +37,11 @@ function notifyAboutNewWorker(worker, config) {
       }
     }
   };
+
+  worker.onstatechange = onStateChange;
+  if (worker.state === 'installed') {
+    onStateChange();
+  }
 }
 
 function registerValidSW(swUrl, config) {
@@ -52,6 +57,7 @@ function registerValidSW(swUrl, config) {
   return navigator.serviceWorker.register(swUrl)
     .then((registration) => {
       log('service worker is registered');
+      notifyAboutNewWorker(registration.waiting, config);
       registration.onupdatefound = () => notifyAboutNewWorker(
         registration.installing,
         config
@@ -87,15 +93,21 @@ export function register(config) {
     return;
   }
 
-  window.addEventListener('load', () => {
+  const registerWorker = () => {
     const swUrl = `${process.env.BASE_URL}/sw.js`;
 
     if (isLocalhost) {
-      checkValidServiceWorker(swUrl, config);
+      return checkValidServiceWorker(swUrl, config);
     } else {
-      registerValidSW(swUrl, config);
+      return registerValidSW(swUrl, config);
     }
-  });
+  };
+
+  if (document.readyState === 'complete') {
+    registerWorker();
+  } else {
+    window.addEventListener('load', registerWorker);
+  }
 }
 
 export function unregister() {

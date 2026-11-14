@@ -1,5 +1,7 @@
 import NpmDownloadsButton from './components/NpmDownloadsButton.js';
 import WhyCaslVideo from './components/WhyCaslVideo.js';
+import AuthorizationExamples from './components/AuthorizationExamples.js';
+import AuthorizationTimeline from './components/AuthorizationTimeline.js';
 import 'core-js/modules/web.immediate';
 import App from './components/App';
 import AppRoot from './components/AppRoot';
@@ -27,6 +29,8 @@ import { setRouteMeta } from './services/meta';
 const components = [
   NpmDownloadsButton,
   WhyCaslVideo,
+  AuthorizationExamples,
+  AuthorizationTimeline,
   App,
   AppRoot,
   AppFooter,

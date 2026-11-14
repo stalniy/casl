@@ -125,3 +125,166 @@ adoption:
   npmDependents: NPM packages
   projects: Real-world projects using CASL
   contribute: Using CASL? Showcase your project
+
+home:
+  evolution:
+    heading: BUILT TO EVOLVE WITH YOUR APPLICATION
+    title: Start simple. Scale with complexity.
+    subtitle: From basic permissions to roles, attributes, and relationships — using the same authorization model.
+    note: These approaches can coexist. Combine them as your authorization requirements evolve.
+
+
+consulting:
+  evolution:
+    title: A path from simple claims to relationships
+    intro: Add precision as your product evolves. Select a stage to explore.
+    modelsLabel: Authorization models
+    codeLabel: CASL code example
+    claims:
+      title: Claims
+      eyebrow: 01 / A CAPABILITY
+      description: Start with feature access or simple capabilities expressed as actions.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, Ability } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(Ability);
+
+        can('read:project');
+        can('update:project');
+        can('manage:workspace');
+
+        const ability = build();
+
+        ability.can('update:project'); // true
+        ```
+      detail: A stable API for simple permissions, ready to gain resource context when you need it.
+    actions:
+      title: Actions / Subjects
+      eyebrow: 02 / ADD A RESOURCE
+      description: 'Give every layer a shared vocabulary: what action, on which resource?'
+      example: !md |
+        ```ts
+        import { AbilityBuilder, Ability } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(Ability);
+
+        can('read', 'Project');
+        can('update', 'Project');
+        can('manage', 'Workspace');
+
+        const ability = build();
+
+        ability.can('update', 'Project'); // true
+        ```
+      detail: The same capability vocabulary now distinguishes articles, projects, and workspaces.
+    rbac:
+      title: RBAC
+      eyebrow: 03 / GROUP PERMISSIONS
+      description: Map roles to rules once, instead of scattering role checks across features.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, Ability } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(Ability);
+        const user = { role: 'projectAdmin' };
+
+        can('read', 'Project');
+        if (user.role === 'projectAdmin') can('update', 'Project');
+        if (user.role === 'workspaceAdmin') can('manage', 'Workspace');
+        const ability = build();
+
+        ability.can('update', 'Project'); // true
+        ```
+      detail: Roles become bundles of action/resource permissions.
+    abac:
+      title: ABAC
+      eyebrow: 04 / ADD CONTEXT
+      description: Refine permissions with ownership, tenant identity, or resource state.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, Ability, subject } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(Ability);
+        const user = { tenantId: 'tenant-1', role: 'projectAdmin' };
+
+        can('read', 'Project', { tenantId: user.tenantId });
+        if (user.role === 'projectAdmin') {
+          can('update', 'Project', { tenantId: user.tenantId });
+        }
+        if (user.role === 'workspaceAdmin') {
+          can('manage', 'Workspace', { tenantId: user.tenantId });
+        }
+
+        const ability = build();
+        const project = subject('Project', { ... });
+        ability.can('update', project); // true
+        ```
+      detail: !md |-
+        Roles can still grant permissions; attributes constrain which records those grants cover.
+
+        For object checks, `subject` identifies a plain object as a Project so `ability.can` applies `Project` rules to its attributes.
+        See [subject type detection](/guide/subject-type-detection#subject-helper).
+    rebac:
+      title: ReBAC
+      eyebrow: 05 / FOLLOW RELATIONSHIPS
+      description: Add workspace membership and resource administrator relationships on top of tenant isolation.
+      approachesLabel: Relationship implementation
+      denormalized:
+        label: Denormalized
+        example: !md |
+          ```ts
+          import { AbilityBuilder, Ability, subject } from '@casl/ability';
+
+          const { can, build } = new AbilityBuilder(Ability);
+          const user = { id: 'alice', tenantId: 'tenant-1', role: 'projectAdmin' };
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            projectAdminIds: { $in: [user.id] },
+            workspaceMemberIds: { $in: [user.id] }
+          });
+
+          const ability = build();
+
+          const project = subject('Project', {
+            tenantId: 'tenant-1',
+            workspaceMemberIds: ['alice'],
+            projectAdminIds: ['alice']
+          });
+          ability.can('update', project); // true
+          ```
+        detail: !md |-
+          **Denormalized:** Fast, local permission checks. Requires keeping derived membership attributes synchronized.
+
+          For object checks, `subject` identifies a plain object as a Project so CASL checks Project rules against its relationship attributes.
+          See [subject type detection](/guide/subject-type-detection#subject-helper).
+      sql:
+        label: SQL relations
+        example: !md |
+          ```ts
+          import { AbilityBuilder } from '@casl/ability';
+          import { PrismaAbility, accessibleBy } from '@casl/prisma';
+          import { prismaClient } from './prisma-client.ts';
+
+          const { can, build } = new AbilityBuilder(PrismaAbility);
+          const user = { id: 'alice', tenantId: 'tenant-1', role: 'projectAdmin' };
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            memberships: {
+              some: { userId: user.id, role: 'projectAdmin' }
+            }
+          });
+
+          const ability = build();
+
+          const projects = await prismaClient.project.findMany({
+            where: accessibleBy(ability, 'update').Project
+          });
+          ```
+        detail: !md |-
+          **SQL relations:** Use [@casl/prisma](/package/casl-prisma) or [@ucast/sql](/advanced/ability-to-database-query) for relation filters. Your application loads the referenced relations for object checks; database queries can use the same rules without duplicating membership lists.
+    caption: >-
+      Complementary models, not mandatory migrations. RBAC, ABAC, and relationship-derived permissions can
+      coexist.
