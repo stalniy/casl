@@ -74,10 +74,6 @@ export default class Header extends LitElement {
   render() {
     return html`
       <header>
-        <div class="header-notification">
-          <p>Stop war in 🇺🇦 Ukraine.</p>
-          <a href="https://dearrussian.wtf" target="_blank">All truth about Russia invasion</a>
-        </div>
         <div class="header container">
           ${this._renderMenuToggler()}
           <div>
@@ -110,20 +106,6 @@ Header.styles = [
       align-items: center;
       justify-content: center;
       padding: 0 10px 0 1rem;
-    }
-
-    .header-notification {
-      background: rgba(84, 172, 237, 0.18);
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-      gap: 0;
-    }
-
-    .header-notification p {
-      margin: 0;
     }
 
     .logo {
@@ -178,12 +160,6 @@ Header.styles = [
     @media (min-width: 768px) {
       .header {
         justify-content: space-between;
-      }
-
-      .header-notification {
-        flex-direction: row;
-        justify-content: center;
-        gap: 5px;
       }
 
       .logo {

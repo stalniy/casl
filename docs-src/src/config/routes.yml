@@ -21,7 +21,7 @@ routes:
           priority: 0.7
           changefreq: monthly
           provider: pages
-      - name: support
+      - name: support-casl
         path: support-casljs
         controller: Page
         sitemap:

@@ -18,6 +18,8 @@ oldVersionAlert: !md |
 
 menu:
   root: Menu
+  about: About
+  privacy: Privacy Policy
   api: API
 
   learn: Learn
@@ -36,10 +38,13 @@ menu:
   help: Help
 
   questions: Ask a question
-  chat: Chat
+  chat: Discussions
   news: News
   blog: Blog
-  support: Support CASL
+  tweeter: Follow on X
+  support: Support
+  support-casl: Support CASL
+  support-ukraine: Support Ukraine 🇺🇦
 
 buttons:
   start: Get Started
