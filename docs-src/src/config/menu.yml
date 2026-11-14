@@ -32,9 +32,23 @@ items:
     - name: chat
       url: https://github.com/stalniy/casl/discussions
     - heading: news
+    - name: tweeter
+      url: https://twitter.com/sergiy_stotskiy
     - name: blog
       url: https://sergiy-stotskiy.medium.com
+- name: about
+  route: false
+  children:
+    - name: privacy
+      url: https://casl.js.org/v7/en/privacy
+      rel: noopener noreferrer
 - name: support
+  route: false
+  children:
+    - name: support-casl
+    - name: support-ukraine
+      url: https://prytulafoundation.org/en/home/support_page
+      rel: noopener noreferrer
 
 footer:
   - icon: github
