@@ -1,4 +1,5 @@
 name: 'Setup dependencies'
+description: 'Set up Node.js and pnpm and install workspace dependencies'
 
 inputs:
   node-version:
@@ -8,16 +9,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-node@v6
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
         node-version: ${{ inputs.node-version }}
         package-manager-cache: false
+        check-latest: true
     - name: Node & npm versions
       shell: bash
       run: |
         echo "Node version: $(node -v)"
         echo "npm version: $(npm -v)"
-    - uses: pnpm/action-setup@v6
+    - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       with:
         version: 10.33.0
         run_install: false
@@ -27,9 +29,9 @@ runs:
       run: |
         echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
     - name: Cache dependencies
-      uses: actions/cache@v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
-        cache-name: casl-deps
+        cache-name: casl-deps-${{ inputs.node-version }}
       with:
         path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}

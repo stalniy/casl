@@ -1,28 +1,86 @@
 name: Docs
 
 on:
+  workflow_dispatch:
   push:
     branches: [ability-6.x]
     paths:
       - docs-src/**/*
+      - funding.json
       - .github/workflows/docs.yml
+      - .github/actions/setup-deps/action.yml
+      - packages/casl-ability/**
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
       - packages/casl-mongoose/README.md
       - packages/casl-react/README.md
       - packages/casl-vue/README.md
       - packages/casl-angular/README.md
-      - packages/casl-aurelia/README.md
       - packages/casl-prisma/README.md
+      - packages/casl-aurelia/README.md
+  pull_request:
+    branches: [ability-6.x]
+
+# Keep the default token read-only; only the job that pushes generated files
+# to gh-pages needs write access.
+permissions:
+  contents: read
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'deploy' }}"
+  cancel-in-progress: false
 
 jobs:
-  build:
+  changes:
     runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs || steps.non-pr.outputs.docs }}
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Check documentation paths
+      id: filter
+      if: github.event_name == 'pull_request'
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        changed=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+        if printf '%s\n' "$changed" | grep -Eq '^(docs-src/|funding\.json$|\.github/workflows/docs\.yml$|\.github/actions/setup-deps/action\.yml$|packages/casl-ability/|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|packages/casl-(mongoose/README\.md|react/README\.md|vue/README\.md|angular/README\.md|prisma/README\.md|aurelia/README\.md)$)'; then
+          echo "docs=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "docs=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Include non-PR builds
+      id: non-pr
+      if: github.event_name != 'pull_request'
+      run: echo "docs=true" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build docs
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       CASL_VERSION: v6
       SITEMAP_WEBSITE: https://casl.js.org
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: '24'
+        package-manager-cache: false
     - name: Cache dependencies
-      uses: actions/cache@v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
         cache-name: casl-docs-deps
       with:
@@ -44,18 +102,22 @@ jobs:
       run: LIT_APP_COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA") npm run build
     - name: Build sitemap
       working-directory: docs-src
+      env:
+        LIT_APP_PUBLIC_PATH: "/${{ env.CASL_VERSION }}"
       run: npm run build.sitemap
     - name: Prerender
       working-directory: docs-src
+      env:
+        LIT_APP_PUBLIC_PATH: "/${{ env.CASL_VERSION }}"
       run: npm run prerender
     - name: Deploy
+      if: github.event_name != 'pull_request'
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         GITHUB_ACTOR: docs
       run: |
         CASL_DOCS_ROOT="./${CASL_VERSION}"
-        CURRENT_BRANCH=$(git branch --show-current)
-        cat <<- EOF > $HOME/.netrc
+        cat <<- EOF > "$HOME/.netrc"
           machine github.com
           login $GITHUB_ACTOR
           password $GITHUB_TOKEN
@@ -63,18 +125,44 @@ jobs:
           login $GITHUB_ACTOR
           password $GITHUB_TOKEN
         EOF
-        chmod 600 $HOME/.netrc
+        chmod 600 "$HOME/.netrc"
         git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
         git config --global user.name "$GITHUB_ACTOR"
         git fetch origin gh-pages
         git checkout -f gh-pages
-        rm -rf $CASL_DOCS_ROOT
-        mv docs-src/dist $CASL_DOCS_ROOT
-
-        if [ "$CURRENT_BRANCH" = "master" ]; then
-          cp $CASL_DOCS_ROOT/web-root/* $CASL_DOCS_ROOT/versions.txt $CASL_DOCS_ROOT/index.html .
-        fi
+        rm -rf "$CASL_DOCS_ROOT"
+        mv docs-src/dist "$CASL_DOCS_ROOT"
+        touch .nojekyll
 
         git add .
         git commit -m "chore(release): deploy ${CASL_DOCS_ROOT}"
         git push --set-upstream origin gh-pages
+    - name: Prepare Pages artifact
+      if: github.event_name != 'pull_request'
+      run: |
+        mkdir -p "$RUNNER_TEMP/casl-pages"
+        git archive HEAD | tar -x -C "$RUNNER_TEMP/casl-pages"
+    - name: Upload Pages artifact
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+      with:
+        path: ${{ runner.temp }}/casl-pages
+    - name: Restore source checkout for action cleanup
+      if: always()
+      run: git checkout -f "$GITHUB_SHA"
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
