@@ -5,6 +5,7 @@ import AppFooter from './components/AppFooter.js';
 import AppHeader from './components/AppHeader.js';
 import AppLink from './components/AppLink.js';
 import AppMenu from './components/AppMenu.js';
+import SocialLinks from './components/SocialLinks.js';
 import ArticleDetails from './components/ArticleDetails.js';
 import Page from './components/Page.js';
 import PageNav from './components/PageNav.js';
@@ -36,6 +37,7 @@ const components = [
   AppHeader,
   AppLink,
   AppMenu,
+  SocialLinks,
   ArticleDetails,
   Page,
   HomePage,

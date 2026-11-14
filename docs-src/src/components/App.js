@@ -116,6 +116,7 @@ export default class App extends LitElement {
       ${sidebar}
       <h3>${t('menu.root')}</h3>
       <app-menu .items="${menu.items}" expanded></app-menu>
+      <app-social-links></app-social-links>
     `;
   }
 
@@ -184,6 +185,12 @@ App.styles = [
   css`
     :host {
       display: block;
+    }
+
+    app-social-links {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #e3e3e3;
     }
 
     .floating-actions {
