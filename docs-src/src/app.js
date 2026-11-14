@@ -1,3 +1,7 @@
+import NpmDownloadsButton from './components/NpmDownloadsButton.js';
+import WhyCaslVideo from './components/WhyCaslVideo.js';
+import AuthorizationExamples from './components/AuthorizationExamples.js';
+import AuthorizationTimeline from './components/AuthorizationTimeline.js';
 import App from './components/App';
 import AppRoot from './components/AppRoot';
 import AppFooter from './components/AppFooter';
@@ -22,6 +26,10 @@ import router from './services/router';
 import { setRouteMeta } from './services/meta';
 
 const components = [
+  NpmDownloadsButton,
+  WhyCaslVideo,
+  AuthorizationExamples,
+  AuthorizationTimeline,
   App,
   AppRoot,
   AppFooter,

@@ -21,7 +21,11 @@ const MIME_TYPES = {
 
 function createStaticServer(root) {
   return (req, res) => {
-    let filePath = join(root, req.url === '/' ? 'index.html' : req.url);
+    const pathname = new URL(req.url, 'http://localhost').pathname;
+    const localPath = BASE_URL && (pathname === BASE_URL || pathname.startsWith(`${BASE_URL}/`))
+      ? pathname.slice(BASE_URL.length) || '/'
+      : pathname;
+    let filePath = join(root, localPath === '/' ? 'index.html' : localPath);
 
     // Try to serve the file directly, or fall back to index.html for SPA routing
     if (!fs.existsSync(filePath)) {

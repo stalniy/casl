@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { t } from '../directives/i18n';
+import { t } from '../directives/i18n.js';
 
 function renderNavItem(item) {
   if (item.heading) {
@@ -13,7 +13,7 @@ function renderNavItem(item) {
   }
 
   if (item.url) {
-    return html`<a href="${item.url}" target="_blank" rel="nofollow">${title}</a>`;
+    return html`<a href="${item.url}" target="_blank" rel="${item.rel || 'nofollow'}">${title}</a>`;
   }
 
   if (item.page) {
@@ -49,7 +49,7 @@ export default class Menu extends LitElement {
 
   _renderNav(items, navClass) {
     const children = items.map(item => html`
-      <li class="dropdown-container">
+      <li class="${item.children ? 'menu-item-dropdown' : 'menu-item' }">
         ${renderNavItem(item)}
         ${this._renderItemNav(item)}
       </li>
@@ -75,13 +75,20 @@ Menu.styles = css`
     margin: 0;
   }
 
-  .dropdown-container {
+  .menu-item-dropdown, .menu-item {
     display: inline-block;
+  }
+
+  .menu-item-dropdown {
     position: relative;
     margin: 0 1rem;
   }
 
-  .dropdown-container:hover .dropdown {
+  .menu-item {
+    margin: 0 1rem;
+  }
+
+  .menu-item-dropdown:hover .dropdown {
     display: block;
   }
 
@@ -133,8 +140,8 @@ Menu.styles = css`
     border-top: 1px solid #eee;
   }
 
-  .dropdown-container a,
-  .dropdown-container app-link {
+  .menu-item-dropdown a,
+  .menu-item-dropdown app-link {
     text-decoration: none;
   }
 
@@ -173,5 +180,15 @@ Menu.styles = css`
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 5px solid #4f5959;
+  }
+
+  @media(min-width: 768px) {
+    ul {
+      white-space: nowrap;
+    }
+
+    .menu-item-dropdown + .menu-item {
+      margin-right: 0;
+    }
   }
 `;

@@ -5,58 +5,74 @@ on:
     branches: [ability-6.x]
     paths:
       - .github/workflows/main.yml
+      - .github/actions/setup-deps/action.yml
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
       - packages/**/*.{js,ts,json}
       - '*.{json,js}'
       - .eslintrc
       - tools/**/*
   pull_request:
-    branches: [ability-6.x]
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: build (${{ matrix.option.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node:
-          - 20 # 2026-05-26
-          - 22 # 2026-12-07
-          - 24 # 2027-06-16
-          - latest
+        option:
+          - node-version: 20 # 2026-05-26
+          - node-version: 22 # 2026-12-07
+          - node-version: 24 # 2027-06-16
+            submit-coverage: true
+          - node-version: latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         ref: ${{ github.sha }}
         fetch-depth: 2
-    - uses: ./.github/actions/setup-deps
+        persist-credentials: false
+    - uses: $/.github/actions/setup-deps
       with:
-        node-version: ${{ matrix.node }}
+        node-version: ${{ matrix.option.node-version }}
     - name: Get base sha
       id: base-commit
-      run: |
-        echo "sha=${{ github.event.pull_request.base.sha || github.event.before }}" >> $GITHUB_OUTPUT
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      run: echo "sha=$BASE_SHA" >> "$GITHUB_OUTPUT"
     - name: Build
+      env:
+        BASE_COMMIT_SHA: ${{ steps.base-commit.outputs.sha }}
       run: |
-        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+        if [[ "$GITHUB_EVENT_NAME" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep '^packages/casl-') = "" ]]; then
           pnpm run -r build
         else
-          pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]...' build
+          pnpm run -r --filter "[$BASE_COMMIT_SHA]..." build
         fi
     - name: lint
+      env:
+        BASE_COMMIT_SHA: ${{ steps.base-commit.outputs.sha }}
       run:  |
-        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+        if [[ "$GITHUB_EVENT_NAME" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep '^packages/casl-') = "" ]]; then
           pnpm run -r lint
         else
-          pnpm run -r --filter '[${{ steps.base-commit.outputs.sha }}]' lint
+          pnpm run -r --filter "[$BASE_COMMIT_SHA]..." lint
         fi
     - name: test
+      env:
+        BASE_COMMIT_SHA: ${{ steps.base-commit.outputs.sha }}
       run:   |
-        if [[ "${{ github.event_name }}" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep casl-) = "" ]]; then
+        if [[ "$GITHUB_EVENT_NAME" != "pull_request" || $(git diff --name-only HEAD^1 HEAD | grep '^packages/casl-') = "" ]]; then
           pnpm run -r  test --coverage
         else
-          pnpm run -r --filter '...[${{ steps.base-commit.outputs.sha }}]' test --coverage
+          pnpm run -r --filter "[$BASE_COMMIT_SHA]..." test --coverage
         fi
     - name: Submit coverage
-      uses: codecov/codecov-action@v5
+      if: matrix.option.submit-coverage == true
+      uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}

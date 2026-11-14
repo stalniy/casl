@@ -1,9 +1,13 @@
 name: CASL
 updateAvailable: !md |
   An update is available, **click here to refresh**.
-slogan: |
-  Isomorphic Authorization
-  JavaScript library
+hero:
+  heading: AUTHORIZATION FOR THE ENTIRE TYPESCRIPT STACK
+  title: |-
+    Define permissions once.
+    Enforce them everywhere.
+  description: |-
+    Authorization across your frontend, backend, and database. One shared policy model, without additional infrastructure.
 copyright: !md |
   Released under the [**MIT License**](https://opensource.org/licenses/MIT)@{rel="nofollow"}
   Copyright © 2017-%{year} [Serhii Stotskyi](https://www.linkedin.com/in/serhii-stotskyi-b747ba23/)
@@ -14,6 +18,8 @@ oldVersionAlert: !md |
 
 menu:
   root: Menu
+  about: About
+  privacy: Privacy Policy
   api: API
 
   learn: Learn
@@ -35,7 +41,10 @@ menu:
   chat: Discussions
   news: News
   blog: Blog
-  support: Support CASL
+  tweeter: Follow on X
+  support: Support
+  support-casl: Support CASL
+  support-ukraine: Support Ukraine 🇺🇦
 
 buttons:
   start: Get Started
@@ -44,36 +53,43 @@ buttons:
 exampleCode: !md |
   ```js
   import { createMongoAbility, AbilityBuilder } from '@casl/ability';
+  import { accessibleBy } from '@casl/mongoose';
 
-  // define abilities
+  // Define permissions once
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility);
 
   can('read', ['Post', 'Comment']);
   can('manage', 'Post', { author: 'me' });
   can('create', 'Comment');
 
-  // check abilities
   const ability = build();
 
-  ability.can('read', 'Post') // true
+  // Enforce them across your application
+  ability.can('read', 'Post') // UI & API
+  accessibleBy(ability, 'update').ofType('Post') // Database conditions
   ```
 
 features:
   isomorphic:
     title: Isomorphic
-    description: Complementary packages make integration with major Frontend Frameworks and Backend ORMs effortless
+    description: |-
+      Use the same authorization rules across frontend and backend, with integrations for popular frameworks and ORMs.
   versatile:
     title: Versatile
-    description: Easily scales between a claim based and subject/attribute based authorization.
+    description: |-
+      From simple claim-based checks to action/resource permissions, supporting both RBAC and fine-grained ABAC.
   typesafe:
     title: TypeSafe
-    description: Written in TypeScript, that makes your apps safer and developer experience more enjoyable
+    description: |-
+      TypeScript-first APIs catch mistakes early and provide a better developer experience.
   treeshakable:
     title: Tree shakable
-    description: The core is only 6KB mingzipped and can be even smaller!
+    description: |-
+      Just 6kB minified and gzipped, with tree shaking to keep bundles even smaller.
   declarative:
     title: Serializable
-    description: Allows to share permissions between UI, API and microservices
+    description: |-
+      Define permissions once. Serialize and share rules across frontend, APIs, and microservices.
 
 search:
   placeholder: Search
@@ -94,3 +110,182 @@ meta:
   keywords: roles, permissions, permission management, ACL, ABAC, RBAC, CASL, javascript
   description: |
     CASL (pronounced /ˈkæsəl/, like castle) is an isomorphic authorization JavaScript library which restricts what resources a given user is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization. It makes it easy to manage and share permissions across UI components, API services, and database queries.
+
+video:
+  title: Why CASL?
+  close: Close
+  unsupported: Your browser does not support inline video.
+  error: The video could not be loaded.
+  fallback: Open or download the video
+
+adoption:
+  title: By the numbers
+  projectsTitle: Built with CASL
+  githubDependents: GitHub repositories
+  npmDependents: NPM packages
+  projects: Real-world projects using CASL
+  contribute: Using CASL? Showcase your project
+
+
+home:
+  evolution:
+    heading: BUILT TO EVOLVE WITH YOUR APPLICATION
+    title: Start simple. Scale with complexity.
+    subtitle: From basic permissions to roles, attributes, and relationships — using the same authorization model.
+    note: These approaches can coexist. Combine them as your authorization requirements evolve.
+
+
+consulting:
+  evolution:
+    title: A path from simple claims to relationships
+    intro: Add precision as your product evolves. Select a stage to explore.
+    modelsLabel: Authorization models
+    codeLabel: CASL code example
+    claims:
+      title: Claims
+      eyebrow: 01 / A CAPABILITY
+      description: Start with feature access or simple capabilities expressed as actions.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, createMongoAbility } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(createMongoAbility);
+
+        can('read:project');
+        can('update:project');
+        can('manage:workspace');
+
+        const ability = build();
+
+        ability.can('update:project'); // true
+        ```
+      detail: A stable API for simple permissions, ready to gain resource context when you need it.
+    actions:
+      title: Actions / Subjects
+      eyebrow: 02 / ADD A RESOURCE
+      description: 'Give every layer a shared vocabulary: what action, on which resource?'
+      example: !md |
+        ```ts
+        import { AbilityBuilder, createMongoAbility } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(createMongoAbility);
+
+        can('read', 'Project');
+        can('update', 'Project');
+        can('manage', 'Workspace');
+
+        const ability = build();
+
+        ability.can('update', 'Project'); // true
+        ```
+      detail: The same capability vocabulary now distinguishes articles, projects, and workspaces.
+    rbac:
+      title: RBAC
+      eyebrow: 03 / GROUP PERMISSIONS
+      description: Map roles to rules once, instead of scattering role checks across features.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, createMongoAbility } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(createMongoAbility);
+        const user = { role: 'projectAdmin' };
+
+        can('read', 'Project');
+        if (user.role === 'projectAdmin') can('update', 'Project');
+        if (user.role === 'workspaceAdmin') can('manage', 'Workspace');
+        const ability = build();
+
+        ability.can('update', 'Project'); // true
+        ```
+      detail: Roles become bundles of action/resource permissions.
+    abac:
+      title: ABAC
+      eyebrow: 04 / ADD CONTEXT
+      description: Refine permissions with ownership, tenant identity, or resource state.
+      example: !md |
+        ```ts
+        import { AbilityBuilder, createMongoAbility, subject } from '@casl/ability';
+
+        const { can, build } = new AbilityBuilder(createMongoAbility);
+        const user = { tenantId: 'tenant-1', role: 'projectAdmin' };
+
+        can('read', 'Project', { tenantId: user.tenantId });
+        if (user.role === 'projectAdmin') {
+          can('update', 'Project', { tenantId: user.tenantId });
+        }
+        if (user.role === 'workspaceAdmin') {
+          can('manage', 'Workspace', { tenantId: user.tenantId });
+        }
+
+        const ability = build();
+        const project = subject('Project', { ... });
+        ability.can('update', project); // true
+        ```
+      detail: !md |-
+        Roles can still grant permissions; attributes constrain which records those grants cover.
+
+        For object checks, `subject` identifies a plain object as a Project so `ability.can` applies `Project` rules to its attributes.
+        See [subject type detection](/guide/subject-type-detection#subject-helper).
+    rebac:
+      title: ReBAC
+      eyebrow: 05 / FOLLOW RELATIONSHIPS
+      description: Add workspace membership and resource administrator relationships on top of tenant isolation.
+      approachesLabel: Relationship implementation
+      denormalized:
+        label: Denormalized
+        example: !md |
+          ```ts
+          import { AbilityBuilder, createMongoAbility, subject } from '@casl/ability';
+
+          const { can, build } = new AbilityBuilder(createMongoAbility);
+          const user = { id: 'alice', tenantId: 'tenant-1', role: 'projectAdmin' };
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            projectAdminIds: { $in: [user.id] },
+            workspaceMemberIds: { $in: [user.id] }
+          });
+
+          const ability = build();
+
+          const project = subject('Project', {
+            tenantId: 'tenant-1',
+            workspaceMemberIds: ['alice'],
+            projectAdminIds: ['alice']
+          });
+          ability.can('update', project); // true
+          ```
+        detail: !md |-
+          **Denormalized:** Fast, local permission checks. Requires keeping derived membership attributes synchronized.
+
+          For object checks, `subject` identifies a plain object as a Project so CASL checks Project rules against its relationship attributes.
+          See [subject type detection](/guide/subject-type-detection#subject-helper).
+      sql:
+        label: SQL relations
+        example: !md |
+          ```ts
+          import { AbilityBuilder } from '@casl/ability';
+          import { createPrismaAbility, accessibleBy } from '@casl/prisma';
+          import { prismaClient } from './prisma-client.ts';
+
+          const { can, build } = new AbilityBuilder(createPrismaAbility);
+          const user = { id: 'alice', tenantId: 'tenant-1', role: 'projectAdmin' };
+
+          can('update', 'Project', {
+            tenantId: user.tenantId,
+            memberships: {
+              some: { userId: user.id, role: 'projectAdmin' }
+            }
+          });
+
+          const ability = build();
+
+          const projects = await prismaClient.project.findMany({
+            where: accessibleBy(ability, 'update').Project
+          });
+          ```
+        detail: !md |-
+          **SQL relations:** Use [@casl/prisma](/package/casl-prisma) or [@ucast/sql](/advanced/ability-to-database-query) for relation filters. Your application loads the referenced relations for object checks; database queries can use the same rules without duplicating membership lists.
+    caption: >-
+      Complementary models, not mandatory migrations. RBAC, ABAC, and relationship-derived permissions can
+      coexist.
