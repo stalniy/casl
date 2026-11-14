@@ -6,7 +6,7 @@ meta:
   description: How the CASL documentation website handles analytics, consulting inquiries, browser storage, and your privacy rights.
 ---
 
-Last updated: November 7, 2026
+Last updated: November 13, 2026
 
 This policy covers the CASL documentation website at **casl.js.org**, operated by Serhii Stotskyi. For privacy questions or requests, contact [sergiy.stotskiy@gmail.com](mailto:sergiy.stotskiy@gmail.com).
 
@@ -27,6 +27,7 @@ We also send these custom events:
 | Documentation search | Search text and the number of matching pages |
 | Consulting inquiry link | The location of the link on the page |
 | Authorization timeline | The selected stage |
+| Why CASL? video | Opens, playback milestones, closes, watched percentage, playback position, video version, and a random ID for each viewing that is not stored between viewings |
 
 Search runs in your browser, but the search text is also sent to Umami as analytics data. Avoid entering passwords, access tokens, personal information, or confidential project details into documentation search.
 
