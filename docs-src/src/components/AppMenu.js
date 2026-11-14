@@ -81,11 +81,11 @@ Menu.styles = css`
 
   .menu-item-dropdown {
     position: relative;
-    margin: 0 1rem;
+    margin: 0 var(--app-menu-item-margin, 1rem);
   }
 
   .menu-item {
-    margin: 0 1rem;
+    margin: 0 var(--app-menu-item-margin, 1rem);
   }
 
   .menu-item-dropdown:hover .dropdown {
@@ -174,7 +174,6 @@ Menu.styles = css`
     vertical-align: middle;
     margin-top: -1px;
     margin-left: 6px;
-    margin-right: -14px;
     width: 0;
     height: 0;
     border-left: 4px solid transparent;

@@ -10,6 +10,7 @@ import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
 import AppLink from './components/AppLink';
 import AppMenu from './components/AppMenu';
+import SocialLinks from './components/SocialLinks.js';
 import ArticleDetails from './components/ArticleDetails';
 import Page from './components/Page';
 import PageNav from './components/PageNav';
@@ -39,6 +40,7 @@ const components = [
   AppHeader,
   AppLink,
   AppMenu,
+  SocialLinks,
   ArticleDetails,
   Page,
   HomePage,
