@@ -5,35 +5,45 @@ on:
     branches: [ability-5.x]
     paths:
       - .github/workflows/main.yml
+      - .github/actions/setup-deps/action.yml
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
       - packages/**/*.{js,ts,json}
       - '*.{json,js}'
       - .eslintrc
       - tools/**/*
   pull_request:
-    branches: [ability-5.x]
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: build (${{ matrix.option.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node:
-          - 10 # 2020-04-01
-          - 12
-          # - latest
+        option:
+          - node-version: 10 # 2020-04-01
+          - node-version: 12
+            submit-coverage: true
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-node@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        node-version: ${{ matrix.node }}
+        ref: ${{ github.sha }}
+        fetch-depth: 2
+        persist-credentials: false
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: ${{ matrix.option.node-version }}
         package-manager-cache: false
-    - uses: pnpm/action-setup@v1.2.1
+    - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       with:
         version: 5.15.0
     - name: Cache dependencies
-      uses: actions/cache@v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
       env:
-        cache-name: casl-deps
+        cache-name: casl-deps-${{ matrix.option.node-version }}
       with:
         path: ~/.pnpm-store
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./pnpm-lock.yaml') }}
@@ -49,7 +59,10 @@ jobs:
       run: |
         pnpm run -r lint --filter '!@casl/prisma'
         pnpm run -r test --filter '!@casl/prisma' -- --coverage
-    - name: submit coverage
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      run: pnpm run coverage.submit
+    - name: Submit coverage
+      if: matrix.option.submit-coverage == true
+      uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+      with:
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true # optional (default = false)
