@@ -1,4 +1,11 @@
 name: CASL
+privacy: Privacy
+analyticsConsent:
+  title: Help improve the documentation
+  description: Allow cookieless analytics to measure page visits and search terms? Analytics stays off unless you accept. You can change your choice in the footer.
+  accept: Accept
+  reject: Reject
+  settings: Analytics preferences
 updateAvailable: !md |
   An update is available, **click here to refresh**.
 hero:
@@ -93,7 +100,19 @@ features:
 
 search:
   placeholder: Search
-  noMatch: No information found for your query
+  noMatch: No matches found. Try another search or explore these pages.
+  title: Search documentation
+  close: Close
+  loading: Searching…
+  error: Search is unavailable. Explore these pages or try again.
+  results: Search results
+  resultCount: '%{count} results'
+  recommendations: Explore the documentation
+  databaseQuery: Ability to database query
+  externalLink: External link
+  navigate: to navigate
+  select: to select
+  dismiss: to close
 
 categories:
   guide: Guide

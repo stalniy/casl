@@ -8,14 +8,12 @@ export default class Header extends LitElement {
   static properties = {
     menu: { type: Object },
     theme: { type: String },
-    _isCompactSearch: { type: Boolean },
   };
 
   constructor() {
     super();
     this.theme = 'default';
     this.menu = { items: [] };
-    this._isCompactSearch = false;
   }
 
   _emitToggleMenu() {
@@ -36,19 +34,8 @@ export default class Header extends LitElement {
     }
 
     return html`
-      <app-quick-search
-        class="full-width-search"
-        suggestionsType="page"
-        toggler
-        ?compact="${this._isCompactSearch}"
-        @reset="${this._toggleSearch}"
-        @click-icon="${this._toggleSearch}"
-      ></app-quick-search>
+      <app-quick-search ?compact="${this.theme === 'mobile'}"></app-quick-search>
     `;
-  }
-
-  _toggleSearch() {
-    this._isCompactSearch = !this._isCompactSearch;
   }
 
   _renderMenuToggler() {
@@ -61,14 +48,6 @@ export default class Header extends LitElement {
         <img src="${menuIcon}" width="24">
       </button>
     `;
-  }
-
-  update(changed) {
-    if (changed.has('theme')) {
-      this._isCompactSearch = this.theme === 'mobile';
-    }
-
-    return super.update(changed);
   }
 
   render() {
@@ -137,19 +116,9 @@ Header.styles = [
       margin-left: 10px;
     }
 
-    .full-width-search {
+    app-quick-search {
       position: absolute;
-      right: 0;
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      transition: width .3s ease-in-out;
-    }
-
-    .full-width-search[compact] {
-      width: 35px;
-      padding: 0;
-      height: auto;
+      right: 10px;
     }
 
     versions-select {
@@ -167,8 +136,7 @@ Header.styles = [
       }
 
       app-quick-search {
-        border-radius: 15px;
-        border: 1px solid #e3e3e3;
+        position: static;
       }
 
       versions-select {

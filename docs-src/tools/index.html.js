@@ -4,22 +4,6 @@ import fs from 'fs';
 
 const globalCSS = fs.readFileSync('./public/global.css', 'utf8');
 
-function includeGA(id) {
-  if (!id) {
-    return '';
-  }
-
-  return `
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19088556-6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${id}');
-    </script>
-  `.trim();
-}
-
 export default options => ({ attributes, files, publicPath, title }) => `
 <!DOCTYPE html>
 <html${makeHtmlAttributes(attributes.html)}>
@@ -27,7 +11,6 @@ export default options => ({ attributes, files, publicPath, title }) => `
   <!-- Start Single Page Apps for GitHub Pages -->
   <script>!function(i){if(i.search){var a={};i.search.slice(1).split("&").forEach(function(i){var l=i.split("=");a[l[0]]=l.slice(1).join("=").replace(/~and~/g,"&")}),void 0!==a.p&&window.history.replaceState(null,null,i.pathname.slice(0,-1)+(a.p||"")+(a.q?"?"+a.q:"")+i.hash)}}(window.location);</script>
   <!-- End Single Page Apps for GitHub Pages -->
-  ${includeGA(options.analyticsId)}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>${title}</title>
