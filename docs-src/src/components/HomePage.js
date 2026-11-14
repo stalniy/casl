@@ -57,7 +57,19 @@ export default class HomePage extends LitElement {
         </header>
       </div>
       ${adoption()}
-      ${features()}
+      <section class="features-brand">
+        <div class="container">
+          <p class="eyebrow">POWERFUL PERMISSIONS. MINIMAL OVERHEAD</p>
+          ${features()}
+        </div>
+      </section>
+      <section class="capabilities container">
+        <p class="eyebrow">${t('home.evolution.heading')}</p>
+        <h2>${t('home.evolution.title')}</h2>
+        <p class="capabilities-intro">${t('home.evolution.subtitle')}</p>
+        <authorization-examples></authorization-examples>
+        <p class="capabilities-note">${t('home.evolution.note')}</p>
+      </section>
     `;
   }
 }
@@ -101,7 +113,7 @@ HomePage.styles = [
     }
 
     .hero-title {
-      font-size: clamp(34px, 3vw, 43px);
+      font-size: clamp(30px, 3vw, 43px);
       line-height: 1.07;
       letter-spacing: -.055em;
       margin-bottom: 24px;
@@ -125,7 +137,7 @@ HomePage.styles = [
     .eyebrow {
       font: 11px / 1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
       letter-spacing: .09em;
-      margin-bottom: 22px;
+      margin: 0;
     }
 
     .buttons {
@@ -166,13 +178,39 @@ HomePage.styles = [
       font-size: clamp(.7rem, 0.7vw, 0.9rem);
     }
 
+    .capabilities {
+      padding-block: 20px;
+      border-top: 1px solid #ced9e0;
+      padding: 1.5rem 1rem;
+    }
+
+    .capabilities h2,
+    .features-brand h2 {
+      margin-bottom: 12px;
+    }
+    .capabilities-intro { max-width: 760px; color: #506575; line-height: 1.6; margin: 0; }
+    .capabilities-note { color: #526575; font-size: .9rem; line-height: 1.6; margin: 16px 0 0; }
+
+    .features-brand {
+      background: #f7f7f7;
+      padding: 2rem 1rem;
+    }
+
+    .features-brand h2 {
+      margin-top: 0;
+    }
+
     @media (min-width: 768px) {
       .main > img {
         margin-right: 30px;
       }
 
       .logo {
-        margin-top: 50px;
+        margin-top: 40px;
+      }
+
+      .eyebrow {
+        margin-bottom: 22px;
       }
 
       .hero-row {

@@ -21,28 +21,22 @@ function renderFeature(feature) {
 }
 
 const template = () => html`
-  <div class="features-band">
-    <section class="features container">${features.map(renderFeature)}</section>
-  </div>
+  <section class="features">${features.map(renderFeature)}</section>
 `;
 
 template.styles = [
   css`
-    .features-band {
-      background: #f7f7f7;
-    }
-
     .features {
-      padding: 2rem 0;
       display: -ms-grid;
       display: grid;
       justify-content: center;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       -ms-grid-columns: ${unsafeCSS(features.map(() => 'minmax(200px, 1fr)').join(' '))};
+      column-gap: 1rem;
     }
 
     .feature {
-      padding: 1rem;
+      padding: 1rem 0;
     }
 
     .feature h3 {
