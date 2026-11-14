@@ -13,14 +13,12 @@ import engineerPhoto from '../assets/consulting/engineer-photo.jpeg';
 export default class ConsultingPage extends I18nElement {
   static cName = 'consulting-page';
   static properties = {
-    _rebacApproach: { state: true },
     _carouselIndices: { state: true },
     _comparisonMobile: { state: true },
   };
 
   constructor() {
     super();
-    this._rebacApproach = 'denormalized';
     this._carouselIndices = { architecture: 0, engagement: 0 };
     this._comparisonMobile = false;
     this._onComparisonBreakpoint = () => {
@@ -119,7 +117,7 @@ export default class ConsultingPage extends I18nElement {
       }
     });
     await Promise.all(Array.from(
-      this.shadowRoot.querySelectorAll('app-link, authorization-timeline, consulting-cta'),
+      this.shadowRoot.querySelectorAll('app-link, authorization-examples, consulting-cta'),
       element => element.updateComplete
     ));
     if (!this.isConnected) return;
@@ -230,63 +228,7 @@ export default class ConsultingPage extends I18nElement {
             </div>
             <h2 id="a-path-from-simple-claims-to-relationships">${t('consulting.evolution.title')}</h2>
             <p class="section-intro">${t('consulting.evolution.intro')}</p>
-            <authorization-timeline .label="${t('consulting.evolution.modelsLabel')}">
-              <section data-stage="claims" data-title="${t('consulting.evolution.claims.title')}">
-                <div class="stage-heading"><span class="eyebrow">${t('consulting.evolution.claims.eyebrow')}</span>
-                  <h3>${t('consulting.evolution.claims.title')}</h3></div>
-                <p>${t('consulting.evolution.claims.description')}</p>
-                ${ut('consulting.evolution.claims.example')}
-                <p class="stage-detail">${t('consulting.evolution.claims.detail')}</p>
-              </section>
-              <section data-stage="actions" data-title="${t('consulting.evolution.actions.title')}">
-                <div class="stage-heading"><span class="eyebrow">${t('consulting.evolution.actions.eyebrow')}</span>
-                  <h3>${t('consulting.evolution.actions.title')}</h3></div>
-                <p>${t('consulting.evolution.actions.description')}</p>
-                ${ut('consulting.evolution.actions.example')}
-                <p class="stage-detail">${t('consulting.evolution.actions.detail')}</p>
-              </section>
-              <section data-stage="rbac" data-title="${t('consulting.evolution.rbac.title')}">
-                <div class="stage-heading"><span class="eyebrow">${t('consulting.evolution.rbac.eyebrow')}</span>
-                  <h3>${t('consulting.evolution.rbac.title')}</h3></div>
-                <p>${t('consulting.evolution.rbac.description')}</p>
-                ${ut('consulting.evolution.rbac.example')}
-                <p class="stage-detail">${t('consulting.evolution.rbac.detail')}</p>
-              </section>
-              <section data-stage="abac" data-title="${t('consulting.evolution.abac.title')}">
-                <div class="stage-heading"><span class="eyebrow">${t('consulting.evolution.abac.eyebrow')}</span>
-                  <h3>${t('consulting.evolution.abac.title')}</h3></div>
-                <p>${t('consulting.evolution.abac.description')}</p>
-                ${ut('consulting.evolution.abac.example')}
-                <p class="stage-detail">${t('consulting.evolution.abac.detail')}</p>
-              </section>
-              <section data-stage="rebac" data-title="${t('consulting.evolution.rebac.title')}">
-                <div class="stage-heading"><span class="eyebrow">${t('consulting.evolution.rebac.eyebrow')}</span>
-                  <div class="row space-between">
-                    <h3>${t('consulting.evolution.rebac.title')}</h3>
-                    <div
-                      class="rebac-approaches"
-                      role="radiogroup"
-                      aria-label="${t('consulting.evolution.rebac.approachesLabel')}"
-                    >
-                    ${['denormalized', 'sql'].map(approach => html`
-                      <label>
-                        <input type="radio" name="rebac-approach" value="${approach}"
-                          .checked="${this._rebacApproach === approach}"
-                          aria-controls="rebac-example"
-                          @change="${() => { this._rebacApproach = approach; }}">
-                        <span>${t(`consulting.evolution.rebac.${approach}.label`)}</span>
-                      </label>
-                    `)}
-                    </div>
-                  </div>
-                </div>
-                <p>${ut('consulting.evolution.rebac.description')}</p>
-                <div id="rebac-example">
-                  ${ut(`consulting.evolution.rebac.${this._rebacApproach}.example`)}
-                  <p class="stage-detail">${ut(`consulting.evolution.rebac.${this._rebacApproach}.detail`)}</p>
-                </div>
-              </section>
-            </authorization-timeline>
+            <authorization-examples></authorization-examples>
             <p class="caption">${t('consulting.evolution.caption')}</p>
             <h2 id="expertise-where-your-team-needs-it">${t('consulting.engagements.title')}</h2>
             ${this._renderCarouselControls('engagement', 'expertise-where-your-team-needs-it', [
@@ -506,30 +448,6 @@ ConsultingPage.styles = [
   .consulting .architecture-takeaway .caption { font-weight: 400; margin: 4px 0 0; }
   .consulting .ui-layer { border-style: dashed; }
   .consulting .section-intro { margin-bottom: 12px; }
-  .consulting authorization-timeline section > p { max-width: 800px; margin: 10px 0 12px; }
-  .consulting .stage-heading h3 { font-size: 1.5rem; margin-bottom: 0; }
-  .consulting .stage-heading .eyebrow { margin: 0 0 6px; }
-  .consulting authorization-timeline .stage-heading .row { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .consulting authorization-timeline pre { margin: 0; }
-  .consulting authorization-timeline .hljs { box-shadow: none; font-size: .85rem; line-height: 1.55; padding: 12px; white-space: pre-wrap; overflow-wrap: normal; }
-  .consulting authorization-timeline .stage-detail { color: #435764; font-size: .9rem; margin: 12px 0 0; }
-  .rebac-approaches {
-    display: inline-flex;
-    flex-wrap: nowrap;
-    gap: 4px;
-    max-width: 100%;
-    width: 100%;
-    padding: 4px;
-    border: 1px solid #cbd8e1;
-    border-radius: 8px;
-    margin-top: 0;
-  }
-  .rebac-approaches label { position: relative; min-width: 0; flex: 1 1 auto; cursor: pointer; }
-  .rebac-approaches input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  .rebac-approaches span { display: block; padding: 8px 6px; border-radius: 5px; color: #435764; font-size: .85rem; font-weight: 600; text-align: center; }
-  .rebac-approaches input:checked + span { background: #175d82; color: #fff; }
-  .rebac-approaches input:focus-visible + span { outline: 3px solid #175d82; outline-offset: 2px; }
-  .rebac-approaches label:hover span { box-shadow: inset 0 0 0 1px #175d82; }
   .consulting .relationship-figure { margin: 0 0 24px; border: 1px solid #d4dfe6; border-radius: 10px; padding: 20px; }
   .consulting .relationship-figure figcaption { font-weight: 600; margin-bottom: 20px; }
   .consulting .resource-graph { display: grid; grid-template-columns: 1fr; align-items: center; gap: 8px; text-align: center; }
@@ -589,14 +507,6 @@ ConsultingPage.styles = [
   @media (min-width: 768px) {
     .carousel-controls { display: none; }
     .consulting .section-intro { margin-bottom: 1em; }
-    .consulting authorization-timeline section > p { margin: 12px 0 18px; }
-    .consulting .stage-heading .eyebrow { margin-bottom: 8px; }
-    .consulting authorization-timeline .stage-heading .row { flex-direction: row; align-items: normal; gap: normal; }
-    .consulting authorization-timeline .hljs { line-height: 1.65; padding: 1rem; white-space: pre; }
-    .consulting authorization-timeline .stage-detail { margin-top: 18px; }
-    .rebac-approaches { flex-wrap: wrap; width: auto; margin-top: -6px; }
-    .rebac-approaches label { min-width: auto; }
-    .rebac-approaches span { padding-inline: 12px; }
     .page-eyebrow .eyebrow-detail { display: inline; }
     :host article > h1 { font-size: clamp(2rem, 4.6vw, 2.9rem); line-height: 1.1; margin: 12px 0 24px; }
     .consulting .consulting-hero .lead { font-size: 1.25rem; line-height: inherit; margin-bottom: 10px; }

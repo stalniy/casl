@@ -30,21 +30,23 @@ export default class HomePage extends LitElement {
       <div class="bg">
         <header class="row wrap container">
           <div class="col row wrap align-start main">
-            <img src="${shieldURL}" width="250" height="302" class="col col-fixed">
             <div class="col details">
-              <div class="hero">
-                <h1 class="hero-title">${t('hero.title')}</h1>
-              </div>
-              <div class="buttons">
-                <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
-                  ${t('buttons.start')}
-                </app-link>
-                <a href="${config.repoURL}" target="_blank" rel="noopener" class="btn btn-lg">
-                  ${t('buttons.source')}
-                </a>
-                <div class="package-stats">
-                  <github-button></github-button>
-                  <npm-downloads-button></npm-downloads-button>
+              <div class="row hero-row">
+                <img src="${shieldURL}" width="126" height="152" class="col col-fixed logo">
+                <div class="hero">
+                  <p class="eyebrow">${t('hero.heading')}</p>
+                  <h1 class="hero-title">${t('hero.title')}</h1>
+                  <p class="description">${t('hero.description')}</p>
+                  <div class="buttons">
+                    <app-link to="page" .params="${{ id: 'guide/intro' }}" class="btn btn-lg">
+                      ${t('buttons.start')}
+                    </app-link>
+                    <why-casl-video></why-casl-video>
+                    <div class="package-stats">
+                      <github-button></github-button>
+                      <npm-downloads-button></npm-downloads-button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -55,7 +57,19 @@ export default class HomePage extends LitElement {
         </header>
       </div>
       ${adoption()}
-      ${features()}
+      <section class="features-brand">
+        <div class="container">
+          <p class="eyebrow">POWERFUL PERMISSIONS. MINIMAL OVERHEAD</p>
+          ${features()}
+        </div>
+      </section>
+      <section class="capabilities container">
+        <p class="eyebrow">${t('home.evolution.heading')}</p>
+        <h2>${t('home.evolution.title')}</h2>
+        <p class="capabilities-intro">${t('home.evolution.subtitle')}</p>
+        <authorization-examples></authorization-examples>
+        <p class="capabilities-note">${t('home.evolution.note')}</p>
+      </section>
     `;
   }
 }
@@ -91,11 +105,39 @@ HomePage.styles = [
       margin-bottom: 1rem;
     }
 
+    .hero-row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
     .hero-title {
-      margin-bottom: 0;
+      font-size: clamp(30px, 3vw, 43px);
+      line-height: 1.07;
+      letter-spacing: -.055em;
+      margin-bottom: 24px;
+      font-weight: 650;
+      color: #214e70;
       white-space: pre-line;
-      font-size: 2.2rem;
-      font-family: "Stardos Stencil", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .hero-title::first-line {
+      color: #202428;
+    }
+
+    .hero .description {
+      max-width: 480px;
+      color: #506575;
+      font-size: 18px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      font: 11px / 1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+      letter-spacing: .09em;
+      margin: 0;
     }
 
     .buttons {
@@ -105,7 +147,13 @@ HomePage.styles = [
 
     .buttons app-link {
       margin-right: 5px;
+      background: #273849;
+      border-color: #273849;
+      color: #fff;
     }
+
+    .buttons > * { margin-bottom: 8px; vertical-align: middle; }
+    .buttons app-link:focus-visible { outline: 3px solid #81a2be; outline-offset: 3px; }
 
     .package-stats {
       display: flex;
@@ -126,19 +174,60 @@ HomePage.styles = [
       display: none;
     }
 
+    .example code {
+      font-size: clamp(.7rem, 0.7vw, 0.9rem);
+    }
+
+    .capabilities {
+      padding-block: 20px;
+      border-top: 1px solid #ced9e0;
+      padding: 1.5rem 1rem;
+    }
+
+    .capabilities h2,
+    .features-brand h2 {
+      margin-bottom: 12px;
+    }
+    .capabilities-intro { max-width: 760px; color: #506575; line-height: 1.6; margin: 0; }
+    .capabilities-note { color: #526575; font-size: .9rem; line-height: 1.6; margin: 16px 0 0; }
+
+    .features-brand {
+      background: #f7f7f7;
+      padding: 2rem 1rem;
+    }
+
+    .features-brand h2 {
+      margin-top: 0;
+    }
+
     @media (min-width: 768px) {
       .main > img {
         margin-right: 30px;
       }
 
-      .hero-title {
-        white-space: wrap;
-        max-width: 552px;
+      .logo {
+        margin-top: 40px;
+      }
+
+      .eyebrow {
+        margin-bottom: 22px;
+      }
+
+      .hero-row {
+        max-width: 777px;
         margin: 0 auto;
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        justify-content: center;
+      }
+
+      .hero-title {
+        margin-top: 0;
       }
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 1030px) {
       .main {
         text-align: left;
       }
@@ -149,21 +238,16 @@ HomePage.styles = [
         flex-basis: 40%;
       }
 
-      .example code {
-        font-size: .7rem;
+      .hero-title {
+        max-width: initial;
       }
 
-      .hero-title {
-        white-space: pre-line;
-        max-width: auto;
+      .hero .description {
+        margin-left: 0;
       }
     }
 
     @media (min-width: 1200px) {
-      .example code {
-        font-size: .8rem;
-      }
-
       .col-example {
         flex-basis: auto;
       }

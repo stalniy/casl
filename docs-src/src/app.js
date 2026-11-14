@@ -9,8 +9,10 @@ import ArticleDetails from './components/ArticleDetails.js';
 import Page from './components/Page.js';
 import PageNav from './components/PageNav.js';
 import HomePage from './components/HomePage.js';
+import WhyCaslVideo from './components/WhyCaslVideo.js';
 import ConsultingCta from './components/ConsultingCta.js';
 import ConsultingPage from './components/ConsultingPage.js';
+import AuthorizationExamples from './components/AuthorizationExamples.js';
 import AuthorizationTimeline from './components/AuthorizationTimeline.js';
 import GithubButton from './components/GithubButton.js';
 import NpmDownloadsButton from './components/NpmDownloadsButton.js';
@@ -37,9 +39,11 @@ const components = [
   ArticleDetails,
   Page,
   HomePage,
+  WhyCaslVideo,
   ConsultingCta,
   ConsultingPage,
   AuthorizationTimeline,
+  AuthorizationExamples,
   PageNav,
   QuickSearch,
   LangPicker,

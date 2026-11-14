@@ -14,96 +14,97 @@ export const projects = [
 ];
 
 const template = () => html`
-  <section class="adoption" aria-labelledby="adoption-title">
-    <h2 id="adoption-title">${t('adoption.title')}</h2>
-    <p class="adoption-subtitle">${t('adoption.subtitle')}</p>
-    <ul class="adoption-metrics">
-      <li>
-        <a href="https://github.com/stalniy/casl/network/dependents" target="_blank" rel="noopener noreferrer">
-          <strong>100K+</strong>
-          <span>${t('adoption.githubDependents')}</span>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.npmjs.com/package/@casl/ability?activeTab=dependents" target="_blank" rel="noopener noreferrer">
-          <strong>600+</strong>
-          <span>${t('adoption.npmDependents')}</span>
-        </a>
-      </li>
-    </ul>
-    <p class="adoption-projects-label" id="adoption-projects-label">
-      ${t('adoption.projects')}
-    </p>
-    <ul class="adoption-projects" aria-labelledby="adoption-projects-label">
-      ${projects.map((project, index) => html`
+  <div class="adoption">
+    <section aria-labelledby="adoption-title">
+      <h2 id="adoption-title">${t('adoption.title')}</h2>
+      <ul class="adoption-metrics">
         <li>
-          ${index ? html`<span aria-hidden="true">·</span>` : ''}
-          <a href="${project.url}" target="_blank" rel="noopener noreferrer">
-            ${project.name}
+          <a href="https://github.com/stalniy/casl/network/dependents" target="_blank" rel="noopener noreferrer">
+            <strong>100K+</strong>
+            <span>${t('adoption.githubDependents')}</span>
           </a>
         </li>
-      `)}
-    </ul>
-    <p class="adoption-contribute">
-      <a href="https://github.com/stalniy/casl/discussions/1307" target="_blank" rel="noopener noreferrer">
-        ${t('adoption.contribute')}
-        <span aria-hidden="true">→</span>
-      </a>
-    </p>
-  </section>
+        <li>
+          <a href="https://www.npmjs.com/package/@casl/ability?activeTab=dependents" target="_blank" rel="noopener noreferrer">
+            <strong>600+</strong>
+            <span>${t('adoption.npmDependents')}</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <section aria-labelledby="adoption-projects-title">
+      <h2 id="adoption-projects-title">${t('adoption.projectsTitle')}</h2>
+      <ul class="adoption-projects" aria-labelledby="adoption-projects-label">
+        ${projects.map((project, index) => html`
+          <li>
+            ${index ? html`<span aria-hidden="true">·</span>` : ''}
+            <a href="${project.url}" target="_blank" rel="noopener noreferrer">
+              ${project.name}
+            </a>
+          </li>
+        `)}
+      </ul>
+      <p class="adoption-contribute">
+        <a href="https://github.com/stalniy/casl/discussions/1307" target="_blank" rel="noopener noreferrer">
+          ${t('adoption.contribute')}
+          <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </section>
+  </div>
 `;
 
 template.styles = css`
   .adoption {
     box-sizing: border-box;
-    max-width: 800px;
+    display: grid;
+    align-items: start;
+    gap: 1.5rem;
+    max-width: 900px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
-    background: #fff;
+    justify-content: center;
     text-align: center;
   }
 
   .adoption h2 {
     margin: 0 0 .5rem;
-    font-family: "Stardos Stencil", "Helvetica Neue", Arial, sans-serif;
-  }
-
-  .adoption-subtitle {
-    margin: 0;
-    color: #555;
+    color: #202428;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
   }
 
   .adoption .adoption-metrics {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-    max-width: 420px;
-    margin: 1rem auto .75rem;
+    display: flex;
+    gap: 30px;
+    margin: .75rem 0 0;
+    justify-content: center;
   }
 
   .adoption-metrics a {
     display: flex;
     flex-direction: column;
     gap: .25rem;
-    color: #555;
+    color: #506575;
     text-decoration: none;
   }
 
   .adoption-metrics span {
-    color: #555;
+    color: #506575;
     font-size: .9375rem;
   }
 
   .adoption-metrics strong {
-    color: #333;
-    font-size: 2.25rem;
+    color: #214e70;
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1.1;
   }
 
   .adoption-projects-label {
     margin: 0 0 .125rem;
-    color: #555;
+    color: #506575;
     font-size: .875rem;
   }
 
@@ -116,9 +117,8 @@ template.styles = css`
   .adoption .adoption-projects {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 0 .875rem;
-    color: #555;
+    color: #506575;
   }
 
   .adoption-projects li {
@@ -131,7 +131,7 @@ template.styles = css`
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: #333;
+    color: #214e70;
     font-size: 1rem;
     font-weight: 400;
     text-decoration: none;
@@ -140,7 +140,7 @@ template.styles = css`
   .adoption-contribute {
     font-size: .8125rem;
     margin: .375rem 0 0;
-    color: #707070;
+    color: #506575;
   }
 
   .adoption-contribute a {
@@ -161,6 +161,23 @@ template.styles = css`
   .adoption-contribute a:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 3px;
+  }
+
+  @media (min-width: 768px) {
+    .adoption {
+      grid-template-columns: repeat(2, min-content);
+      column-gap: clamp(2rem, 5vw, 4rem);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .adoption .adoption-metrics {
+      justify-content: flex-start;
+    }
+
+    .adoption .adoption-projects {
+      flex-wrap: nowrap;
+    }
   }
 `;
 
