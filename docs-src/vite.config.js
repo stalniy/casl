@@ -97,7 +97,17 @@ export default defineConfig(async ({ mode }) => {
             sortBy: ['order'],
             indexBy: ['id'],
           }),
-          summary(SearchIndex.factory()),
+          summary(SearchIndex.factory({
+            manualItems: [
+              {
+                id: 'examples',
+                title: 'Examples',
+                lang: 'en',
+                meta: { keywords: 'example examples' },
+                url: 'https://github.com/stalniy/casl-examples',
+              }
+            ]
+          })),
         ],
       }),
       viteStaticCopy({

@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import menu from '../config/menu.yml';
+import { trackEvent } from '../services/analytics.js';
 
 const ICONS = {
   github: html`
@@ -21,7 +22,8 @@ export default class SocialLinks extends LitElement {
       <nav aria-label="Social links">
         ${menu.social.map(item => html`
           <a href="${item.url}" target="_blank" rel="noopener noreferrer"
-            aria-label="${item.label}" title="${item.label}">
+            aria-label="${item.label}" title="${item.label}"
+            @click="${() => trackEvent('social_link_click', { platform: item.icon, url: item.url })}">
             ${ICONS[item.icon]}
           </a>
         `)}

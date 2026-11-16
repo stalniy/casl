@@ -29,9 +29,13 @@ export class SearchIndex {
     return () => new SearchIndex(options);
   }
 
-  constructor() {
+  constructor(options) {
     this._indexes = {};
     this.exportAs = 'searchIndexes';
+
+    if (Array.isArray(options.manualItems)) {
+      options.manualItems.forEach(item => this.add(item, { lang: item.lang }));
+    }
   }
 
   add(item, { lang }) {
