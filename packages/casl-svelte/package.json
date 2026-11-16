@@ -28,7 +28,7 @@
     "build": "npm run build.prepare && dx tsdown",
     "lint": "dx eslint src/ spec/",
     "typecheck": "dx tsc -p tsconfig.json --noEmit",
-    "test": "npm run build && node --test spec/*.spec.mjs",
+    "test": "npm run build && NODE_OPTIONS=--experimental-vm-modules dx jest --config jest.config.cjs",
     "release.prepare": "npm run lint && NODE_ENV=production npm test",
     "release": "pnpm publish --tag \"$RELEASE_DIST_TAG\" --publish-branch \"$RELEASE_PUBLISH_BRANCH\""
   },

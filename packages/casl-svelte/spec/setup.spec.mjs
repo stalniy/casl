@@ -1,6 +1,5 @@
-import assert from 'node:assert/strict';
+/* global test, expect */
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { test } from 'node:test';
 import { URL, pathToFileURL } from 'node:url';
 import { compile } from 'svelte/compiler';
 import { render } from 'svelte/server';
@@ -15,15 +14,15 @@ for (const generate of ['server', 'client']) {
     try {
       const source = await readFile(fixture, 'utf8');
       const { js, warnings } = compile(source, { filename: fixture.pathname, generate });
-      assert.deepEqual(warnings, []);
+      expect(warnings).toEqual([]);
       const moduleUrl = new URL('Smoke.mjs', pathToFileURL(`${directory}/`));
       await writeFile(moduleUrl, js.code);
       const { default: Component } = await import(moduleUrl.href);
-      assert.equal(typeof Component, 'function');
+      expect(typeof Component).toBe('function');
 
       if (generate === 'server') {
         const output = render(Component, { props: { message: 'CASL Svelte setup' } });
-        assert.match(output.body, /<p>CASL Svelte setup<\/p>/);
+        expect(output.body).toMatch(/<p>CASL Svelte setup<\/p>/);
       }
     } finally {
       await rm(directory, { recursive: true, force: true });
@@ -34,5 +33,5 @@ for (const generate of ['server', 'client']) {
 test('published entry and declarations resolve', async () => {
   await import('@casl/svelte');
   const declarations = await readFile(new URL('../dist/types/index.d.ts', import.meta.url), 'utf8');
-  assert.ok(declarations.length > 0);
+  expect(declarations.length).toBeGreaterThan(0);
 });

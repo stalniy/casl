@@ -20,5 +20,6 @@ pnpm --filter @casl/svelte typecheck
 pnpm --filter @casl/svelte test
 ```
 
-Tests use Node's test runner and Svelte's compiler. Svelte fixtures live in
+Tests use Jest through the shared CASL DX tooling and Svelte's compiler.
+Jest runs with Node's ES module support to load compiled Svelte fixtures. Svelte fixtures live in
 `spec/fixtures`; generated fixture modules are temporary and are removed after each test.
