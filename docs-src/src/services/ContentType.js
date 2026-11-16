@@ -124,8 +124,14 @@ export default class Content {
     return searchIndex.search(query, options)
       .slice(0, 15)
       .map((result) => {
-        const [index] = summary.byId[result.id];
-        result.doc = summary.items[index];
+        const [index] = summary.byId[result.id] || [];
+        result.doc = summary.items[index] || {
+          id: result.id,
+          title: result.title,
+          url: result.url,
+          categories: [],
+          headings: [],
+        };
         result.hints = markHints(result);
         return result;
       });

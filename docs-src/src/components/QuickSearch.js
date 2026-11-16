@@ -7,10 +7,8 @@ import router from '../services/router.js';
 import { debounce } from '../services/utils.js';
 import { trackEvent } from '../services/analytics.js';
 
-const EXAMPLES = { url: 'https://github.com/stalniy/casl-examples', label: 'menu.examples' };
-
 const RECOMMENDATIONS = [
-  EXAMPLES,
+  { url: 'https://github.com/stalniy/casl-examples', label: 'menu.examples' },
   { id: 'guide/intro', label: 'menu.guide' },
   { id: 'advanced/ability-to-database-query', label: 'search.databaseQuery' },
   { id: 'cookbook/intro', label: 'menu.cookbook' },
@@ -128,8 +126,13 @@ export default class QuickSearch extends LitElement {
 
       this._suggestions = results.flatMap(result => {
         const title = result.hints.title || result.doc.title;
-        const headings = result.hints.headings || result.doc.headings || [];
-        const page = { doc: result.doc, title, category: result.doc.categories[0] };
+        const headings = result.hints.headings || [];
+        const page = {
+          doc: result.doc,
+          title,
+          url: result.doc.url,
+          category: result.doc.categories[0],
+        };
 
         return [page, ...headings.map(heading => ({
           ...page,
@@ -138,13 +141,10 @@ export default class QuickSearch extends LitElement {
           hash: heading.id,
         }))];
       });
-      const matchesExamples = query.toLowerCase().split(/\s+/)
-        .some(term => 'example'.startsWith(term));
-      if (matchesExamples) this._suggestions = [EXAMPLES, ...this._suggestions];
 
       trackEvent('search', {
         search_term: query,
-        result_count: results.length + Number(matchesExamples),
+        result_count: results.length,
       });
     } catch {
       if (!this._open || requestId !== this._requestId) return;
@@ -269,12 +269,21 @@ export default class QuickSearch extends LitElement {
         @click="${this._clickBackdrop}" @keydown="${this._dialogKeydown}">
         <div class="search-bar">
           <label for="search-input">${ICON_SEARCH}<span class="sr-only">${t('search.placeholder')}</span></label>
-          <input id="search-input" type="search" role="combobox" aria-expanded="true"
-            aria-autocomplete="list" aria-controls="search-results"
+          <input
+            id="search-input"
+            type="search"
+            role="combobox"
+            aria-expanded="true"
+            aria-autocomplete="list"
+            aria-controls="search-results"
             aria-activedescendant="${items.length ? `search-result-${this._activeIndex}` : ''}"
-            autocomplete="off" autocorrect="off" spellcheck="false"
-            placeholder="${t('search.placeholder')}" .value="${this.value}"
-            @input="${this._updateValue}" @keydown="${this._keydown}">
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            placeholder="${t('search.placeholder')}"
+            .value="${this.value}"
+            @input="${this._updateValue}"
+            @keydown="${this._keydown}">
           <button class="close" type="button" @click="${this._close}">${t('search.close')}</button>
         </div>
         <div class="status" role="status">
