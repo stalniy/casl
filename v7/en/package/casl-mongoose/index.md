@@ -3,7 +3,7 @@ title: CASL Mongoose
 categories: [package]
 order: 110
 meta:
-  keywords: casl mongoose, @casl/mongoose, MongoDB authorization, accessibleBy, mongoose plugin
+  keywords: casl mongoose, @casl/mongoose, MongoDB authorization, accessibleBy, mongoose plugin, database
   description: CASL Mongoose — MongoDB authorization with @casl/ability. Query only accessible records with accessibleBy and plugins.
 ---
 
@@ -376,4 +376,3 @@ If you'd like to help us sustain our community and project, consider [to become 
 [mongo-adapter]: https://mongodb.github.io/node-mongodb-native/
 [CASL]: https://github.com/stalniy/casl
 [MongoDB]: https://www.mongodb.com/
-
