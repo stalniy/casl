@@ -240,6 +240,8 @@ HomePage.styles = [
         display: block;
         overflow-x: auto;
         flex-basis: 50%;
+        max-width: 550px;
+        margin-left: 10px;
       }
 
       .hero-title {
