@@ -144,11 +144,11 @@ function useAbility<T extends AnyAbility = AnyAbility>(): ReactiveAbility<T>;
 
 Creates an adapter for the supplied Ability, stores it in the current component's context, and returns it. The Ability type is inferred from the argument. Call during component initialization. Each provider retains its initial instance for its lifetime.
 
-### useAbility<AppAbility>()
+### `useAbility<AppAbility>()`
 
 Returns the same adapter stored by the nearest provider. Call during component initialization. Throws a descriptive error identifying `provideAbility` when no provider exists. There is no default Ability or module-level authorization state.
 
-### ReactiveAbility<T>
+### `ReactiveAbility<T>`
 
 The adapter exposes exactly four methods, each delegated to the supplied Ability instance:
 
