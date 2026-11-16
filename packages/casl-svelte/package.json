@@ -1,0 +1,59 @@
+{
+  "name": "@casl/svelte",
+  "version": "0.1.0",
+  "description": "Svelte 5 integration for CASL authorization",
+  "main": "./dist/esm/index.mjs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "default": "./dist/esm/index.mjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stalniy/casl.git",
+    "directory": "packages/casl-svelte"
+  },
+  "bugs": {
+    "url": "https://github.com/stalniy/casl/issues"
+  },
+  "homepage": "https://casl.js.org",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build.prepare": "rm -rf dist/* && dx tsc",
+    "build": "npm run build.prepare && dx tsdown",
+    "lint": "dx eslint src/ spec/",
+    "typecheck": "dx tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && NODE_OPTIONS=--experimental-vm-modules dx jest --config jest.config.cjs",
+    "release.prepare": "npm run lint && NODE_ENV=production npm test",
+    "release": "pnpm publish --tag \"$RELEASE_DIST_TAG\" --publish-branch \"$RELEASE_PUBLISH_BRANCH\""
+  },
+  "keywords": [
+    "casl",
+    "svelte",
+    "authorization",
+    "acl",
+    "permissions"
+  ],
+  "author": "Sergii Stotskyi <sergiy.stotskiy@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@casl/ability": "^7.1.3",
+    "svelte": "^5.7.0"
+  },
+  "devDependencies": {
+    "@casl/ability": "workspace:*",
+    "@casl/dx": "workspace:^",
+    "@types/node": "^26.0.0",
+    "svelte": "^5.57.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/types/index.d.ts",
+  "sideEffects": false
+}

@@ -39,6 +39,11 @@
       "component": "@casl/react",
       "changelog-path": "CHANGELOG.md"
     },
+    "packages/casl-svelte": {
+      "package-name": "@casl/svelte",
+      "component": "@casl/svelte",
+      "changelog-path": "CHANGELOG.md"
+    },
     "packages/casl-vue": {
       "package-name": "@casl/vue",
       "component": "@casl/vue",

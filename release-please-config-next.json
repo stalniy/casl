@@ -48,6 +48,12 @@
       "changelog-path": "CHANGELOG.md",
       "prerelease-type": "rc"
     },
+    "packages/casl-svelte": {
+      "package-name": "@casl/svelte",
+      "component": "@casl/svelte",
+      "changelog-path": "CHANGELOG.md",
+      "prerelease-type": "rc"
+    },
     "packages/casl-vue": {
       "package-name": "@casl/vue",
       "component": "@casl/vue",

@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig",
+  "include": [
+    "src/**/*.ts",
+    "spec/**/*.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "dist/types",
+    "types": [
+      "node"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  }
+}
