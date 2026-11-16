@@ -1,8 +1,8 @@
 import type { AnyAbility } from '@casl/ability';
 import { getContext, setContext } from 'svelte';
-import { reactiveAbility, type ReactiveAbility } from './reactiveAbility';
+import { reactiveAbility, type ReactiveAbility } from './reactiveAbility.js';
 
-export type { ReactiveAbility } from './reactiveAbility';
+export type { ReactiveAbility } from './reactiveAbility.js';
 
 const abilityContext = Symbol('casl.ability');
 
