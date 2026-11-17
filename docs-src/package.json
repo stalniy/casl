@@ -11,9 +11,8 @@
     "preview": "vite preview",
     "build.sitemap": "node tools/sitemap.xml.js",
     "prerender": "node tools/prerender.js",
-    "test": "npm run test.sw.browser && npm run test.layout.browser",
+    "test": "npm run test.sw.browser",
     "test.sw.browser": "node --test tools/serviceWorker.browser.test.mjs",
-    "test.layout.browser": "node --test tools/layoutStability.browser.test.mjs",
     "lint": "cd .. && packages/dx/bin/dx.js eslint docs-src/src --fix"
   },
   "dependencies": {

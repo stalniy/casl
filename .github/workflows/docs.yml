@@ -140,6 +140,8 @@ jobs:
           cp -R "$CASL_DOCS_ROOT/web-root/." .
           cp "$CASL_DOCS_ROOT/versions.txt" .
           cp "$CASL_DOCS_ROOT/en/index.html" ./index.html
+          rm -rf ./en
+          cp -R "$CASL_DOCS_ROOT/en" ./en
         fi
 
         git add .

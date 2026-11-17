@@ -96,7 +96,7 @@ function getSitemapEntriesProviderFor(route) {
 
 const urlEntry = (value) => `
   <url>
-    <loc>${WEBSITE}/${value.path}</loc>
+    <loc>${WEBSITE}/${value.path.replace(/\/+$/, '')}/</loc>
     <lastmod>${value.lastmod}</lastmod>
     <changefreq>${value.changefreq}</changefreq>
     <priority>${value.priority}</priority>

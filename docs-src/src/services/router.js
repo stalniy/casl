@@ -32,7 +32,7 @@ const routes = buildRoutes(routesConfig.routes, {
       resolve: loadPages(({ params }) => ({
         ...params,
         categories,
-        id: route.path.includes('*id') && !params.id ? null : toContentId(params),
+        id: route.path.includes('*id') && !params.id ? null : toContentId(params).replace(/\/+$/, ''),
       })),
       respond: renderPage,
     };
@@ -68,7 +68,7 @@ const router = createRouter(browser, prepareRestrictedRoutes(routes), {
 const originalUrl = router.url;
 router.url = (options) => {
   const params = { lang: locale(), ...options.params };
-  return originalUrl({ ...options, params });
+  return originalUrl({ ...options, params }).replace(/\/?(?=[?#]|$)/, '/');
 };
 
 if ('scrollRestoration' in window.history) {
