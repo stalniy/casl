@@ -6,6 +6,7 @@ items:
     - name: guide
       page: guide/intro
     - name: api
+      page: api/casl-ability
     - name: examples
       url: https://github.com/stalniy/casl-examples
     - name: cookbook
