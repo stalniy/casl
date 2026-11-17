@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en"><head>
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://tally.so 'nonce-umami' 'nonce-safari-fix' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://cloud.umami.is https://gateway.umami.is https://api.github.com https://api.npmjs.org; font-src 'self'; frame-src https://tally.so; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CASL Mongoose - CASL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
+  <link rel="icon" href="/v7/app-icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/v7/app-icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/v7/app-icons/favicon-16x16.png">
+  <link rel="manifest" href="/v7/manifest.json">
+  <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="keywords" content="casl mongoose, @casl/mongoose, MongoDB authorization, accessibleBy, mongoose plugin, database">
+  <meta name="description" content="CASL Mongoose — MongoDB authorization with @casl/ability. Query only accessible records with accessibleBy and plugins.">
+
+  <meta property="og:title" content="CASL Mongoose - CASL">
+  <meta property="og:description" content="CASL Mongoose — MongoDB authorization with @casl/ability. Query only accessible records with accessibleBy and plugins.">
+  <meta property="og:image" content="/v7/app-icons/casl-social.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="author" content="Serhii Stotskyi">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/v7/fonts/StardosStencil-Bold.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="stylesheet" href="/v7/global.css">
+  <noscript>
+    <style>#prerender-fallback:not([hidden]){display:block}</style>
+  </noscript>
+  <script type="module" crossorigin="" src="/v7/assets/index-CuCzFV8F.js"></script>
+  <meta name="casl-build" content="ca3797d">
+<link rel="alternate" type="text/markdown" href="/v7/en/package/casl-mongoose/index.md"></head>
+<body>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="menu-item-dropdown">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/guide/intro/">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/api/casl-ability/">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl-examples" rel="nofollow">Examples</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro/">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma/">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose/">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular/">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react/">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue/">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://stackoverflow.com/questions/tagged/casl" rel="nofollow">Ask a question</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl/discussions" rel="nofollow">Discussions</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://twitter.com/sergiy_stotskiy" rel="nofollow">Follow on X</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://sergiy-stotskiy.medium.com" rel="nofollow">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/consulting/">
+        Consulting
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">About</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/privacy/">
+        Privacy Policy
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Support</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/support-casljs/">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://prytulafoundation.org/en/home/support_page" rel="noopener noreferrer">Support Ukraine 🇺🇦</a>
+        
+      </li>
+    </ul>
+      </li>
+    </ul>
+      </nav>
+<nav aria-label="Social links">
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://github.com/stalniy/casl" aria-label="GitHub" title="GitHub">
+            
+    <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-github-icon" lang="en">GitHub icon</title><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+  
+          </a>
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://x.com/sergiy_stotskiy" aria-label="X" title="X">
+            
+    <svg aria-labelledby="simpleicons-x-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-x-icon" lang="en">X icon</title><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
+  
+          </a>
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://sstotskiy.medium.com" aria-label="Medium" title="Medium">
+            
+    <svg aria-labelledby="simpleicons-medium-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-medium-icon" lang="en">Medium icon</title><path fill="currentColor" d="M2.846 6.36c.03-.295-.083-.586-.303-.784l-2.24-2.7v-.403H7.26l5.378 11.795 4.728-11.795H24v.403l-1.917 1.837c-.165.126-.247.333-.213.538v13.5c-.034.204.048.41.213.537l1.87 1.837v.403h-9.41v-.403l1.937-1.882c.19-.19.19-.246.19-.538V7.794l-5.39 13.688h-.727L4.278 7.794v9.174c-.052.386.076.774.347 1.053l2.52 3.06v.402H0v-.403l2.52-3.06c.27-.278.39-.67.326-1.052V6.36z"></path></svg>
+  
+          </a>
+        
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install/">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro/">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules/">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth/">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields/">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection/">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases/">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript/">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability/">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing/">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query/">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma/">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose/">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular/">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react/">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue/">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro/">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api/">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization/">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules/">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions/">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions/">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>CASL Mongoose</h1>
+        
+        <div class="description md"><h1 id="casl-mongoose"><a name="casl-mongoose" class="h-link" href="#"></a>CASL Mongoose</h1>
+<p><a href="https://badge.fury.io/js/%40casl%2Fmongoose" target="_blank" rel="noopener nofollow"><img src="https://badge.fury.io/js/%40casl%2Fmongoose.svg" alt="@casl/mongoose NPM version"></a>
+<a href="https://www.npmjs.com/package/%40casl%2Fmongoose" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/npm/dm/%40casl%2Fmongoose.svg" alt=""></a>
+<a href="https://github.com/stalniy/casl/discussions" target="_blank" rel="noopener nofollow"><img src="https://img.shields.io/badge/Support-github%20discussions-green?style=flat&amp;link=https://github.com/stalniy/casl/discussions" alt="Support"></a></p>
+<p>This package integrates <a href="https://github.com/stalniy/casl" target="_blank" rel="noopener nofollow">CASL</a> and <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a>. In other words, it allows to fetch records based on CASL rules from MongoDB and answer questions like: "Which records can be read?" or "Which records can be updated?".</p>
+<h2 id="installation"><a name="installation" class="h-link" href="#"></a>Installation</h2>
+<pre><code class="hljs language-sh">npm install @casl/mongoose @casl/ability
+<span class="hljs-comment"># or</span>
+yarn add @casl/mongoose @casl/ability
+<span class="hljs-comment"># or</span>
+pnpm add @casl/mongoose @casl/ability
+</code></pre>
+<h2 id="usage"><a name="usage" class="h-link" href="#"></a>Usage</h2>
+<p><code>@casl/mongoose</code> can be integrated not only with <a href="http://mongoosejs.com/" target="_blank" rel="noopener nofollow">mongoose</a> but also with any <a href="https://www.mongodb.com/" target="_blank" rel="noopener nofollow">MongoDB</a> JS driver thanks to new <code>accessibleBy</code> helper function.</p>
+<h3 id="accessible-by-helper"><a name="accessible-by-helper" class="h-link" href="#"></a><code>accessibleBy</code> helper</h3>
+<p>This neat helper function allows to convert ability rules to MongoDB query and fetch only accessible records from the database. It can be used with mongoose or <a href="https://mongodb.github.io/node-mongodb-native/" target="_blank" rel="noopener nofollow">MongoDB adapter</a>:</p>
+<h4 id="mongo-db-adapter"><a name="mongo-db-adapter" class="h-link" href="#"></a>MongoDB adapter</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { accessibleBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">MongoClient</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> db = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoClient</span>.<span class="hljs-title function_">connect</span>(<span class="hljs-string">'mongodb://localhost:27017/blog'</span>);
+  <span class="hljs-keyword">let</span> posts;
+
+  <span class="hljs-keyword">try</span> {
+    posts = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'posts'</span>).<span class="hljs-title function_">find</span>(<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>));
+  } <span class="hljs-keyword">finally</span> {
+    db.<span class="hljs-title function_">close</span>();
+  }
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(posts);
+}
+</code></pre>
+<p>This can also be combined with other conditions with help of <code>$and</code> operator:</p>
+<pre><code class="hljs language-js">posts = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">collection</span>(<span class="hljs-string">'posts'</span>).<span class="hljs-title function_">find</span>({
+  <span class="hljs-attr">$and</span>: [
+    <span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>),
+    { <span class="hljs-attr">public</span>: <span class="hljs-literal">true</span> }
+  ]
+});
+</code></pre>
+<p><strong>Important!</strong>: never use spread operator (i.e., <code>...</code>) to combine conditions provided by <code>accessibleBy</code> with something else because you may accidentally overwrite properties that restrict access to particular records:</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">// returns { authorId: 1 }</span>
+<span class="hljs-keyword">const</span> permissionRestrictedConditions = <span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>);
+
+<span class="hljs-comment">// DANGER DO NOT DO THIS (see above use $and)</span>
+<span class="hljs-keyword">const</span> query = {
+  <span class="hljs-comment">// This is bad and potentially wrong code</span>
+  ...permissionRestrictedConditions,
+  <span class="hljs-attr">authorId</span>: <span class="hljs-number">2</span>
+};
+</code></pre>
+<p>In the case above, we overwrote <code>authorId</code> property and basically allowed non-authorized access to posts of author with <code>id = 2</code></p>
+<p>If there are no permissions defined for particular action/subjectType, <code>accessibleBy</code> will return <code>{ $expr: { $eq: [0, 1] } }</code> and when it's sent to MongoDB, database will return an empty result set.</p>
+<h4 id="mongoose"><a name="mongoose" class="h-link" href="#"></a>Mongoose</h4>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>) <span class="hljs-comment">// mongoose model</span>
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>) <span class="hljs-comment">// defines Ability instance</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">find</span>(<span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>));
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
+}
+</code></pre>
+<p>Historically, <code>@casl/mongoose</code> was intended for super easy integration with <a href="http://mongoosejs.com/" target="_blank" rel="noopener nofollow">mongoose</a> but now we re-orient it to be more MongoDB specific package due to complexity working with mongoose types in TS.</p>
+<h3 id="accessible-records-plugin"><a name="accessible-records-plugin" class="h-link" href="#"></a>Accessible Records plugin</h3>
+<p>This plugin is deprecated, the recommended way is to use <a href="#accessibleBy-helper"><code>accessibleBy</code> helper function</a>.</p>
+<p><code>accessibleRecordsPlugin</code> is a plugin which adds <code>accessibleBy</code> method to query and static methods of mongoose models. We can add this plugin globally:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { accessibleRecordsPlugin } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+
+mongoose.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin);
+</code></pre>
+<blockquote>
+<p>Make sure to add the plugin before calling <code>mongoose.model(...)</code> method. Mongoose won't add global plugins to models that where created before calling <code>mongoose.plugin()</code>.</p>
+</blockquote>
+<p>or to a particular model:</p>
+<pre><code data-filename="Post.js" class="language-js"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>)
+<span class="hljs-keyword">const</span> { accessibleRecordsPlugin } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>)
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-keyword">new</span> mongoose.<span class="hljs-title class_">Schema</span>({
+  <span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">author</span>: <span class="hljs-title class_">String</span>
+})
+
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin)
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">Post</span>)
+</code></pre>
+<p>Afterwards, we can fetch accessible records using <code>accessibleBy</code> method on <code>Post</code>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>)
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>) <span class="hljs-comment">// defines Ability instance</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
+}
+</code></pre>
+<blockquote>
+<p>See <a href="https://casl.js.org/v7/en/guide/intro" target="_blank" rel="noopener nofollow">CASL guide</a> to learn how to define abilities</p>
+</blockquote>
+<p>or on existing query instance:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> accessiblePosts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">find</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">select</span>(<span class="hljs-string">'title'</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(accessiblePosts);
+}
+</code></pre>
+<p><code>accessibleBy</code> returns an instance of <code>mongoose.Query</code> and that means you can chain it with any <code>mongoose.Query</code>'s method (e.g., <code>select</code>, <code>limit</code>, <code>sort</code>). By default, <code>accessibleBy</code> constructs a query based on the list of rules for <code>read</code> action but we can change this by providing the 2nd optional argument:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> postsThatCanBeUpdated = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'update'</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(postsThatCanBeUpdated);
+}
+</code></pre>
+<blockquote>
+<p><code>accessibleBy</code> is built on top of <code>rulesToQuery</code> function from <code>@casl/ability/extra</code>. Read <a href="https://casl.js.org/v7/en/advanced/ability-to-database-query" target="_blank" rel="noopener nofollow">Ability to database query</a> to get insights of how it works.</p>
+</blockquote>
+<p>In case user doesn’t have permission to do a particular action, CASL will throw <code>ForbiddenError</code> and will not send request to MongoDB. It also adds <code>__forbiddenByCasl__: 1</code> condition for additional safety.</p>
+<p>For example, lets find all posts which user can delete (we haven’t defined abilities for delete):</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+
+mongoose.<span class="hljs-title function_">set</span>(<span class="hljs-string">'debug'</span>, <span class="hljs-literal">true</span>);
+
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function"><span class="hljs-params">can</span> =&gt;</span> <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> }));
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability, <span class="hljs-string">'delete'</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(error) <span class="hljs-comment">// ForbiddenError;</span>
+  }
+}
+</code></pre>
+<p>We can also use the resulting conditions in <a href="https://mongoosejs.com/docs/api.html#aggregate_Aggregate" target="_blank" rel="noopener nofollow">aggregation pipeline</a>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">where</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">getQuery</span>();
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">aggregate</span>([
+    {
+      <span class="hljs-attr">$match</span>: {
+        <span class="hljs-attr">$and</span>: [
+          query,
+          <span class="hljs-comment">// other aggregate conditions</span>
+        ]
+      }
+    },
+    <span class="hljs-comment">// other pipelines here</span>
+  ]);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);
+}
+</code></pre>
+<p>or in <a href="https://mongoosejs.com/docs/api.html#model_Model.mapReduce" target="_blank" rel="noopener nofollow">mapReduce</a>:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+<span class="hljs-keyword">const</span> ability = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./ability'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> query = <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability)
+    .<span class="hljs-title function_">where</span>({ <span class="hljs-attr">status</span>: <span class="hljs-string">'draft'</span> })
+    .<span class="hljs-title function_">getQuery</span>();
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">mapReduce</span>({
+    <span class="hljs-attr">query</span>: {
+      <span class="hljs-attr">$and</span>: [
+        query,
+        <span class="hljs-comment">// other conditions</span>
+      ]
+    },
+    <span class="hljs-attr">map</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">emit</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">title</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-attr">reduce</span>: <span class="hljs-function">(<span class="hljs-params">_, items</span>) =&gt;</span> items.<span class="hljs-property">length</span>;
+  });
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);
+}
+</code></pre>
+<h3 id="accessible-fields-by"><a name="accessible-fields-by" class="h-link" href="#"></a>accessibleFieldsBy</h3>
+<p><code>accessibleFieldsBy</code> allows retrieving accessible fields for a subject type or a concrete subject instance:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleFieldsBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Post</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./models'</span>;
+
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-string">'Post'</span>) <span class="hljs-comment">// returns accessible fields for Post model</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>) <span class="hljs-comment">// also possible to pass class if classes are used for rule definition</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>()) <span class="hljs-comment">// returns accessible fields for Post model</span>
+</code></pre>
+<p>This helper can be used directly when we need to send only accessible part of a model in response:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> pick = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash/pick'</span>);
+<span class="hljs-keyword">const</span> { accessibleFieldsBy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/mongoose'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">'/api/posts/:id'</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">const</span> post = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(ability).<span class="hljs-title function_">findByPk</span>(req.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>);
+  res.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">pick</span>(post, <span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post)));
+});
+</code></pre>
+<p>When called with a model type, <code>accessibleFieldsBy</code> does not take instance conditions into account. It follows the same <a href="https://casl.js.org/v7/en/guide/intro#checking-logic" target="_blank" rel="noopener nofollow">checking logic</a> as <code>Ability</code>'s <code>can</code> method. Let's see an example to recap:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> { defineAbility } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@casl/ability'</span>);
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Post'</span>);
+
+<span class="hljs-keyword">const</span> ability = <span class="hljs-title function_">defineAbility</span>(<span class="hljs-function">(<span class="hljs-params">can</span>) =&gt;</span> {
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span> });
+  <span class="hljs-title function_">can</span>(<span class="hljs-string">'read'</span>, <span class="hljs-string">'Post'</span>, [<span class="hljs-string">'title'</span>, <span class="hljs-string">'description'</span>], { <span class="hljs-attr">private</span>: <span class="hljs-literal">false</span> });
+});
+<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>({ <span class="hljs-attr">private</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Private post'</span> });
+
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>); <span class="hljs-comment">// ['title', 'description']</span>
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post); <span class="hljs-comment">// ['title']</span>
+</code></pre>
+<p>As you can see, model-level access returns all fields that can be read for all posts. At the same time, instance-level access returns fields that can be read from this particular <code>post</code> instance. That's why there is usually no much sense, except reducing traffic between app and database, to pass the result of model-level access into <code>mongoose.Query</code>'s <code>select</code> method because eventually you will need to call <code>accessibleFieldsBy</code> on every instance.</p>
+<p>This helper is pre-configured to get all fields from <code>Model.schema.paths</code>. If this is not desired, define your own custom helper:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AnyMongoAbility</span>, <span class="hljs-title class_">Generics</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AccessibleFields</span>, <span class="hljs-title class_">GetSubjectTypeAllFieldsExtractor</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@casl/ability/extra"</span>;
+<span class="hljs-keyword">import</span> mongoose <span class="hljs-keyword">from</span> <span class="hljs-string">'mongoose'</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">getSubjectTypeAllFieldsExtractor</span>: <span class="hljs-title class_">GetSubjectTypeAllFieldsExtractor</span> = <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">type</span></span>) =&gt;</span> {
+  <span class="hljs-comment">/** custom implementation of returning all fields */</span>
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> accessibleFieldsBy&lt;T <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AnyMongoAbility</span>&gt;(
+  <span class="hljs-attr">ability</span>: T,
+  <span class="hljs-attr">action</span>: <span class="hljs-title class_">Parameters</span>&lt;T[<span class="hljs-string">'rulesFor'</span>]&gt;[<span class="hljs-number">0</span>] = <span class="hljs-string">'read'</span>
+): <span class="hljs-title class_">AccessibleFields</span>&lt;<span class="hljs-title class_">Extract</span>&lt;<span class="hljs-title class_">Generics</span>&lt;T&gt;[<span class="hljs-string">'abilities'</span>], <span class="hljs-built_in">unknown</span>[]&gt;[<span class="hljs-number">1</span>]&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccessibleFields</span>(ability, action, getSubjectTypeAllFieldsExtractor);
+}
+</code></pre>
+<h2 id="type-script-support-in-mongoose"><a name="type-script-support-in-mongoose" class="h-link" href="#"></a>TypeScript support in mongoose</h2>
+<p>The package is written in TypeScript, this makes it easier to work with plugins and helpers because IDE provides useful hints. Let's see it in action!</p>
+<p>Suppose we have <code>Post</code> entity which can be described as:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> mongoose <span class="hljs-keyword">from</span> <span class="hljs-string">'mongoose'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Post</span> <span class="hljs-keyword">extends</span> mongoose.<span class="hljs-title class_">Document</span> {
+  <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">content</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">published</span>: <span class="hljs-built_in">boolean</span>
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">PostSchema</span> = <span class="hljs-keyword">new</span> mongoose.<span class="hljs-property">Schema</span>&lt;<span class="hljs-title class_">Post</span>&gt;({
+  <span class="hljs-attr">title</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">content</span>: <span class="hljs-title class_">String</span>,
+  <span class="hljs-attr">published</span>: <span class="hljs-title class_">Boolean</span>
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">PostSchema</span>);
+</code></pre>
+<p>To extend <code>Post</code> model with <code>accessibleBy</code> method it's enough to include the corresponding plugin (either globally or locally in <code>Post</code>) and use corresponding <code>Model</code> type. So, let's change the example, so it includes <code>accessibleRecordsPlugin</code>:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleRecordsPlugin, <span class="hljs-title class_">AccessibleRecordModel</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
+
+<span class="hljs-comment">// all previous code, except last line</span>
+
+<span class="hljs-title class_">PostSchema</span>.<span class="hljs-title function_">plugin</span>(accessibleRecordsPlugin);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Post</span> = mongoose.<span class="hljs-property">model</span>&lt;<span class="hljs-title class_">Post</span>, <span class="hljs-title class_">AccessibleRecordModel</span>&lt;<span class="hljs-title class_">Post</span>&gt;&gt;(<span class="hljs-string">'Post'</span>, <span class="hljs-title class_">PostSchema</span>);
+
+<span class="hljs-comment">// Now we can safely use `Post.accessibleBy` method.</span>
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">accessibleBy</span>(<span class="hljs-comment">/* parameters */</span>)
+<span class="hljs-title class_">Post</span>.<span class="hljs-title function_">where</span>(<span class="hljs-comment">/* parameters */</span>).<span class="hljs-title function_">accessibleBy</span>(<span class="hljs-comment">/* parameters */</span>);
+</code></pre>
+<p><code>accessibleFieldsBy</code> does not require mongoose-specific types. You can use it directly with models or documents:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { accessibleFieldsBy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@casl/mongoose'</span>;
+
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">ofType</span>(<span class="hljs-title class_">Post</span>);
+
+<span class="hljs-keyword">const</span> post = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Post</span>();
+<span class="hljs-title function_">accessibleFieldsBy</span>(ability).<span class="hljs-title function_">of</span>(post);
+</code></pre>
+<p>If you want model or document instance methods similar to the removed plugin, create a small app-level wrapper around <code>accessibleFieldsBy</code> that fits your own typings and field exposure rules.</p>
+<h2 id="want-to-help"><a name="want-to-help" class="h-link" href="#"></a>Want to help?</h2>
+<p>Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on guidelines for <a href="https://github.com/stalniy/casl/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener nofollow">contributing</a>.</p>
+<p>If you'd like to help us sustain our community and project, consider <a href="https://opencollective.com/casljs/contribute" target="_blank" rel="noopener nofollow">to become a financial contributor on Open Collective</a></p>
+<blockquote>
+<p>See <a href="https://casl.js.org/v7/en/support-casljs" target="_blank" rel="noopener nofollow">Support CASL</a> for details</p>
+</blockquote>
+<h2 id="license"><a name="license" class="h-link" href="#"></a>License</h2>
+<p><a href="http://www.opensource.org/licenses/MIT" target="_blank" rel="noopener nofollow">MIT License</a></p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-prisma/">
+        
+        CASL Prisma
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-angular/">
+        
+        CASL Angular
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/package/casl-mongoose/"></casl-docs>
+
+
+
+<div hidden="" aria-hidden="true" data-markdown-discovery="">Markdown version of this documentation: /v7/en/package/casl-mongoose/index.md</div></body></html>

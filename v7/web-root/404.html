@@ -68,7 +68,11 @@
       var l = window.location;
       var fallbackParams = parseGithubPagesFallback(l.search);
 
-      if (fallbackParams && typeof fallbackParams.p !== 'undefined') {
+      // If the version root itself returned this 404, it cannot serve the app.
+      // Redirecting back to it would repeat the GitHub Pages fallback forever.
+      if (/^\/v\d+\/?$/.test(l.pathname)) {
+        document.title = 'Page not found - CASL.js';
+      } else if (fallbackParams && typeof fallbackParams.p !== 'undefined') {
         l.replace(restoreGithubPagesFallback(l.pathname, l.search, l.hash));
       } else {
         var legacyPath = l.pathname.indexOf('/abilities/') === 0 ? '/casl' + l.pathname : l.pathname;
@@ -88,5 +92,7 @@
     </script>
   </head>
   <body>
+    <h1>Page not found</h1>
+    <p>This documentation version is unavailable. <a href="/">Go to the latest documentation</a>.</p>
   </body>
 </html>

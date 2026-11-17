@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en"><head>
+  <!-- Start Single Page Apps for GitHub Pages -->
+  <script nonce="safari-fix">!function(i){function t(i){if(!i||"?"===i)return null;var t={};return i.slice(1).split("&").forEach(function(i){var n=i.split("=");t[n[0]]=n.slice(1).join("=").replace(/~and~/g,"&")}),t}if(i.search){for(var n=i.pathname,e=i.search,a=0;a<10;){var r=t(e);if(!r||void 0===r.p)break;n=n.replace(/\/$/,"")+(r.p||""),e=r.q?"?"+r.q:"",a+=1}var o=n+e+i.hash;o!==i.pathname+i.search+i.hash&&window.history.replaceState(null,null,o)}}(window.location);</script>
+  <!-- End Single Page Apps for GitHub Pages -->
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://tally.so 'nonce-umami' 'nonce-safari-fix' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://cloud.umami.is https://gateway.umami.is https://api.github.com https://api.npmjs.org; font-src 'self'; frame-src https://tally.so; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Cookbook Introduction - CASL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/v7/app-icons/apple-touch-icon.png">
+  <link rel="icon" href="/v7/app-icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/v7/app-icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/v7/app-icons/favicon-16x16.png">
+  <link rel="manifest" href="/v7/manifest.json">
+  <link rel="mask-icon" href="/v7/app-icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="keywords" content="casl cookbook, recipes, examples, use cases, contributing">
+  <meta name="description" content="CASL Cookbook introduction — recipe-style docs with focused examples, deeper dives, and contribution guidelines.">
+
+  <meta property="og:title" content="Cookbook Introduction - CASL">
+  <meta property="og:description" content="CASL Cookbook introduction — recipe-style docs with focused examples, deeper dives, and contribution guidelines.">
+  <meta property="og:image" content="/v7/app-icons/casl-social.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="author" content="Serhii Stotskyi">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/v7/fonts/StardosStencil-Bold.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="stylesheet" href="/v7/global.css">
+  <noscript>
+    <style>#prerender-fallback:not([hidden]){display:block}</style>
+  </noscript>
+  <script type="module" crossorigin="" src="/v7/assets/index-CuCzFV8F.js"></script>
+  <meta name="casl-build" content="ca3797d">
+<link rel="alternate" type="text/markdown" href="/v7/en/cookbook/intro/index.md"></head>
+<body>
+  <div id="prerender-fallback"><div class="prerender-navigation"><nav role="navigation" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+        <ul class="nav">
+      <li class="menu-item-dropdown">
+        <a class="link">Learn</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Documentation</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/guide/intro/">
+        Guide
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/api/casl-ability/">
+        API
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl-examples" rel="nofollow">Examples</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/cookbook/intro/">
+        Cookbook
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Ecosystem</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        <h4>Official packages</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-prisma/">
+        CASL Prisma
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-mongoose/">
+        CASL Mongoose
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-angular/">
+        CASL Angular
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-react/">
+        CASL React
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/package/casl-vue/">
+        CASL Vue
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>Help</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://stackoverflow.com/questions/tagged/casl" rel="nofollow">Ask a question</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://github.com/stalniy/casl/discussions" rel="nofollow">Discussions</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <h4>News</h4>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://twitter.com/sergiy_stotskiy" rel="nofollow">Follow on X</a>
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://sergiy-stotskiy.medium.com" rel="nofollow">Blog</a>
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/consulting/">
+        Consulting
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">About</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/privacy/">
+        Privacy Policy
+      </a>
+    
+        
+      </li>
+    </ul>
+      </li>
+    
+      <li class="menu-item-dropdown">
+        <a class="link">Support</a>
+        <ul class="dropdown expandable">
+      <li class="menu-item">
+        
+      <a itemprop="url" href="/v7/en/support-casljs/">
+        Support CASL
+      </a>
+    
+        
+      </li>
+    
+      <li class="menu-item">
+        <a target="_blank" href="https://prytulafoundation.org/en/home/support_page" rel="noopener noreferrer">Support Ukraine 🇺🇦</a>
+        
+      </li>
+    </ul>
+      </li>
+    </ul>
+      </nav>
+<nav aria-label="Social links">
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://github.com/stalniy/casl" aria-label="GitHub" title="GitHub">
+            
+    <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-github-icon" lang="en">GitHub icon</title><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+  
+          </a>
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://x.com/sergiy_stotskiy" aria-label="X" title="X">
+            
+    <svg aria-labelledby="simpleicons-x-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-x-icon" lang="en">X icon</title><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
+  
+          </a>
+        
+          <a target="_blank" rel="noopener noreferrer" href="https://sstotskiy.medium.com" aria-label="Medium" title="Medium">
+            
+    <svg aria-labelledby="simpleicons-medium-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="simpleicons-medium-icon" lang="en">Medium icon</title><path fill="currentColor" d="M2.846 6.36c.03-.295-.083-.586-.303-.784l-2.24-2.7v-.403H7.26l5.378 11.795 4.728-11.795H24v.403l-1.917 1.837c-.165.126-.247.333-.213.538v13.5c-.034.204.048.41.213.537l1.87 1.837v.403h-9.41v-.403l1.937-1.882c.19-.19.19-.246.19-.538V7.794l-5.39 13.688h-.727L4.278 7.794v9.174c-.052.386.076.774.347 1.053l2.52 3.06v.402H0v-.403l2.52-3.06c.27-.278.39-.67.326-1.052V6.36z"></path></svg>
+  
+          </a>
+        
+      </nav>
+<nav>
+        
+          <h3>Guide</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/install/">
+        Installation
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/intro/">
+        Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-rules/">
+        Define Rules
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/conditions-in-depth/">
+        Conditions in Depth
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/restricting-fields/">
+        Restricting fields access
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/subject-type-detection/">
+        Subject type detection
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/guide/define-aliases/">
+        Define Action Aliases
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Advanced</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/typescript/">
+        TypeScript Support
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/customize-ability/">
+        Customize Ability
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/debugging-testing/">
+        Debugging and testing
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/advanced/ability-to-database-query/">
+        Ability to database query
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Official Packages</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-prisma/">
+        CASL Prisma
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-mongoose/">
+        CASL Mongoose
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-angular/">
+        CASL Angular
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-react/">
+        CASL React
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/package/casl-vue/">
+        CASL Vue
+      </a>
+    </li>
+            
+          </ul>
+        
+          <h3>Cookbook</h3>
+          <ul>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/intro/">
+        Cookbook Introduction
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api/">
+        Less confusing can API
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/claim-authorization/">
+        Claim based Authorization
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/cache-rules/">
+        Cache abilities
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-static-permissions/">
+        Roles with predefined permissions
+      </a>
+    </li>
+            
+              <li>
+      <a itemprop="url" href="/v7/en/cookbook/roles-with-persisted-permissions/">
+        Roles with persisted permissions
+      </a>
+    </li>
+            
+          </ul>
+        
+      </nav></div><main>
+          
+          <div>
+    
+      <article itemscope="" itemtype="http://schema.org/Article">
+        <h1>Cookbook Introduction</h1>
+        
+        <div class="description md"><h2 id="the-cookbook-vs-the-guide"><a name="the-cookbook-vs-the-guide" class="h-link" href="#"></a>The Cookbook vs the Guide</h2>
+<p>How is the cookbook different from the guide? Why is this necessary?</p>
+<ul>
+<li><strong>Greater Focus</strong>. In the guide, we're essentially telling a story. Each section builds on and assumes knowledge from each previous section. In the cookbook, each recipe stands on its own. This means recipes focus on one specific topic or use case, rather than having to give a general overview.</li>
+<li><strong>Greater Depth</strong>. To avoid making the guide too long, we try to include only the simplest possible examples to help you understand each feature. Then we move on. In the cookbook, we can include more complex examples, combining features in interesting ways. Each recipe can also be as long and detailed as it needs to be, in order to fully explore its niche.</li>
+<li><strong>Greater Complexity</strong>. In the guide, we assume at least intermediate familiarity with ES2015 JavaScript. In the cookbook however, you will see more TypeScript code, frontend and backend frameworks and libraries and real-world examples.</li>
+</ul>
+<blockquote>
+<p>For most of cookbook's content, you are expected to have a basic understanding of concepts like JavaScript, npm/yarn, commonjs, ES import/export, Node.js module resolution algorithm. Depending on the recipe you are expected to know frontend or backend libraries and frameworks.</p>
+</blockquote>
+<h2 id="cookbook-contributions"><a name="cookbook-contributions" class="h-link" href="#"></a>Cookbook Contributions</h2>
+<p>The Cookbook gives developers examples to work off of that both cover common or interesting use cases, and also progressively explain more complex detail. Our goal is to move beyond a simple introductory example, and demonstrate concepts that are more widely applicable, as well as some caveats to the approach.</p>
+<p>If you’re interested in contributing, please initiate collaboration by filing an issue under the tag <strong>cookbook idea</strong> with your concept so that we can help guide you to a successful pull request. After your idea has been approved, please follow the template below as much as possible. Some sections are required, and some are optional. Following the numerical order is strongly suggested, but not required.</p>
+<p>Recipes should generally:</p>
+<ul>
+<li>Solve a specific, common problem</li>
+<li>Start with the simplest possible example to demonstrate the issue</li>
+<li>Introduce complexities one at a time</li>
+<li>Link to other docs, rather than re-explaining concepts</li>
+<li>Describe the problem, rather than assuming familiarity</li>
+<li>Explain the process, rather than just the end result</li>
+<li>Explain the pros and cons of your strategy, including when it is and isn't appropriate</li>
+<li>Mention alternative solutions, if relevant, but leave in-depth explorations to a separate recipe</li>
+</ul>
+<p>We ask you to follow the template below. We understand, however, that there are times when you may necessarily need to deviate for clarity or flow. Either way, all recipes should at some point discuss the nuance of the choice made using this pattern, preferably in the form of the alternative patterns section.</p>
+<h3 id="the-issue"><a name="the-issue" class="h-link" href="#"></a>The issue</h3>
+<p><em>required</em></p>
+<ol>
+<li>Articulate the problem in a sentence or two.</li>
+<li>Show the simplest possible solution which leads to issues in the long run.</li>
+<li>Explain the <strong>disadvantages</strong> of this solution</li>
+</ol>
+<h3 id="the-solution"><a name="the-solution" class="h-link" href="#"></a>The solution</h3>
+<p><em>required</em></p>
+<ol>
+<li>Provide the suggested way to solve the issue</li>
+<li>Explain the <strong>advantages</strong> in comparison to the simplest solution described in the section above</li>
+<li>Discuss why this may be a compelling solution. Links for a reference are not required but encouraged</li>
+<li>Walk through a few terse examples</li>
+</ol>
+<h3 id="demo"><a name="demo" class="h-link" href="#"></a>Demo</h3>
+<p><em>required</em></p>
+<p>Demonstrate the code that would power a common or interesting use case by embedding a codesandbox/stackblitz/etc example.</p>
+<h3 id="when-to-avoid"><a name="when-to-avoid" class="h-link" href="#"></a>When To Avoid</h3>
+<p><em>optional</em></p>
+<p>This section is not required, but heavily recommended. Here, we’ll take an honest look at when the pattern is useful and when it should be avoided, or when something else makes more sense.</p>
+<h3 id="alternative-ways"><a name="alternative-ways" class="h-link" href="#"></a>Alternative Ways</h3>
+<p><em>optional</em></p>
+<p>Similar to the previous section this one is optional, but very encouraged. The answer to most questions about development is <strong>"It depends!"</strong>. So, it’s important to explore other methods to let people compare and understand whether this solution makes sense in their situation.</p>
+<h2 id="thank-you"><a name="thank-you" class="h-link" href="#"></a>Thank you</h2>
+<p>It takes time to contribute to documentation, and if you spend the time to submit a PR to this section of our docs, you do so with our gratitude.</p></div>
+      </article>
+      
+      
+      
+      
+      <a itemprop="url" href="/v7/en/package/casl-vue/">
+        
+        CASL Vue
+      
+      </a>
+    
+    
+      
+      
+      <a itemprop="url" href="/v7/en/cookbook/less-confusing-can-api/">
+        
+        Less confusing can API
+      
+      </a>
+    
+    
+    
+    
+    
+  </div>
+        </main></div>
+  <casl-docs data-rendered-route="/v7/en/cookbook/intro/"></casl-docs>
+
+
+
+<div hidden="" aria-hidden="true" data-markdown-discovery="">Markdown version of this documentation: /v7/en/cookbook/intro/index.md</div></body></html>
