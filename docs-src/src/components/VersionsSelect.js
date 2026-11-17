@@ -45,7 +45,7 @@ VersionsSelect.styles = css`
   select {
     display: block;
     /* Keep the header stable before the version options arrive. */
-    width: 4em;
+    width: 3em;
     font-size: 16px;
     font-weight: 700;
     color: rgb(68, 68, 68);
