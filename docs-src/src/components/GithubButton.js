@@ -77,6 +77,10 @@ GithubButton.styles = css`
   .star-count {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    /* Reserve room for the compact count while the API request is pending. */
+    min-width: 6ch;
+    font-variant-numeric: tabular-nums;
     align-self: stretch;
     border-left: 1px solid #444c56;
     background: #30363d;

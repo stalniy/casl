@@ -142,10 +142,11 @@ export default class QuickSearch extends LitElement {
         }))];
       });
 
-      trackEvent('search', {
-        search_term: query,
-        result_count: results.length,
-      });
+      if (!results.length) {
+        trackEvent('search', {
+          search_term: query,
+        });
+      }
     } catch {
       if (!this._open || requestId !== this._requestId) return;
       this._error = true;
