@@ -57,7 +57,7 @@ We ask you to follow the template below. We understand, however, that there are 
 
 *required*
 
-Demonstrate the code that would power a common or interesting use case by embedding a codesandbox/scrimba/codepen/jsfiddle example.
+Demonstrate the code that would power a common or interesting use case by embedding a codesandbox/stackblitz/etc example.
 
 ### When To Avoid
 
