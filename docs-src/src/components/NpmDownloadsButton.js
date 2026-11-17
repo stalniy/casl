@@ -74,6 +74,10 @@ NpmDownloadsButton.styles = css`
   .download-count {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    /* Include the /month suffix in the space reserved for the pending count. */
+    min-width: 11ch;
+    font-variant-numeric: tabular-nums;
     align-self: stretch;
     border-left: 1px solid #444c56;
     background: #30363d;
