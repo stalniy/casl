@@ -4,7 +4,7 @@ categories: [guide]
 order: 0
 meta:
   keywords: casl install, npm, yarn, pnpm, cdn, @casl/ability, semantic versioning, webpack, es modules
-  description: How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue), builds and Webpack.
+  description: How to install CASL — npm, yarn, pnpm, CDN. Requirements, official packages (@casl/ability, mongoose, prisma, angular, react, vue, svelte), builds and Webpack.
 ---
 
 ## Requirements
@@ -25,6 +25,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 | [@casl/angular]   | [![@casl/angular-status]][@casl/angular-package]   | integration with  [Angular][angular] |
 | [@casl/react]     | [![@casl/react-status]][@casl/react-package]       | integration with  [React][react] |
 | [@casl/vue]       | [![@casl/vue-status]][@casl/vue-package]           | integration with  [Vue][vue] |
+| [@casl/svelte]    | [![@casl/svelte-status]][@casl/svelte-package]     | integration with [Svelte][svelte] |
 
 [@casl/ability]: ../intro
 [@casl/mongoose]: ../../package/casl-mongoose
@@ -32,6 +33,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular]: ../../package/casl-angular
 [@casl/react]: ../../package/casl-react
 [@casl/vue]: ../../package/casl-vue
+[@casl/svelte]: ../../package/casl-svelte
 
 [@casl/ability-status]: https://img.shields.io/npm/v/@casl/ability.svg
 [@casl/mongoose-status]: https://img.shields.io/npm/v/@casl/mongoose.svg
@@ -39,6 +41,7 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular-status]: https://img.shields.io/npm/v/@casl/angular.svg
 [@casl/react-status]: https://img.shields.io/npm/v/@casl/react.svg
 [@casl/vue-status]: https://img.shields.io/npm/v/@casl/vue.svg
+[@casl/svelte-status]: https://img.shields.io/npm/v/@casl/svelte.svg
 
 [@casl/ability-package]: https://www.npmjs.com/package/@casl/ability
 [@casl/mongoose-package]: https://www.npmjs.com/package/@casl/mongoose
@@ -46,9 +49,11 @@ CASL follows [Semantic Versioning](https://semver.org/) in all its official proj
 [@casl/angular-package]: https://www.npmjs.com/package/@casl/angular
 [@casl/react-package]: https://www.npmjs.com/package/@casl/react
 [@casl/vue-package]: https://www.npmjs.com/package/@casl/vue
+[@casl/svelte-package]: https://www.npmjs.com/package/@casl/svelte
 
 [mongoose]: http://mongoosejs.com/
 [vue]: https://vuejs.org
+[svelte]: https://svelte.dev
 [angular]: https://angular.io/
 [react]: https://reactjs.org/
 [prisma]: https://www.prisma.io/
@@ -113,7 +118,7 @@ In the `dist/` directory of the NPM package you will find the published module b
 [webpack]: https://webpack.js.org/
 [typescript]: http://www.typescriptlang.org/
 
-All official packages now use the same `dist/esm` and `dist/cjs` layout.
+Most official packages use the `dist/esm` and `dist/cjs` layout. `@casl/svelte` publishes ES modules in `dist/esm` and declarations in `dist/types`; it does not publish a CommonJS build.
 
 ## Webpack
 

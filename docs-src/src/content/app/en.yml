@@ -41,6 +41,7 @@ menu:
   pkg-angular: CASL Angular
   pkg-react: CASL React
   pkg-vue: CASL Vue
+  pkg-svelte: CASL Svelte
   help: Help
 
   questions: Ask a question

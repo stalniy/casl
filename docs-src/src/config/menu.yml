@@ -25,6 +25,8 @@ items:
       page: package/casl-react
     - name: pkg-vue
       page: package/casl-vue
+    - name: pkg-svelte
+      page: package/casl-svelte
     - heading: help
     - name: questions
       url: https://stackoverflow.com/questions/tagged/casl
